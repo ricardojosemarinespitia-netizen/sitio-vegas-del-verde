@@ -1,0 +1,224 @@
+/* ==========================================================================
+   VEGAS DEL VERDE — tokens.css
+   Única fuente de verdad de color, tipografía, ritmo y movimiento.
+   NINGÚN otro archivo puede declarar valores literales de color, tamaño de
+   fuente, radio, sombra o duración. Si falta un token, se pide al director
+   de arte; no se inventa.
+   ========================================================================== */
+
+:root {
+  /* ---------------------------------------------------------------------
+     1. PALETA DE MARCA (extraída del logo y del portafolio — EXACTA)
+     --------------------------------------------------------------------- */
+  --verde-oliva: #566438;   /* bandas y encabezados del portafolio */
+  --verde-menta: #50c58e;   /* hojas del logo · acento principal */
+  --teal: #4b7f7d;          /* lettering "VEGAS DEL VERDE" */
+  --salvia: #dbe7d3;        /* fondo claro del logo */
+  --gris-verde: #bac4b4;
+  --crema: #f2efe9;         /* fondo de página del portafolio */
+  --amarillo: #e4cb3a;      /* círculos del logo */
+  --rojo-baya: #e84c40;     /* bayas del logo */
+  --tinta: #1a2b33;         /* texto oscuro */
+  --verde-texto: #2e6b2e;   /* verde de párrafos del portafolio */
+  --blanco: #ffffff;
+
+  /* Mismos colores en triplete RGB, para transparencias:
+     rgb(var(--tinta-rgb) / 0.12)                                        */
+  --verde-oliva-rgb: 86 100 56;
+  --verde-menta-rgb: 80 197 142;
+  --teal-rgb: 75 127 125;
+  --salvia-rgb: 219 231 211;
+  --gris-verde-rgb: 186 196 180;
+  --crema-rgb: 242 239 233;
+  --amarillo-rgb: 228 203 58;
+  --rojo-baya-rgb: 232 76 64;
+  --tinta-rgb: 26 43 51;
+  --blanco-rgb: 255 255 255;
+
+  /* ---------------------------------------------------------------------
+     2. ROLES SEMÁNTICOS  (usar SIEMPRE estos, no los de marca directamente)
+     --------------------------------------------------------------------- */
+  --color-fondo: var(--crema);
+  --color-fondo-alt: var(--salvia);          /* franjas alternas */
+  --color-fondo-oscuro: var(--tinta);        /* secciones en negativo */
+  --color-superficie: rgb(var(--blanco-rgb) / 0.66);   /* tarjetas sobre crema */
+  --color-superficie-solida: #faf8f4;
+  --color-superficie-oscura: rgb(var(--blanco-rgb) / 0.07); /* tarjetas sobre tinta */
+
+  --color-texto: var(--tinta);
+  --color-texto-suave: #566266;              /* 5.4:1 sobre crema — AA */
+  --color-texto-inverso: var(--crema);
+  --color-texto-inverso-suave: rgb(var(--crema-rgb) / 0.74);
+
+  --color-acento: var(--verde-menta);        /* decorativo / sobre oscuro */
+  --color-acento-texto: var(--verde-oliva);  /* acento legible sobre claro */
+  --color-acento-alt: var(--teal);           /* solo texto grande (≥24px) */
+  --color-destacado: var(--amarillo);
+  --color-alerta: var(--rojo-baya);
+
+  --color-borde: var(--gris-verde);
+  --color-borde-suave: rgb(var(--verde-oliva-rgb) / 0.18);
+  --color-borde-inverso: rgb(var(--crema-rgb) / 0.18);
+  --color-velo: rgb(var(--tinta-rgb) / 0.55);   /* overlay sobre fotos */
+
+  /* ---------------------------------------------------------------------
+     3. TIPOGRAFÍA
+     --------------------------------------------------------------------- */
+  --fuente-display: "Poiret One", "Josefin Sans", "Century Gothic", serif;
+  --fuente-titulo: "Josefin Sans", "Poiret One", "Century Gothic", sans-serif;
+  --fuente-cuerpo: "Jost", "Josefin Sans", -apple-system, BlinkMacSystemFont,
+    "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+
+  /* Escala fluida 375px → 1440px */
+  --paso--2: clamp(0.72rem, 0.695rem + 0.11vw, 0.78rem);
+  --paso--1: clamp(0.84rem, 0.797rem + 0.18vw, 0.94rem);
+  --paso-0: clamp(1rem, 0.947rem + 0.23vw, 1.125rem);
+  --paso-1: clamp(1.2rem, 1.093rem + 0.46vw, 1.45rem);
+  --paso-2: clamp(1.45rem, 1.257rem + 0.82vw, 1.9rem);
+  --paso-3: clamp(1.75rem, 1.428rem + 1.37vw, 2.5rem);
+  --paso-4: clamp(2.1rem, 1.585rem + 2.2vw, 3.3rem);
+  --paso-5: clamp(2.55rem, 1.756rem + 3.39vw, 4.4rem);
+  --paso-6: clamp(3.05rem, 1.783rem + 5.41vw, 6rem);
+
+  /* Alias semánticos */
+  --fs-hero: var(--paso-6);
+  --fs-h1: var(--paso-5);
+  --fs-h2: var(--paso-4);
+  --fs-h3: var(--paso-2);
+  --fs-h4: var(--paso-1);
+  --fs-cuerpo: var(--paso-0);
+  --fs-grande: var(--paso-1);      /* entradillas / lead */
+  --fs-pequeno: var(--paso--1);
+  --fs-micro: var(--paso--2);      /* créditos, notas legales */
+  --fs-eyebrow: clamp(0.72rem, 0.68rem + 0.16vw, 0.8rem);
+  --fs-cifra: var(--paso-5);       /* estadísticas (101 aves, 4 ha…) */
+
+  --peso-ligero: 300;
+  --peso-normal: 400;
+  --peso-medio: 500;
+
+  --alto-linea-apretado: 1.06;
+  --alto-linea-titulo: 1.16;
+  --alto-linea-base: 1.68;
+  --alto-linea-suelto: 1.8;
+
+  --track-display: -0.015em;
+  --track-titulo: 0.02em;
+  --track-caps: 0.16em;      /* títulos de sección en mayúsculas */
+  --track-eyebrow: 0.3em;    /* antetítulo */
+  --track-boton: 0.1em;
+
+  --medida: 68ch;            /* longitud de línea máxima cómoda */
+  --medida-corta: 46ch;
+
+  /* ---------------------------------------------------------------------
+     4. ESPACIADO
+     --------------------------------------------------------------------- */
+  --esp-3xs: 0.25rem;
+  --esp-2xs: 0.5rem;
+  --esp-xs: 0.75rem;
+  --esp-sm: 1rem;
+  --esp-md: 1.5rem;
+  --esp-lg: 2rem;
+  --esp-xl: 3rem;
+  --esp-2xl: 4rem;
+  --esp-3xl: 6rem;
+  --esp-4xl: 8rem;
+
+  /* Aire vertical de sección — fluido */
+  --esp-seccion: clamp(3.75rem, 2rem + 7vw, 7.5rem);
+  --esp-seccion-sm: clamp(2.5rem, 1.6rem + 3.8vw, 4.5rem);
+  --esp-seccion-lg: clamp(5rem, 2.5rem + 10vw, 10rem);
+
+  --gap: clamp(1.25rem, 0.9rem + 1.5vw, 2.25rem);
+  --gap-sm: clamp(0.75rem, 0.6rem + 0.7vw, 1.25rem);
+  --gap-lg: clamp(2rem, 1.2rem + 3.4vw, 4rem);
+
+  /* ---------------------------------------------------------------------
+     5. CONTENEDORES Y LAYOUT
+     --------------------------------------------------------------------- */
+  --ancho-xs: 34rem;
+  --ancho-sm: 46rem;
+  --ancho-md: 60rem;
+  --ancho-lg: 75rem;
+  --ancho-xl: 84rem;
+  --ancho-contenedor: var(--ancho-lg);
+  --padding-contenedor: clamp(1.15rem, 0.55rem + 2.6vw, 2.5rem);
+
+  --alto-header: clamp(4rem, 3.4rem + 2.4vw, 5.25rem);
+  --alto-hero: clamp(30rem, 88svh, 54rem);
+
+  /* ---------------------------------------------------------------------
+     6. RADIOS
+     --------------------------------------------------------------------- */
+  --radio-xs: 0.25rem;
+  --radio-sm: 0.5rem;
+  --radio-md: 0.875rem;
+  --radio-lg: 1.5rem;
+  --radio-xl: 2.25rem;
+  --radio-full: 999rem;
+
+  /* ---------------------------------------------------------------------
+     7. SOMBRAS (suaves, nunca duras)
+     --------------------------------------------------------------------- */
+  --sombra-xs: 0 1px 2px rgb(var(--tinta-rgb) / 0.06);
+  --sombra-sm: 0 2px 10px -2px rgb(var(--tinta-rgb) / 0.09);
+  --sombra-md: 0 10px 30px -14px rgb(var(--tinta-rgb) / 0.22);
+  --sombra-lg: 0 24px 60px -28px rgb(var(--tinta-rgb) / 0.3);
+  --sombra-xl: 0 44px 96px -36px rgb(var(--tinta-rgb) / 0.38);
+  --sombra-header: 0 1px 0 rgb(var(--verde-oliva-rgb) / 0.1),
+    0 12px 32px -24px rgb(var(--tinta-rgb) / 0.4);
+  --anillo-foco: 0 0 0 3px rgb(var(--verde-menta-rgb) / 0.55);
+
+  --blur-vidrio: saturate(140%) blur(14px);
+
+  /* ---------------------------------------------------------------------
+     8. MOVIMIENTO
+     --------------------------------------------------------------------- */
+  --dur-instant: 90ms;
+  --dur-rapida: 180ms;
+  --dur-media: 300ms;
+  --dur-lenta: 550ms;
+  --dur-reveal: 900ms;
+  --dur-vuelo: 4500ms;                   /* vuelo cinematográfico del mapa */
+
+  --ease: cubic-bezier(0.4, 0, 0.2, 1);
+  --ease-salida: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-suave: cubic-bezier(0.25, 0.46, 0.45, 0.94);
+
+  --transicion: var(--dur-media) var(--ease);
+  --transicion-rapida: var(--dur-rapida) var(--ease);
+  --transicion-reveal: var(--dur-reveal) var(--ease-salida);
+
+  --desplazamiento-reveal: 28px;         /* recorrido de la animación de entrada */
+  --escala-hover: 1.04;
+
+  /* ---------------------------------------------------------------------
+     9. CAPAS
+     --------------------------------------------------------------------- */
+  --z-fondo: 0;
+  --z-base: 1;
+  --z-elevado: 10;
+  --z-pegajoso: 50;
+  --z-header: 100;
+  --z-menu: 200;
+  --z-modal: 300;
+  --z-saltar: 400;
+}
+
+/* ==========================================================================
+   ACCESIBILIDAD DE MOVIMIENTO
+   Se anula el movimiento, nunca la visibilidad: todo debe quedar legible.
+   ========================================================================== */
+@media (prefers-reduced-motion: reduce) {
+  :root {
+    --dur-instant: 1ms;
+    --dur-rapida: 1ms;
+    --dur-media: 1ms;
+    --dur-lenta: 1ms;
+    --dur-reveal: 1ms;
+    --dur-vuelo: 0ms;
+    --desplazamiento-reveal: 0px;
+    --escala-hover: 1;
+  }
+}

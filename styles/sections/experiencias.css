@@ -1,0 +1,369 @@
+/* ==========================================================================
+   VEGAS DEL VERDE — sections/experiencias.css
+   Cubre tres bloques hermanos:
+     #experiencias  celebraciones y eventos (galería en mosaico + lightbox)
+     #bienestar     bienestar físico y emocional
+     #cultura       actividades sociales y culturales (en negativo)
+
+   Prefijo propio: .exp-*
+   Todos los valores salen de tokens.css. No se redefine ninguna utilidad
+   de base.css: aquí sólo hay piezas nuevas.
+   ========================================================================== */
+
+/* ==========================================================================
+   1. BLOQUE POR TIPO DE CELEBRACIÓN
+   ========================================================================== */
+.exp-tipo + .exp-tipo {
+  margin-top: var(--gap-lg);
+}
+
+.exp-tipo__encabezado {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: var(--esp-sm) var(--gap);
+  margin-bottom: var(--esp-md);
+  padding-bottom: var(--esp-xs);
+  border-bottom: 1px solid var(--color-borde-suave);
+}
+
+.exp-tipo__encabezado > div {
+  display: flex;
+  flex-direction: column;
+  gap: var(--esp-3xs);
+}
+
+.exp-tipo__linea {
+  max-width: var(--medida);
+  font-size: var(--fs-pequeno);
+  font-weight: var(--peso-ligero);
+  color: var(--color-texto-suave);
+}
+
+.exp-tipo__encabezado .btn {
+  flex: none;
+}
+
+.exp-tipo__remate {
+  margin-top: var(--esp-md);
+}
+
+/* ==========================================================================
+   2. MOSAICO DE FOTOS
+   Rejilla de altura de fila fija: los recortes conviven sin saltos y el
+   mosaico conserva su ritmo aunque las fotos vengan en distintos formatos.
+
+   La altura de fila se mide contra el ANCHO DEL PROPIO MOSAICO (unidades de
+   contenedor), no contra el viewport: así una pieza "ancha" mantiene su
+   proporción tanto a página completa como dentro de una columna estrecha.
+   El respaldo en vw cubre navegadores sin container queries.
+   ========================================================================== */
+.exp-mosaico {
+  --exp-fila: clamp(7rem, 33vw, 15rem); /* respaldo sin container queries */
+
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  grid-auto-rows: var(--exp-fila);
+  grid-auto-flow: dense;
+  gap: var(--gap-sm);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+@media (min-width: 60em) {
+  .exp-mosaico {
+    --exp-fila: clamp(8rem, 17vw, 14rem);
+
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+
+  /* Variante de dos columnas fijas: mosaico dentro de una columna estrecha */
+  .exp-mosaico--par {
+    --exp-fila: clamp(7rem, 33vw, 15rem);
+
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@supports (container-type: inline-size) {
+  .exp-tipo,
+  .exp-lienzo {
+    container-type: inline-size;
+  }
+
+  .exp-mosaico,
+  .exp-mosaico--par {
+    --exp-fila: clamp(7rem, 38cqw, 20rem);
+  }
+
+  @media (min-width: 60em) {
+    .exp-mosaico {
+      --exp-fila: clamp(8rem, 18.5cqw, 15rem);
+    }
+
+    .exp-mosaico--par {
+      --exp-fila: clamp(7rem, 38cqw, 20rem);
+    }
+  }
+}
+
+.exp-foto {
+  position: relative;
+  min-width: 0;
+}
+
+.exp-foto--ancha {
+  grid-column: span 2;
+}
+
+.exp-foto--alta {
+  grid-row: span 2;
+}
+
+.exp-foto--grande {
+  grid-column: span 2;
+  grid-row: span 2;
+}
+
+/* --------------------------------------------------------------------------
+   2.1 Disparador del lightbox
+   El visor lo escribe el integrador (js/app.js) escuchando [data-lightbox].
+   -------------------------------------------------------------------------- */
+.exp-foto__btn {
+  position: relative;
+  display: block;
+  width: 100%;
+  height: 100%;
+  padding: 0;
+  overflow: hidden;
+  border-radius: var(--radio-md);
+  background-color: rgb(var(--gris-verde-rgb) / 0.3);
+  box-shadow: var(--sombra-sm);
+  transition:
+    box-shadow var(--transicion),
+    transform var(--transicion-rapida);
+}
+
+.exp-foto__btn > img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform var(--dur-lenta) var(--ease-suave);
+}
+
+.exp-foto__btn:hover {
+  box-shadow: var(--sombra-lg);
+}
+
+.exp-foto__btn:hover > img,
+.exp-foto__btn:focus-visible > img {
+  transform: scale(var(--escala-hover));
+}
+
+/* El camino de huellas queda mejor encuadrado un poco por debajo del centro */
+.exp-foto--ancha .exp-foto__btn > img[src$="parque-18.jpg"] {
+  object-position: center 62%;
+}
+
+/* --------------------------------------------------------------------------
+   2.2 Pie sobre la foto
+   -------------------------------------------------------------------------- */
+.exp-foto__pie {
+  position: absolute;
+  inset-inline: 0;
+  bottom: 0;
+  display: block;
+  padding: var(--esp-xl) var(--esp-xs) var(--esp-2xs);
+  font-family: var(--fuente-titulo);
+  font-size: var(--fs-micro);
+  font-weight: var(--peso-medio);
+  line-height: var(--alto-linea-titulo);
+  text-align: left;
+  text-transform: uppercase;
+  letter-spacing: var(--track-caps);
+  color: var(--color-texto-inverso);
+  background-image: linear-gradient(
+    to top,
+    rgb(var(--tinta-rgb) / 0.82),
+    rgb(var(--tinta-rgb) / 0.42) 45%,
+    rgb(var(--tinta-rgb) / 0)
+  );
+  pointer-events: none;
+}
+
+/* --------------------------------------------------------------------------
+   2.3 Insignia de ampliar
+   -------------------------------------------------------------------------- */
+.exp-foto__lupa {
+  position: absolute;
+  top: var(--esp-2xs);
+  right: var(--esp-2xs);
+  display: grid;
+  place-items: center;
+  width: var(--esp-lg);
+  height: var(--esp-lg);
+  border-radius: var(--radio-full);
+  background-color: rgb(var(--crema-rgb) / 0.92);
+  color: var(--verde-oliva);
+  box-shadow: var(--sombra-sm);
+  opacity: 0;
+  transform: scale(0.82);
+  transition:
+    opacity var(--transicion),
+    transform var(--transicion);
+  pointer-events: none;
+}
+
+.exp-foto__lupa > svg {
+  width: var(--esp-sm);
+  height: var(--esp-sm);
+  stroke-linecap: round;
+}
+
+.exp-foto__btn:hover .exp-foto__lupa,
+.exp-foto__btn:focus-visible .exp-foto__lupa {
+  opacity: 1;
+  transform: none;
+}
+
+/* En pantallas táctiles no hay hover: la insignia se muestra siempre */
+@media (hover: none) {
+  .exp-foto__lupa {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* Sin JavaScript el visor no existe: se retira la señal de "ampliable" */
+html:not(.js) .exp-foto__lupa {
+  display: none;
+}
+
+html:not(.js) .exp-foto__btn {
+  cursor: default;
+}
+
+/* ==========================================================================
+   3. BIENESTAR — media + listado de prácticas
+   ========================================================================== */
+.exp-bienestar {
+  display: grid;
+  gap: var(--gap-lg);
+  align-items: start;
+}
+
+@media (min-width: 60em) {
+  .exp-bienestar {
+    grid-template-columns: minmax(0, 1.05fr) minmax(0, 1fr);
+    gap: var(--gap-lg);
+  }
+}
+
+.exp-bienestar__texto {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--esp-md);
+}
+
+.exp-bienestar__texto .btn {
+  margin-top: var(--esp-2xs);
+}
+
+/* ==========================================================================
+   4. LISTAS DE PRÁCTICAS Y ACTIVIDADES
+   Rejilla tipográfica: índice fino + nombre, separados por filete.
+   ========================================================================== */
+.exp-practicas {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 0 var(--gap);
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+@media (min-width: 30em) {
+  .exp-practicas {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+.exp-practica {
+  display: flex;
+  align-items: baseline;
+  gap: var(--esp-xs);
+  padding-block: var(--esp-xs);
+  border-top: 1px solid var(--color-borde-suave);
+  transition: color var(--transicion-rapida);
+}
+
+.exp-practica__indice {
+  flex: none;
+  font-family: var(--fuente-display);
+  font-size: var(--fs-pequeno);
+  line-height: 1;
+  letter-spacing: var(--track-caps);
+  color: var(--color-acento-texto);
+}
+
+.exp-practica__nombre {
+  font-family: var(--fuente-titulo);
+  font-size: var(--fs-cuerpo);
+  font-weight: var(--peso-normal);
+  line-height: var(--alto-linea-titulo);
+  text-wrap: balance;
+}
+
+/* --------------------------------------------------------------------------
+   4.1 Variante sobre fondo oscuro (actividades sociales y culturales)
+   -------------------------------------------------------------------------- */
+.exp-practicas--cultura {
+  margin-top: var(--gap-lg);
+}
+
+@media (min-width: 60em) {
+  .exp-practicas--cultura {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+.exp-practicas--cultura .exp-practica {
+  border-top-color: var(--color-borde-inverso);
+}
+
+.exp-practicas--cultura .exp-practica__indice {
+  color: var(--color-acento);
+}
+
+/* ==========================================================================
+   5. CIERRE CON LLAMADA A LA ACCIÓN
+   ========================================================================== */
+.exp-cierre {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--esp-md) var(--gap);
+  margin-top: var(--gap-lg);
+  padding: var(--esp-lg);
+  border: 1px solid var(--color-borde-inverso);
+  border-radius: var(--radio-lg);
+  background-color: var(--color-superficie-oscura);
+}
+
+.exp-cierre__texto {
+  max-width: var(--medida-corta);
+  margin: 0;
+  font-size: var(--fs-grande);
+  font-weight: var(--peso-ligero);
+  line-height: var(--alto-linea-suelto);
+  color: var(--color-texto-inverso-suave);
+}
+
+.exp-cierre .btn {
+  flex: none;
+}

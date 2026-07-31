@@ -1,0 +1,857 @@
+<!-- ==========================================================================
+     FRAGMENTO: EXPERIENCIAS
+     (a) #experiencias · Celebraciones y eventos  — galería en mosaico + lightbox
+     (b) #bienestar    · Bienestar físico y emocional
+     (c) #cultura      · Actividades sociales y culturales
+
+     LIGHTBOX: este fragmento NO implementa el visor. Cada foto ampliable es un
+     <button type="button"> con:
+        data-lightbox="galeria-eventos"
+        data-lightbox-src="<ruta de la imagen a tamaño completo>"
+        data-lightbox-caption="<pie de foto>"
+     El integrador escribe UN visor global en js/app.js que escuche
+     [data-lightbox] y agrupe por el valor del atributo.
+     ========================================================================== -->
+
+<!-- ==========================================================================
+     (a) CELEBRACIONES Y EVENTOS
+     ========================================================================== -->
+<section id="experiencias" class="seccion" aria-labelledby="experiencias-titulo">
+  <div class="contenedor contenedor--ancho">
+
+    <header class="seccion-encabezado reveal">
+      <p class="eyebrow">Celebraciones y eventos</p>
+      <h2 id="experiencias-titulo" class="titulo-seccion">CELEBRAR ENTRE ÁRBOLES</h2>
+      <p class="entradilla">
+        Cuatro hectáreas arboladas para matrimonios, cumpleaños, recreación infantil y
+        encuentros de colegios y empresas, a diez minutos del bullicio de Bucaramanga.
+      </p>
+      <p class="nota">
+        Alquiler base de cuatro horas, con opción de una hora adicional. Incluye sillas y
+        mesas Rimax; el sonido lo lleva el cliente. Se permite comida y catering externo
+        únicamente para eventos.
+      </p>
+    </header>
+
+    <!-- ---------- Bodas ---------- -->
+    <article class="exp-tipo reveal">
+      <div class="exp-tipo__encabezado">
+        <div>
+          <h3 class="titulo-seccion titulo-seccion--xs">Bodas y matrimonios</h3>
+          <p class="exp-tipo__linea">Ceremonia al aire libre bajo los árboles y recepción bajo carpa iluminada.</p>
+        </div>
+        <a
+          class="btn btn-secundario btn-pequeno"
+          href="https://wa.me/573166758362?text=Hola%2C%20quiero%20cotizar%20mi%20matrimonio%20en%20Vegas%20del%20Verde"
+          target="_blank"
+          rel="noopener"
+        >
+          Cotizar mi boda
+        </a>
+      </div>
+
+      <ul class="exp-mosaico reveal-secuencia">
+        <li class="exp-foto exp-foto--alta reveal">
+          <button
+            type="button"
+            class="exp-foto__btn"
+            data-lightbox="galeria-eventos"
+            data-lightbox-src="img/parque/parque-01.jpg"
+            data-lightbox-caption="Montaje de ceremonia al aire libre: pasillo de flores blancas entre sillas de madera, frente al árbol principal."
+            aria-label="Ampliar foto: montaje de ceremonia al aire libre"
+          >
+            <img
+              src="img/parque/parque-01.jpg"
+              width="675"
+              height="1200"
+              alt="Montaje de ceremonia de matrimonio al aire libre: pasillo de flores blancas entre hileras de sillas de madera, frente a un gran árbol con velos de tela beige."
+              loading="lazy"
+              decoding="async"
+            />
+            <span class="exp-foto__lupa" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" focusable="false">
+                <circle cx="10.5" cy="10.5" r="6.5" />
+                <path d="m15.4 15.4 4.1 4.1M10.5 7.6v5.8M7.6 10.5h5.8" />
+              </svg>
+            </span>
+            <span class="exp-foto__pie">Ceremonia al aire libre</span>
+          </button>
+        </li>
+
+        <li class="exp-foto exp-foto--alta reveal">
+          <button
+            type="button"
+            class="exp-foto__btn"
+            data-lightbox="galeria-eventos"
+            data-lightbox-src="img/eventos/boda-2.jpg"
+            data-lightbox-caption="Altar bajo el árbol principal, con telas beige, mesa de firmas y saxofón en vivo."
+            aria-label="Ampliar foto: altar de matrimonio bajo el árbol principal"
+          >
+            <img
+              src="img/eventos/boda-2.jpg"
+              width="844"
+              height="1500"
+              alt="Altar de matrimonio bajo el árbol principal, con telas beige colgadas de las ramas, mesa de firmas y una saxofonista tocando en vivo."
+              loading="lazy"
+              decoding="async"
+            />
+            <span class="exp-foto__lupa" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" focusable="false">
+                <circle cx="10.5" cy="10.5" r="6.5" />
+                <path d="m15.4 15.4 4.1 4.1M10.5 7.6v5.8M7.6 10.5h5.8" />
+              </svg>
+            </span>
+            <span class="exp-foto__pie">Altar bajo el árbol principal</span>
+          </button>
+        </li>
+
+        <li class="exp-foto exp-foto--ancha reveal">
+          <button
+            type="button"
+            class="exp-foto__btn"
+            data-lightbox="galeria-eventos"
+            data-lightbox-src="img/eventos/boda-3.jpg"
+            data-lightbox-caption="Recepción nocturna bajo carpa blanca iluminada con bombillas, con salas de palés sobre el césped."
+            aria-label="Ampliar foto: recepción nocturna bajo carpa iluminada"
+          >
+            <img
+              src="img/eventos/boda-3.jpg"
+              width="1500"
+              height="1125"
+              alt="Recepción nocturna bajo una carpa blanca iluminada con bombillas: invitados sentados y de pie alrededor de salas de palés sobre el césped, entre los árboles."
+              loading="lazy"
+              decoding="async"
+            />
+            <span class="exp-foto__lupa" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" focusable="false">
+                <circle cx="10.5" cy="10.5" r="6.5" />
+                <path d="m15.4 15.4 4.1 4.1M10.5 7.6v5.8M7.6 10.5h5.8" />
+              </svg>
+            </span>
+            <span class="exp-foto__pie">Recepción bajo carpa iluminada</span>
+          </button>
+        </li>
+
+        <li class="exp-foto exp-foto--ancha reveal">
+          <button
+            type="button"
+            class="exp-foto__btn"
+            data-lightbox="galeria-eventos"
+            data-lightbox-src="img/eventos/boda-4.jpg"
+            data-lightbox-caption="Celebración al atardecer bajo carpa transparente con luces, junto a los jardines y las materas del vivero."
+            aria-label="Ampliar foto: celebración al atardecer junto a los jardines"
+          >
+            <img
+              src="img/eventos/boda-4.jpg"
+              width="1500"
+              height="1000"
+              alt="Celebración al atardecer bajo una carpa transparente con luces colgantes, rodeada de árboles, senderos de gravilla y las materas floridas del vivero."
+              loading="lazy"
+              decoding="async"
+            />
+            <span class="exp-foto__lupa" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" focusable="false">
+                <circle cx="10.5" cy="10.5" r="6.5" />
+                <path d="m15.4 15.4 4.1 4.1M10.5 7.6v5.8M7.6 10.5h5.8" />
+              </svg>
+            </span>
+            <span class="exp-foto__pie">Brindis al atardecer</span>
+          </button>
+        </li>
+      </ul>
+    </article>
+
+    <!-- ---------- Cumpleaños ---------- -->
+    <article class="exp-tipo reveal">
+      <div class="exp-tipo__encabezado">
+        <div>
+          <h3 class="titulo-seccion titulo-seccion--xs">Cumpleaños</h3>
+          <p class="exp-tipo__linea">Desde un picnic decorado sobre el prado hasta una fiesta de noche bajo carpa.</p>
+        </div>
+        <a
+          class="btn btn-secundario btn-pequeno"
+          href="https://wa.me/573166758362?text=Hola%2C%20quiero%20cotizar%20un%20cumplea%C3%B1os%20en%20Vegas%20del%20Verde"
+          target="_blank"
+          rel="noopener"
+        >
+          Cotizar un cumpleaños
+        </a>
+      </div>
+
+      <ul class="exp-mosaico reveal-secuencia">
+        <li class="exp-foto exp-foto--grande reveal">
+          <button
+            type="button"
+            class="exp-foto__btn"
+            data-lightbox="galeria-eventos"
+            data-lightbox-src="img/eventos/boda-1.jpg"
+            data-lightbox-caption="Cumpleaños número 50 al anochecer: carpa iluminada, salas de palés, pacas de heno y letras luminosas sobre el prado."
+            aria-label="Ampliar foto: cumpleaños número 50 al anochecer"
+          >
+            <img
+              src="img/eventos/boda-1.jpg"
+              width="1500"
+              height="1125"
+              alt="Fiesta de cumpleaños número 50 al anochecer: invitados conversando bajo una carpa blanca con bombillas, salas de palés, pacas de heno y letras luminosas con el número 50 sobre el prado."
+              loading="lazy"
+              decoding="async"
+            />
+            <span class="exp-foto__lupa" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" focusable="false">
+                <circle cx="10.5" cy="10.5" r="6.5" />
+                <path d="m15.4 15.4 4.1 4.1M10.5 7.6v5.8M7.6 10.5h5.8" />
+              </svg>
+            </span>
+            <span class="exp-foto__pie">Cumpleaños 50 al anochecer</span>
+          </button>
+        </li>
+
+        <li class="exp-foto exp-foto--alta reveal">
+          <button
+            type="button"
+            class="exp-foto__btn"
+            data-lightbox="galeria-eventos"
+            data-lightbox-src="img/eventos/cumpleanos-1.jpg"
+            data-lightbox-caption="Picnic de cumpleaños decorado con guirnaldas, mesas bajas de huacal y cojines bajo los árboles."
+            aria-label="Ampliar foto: picnic de cumpleaños decorado"
+          >
+            <img
+              src="img/eventos/cumpleanos-1.jpg"
+              width="844"
+              height="1500"
+              alt="Picnic de cumpleaños decorado con guirnaldas rosadas de flecos, mariposas de papel, mesas bajas de huacal con manteles de colores y cojines sobre el césped, bajo los árboles."
+              loading="lazy"
+              decoding="async"
+            />
+            <span class="exp-foto__lupa" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" focusable="false">
+                <circle cx="10.5" cy="10.5" r="6.5" />
+                <path d="m15.4 15.4 4.1 4.1M10.5 7.6v5.8M7.6 10.5h5.8" />
+              </svg>
+            </span>
+            <span class="exp-foto__pie">Picnic de cumpleaños</span>
+          </button>
+        </li>
+
+        <li class="exp-foto exp-foto--alta reveal">
+          <button
+            type="button"
+            class="exp-foto__btn"
+            data-lightbox="galeria-eventos"
+            data-lightbox-src="img/parque/parque-03.jpg"
+            data-lightbox-caption="Vista amplia del picnic: tres mesas bajas con manteles y cojines entre el prado y los árboles."
+            aria-label="Ampliar foto: vista amplia del picnic de cumpleaños"
+          >
+            <img
+              src="img/parque/parque-03.jpg"
+              width="675"
+              height="1200"
+              alt="Vista amplia del picnic de cumpleaños: tres mesas bajas de huacal con manteles y cojines repartidas sobre el césped y la gravilla, bajo guirnaldas de flecos rosados."
+              loading="lazy"
+              decoding="async"
+            />
+            <span class="exp-foto__lupa" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" focusable="false">
+                <circle cx="10.5" cy="10.5" r="6.5" />
+                <path d="m15.4 15.4 4.1 4.1M10.5 7.6v5.8M7.6 10.5h5.8" />
+              </svg>
+            </span>
+            <span class="exp-foto__pie">Mesas bajas y guirnaldas</span>
+          </button>
+        </li>
+      </ul>
+    </article>
+
+    <!-- ---------- Recreación infantil ---------- -->
+    <article class="exp-tipo reveal">
+      <div class="exp-tipo__encabezado">
+        <div>
+          <h3 class="titulo-seccion titulo-seccion--xs">Recreación infantil</h3>
+          <p class="exp-tipo__linea">Juegos, cuentos al parque y torta sobre el césped, con espacio de sobra para correr.</p>
+        </div>
+        <a
+          class="btn btn-secundario btn-pequeno"
+          href="https://wa.me/573166758362?text=Hola%2C%20quiero%20cotizar%20una%20fiesta%20infantil%20con%20recreaci%C3%B3n%20en%20Vegas%20del%20Verde"
+          target="_blank"
+          rel="noopener"
+        >
+          Cotizar fiesta infantil
+        </a>
+      </div>
+
+      <ul class="exp-mosaico reveal-secuencia">
+        <li class="exp-foto exp-foto--grande reveal">
+          <button
+            type="button"
+            class="exp-foto__btn"
+            data-lightbox="galeria-eventos"
+            data-lightbox-src="img/eventos/infantil-3.jpg"
+            data-lightbox-caption="Cuentos al parque: dos recreacionistas leen un libro ilustrado a un grupo de niños sentados sobre el césped."
+            aria-label="Ampliar foto: cuentos al parque con un grupo de niños"
+          >
+            <img
+              src="img/eventos/infantil-3.jpg"
+              width="1500"
+              height="1500"
+              alt="Cuentos al parque: dos recreacionistas leen un libro ilustrado a ocho niños sentados en círculo sobre una alfombra de césped, rodeados de árboles y aros de colores."
+              loading="lazy"
+              decoding="async"
+            />
+            <span class="exp-foto__lupa" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" focusable="false">
+                <circle cx="10.5" cy="10.5" r="6.5" />
+                <path d="m15.4 15.4 4.1 4.1M10.5 7.6v5.8M7.6 10.5h5.8" />
+              </svg>
+            </span>
+            <span class="exp-foto__pie">Cuentos al parque</span>
+          </button>
+        </li>
+
+        <li class="exp-foto exp-foto--alta reveal">
+          <button
+            type="button"
+            class="exp-foto__btn"
+            data-lightbox="galeria-eventos"
+            data-lightbox-src="img/eventos/infantil-1.jpg"
+            data-lightbox-caption="Juegos en círculo sobre el césped, bajo guirnaldas de flecos de colores."
+            aria-label="Ampliar foto: juegos en círculo bajo guirnaldas de colores"
+          >
+            <img
+              src="img/eventos/infantil-1.jpg"
+              width="844"
+              height="1500"
+              alt="Niñas y niños sentados en círculo sobre el césped junto a dos recreacionistas con sombrilla, bajo una larga guirnalda de flecos azules, rosados y verdes colgada entre los árboles."
+              loading="lazy"
+              decoding="async"
+            />
+            <span class="exp-foto__lupa" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" focusable="false">
+                <circle cx="10.5" cy="10.5" r="6.5" />
+                <path d="m15.4 15.4 4.1 4.1M10.5 7.6v5.8M7.6 10.5h5.8" />
+              </svg>
+            </span>
+            <span class="exp-foto__pie">Juegos en círculo</span>
+          </button>
+        </li>
+
+        <li class="exp-foto reveal">
+          <button
+            type="button"
+            class="exp-foto__btn"
+            data-lightbox="galeria-eventos"
+            data-lightbox-src="img/eventos/infantil-2.jpg"
+            data-lightbox-caption="La torta y las velas en la mesa de picnic, con el aviario y el jardín al fondo."
+            aria-label="Ampliar foto: la torta y las velas en la mesa de picnic"
+          >
+            <img
+              src="img/eventos/infantil-2.jpg"
+              width="1125"
+              height="1500"
+              alt="Seis niños alrededor de una torta con velas encendidas en una mesa de picnic de madera, mientras una recreacionista aplaude; al fondo, arbustos florecidos y guirnaldas de flecos."
+              loading="lazy"
+              decoding="async"
+            />
+            <span class="exp-foto__lupa" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" focusable="false">
+                <circle cx="10.5" cy="10.5" r="6.5" />
+                <path d="m15.4 15.4 4.1 4.1M10.5 7.6v5.8M7.6 10.5h5.8" />
+              </svg>
+            </span>
+            <span class="exp-foto__pie">La torta y las velas</span>
+          </button>
+        </li>
+
+        <li class="exp-foto reveal">
+          <button
+            type="button"
+            class="exp-foto__btn"
+            data-lightbox="galeria-eventos"
+            data-lightbox-src="img/eventos/infantil-4.jpg"
+            data-lightbox-caption="Burbujas al aire junto a la mesa de picnic decorada."
+            aria-label="Ampliar foto: niño saltando para atrapar burbujas"
+          >
+            <img
+              src="img/eventos/infantil-4.jpg"
+              width="1125"
+              height="1500"
+              alt="Niño saltando con los brazos en alto para atrapar burbujas de jabón, junto a cinco compañeros sentados en una mesa de picnic decorada sobre el césped."
+              loading="lazy"
+              decoding="async"
+            />
+            <span class="exp-foto__lupa" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" focusable="false">
+                <circle cx="10.5" cy="10.5" r="6.5" />
+                <path d="m15.4 15.4 4.1 4.1M10.5 7.6v5.8M7.6 10.5h5.8" />
+              </svg>
+            </span>
+            <span class="exp-foto__pie">Burbujas al aire</span>
+          </button>
+        </li>
+      </ul>
+    </article>
+
+    <!-- ---------- Corporativos y colegios ---------- -->
+    <article class="exp-tipo reveal">
+      <div class="exp-tipo__encabezado">
+        <div>
+          <h3 class="titulo-seccion titulo-seccion--xs">Corporativos y colegios</h3>
+          <p class="exp-tipo__linea">Integraciones, charlas y salidas pedagógicas con wifi, parqueadero y vigilancia privada.</p>
+        </div>
+        <a
+          class="btn btn-secundario btn-pequeno"
+          href="https://wa.me/573166758362?text=Hola%2C%20quiero%20cotizar%20un%20evento%20corporativo%20o%20de%20colegio%20en%20Vegas%20del%20Verde"
+          target="_blank"
+          rel="noopener"
+        >
+          Cotizar evento corporativo
+        </a>
+      </div>
+
+      <ul class="exp-mosaico reveal-secuencia">
+        <li class="exp-foto exp-foto--alta reveal">
+          <button
+            type="button"
+            class="exp-foto__btn"
+            data-lightbox="galeria-eventos"
+            data-lightbox-src="img/parque/parque-32.jpg"
+            data-lightbox-caption="Charla a un grupo sentado en mesas bajo la pérgola de caña, durante el concurso de fotografía de aves."
+            aria-label="Ampliar foto: charla a un grupo bajo la pérgola"
+          >
+            <img
+              src="img/parque/parque-32.jpg"
+              width="900"
+              height="1200"
+              alt="Una mujer con micrófono dirige una charla a un grupo de asistentes sentados en mesas con manteles verdes, bajo la pérgola de caña del parque, durante el concurso de fotografía de aves."
+              loading="lazy"
+              decoding="async"
+            />
+            <span class="exp-foto__lupa" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" focusable="false">
+                <circle cx="10.5" cy="10.5" r="6.5" />
+                <path d="m15.4 15.4 4.1 4.1M10.5 7.6v5.8M7.6 10.5h5.8" />
+              </svg>
+            </span>
+            <span class="exp-foto__pie">Charla bajo la pérgola</span>
+          </button>
+        </li>
+
+        <li class="exp-foto exp-foto--alta reveal">
+          <button
+            type="button"
+            class="exp-foto__btn"
+            data-lightbox="galeria-eventos"
+            data-lightbox-src="img/parque/parque-21.jpg"
+            data-lightbox-caption="Grupo posando sobre el césped, junto al mural de aves del parque."
+            aria-label="Ampliar foto: grupo posando junto al mural de aves"
+          >
+            <img
+              src="img/parque/parque-21.jpg"
+              width="900"
+              height="1200"
+              alt="Grupo de trece personas posando de pie sobre el césped, a la sombra de los árboles y junto al mural pintado con aves del parque."
+              loading="lazy"
+              decoding="async"
+            />
+            <span class="exp-foto__lupa" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" focusable="false">
+                <circle cx="10.5" cy="10.5" r="6.5" />
+                <path d="m15.4 15.4 4.1 4.1M10.5 7.6v5.8M7.6 10.5h5.8" />
+              </svg>
+            </span>
+            <span class="exp-foto__pie">Grupo junto al mural de aves</span>
+          </button>
+        </li>
+
+        <li class="exp-foto exp-foto--ancha reveal">
+          <button
+            type="button"
+            class="exp-foto__btn"
+            data-lightbox="galeria-eventos"
+            data-lightbox-src="img/parque/parque-24.jpg"
+            data-lightbox-caption="Montaje corporativo bajo carpa transparente: salas verdes, poltronas de mimbre, mesas altas y luces colgantes."
+            aria-label="Ampliar foto: montaje corporativo bajo carpa transparente"
+          >
+            <img
+              src="img/parque/parque-24.jpg"
+              width="1200"
+              height="800"
+              alt="Montaje corporativo sobre el césped bajo una carpa transparente con luces colgantes: sofás verdes, poltronas de mimbre, mesas altas y un bar amarillo junto al mural de aves."
+              loading="lazy"
+              decoding="async"
+            />
+            <span class="exp-foto__lupa" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" focusable="false">
+                <circle cx="10.5" cy="10.5" r="6.5" />
+                <path d="m15.4 15.4 4.1 4.1M10.5 7.6v5.8M7.6 10.5h5.8" />
+              </svg>
+            </span>
+            <span class="exp-foto__pie">Montaje corporativo bajo carpa</span>
+          </button>
+        </li>
+
+        <li class="exp-foto exp-foto--ancha reveal">
+          <button
+            type="button"
+            class="exp-foto__btn"
+            data-lightbox="galeria-eventos"
+            data-lightbox-src="img/parque/parque-25.jpg"
+            data-lightbox-caption="Coctel al atardecer con carpa iluminada y furgoneta-bar, junto al jardín de materas."
+            aria-label="Ampliar foto: coctel al atardecer junto al jardín"
+          >
+            <img
+              src="img/parque/parque-25.jpg"
+              width="1200"
+              height="800"
+              alt="Coctel al atardecer: invitados de pie bajo una carpa con luces y una furgoneta-bar clásica, al final de un camino de gravilla bordeado por materas con flores."
+              loading="lazy"
+              decoding="async"
+            />
+            <span class="exp-foto__lupa" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" focusable="false">
+                <circle cx="10.5" cy="10.5" r="6.5" />
+                <path d="m15.4 15.4 4.1 4.1M10.5 7.6v5.8M7.6 10.5h5.8" />
+              </svg>
+            </span>
+            <span class="exp-foto__pie">Coctel al atardecer</span>
+          </button>
+        </li>
+      </ul>
+
+      <p class="exp-tipo__remate">
+        <a class="enlace-flecha" href="#ecoposada">Ver la oferta para colegios</a>
+      </p>
+    </article>
+
+  </div>
+</section>
+
+<!-- ==========================================================================
+     (b) BIENESTAR FÍSICO Y EMOCIONAL
+     ========================================================================== -->
+<section id="bienestar" class="seccion seccion--alt" aria-labelledby="bienestar-titulo">
+  <div class="contenedor contenedor--ancho">
+
+    <header class="seccion-encabezado reveal">
+      <p class="eyebrow">Bienestar</p>
+      <h2 id="bienestar-titulo" class="titulo-seccion">BIENESTAR FÍSICO Y EMOCIONAL</h2>
+      <p class="entradilla">
+        Creemos en el poder de la conexión y el aprendizaje conjunto. Abrimos nuestros
+        espacios a las prácticas que promueven el bienestar físico, mental y emocional,
+        siempre al aire libre y con los árboles como techo.
+      </p>
+    </header>
+
+    <div class="exp-bienestar">
+
+      <div class="exp-bienestar__media exp-lienzo">
+      <ul class="exp-mosaico exp-mosaico--par reveal-secuencia">
+        <li class="exp-foto exp-foto--ancha reveal">
+          <button
+            type="button"
+            class="exp-foto__btn"
+            data-lightbox="galeria-eventos"
+            data-lightbox-src="img/eventos/yoga-2.jpg"
+            data-lightbox-caption="Círculo de respiración guiada al aire libre, en sillas y sobre colchonetas."
+            aria-label="Ampliar foto: círculo de respiración guiada al aire libre"
+          >
+            <img
+              src="img/eventos/yoga-2.jpg"
+              width="1500"
+              height="844"
+              alt="Círculo de personas mayores sentadas en sillas sobre el césped, abriendo los brazos durante una sesión guiada al aire libre, con colchonetas extendidas y árboles alrededor."
+              loading="lazy"
+              decoding="async"
+            />
+            <span class="exp-foto__lupa" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" focusable="false">
+                <circle cx="10.5" cy="10.5" r="6.5" />
+                <path d="m15.4 15.4 4.1 4.1M10.5 7.6v5.8M7.6 10.5h5.8" />
+              </svg>
+            </span>
+            <span class="exp-foto__pie">Círculo de respiración</span>
+          </button>
+        </li>
+
+        <li class="exp-foto exp-foto--alta reveal">
+          <button
+            type="button"
+            class="exp-foto__btn"
+            data-lightbox="galeria-eventos"
+            data-lightbox-src="img/parque/parque-02.jpg"
+            data-lightbox-caption="Colchonetas dispuestas en círculo como una flor, listas para la sesión, frente al mural de aves."
+            aria-label="Ampliar foto: colchonetas dispuestas en círculo sobre el césped"
+          >
+            <img
+              src="img/parque/parque-02.jpg"
+              width="675"
+              height="1200"
+              alt="Doce colchonetas de colores dispuestas en círculo como los pétalos de una flor sobre el césped, con un centro de plantas y velas, frente al mural de aves y bajo la sombra de un árbol."
+              loading="lazy"
+              decoding="async"
+            />
+            <span class="exp-foto__lupa" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" focusable="false">
+                <circle cx="10.5" cy="10.5" r="6.5" />
+                <path d="m15.4 15.4 4.1 4.1M10.5 7.6v5.8M7.6 10.5h5.8" />
+              </svg>
+            </span>
+            <span class="exp-foto__pie">Esterillas listas</span>
+          </button>
+        </li>
+
+        <li class="exp-foto exp-foto--alta reveal">
+          <button
+            type="button"
+            class="exp-foto__btn"
+            data-lightbox="galeria-eventos"
+            data-lightbox-src="img/eventos/yoga-1.jpg"
+            data-lightbox-caption="Sesión de yoga en silla para personas mayores, sobre el césped y a la sombra."
+            aria-label="Ampliar foto: sesión de yoga en silla para personas mayores"
+          >
+            <img
+              src="img/eventos/yoga-1.jpg"
+              width="1125"
+              height="1500"
+              alt="Sesión de yoga en silla para personas mayores sobre el césped: seis participantes sentadas y descalzas, con colchonetas extendidas y un seto de árboles al fondo."
+              loading="lazy"
+              decoding="async"
+            />
+            <span class="exp-foto__lupa" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" focusable="false">
+                <circle cx="10.5" cy="10.5" r="6.5" />
+                <path d="m15.4 15.4 4.1 4.1M10.5 7.6v5.8M7.6 10.5h5.8" />
+              </svg>
+            </span>
+            <span class="exp-foto__pie">Yoga en silla</span>
+          </button>
+        </li>
+      </ul>
+      </div>
+
+      <div class="exp-bienestar__texto reveal">
+        <h3 class="titulo-seccion titulo-seccion--xs">Siete prácticas</h3>
+        <ul class="exp-practicas">
+          <li class="exp-practica">
+            <span class="exp-practica__indice" aria-hidden="true">01</span>
+            <span class="exp-practica__nombre">Caminatas terapéuticas</span>
+          </li>
+          <li class="exp-practica">
+            <span class="exp-practica__indice" aria-hidden="true">02</span>
+            <span class="exp-practica__nombre">Entrenamiento funcional</span>
+          </li>
+          <li class="exp-practica">
+            <span class="exp-practica__indice" aria-hidden="true">03</span>
+            <span class="exp-practica__nombre">Sesiones de acondicionamiento físico</span>
+          </li>
+          <li class="exp-practica">
+            <span class="exp-practica__indice" aria-hidden="true">04</span>
+            <span class="exp-practica__nombre">Pilates</span>
+          </li>
+          <li class="exp-practica">
+            <span class="exp-practica__indice" aria-hidden="true">05</span>
+            <span class="exp-practica__nombre">Yoga</span>
+          </li>
+          <li class="exp-practica">
+            <span class="exp-practica__indice" aria-hidden="true">06</span>
+            <span class="exp-practica__nombre">Mindfulness</span>
+          </li>
+          <li class="exp-practica">
+            <span class="exp-practica__indice" aria-hidden="true">07</span>
+            <span class="exp-practica__nombre">Taller para el manejo de las emociones</span>
+          </li>
+        </ul>
+
+        <p class="nota">
+          Wifi, baños, vigilancia privada y parqueadero para todos los grupos.
+          Horario de lunes a domingo, de 6:00&nbsp;a.&nbsp;m. a 10:00&nbsp;p.&nbsp;m.
+        </p>
+
+        <a
+          class="btn btn-whatsapp"
+          href="https://wa.me/573166758362?text=Hola%2C%20quiero%20informaci%C3%B3n%20sobre%20las%20actividades%20de%20bienestar%20en%20Vegas%20del%20Verde"
+          target="_blank"
+          rel="noopener"
+        >
+          Agendar una sesión de bienestar
+        </a>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ==========================================================================
+     (c) ACTIVIDADES SOCIALES Y CULTURALES
+     ========================================================================== -->
+<section id="cultura" class="seccion seccion--oscura sobre-oscuro" aria-labelledby="cultura-titulo">
+  <div class="contenedor contenedor--ancho">
+
+    <header class="seccion-encabezado reveal">
+      <p class="eyebrow">Encuentros y cultura</p>
+      <h2 id="cultura-titulo" class="titulo-seccion">ACTIVIDADES SOCIALES Y CULTURALES</h2>
+      <p class="entradilla">
+        Aprender juntos, celebrar juntos y cuidar lo que nos rodea: educación ambiental
+        y conciencia social, relaciones sanas y respetuosas, respeto por la naturaleza
+        y por los demás.
+      </p>
+    </header>
+
+    <div class="exp-lienzo">
+    <ul class="exp-mosaico reveal-secuencia">
+      <li class="exp-foto exp-foto--ancha reveal">
+        <button
+          type="button"
+          class="exp-foto__btn"
+          data-lightbox="galeria-eventos"
+          data-lightbox-src="img/parque/parque-54.jpg"
+          data-lightbox-caption="Terraza cubierta con techo de caña y mural de flores y mariposas, donde se dictan los talleres."
+          aria-label="Ampliar foto: terraza cubierta donde se dictan los talleres"
+        >
+          <img
+            src="img/parque/parque-54.jpg"
+            width="1200"
+            height="800"
+            alt="Terraza de piso en placas de concreto cubierta por un techo de caña sobre columnas de madera, con materas alineadas, una rama de buganvilla rosada en primer plano y un mural de flores y mariposas al fondo."
+            loading="lazy"
+            decoding="async"
+          />
+          <span class="exp-foto__lupa" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" focusable="false">
+              <circle cx="10.5" cy="10.5" r="6.5" />
+              <path d="m15.4 15.4 4.1 4.1M10.5 7.6v5.8M7.6 10.5h5.8" />
+            </svg>
+          </span>
+          <span class="exp-foto__pie">Terraza de talleres</span>
+        </button>
+      </li>
+
+      <li class="exp-foto exp-foto--alta reveal">
+        <button
+          type="button"
+          class="exp-foto__btn"
+          data-lightbox="galeria-eventos"
+          data-lightbox-src="img/parque/parque-38.jpg"
+          data-lightbox-caption="Camellones del vivero con plantas ornamentales bajo malla de sombra."
+          aria-label="Ampliar foto: camellones del vivero con plantas ornamentales"
+        >
+          <img
+            src="img/parque/parque-38.jpg"
+            width="675"
+            height="1200"
+            alt="Camellones del vivero bajo malla de sombra: hileras de plantas ornamentales en bolsas negras a lado y lado de una calle de gravilla, con anturios y caladios de hojas jaspeadas."
+            loading="lazy"
+            decoding="async"
+          />
+          <span class="exp-foto__lupa" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" focusable="false">
+              <circle cx="10.5" cy="10.5" r="6.5" />
+              <path d="m15.4 15.4 4.1 4.1M10.5 7.6v5.8M7.6 10.5h5.8" />
+            </svg>
+          </span>
+          <span class="exp-foto__pie">Camellones del vivero</span>
+        </button>
+      </li>
+
+      <li class="exp-foto exp-foto--alta reveal">
+        <button
+          type="button"
+          class="exp-foto__btn"
+          data-lightbox="galeria-eventos"
+          data-lightbox-src="img/parque/parque-19.jpg"
+          data-lightbox-caption="Jardín de heliconias frente al mural del barranquero, junto a la zona circular de gravilla."
+          aria-label="Ampliar foto: jardín de heliconias frente al mural del barranquero"
+        >
+          <img
+            src="img/parque/parque-19.jpg"
+            width="900"
+            height="1200"
+            alt="Jardín con heliconias anaranjadas y hojas grandes de orejas de elefante frente a un mural de un barranquero pintado sobre la pared, junto a una zona circular de gravilla sobre el prado."
+            loading="lazy"
+            decoding="async"
+          />
+          <span class="exp-foto__lupa" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" focusable="false">
+              <circle cx="10.5" cy="10.5" r="6.5" />
+              <path d="m15.4 15.4 4.1 4.1M10.5 7.6v5.8M7.6 10.5h5.8" />
+            </svg>
+          </span>
+          <span class="exp-foto__pie">Jardín y mural del barranquero</span>
+        </button>
+      </li>
+
+      <li class="exp-foto exp-foto--ancha reveal">
+        <button
+          type="button"
+          class="exp-foto__btn"
+          data-lightbox="galeria-eventos"
+          data-lightbox-src="img/parque/parque-18.jpg"
+          data-lightbox-caption="Camino de huellas de concreto entre bastones de heliconia rosada, hacia la zona arbolada."
+          aria-label="Ampliar foto: camino de huellas entre heliconias"
+        >
+          <img
+            src="img/parque/parque-18.jpg"
+            width="900"
+            height="1200"
+            alt="Camino de huellas de concreto que atraviesa el prado entre bastones de heliconia rosada, bromelias y árboles altos, hacia la zona arbolada del predio."
+            loading="lazy"
+            decoding="async"
+          />
+          <span class="exp-foto__lupa" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" focusable="false">
+              <circle cx="10.5" cy="10.5" r="6.5" />
+              <path d="m15.4 15.4 4.1 4.1M10.5 7.6v5.8M7.6 10.5h5.8" />
+            </svg>
+          </span>
+          <span class="exp-foto__pie">Camino entre heliconias</span>
+        </button>
+      </li>
+    </ul>
+    </div>
+
+    <ul class="exp-practicas exp-practicas--cultura reveal-secuencia">
+      <li class="exp-practica reveal">
+        <span class="exp-practica__indice" aria-hidden="true">01</span>
+        <span class="exp-practica__nombre">Talleres educativos</span>
+      </li>
+      <li class="exp-practica reveal">
+        <span class="exp-practica__indice" aria-hidden="true">02</span>
+        <span class="exp-practica__nombre">Talleres de jardinería</span>
+      </li>
+      <li class="exp-practica reveal">
+        <span class="exp-practica__indice" aria-hidden="true">03</span>
+        <span class="exp-practica__nombre">Talleres de pintura</span>
+      </li>
+      <li class="exp-practica reveal">
+        <span class="exp-practica__indice" aria-hidden="true">04</span>
+        <span class="exp-practica__nombre">Reuniones sociales</span>
+      </li>
+      <li class="exp-practica reveal">
+        <span class="exp-practica__indice" aria-hidden="true">05</span>
+        <span class="exp-practica__nombre">Reuniones familiares</span>
+      </li>
+      <li class="exp-practica reveal">
+        <span class="exp-practica__indice" aria-hidden="true">06</span>
+        <span class="exp-practica__nombre">Reuniones corporativas</span>
+      </li>
+      <li class="exp-practica reveal">
+        <span class="exp-practica__indice" aria-hidden="true">07</span>
+        <span class="exp-practica__nombre">Avistamiento de aves y mariposas</span>
+      </li>
+    </ul>
+
+    <div class="exp-cierre reveal">
+      <p class="exp-cierre__texto">
+        Cuéntenos qué quiere celebrar o aprender y armamos el plan a la medida.
+      </p>
+      <a
+        class="btn btn-whatsapp btn-grande"
+        href="https://wa.me/573166758362?text=Hola%2C%20quiero%20informaci%C3%B3n%20sobre%20los%20talleres%20y%20actividades%20culturales%20en%20Vegas%20del%20Verde"
+        target="_blank"
+        rel="noopener"
+      >
+        Escribir por WhatsApp
+      </a>
+    </div>
+
+  </div>
+</section>

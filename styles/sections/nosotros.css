@@ -1,0 +1,264 @@
+/* ==========================================================================
+   VEGAS DEL VERDE — nosotros.css  ·  sección #nosotros
+   (a) presentación · (b) compromiso · (c) cifras · (d) servicios
+   Depende de tokens.css + base.css. Sin valores literales de color, tamaño de
+   fuente, radio, sombra ni duración.
+   ========================================================================== */
+
+.nosotros {
+  background-color: var(--color-fondo);
+}
+
+/* ==========================================================================
+   1. PRESENTACIÓN  (texto + mosaico de fotos)
+   ========================================================================== */
+.nosotros__intro {
+  display: grid;
+  gap: var(--gap-lg);
+  align-items: center;
+}
+
+@media (min-width: 62em) {
+  .nosotros__intro {
+    grid-template-columns: 1fr 1.05fr;
+  }
+}
+
+.nosotros__texto {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--esp-sm);
+}
+
+.nosotros__texto p {
+  margin: 0;
+}
+
+.nosotros__firma {
+  font-family: var(--fuente-titulo);
+  font-size: var(--fs-pequeno);
+  text-transform: uppercase;
+  letter-spacing: var(--track-caps);
+  color: var(--color-texto-suave);
+}
+
+/* ---- Mosaico: una foto alta + dos apiladas ------------------------------- */
+.nosotros__mosaico {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: var(--gap-sm);
+}
+
+.nosotros__foto {
+  margin: 0;
+  min-width: 0;
+  min-height: 0;
+}
+
+.nosotros__mosaico .marco {
+  height: 100%;
+}
+
+/* Móvil: la principal ocupa el ancho y las dos secundarias van a la par. */
+.nosotros__foto--principal {
+  grid-column: 1 / -1;
+}
+
+.nosotros__foto--principal .marco {
+  aspect-ratio: 4 / 3;
+}
+
+.nosotros__foto--secundaria .marco {
+  aspect-ratio: 1 / 1;
+}
+
+/* Encuadres: las tres fotos son verticales y se recortan hacia el centro
+   de interés (guadual, copa del árbol, edificio sobre las copas). */
+.nosotros__foto--principal img {
+  object-position: 50% 42%;
+}
+
+.nosotros__foto--secundaria img {
+  object-position: 50% 44%;
+}
+
+@media (min-width: 40em) {
+  /* minmax(0, 1fr): sin esto las filas crecen hasta el alto intrínseco de las
+     fotos verticales y el mosaico se dispara. */
+  .nosotros__mosaico {
+    grid-template-columns: 1.15fr 1fr;
+    grid-template-rows: minmax(0, 1fr) minmax(0, 1fr);
+    aspect-ratio: 5 / 4;
+  }
+
+  .nosotros__foto--principal {
+    grid-column: 1;
+    grid-row: 1 / span 2;
+  }
+
+  .nosotros__mosaico .marco {
+    aspect-ratio: auto;
+  }
+}
+
+/* ==========================================================================
+   2. COMPROMISO
+   ========================================================================== */
+.nosotros__bloque {
+  margin-top: var(--esp-seccion-sm);
+}
+
+.nosotros__pilares {
+  margin: 0;
+}
+
+.nosotros__pilar {
+  display: flex;
+  height: 100%;
+}
+
+.nosotros__pilar .tarjeta__cuerpo {
+  gap: var(--esp-xs);
+  padding: var(--esp-lg);
+}
+
+.nosotros__pilar:hover {
+  transform: translateY(calc(var(--esp-3xs) * -1));
+  box-shadow: var(--sombra-md);
+}
+
+.nosotros__pilar-indice {
+  font-family: var(--fuente-display);
+  font-size: var(--fs-h3);
+  line-height: 1;
+  letter-spacing: var(--track-display);
+  color: var(--color-acento);
+}
+
+.nosotros__pilar-titulo {
+  font-family: var(--fuente-titulo);
+  font-size: var(--fs-h4);
+  font-weight: var(--peso-normal);
+  line-height: var(--alto-linea-titulo);
+  letter-spacing: var(--track-titulo);
+  color: var(--color-acento-texto);
+}
+
+.nosotros__pilar p {
+  font-size: var(--fs-pequeno);
+  color: var(--color-texto-suave);
+  margin: 0;
+}
+
+/* ==========================================================================
+   3. CIFRAS  (franja a sangre, en negativo)
+   ========================================================================== */
+.nosotros__cifras {
+  margin-top: var(--esp-seccion);
+  padding-block: var(--esp-2xl);
+}
+
+.nosotros__cifras-titulo {
+  text-align: center;
+  margin-bottom: var(--gap-lg);
+  color: var(--color-acento);
+}
+
+.nosotros__cifras-lista {
+  margin: 0;
+}
+
+.nosotros__cifra {
+  text-align: center;
+  padding-inline: var(--esp-2xs);
+}
+
+@media (min-width: 40em) {
+  .nosotros__cifra + .nosotros__cifra {
+    border-left: 1px solid var(--color-borde-inverso);
+  }
+}
+
+@media (min-width: 40em) and (max-width: 59.99em) {
+  /* en dos columnas, el tercer elemento vuelve a abrir fila */
+  .nosotros__cifra:nth-child(odd) {
+    border-left: 0;
+  }
+}
+
+.nosotros__cifra .cifra-etiqueta {
+  max-width: var(--medida-corta);
+  margin-inline: auto;
+}
+
+/* ==========================================================================
+   4. SERVICIOS DEL PREDIO
+   ========================================================================== */
+.nosotros__servicios {
+  margin-top: var(--esp-seccion);
+}
+
+.nosotros__servicios-lista {
+  margin: 0;
+}
+
+.nosotros__servicio {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--esp-xs);
+  padding: var(--esp-md) var(--esp-sm);
+  border: 1px solid var(--color-borde-suave);
+  border-radius: var(--radio-lg);
+  background-color: var(--color-superficie);
+  text-align: center;
+  transition:
+    border-color var(--transicion),
+    background-color var(--transicion);
+}
+
+.nosotros__servicio:hover {
+  border-color: var(--color-acento);
+  background-color: var(--color-superficie-solida);
+}
+
+.nosotros__servicio-icono {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--esp-xl);
+  height: var(--esp-xl);
+  border-radius: var(--radio-full);
+  background-color: rgb(var(--verde-menta-rgb) / 0.18);
+  color: var(--color-acento-texto);
+}
+
+.nosotros__servicio-icono svg {
+  width: 55%;
+  height: 55%;
+}
+
+.nosotros__servicio-nombre {
+  font-family: var(--fuente-titulo);
+  font-size: var(--fs-pequeno);
+  font-weight: var(--peso-medio);
+  text-transform: uppercase;
+  letter-spacing: var(--track-caps);
+  line-height: var(--alto-linea-titulo);
+  color: var(--color-texto);
+  margin-inline-end: calc(var(--track-caps) * -1);
+}
+
+.nosotros__servicios-pie {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: var(--esp-2xs) var(--esp-md);
+  max-width: none;
+  margin-top: var(--gap);
+  font-size: var(--fs-pequeno);
+  color: var(--color-texto-suave);
+  text-align: center;
+}

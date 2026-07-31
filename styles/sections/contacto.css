@@ -1,0 +1,315 @@
+/* ==========================================================================
+   VEGAS DEL VERDE — styles/sections/contacto.css
+   Sección #contacto: canales de atención + formulario que abre WhatsApp.
+   Prefijo propio: .cont- y .campo- · Depende de tokens.css y base.css.
+   ========================================================================== */
+
+.cont {
+  /* --- Tokens locales de la sección --------------------------------------- */
+  --cont-alto-control: 3rem;   /* objetivo táctil cómodo en los campos        */
+  --cont-icono: 2.75rem;
+}
+
+.cont-rejilla {
+  display: grid;
+  gap: var(--gap-lg);
+  align-items: start;
+}
+
+@media (min-width: 64em) {
+  .cont-rejilla {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1.15fr);
+  }
+}
+
+/* ==========================================================================
+   1. CANALES DE ATENCIÓN
+   ========================================================================== */
+.cont-canales {
+  display: flex;
+  flex-direction: column;
+  gap: var(--esp-sm);
+}
+
+.cont-canal {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--esp-sm);
+  padding: var(--esp-md);
+  border: 1px solid var(--color-borde-suave);
+  border-radius: var(--radio-lg);
+  background-color: var(--color-superficie);
+  color: var(--color-texto);
+  text-decoration: none;
+  transition:
+    border-color var(--transicion),
+    background-color var(--transicion),
+    transform var(--transicion-rapida),
+    box-shadow var(--transicion);
+}
+
+a.cont-canal:hover,
+a.cont-canal:focus-visible {
+  color: var(--color-texto);
+  border-color: rgb(var(--verde-oliva-rgb) / 0.4);
+  background-color: var(--color-superficie-solida);
+  transform: translateY(-2px);
+  box-shadow: var(--sombra-md);
+}
+
+.cont-canal--destacado {
+  border-color: rgb(var(--verde-menta-rgb) / 0.55);
+  background-color: rgb(var(--verde-menta-rgb) / 0.14);
+}
+
+.cont-canal--estatico {
+  background-color: transparent;
+}
+
+.cont-canal__icono {
+  display: grid;
+  place-items: center;
+  width: var(--cont-icono);
+  height: var(--cont-icono);
+  flex: none;
+  border-radius: var(--radio-full);
+  background-color: rgb(var(--verde-oliva-rgb) / 0.1);
+  color: var(--color-acento-texto);
+}
+
+.cont-canal__icono svg {
+  width: 1.35em;
+  height: 1.35em;
+}
+
+.cont-canal--destacado .cont-canal__icono {
+  background-color: var(--verde-menta);
+  color: var(--tinta);
+}
+
+.cont-canal__cuerpo {
+  display: flex;
+  flex-direction: column;
+  gap: var(--esp-3xs);
+  min-width: 0;
+}
+
+.cont-canal__etiqueta {
+  font-family: var(--fuente-titulo);
+  font-size: var(--fs-micro);
+  font-weight: var(--peso-medio);
+  text-transform: uppercase;
+  letter-spacing: var(--track-caps);
+  color: var(--color-texto-suave);
+}
+
+.cont-canal__valor {
+  font-size: var(--fs-grande);
+  font-weight: var(--peso-ligero);
+  line-height: var(--alto-linea-titulo);
+  overflow-wrap: anywhere;
+}
+
+.cont-canal__pie {
+  font-size: var(--fs-pequeno);
+  color: var(--color-texto-suave);
+}
+
+/* ==========================================================================
+   2. FORMULARIO
+   ========================================================================== */
+.cont-form {
+  display: flex;
+  flex-direction: column;
+  gap: var(--esp-sm);
+  padding: var(--esp-lg);
+  border: 1px solid var(--color-borde-suave);
+  border-radius: var(--radio-lg);
+  background-color: var(--color-superficie-solida);
+  box-shadow: var(--sombra-sm);
+}
+
+.cont-form__intro {
+  max-width: var(--medida);
+  margin: 0;
+}
+
+.cont-campos {
+  display: grid;
+  gap: var(--esp-md);
+  margin-top: var(--esp-2xs);
+}
+
+@media (min-width: 34em) {
+  .cont-campos {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .campo--ancho {
+    grid-column: 1 / -1;
+  }
+}
+
+/* El campo es un <p>: hay que neutralizar las reglas de párrafo de base.css */
+.campo {
+  display: flex;
+  flex-direction: column;
+  gap: var(--esp-3xs);
+  max-width: none;
+  margin: 0;
+}
+
+.campo + .campo {
+  margin-top: 0;
+}
+
+.campo__etiqueta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 0.5em;
+  font-family: var(--fuente-titulo);
+  font-size: var(--fs-pequeno);
+  font-weight: var(--peso-medio);
+  letter-spacing: var(--track-titulo);
+  color: var(--color-texto);
+}
+
+.campo__marca,
+.campo__opcional {
+  font-family: var(--fuente-titulo);
+  font-size: var(--fs-micro);
+  font-weight: var(--peso-normal);
+  text-transform: uppercase;
+  letter-spacing: var(--track-caps);
+}
+
+.campo__marca {
+  color: var(--color-acento-texto);
+}
+
+.campo__opcional {
+  color: var(--color-texto-suave);
+}
+
+.campo__control {
+  width: 100%;
+  min-height: var(--cont-alto-control);
+  padding: 0.7em 0.85em;
+  border: 1px solid var(--color-borde);
+  border-radius: var(--radio-sm);
+  /* Blanco puro de marca: la fundación no tiene un rol semántico para "campo
+     de formulario" y hace falta que el hueco se despegue de la tarjeta. */
+  background-color: var(--blanco);
+  color: var(--color-texto);
+  font-family: var(--fuente-cuerpo);
+  font-size: var(--fs-cuerpo);
+  line-height: var(--alto-linea-base);
+  transition:
+    border-color var(--transicion-rapida),
+    box-shadow var(--transicion-rapida);
+}
+
+.campo__control:hover {
+  border-color: rgb(var(--verde-oliva-rgb) / 0.55);
+}
+
+.campo__control:focus {
+  border-color: var(--verde-oliva);
+}
+
+.campo__control--area {
+  min-height: auto;
+  resize: vertical;
+}
+
+.campo__control[aria-invalid="true"] {
+  border-color: var(--color-alerta);
+  box-shadow: inset 0 0 0 1px rgb(var(--rojo-baya-rgb) / 0.4);
+}
+
+.campo__pista {
+  display: block;
+  font-size: var(--fs-micro);
+  color: var(--color-texto-suave);
+}
+
+.campo__error {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.4em;
+  font-size: var(--fs-micro);
+  font-weight: var(--peso-medio);
+  color: var(--color-alerta);
+}
+
+/* Mientras está vacío no ocupa sitio ni se anuncia. */
+.campo__error:empty {
+  display: none;
+}
+
+.campo__error::before {
+  content: "!";
+  display: inline-grid;
+  place-items: center;
+  width: 1.15em;
+  height: 1.15em;
+  flex: none;
+  margin-top: 0.15em;
+  border-radius: var(--radio-full);
+  background-color: var(--color-alerta);
+  color: var(--color-texto-inverso);
+  font-size: var(--fs-micro);
+  line-height: 1;
+}
+
+/* ==========================================================================
+   3. ESTADO, ENVÍO Y LEGAL
+   ========================================================================== */
+.cont-form__estado {
+  max-width: none;
+  margin: 0;
+  padding: var(--esp-2xs) var(--esp-sm);
+  border-left: 2px solid var(--color-acento);
+  border-radius: var(--radio-xs);
+  background-color: rgb(var(--verde-menta-rgb) / 0.14);
+  font-size: var(--fs-pequeno);
+  color: var(--color-texto);
+}
+
+.cont-form__estado:empty {
+  display: none;
+}
+
+.cont-form__estado--error {
+  border-left-color: var(--color-alerta);
+  background-color: rgb(var(--rojo-baya-rgb) / 0.1);
+}
+
+.cont-form__directo[hidden] {
+  display: none;
+}
+
+.cont-form__directo {
+  align-self: flex-start;
+}
+
+.cont-form__legal {
+  max-width: var(--medida);
+  margin: 0;
+  font-size: var(--fs-micro);
+  color: var(--color-texto-suave);
+}
+
+/* ==========================================================================
+   4. AJUSTES MÓVIL
+   ========================================================================== */
+@media (max-width: 30em) {
+  .cont-form {
+    padding: var(--esp-md);
+  }
+
+  .cont-canal {
+    padding: var(--esp-sm);
+  }
+}

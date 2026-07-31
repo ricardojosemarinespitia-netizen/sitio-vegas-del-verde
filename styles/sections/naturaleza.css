@@ -1,0 +1,684 @@
+/* ==========================================================================
+   VEGAS DEL VERDE — naturaleza.css
+   Sendero Ecovital · 101 aves · Biodiversidad · Vivero
+   Prefijo propio: .nat-*   ·   Depende de tokens.css + base.css (cargar antes).
+   Ningún valor literal de color, tamaño de fuente, radio, sombra o duración.
+   ========================================================================== */
+
+/* ==========================================================================
+   (a) SENDERO ECOVITAL
+   ========================================================================== */
+.nat-sendero {
+  display: grid;
+  gap: var(--gap-lg);
+  align-items: center;
+}
+
+@media (min-width: 62em) {
+  .nat-sendero {
+    grid-template-columns: minmax(0, 0.88fr) minmax(0, 1fr);
+    gap: var(--gap-lg);
+  }
+}
+
+/* ---- Composición de fotos: principal + inserto solapado ------------------- */
+.nat-sendero__media {
+  position: relative;
+  /* El aire reservado permite que el inserto se solape SIN desbordar nunca */
+  padding-inline-end: clamp(1.25rem, 7%, 3.25rem);
+  padding-block-end: clamp(1.25rem, 7%, 3.25rem);
+}
+
+.nat-sendero__principal {
+  border-radius: var(--radio-xl);
+  box-shadow: var(--sombra-lg);
+}
+
+.nat-sendero__inset {
+  position: absolute;
+  inset-inline-end: 0;
+  inset-block-end: 0;
+  width: min(46%, 13rem);
+  border: var(--esp-3xs) solid var(--color-fondo);
+  border-radius: var(--radio-lg);
+  box-shadow: var(--sombra-lg);
+}
+
+/* ---- Columna de texto ---------------------------------------------------- */
+.nat-sendero__texto {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--esp-md);
+}
+
+.nat-sendero__titulo {
+  margin: 0;
+}
+
+.nat-sendero__lista {
+  gap: var(--esp-3xs);
+}
+
+.nat-sendero__acciones {
+  margin-top: var(--esp-3xs);
+}
+
+/* ---- Micro-gráfico de la ruta: quebrada → riachuelo ---------------------- */
+.nat-ruta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--esp-2xs) var(--esp-xs);
+  margin: 0;
+  max-width: none;
+  font-family: var(--fuente-titulo);
+  font-size: var(--fs-micro);
+  font-weight: var(--peso-medio);
+  text-transform: uppercase;
+  letter-spacing: var(--track-caps);
+  color: var(--color-acento-texto);
+}
+
+.nat-ruta__punto {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6em;
+}
+
+.nat-ruta__punto::before {
+  content: "";
+  flex: none;
+  width: 0.5em;
+  height: 0.5em;
+  border-radius: 0 var(--radio-full) 0 var(--radio-full);
+  background-color: var(--color-acento);
+}
+
+.nat-ruta__linea {
+  flex: 1 1 2rem;
+  min-width: 1.5rem;
+  height: 1px;
+  background-image: linear-gradient(
+    to right,
+    var(--color-borde),
+    rgb(var(--gris-verde-rgb) / 0)
+  );
+}
+
+/* ---- El único precio del sitio: presentado como una ficha, no una etiqueta */
+.nat-precio {
+  display: flex;
+  flex-direction: column;
+  gap: var(--esp-3xs);
+  width: 100%;
+  max-width: var(--medida-corta);
+  padding-block: var(--esp-md);
+  border-block: 1px solid var(--color-borde-suave);
+}
+
+.nat-precio__etiqueta {
+  margin: 0;
+  font-family: var(--fuente-titulo);
+  font-size: var(--fs-micro);
+  font-weight: var(--peso-medio);
+  text-transform: uppercase;
+  letter-spacing: var(--track-caps);
+  color: var(--color-texto-suave);
+}
+
+.nat-precio__valor {
+  display: flex;
+  align-items: baseline;
+  gap: 0.14em;
+  margin: 0;
+  font-family: var(--fuente-display);
+  font-size: var(--paso-4);
+  line-height: var(--alto-linea-apretado);
+  letter-spacing: var(--track-display);
+  color: var(--color-acento-texto);
+}
+
+.nat-precio__simbolo {
+  font-size: 0.6em;
+}
+
+.nat-precio__moneda {
+  font-family: var(--fuente-titulo);
+  font-size: var(--fs-pequeno);
+  font-weight: var(--peso-medio);
+  text-transform: uppercase;
+  letter-spacing: var(--track-caps);
+  color: var(--color-texto-suave);
+}
+
+.nat-precio__unidad {
+  margin: 0;
+  font-size: var(--fs-pequeno);
+  color: var(--color-texto-suave);
+}
+
+/* ==========================================================================
+   (b) LAS 101 AVES
+   ========================================================================== */
+.nat-aves {
+  overflow: hidden;
+}
+
+/* Halo muy tenue detrás del titular; nunca sobre las fotos */
+.nat-aves::before {
+  content: "";
+  position: absolute;
+  inset-inline: 0;
+  inset-block-start: 0;
+  height: 42%;
+  z-index: var(--z-fondo);
+  pointer-events: none;
+  background-image: radial-gradient(
+    ellipse at 50% 0%,
+    rgb(var(--verde-menta-rgb) / 0.16),
+    rgb(var(--verde-menta-rgb) / 0) 65%
+  );
+}
+
+.nat-aves > * {
+  position: relative;
+  z-index: var(--z-base);
+}
+
+/* Sobre tinta, el anillo de foco oliva no contrasta: se pasa a menta */
+.nat-aves :focus-visible {
+  outline-color: var(--verde-menta);
+}
+
+/* ---- Titular con la cifra en display ------------------------------------- */
+.nat-aves__encabezado {
+  max-width: var(--ancho-sm);
+}
+
+.nat-aves__titulo {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--esp-2xs);
+  text-transform: none;
+  letter-spacing: normal;
+}
+
+.nat-aves__cifra {
+  font-family: var(--fuente-display);
+  font-size: var(--paso-6);
+  font-weight: var(--peso-normal);
+  line-height: var(--alto-linea-apretado);
+  letter-spacing: var(--track-display);
+  color: var(--color-acento);
+}
+
+.nat-aves__palabras {
+  font-family: var(--fuente-titulo);
+  font-size: var(--fs-h3);
+  font-weight: var(--peso-ligero);
+  text-transform: uppercase;
+  letter-spacing: var(--track-caps);
+  line-height: var(--alto-linea-titulo);
+  color: var(--color-texto-inverso);
+}
+
+/* ---- Fichas: endémica + migratorias -------------------------------------- */
+.nat-aves__fichas {
+  display: grid;
+  gap: var(--gap);
+  margin-top: var(--gap-lg);
+}
+
+@media (min-width: 48em) {
+  .nat-aves__fichas {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+.nat-ficha {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--esp-2xs);
+  padding: var(--esp-lg);
+  border: 1px solid var(--color-borde-inverso);
+  border-radius: var(--radio-lg);
+  background-color: var(--color-superficie-oscura);
+}
+
+.nat-aves .nat-ficha--endemica {
+  border-color: rgb(var(--amarillo-rgb) / 0.45);
+  background-color: rgb(var(--amarillo-rgb) / 0.07);
+}
+
+.nat-aves .nat-ficha--endemica .pildora {
+  background-color: rgb(var(--amarillo-rgb) / 0.2);
+  border-color: rgb(var(--amarillo-rgb) / 0.5);
+  color: var(--color-destacado);
+}
+
+.nat-ficha__titulo {
+  margin: 0;
+  font-size: var(--fs-h3);
+}
+
+.nat-ficha__cientifico {
+  margin: 0;
+  font-family: var(--fuente-cuerpo);
+  font-size: var(--fs-grande);
+  font-weight: var(--peso-ligero);
+  font-style: italic;
+  letter-spacing: 0.02em;
+  color: var(--color-acento);
+}
+
+.nat-ficha__texto {
+  margin: 0;
+  font-size: var(--fs-pequeno);
+  line-height: var(--alto-linea-base);
+  color: var(--color-texto-inverso-suave);
+}
+
+.nat-ficha .cifra + .cifra-etiqueta {
+  margin-bottom: var(--esp-2xs);
+}
+
+/* ---- Galería del concurso ------------------------------------------------ */
+.nat-galeria {
+  /* Alinea el primer ítem del carril con el borde del .contenedor--ancho */
+  --nat-borde: max(
+    var(--padding-contenedor),
+    calc((100% - var(--ancho-xl)) / 2)
+  );
+  margin-top: var(--esp-2xl);
+}
+
+.nat-galeria__intro {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: var(--esp-sm) var(--gap);
+  margin-bottom: var(--esp-md);
+}
+
+.nat-galeria__nota {
+  margin-top: var(--esp-2xs);
+  color: var(--color-texto-inverso-suave);
+  max-width: var(--medida);
+}
+
+.nat-galeria__pista {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6em;
+  margin: 0;
+  font-family: var(--fuente-titulo);
+  font-size: var(--fs-micro);
+  font-weight: var(--peso-medio);
+  text-transform: uppercase;
+  letter-spacing: var(--track-caps);
+  color: var(--color-acento);
+}
+
+.nat-galeria__pista::after {
+  content: "→";
+  animation: nat-desliza 2.4s var(--ease-suave) infinite;
+}
+
+@keyframes nat-desliza {
+  0%,
+  100% {
+    transform: translateX(0);
+  }
+  50% {
+    transform: translateX(0.4em);
+  }
+}
+
+/* ---- El carril: scroll horizontal con snap -------------------------------- */
+.nat-rail {
+  display: grid;
+  grid-auto-flow: column;
+  grid-auto-columns: clamp(9.5rem, 42vw, 14rem);
+  gap: var(--gap-sm);
+  margin: 0;
+  padding-block: var(--esp-2xs) var(--esp-sm);
+  padding-inline: var(--nat-borde);
+  list-style: none;
+  overflow-x: auto;
+  overflow-y: hidden;
+  overscroll-behavior-x: contain;
+  scroll-snap-type: x proximity;
+  scroll-padding-inline-start: var(--nat-borde);
+  scrollbar-width: thin;
+  scrollbar-color: rgb(var(--verde-menta-rgb) / 0.55) rgb(var(--crema-rgb) / 0.1);
+  -webkit-overflow-scrolling: touch;
+}
+
+/* Dos filas en pantallas grandes: el recorrido horizontal se reduce a la mitad */
+@media (min-width: 60em) {
+  .nat-rail {
+    grid-template-rows: repeat(2, minmax(0, 1fr));
+    grid-auto-columns: clamp(11rem, 15vw, 14.5rem);
+    gap: var(--gap-sm);
+  }
+}
+
+.nat-rail::-webkit-scrollbar {
+  height: 0.5rem;
+}
+
+.nat-rail::-webkit-scrollbar-track {
+  background-color: rgb(var(--crema-rgb) / 0.08);
+  border-radius: var(--radio-full);
+}
+
+.nat-rail::-webkit-scrollbar-thumb {
+  background-color: rgb(var(--verde-menta-rgb) / 0.55);
+  border-radius: var(--radio-full);
+}
+
+.nat-rail__item {
+  scroll-snap-align: start;
+}
+
+/* ---- Cada fotografía ------------------------------------------------------ */
+.nat-foto {
+  display: flex;
+  flex-direction: column;
+  align-content: flex-start;
+  gap: var(--esp-2xs);
+  width: 100%;
+  padding: 0;
+  text-align: left;
+  color: var(--color-texto-inverso);
+  border-radius: var(--radio-md);
+  transition: transform var(--transicion);
+}
+
+.nat-foto__marco {
+  display: block;
+  border-radius: var(--radio-md);
+  box-shadow: var(--sombra-md);
+}
+
+.nat-foto__marco::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  border: 1px solid rgb(var(--crema-rgb) / 0.14);
+  pointer-events: none;
+}
+
+.nat-foto:hover {
+  transform: translateY(-4px);
+}
+
+.nat-foto:hover .nat-foto__marco > img,
+.nat-foto:focus-visible .nat-foto__marco > img {
+  transform: scale(var(--escala-hover));
+}
+
+.nat-foto__pie {
+  display: flex;
+  flex-direction: column;
+  gap: var(--esp-3xs);
+}
+
+.nat-foto__especie {
+  font-family: var(--fuente-titulo);
+  font-size: var(--fs-pequeno);
+  font-weight: var(--peso-normal);
+  line-height: var(--alto-linea-titulo);
+  color: var(--color-texto-inverso);
+}
+
+.nat-foto__especie--anonima {
+  color: var(--color-texto-inverso-suave);
+}
+
+/* Nombres científicos en cursiva, como manda la nomenclatura binomial */
+.nat-cientifico {
+  font-family: var(--fuente-cuerpo);
+  font-style: italic;
+  letter-spacing: 0.01em;
+}
+
+/* El crédito del fotógrafo es obligatorio: siempre visible, nunca en hover */
+.nat-foto__credito {
+  font-size: var(--fs-micro);
+  letter-spacing: 0.04em;
+  color: var(--color-acento);
+}
+
+.nat-aves__acciones {
+  margin-top: var(--esp-xl);
+  align-items: center;
+}
+
+.nat-aves__nota {
+  margin: 0;
+  color: var(--color-texto-inverso-suave);
+}
+
+/* ==========================================================================
+   (c) BIODIVERSIDAD
+   ========================================================================== */
+.nat-cifras {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.nat-cifra {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: var(--esp-3xs);
+  padding: var(--esp-md) var(--esp-sm);
+  text-align: center;
+}
+
+.nat-cifra .cifra {
+  font-size: var(--paso-4);
+}
+
+.nat-cifra .cifra-etiqueta {
+  max-width: 14ch;
+}
+
+/* ---- Panel de conservación ----------------------------------------------- */
+.nat-conservacion {
+  display: grid;
+  gap: var(--gap);
+  margin-top: var(--gap-lg);
+  padding: var(--esp-lg);
+  border: 1px solid var(--color-borde-suave);
+  border-radius: var(--radio-lg);
+  background-color: var(--color-superficie-solida);
+}
+
+@media (min-width: 54em) {
+  .nat-conservacion {
+    grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr);
+    align-items: center;
+    gap: var(--gap-lg);
+    padding: var(--esp-xl);
+  }
+}
+
+.nat-conservacion__intro {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--esp-xs);
+}
+
+.nat-conservacion__intro h3 {
+  margin: 0;
+}
+
+.nat-especies {
+  display: grid;
+  gap: var(--esp-md);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.nat-especie {
+  display: flex;
+  flex-direction: column;
+  gap: var(--esp-3xs);
+  padding-left: var(--esp-sm);
+  border-left: 2px solid var(--color-acento);
+}
+
+.nat-especie__nombre {
+  font-family: var(--fuente-titulo);
+  font-size: var(--fs-h4);
+  font-weight: var(--peso-normal);
+  text-transform: uppercase;
+  letter-spacing: var(--track-caps);
+  color: var(--color-texto);
+}
+
+.nat-especie__cientifico {
+  font-style: italic;
+  font-size: var(--fs-pequeno);
+  color: var(--color-texto-suave);
+}
+
+/* ==========================================================================
+   (d) VIVERO
+   ========================================================================== */
+.nat-vivero__cuerpo {
+  display: grid;
+  gap: var(--gap-lg);
+  align-items: center;
+}
+
+@media (min-width: 62em) {
+  .nat-vivero__cuerpo {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1.05fr);
+  }
+}
+
+.nat-mosaico {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--gap-sm);
+}
+
+.nat-mosaico .marco {
+  border-radius: var(--radio-lg);
+  box-shadow: var(--sombra-md);
+}
+
+.nat-mosaico__alto {
+  grid-row: span 2;
+}
+
+.nat-vivero__texto {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--esp-md);
+}
+
+/* ---- Los cuatro servicios ------------------------------------------------- */
+.nat-servicios {
+  display: grid;
+  gap: var(--esp-2xs);
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+@media (min-width: 40em) {
+  .nat-servicios {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: var(--esp-sm);
+  }
+}
+
+.nat-servicio {
+  display: flex;
+  align-items: baseline;
+  gap: var(--esp-xs);
+  padding: var(--esp-sm);
+  border: 1px solid var(--color-borde-suave);
+  border-radius: var(--radio-md);
+  background-color: var(--color-superficie);
+}
+
+.nat-servicio__indice {
+  flex: none;
+  font-family: var(--fuente-display);
+  font-size: var(--fs-h4);
+  line-height: 1;
+  letter-spacing: var(--track-display);
+  color: var(--color-acento-texto);
+}
+
+.nat-servicio__nombre {
+  font-size: var(--fs-pequeno);
+  line-height: var(--alto-linea-base);
+}
+
+/* ---- Sello de confianza: Registro ICA ------------------------------------ */
+.nat-sello {
+  display: flex;
+  align-items: center;
+  gap: var(--esp-sm);
+  width: 100%;
+  max-width: var(--medida-corta);
+  padding: var(--esp-sm) var(--esp-md);
+  border: 1px solid rgb(var(--verde-oliva-rgb) / 0.32);
+  border-radius: var(--radio-lg);
+  background-color: rgb(var(--amarillo-rgb) / 0.14);
+}
+
+.nat-sello__emblema {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex: none;
+  width: 2.75rem;
+  height: 2.75rem;
+  border-radius: var(--radio-full);
+  background-color: var(--verde-oliva);
+  color: var(--color-texto-inverso);
+}
+
+.nat-sello__emblema svg {
+  width: 1.45rem;
+  height: 1.45rem;
+}
+
+.nat-sello__texto {
+  display: flex;
+  flex-direction: column;
+  gap: var(--esp-3xs);
+}
+
+.nat-sello__titulo {
+  font-family: var(--fuente-titulo);
+  font-size: var(--fs-pequeno);
+  font-weight: var(--peso-medio);
+  text-transform: uppercase;
+  letter-spacing: var(--track-caps);
+  color: var(--color-acento-texto);
+}
+
+.nat-sello__detalle {
+  font-size: var(--fs-micro);
+  line-height: var(--alto-linea-base);
+  color: var(--color-texto-suave);
+}

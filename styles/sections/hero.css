@@ -1,0 +1,234 @@
+/* ==========================================================================
+   VEGAS DEL VERDE — hero.css  ·  sección #inicio
+   Depende de tokens.css + base.css. Ningún valor literal de color, tamaño de
+   fuente, radio, sombra ni duración: todo sale de los tokens.
+   ========================================================================== */
+
+.hero {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  min-height: var(--alto-hero);
+  padding-top: calc(var(--alto-header) + var(--esp-xl));
+  /* deja sitio bajo los botones para el indicador de scroll */
+  padding-bottom: var(--esp-4xl);
+  background-color: var(--color-fondo-oscuro);
+  color: var(--color-texto-inverso);
+  scroll-margin-top: 0;
+}
+
+/* ==========================================================================
+   1. FONDO — render aéreo + velo
+   ========================================================================== */
+.hero__lienzo {
+  position: absolute;
+  inset: 0;
+  z-index: var(--z-fondo);
+}
+
+/* El render es apaisado (2000 × 1013). En vertical se encuadra hacia la
+   izquierda para no perder la alameda y las construcciones del centro. */
+.hero__imagen {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: 44% 46%;
+  transform: scale(1.04);
+  transform-origin: 44% 46%;
+}
+
+@media (min-width: 48em) {
+  .hero__imagen {
+    object-position: 50% 48%;
+    transform-origin: 50% 48%;
+  }
+}
+
+/* Descenso cinematográfico: la cámara «aterriza» sobre el predio una sola vez. */
+@media (prefers-reduced-motion: no-preference) {
+  .hero__imagen {
+    animation: hero-descenso calc(var(--dur-vuelo) * 4) var(--ease-salida) both;
+  }
+}
+
+@keyframes hero-descenso {
+  from {
+    transform: scale(1.16);
+  }
+  to {
+    transform: scale(1.04);
+  }
+}
+
+.hero__velo {
+  position: absolute;
+  inset: 0;
+  background-color: var(--color-velo);
+}
+
+/* Segunda capa: oscurece arriba (bajo la cabecera) y abajo (bajo los botones)
+   para llevar el texto por encima de 4.5:1 sin apagar el verde del render. */
+.hero__velo::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-image: linear-gradient(
+    to bottom,
+    rgb(var(--tinta-rgb) / 0.46) 0%,
+    rgb(var(--tinta-rgb) / 0.12) 26%,
+    rgb(var(--tinta-rgb) / 0.34) 62%,
+    rgb(var(--tinta-rgb) / 0.68) 100%
+  );
+}
+
+/* ==========================================================================
+   2. CONTENIDO
+   ========================================================================== */
+.hero__contenido {
+  position: relative;
+  z-index: var(--z-base);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--esp-md);
+  text-align: center;
+}
+
+.hero__simbolo {
+  width: var(--esp-3xl);
+  height: auto;
+  background: none;
+}
+
+@media (min-width: 48em) {
+  .hero__simbolo {
+    width: var(--esp-4xl);
+  }
+}
+
+.hero__wordmark {
+  font-family: var(--fuente-display);
+  font-size: var(--fs-hero);
+  font-weight: var(--peso-normal);
+  line-height: var(--alto-linea-apretado);
+  text-transform: uppercase;
+  letter-spacing: var(--track-caps);
+  /* compensa el tracking sobrante de la última letra en un texto centrado */
+  margin-inline-end: calc(var(--track-caps) * -1);
+  color: var(--color-texto-inverso);
+  text-wrap: balance;
+}
+
+/* Filete fino: eco de las reglas horizontales del logotipo. */
+.hero__filete {
+  display: block;
+  width: min(100%, var(--esp-4xl));
+  height: 1px;
+  background-color: var(--color-borde-inverso);
+}
+
+.hero__tagline {
+  max-width: none;
+  font-family: var(--fuente-titulo);
+  font-size: var(--fs-h4);
+  font-weight: var(--peso-ligero);
+  line-height: var(--alto-linea-titulo);
+  text-transform: uppercase;
+  letter-spacing: var(--track-eyebrow);
+  margin-inline-end: calc(var(--track-eyebrow) * -1);
+  color: var(--color-acento);
+}
+
+.hero__lugar {
+  max-width: var(--medida-corta);
+  margin-inline: auto;
+  font-size: var(--fs-grande);
+  font-weight: var(--peso-ligero);
+  line-height: var(--alto-linea-suelto);
+  color: var(--color-texto-inverso-suave);
+}
+
+.hero__acciones {
+  justify-content: center;
+  margin-top: var(--esp-2xs);
+}
+
+/* ==========================================================================
+   3. INDICADOR DE SCROLL
+   ========================================================================== */
+.hero__bajar {
+  position: absolute;
+  left: 50%;
+  bottom: var(--esp-md);
+  transform: translateX(-50%);
+  z-index: var(--z-base);
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--esp-2xs);
+  padding: var(--esp-2xs);
+  text-decoration: none;
+  color: var(--color-texto-inverso-suave);
+  transition: color var(--transicion-rapida);
+}
+
+.hero__bajar:hover {
+  color: var(--color-acento);
+}
+
+.hero__bajar-texto {
+  font-family: var(--fuente-titulo);
+  font-size: var(--fs-micro);
+  font-weight: var(--peso-medio);
+  text-transform: uppercase;
+  letter-spacing: var(--track-eyebrow);
+  margin-inline-end: calc(var(--track-eyebrow) * -1);
+}
+
+.hero__bajar-linea {
+  position: relative;
+  display: block;
+  width: 1px;
+  height: var(--esp-lg);
+  overflow: hidden;
+  background-color: var(--color-borde-inverso);
+}
+
+.hero__bajar-linea::after {
+  content: "";
+  position: absolute;
+  inset-inline: 0;
+  top: 0;
+  height: 55%;
+  background-color: var(--color-acento);
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .hero__bajar-linea::after {
+    animation: hero-goteo calc(var(--dur-vuelo) / 2) var(--ease-suave) infinite;
+  }
+}
+
+@keyframes hero-goteo {
+  0% {
+    transform: translateY(-110%);
+  }
+  65%,
+  100% {
+    transform: translateY(200%);
+  }
+}
+
+/* Móvil apaisado: no hay aire para el indicador. */
+@media (max-height: 34em) {
+  .hero {
+    padding-bottom: var(--esp-xl);
+  }
+
+  .hero__bajar {
+    display: none;
+  }
+}

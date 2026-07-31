@@ -1,0 +1,564 @@
+/* ==========================================================================
+   VEGAS DEL VERDE — shell.css
+   Cabecera fija translúcida, navegación (escritorio + móvil) y pie de página.
+   Sólo el director de arte edita este archivo.
+   Depende de tokens.css y base.css.
+   ========================================================================== */
+
+/* ==========================================================================
+   1. CABECERA
+   ========================================================================== */
+.cabecera {
+  position: fixed;
+  inset-block-start: 0;
+  inset-inline: 0;
+  z-index: var(--z-header);
+}
+
+/* El vidrio esmerilado vive en una capa aparte, NO en .cabecera.
+   Motivo: backdrop-filter convierte al elemento en bloque contenedor de sus
+   descendientes position:fixed, y eso impediría que el panel del menú móvil
+   cubriera la ventana completa. No mover esta declaración a .cabecera. */
+.cabecera::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background-color: rgb(var(--crema-rgb) / 0.78);
+  backdrop-filter: var(--blur-vidrio);
+  -webkit-backdrop-filter: var(--blur-vidrio);
+  border-bottom: 1px solid rgb(var(--verde-oliva-rgb) / 0.09);
+  transition:
+    background-color var(--transicion),
+    box-shadow var(--transicion),
+    border-color var(--transicion);
+}
+
+/* Estado tras hacer scroll — lo activa main.js añadiendo la clase */
+.cabecera--compacta::before {
+  background-color: rgb(var(--crema-rgb) / 0.94);
+  box-shadow: var(--sombra-header);
+  border-bottom-color: rgb(var(--verde-oliva-rgb) / 0.14);
+}
+
+@supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
+  .cabecera::before {
+    background-color: rgb(var(--crema-rgb) / 0.97);
+  }
+}
+
+.cabecera__interior {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--esp-sm);
+  min-height: var(--alto-header);
+}
+
+/* ---- Marca --------------------------------------------------------------- */
+.marca {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.7rem;
+  text-decoration: none;
+  color: var(--color-texto);
+  flex: none;
+}
+
+.marca__simbolo {
+  width: clamp(2.1rem, 1.7rem + 1.6vw, 2.9rem);
+  height: auto;
+  background: none;
+  flex: none;
+}
+
+/* El logotipo (color --teal, exento por ser marca) sólo aparece cuando la
+   barra tiene sitio de sobra; por debajo manda el símbolo solo. */
+.marca__nombre {
+  font-family: var(--fuente-titulo);
+  font-size: clamp(0.82rem, 0.72rem + 0.4vw, 1.05rem);
+  font-weight: var(--peso-normal);
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  line-height: 1;
+  color: var(--teal);
+  white-space: nowrap;
+}
+
+@media (min-width: 62em) and (max-width: 78.99em) {
+  .marca__nombre {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
+  }
+}
+
+/* ---- Navegación ---------------------------------------------------------- */
+.nav__lista {
+  display: flex;
+  align-items: center;
+  gap: clamp(0.7rem, 0.05rem + 1.05vw, 1.75rem);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.nav__enlace {
+  position: relative;
+  display: inline-block;
+  padding-block: 0.35rem;
+  font-family: var(--fuente-titulo);
+  font-size: var(--fs-pequeno);
+  font-weight: var(--peso-normal);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  text-decoration: none;
+  color: var(--color-texto);
+  white-space: nowrap;
+}
+
+.nav__enlace::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  height: 1px;
+  background-color: var(--verde-oliva);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform var(--transicion) var(--ease-salida);
+}
+
+.nav__enlace:hover {
+  color: var(--color-acento-texto);
+}
+
+.nav__enlace:hover::after,
+.nav__enlace:focus-visible::after,
+.nav__enlace[aria-current="true"]::after {
+  transform: scaleX(1);
+}
+
+.nav__enlace[aria-current="true"] {
+  color: var(--color-acento-texto);
+}
+
+/* ---- Acciones (idioma, WhatsApp, menú) ----------------------------------- */
+.cabecera__acciones {
+  display: flex;
+  align-items: center;
+  gap: var(--esp-2xs);
+  flex: none;
+}
+
+.idiomas {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.2rem;
+  border: 1px solid rgb(var(--verde-oliva-rgb) / 0.22);
+  border-radius: var(--radio-full);
+}
+
+.idiomas__opcion {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 2.1rem;
+  min-height: 1.7rem;
+  padding-inline: 0.35rem;
+  border-radius: var(--radio-full);
+  font-family: var(--fuente-titulo);
+  font-size: var(--fs-micro);
+  font-weight: var(--peso-medio);
+  letter-spacing: 0.1em;
+  text-decoration: none;
+  color: var(--color-texto-suave);
+  transition:
+    background-color var(--transicion-rapida),
+    color var(--transicion-rapida);
+}
+
+.idiomas__opcion:hover {
+  color: var(--color-acento-texto);
+}
+
+.idiomas__opcion[aria-current="true"] {
+  background-color: var(--verde-oliva);
+  color: var(--color-texto-inverso);
+}
+
+.cabecera__cta {
+  padding-inline: 1.1em;
+}
+
+/* ---- Botón hamburguesa --------------------------------------------------- */
+.boton-menu {
+  display: none;
+  align-items: center;
+  justify-content: center;
+  width: 2.75rem;
+  height: 2.75rem;
+  border-radius: var(--radio-full);
+  border: 1px solid rgb(var(--verde-oliva-rgb) / 0.22);
+  color: var(--color-texto);
+  transition: background-color var(--transicion-rapida);
+}
+
+.boton-menu:hover {
+  background-color: rgb(var(--verde-oliva-rgb) / 0.08);
+}
+
+.boton-menu__barras {
+  position: relative;
+  display: block;
+  width: 1.25rem;
+  height: 0.75rem;
+}
+
+.boton-menu__barras span {
+  position: absolute;
+  left: 0;
+  width: 100%;
+  height: 1.5px;
+  border-radius: var(--radio-full);
+  background-color: currentColor;
+  transition:
+    transform var(--transicion) var(--ease-salida),
+    opacity var(--dur-rapida) var(--ease);
+}
+
+.boton-menu__barras span:nth-child(1) { top: 0; }
+.boton-menu__barras span:nth-child(2) { top: 50%; margin-top: -0.75px; }
+.boton-menu__barras span:nth-child(3) { bottom: 0; }
+
+.boton-menu[aria-expanded="true"] .boton-menu__barras span:nth-child(1) {
+  transform: translateY(0.375rem) rotate(45deg);
+}
+
+.boton-menu[aria-expanded="true"] .boton-menu__barras span:nth-child(2) {
+  opacity: 0;
+}
+
+.boton-menu[aria-expanded="true"] .boton-menu__barras span:nth-child(3) {
+  transform: translateY(-0.375rem) rotate(-45deg);
+}
+
+/* ---- Velo del menú móvil -------------------------------------------------- */
+/* Queda por debajo de .cabecera para que el panel del menú — que es hijo de
+   la cabecera y por tanto vive en su contexto de apilamiento — se pinte encima. */
+.velo-menu {
+  position: fixed;
+  inset: 0;
+  z-index: calc(var(--z-header) - 1);
+  background-color: rgb(var(--tinta-rgb) / 0.45);
+  opacity: 0;
+  visibility: hidden;
+  transition:
+    opacity var(--transicion),
+    visibility 0s linear var(--dur-media);
+}
+
+body.menu-abierto .velo-menu {
+  opacity: 1;
+  visibility: visible;
+  transition-delay: 0s;
+}
+
+body.menu-abierto {
+  overflow: hidden;
+}
+
+/* ==========================================================================
+   2. NAVEGACIÓN MÓVIL  (< 62em)
+   ========================================================================== */
+@media (max-width: 61.99em) {
+  .boton-menu {
+    display: inline-flex;
+  }
+
+  .cabecera__cta .btn__texto {
+    display: none;
+  }
+
+  .cabecera__cta {
+    width: 2.75rem;
+    height: 2.75rem;
+    min-height: 2.75rem;
+    padding-inline: 0;
+  }
+
+  .nav {
+    position: fixed;
+    inset-block: 0;
+    inset-inline-end: 0;
+    z-index: var(--z-menu);
+    width: min(21rem, 84vw);
+    padding: calc(var(--alto-header) + var(--esp-lg)) var(--esp-lg) var(--esp-xl);
+    background-color: var(--color-fondo);
+    border-left: 1px solid var(--color-borde-suave);
+    box-shadow: var(--sombra-xl);
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    transform: translateX(102%);
+    visibility: hidden;
+    transition:
+      transform var(--dur-lenta) var(--ease-salida),
+      visibility 0s linear var(--dur-lenta);
+  }
+
+  body.menu-abierto .nav {
+    transform: translateX(0);
+    visibility: visible;
+    transition-delay: 0s;
+  }
+
+  .nav__lista {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0;
+  }
+
+  .nav__lista li + li {
+    border-top: 1px solid var(--color-borde-suave);
+  }
+
+  .nav__enlace {
+    display: block;
+    padding-block: var(--esp-sm);
+    font-size: var(--fs-cuerpo);
+    letter-spacing: var(--track-caps);
+  }
+
+  .nav__enlace::after {
+    display: none;
+  }
+
+  .nav__pie {
+    margin-top: var(--esp-lg);
+    display: flex;
+    flex-direction: column;
+    gap: var(--esp-xs);
+  }
+}
+
+@media (min-width: 62em) {
+  .velo-menu {
+    display: none;
+  }
+
+  .nav__pie {
+    display: none;
+  }
+
+  /* La barra fija se queda con las cinco anclas de destino. «Nosotros» y
+     «Contacto» siguen en el menú móvil, en el pie y por scroll: si se
+     muestran aquí, la cabecera desborda por debajo de 1280 px. */
+  .nav__item--secundario {
+    display: none;
+  }
+}
+
+@media (max-width: 26.5em) {
+  .marca__nombre {
+    letter-spacing: 0.08em;
+  }
+
+  .idiomas {
+    display: none; /* el selector de idioma vive dentro del menú en pantallas muy pequeñas */
+  }
+}
+
+/* ==========================================================================
+   3. PÁGINAS SIN HERO (legales, aviso, etc.)
+   ========================================================================== */
+.pagina-interior {
+  padding-top: calc(var(--alto-header) + var(--esp-xl));
+  padding-bottom: var(--esp-3xl);
+}
+
+/* ==========================================================================
+   4. PIE DE PÁGINA
+   ========================================================================== */
+.pie-sitio {
+  background-color: var(--color-fondo-oscuro);
+  color: var(--color-texto-inverso);
+  padding-block: var(--esp-3xl) var(--esp-lg);
+  scroll-margin-top: calc(var(--alto-header) + var(--esp-md));
+}
+
+.pie-sitio a {
+  color: var(--color-texto-inverso);
+  text-decoration: none;
+}
+
+.pie-sitio a:hover {
+  color: var(--verde-menta);
+}
+
+.pie__rejilla {
+  display: grid;
+  gap: var(--gap-lg);
+  grid-template-columns: 1fr;
+}
+
+@media (min-width: 46em) {
+  .pie__rejilla {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (min-width: 68em) {
+  .pie__rejilla {
+    grid-template-columns: 1.4fr 1fr 1fr 1fr;
+    gap: var(--gap);
+  }
+}
+
+.pie__marca {
+  display: flex;
+  flex-direction: column;
+  gap: var(--esp-sm);
+  align-items: flex-start;
+}
+
+.pie__logo {
+  width: clamp(3.25rem, 2.5rem + 3vw, 4.5rem);
+  height: auto;
+  background: none;
+}
+
+.pie__nombre {
+  font-family: var(--fuente-display);
+  font-size: var(--paso-2);
+  line-height: 1.1;
+  letter-spacing: var(--track-display);
+  color: var(--color-texto-inverso);
+}
+
+.pie__tagline {
+  font-family: var(--fuente-titulo);
+  font-size: var(--fs-micro);
+  text-transform: uppercase;
+  letter-spacing: var(--track-caps);
+  color: var(--verde-menta);
+}
+
+.pie__titulo {
+  font-family: var(--fuente-titulo);
+  font-size: var(--fs-eyebrow);
+  font-weight: var(--peso-medio);
+  text-transform: uppercase;
+  letter-spacing: var(--track-eyebrow);
+  color: var(--verde-menta);
+  margin-bottom: var(--esp-sm);
+}
+
+.pie__lista {
+  display: flex;
+  flex-direction: column;
+  gap: var(--esp-2xs);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  font-size: var(--fs-pequeno);
+  color: var(--color-texto-inverso-suave);
+  line-height: var(--alto-linea-base);
+}
+
+.pie__lista a {
+  color: var(--color-texto-inverso-suave);
+}
+
+.pie__lista a:hover {
+  color: var(--verde-menta);
+}
+
+.pie__dato {
+  display: flex;
+  gap: 0.6em;
+  align-items: flex-start;
+}
+
+.pie__dato svg {
+  width: 1.05em;
+  height: 1.05em;
+  margin-top: 0.35em;
+  flex: none;
+  color: var(--verde-menta);
+}
+
+.pie__social {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.55em;
+  padding: 0.5em 1.1em;
+  border: 1px solid var(--color-borde-inverso);
+  border-radius: var(--radio-full);
+  font-family: var(--fuente-titulo);
+  font-size: var(--fs-pequeno);
+  letter-spacing: 0.08em;
+  transition:
+    background-color var(--transicion),
+    border-color var(--transicion);
+}
+
+.pie__social:hover {
+  background-color: rgb(var(--crema-rgb) / 0.1);
+  border-color: var(--verde-menta);
+}
+
+.pie__social svg {
+  width: 1.15em;
+  height: 1.15em;
+  flex: none;
+}
+
+.pie__legal {
+  margin-top: var(--esp-2xl);
+  padding-top: var(--esp-md);
+  border-top: 1px solid var(--color-borde-inverso);
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--esp-2xs) var(--esp-md);
+  align-items: baseline;
+  justify-content: space-between;
+  font-size: var(--fs-micro);
+  color: var(--color-texto-inverso-suave);
+  line-height: var(--alto-linea-base);
+}
+
+.pie__legal p {
+  max-width: 52ch;
+  margin: 0;
+}
+
+.pie__legal-enlaces {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--esp-2xs) var(--esp-md);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.pie__legal-enlaces a {
+  color: var(--color-texto-inverso-suave);
+  text-decoration: underline;
+  text-decoration-color: rgb(var(--crema-rgb) / 0.3);
+}
+
+.pie__legal-enlaces a:hover {
+  color: var(--verde-menta);
+  text-decoration-color: currentColor;
+}
+
+.pie__creditos {
+  margin-top: var(--esp-md);
+  font-size: var(--fs-micro);
+  color: rgb(var(--crema-rgb) / 0.55);
+  max-width: 78ch;
+}

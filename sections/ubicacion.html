@@ -1,0 +1,237 @@
+<!-- ==========================================================================
+     SECCIÓN: UBICACIÓN  ·  id="ubicacion"
+     Requiere:  styles/sections/ubicacion.css   (en el <head>)
+                js/mapa.js                      (con defer, al final del <body>)
+
+     Leaflet + teselas Esri se cargan desde CDN EN TIEMPO DE EJECUCIÓN desde
+     js/mapa.js (con integrity/SRI). No hace falta añadir nada al <head>.
+     Si el CDN falla o no hay red, la vista aérea de respaldo — que es lo que
+     se ve por defecto — simplemente se queda, y los botones de navegación
+     siguen funcionando igual.
+     ========================================================================== -->
+<section id="ubicacion" class="seccion seccion--alt ubi" aria-labelledby="ubicacion-titulo">
+  <div class="contenedor contenedor--ancho">
+
+    <header class="seccion-encabezado centrado reveal">
+      <p class="eyebrow">Cómo llegar</p>
+      <h2 id="ubicacion-titulo" class="titulo-seccion">Ubicación</h2>
+      <p class="entradilla">
+        Estamos en la vereda Río Frío de Floridablanca, a 10,2&nbsp;km de Bucaramanga y
+        10,3&nbsp;km de Girón: cuatro hectáreas arboladas entre la quebrada Aranzoque y el
+        riachuelo La Florida, en pleno Área Metropolitana.
+      </p>
+    </header>
+
+    <!-- ================= MAPA ================================================ -->
+    <figure class="ubi-mapa reveal" data-mapa>
+      <div class="ubi-mapa__marco">
+        <div class="ubi-mapa__medio">
+
+          <!-- Lienzo del mapa interactivo (lo puebla js/mapa.js) -->
+          <div
+            class="ubi-mapa__lienzo"
+            id="mapa-vegas"
+            data-mapa-lienzo
+            role="application"
+            aria-label="Mapa satelital interactivo con la ubicación de Vegas del Verde. La dirección, las referencias cercanas y las distancias también están escritas debajo del mapa."
+          ></div>
+
+          <!-- Respaldo real: es lo que se ve mientras el mapa carga, lo que queda
+               si Leaflet no está disponible y lo único que se ve sin JavaScript. -->
+          <img
+            class="ubi-mapa__respaldo"
+            src="img/mapa-ubicacion.jpg"
+            width="1200"
+            height="1111"
+            alt="Vista aérea del sector: Vegas del Verde señalado entre los árboles, con las referencias cercanas marcadas — Conjunto Natura, Anillo Vial Floridablanca-Girón, Alkosto, Makro, PriceSmart, Mediterráneo Fútbol Park, Mediterráneo Royal y los centros comerciales Cañaveral, La Florida y Caracolí, con Bucaramanga y la cordillera al fondo."
+            loading="lazy"
+            decoding="async"
+          />
+
+          <!-- Capa HUD (decorativa, no intercepta el puntero) -->
+          <div class="ubi-hud" aria-hidden="true">
+            <span class="ubi-hud__marca">
+              <img
+                class="ubi-hud__simbolo"
+                src="img/logo/simbolo-vegas.png"
+                width="512"
+                height="512"
+                alt=""
+                loading="lazy"
+                decoding="async"
+              />
+              Vegas del Verde
+            </span>
+            <span class="ubi-hud__coord">7.0574425,&nbsp;-73.1144128</span>
+            <span class="ubi-hud__etiqueta">Vista satelital</span>
+          </div>
+
+          <!-- Sólo en pantallas táctiles: evita que el mapa secuestre el scroll -->
+          <button class="ubi-mapa__activar" type="button" data-mapa-activar hidden>
+            <span class="ubi-mapa__activar-pastilla">Toca para explorar el mapa</span>
+          </button>
+
+        </div>
+      </div>
+
+      <figcaption class="ubi-mapa__pie">
+        <span class="ubi-mapa__credito" data-mapa-credito hidden>
+          Vista satelital · Teselas &copy; Esri (World Imagery). El vuelo se ejecuta solo al
+          entrar la sección en pantalla.
+        </span>
+        <span class="ubi-mapa__nota-respaldo" data-mapa-respaldo-nota>
+          Vista aérea del sector con las referencias del entorno.
+        </span>
+        <span class="ubi-mapa__aviso" data-mapa-aviso hidden>
+          El mapa interactivo no está disponible en este momento; esta es la vista aérea del
+          sector. Los botones para llegar siguen funcionando.
+        </span>
+      </figcaption>
+    </figure>
+
+    <!-- ================= BOTONES DE NAVEGACIÓN =============================== -->
+    <div class="ubi-acciones reveal">
+      <a
+        class="btn btn-primario btn-grande"
+        href="https://www.google.com/maps/dir/?api=1&amp;destination=7.0574425,-73.1144128"
+        target="_blank"
+        rel="noopener"
+      >
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true" focusable="false">
+          <path d="M12 21.5s7-6.1 7-11a7 7 0 1 0-14 0c0 4.9 7 11 7 11Z" />
+          <circle cx="12" cy="10.4" r="2.6" />
+        </svg>
+        Llegar con Google Maps
+      </a>
+
+      <a
+        class="btn btn-secundario btn-grande"
+        href="https://waze.com/ul?ll=7.0574425,-73.1144128&amp;navigate=yes"
+        target="_blank"
+        rel="noopener"
+      >
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true" focusable="false">
+          <path d="M3.5 12.2 20.4 4.6a.55.55 0 0 1 .74.72l-7.4 16.6a.55.55 0 0 1-1.03-.09l-1.6-6.2a.55.55 0 0 0-.39-.4l-6.2-1.6a.55.55 0 0 1-.02-1.43Z" />
+        </svg>
+        Llegar con Waze
+      </a>
+
+      <button
+        class="btn btn-secundario ubi-acciones__repetir"
+        type="button"
+        data-mapa-repetir
+        hidden
+      >
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true" focusable="false">
+          <path d="M20 12a8 8 0 1 1-2.6-5.9" />
+          <path d="M20.4 4.2v4.2h-4.2" />
+        </svg>
+        Repetir vuelo
+      </button>
+    </div>
+
+    <!-- ================= DIRECCIÓN Y REFERENCIAS ============================= -->
+    <div class="ubi-info reveal-secuencia">
+
+      <article class="ubi-tarjeta reveal">
+        <h3 class="titulo-seccion titulo-seccion--xs">La dirección</h3>
+        <address class="ubi-direccion">
+          Vereda Río Frío, 500&nbsp;mts sobre la vía Carabineros.<br />
+          Floridablanca, Santander, Colombia.
+        </address>
+        <p class="ubi-coordenadas">
+          <span class="ubi-coordenadas__etiqueta">Coordenadas</span>
+          <a
+            href="https://www.google.com/maps/place/Vegas+del+Verde/@7.0574425,-73.1144128,17z"
+            target="_blank"
+            rel="noopener"
+          >7.0574425, -73.1144128</a>
+        </p>
+        <p class="nota">
+          El predio cuenta con parqueadero propio y vigilancia privada.
+        </p>
+        <p class="ubi-tarjeta__enlace">
+          <a class="enlace-flecha" href="#contacto">Horario y contacto</a>
+        </p>
+      </article>
+
+      <article class="ubi-tarjeta reveal">
+        <h3 class="titulo-seccion titulo-seccion--xs">Puntos de referencia</h3>
+        <p class="nota">Si conoces alguno de estos lugares, ya sabes dónde estamos.</p>
+        <ul class="ubi-refs">
+          <li class="ubi-ref">Anillo Vial Floridablanca&ndash;Girón</li>
+          <li class="ubi-ref">Conjunto Natura, ecoparque empresarial</li>
+          <li class="ubi-ref">Alkosto · Makro · PriceSmart</li>
+          <li class="ubi-ref">Mediterráneo Fútbol Park</li>
+          <li class="ubi-ref">Mediterráneo Royal</li>
+          <li class="ubi-ref">C.C. Cañaveral</li>
+          <li class="ubi-ref">C.C. La Florida</li>
+          <li class="ubi-ref">C.C. Caracolí</li>
+        </ul>
+      </article>
+
+    </div>
+
+    <!-- ================= DISTANCIAS ========================================== -->
+    <div class="ubi-dist reveal" role="group" aria-labelledby="ubicacion-distancias-titulo">
+      <div class="ubi-dist__encabezado">
+        <h3 class="titulo-seccion titulo-seccion--xs" id="ubicacion-distancias-titulo">
+          Distancias desde el predio
+        </h3>
+        <p class="nota">
+          Cerca de la ciudad y a la entrada del Santander turístico. Distancias aproximadas.
+        </p>
+      </div>
+
+      <ol class="ubi-dist__lista">
+        <li class="ubi-dist__item" style="--ubi-pct: 8.5%">
+          <span class="ubi-dist__lugar">Bucaramanga</span>
+          <span class="ubi-dist__barra" aria-hidden="true"><span class="ubi-dist__relleno"></span></span>
+          <span class="ubi-dist__km">10,2 km</span>
+        </li>
+        <li class="ubi-dist__item" style="--ubi-pct: 8.5%">
+          <span class="ubi-dist__lugar">Girón</span>
+          <span class="ubi-dist__barra" aria-hidden="true"><span class="ubi-dist__relleno"></span></span>
+          <span class="ubi-dist__km">10,3 km</span>
+        </li>
+        <li class="ubi-dist__item" style="--ubi-pct: 40.5%">
+          <span class="ubi-dist__lugar">Cañón del Chicamocha</span>
+          <span class="ubi-dist__barra" aria-hidden="true"><span class="ubi-dist__relleno"></span></span>
+          <span class="ubi-dist__km">48,8 km</span>
+        </li>
+        <li class="ubi-dist__item" style="--ubi-pct: 51.9%">
+          <span class="ubi-dist__lugar">Zapatoca</span>
+          <span class="ubi-dist__barra" aria-hidden="true"><span class="ubi-dist__relleno"></span></span>
+          <span class="ubi-dist__km">62,6 km</span>
+        </li>
+        <li class="ubi-dist__item" style="--ubi-pct: 81.8%">
+          <span class="ubi-dist__lugar">San Gil</span>
+          <span class="ubi-dist__barra" aria-hidden="true"><span class="ubi-dist__relleno"></span></span>
+          <span class="ubi-dist__km">98,7 km</span>
+        </li>
+        <li class="ubi-dist__item" style="--ubi-pct: 98.3%">
+          <span class="ubi-dist__lugar">Socorro</span>
+          <span class="ubi-dist__barra" aria-hidden="true"><span class="ubi-dist__relleno"></span></span>
+          <span class="ubi-dist__km">118,5 km</span>
+        </li>
+        <li class="ubi-dist__item" style="--ubi-pct: 100%">
+          <span class="ubi-dist__lugar">Barichara</span>
+          <span class="ubi-dist__barra" aria-hidden="true"><span class="ubi-dist__relleno"></span></span>
+          <span class="ubi-dist__km">120,6 km</span>
+        </li>
+      </ol>
+    </div>
+
+    <p class="ubi-cierre reveal">
+      <a
+        class="btn btn-whatsapp"
+        href="https://wa.me/573166758362?text=Hola%2C%20quiero%20confirmar%20c%C3%B3mo%20llegar%20a%20Vegas%20del%20Verde"
+        target="_blank"
+        rel="noopener"
+      >
+        ¿Dudas para llegar? Escríbenos
+      </a>
+    </p>
+
+  </div>
+</section>

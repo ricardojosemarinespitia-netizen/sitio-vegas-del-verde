@@ -1,0 +1,77 @@
+/* Lightbox global — usado por experiencias.html y naturaleza.html vía js/app.js */
+.lightbox {
+  position: fixed;
+  inset: 0;
+  z-index: var(--z-modal);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.lightbox[hidden] { display: none; }
+
+.lightbox__velo {
+  position: absolute;
+  inset: 0;
+  background: rgb(var(--tinta-rgb) / 0.86);
+  backdrop-filter: var(--blur-vidrio);
+}
+
+.lightbox__marco {
+  position: relative;
+  z-index: 1;
+  max-width: min(92vw, 62rem);
+  max-height: 90vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--esp-sm);
+  padding: var(--esp-md);
+}
+
+.lightbox__img {
+  max-width: 100%;
+  max-height: 74vh;
+  border-radius: var(--radio-md);
+  box-shadow: var(--sombra-xl);
+  object-fit: contain;
+  background: var(--tinta);
+}
+
+.lightbox__pie {
+  color: var(--color-texto-inverso);
+  font-size: var(--fs-pequeno);
+  text-align: center;
+  max-width: var(--medida-corta);
+}
+
+.lightbox__cerrar,
+.lightbox__nav {
+  position: absolute;
+  display: grid;
+  place-items: center;
+  width: 2.75rem;
+  height: 2.75rem;
+  border-radius: var(--radio-full);
+  border: 1px solid var(--color-borde-inverso);
+  background: rgb(var(--tinta-rgb) / 0.55);
+  color: var(--color-texto-inverso);
+  cursor: pointer;
+  transition: var(--transicion-rapida);
+}
+.lightbox__cerrar:hover,
+.lightbox__nav:hover { background: rgb(var(--verde-menta-rgb) / 0.35); }
+.lightbox__cerrar:focus-visible,
+.lightbox__nav:focus-visible { box-shadow: var(--anillo-foco); outline: none; }
+.lightbox__cerrar svg,
+.lightbox__nav svg { width: 1.25rem; height: 1.25rem; }
+
+.lightbox__cerrar { top: var(--esp-sm); right: var(--esp-sm); }
+.lightbox__nav--prev { left: var(--esp-sm); top: 50%; transform: translateY(-50%); }
+.lightbox__nav--next { right: var(--esp-sm); top: 50%; transform: translateY(-50%); }
+
+body.lightbox-abierto { overflow: hidden; }
+
+@media (max-width: 40rem) {
+  .lightbox__marco { padding: var(--esp-sm); }
+  .lightbox__nav { width: 2.25rem; height: 2.25rem; }
+}

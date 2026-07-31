@@ -1,0 +1,602 @@
+/* ==========================================================================
+   VEGAS DEL VERDE — styles/sections/ubicacion.css
+   Sección #ubicacion: mapa satelital "Google Earth", dirección, referencias
+   y distancias. Prefijo propio: .ubi- · Depende de tokens.css y base.css.
+
+   Los overrides de Leaflet van scoped bajo #ubicacion a propósito: la hoja de
+   Leaflet la inyecta js/mapa.js y podría quedar después de esta en el orden
+   de cascada; la especificidad del id nos deja ganar sin usar !important.
+   ========================================================================== */
+
+.ubi {
+  /* --- Tokens locales de la sección (valores que la fundación no cubre) ---- */
+  --ubi-alto-mapa: clamp(21rem, 58svh, 34rem);
+  --ubi-control: 2.75rem;                       /* objetivo táctil de los +/- */
+  --ubi-dur-pulso: calc(var(--dur-reveal) * 3); /* 2,7 s derivados del token  */
+  --ubi-marco: var(--esp-3xs);
+}
+
+/* ==========================================================================
+   1. MARCO DEL MAPA
+   ========================================================================== */
+.ubi-mapa {
+  margin: 0;
+}
+
+.ubi-mapa__marco {
+  position: relative;
+  padding: var(--ubi-marco);
+  border: 1px solid var(--color-borde-suave);
+  border-radius: var(--radio-xl);
+  background-color: var(--color-superficie-solida);
+  background-image: linear-gradient(
+    160deg,
+    rgb(var(--blanco-rgb) / 0.9),
+    rgb(var(--gris-verde-rgb) / 0.35)
+  );
+  box-shadow: var(--sombra-lg);
+}
+
+/* Escuadras decorativas en dos esquinas opuestas — el guiño "instrumento". */
+.ubi-mapa__marco::before,
+.ubi-mapa__marco::after {
+  content: "";
+  position: absolute;
+  width: var(--esp-md);
+  height: var(--esp-md);
+  border: 1px solid rgb(var(--verde-oliva-rgb) / 0.45);
+  pointer-events: none;
+}
+
+.ubi-mapa__marco::before {
+  top: calc(var(--esp-2xs) * -1);
+  left: calc(var(--esp-2xs) * -1);
+  border-right: 0;
+  border-bottom: 0;
+  border-top-left-radius: var(--radio-md);
+}
+
+.ubi-mapa__marco::after {
+  right: calc(var(--esp-2xs) * -1);
+  bottom: calc(var(--esp-2xs) * -1);
+  border-left: 0;
+  border-top: 0;
+  border-bottom-right-radius: var(--radio-md);
+}
+
+.ubi-mapa__medio {
+  position: relative;
+  height: var(--ubi-alto-mapa);
+  border-radius: var(--radio-lg);
+  overflow: hidden;
+  background-color: var(--tinta);
+  isolation: isolate;
+}
+
+/* Viñeta sutil: da profundidad de "visor" sin ensuciar la imagen satelital.  */
+.ubi-mapa__medio::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: var(--z-elevado);
+  pointer-events: none;
+  border-radius: inherit;
+  box-shadow: inset 0 0 0 1px rgb(var(--crema-rgb) / 0.22);
+  background: radial-gradient(
+    120% 90% at 50% 45%,
+    rgb(var(--tinta-rgb) / 0) 55%,
+    rgb(var(--tinta-rgb) / 0.28) 100%
+  );
+}
+
+.ubi-mapa__lienzo {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+
+/* ==========================================================================
+   2. RESPALDO (visible por defecto: sin JS, sin red o con el CDN caído)
+   ========================================================================== */
+.ubi-mapa__respaldo {
+  position: absolute;
+  inset: 0;
+  z-index: var(--z-base);
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center 62%;
+}
+
+/* Cuando el mapa interactivo está listo, el respaldo se retira del todo. */
+.ubi-mapa--interactivo .ubi-mapa__respaldo {
+  display: none;
+}
+
+.ubi-mapa__pie {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--esp-2xs) var(--esp-sm);
+  margin-top: var(--esp-sm);
+  font-size: var(--fs-micro);
+  color: var(--color-texto-suave);
+}
+
+.ubi-mapa--interactivo .ubi-mapa__nota-respaldo {
+  display: none;
+}
+
+.ubi-mapa__aviso {
+  color: var(--color-acento-texto);
+}
+
+/* ==========================================================================
+   3. CAPA HUD
+   ========================================================================== */
+.ubi-hud {
+  position: absolute;
+  z-index: calc(var(--z-elevado) + 1);
+  top: var(--esp-sm);
+  left: var(--esp-sm);
+  display: flex;
+  flex-direction: column;
+  gap: var(--esp-3xs);
+  padding: var(--esp-2xs) var(--esp-sm);
+  max-width: calc(100% - var(--esp-2xl));
+  border: 1px solid rgb(var(--crema-rgb) / 0.22);
+  border-radius: var(--radio-md);
+  background-color: rgb(var(--tinta-rgb) / 0.55);
+  backdrop-filter: var(--blur-vidrio);
+  -webkit-backdrop-filter: var(--blur-vidrio);
+  box-shadow: var(--sombra-md);
+  color: var(--color-texto-inverso);
+  pointer-events: none;
+}
+
+@supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
+  .ubi-hud {
+    background-color: rgb(var(--tinta-rgb) / 0.82);
+  }
+}
+
+.ubi-hud__marca {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5em;
+  font-family: var(--fuente-titulo);
+  font-size: var(--fs-pequeno);
+  font-weight: var(--peso-medio);
+  text-transform: uppercase;
+  letter-spacing: var(--track-caps);
+  line-height: 1.2;
+}
+
+.ubi-hud__simbolo {
+  width: 1.5em;
+  height: 1.5em;
+  flex: none;
+  background: none;
+}
+
+.ubi-hud__coord {
+  font-size: var(--fs-micro);
+  letter-spacing: 0.06em;
+  color: var(--color-texto-inverso-suave);
+  font-variant-numeric: tabular-nums;
+}
+
+.ubi-hud__etiqueta {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4em;
+  font-family: var(--fuente-titulo);
+  font-size: var(--fs-micro);
+  text-transform: uppercase;
+  letter-spacing: var(--track-caps);
+  color: var(--verde-menta);
+}
+
+.ubi-hud__etiqueta::before {
+  content: "";
+  width: 0.45em;
+  height: 0.45em;
+  border-radius: var(--radio-full);
+  background-color: var(--verde-menta);
+  flex: none;
+}
+
+/* ==========================================================================
+   4. PIN PERSONALIZADO (lo inyecta js/mapa.js dentro de un L.divIcon)
+   ========================================================================== */
+/* Leaflet fija el tamaño de la caja del divIcon (iconSize); el pin la llena. */
+.ubi-pin {
+  position: relative;
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.ubi-pin__disco {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  border-radius: var(--radio-full);
+  border: 1px solid rgb(var(--verde-oliva-rgb) / 0.35);
+  background-color: rgb(var(--crema-rgb) / 0.95);
+  box-shadow: var(--sombra-lg);
+}
+
+.ubi-pin__disco img {
+  width: 68%;
+  height: auto;
+  background: none;
+}
+
+/* Punta del pin */
+.ubi-pin__disco::after {
+  content: "";
+  position: absolute;
+  bottom: calc(var(--esp-3xs) * -1);
+  left: 50%;
+  width: 0.7em;
+  height: 0.7em;
+  transform: translateX(-50%) rotate(45deg);
+  border-right: 1px solid rgb(var(--verde-oliva-rgb) / 0.35);
+  border-bottom: 1px solid rgb(var(--verde-oliva-rgb) / 0.35);
+  background-color: rgb(var(--crema-rgb) / 0.95);
+}
+
+.ubi-pin__halo {
+  position: absolute;
+  inset: 0;
+  border-radius: var(--radio-full);
+  border: 1px solid var(--verde-menta);
+  animation: ubi-pulso var(--ubi-dur-pulso) var(--ease-suave) infinite;
+}
+
+@keyframes ubi-pulso {
+  0% {
+    transform: scale(0.92);
+    opacity: 0.7;
+  }
+  70% {
+    transform: scale(2);
+    opacity: 0;
+  }
+  100% {
+    transform: scale(2);
+    opacity: 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ubi-pin__halo {
+    display: none;
+  }
+}
+
+/* ==========================================================================
+   5. BOTÓN DE ACTIVACIÓN TÁCTIL
+   En pantallas táctiles el mapa arranca sin arrastre para no secuestrar el
+   scroll de la página; este botón lo habilita. js/mapa.js lo muestra.
+   ========================================================================== */
+.ubi-mapa__activar {
+  position: absolute;
+  inset: 0;
+  z-index: calc(var(--z-elevado) + 2);
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  padding-bottom: var(--esp-xl);
+  background-color: rgb(var(--tinta-rgb) / 0.12);
+}
+
+.ubi-mapa__activar[hidden] {
+  display: none;
+}
+
+.ubi-mapa__activar-pastilla {
+  padding: 0.65em 1.3em;
+  border-radius: var(--radio-full);
+  background-color: rgb(var(--crema-rgb) / 0.94);
+  color: var(--tinta);
+  font-family: var(--fuente-titulo);
+  font-size: var(--fs-micro);
+  font-weight: var(--peso-medio);
+  text-transform: uppercase;
+  letter-spacing: var(--track-boton);
+  box-shadow: var(--sombra-md);
+}
+
+/* ==========================================================================
+   6. OVERRIDES DE LEAFLET  (scoped por id, sin !important)
+   ========================================================================== */
+#ubicacion .leaflet-container {
+  background-color: var(--tinta);
+  font-family: var(--fuente-cuerpo);
+  font-size: var(--fs-micro);
+}
+
+#ubicacion .leaflet-control-zoom {
+  border: 1px solid rgb(var(--verde-oliva-rgb) / 0.2);
+  border-radius: var(--radio-md);
+  overflow: hidden;
+  box-shadow: var(--sombra-md);
+}
+
+#ubicacion .leaflet-control-zoom a {
+  width: var(--ubi-control);
+  height: var(--ubi-control);
+  line-height: var(--ubi-control);
+  border-bottom-color: rgb(var(--verde-oliva-rgb) / 0.16);
+  background-color: rgb(var(--crema-rgb) / 0.94);
+  color: var(--color-texto);
+  font-family: var(--fuente-cuerpo);
+  font-weight: var(--peso-normal);
+}
+
+#ubicacion .leaflet-control-zoom a:hover {
+  background-color: var(--crema);
+  color: var(--color-acento-texto);
+}
+
+#ubicacion .leaflet-control-attribution {
+  padding: 0.25em 0.7em;
+  border-top-left-radius: var(--radio-sm);
+  background-color: rgb(var(--tinta-rgb) / 0.66);
+  color: var(--color-texto-inverso-suave);
+  font-size: var(--fs-micro);
+}
+
+#ubicacion .leaflet-control-attribution a {
+  color: var(--verde-menta);
+}
+
+#ubicacion .leaflet-popup-content-wrapper,
+#ubicacion .leaflet-popup-tip {
+  background-color: var(--color-superficie-solida);
+  color: var(--color-texto);
+  box-shadow: var(--sombra-lg);
+}
+
+#ubicacion .leaflet-popup-content-wrapper {
+  border-radius: var(--radio-md);
+}
+
+#ubicacion .leaflet-popup-content {
+  margin: var(--esp-sm) var(--esp-md);
+  font-size: var(--fs-pequeno);
+  line-height: var(--alto-linea-base);
+}
+
+#ubicacion .ubi-popup__titulo {
+  display: block;
+  font-family: var(--fuente-titulo);
+  font-size: var(--fs-cuerpo);
+  text-transform: uppercase;
+  letter-spacing: var(--track-caps);
+  color: var(--color-acento-texto);
+}
+
+#ubicacion .leaflet-container a.leaflet-popup-close-button {
+  width: var(--esp-lg);
+  height: var(--esp-lg);
+  color: var(--color-texto-suave);
+}
+
+/* ==========================================================================
+   7. BOTONES BAJO EL MAPA
+   ========================================================================== */
+.ubi-acciones {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--esp-sm);
+  align-items: center;
+  margin-top: var(--esp-lg);
+}
+
+.ubi-acciones__repetir[hidden] {
+  display: none;
+}
+
+@media (min-width: 48em) {
+  .ubi-acciones__repetir {
+    margin-left: auto;
+  }
+}
+
+/* ==========================================================================
+   8. DIRECCIÓN Y REFERENCIAS
+   ========================================================================== */
+.ubi-info {
+  display: grid;
+  gap: var(--gap);
+  margin-top: var(--gap-lg);
+}
+
+@media (min-width: 52em) {
+  .ubi-info {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1.15fr);
+    align-items: start;
+  }
+}
+
+.ubi-tarjeta {
+  display: flex;
+  flex-direction: column;
+  gap: var(--esp-xs);
+  padding: var(--esp-lg);
+  border: 1px solid var(--color-borde-suave);
+  border-radius: var(--radio-lg);
+  background-color: var(--color-superficie);
+}
+
+.ubi-direccion {
+  font-style: normal;
+  font-size: var(--fs-grande);
+  font-weight: var(--peso-ligero);
+  line-height: var(--alto-linea-base);
+  color: var(--color-texto);
+}
+
+.ubi-coordenadas {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: var(--esp-2xs);
+  margin: 0;
+  font-variant-numeric: tabular-nums;
+}
+
+.ubi-coordenadas__etiqueta {
+  font-family: var(--fuente-titulo);
+  font-size: var(--fs-micro);
+  text-transform: uppercase;
+  letter-spacing: var(--track-caps);
+  color: var(--color-texto-suave);
+}
+
+.ubi-tarjeta__enlace {
+  margin-top: auto;
+  padding-top: var(--esp-2xs);
+}
+
+.ubi-refs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--esp-2xs);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.ubi-ref {
+  padding: 0.45em 0.95em;
+  border: 1px solid var(--color-borde-suave);
+  border-radius: var(--radio-full);
+  background-color: rgb(var(--blanco-rgb) / 0.55);
+  font-size: var(--fs-pequeno);
+  line-height: 1.35;
+  color: var(--color-texto);
+}
+
+/* ==========================================================================
+   9. DISTANCIAS
+   ========================================================================== */
+.ubi-dist {
+  margin-top: var(--gap-lg);
+  padding: var(--esp-lg);
+  border: 1px solid var(--color-borde-suave);
+  border-radius: var(--radio-lg);
+  background-color: var(--color-superficie);
+}
+
+.ubi-dist__encabezado {
+  display: flex;
+  flex-direction: column;
+  gap: var(--esp-3xs);
+  margin-bottom: var(--esp-md);
+}
+
+.ubi-dist__lista {
+  display: flex;
+  flex-direction: column;
+  gap: var(--esp-xs);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  counter-reset: none;
+}
+
+.ubi-dist__item {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: baseline;
+  gap: var(--esp-3xs) var(--esp-sm);
+}
+
+.ubi-dist__lugar {
+  font-family: var(--fuente-titulo);
+  font-size: var(--fs-pequeno);
+  letter-spacing: var(--track-titulo);
+  color: var(--color-texto);
+}
+
+.ubi-dist__km {
+  font-size: var(--fs-pequeno);
+  font-variant-numeric: tabular-nums;
+  color: var(--color-texto-suave);
+  white-space: nowrap;
+}
+
+.ubi-dist__barra {
+  grid-column: 1 / -1;
+  grid-row: 2;
+  display: block;
+  height: var(--esp-3xs);
+  border-radius: var(--radio-full);
+  background-color: rgb(var(--verde-oliva-rgb) / 0.12);
+  overflow: hidden;
+}
+
+.ubi-dist__relleno {
+  display: block;
+  width: var(--ubi-pct, 0%);
+  min-width: var(--esp-lg);
+  height: 100%;
+  border-radius: inherit;
+  background-image: linear-gradient(90deg, var(--verde-menta), var(--verde-oliva));
+  transform-origin: left center;
+  transform: scaleX(0);
+  transition: transform var(--dur-lenta) var(--ease-salida);
+  transition-delay: var(--reveal-delay, 0ms);
+}
+
+/* Las barras crecen cuando el bloque entra en pantalla (clase .visible del
+   observador global). Sin JS quedan dibujadas desde el principio. */
+.ubi-dist.visible .ubi-dist__relleno,
+html:not(.js) .ubi-dist__relleno {
+  transform: scaleX(1);
+}
+
+@media (min-width: 40em) {
+  .ubi-dist__item {
+    grid-template-columns: minmax(9rem, 14rem) minmax(0, 1fr) auto;
+    align-items: center;
+  }
+
+  .ubi-dist__barra {
+    grid-column: 2;
+    grid-row: 1;
+  }
+}
+
+/* ==========================================================================
+   10. CIERRE
+   ========================================================================== */
+.ubi-cierre {
+  max-width: none;
+  margin-top: var(--gap-lg);
+  text-align: center;
+}
+
+/* ==========================================================================
+   11. AJUSTES MÓVIL
+   ========================================================================== */
+@media (max-width: 30em) {
+  .ubi {
+    --ubi-alto-mapa: clamp(18rem, 52svh, 24rem);
+  }
+
+  .ubi-hud {
+    top: var(--esp-2xs);
+    left: var(--esp-2xs);
+    padding: var(--esp-3xs) var(--esp-2xs);
+  }
+
+  .ubi-acciones .btn {
+    flex: 1 1 100%;
+  }
+}
