@@ -11,6 +11,8 @@
   display: flex;
   flex-direction: column;
   justify-content: center;
+  /* fallback para navegadores sin unidades svh (Safari iOS ≤ 15) */
+  min-height: clamp(30rem, 88vh, 54rem);
   min-height: var(--alto-hero);
   padding-top: calc(var(--alto-header) + var(--esp-xl));
   /* deja sitio bajo los botones para el indicador de scroll */

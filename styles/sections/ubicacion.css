@@ -66,6 +66,8 @@
 
 .ubi-mapa__medio {
   position: relative;
+  /* fallback para navegadores sin unidades svh (Safari iOS ≤ 15) */
+  height: clamp(21rem, 58vh, 34rem);
   height: var(--ubi-alto-mapa);
   border-radius: var(--radio-lg);
   overflow: hidden;
