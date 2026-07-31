@@ -16,12 +16,12 @@
      --------------------------------------------------------------------- */
   const objetivosReveal = document.querySelectorAll('.reveal, .reveal-secuencia');
   if (reduceMotion || !('IntersectionObserver' in window)) {
-    objetivosReveal.forEach(el => el.classList.add('is-visible'));
+    objetivosReveal.forEach(el => el.classList.add('visible'));
   } else {
     const io = new IntersectionObserver((entradas, obs) => {
       entradas.forEach(entrada => {
         if (entrada.isIntersecting) {
-          entrada.target.classList.add('is-visible');
+          entrada.target.classList.add('visible');
           obs.unobserve(entrada.target);
         }
       });
