@@ -1,9 +1,19 @@
 <!-- ==========================================================================
      FRAGMENTO: NOSOTROS  ·  ancla #nosotros
      CSS propio: styles/sections/nosotros.css
+     v2 «Vende la escapada».
+
      Bloques: (a) presentación · (b) compromiso · (c) cifras · (d) servicios
-     Las cifras llevan data-contador para que el JS global las anime; el número
-     ya está escrito en el HTML, así que sigue visible si el JS no corre.
+
+     QUÉ CAMBIÓ RESPECTO A v1
+     · Copy en segunda persona: los hechos del BRIEF, contados como invitación.
+     · Los tres pilares del compromiso dejan de ser tarjetas de sólo texto:
+       cada uno lleva ahora su fotografía real del predio.
+     · Las cifras pasan de cajas planas a tarjetas con FOTO REAL de fondo y
+       velo de legibilidad. Conservan data-contador (el número ya está escrito
+       en el HTML, así que sigue visible si el JS no corre).
+     · Los servicios del predio bajan de rejilla de cuatro tarjetas a una
+       tira discreta: no deben competir con las cifras.
      ========================================================================== -->
 <section class="seccion nosotros" id="nosotros" aria-labelledby="nosotros-titulo">
 
@@ -11,10 +21,12 @@
 
     <header class="seccion-encabezado reveal">
       <p class="eyebrow">Nosotros</p>
-      <h2 class="titulo-seccion" id="nosotros-titulo">Un refugio natural</h2>
+      <h2 class="titulo-seccion" id="nosotros-titulo">
+        A 10 minutos del Anillo Vial, a un mundo de distancia
+      </h2>
       <p class="entradilla">
-        Cuatro hectáreas de bosque entre dos corrientes de agua, a 10,2&nbsp;km de
-        Bucaramanga.
+        Cuatro hectáreas de bosque entre dos corrientes de agua, en pleno Área
+        Metropolitana de Bucaramanga.
       </p>
     </header>
 
@@ -28,53 +40,51 @@
           <strong>La Florida</strong>.
         </p>
         <p>
-          Situado en el corazón del Área Metropolitana de Bucaramanga, es un refugio
-          natural que brinda tranquilidad y seguridad en medio del bullicio urbano.
+          Estás en el corazón del Área Metropolitana de Bucaramanga y no se nota:
+          aquí el ruido de fondo lo ponen los pájaros. Un refugio que da
+          tranquilidad y seguridad en medio del bullicio urbano.
+        </p>
+        <p>
+          Nosotros ponemos las cuatro hectáreas. El plan lo pones tú.
         </p>
         <p class="nosotros__firma">
           Vereda Río Frío, Floridablanca · Santander, Colombia.
         </p>
-        <a class="enlace-flecha" href="#naturaleza">Conocer la biodiversidad</a>
+        <a class="enlace-flecha" href="#naturaleza">Ver quién más vive aquí</a>
       </div>
 
       <div class="nosotros__mosaico reveal reveal--der">
         <figure class="nosotros__foto nosotros__foto--principal">
-          <div class="marco marco--zoom">
-            <img
-              src="img/parque/parque-14.jpg"
-              width="900"
-              height="1200"
-              alt="Gran pradera de césped del predio al final de la tarde, cerrada al fondo por un guadual y árboles altos."
-              loading="lazy"
-              decoding="async"
-            />
-          </div>
+          <img
+            src="img/parque/parque-10.jpg"
+            width="675"
+            height="1200"
+            alt="Prado del predio en sombra moteada bajo árboles altos, con materas florecidas al borde y una pérgola abierta al fondo."
+            loading="lazy"
+            decoding="async"
+          />
         </figure>
 
         <figure class="nosotros__foto nosotros__foto--secundaria">
-          <div class="marco marco--zoom">
-            <img
-              src="img/parque/parque-06.jpg"
-              width="675"
-              height="1200"
-              alt="Árbol de copa amplia en el centro de una pradera, con el seto de árboles del lindero al fondo."
-              loading="lazy"
-              decoding="async"
-            />
-          </div>
+          <img
+            src="img/parque/parque-25.jpg"
+            width="1200"
+            height="800"
+            alt="Reunión al atardecer bajo una carpa iluminada, con un camino de grava y plantas en materas a los lados."
+            loading="lazy"
+            decoding="async"
+          />
         </figure>
 
         <figure class="nosotros__foto nosotros__foto--secundaria">
-          <div class="marco marco--zoom">
-            <img
-              src="img/parque/parque-17.jpg"
-              width="675"
-              height="1200"
-              alt="Sendero de grava entre árboles y jardines; sobre las copas asoma un edificio de la ciudad."
-              loading="lazy"
-              decoding="async"
-            />
-          </div>
+          <img
+            src="img/parque/parque-15.jpg"
+            width="900"
+            height="1200"
+            alt="Terraza empedrada del predio al caer la tarde, con materas escalonadas, jardines y la pérgola de madera al fondo."
+            loading="lazy"
+            decoding="async"
+          />
         </figure>
       </div>
 
@@ -86,46 +96,79 @@
       <header class="seccion-encabezado reveal">
         <p class="eyebrow">Nuestro compromiso</p>
         <h3 class="titulo-seccion titulo-seccion--sm" id="compromiso-titulo">
-          Bienestar físico, mental y emocional
+          Aquí se viene a estar bien
         </h3>
         <p class="entradilla">
-          Creemos en el poder de la conexión y el aprendizaje conjunto. Ofrecemos
-          espacios para actividades que promuevan el bienestar a través de tres
-          compromisos.
+          Creemos en el poder de la conexión y el aprendizaje conjunto. Por eso
+          abrimos estos espacios a actividades que promuevan el bienestar físico,
+          mental y emocional.
         </p>
       </header>
 
-      <ul class="nosotros__pilares grid-auto reveal-secuencia">
+      <ul class="nosotros__pilares grid-3 reveal-secuencia">
 
         <li class="tarjeta nosotros__pilar reveal">
-          <div class="tarjeta__cuerpo">
+          <figure class="nosotros__pilar-foto">
+            <img
+              src="img/parque/parque-19.jpg"
+              width="900"
+              height="1200"
+              alt="Jardín del predio con heliconias en flor y una cama circular de grava; al fondo, un ave pintada en la pared de la caseta."
+              loading="lazy"
+              decoding="async"
+            />
             <span class="nosotros__pilar-indice" aria-hidden="true">01</span>
-            <h4 class="nosotros__pilar-titulo">Educación ambiental y conciencia social</h4>
+          </figure>
+          <div class="tarjeta__cuerpo">
+            <h4 class="nosotros__pilar-titulo">Aprender con el bosque delante</h4>
             <p>
-              Talleres educativos y de jardinería, avistamiento de aves y mariposas, y
-              el Sendero Ecovital para observar de cerca las plantas del lugar.
+              Educación ambiental y conciencia social: talleres educativos y de
+              jardinería, avistamiento de aves y mariposas, y el Sendero Ecovital
+              para ver de cerca las plantas del lugar.
             </p>
           </div>
         </li>
 
         <li class="tarjeta nosotros__pilar reveal">
-          <div class="tarjeta__cuerpo">
+          <figure class="nosotros__pilar-foto">
+            <img
+              src="img/parque/parque-31.jpg"
+              width="1200"
+              height="675"
+              alt="Grupo de adultos sentados en círculo sobre el prado, con esterillas en el suelo y los árboles del predio detrás."
+              loading="lazy"
+              decoding="async"
+            />
             <span class="nosotros__pilar-indice" aria-hidden="true">02</span>
-            <h4 class="nosotros__pilar-titulo">Relaciones sanas y respetuosas</h4>
+          </figure>
+          <div class="tarjeta__cuerpo">
+            <h4 class="nosotros__pilar-titulo">Encontrarse sin pantallas de por medio</h4>
             <p>
-              Reuniones familiares, sociales y corporativas, mindfulness y talleres
-              para el manejo de las emociones, en espacios pensados para el encuentro.
+              Relaciones sanas y respetuosas: reuniones familiares, sociales y
+              corporativas, mindfulness y talleres para el manejo de las
+              emociones, en espacios pensados para el encuentro.
             </p>
           </div>
         </li>
 
         <li class="tarjeta nosotros__pilar reveal">
-          <div class="tarjeta__cuerpo">
+          <figure class="nosotros__pilar-foto">
+            <img
+              src="img/parque/parque-08.jpg"
+              width="675"
+              height="1200"
+              alt="Zona ajardinada del predio con arbustos y sansevierias en primer plano, la pérgola abierta al fondo y los árboles del lindero cerrando el horizonte."
+              loading="lazy"
+              decoding="async"
+            />
             <span class="nosotros__pilar-indice" aria-hidden="true">03</span>
-            <h4 class="nosotros__pilar-titulo">Respeto por la naturaleza y por los demás</h4>
+          </figure>
+          <div class="tarjeta__cuerpo">
+            <h4 class="nosotros__pilar-titulo">Dejarlo todo como estaba</h4>
             <p>
-              Aquí conviven 101 especies de aves y 347 de plantas, entre ellas el Cedro
-              y el Guayacán Amarillo, valiosos para la conservación.
+              Respeto por la naturaleza y por los demás: aquí conviven 101
+              especies de aves y 347 de plantas. El plan pasa; el bosque se
+              queda.
             </p>
           </div>
         </li>
@@ -136,34 +179,82 @@
 
   </div>
 
-  <!-- (c) CIFRAS ------------------------------------------------------------ -->
+  <!-- (c) CIFRAS ------------------------------------------------------------
+       Tarjetas con foto real de fondo. Los velos de legibilidad están
+       calculados para que el amarillo de .cifra y la crema de .cifra-etiqueta
+       pasen AA incluso sobre el píxel más claro de cada foto (ver nosotros.css).
+       ----------------------------------------------------------------------- -->
   <section class="nosotros__cifras seccion--oscura" aria-labelledby="cifras-titulo">
     <div class="contenedor contenedor--ancho">
 
-      <h3 class="titulo-seccion titulo-seccion--xs nosotros__cifras-titulo" id="cifras-titulo">
-        Vegas del Verde en cifras
+      <h3 class="titulo-seccion titulo-seccion--sm nosotros__cifras-titulo" id="cifras-titulo">
+        El plan viene acompañado
       </h3>
 
       <ul class="nosotros__cifras-lista grid-4 reveal-secuencia">
 
         <li class="nosotros__cifra reveal">
-          <span class="cifra" data-contador="101">101</span>
-          <span class="cifra-etiqueta">Especies de aves registradas</span>
+          <img
+            class="nosotros__cifra-foto"
+            src="img/parque/parque-09.jpg"
+            width="675"
+            height="1200"
+            alt="Dosel cerrado de árboles altos sobre el prado del predio, el hábitat donde se registran las aves."
+            loading="lazy"
+            decoding="async"
+          />
+          <span class="nosotros__cifra-dato">
+            <span class="cifra" data-contador="101">101</span>
+            <span class="cifra-etiqueta">Especies de aves registradas</span>
+          </span>
         </li>
 
         <li class="nosotros__cifra reveal">
-          <span class="cifra" data-contador="347">347</span>
-          <span class="cifra-etiqueta">Especies de plantas</span>
+          <img
+            class="nosotros__cifra-foto"
+            src="img/parque/parque-61.jpg"
+            width="900"
+            height="1200"
+            alt="Sendero de losas del predio entre matas de heliconias y jengibres en flor, arbustos y árboles jóvenes."
+            loading="lazy"
+            decoding="async"
+          />
+          <span class="nosotros__cifra-dato">
+            <span class="cifra" data-contador="347">347</span>
+            <span class="cifra-etiqueta">Especies de plantas</span>
+          </span>
         </li>
 
         <li class="nosotros__cifra reveal">
-          <span class="cifra" data-contador="4">4</span>
-          <span class="cifra-etiqueta">Hectáreas de bosque</span>
+          <img
+            class="nosotros__cifra-foto"
+            src="img/parque/parque-17.jpg"
+            width="675"
+            height="1200"
+            alt="Camino de césped y grava que se interna entre los árboles hacia el fondo del predio."
+            loading="lazy"
+            decoding="async"
+          />
+          <span class="nosotros__cifra-dato">
+            <span class="cifra" data-contador="4">4</span>
+            <span class="cifra-etiqueta">Hectáreas de bosque</span>
+          </span>
         </li>
 
         <li class="nosotros__cifra reveal">
-          <span class="cifra" data-contador="20">20</span>
-          <span class="cifra-etiqueta">Familias botánicas</span>
+          <img
+            class="nosotros__cifra-foto"
+            src="img/parque/parque-13.jpg"
+            width="800"
+            height="1200"
+            alt="Cactus de pala junto a la zona de grava del predio, con la pérgola de guadua y las materas al fondo."
+            loading="lazy"
+            decoding="async"
+          />
+          <span class="nosotros__cifra-dato">
+            <span class="cifra" data-contador="20">20</span>
+            <span class="cifra-etiqueta">Familias botánicas</span>
+          </span>
         </li>
 
       </ul>
@@ -171,73 +262,74 @@
     </div>
   </section>
 
-  <!-- (d) SERVICIOS DEL PREDIO ---------------------------------------------- -->
+  <!-- (d) SERVICIOS DEL PREDIO ----------------------------------------------
+       Deliberadamente discreto: una sola tira, sin tarjetas. Los iconos aquí
+       son legítimos porque representan conceptos abstractos (wifi, horario,
+       vigilancia), no cosas que se puedan fotografiar.
+       ----------------------------------------------------------------------- -->
   <section class="nosotros__servicios" aria-labelledby="servicios-titulo">
     <div class="contenedor">
 
-      <header class="seccion-encabezado centrado reveal">
-        <p class="eyebrow">Incluido en el predio</p>
-        <h3 class="titulo-seccion titulo-seccion--sm" id="servicios-titulo">
-          Servicios del predio
+      <div class="nosotros__servicios-tira reveal">
+
+        <h3 class="titulo-seccion titulo-seccion--xs nosotros__servicios-titulo" id="servicios-titulo">
+          Lo básico, resuelto
         </h3>
-      </header>
 
-      <ul class="nosotros__servicios-lista grid-4 reveal-secuencia">
+        <ul class="nosotros__servicios-lista">
 
-        <li class="nosotros__servicio reveal">
-          <span class="nosotros__servicio-icono" aria-hidden="true">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"
-                 stroke-linecap="round" stroke-linejoin="round" focusable="false">
+          <li class="nosotros__servicio">
+            <svg class="nosotros__servicio-icono" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                 stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"
+                 aria-hidden="true" focusable="false">
               <path d="M2.6 9.1a14.4 14.4 0 0 1 18.8 0" />
               <path d="M5.9 12.8a9.6 9.6 0 0 1 12.2 0" />
               <path d="M9.1 16.5a4.7 4.7 0 0 1 5.8 0" />
               <circle cx="12" cy="19.9" r="1.1" fill="currentColor" stroke="none" />
             </svg>
-          </span>
-          <span class="nosotros__servicio-nombre">Wifi</span>
-        </li>
+            Wifi
+          </li>
 
-        <li class="nosotros__servicio reveal">
-          <span class="nosotros__servicio-icono" aria-hidden="true">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"
-                 stroke-linecap="round" stroke-linejoin="round" focusable="false">
+          <li class="nosotros__servicio">
+            <svg class="nosotros__servicio-icono" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                 stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"
+                 aria-hidden="true" focusable="false">
               <rect x="4.25" y="2.75" width="15.5" height="18.5" rx="2.75" />
               <circle cx="12" cy="7.9" r="1.5" />
               <path d="M9.5 16.6 12 10.9l2.5 5.7" />
               <path d="M10.4 14.5h3.2" />
             </svg>
-          </span>
-          <span class="nosotros__servicio-nombre">Baños</span>
-        </li>
+            Baños
+          </li>
 
-        <li class="nosotros__servicio reveal">
-          <span class="nosotros__servicio-icono" aria-hidden="true">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"
-                 stroke-linecap="round" stroke-linejoin="round" focusable="false">
+          <li class="nosotros__servicio">
+            <svg class="nosotros__servicio-icono" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                 stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"
+                 aria-hidden="true" focusable="false">
               <path d="M12 2.8 4.9 5.6v5.7c0 4.4 3 8.4 7.1 9.9 4.1-1.5 7.1-5.5 7.1-9.9V5.6L12 2.8Z" />
               <path d="m8.9 11.9 2.2 2.2 4-4.3" />
             </svg>
-          </span>
-          <span class="nosotros__servicio-nombre">Vigilancia privada</span>
-        </li>
+            Vigilancia privada
+          </li>
 
-        <li class="nosotros__servicio reveal">
-          <span class="nosotros__servicio-icono" aria-hidden="true">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"
-                 stroke-linecap="round" stroke-linejoin="round" focusable="false">
+          <li class="nosotros__servicio">
+            <svg class="nosotros__servicio-icono" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                 stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"
+                 aria-hidden="true" focusable="false">
               <rect x="3.25" y="3.25" width="17.5" height="17.5" rx="4.25" />
               <path d="M9.8 17.1V7.4h3.2a2.9 2.9 0 0 1 0 5.9H9.8" />
             </svg>
-          </span>
-          <span class="nosotros__servicio-nombre">Parqueadero</span>
-        </li>
+            Parqueadero
+          </li>
 
-      </ul>
+        </ul>
 
-      <p class="nosotros__servicios-pie reveal">
-        Abierto de lunes a domingo, de 6:00&nbsp;a.&nbsp;m. a 10:00&nbsp;p.&nbsp;m.
-        <a class="enlace-flecha" href="#ubicacion">Cómo llegar</a>
-      </p>
+        <p class="nosotros__servicios-pie">
+          Abierto de lunes a domingo, de 6:00&nbsp;a.&nbsp;m. a 10:00&nbsp;p.&nbsp;m.
+          <a class="enlace-flecha" href="#ubicacion">Cómo llegar</a>
+        </p>
+
+      </div>
 
     </div>
   </section>

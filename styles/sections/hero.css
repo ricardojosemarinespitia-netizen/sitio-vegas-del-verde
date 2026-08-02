@@ -1,29 +1,58 @@
 /* ==========================================================================
-   VEGAS DEL VERDE — hero.css  ·  sección #inicio
+   VEGAS DEL VERDE — hero.css  ·  sección #inicio  ·  v2 «Vende la escapada»
    Depende de tokens.css + base.css. Ningún valor literal de color, tamaño de
    fuente, radio, sombra ni duración: todo sale de los tokens.
+
+   ESTRUCTURA
+     .hero                       rejilla de dos filas: contenido (1fr) + aves (auto)
+       .hero__lienzo             foto aérea + <video> futuro + velo
+       .hero__contenido          marca · titular · entradilla · CTAs
+       .hero__aves               franja de seis aves + ancla a #aves
+
+   POR QUÉ EL VELO ES TAN OSCURO
+   El render aéreo tiene tejados y caminos claros: hay píxeles con luminancia
+   relativa 0,95 justo detrás del titular. Para que la crema mantenga 4,5:1
+   INCLUSO sobre blanco puro, el velo necesita 0,68 de opacidad; se dejó en
+   0,74 en la banda del texto (≈5,7:1 en el peor caso) y 0,90 bajo la franja
+   de aves. Lo cinematográfico no lo pone la transparencia: lo ponen la
+   viñeta, el descenso de cámara y el contraste entre el centro y los bordes.
+   Por la misma razón, en el hero NO se usa --color-texto-inverso-suave para
+   texto: sobre el peor píxel se queda en 4,3:1. La jerarquía se construye con
+   cuerpo y peso, nunca bajando el contraste.
    ========================================================================== */
 
 .hero {
   position: relative;
   isolation: isolate;
   overflow: hidden;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
+  display: grid;
+  /* fila 1: el mensaje, centrado en el aire que quede.  fila 2: las aves. */
+  grid-template-rows: 1fr auto;
   /* fallback para navegadores sin unidades svh (Safari iOS ≤ 15) */
   min-height: clamp(30rem, 88vh, 54rem);
   min-height: var(--alto-hero);
-  padding-top: calc(var(--alto-header) + var(--esp-xl));
-  /* deja sitio bajo los botones para el indicador de scroll */
-  padding-bottom: var(--esp-4xl);
+  padding-top: calc(var(--alto-header) + var(--esp-lg));
   background-color: var(--color-fondo-oscuro);
   color: var(--color-texto-inverso);
   scroll-margin-top: 0;
 }
 
+/* En el hero no hay fondo sólido bajo los enlaces: el acento de texto cálido
+   (--color-acento-texto, terracota) no llega a 4,5:1 sobre el velo. Se usa la
+   variante clara del coral, que sobre la franja de aves da 7,05:1 medido.
+   AVISO PARA QUIEN AÑADA CONTENIDO: ese mismo coral claro en la banda CENTRAL
+   del hero (velo 0,74) se queda en 3,64:1. Si hace falta un enlace de texto
+   ahí, va en --color-texto-inverso (6,86:1), no en el acento.               */
+.hero a:not(.btn) {
+  color: var(--color-acento-inverso);
+}
+
+.hero a:not(.btn):hover {
+  color: var(--color-texto-inverso);
+}
+
 /* ==========================================================================
-   1. FONDO — render aéreo + velo
+   1. LIENZO — render aéreo, vídeo futuro y velo
    ========================================================================== */
 .hero__lienzo {
   position: absolute;
@@ -33,18 +62,26 @@
 
 /* El render es apaisado (2000 × 1013). En vertical se encuadra hacia la
    izquierda para no perder la alameda y las construcciones del centro. */
-.hero__imagen {
+.hero__imagen,
+.hero__video {
   width: 100%;
   height: 100%;
   object-fit: cover;
   object-position: 44% 46%;
+}
+
+.hero__imagen {
   transform: scale(1.04);
   transform-origin: 44% 46%;
 }
 
 @media (min-width: 48em) {
-  .hero__imagen {
+  .hero__imagen,
+  .hero__video {
     object-position: 50% 48%;
+  }
+
+  .hero__imagen {
     transform-origin: 50% 48%;
   }
 }
@@ -65,24 +102,55 @@
   }
 }
 
+/* ---- VÍDEO FUTURO -------------------------------------------------------
+   Mientras el <video> lleve el atributo `hidden` no ocupa ni pide nada.
+   Al activarlo (ver la nota de sections/hero.html) se le añade al <section>
+   la clase .hero--con-video: el vídeo pasa a cubrir el lienzo y la foto se
+   queda debajo como poster permanente, así que un fallo de red no deja
+   nunca un hueco negro.                                                    */
+.hero__video {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  transition: opacity var(--dur-lenta) var(--ease);
+}
+
+.hero--con-video .hero__video {
+  opacity: 1;
+}
+
+/* Quien pide menos movimiento se queda con la foto fija, no con el vídeo. */
+@media (prefers-reduced-motion: reduce) {
+  .hero__video {
+    display: none;
+  }
+}
+
+/* ---- VELO ---------------------------------------------------------------
+   Dos capas: (1) viñeta radial, que es la que da el aire de plano de cine;
+   (2) degradado vertical, que es el que garantiza el contraste del texto. */
 .hero__velo {
   position: absolute;
   inset: 0;
-  background-color: var(--color-velo);
+  background-image: radial-gradient(
+    ellipse 118% 88% at 50% 40%,
+    rgb(var(--verde-bosque-hondo-rgb) / 0) 30%,
+    rgb(var(--verde-bosque-hondo-rgb) / 0.34) 74%,
+    rgb(var(--verde-bosque-hondo-rgb) / 0.62) 100%
+  );
 }
 
-/* Segunda capa: oscurece arriba (bajo la cabecera) y abajo (bajo los botones)
-   para llevar el texto por encima de 4.5:1 sin apagar el verde del render. */
 .hero__velo::after {
   content: "";
   position: absolute;
   inset: 0;
   background-image: linear-gradient(
     to bottom,
-    rgb(var(--tinta-rgb) / 0.46) 0%,
-    rgb(var(--tinta-rgb) / 0.12) 26%,
-    rgb(var(--tinta-rgb) / 0.34) 62%,
-    rgb(var(--tinta-rgb) / 0.68) 100%
+    rgb(var(--verde-bosque-hondo-rgb) / 0.64) 0%,
+    rgb(var(--verde-bosque-hondo-rgb) / 0.46) 15%,
+    rgb(var(--verde-bosque-hondo-rgb) / 0.74) 38%,
+    rgb(var(--verde-bosque-hondo-rgb) / 0.74) 74%,
+    rgb(var(--verde-bosque-hondo-rgb) / 0.9) 100%
   );
 }
 
@@ -92,65 +160,59 @@
 .hero__contenido {
   position: relative;
   z-index: var(--z-base);
+  align-self: center;
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: var(--esp-md);
+  padding-block: var(--esp-lg);
   text-align: center;
 }
 
+/* ---- Marca contenida: símbolo pequeño + logotipo en la fuente de etiqueta.
+   NUNCA en --fuente-display: en Fraunces el logotipo no se parece al logo. */
+.hero__marca {
+  display: flex;
+  align-items: center;
+  gap: var(--esp-xs);
+  max-width: none;
+  margin: 0;
+}
+
 .hero__simbolo {
-  width: var(--esp-3xl);
+  width: var(--esp-lg);
   height: auto;
   background: none;
 }
 
+.hero__logotipo {
+  font-size: var(--fs-cuerpo);
+  line-height: var(--alto-linea-titulo);
+  color: var(--color-texto-inverso);
+}
+
 @media (min-width: 48em) {
   .hero__simbolo {
-    width: var(--esp-4xl);
+    width: var(--esp-xl);
   }
 }
 
-.hero__wordmark {
-  font-family: var(--fuente-display);
+/* ---- Titular: la promesa. Hereda Fraunces de h1 (base.css): aquí sólo se
+   ajustan cuerpo y color. No se declara font-family. --------------------- */
+.hero__titular {
   font-size: var(--fs-hero);
-  font-weight: var(--peso-normal);
-  line-height: var(--alto-linea-apretado);
-  text-transform: uppercase;
-  letter-spacing: var(--track-caps);
-  /* compensa el tracking sobrante de la última letra en un texto centrado */
-  margin-inline-end: calc(var(--track-caps) * -1);
+  max-width: var(--ancho-md);
   color: var(--color-texto-inverso);
   text-wrap: balance;
 }
 
-/* Filete fino: eco de las reglas horizontales del logotipo. */
-.hero__filete {
-  display: block;
-  width: min(100%, var(--esp-4xl));
-  height: 1px;
-  background-color: var(--color-borde-inverso);
-}
-
-.hero__tagline {
-  max-width: none;
-  font-family: var(--fuente-titulo);
-  font-size: var(--fs-h4);
-  font-weight: var(--peso-ligero);
-  line-height: var(--alto-linea-titulo);
-  text-transform: uppercase;
-  letter-spacing: var(--track-eyebrow);
-  margin-inline-end: calc(var(--track-eyebrow) * -1);
-  color: var(--color-acento);
-}
-
-.hero__lugar {
+.hero__entrada {
   max-width: var(--medida-corta);
   margin-inline: auto;
   font-size: var(--fs-grande);
   font-weight: var(--peso-ligero);
   line-height: var(--alto-linea-suelto);
-  color: var(--color-texto-inverso-suave);
+  color: var(--color-texto-inverso);
 }
 
 .hero__acciones {
@@ -159,78 +221,163 @@
 }
 
 /* ==========================================================================
-   3. INDICADOR DE SCROLL
+   3. FRANJA DE AVES
+   Las 57 fotos del concurso dejan de vivir sólo en su galería: seis de ellas
+   abren el sitio. La franja lleva su propio degradado para que el crédito y
+   el enlace tengan fondo garantizado, caiga donde caiga el borde de la foto.
    ========================================================================== */
-.hero__bajar {
-  position: absolute;
-  left: 50%;
-  bottom: var(--esp-md);
-  transform: translateX(-50%);
+.hero__aves {
+  --tam-ave: var(--esp-xl);
+
+  position: relative;
   z-index: var(--z-base);
-  display: inline-flex;
+  display: flex;
   flex-direction: column;
   align-items: center;
+  gap: var(--esp-xs);
+  padding: var(--esp-xl) var(--padding-contenedor) var(--esp-md);
+  text-align: center;
+  background-image: linear-gradient(
+    to top,
+    rgb(var(--verde-bosque-hondo-rgb) / 0.85) 40%,
+    rgb(var(--verde-bosque-hondo-rgb) / 0) 100%
+  );
+}
+
+.hero__aves-tira {
+  display: flex;
+  flex-wrap: nowrap;
+  justify-content: center;
   gap: var(--esp-2xs);
-  padding: var(--esp-2xs);
-  text-decoration: none;
-  color: var(--color-texto-inverso-suave);
-  transition: color var(--transicion-rapida);
+  margin: 0;
 }
 
-.hero__bajar:hover {
-  color: var(--color-acento);
+.hero__ave {
+  flex: none;
+  width: var(--tam-ave);
+  height: var(--tam-ave);
+  overflow: hidden;
+  border-radius: var(--radio-full);
+  border: 1px solid var(--color-borde-inverso);
+  box-shadow: var(--sombra-sm);
+  transition: transform var(--transicion);
 }
 
-.hero__bajar-texto {
+.hero__ave img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  background: none;
+}
+
+/* Encuadre por foto: en un recorte circular tan pequeño el centro geométrico
+   casi nunca es el ave. Los porcentajes salen de mirar cada archivo. */
+.hero__ave:nth-child(1) img { object-position: 50% 30%; } /* barranquero */
+.hero__ave:nth-child(2) img { object-position: 58% 32%; } /* carpintero  */
+.hero__ave:nth-child(3) img { object-position: 45% 45%; } /* canario     */
+.hero__ave:nth-child(4) img { object-position: 52% 58%; } /* periquito   */
+.hero__ave:nth-child(5) img { object-position: 62% 42%; } /* colibrí     */
+.hero__ave:nth-child(6) img { object-position: 48% 33%; } /* azulejo     */
+
+/* Móvil: cuatro aves. Las dos últimas se ocultan sin mover nada más; el
+   orden del HTML garantiza que las cuatro visibles ya cubren las cuatro
+   familias de color (turquesa, rojo, amarillo, verde).
+   Además se recorta el aire vertical: medido en un iPhone de 812 px de alto,
+   con los valores de escritorio el hero mide 849 px y la franja de aves cae
+   entera por debajo del pliegue. Con este recorte mide 777 px y asoma.     */
+@media (max-width: 47.99em) {
+  .hero__ave--extra {
+    display: none;
+  }
+
+  .hero {
+    padding-top: calc(var(--alto-header) + var(--esp-sm));
+  }
+
+  .hero__contenido {
+    gap: var(--esp-sm);
+    padding-block: var(--esp-md);
+  }
+
+  .hero__aves {
+    padding-top: var(--esp-lg);
+  }
+}
+
+@media (min-width: 48em) {
+  .hero__aves {
+    --tam-ave: var(--esp-2xl);
+
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    gap: var(--esp-md);
+    text-align: left;
+  }
+}
+
+.hero__aves-texto {
+  display: flex;
+  flex-direction: column;
+  gap: var(--esp-3xs);
+  align-items: center;
+}
+
+@media (min-width: 48em) {
+  .hero__aves-texto {
+    align-items: flex-start;
+  }
+}
+
+.hero__aves-enlace {
   font-family: var(--fuente-titulo);
-  font-size: var(--fs-micro);
+  font-size: var(--fs-pequeno);
   font-weight: var(--peso-medio);
   text-transform: uppercase;
-  letter-spacing: var(--track-eyebrow);
-  margin-inline-end: calc(var(--track-eyebrow) * -1);
+  letter-spacing: var(--track-boton);
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5em;
 }
 
-.hero__bajar-linea {
-  position: relative;
-  display: block;
-  width: 1px;
-  height: var(--esp-lg);
-  overflow: hidden;
-  background-color: var(--color-borde-inverso);
+.hero__aves-enlace::after {
+  content: "↓";
+  transition: transform var(--transicion-rapida);
 }
 
-.hero__bajar-linea::after {
-  content: "";
-  position: absolute;
-  inset-inline: 0;
-  top: 0;
-  height: 55%;
-  background-color: var(--color-acento);
+.hero__aves-enlace:hover::after {
+  transform: translateY(0.2em);
+}
+
+/* El crédito al fotógrafo NUNCA se oculta ni se aclara por debajo de AA:
+   crema al 78 % sobre este degradado da 6,8:1.                            */
+.hero__aves-credito {
+  max-width: var(--medida);
+  font-size: var(--fs-micro);
+  line-height: var(--alto-linea-titulo);
+  letter-spacing: 0.04em;
+  color: var(--color-texto-inverso-suave);
 }
 
 @media (prefers-reduced-motion: no-preference) {
-  .hero__bajar-linea::after {
-    animation: hero-goteo calc(var(--dur-vuelo) / 2) var(--ease-suave) infinite;
+  .hero__ave:hover {
+    transform: translateY(calc(var(--esp-3xs) * -1)) scale(var(--escala-hover));
   }
 }
 
-@keyframes hero-goteo {
-  0% {
-    transform: translateY(-110%);
-  }
-  65%,
-  100% {
-    transform: translateY(200%);
-  }
-}
-
-/* Móvil apaisado: no hay aire para el indicador. */
+/* Móvil apaisado: hay muy poco alto: se recorta el aire, no el contenido. */
 @media (max-height: 34em) {
   .hero {
-    padding-bottom: var(--esp-xl);
+    min-height: 0;
+    padding-top: calc(var(--alto-header) + var(--esp-sm));
   }
 
-  .hero__bajar {
-    display: none;
+  .hero__contenido {
+    padding-block: var(--esp-sm);
+  }
+
+  .hero__aves {
+    padding-top: var(--esp-lg);
   }
 }

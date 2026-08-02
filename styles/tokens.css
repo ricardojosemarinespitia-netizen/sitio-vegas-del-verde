@@ -1,84 +1,155 @@
 /* ==========================================================================
-   VEGAS DEL VERDE — tokens.css
+   VEGAS DEL VERDE — tokens.css  ·  v2 «Vende la escapada»
    Única fuente de verdad de color, tipografía, ritmo y movimiento.
    NINGÚN otro archivo puede declarar valores literales de color, tamaño de
    fuente, radio, sombra o duración. Si falta un token, se pide al director
    de arte; no se inventa.
+
+   QUÉ CAMBIÓ EN v2 (los NOMBRES se conservan, los VALORES se ajustan):
+   · La dominante deja de ser el oliva y pasa a ser el VERDE BOSQUE #1E3D2F.
+   · El oliva baja a rol secundario (aclarado y entibiado a #5E6E3C).
+   · La crema de fondo gana temperatura (#F2EFE9 → #F7F2E7).
+   · La tinta deja de ser azulada y pasa a ser tinta verde (#1A2B33 → #16281F).
+   · Nace el acento de ACCIÓN cálido: --coral #E0703C, mezcla real del
+     amarillo (#E4CB3A) y el rojo baya (#E84C40) del logo. Los CTA dejan
+     de ser verde menta.
+   · El display pasa de Poiret One a FRAUNCES (carácter editorial).
+   · Los títulos de sección dejan de ir en MAYÚSCULAS espaciadas.
+
+   >>> EL INTEGRADOR DEBE SUSTITUIR EL <link> DE FUENTES DEL <head> POR ESTE:
+
+       <link rel="preconnect" href="https://fonts.googleapis.com">
+       <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+       <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300..700&family=Jost:wght@300;400;500&display=swap">
+
+       (Poiret One y Josefin Sans YA NO SE CARGAN: bórralas del <head>.)
+       Opcional, si se quieren los ejes SOFT y WONK de Fraunces —los usa
+       base.css y se ignoran solos si no están—, usa este otro href:
+       https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght,SOFT,WONK@9..144,300..700,0..100,0..1&family=Jost:wght@300;400;500&display=swap
    ========================================================================== */
 
 :root {
   /* ---------------------------------------------------------------------
-     1. PALETA DE MARCA (extraída del logo y del portafolio — EXACTA)
+     1. PALETA DE MARCA
+     Todo sale del logo real. Los tres colores literales del logo
+     (menta, teal, amarillo, baya) NO se tocan; los neutros se entibian.
      --------------------------------------------------------------------- */
-  --verde-oliva: #566438;   /* bandas y encabezados del portafolio */
-  --verde-menta: #50c58e;   /* hojas del logo · acento principal */
-  --teal: #4b7f7d;          /* lettering "VEGAS DEL VERDE" */
-  --salvia: #dbe7d3;        /* fondo claro del logo */
-  --gris-verde: #bac4b4;
-  --crema: #f2efe9;         /* fondo de página del portafolio */
-  --amarillo: #e4cb3a;      /* círculos del logo */
-  --rojo-baya: #e84c40;     /* bayas del logo */
-  --tinta: #1a2b33;         /* texto oscuro */
-  --verde-texto: #2e6b2e;   /* verde de párrafos del portafolio */
+
+  /* — Verdes — */
+  --verde-bosque: #1e3d2f;       /* NUEVO · DOMINANTE: fondos oscuros, marca  */
+  --verde-bosque-hondo: #14291f; /* NUEVO · pie de sitio, degradados, veladuras */
+  --verde-oliva: #5e6e3c;        /* era #566438 · ahora SECUNDARIO            */
+  --verde-menta: #50c58e;        /* = hojas del logo · intacto               */
+  --teal: #4b7f7d;               /* = lettering «VEGAS DEL VERDE» · intacto  */
+  --verde-texto: #2f5f41;        /* era #2e6b2e · verde de párrafo, entibiado */
+
+  /* — Neutros cálidos — */
+  --salvia: #dde5cd;             /* era #dbe7d3 · fondo claro del logo, +cálido */
+  --gris-verde: #c2c7b3;         /* era #bac4b4                              */
+  --crema: #f7f2e7;              /* era #f2efe9 · fondo de página, +cálido   */
+  --tinta: #16281f;              /* era #1a2b33 · tinta VERDE, ya no azulada */
   --blanco: #ffffff;
+
+  /* — Cálidos: el acento de ACCIÓN — */
+  --amarillo: #e4cb3a;           /* = círculos del logo · intacto            */
+  --rojo-baya: #e84c40;          /* = bayas del logo · intacto               */
+  --coral: #e0703c;              /* NUEVO · amarillo × baya. El «atrévete».  */
+  --coral-hondo: #a8452a;        /* NUEVO · versión legible como TEXTO       */
+  --coral-claro: #f0a072;        /* NUEVO · versión legible sobre bosque     */
 
   /* Mismos colores en triplete RGB, para transparencias:
      rgb(var(--tinta-rgb) / 0.12)                                        */
-  --verde-oliva-rgb: 86 100 56;
+  --verde-bosque-rgb: 30 61 47;
+  --verde-bosque-hondo-rgb: 20 41 31;
+  --verde-oliva-rgb: 94 110 60;
   --verde-menta-rgb: 80 197 142;
   --teal-rgb: 75 127 125;
-  --salvia-rgb: 219 231 211;
-  --gris-verde-rgb: 186 196 180;
-  --crema-rgb: 242 239 233;
+  --verde-texto-rgb: 47 95 65;
+  --salvia-rgb: 221 229 205;
+  --gris-verde-rgb: 194 199 179;
+  --crema-rgb: 247 242 231;
+  --tinta-rgb: 22 40 31;
   --amarillo-rgb: 228 203 58;
   --rojo-baya-rgb: 232 76 64;
-  --tinta-rgb: 26 43 51;
+  --coral-rgb: 224 112 60;
+  --coral-hondo-rgb: 168 69 42;
+  --coral-claro-rgb: 240 160 114;
   --blanco-rgb: 255 255 255;
 
   /* ---------------------------------------------------------------------
      2. ROLES SEMÁNTICOS  (usar SIEMPRE estos, no los de marca directamente)
+     Todos los pares texto/fondo verificados ≥ 4.5:1 (AA).
      --------------------------------------------------------------------- */
   --color-fondo: var(--crema);
-  --color-fondo-alt: var(--salvia);          /* franjas alternas */
-  --color-fondo-oscuro: var(--tinta);        /* secciones en negativo */
-  --color-superficie: rgb(var(--blanco-rgb) / 0.66);   /* tarjetas sobre crema */
-  --color-superficie-solida: #faf8f4;
-  --color-superficie-oscura: rgb(var(--blanco-rgb) / 0.07); /* tarjetas sobre tinta */
+  --color-fondo-alt: var(--salvia);            /* franjas alternas          */
+  --color-fondo-oscuro: var(--verde-bosque);   /* secciones en negativo     */
+  --color-fondo-hondo: var(--verde-bosque-hondo); /* pie de sitio           */
+  --color-superficie: rgb(var(--blanco-rgb) / 0.62);   /* tarjetas sobre crema */
+  --color-superficie-solida: #fdfaf1;
+  --color-superficie-oscura: rgb(var(--crema-rgb) / 0.07); /* sobre bosque  */
 
-  --color-texto: var(--tinta);
-  --color-texto-suave: #566266;              /* 5.4:1 sobre crema — AA */
-  --color-texto-inverso: var(--crema);
-  --color-texto-inverso-suave: rgb(var(--crema-rgb) / 0.74);
+  --color-texto: var(--tinta);                       /* 13.9:1 sobre crema  */
+  --color-texto-suave: #4f5f53;                      /*  6.1:1 sobre crema  */
+  --color-texto-inverso: var(--crema);               /* 10.7:1 sobre bosque */
+  --color-texto-inverso-suave: rgb(var(--crema-rgb) / 0.78); /* 7.2:1       */
 
-  --color-acento: var(--verde-menta);        /* decorativo / sobre oscuro */
-  --color-acento-texto: var(--verde-oliva);  /* acento legible sobre claro */
-  --color-acento-alt: var(--teal);           /* solo texto grande (≥24px) */
-  --color-destacado: var(--amarillo);
+  /* ACCIÓN — el CTA. Relleno coral + etiqueta tinta = 4.8:1 (AA).
+     El borde --color-accion-borde existe para que el botón tenga 3:1 de
+     contraste de contorno contra la crema (WCAG 1.4.11).                  */
+  --color-accion: var(--coral);
+  --color-accion-texto: var(--tinta);
+  --color-accion-borde: var(--coral-hondo);
+  --color-accion-hover: var(--verde-bosque);   /* invierte a bosque + crema */
+
+  /* ACENTO — cálido cuando es texto sobre claro, verde cuando es
+     decorativo o va sobre oscuro.                                          */
+  --color-acento: var(--verde-menta);          /* 5.5:1 sobre bosque        */
+  --color-acento-texto: var(--coral-hondo);    /* 5.3:1 sobre crema         */
+  --color-acento-alt: var(--verde-oliva);      /* 5.0:1 sobre crema         */
+  --color-acento-inverso: var(--coral-claro);  /* 5.7:1 sobre bosque        */
+  --color-destacado: var(--amarillo);          /* 7.3:1 sobre bosque        */
   --color-alerta: var(--rojo-baya);
 
-  --color-borde: var(--gris-verde);
-  --color-borde-suave: rgb(var(--verde-oliva-rgb) / 0.18);
-  --color-borde-inverso: rgb(var(--crema-rgb) / 0.18);
-  --color-velo: rgb(var(--tinta-rgb) / 0.55);   /* overlay sobre fotos */
+  --color-borde: var(--gris-verde);            /* filetes decorativos       */
+  --color-borde-fuerte: var(--verde-oliva);    /* contornos de componente   */
+  --color-borde-suave: rgb(var(--verde-bosque-rgb) / 0.16);
+  --color-borde-inverso: rgb(var(--crema-rgb) / 0.2);
+  --color-velo: rgb(var(--verde-bosque-hondo-rgb) / 0.55);  /* sobre fotos  */
+  --color-velo-modal: rgb(var(--verde-bosque-hondo-rgb) / 0.74);
 
   /* ---------------------------------------------------------------------
      3. TIPOGRAFÍA
+     --fuente-display  → titulares y cifras. Fraunces: serif editorial de
+                         contraste alto que conversa con el trazo déco del
+                         logo sin imitarlo.
+     --fuente-titulo   → REDEFINIDA en v2: ya no es un segundo display,
+                         es LA FUENTE DE ETIQUETA (eyebrow, botón, píldora,
+                         micro-caps). Jost = Futura de los años 20, misma
+                         familia geométrica que el lettering del logo.
+     --fuente-cuerpo   → Jost.
      --------------------------------------------------------------------- */
-  --fuente-display: "Poiret One", "Josefin Sans", "Century Gothic", serif;
-  --fuente-titulo: "Josefin Sans", "Poiret One", "Century Gothic", sans-serif;
+  --fuente-display: "Fraunces", "Marcellus", Georgia, "Times New Roman", serif;
+  --fuente-titulo: "Jost", "Josefin Sans", -apple-system, BlinkMacSystemFont,
+    "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
   --fuente-cuerpo: "Jost", "Josefin Sans", -apple-system, BlinkMacSystemFont,
     "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
 
-  /* Escala fluida 375px → 1440px */
+  /* Ejes variables de Fraunces. Si el <link> no los pide, se ignoran solos. */
+  --ejes-display: "SOFT" 22, "WONK" 1;
+  --ejes-display-sobrio: "SOFT" 14, "WONK" 0;
+
+  /* Escala fluida 375px → 1440px.
+     Los dos pasos altos BAJAN respecto a v1: Poiret One era filiforme y
+     necesitaba tamaño; Fraunces pesa mucho más a igual cuerpo.            */
   --paso--2: clamp(0.72rem, 0.695rem + 0.11vw, 0.78rem);
   --paso--1: clamp(0.84rem, 0.797rem + 0.18vw, 0.94rem);
   --paso-0: clamp(1rem, 0.947rem + 0.23vw, 1.125rem);
   --paso-1: clamp(1.2rem, 1.093rem + 0.46vw, 1.45rem);
   --paso-2: clamp(1.45rem, 1.257rem + 0.82vw, 1.9rem);
-  --paso-3: clamp(1.75rem, 1.428rem + 1.37vw, 2.5rem);
-  --paso-4: clamp(2.1rem, 1.585rem + 2.2vw, 3.3rem);
-  --paso-5: clamp(2.55rem, 1.756rem + 3.39vw, 4.4rem);
-  --paso-6: clamp(3.05rem, 1.783rem + 5.41vw, 6rem);
+  --paso-3: clamp(1.7rem, 1.44rem + 1.11vw, 2.35rem);
+  --paso-4: clamp(1.95rem, 1.55rem + 1.7vw, 2.9rem);      /* era ..3.3rem  */
+  --paso-5: clamp(2.3rem, 1.75rem + 2.35vw, 3.75rem);     /* era ..4.4rem  */
+  --paso-6: clamp(2.8rem, 1.9rem + 3.85vw, 5.25rem);      /* era ..6rem    */
 
   /* Alias semánticos */
   --fs-hero: var(--paso-6);
@@ -90,23 +161,25 @@
   --fs-grande: var(--paso-1);      /* entradillas / lead */
   --fs-pequeno: var(--paso--1);
   --fs-micro: var(--paso--2);      /* créditos, notas legales */
-  --fs-eyebrow: clamp(0.72rem, 0.68rem + 0.16vw, 0.8rem);
+  --fs-eyebrow: clamp(0.7rem, 0.665rem + 0.15vw, 0.78rem);
   --fs-cifra: var(--paso-5);       /* estadísticas (101 aves, 4 ha…) */
 
   --peso-ligero: 300;
   --peso-normal: 400;
   --peso-medio: 500;
+  --peso-display: 500;   /* NUEVO · el peso de los titulares en Fraunces   */
+  --peso-fuerte: 600;    /* NUEVO · sólo para cifras y remates             */
 
-  --alto-linea-apretado: 1.06;
-  --alto-linea-titulo: 1.16;
+  --alto-linea-apretado: 1.02;   /* era 1.06 */
+  --alto-linea-titulo: 1.14;     /* era 1.16 */
   --alto-linea-base: 1.68;
   --alto-linea-suelto: 1.8;
 
-  --track-display: -0.015em;
-  --track-titulo: 0.02em;
-  --track-caps: 0.16em;      /* títulos de sección en mayúsculas */
-  --track-eyebrow: 0.3em;    /* antetítulo */
-  --track-boton: 0.1em;
+  --track-display: -0.02em;   /* era -0.015em · Fraunces pide más cierre   */
+  --track-titulo: -0.005em;   /* era 0.02em                                */
+  --track-caps: 0.14em;       /* SÓLO micro-etiquetas, ya no los h2        */
+  --track-eyebrow: 0.26em;    /* antetítulo — el único caps «de sección»   */
+  --track-boton: 0.09em;
 
   --medida: 68ch;            /* longitud de línea máxima cómoda */
   --medida-corta: 46ch;
@@ -148,6 +221,8 @@
   --alto-header: clamp(4rem, 3.4rem + 2.4vw, 5.25rem);
   --alto-hero: clamp(30rem, 88svh, 54rem);
 
+  --ancho-modal: 44rem;      /* NUEVO · modal «Condiciones de alquiler» */
+
   /* ---------------------------------------------------------------------
      6. RADIOS
      --------------------------------------------------------------------- */
@@ -162,18 +237,30 @@
      7. SOMBRAS (suaves, nunca duras)
      --------------------------------------------------------------------- */
   --sombra-xs: 0 1px 2px rgb(var(--tinta-rgb) / 0.06);
-  --sombra-sm: 0 2px 10px -2px rgb(var(--tinta-rgb) / 0.09);
-  --sombra-md: 0 10px 30px -14px rgb(var(--tinta-rgb) / 0.22);
-  --sombra-lg: 0 24px 60px -28px rgb(var(--tinta-rgb) / 0.3);
-  --sombra-xl: 0 44px 96px -36px rgb(var(--tinta-rgb) / 0.38);
-  --sombra-header: 0 1px 0 rgb(var(--verde-oliva-rgb) / 0.1),
+  --sombra-sm: 0 2px 10px -2px rgb(var(--tinta-rgb) / 0.1);
+  --sombra-md: 0 10px 30px -14px rgb(var(--tinta-rgb) / 0.24);
+  --sombra-lg: 0 24px 60px -28px rgb(var(--tinta-rgb) / 0.32);
+  --sombra-xl: 0 44px 96px -36px rgb(var(--tinta-rgb) / 0.4);
+  --sombra-header: 0 1px 0 rgb(var(--verde-bosque-rgb) / 0.1),
     0 12px 32px -24px rgb(var(--tinta-rgb) / 0.4);
-  --anillo-foco: 0 0 0 3px rgb(var(--verde-menta-rgb) / 0.55);
+  --sombra-accion: 0 6px 18px -8px rgb(var(--coral-hondo-rgb) / 0.55);
+  --sombra-modal: 0 40px 90px -30px rgb(var(--verde-bosque-hondo-rgb) / 0.5);
+  --anillo-foco: 0 0 0 3px rgb(var(--verde-bosque-rgb) / 0.5);
 
   --blur-vidrio: saturate(140%) blur(14px);
+  --blur-modal: saturate(120%) blur(6px);
 
   /* ---------------------------------------------------------------------
-     8. MOVIMIENTO
+     8. MAPA — el pin ya NO es el logo gigante
+     La foto satelital manda: pin pequeño, sombra suave, punta en el punto.
+     --------------------------------------------------------------------- */
+  --tam-pin: 2.25rem;                 /* 36px — tope permitido: 2.5rem     */
+  --tam-pin-punta: 0.5rem;
+  --sombra-pin: 0 4px 10px -2px rgb(var(--verde-bosque-hondo-rgb) / 0.55);
+  --borde-pin: 2px;
+
+  /* ---------------------------------------------------------------------
+     9. MOVIMIENTO
      --------------------------------------------------------------------- */
   --dur-instant: 90ms;
   --dur-rapida: 180ms;
@@ -194,7 +281,7 @@
   --escala-hover: 1.04;
 
   /* ---------------------------------------------------------------------
-     9. CAPAS
+     10. CAPAS
      --------------------------------------------------------------------- */
   --z-fondo: 0;
   --z-base: 1;

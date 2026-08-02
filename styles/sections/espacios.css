@@ -1,95 +1,108 @@
 /* ==========================================================================
-   VEGAS DEL VERDE — espacios.css
-   Sección "Espacios en alquiler" (#espacios).
+   VEGAS DEL VERDE — espacios.css  ·  v2 «Vende la escapada»
+   Sección «Espacios en alquiler» (#espacios).
    Depende de tokens.css + base.css. No declara ningún valor literal de color,
-   tamaño de fuente, radio, sombra ni duración: todo sale de los tokens.
-   Prefijo propio: .espacios / .espacios-tarjeta / .espacios-condicion
+   cuerpo tipográfico, radio, sombra ni duración: todo sale de los tokens.
+   Prefijos propios: .espacios / .espacio
+
+   QUÉ CAMBIÓ EN v2
+   · La tarjeta ya no titula con el nombre del espacio: titula con la
+     EXPERIENCIA (h3.titulo-seccion--sm, que hereda Fraunces de base.css).
+     El nombre y la capacidad bajan a una .pildora de apoyo.
+   · Desaparecen el .espacios-tarjeta__cifra y el .espacios-tarjeta__unidad:
+     la capacidad dejó de ser el titular, así que ya no necesita cuerpo de
+     display ni caps espaciadas.
+   · El panel de condiciones de 4 columnas se sustituye por un enlace a la
+     página condiciones-de-alquiler.html.
    ========================================================================== */
 
 /* ==========================================================================
-   1. REJILLA DE TARJETAS
-   1 columna en móvil · 2 desde 40em · 4 desde 68em.
-   La Alameda es la tarjeta destacada y siempre ocupa la fila completa.
+   1. REJILLA
+   1 columna en móvil · 2 desde 52em. La Alameda ocupa siempre la fila
+   completa: es el espacio más grande y merece la portada de la sección.
+   No se pasa a 3 o 4 columnas porque los titulares de experiencia
+   («Un partido con banda sonora de pájaros») necesitan ancho para no
+   partirse en cinco líneas.
    ========================================================================== */
 .espacios__rejilla {
   display: grid;
-  gap: var(--gap);
   grid-template-columns: 1fr;
+  gap: var(--gap);
   margin: 0;
 }
 
-@media (min-width: 40em) {
+@media (min-width: 52em) {
   .espacios__rejilla {
     grid-template-columns: repeat(2, 1fr);
   }
 
-  .espacios-tarjeta--destacada {
+  .espacio--destacado {
     grid-column: 1 / -1;
-  }
-}
-
-@media (min-width: 68em) {
-  .espacios__rejilla {
-    grid-template-columns: repeat(4, 1fr);
   }
 }
 
 /* ==========================================================================
    2. TARJETA DE ESPACIO
-   Extiende .tarjeta (base.css): fondo, borde, radio y overflow ya vienen dados.
+   Extiende .tarjeta (base.css): fondo, borde, radio y overflow ya vienen.
    ========================================================================== */
-.espacios-tarjeta {
+.espacio {
   display: flex;
   flex-direction: column;
   position: relative;
 }
 
-/* Filete de acento que se dibuja al pasar el cursor o al enfocar el CTA */
-.espacios-tarjeta::after {
+/* Filete cálido que se dibuja al pasar el cursor o al enfocar el CTA.
+   Es decorativo (no transporta información), por eso puede ir en el color
+   de acción sin comprometer ninguna ratio de texto. */
+.espacio::after {
   content: "";
   position: absolute;
   inset-inline: 0;
   inset-block-end: 0;
   height: 2px;
-  background-color: var(--color-acento);
+  background-color: var(--color-accion);
   transform: scaleX(0);
   transform-origin: left;
   transition: transform var(--transicion) var(--ease-salida);
 }
 
-.espacios-tarjeta:hover::after,
-.espacios-tarjeta:focus-within::after {
+.espacio:hover::after,
+.espacio:focus-within::after {
   transform: scaleX(1);
 }
 
-.espacios-tarjeta:hover {
+.espacio:hover {
   transform: translateY(calc(var(--esp-3xs) * -1));
   box-shadow: var(--sombra-lg);
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .espacios-tarjeta:hover {
+  .espacio:hover {
     transform: none;
   }
 }
 
-/* ---- Foto ---------------------------------------------------------------- */
-/* El marco lo recorta la propia tarjeta: sin radio propio para que encaje
-   limpio contra el borde superior de la tarjeta. */
-.espacios-tarjeta__marco {
+/* ---- Foto ----------------------------------------------------------------
+   Cuatro de las cinco fotos de origen son verticales. Sólo en móvil, con la
+   tarjeta a ~343 px, se muestran en 4/5: ahí el retrato respeta el encuadre.
+   El corte a 3/2 entra en 34em y NO en el breakpoint de la rejilla (52em):
+   entre ambos la tarjeta sigue a una columna pero ya mide 500-800 px de
+   ancho, y un 4/5 daba fotos de más de 850 px de alto: una tarjeta más alta
+   que la pantalla. El marco no lleva radio propio: lo recorta .tarjeta. */
+.espacio__marco {
   border-radius: 0;
   aspect-ratio: 4 / 5;
   flex: none;
 }
 
-@media (min-width: 40em) and (max-width: 67.99em) {
-  .espacios-tarjeta__marco {
+@media (min-width: 34em) {
+  .espacio__marco {
     aspect-ratio: 3 / 2;
   }
 }
 
 /* ---- Cuerpo -------------------------------------------------------------- */
-.espacios-tarjeta__cuerpo {
+.espacio__cuerpo {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
@@ -98,338 +111,111 @@
   flex: 1 1 auto;
 }
 
-/* Nombre arriba y capacidad debajo. Se apila siempre en las tarjetas normales:
-   la Cancha tiene una etiqueta de dos líneas y en fila rompía el ritmo de la
-   hilera de cuatro. Sólo la destacada, que tiene ancho de sobra, va en fila. */
-.espacios-tarjeta__titular {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  gap: var(--esp-2xs);
-  width: 100%;
-  padding-bottom: var(--esp-xs);
-  border-bottom: 1px solid var(--color-borde-suave);
+/* El titular hereda Fraunces de .titulo-seccion (base.css): aquí sólo se
+   ajusta el ritmo vertical, nunca la familia ni el peso. */
+.espacio__titular {
+  max-width: var(--medida-corta);
 }
 
-.espacios-tarjeta__nombre {
-  font-family: var(--fuente-display);
-  font-size: var(--fs-h3);
-  font-weight: var(--peso-normal);
-  letter-spacing: var(--track-display);
-  line-height: var(--alto-linea-apretado);
-  color: var(--color-texto);
+.espacio__meta {
   margin: 0;
 }
 
-/* ---- Capacidad destacada ------------------------------------------------- */
-.espacios-tarjeta__capacidad {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  gap: var(--esp-3xs);
-  margin: 0;
-  max-width: 100%;
-}
-
-.espacios-tarjeta__cifra {
-  font-family: var(--fuente-display);
-  font-size: var(--paso-3);
-  font-weight: var(--peso-normal);
-  line-height: 1;
-  letter-spacing: var(--track-display);
-  color: var(--color-acento-texto);
-  white-space: nowrap;
-}
-
-/* El "+" de la cancha, más discreto que las cifras que une */
-.espacios-tarjeta__mas {
-  display: inline-block;
-  padding-inline: 0.12em;
-  font-size: var(--fs-grande);
-  color: var(--color-texto-suave);
-  vertical-align: baseline;
-}
-
-.espacios-tarjeta__unidad {
-  font-family: var(--fuente-titulo);
-  font-size: var(--fs-micro);
-  font-weight: var(--peso-medio);
-  line-height: var(--alto-linea-titulo);
-  text-transform: uppercase;
-  letter-spacing: var(--track-caps);
-  color: var(--color-texto-suave);
-}
-
-.espacios-tarjeta__texto {
+.espacio__texto {
   font-size: var(--fs-pequeno);
   line-height: var(--alto-linea-base);
   color: var(--color-texto-suave);
   margin: 0;
 }
 
-/* El CTA ocupa el ancho de la tarjeta y queda pegado abajo, así los cinco
-   botones quedan alineados aunque las descripciones tengan distinto largo.
-   El costado se aprieta respecto al .btn normal porque en la hilera de cuatro
-   la tarjeta sólo deja unos 220 px y la etiqueta partía en dos líneas. */
-.espacios-tarjeta__cta {
+/* El CTA queda pegado abajo para que los cinco botones se alineen aunque
+   las descripciones tengan distinto largo. */
+.espacio__cta {
   margin-top: auto;
   padding-inline: var(--esp-sm);
 }
 
-.espacios-tarjeta__pildora {
-  align-self: flex-start;
-}
-
 /* ==========================================================================
    3. TARJETA DESTACADA — ALAMEDA
-   Galería de dos fotos + cuerpo en dos columnas a partir de 62em.
+   Foto panorámica + cuerpo al costado desde 62em.
+   Va una sola foto, la que asigna MAPA-FOTOS.json (espacios/alameda-2.jpg):
+   es una panorámica de 1500×844 y partir la columna en dos la obligaba a un
+   recorte casi cuadrado. Sola, ocupa su relación nativa sin sacrificar nada.
    ========================================================================== */
-.espacios-tarjeta__interior {
+.espacio__interior {
   display: grid;
   grid-template-columns: 1fr;
   height: 100%;
 }
 
-@media (min-width: 62em) {
-  .espacios-tarjeta__interior {
-    grid-template-columns: 1.35fr 1fr;
-    align-items: stretch;
-  }
-}
-
-.espacios-tarjeta__galeria {
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: 1px;
-  background-color: var(--color-borde-suave);
-}
-
-.espacios-tarjeta__galeria > .marco {
-  border-radius: 0;
+.espacio--destacado .espacio__marco {
   aspect-ratio: 3 / 2;
 }
 
-/* La segunda foto de la Alameda sólo aparece cuando hay ancho para que
-   respire; por debajo manda la panorámica sola. */
-.espacios-tarjeta__galeria-secundaria {
-  display: none;
-}
+/* Desde 62em la foto pasa al costado del texto y recupera su 16/9 nativo.
+   El aspect-ratio sobre un ítem de rejilla estirado no fija la altura: sólo
+   aporta su medida al cálculo de la fila, así que si el cuerpo crece más
+   que la foto, la foto se estira con él y no queda ningún hueco. */
+@media (min-width: 62em) {
+  .espacio__interior {
+    grid-template-columns: 1.35fr 1fr;
+    align-items: stretch;
+  }
 
-@media (min-width: 48em) {
-  .espacios-tarjeta__galeria {
-    grid-template-columns: 1.5fr 1fr;
+  .espacio--destacado .espacio__marco {
     aspect-ratio: 16 / 9;
   }
-
-  .espacios-tarjeta__galeria > .marco {
-    aspect-ratio: auto;
-    height: 100%;
-  }
-
-  .espacios-tarjeta__galeria-secundaria {
-    display: block;
-  }
 }
 
-@media (min-width: 62em) {
-  .espacios-tarjeta__galeria {
-    aspect-ratio: auto;
-    height: 100%;
-  }
-}
-
-.espacios-tarjeta--destacada .espacios-tarjeta__cuerpo {
+.espacio--destacado .espacio__cuerpo {
   gap: var(--esp-sm);
   padding: var(--esp-lg);
   justify-content: center;
 }
 
-.espacios-tarjeta--destacada .espacios-tarjeta__nombre {
-  font-size: var(--fs-h2);
-}
-
-.espacios-tarjeta--destacada .espacios-tarjeta__cifra {
-  font-size: var(--paso-4);
-}
-
-.espacios-tarjeta--destacada .espacios-tarjeta__unidad {
-  font-size: var(--fs-pequeno);
-}
-
-.espacios-tarjeta--destacada .espacios-tarjeta__texto {
+.espacio--destacado .espacio__texto {
   font-size: var(--fs-cuerpo);
   color: var(--color-texto);
   max-width: var(--medida);
 }
 
-/* En la destacada sí hay ancho para poner el nombre y la capacidad en fila,
-   con la cifra alineada al canto derecho de la tarjeta. */
-@media (min-width: 62em) {
-  .espacios-tarjeta--destacada .espacios-tarjeta__titular {
-    flex-direction: row;
-    flex-wrap: wrap;
-    align-items: baseline;
-    justify-content: space-between;
-    gap: var(--esp-2xs) var(--esp-sm);
-    padding-bottom: var(--esp-sm);
-  }
+.espacio--destacado .espacio__titular {
+  max-width: var(--medida);
+}
 
-  .espacios-tarjeta--destacada .espacios-tarjeta__capacidad {
-    align-items: flex-end;
-    text-align: right;
+/* En la destacada el CTA no necesita ocupar todo el ancho del panel. */
+@media (min-width: 62em) {
+  .espacio--destacado .espacio__cta {
+    display: inline-flex;
+    width: auto;
+    padding-inline: var(--esp-md);
   }
 }
 
 /* ==========================================================================
-   4. CONDICIONES DE ALQUILER
-   Panel claro sobre superficie sólida: legible tanto si la sección queda
-   sobre --color-fondo como sobre --color-fondo-alt.
+   4. PIE DE SECCIÓN — el acceso a las condiciones
+   Una línea de contexto y un botón secundario. Nada más: el detalle vive
+   en su propia página para no saturar la sección de espacios.
    ========================================================================== */
-.espacios-condiciones {
-  margin-top: var(--gap-lg);
-  padding: var(--esp-lg) var(--esp-md);
-  background-color: var(--color-superficie-solida);
-  border: 1px solid var(--color-borde-suave);
-  border-radius: var(--radio-lg);
-  box-shadow: var(--sombra-sm);
-}
-
-@media (min-width: 48em) {
-  .espacios-condiciones {
-    padding: var(--esp-xl) var(--esp-lg);
-  }
-}
-
-.espacios-condiciones__encabezado {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: baseline;
-  gap: var(--esp-2xs) var(--esp-md);
-  padding-bottom: var(--esp-md);
-  border-bottom: 1px solid var(--color-borde-suave);
-}
-
-.espacios-condiciones__encabezado h3 {
-  margin: 0;
-}
-
-/* ---- Las cuatro condiciones ---------------------------------------------- */
-.espacios-condiciones__lista {
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: var(--gap);
-  margin-top: var(--esp-lg);
-}
-
-@media (min-width: 34em) {
-  .espacios-condiciones__lista {
-    grid-template-columns: repeat(2, 1fr);
-  }
-}
-
-@media (min-width: 68em) {
-  .espacios-condiciones__lista {
-    grid-template-columns: repeat(4, 1fr);
-  }
-}
-
-.espacios-condicion {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  gap: var(--esp-2xs);
-  padding-left: var(--esp-md);
-  border-left: 2px solid var(--color-acento);
-}
-
-.espacios-condicion__icono {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: 2.5em;
-  height: 2.5em;
-  margin-bottom: var(--esp-3xs);
-  border-radius: var(--radio-full);
-  background-color: rgb(var(--verde-menta-rgb) / 0.18);
-  color: var(--color-acento-texto);
-  flex: none;
-}
-
-.espacios-condicion__icono svg {
-  width: 1.35em;
-  height: 1.35em;
-}
-
-.espacios-condicion__titulo {
-  font-family: var(--fuente-titulo);
-  font-size: var(--fs-cuerpo);
-  font-weight: var(--peso-medio);
-  line-height: var(--alto-linea-titulo);
-  color: var(--color-texto);
-  margin: 0;
-}
-
-.espacios-condicion__detalle {
-  font-size: var(--fs-pequeno);
-  line-height: var(--alto-linea-base);
-  color: var(--color-texto-suave);
-  margin: 0;
-}
-
-/* La que NO está incluida se marca en rojo baya para que no se lea de más */
-.espacios-condicion--excluida {
-  border-left-color: var(--color-alerta);
-}
-
-.espacios-condicion--excluida .espacios-condicion__icono {
-  background-color: rgb(var(--rojo-baya-rgb) / 0.14);
-  color: var(--color-alerta);
-}
-
-/* ---- Para qué se alquila -------------------------------------------------- */
-.espacios-condiciones__usos {
-  margin-top: var(--esp-xl);
-  padding-top: var(--esp-lg);
-  border-top: 1px solid var(--color-borde-suave);
-}
-
-.espacios-condiciones__intro {
-  font-size: var(--fs-cuerpo);
-  color: var(--color-texto);
-  margin: 0 0 var(--esp-sm);
-}
-
-.espacios-condiciones__chips {
-  display: flex;
-  flex-wrap: wrap;
-  gap: var(--esp-2xs);
-  margin: 0;
-}
-
-/* ---- Pie: arenero + CTA --------------------------------------------------- */
-.espacios-condiciones__pie {
+.espacios__pie {
   display: flex;
   flex-wrap: wrap;
   align-items: center;
   justify-content: space-between;
-  gap: var(--esp-md);
-  margin-top: var(--esp-xl);
+  gap: var(--esp-sm) var(--esp-md);
+  margin-top: var(--gap-lg);
   padding-top: var(--esp-lg);
   border-top: 1px solid var(--color-borde-suave);
 }
 
-.espacios-condiciones__pie .pildora {
-  margin: 0;
+.espacios__pie-texto {
+  max-width: var(--medida-corta);
 }
 
-/* En pantallas estrechas el CTA ocupa el ancho completo. Se le baja el cuerpo
-   al del botón normal para que "Consultar disponibilidad" quepa en una línea:
-   en dos líneas la píldora se deforma. */
 @media (max-width: 33.99em) {
-  .espacios-condiciones__pie .btn {
+  .espacios__pie-boton {
     display: flex;
     width: 100%;
-    padding-inline: var(--esp-sm);
-    font-size: var(--fs-pequeno);
   }
 }
+

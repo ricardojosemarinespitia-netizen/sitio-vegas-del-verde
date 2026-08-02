@@ -1,10 +1,15 @@
 /* ==========================================================================
-   VEGAS DEL VERDE — base.css
+   VEGAS DEL VERDE — base.css  ·  v2 «Vende la escapada»
    Reset, tipografía, utilidades de layout, animación de entrada y botones.
    Depende de tokens.css (cargarlo SIEMPRE antes que este archivo).
+
+   v2: display Fraunces (antes Poiret One) · títulos de sección SIN
+   mayúsculas · botón primario con el acento cálido (coral) en vez del verde.
    ========================================================================== */
 
-@import url("https://fonts.googleapis.com/css2?family=Jost:wght@300;400;500&family=Josefin+Sans:wght@300;400;600&family=Poiret+One&display=swap");
+/* Las fuentes se cargan con <link> en el <head> de cada página (Fraunces con
+   los ejes SOFT/WONK que pide --ejes-display, y Jost). Aquí NO va un @import:
+   bloquea el render y duplica la petición.                                 */
 
 /* ==========================================================================
    1. RESET MODERNO
@@ -100,14 +105,17 @@ table {
 /* ==========================================================================
    2. TIPOGRAFÍA
    ========================================================================== */
+/* Los titulares van en Fraunces. La delicadeza de v1 (peso 300) se cambia
+   por --peso-display (500): es lo que le da carácter al nuevo display.
+   font-optical-sizing deja que Fraunces afine el contraste según el cuerpo. */
 h1,
 h2,
 h3,
-h4,
-h5,
-h6 {
-  font-family: var(--fuente-titulo);
-  font-weight: var(--peso-ligero);
+h4 {
+  font-family: var(--fuente-display);
+  font-weight: var(--peso-display);
+  font-optical-sizing: auto;
+  font-variation-settings: var(--ejes-display);
   line-height: var(--alto-linea-titulo);
   letter-spacing: var(--track-titulo);
   color: var(--color-texto);
@@ -115,7 +123,6 @@ h6 {
 }
 
 h1 {
-  font-family: var(--fuente-display);
   font-size: var(--fs-h1);
   line-height: var(--alto-linea-apretado);
   letter-spacing: var(--track-display);
@@ -123,6 +130,7 @@ h1 {
 
 h2 {
   font-size: var(--fs-h2);
+  letter-spacing: var(--track-display);
 }
 
 h3 {
@@ -131,15 +139,21 @@ h3 {
 
 h4 {
   font-size: var(--fs-h4);
-  font-weight: var(--peso-normal);
+  letter-spacing: 0;
 }
 
+/* h5/h6 NO son titulares: son micro-etiquetas. Se quedan en la fuente de
+   etiqueta y son, con .eyebrow, el único sitio donde sobreviven las caps. */
 h5,
 h6 {
-  font-size: var(--fs-cuerpo);
+  font-family: var(--fuente-titulo);
+  font-size: var(--fs-pequeno);
   font-weight: var(--peso-medio);
+  line-height: var(--alto-linea-titulo);
+  color: var(--color-texto);
   text-transform: uppercase;
   letter-spacing: var(--track-caps);
+  text-wrap: balance;
 }
 
 p {
@@ -219,20 +233,22 @@ a:hover {
   color: var(--color-texto);
 }
 
+/* Foco: verde bosque sobre claro (10.7:1) y amarillo sobre oscuro (7.3:1).
+   Ambos muy por encima del 3:1 que pide WCAG para elementos no textuales. */
 :focus-visible {
-  outline: 2px solid var(--verde-oliva);
+  outline: 2px solid var(--verde-bosque);
   outline-offset: 3px;
   border-radius: var(--radio-xs);
 }
 
-/* Sobre fondos oscuros el foco cambia de color para mantener contraste */
+.seccion--oscura :focus-visible,
 .sobre-oscuro :focus-visible,
 .pie-sitio :focus-visible {
-  outline-color: var(--verde-menta);
+  outline-color: var(--color-destacado);
 }
 
 ::selection {
-  background-color: rgb(var(--verde-menta-rgb) / 0.35);
+  background-color: rgb(var(--coral-rgb) / 0.3);
   color: var(--color-texto);
 }
 
@@ -242,7 +258,7 @@ a:hover {
   top: var(--esp-sm);
   z-index: var(--z-saltar);
   padding: var(--esp-2xs) var(--esp-md);
-  background-color: var(--verde-oliva);
+  background-color: var(--verde-bosque);
   color: var(--color-texto-inverso);
   border-radius: var(--radio-full);
   font-size: var(--fs-pequeno);
@@ -324,11 +340,15 @@ a:hover {
   color: var(--color-texto-inverso);
 }
 
-.seccion--oscura a {
-  color: var(--color-acento);
+/* :not(.btn) es OBLIGATORIO. Sin él, «.seccion--oscura a» (0,1,1) gana por
+   especificidad al color propio de «.btn-whatsapp» (0,1,0) y repinta los
+   botones de las secciones oscuras. En v1 eso dejaba dos CTA en menta sobre
+   menta —ilegibles— en #cultura y #aves.                                   */
+.seccion--oscura a:not(.btn) {
+  color: var(--color-acento-inverso);
 }
 
-.seccion--oscura a:hover {
+.seccion--oscura a:not(.btn):hover {
   color: var(--color-texto-inverso);
 }
 
@@ -434,6 +454,9 @@ a:hover {
   margin-inline: auto;
 }
 
+/* EL .eyebrow ES AHORA EL ÚNICO CAPS ESPACIADO DE NIVEL SECCIÓN.
+   Ese tratamiento se le retiró a .titulo-seccion en v2: si todo grita,
+   nada destaca. El antetítulo grita; el título habla.                     */
 .eyebrow {
   display: inline-flex;
   align-items: center;
@@ -443,8 +466,9 @@ a:hover {
   font-weight: var(--peso-medio);
   text-transform: uppercase;
   letter-spacing: var(--track-eyebrow);
+  /* el tracking sobra tras la última letra y descuadra el centrado */
+  margin: 0 calc(var(--track-eyebrow) * -1) 0 0;
   color: var(--color-acento-texto);
-  margin: 0;
 }
 
 .eyebrow::before {
@@ -465,35 +489,56 @@ a:hover {
   opacity: 0.75;
 }
 
+/* Sobre bosque el cálido sigue siendo cálido: coral claro, 5.7:1. */
 .seccion--oscura .eyebrow {
-  color: var(--color-acento);
+  color: var(--color-acento-inverso);
 }
 
+/* v1: MAYÚSCULAS ESPACIADAS EN TODOS LOS TÍTULOS. v2: caja alta y baja.
+   El caps espaciado destruye la silueta de la palabra y frena la lectura;
+   con un display de carácter como Fraunces ya no hace ninguna falta.      */
 .titulo-seccion {
-  font-family: var(--fuente-titulo);
+  font-family: var(--fuente-display);
   font-size: var(--fs-h2);
-  font-weight: var(--peso-ligero);
-  text-transform: uppercase;
-  letter-spacing: var(--track-caps);
+  font-weight: var(--peso-display);
+  font-optical-sizing: auto;
+  font-variation-settings: var(--ejes-display);
+  text-transform: none;
+  letter-spacing: var(--track-display);
   line-height: var(--alto-linea-titulo);
+  text-wrap: balance;
   margin: 0;
 }
 
 .titulo-seccion--sm {
   font-size: var(--fs-h3);
+  letter-spacing: var(--track-titulo);
 }
 
 .titulo-seccion--xs {
   font-size: var(--fs-h4);
+  letter-spacing: 0;
 }
 
 .titulo-display {
   font-family: var(--fuente-display);
   font-size: var(--fs-h1);
-  font-weight: var(--peso-normal);
+  font-weight: var(--peso-display);
+  font-optical-sizing: auto;
+  font-variation-settings: var(--ejes-display);
   letter-spacing: var(--track-display);
   line-height: var(--alto-linea-apretado);
   text-transform: none;
+}
+
+/* Única excepción de caps a tamaño display: el logotipo del hero, porque
+   ES el logotipo. Va en la fuente de etiqueta, nunca en el display serif. */
+.titulo-logotipo {
+  font-family: var(--fuente-titulo);
+  font-weight: var(--peso-ligero);
+  text-transform: uppercase;
+  letter-spacing: var(--track-caps);
+  margin-inline-end: calc(var(--track-caps) * -1);
 }
 
 .entradilla {
@@ -648,42 +693,67 @@ a:hover {
   flex: none;
 }
 
-/* Primario — verde oliva sólido */
+/* PRIMARIO — el acento CÁLIDO. Éste es el «atrévete».
+   Relleno coral + etiqueta tinta = 4.8:1 (AA para texto pequeño).
+   El borde --color-accion-borde no es decorativo: el relleno coral sólo
+   contrasta 2.9:1 contra la crema y WCAG 1.4.11 pide 3:1 en el contorno
+   del componente; el borde terracota lo sube a 5.3:1. NO LO QUITES.      */
 .btn-primario {
-  background-color: var(--verde-oliva);
-  color: var(--color-texto-inverso);
-  box-shadow: var(--sombra-sm);
+  background-color: var(--color-accion);
+  border-color: var(--color-accion-borde);
+  color: var(--color-accion-texto);
+  box-shadow: var(--sombra-accion);
 }
 
 .btn-primario:hover {
-  background-color: var(--tinta);
+  background-color: var(--color-accion-hover);
+  border-color: var(--color-accion-hover);
   color: var(--color-texto-inverso);
   box-shadow: var(--sombra-md);
 }
 
-/* Secundario — contorno */
+/* Secundario — contorno verde. El botón «cuéntame más», nunca el «reserva». */
 .btn-secundario {
   background-color: transparent;
-  border-color: rgb(var(--verde-oliva-rgb) / 0.45);
-  color: var(--color-acento-texto);
+  border-color: rgb(var(--verde-bosque-rgb) / 0.4);
+  color: var(--verde-bosque);
 }
 
 .btn-secundario:hover {
-  background-color: var(--verde-oliva);
-  border-color: var(--verde-oliva);
+  background-color: var(--verde-bosque);
+  border-color: var(--verde-bosque);
   color: var(--color-texto-inverso);
 }
 
-/* WhatsApp — acento menta, el CTA de conversión del sitio */
+/* WhatsApp — es el CTA de conversión del sitio: comparte el cálido del
+   primario. Antes era verde menta y competía con el fondo verde.         */
 .btn-whatsapp {
-  background-color: var(--verde-menta);
+  background-color: var(--color-accion);
+  border-color: var(--color-accion-borde);
+  color: var(--color-accion-texto);
+  box-shadow: var(--sombra-accion);
+}
+
+.btn-whatsapp:hover {
+  background-color: var(--color-accion-hover);
+  border-color: var(--color-accion-hover);
+  color: var(--color-texto-inverso);
+  box-shadow: var(--sombra-md);
+}
+
+/* Destacado — amarillo del logo, 9.5:1 con tinta. Para un solo CTA por
+   pantalla como mucho (el del hero, o el del sendero).                    */
+.btn-destacado {
+  background-color: var(--color-destacado);
+  border-color: rgb(var(--verde-bosque-rgb) / 0.25);
   color: var(--tinta);
   box-shadow: var(--sombra-sm);
 }
 
-.btn-whatsapp:hover {
-  background-color: var(--tinta);
-  color: var(--verde-menta);
+.btn-destacado:hover {
+  background-color: var(--verde-bosque);
+  border-color: var(--verde-bosque);
+  color: var(--color-destacado);
   box-shadow: var(--sombra-md);
 }
 
@@ -821,14 +891,18 @@ figcaption {
   display: block;
   font-family: var(--fuente-display);
   font-size: var(--fs-cifra);
-  font-weight: var(--peso-normal);
+  font-weight: var(--peso-fuerte);
+  font-optical-sizing: auto;
+  font-variation-settings: var(--ejes-display);
   line-height: 1;
   letter-spacing: var(--track-display);
   color: var(--color-acento-texto);
 }
 
+/* Sobre bosque las cifras van en amarillo del logo (7.3:1): son el dato
+   que hay que ver antes que nada (101 aves, 347 plantas, 4 hectáreas). */
 .seccion--oscura .cifra {
-  color: var(--color-acento);
+  color: var(--color-destacado);
 }
 
 .cifra + .cifra-etiqueta {
@@ -846,28 +920,40 @@ figcaption {
 }
 
 /* Etiqueta / píldora */
+/* La píldora es etiqueta de dato, no CTA: se queda en verde y en voz baja
+   para no competir con el coral de los botones.                           */
 .pildora {
   display: inline-flex;
   align-items: center;
   gap: 0.45em;
   padding: 0.4em 0.9em;
   border-radius: var(--radio-full);
-  background-color: rgb(var(--verde-menta-rgb) / 0.18);
-  border: 1px solid rgb(var(--verde-oliva-rgb) / 0.16);
+  background-color: rgb(var(--verde-bosque-rgb) / 0.07);
+  border: 1px solid var(--color-borde-suave);
   font-family: var(--fuente-titulo);
   font-size: var(--fs-micro);
   font-weight: var(--peso-medio);
   text-transform: uppercase;
   letter-spacing: var(--track-caps);
-  color: var(--color-acento-texto);
+  color: var(--verde-bosque);
 }
 
 .pildora--destacada {
-  background-color: rgb(var(--amarillo-rgb) / 0.28);
+  background-color: rgb(var(--amarillo-rgb) / 0.3);
+  border-color: rgb(var(--verde-oliva-rgb) / 0.3);
 }
 
 .seccion--oscura .pildora {
   background-color: rgb(var(--crema-rgb) / 0.1);
   border-color: var(--color-borde-inverso);
   color: var(--color-acento);
+}
+
+/* Sobre bosque la píldora destacada invierte: el amarillo pasa de relleno a
+   TEXTO (5.6:1). Mezclar el relleno ámbar de la versión clara con el texto
+   menta de la versión oscura daba 4.1:1 y no pasaba AA.                    */
+.seccion--oscura .pildora--destacada {
+  background-color: rgb(var(--amarillo-rgb) / 0.12);
+  border-color: rgb(var(--amarillo-rgb) / 0.4);
+  color: var(--color-destacado);
 }

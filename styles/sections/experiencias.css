@@ -1,13 +1,24 @@
 /* ==========================================================================
-   VEGAS DEL VERDE — sections/experiencias.css
-   Cubre tres bloques hermanos:
-     #experiencias  celebraciones y eventos (galería en mosaico + lightbox)
+   VEGAS DEL VERDE — sections/experiencias.css  ·  v2 «Vende la escapada»
+   Cubre cuatro bloques hermanos:
+     #experiencias  celebraciones y eventos (mosaicos + lightbox)
      #bienestar     bienestar físico y emocional
-     #cultura       actividades sociales y culturales (en negativo)
+     #cultura       actividades sociales y culturales, sobre collage de aves
+     #colegios      colegios y grupos educativos (venía de ecoposada.html)
 
    Prefijo propio: .exp-*
-   Todos los valores salen de tokens.css. No se redefine ninguna utilidad
-   de base.css: aquí sólo hay piezas nuevas.
+   Todos los valores salen de tokens.css. No se redefine ninguna utilidad de
+   base.css: aquí sólo hay piezas nuevas, y ninguna regla pisa un color suyo.
+
+   QUÉ CAMBIÓ EN v2
+   · El pie de foto deja las MAYÚSCULAS: sólo sobreviven en .eyebrow y en las
+     micro-etiquetas del sistema (§3 del CONTRATO-V2).
+   · .exp-practica__nombre deja de declarar font-family: hereda el cuerpo.
+   · Nace .exp-duo — pareja de fotos con proporción propia, para los bloques
+     de dos imágenes que el mosaico de filas fijas no sabe cuadrar.
+   · Nace el fondo de #cultura: collage de cuatro aves bajo velo de bosque.
+   · Nace .exp-oferta — las siete puertas de la oferta escolar. SIN iconos:
+     lo que se puede fotografiar va arriba, en fotos reales del predio.
    ========================================================================== */
 
 /* ==========================================================================
@@ -89,7 +100,8 @@
 
 @supports (container-type: inline-size) {
   .exp-tipo,
-  .exp-lienzo {
+  .exp-lienzo,
+  .exp-colegios .contenedor {
     container-type: inline-size;
   }
 
@@ -128,7 +140,38 @@
 }
 
 /* --------------------------------------------------------------------------
-   2.1 Disparador del lightbox
+   2.1 Pareja de fotos con proporción propia
+   Dos imágenes no cuadran en una rejilla de filas fijas sin dejar un hueco.
+   Aquí cada una conserva su formato y las dos se centran entre sí: el
+   contraste vertical/horizontal es intencionado, no un descuadre.
+   -------------------------------------------------------------------------- */
+.exp-duo {
+  display: grid;
+  grid-template-columns: 1fr;
+  align-items: center;
+  gap: var(--gap-sm);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+@media (min-width: 44em) {
+  .exp-duo {
+    grid-template-columns: minmax(0, 0.85fr) minmax(0, 1.15fr);
+    gap: var(--gap);
+  }
+}
+
+.exp-duo .exp-foto--alto .exp-foto__btn {
+  aspect-ratio: 3 / 4;
+}
+
+.exp-duo .exp-foto--paisaje .exp-foto__btn {
+  aspect-ratio: 4 / 3;
+}
+
+/* --------------------------------------------------------------------------
+   2.2 Disparador del lightbox
    El visor lo escribe el integrador (js/app.js) escuchando [data-lightbox].
    -------------------------------------------------------------------------- */
 .exp-foto__btn {
@@ -162,13 +205,16 @@
   transform: scale(var(--escala-hover));
 }
 
-/* El camino de huellas queda mejor encuadrado un poco por debajo del centro */
-.exp-foto--ancha .exp-foto__btn > img[src$="parque-18.jpg"] {
+/* El grupo posa en la mitad inferior del cuadro: subir el recorte le cortaría
+   la cabeza a media fila de personas. */
+.exp-foto--alta .exp-foto__btn > img[src$="parque-21.jpg"] {
   object-position: center 62%;
 }
 
 /* --------------------------------------------------------------------------
-   2.2 Pie sobre la foto
+   2.3 Pie sobre la foto
+   v1 lo ponía en MAYÚSCULAS: fuera de la lista del §3 y, a este cuerpo,
+   ilegible. Se queda en caja alta y baja, con el tracking del botón.
    -------------------------------------------------------------------------- */
 .exp-foto__pie {
   position: absolute;
@@ -181,20 +227,19 @@
   font-weight: var(--peso-medio);
   line-height: var(--alto-linea-titulo);
   text-align: left;
-  text-transform: uppercase;
-  letter-spacing: var(--track-caps);
+  letter-spacing: var(--track-boton);
   color: var(--color-texto-inverso);
   background-image: linear-gradient(
     to top,
-    rgb(var(--tinta-rgb) / 0.82),
-    rgb(var(--tinta-rgb) / 0.42) 45%,
-    rgb(var(--tinta-rgb) / 0)
+    rgb(var(--verde-bosque-hondo-rgb) / 0.85),
+    rgb(var(--verde-bosque-hondo-rgb) / 0.45) 45%,
+    rgb(var(--verde-bosque-hondo-rgb) / 0)
   );
   pointer-events: none;
 }
 
 /* --------------------------------------------------------------------------
-   2.3 Insignia de ampliar
+   2.4 Insignia de ampliar
    -------------------------------------------------------------------------- */
 .exp-foto__lupa {
   position: absolute;
@@ -206,7 +251,7 @@
   height: var(--esp-lg);
   border-radius: var(--radio-full);
   background-color: rgb(var(--crema-rgb) / 0.92);
-  color: var(--verde-oliva);
+  color: var(--verde-bosque);
   box-shadow: var(--sombra-sm);
   opacity: 0;
   transform: scale(0.82);
@@ -298,20 +343,20 @@ html:not(.js) .exp-foto__btn {
   gap: var(--esp-xs);
   padding-block: var(--esp-xs);
   border-top: 1px solid var(--color-borde-suave);
-  transition: color var(--transicion-rapida);
 }
 
 .exp-practica__indice {
   flex: none;
   font-family: var(--fuente-display);
   font-size: var(--fs-pequeno);
+  font-variation-settings: var(--ejes-display-sobrio);
   line-height: 1;
   letter-spacing: var(--track-caps);
   color: var(--color-acento-texto);
 }
 
+/* Sin font-family: el nombre es texto corriente y hereda el cuerpo (Jost). */
 .exp-practica__nombre {
-  font-family: var(--fuente-titulo);
   font-size: var(--fs-cuerpo);
   font-weight: var(--peso-normal);
   line-height: var(--alto-linea-titulo);
@@ -340,7 +385,143 @@ html:not(.js) .exp-foto__btn {
 }
 
 /* ==========================================================================
-   5. CIERRE CON LLAMADA A LA ACCIÓN
+   5. #CULTURA — COLLAGE DE AVES AL FONDO
+   Las 57 fotos del concurso dejan de vivir sólo en su galería. Aquí cuatro
+   de ellas son el fondo de la sección.
+
+   EL VELO ES ESTRUCTURAL, NO DECORACIÓN: el collage sube la luminancia del
+   fondo y, sin él, el coral claro del .eyebrow y el menta de los índices
+   caerían por debajo de 4.5:1. Con la foto al 34 % y el velo al 88–94 %, la
+   luz que atraviesa es del 4 %: en el peor caso imaginable (una foto blanca)
+   el eyebrow mide 5.0:1 y el texto de crema, 8.9:1. No aclares ninguno de
+   los dos números.
+   ========================================================================== */
+.exp-cultura {
+  position: relative;
+  overflow: hidden;
+}
+
+.exp-cultura__fondo {
+  position: absolute;
+  inset: 0;
+  z-index: var(--z-fondo);
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  grid-template-rows: repeat(2, minmax(0, 1fr));
+}
+
+@media (min-width: 60em) {
+  .exp-cultura__fondo {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    grid-template-rows: minmax(0, 1fr);
+  }
+}
+
+.exp-cultura__fondo > img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0.34;
+  /* sin el relleno de reserva de base.css: aquí clarearía la sección
+     mientras las fotos cargan */
+  background-color: transparent;
+}
+
+.exp-cultura__fondo::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-image: linear-gradient(
+    to bottom,
+    rgb(var(--verde-bosque-rgb) / 0.88),
+    rgb(var(--verde-bosque-hondo-rgb) / 0.94)
+  );
+}
+
+.exp-cultura__contenido {
+  position: relative;
+  z-index: var(--z-base);
+}
+
+/* Crédito de las cuatro fotos del fondo. No usa .credito porque ese token de
+   color está pensado para fondo claro: aquí iría a 2:1. */
+.exp-cultura__credito {
+  max-width: var(--medida);
+  margin-top: var(--esp-md);
+  font-size: var(--fs-micro);
+  letter-spacing: 0.04em;
+  color: var(--color-texto-inverso-suave);
+}
+
+.exp-cultura__credito > a {
+  margin-inline-start: 0.35em;
+}
+
+/* ==========================================================================
+   6. #COLEGIOS — LAS SIETE PUERTAS DE LA OFERTA ESCOLAR
+   Sin iconos: lo que existe y se puede fotografiar ya está arriba, en fotos
+   reales del predio. Aquí sólo hay tipografía.
+   ========================================================================== */
+.exp-colegios .exp-mosaico {
+  margin-bottom: var(--gap-lg);
+}
+
+.exp-oferta {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--gap);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+@media (min-width: 44em) {
+  .exp-oferta {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (min-width: 68em) {
+  .exp-oferta {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+.exp-oferta__item {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--esp-2xs);
+  padding: var(--esp-lg) var(--esp-md) var(--esp-md);
+  border: 1px solid var(--color-borde-suave);
+  border-radius: var(--radio-lg);
+  background-color: var(--color-superficie);
+}
+
+.exp-oferta__indice {
+  position: absolute;
+  top: var(--esp-xs);
+  right: var(--esp-md);
+  font-family: var(--fuente-display);
+  font-size: var(--fs-pequeno);
+  font-variation-settings: var(--ejes-display-sobrio);
+  line-height: 1;
+  letter-spacing: var(--track-caps);
+  color: var(--color-acento-texto);
+}
+
+.exp-oferta__item p {
+  font-size: var(--fs-pequeno);
+  color: var(--color-texto-suave);
+}
+
+.exp-oferta__item .enlace-flecha {
+  margin-top: var(--esp-2xs);
+}
+
+/* ==========================================================================
+   7. CIERRE CON LLAMADA A LA ACCIÓN
    ========================================================================== */
 .exp-cierre {
   display: flex;
@@ -355,6 +536,13 @@ html:not(.js) .exp-foto__btn {
   background-color: var(--color-superficie-oscura);
 }
 
+.exp-cierre__bloque {
+  display: flex;
+  flex-direction: column;
+  gap: var(--esp-2xs);
+  max-width: var(--medida);
+}
+
 .exp-cierre__texto {
   max-width: var(--medida-corta);
   margin: 0;
@@ -366,4 +554,16 @@ html:not(.js) .exp-foto__btn {
 
 .exp-cierre .btn {
   flex: none;
+}
+
+/* Variante sobre fondo claro (#colegios) */
+.exp-cierre--claro {
+  border-color: var(--color-borde-suave);
+  background-color: var(--color-superficie);
+}
+
+.exp-cierre--claro .exp-cierre__texto {
+  max-width: var(--medida);
+  font-size: var(--fs-cuerpo);
+  color: var(--color-texto-suave);
 }

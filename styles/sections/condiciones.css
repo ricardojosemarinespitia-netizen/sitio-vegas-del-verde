@@ -1,0 +1,115 @@
+/* ==========================================================================
+   VEGAS DEL VERDE — sections/condiciones.css
+   Página «Condiciones de alquiler» (condiciones-de-alquiler.html).
+   Antes era un modal; ahora es una página propia, así que estas reglas
+   viven aparte y espacios.css ya no las necesita.
+   Depende de tokens.css y base.css. No declara ningún valor literal.
+   ========================================================================== */
+
+/* ==========================================================================
+   1. LAS CUATRO CONDICIONES
+   Lista vertical: en una columna de lectura se lee mucho mejor de arriba abajo
+   que en las cuatro columnas apretadas de v1.
+   Los iconos son admisibles aquí porque marcan CONCEPTOS (duración,
+   inclusión, exclusión), no sustituyen a nada fotografiable.
+   ========================================================================== */
+.condiciones__lista {
+  display: grid;
+  gap: var(--esp-md);
+  margin-top: var(--esp-lg);
+}
+
+.condicion {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  column-gap: var(--esp-sm);
+  row-gap: var(--esp-3xs);
+  align-items: start;
+}
+
+.condicion__icono {
+  grid-row: span 2;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.5em;
+  height: 2.5em;
+  border-radius: var(--radio-full);
+  background-color: rgb(var(--verde-oliva-rgb) / 0.14);
+  color: var(--color-acento-texto);
+  flex: none;
+}
+
+.condicion__icono svg {
+  width: 1.35em;
+  height: 1.35em;
+}
+
+/* Etiqueta, no titular: por eso sí lleva la fuente de etiqueta declarada. */
+.condicion__titulo {
+  font-family: var(--fuente-titulo);
+  font-size: var(--fs-cuerpo);
+  font-weight: var(--peso-medio);
+  line-height: var(--alto-linea-titulo);
+  color: var(--color-texto);
+  margin: 0;
+}
+
+.condicion__detalle {
+  font-size: var(--fs-pequeno);
+  line-height: var(--alto-linea-base);
+  color: var(--color-texto-suave);
+  margin: 0;
+}
+
+/* La única condición que NO está incluida se marca en el rojo del logo para
+   que no se lea de más. El color va sólo en el icono (grafismo, 3,6:1);
+   el texto se queda en --color-texto. */
+.condicion--excluida .condicion__icono {
+  background-color: rgb(var(--rojo-baya-rgb) / 0.14);
+  color: var(--color-alerta);
+}
+
+/* ---- Para qué se alquila -------------------------------------------------- */
+.condiciones__usos {
+  margin-top: var(--esp-lg);
+  padding-top: var(--esp-md);
+  border-top: 1px solid var(--color-borde-suave);
+}
+
+.condiciones__intro {
+  font-size: var(--fs-cuerpo);
+  color: var(--color-texto);
+  margin: 0 0 var(--esp-sm);
+}
+
+.condiciones__chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--esp-2xs);
+  margin: 0;
+}
+
+/* ---- Pie del modal: arenero + CTA ----------------------------------------- */
+.condiciones__pie {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--esp-sm) var(--esp-md);
+  margin-top: var(--esp-lg);
+  padding-top: var(--esp-md);
+  border-top: 1px solid var(--color-borde-suave);
+}
+
+.condiciones__pie .pildora {
+  margin: 0;
+}
+
+@media (max-width: 33.99em) {
+  .condiciones__pie .btn {
+    display: flex;
+    width: 100%;
+    padding-inline: var(--esp-sm);
+  }
+}

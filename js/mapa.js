@@ -75,22 +75,44 @@
     );
   }
 
-  /* La duración sale del token --dur-vuelo (4500 ms), no de un número suelto. */
-  function duracionVuelo() {
-    var bruto = "";
+  /* Lee un token del :root. Devuelve el texto en bruto ("2.25rem", "4500ms"). */
+  function token(nombre) {
     try {
-      bruto = window
+      return window
         .getComputedStyle(document.documentElement)
-        .getPropertyValue("--dur-vuelo")
+        .getPropertyValue(nombre)
         .trim();
     } catch (e) {
-      bruto = "";
+      return "";
     }
+  }
+
+  /* La duración sale del token --dur-vuelo (4500 ms), no de un número suelto. */
+  function duracionVuelo() {
+    var bruto = token("--dur-vuelo");
     var valor = parseFloat(bruto);
     if (!isFinite(valor) || valor <= 0) {
       return 4.5;
     }
     return bruto.slice(-2) === "ms" ? valor / 1000 : valor;
+  }
+
+  /* Los tamaños del pin también salen de tokens (--tam-pin, --tam-pin-punta):
+     Leaflet necesita píxeles, así que se convierte rem → px con el tamaño de
+     letra raíz. Si el token falta o no se entiende, se usa el respaldo.     */
+  function medidaPx(nombre, respaldo) {
+    var bruto = token(nombre);
+    var valor = parseFloat(bruto);
+    if (!isFinite(valor) || valor <= 0) {
+      return respaldo;
+    }
+    if (bruto.slice(-3) === "rem" || bruto.slice(-2) === "em") {
+      var raiz = parseFloat(
+        window.getComputedStyle(document.documentElement).fontSize
+      );
+      return valor * (isFinite(raiz) && raiz > 0 ? raiz : 16);
+    }
+    return valor;
   }
 
   function cargarHoja(url, sri) {
@@ -261,11 +283,19 @@
       maxNativeZoom: 19
     }).addTo(mapa);
 
+    /* PIN PEQUEÑO Y DISCRETO. La foto satelital manda: el pin señala y se
+       aparta. El ancho sale de --tam-pin (36 px) con tope duro de 40 px, y
+       el alto añade la punta (--tam-pin-punta). El ancla va en la PUNTA
+       —no en el centro— para que el vértice caiga sobre la coordenada.    */
+    var anchoPin = Math.min(40, Math.round(medidaPx("--tam-pin", 36)));
+    var puntaPin = Math.round(medidaPx("--tam-pin-punta", 8));
+    var altoPin = anchoPin + puntaPin;
+
     var icono = L.divIcon({
       className: "ubi-pin-caja",
-      iconSize: [48, 48],
-      iconAnchor: [24, 52],
-      popupAnchor: [0, -50],
+      iconSize: [anchoPin, altoPin],
+      iconAnchor: [Math.round(anchoPin / 2), altoPin],
+      popupAnchor: [0, -altoPin],
       html:
         '<span class="ubi-pin">' +
         '<span class="ubi-pin__halo"></span>' +

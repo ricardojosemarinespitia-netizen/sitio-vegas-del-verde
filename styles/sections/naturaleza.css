@@ -1,9 +1,34 @@
 /* ==========================================================================
-   VEGAS DEL VERDE — naturaleza.css
-   Sendero Ecovital · 101 aves · Biodiversidad · Vivero
+   VEGAS DEL VERDE — styles/sections/naturaleza.css  ·  v2 «Vende la escapada»
+   #naturaleza (Sendero Ecovital) · #aves (101 especies + concurso)
+   #biodiversidad (inventario) · #vivero
    Prefijo propio: .nat-*   ·   Depende de tokens.css + base.css (cargar antes).
-   Ningún valor literal de color, tamaño de fuente, radio, sombra o duración.
+
+   Reglas que se respetan aquí:
+   · Ningún valor literal de color, tamaño de fuente, radio, sombra o duración.
+     Las medidas que la fundación no cubre se declaran como tokens LOCALES,
+     agrupados abajo y siempre derivados de la escala.
+   · Ninguna regla pisa por especificidad un color de base.css. En v1 esta hoja
+     tenía «.nat-aves .nat-ficha--endemica .pildora», que dejaba la píldora
+     «Endémica de Colombia» en 4.14:1; se ha borrado y ahora hereda la regla
+     correcta «.seccion--oscura .pildora--destacada» (amarillo sobre bosque).
+   · Ningún titular declara font-family: heredan Fraunces de base.css.
+   · Caps sólo donde las autoriza el §3 del CONTRATO-V2 (eyebrow, .btn,
+     .pildora, .cifra-etiqueta, h5/h6 y micro-etiquetas propias).
    ========================================================================== */
+
+.nat,
+.nat-aves,
+.nat-bio,
+.nat-vivero {
+  /* --- Tokens locales (lo que la fundación no cubre) ---------------------- */
+  --nat-solape: clamp(1.25rem, 7%, 3.25rem);   /* aire para el inserto      */
+  --nat-retrato: min(100%, 18rem);             /* ancho del retrato de ave  */
+  --nat-chip-foto: 2.75rem;                    /* = objetivo táctil mínimo  */
+  --nat-alto-habitat: clamp(15rem, 30vw, 19rem);
+  --nat-alto-habitat-ancho: clamp(17rem, 32vw, 23rem);
+  --nat-alto-ficha: clamp(12rem, 40vw, 17rem); /* foto de la ficha endémica */
+}
 
 /* ==========================================================================
    (a) SENDERO ECOVITAL
@@ -17,7 +42,6 @@
 @media (min-width: 62em) {
   .nat-sendero {
     grid-template-columns: minmax(0, 0.88fr) minmax(0, 1fr);
-    gap: var(--gap-lg);
   }
 }
 
@@ -25,11 +49,11 @@
 .nat-sendero__media {
   position: relative;
   /* El aire reservado permite que el inserto se solape SIN desbordar nunca */
-  padding-inline-end: clamp(1.25rem, 7%, 3.25rem);
-  padding-block-end: clamp(1.25rem, 7%, 3.25rem);
+  padding-inline-end: var(--nat-solape);
+  padding-block-end: var(--nat-solape);
 }
 
-.nat-sendero__principal {
+.nat-sendero__principal .marco {
   border-radius: var(--radio-xl);
   box-shadow: var(--sombra-lg);
 }
@@ -39,9 +63,17 @@
   inset-inline-end: 0;
   inset-block-end: 0;
   width: min(46%, 13rem);
+}
+
+.nat-sendero__inset .marco {
   border: var(--esp-3xs) solid var(--color-fondo);
   border-radius: var(--radio-lg);
   box-shadow: var(--sombra-lg);
+}
+
+.nat-sendero__pie {
+  margin-top: var(--esp-3xs);
+  text-align: end;
 }
 
 /* ---- Columna de texto ---------------------------------------------------- */
@@ -106,7 +138,7 @@
   );
 }
 
-/* ---- El único precio del sitio: presentado como una ficha, no una etiqueta */
+/* ---- El único precio del sitio: ficha, no etiqueta ------------------------ */
 .nat-precio {
   display: flex;
   flex-direction: column;
@@ -134,6 +166,9 @@
   margin: 0;
   font-family: var(--fuente-display);
   font-size: var(--paso-4);
+  font-weight: var(--peso-display);
+  font-optical-sizing: auto;
+  font-variation-settings: var(--ejes-display);
   line-height: var(--alto-linea-apretado);
   letter-spacing: var(--track-display);
   color: var(--color-acento-texto);
@@ -159,6 +194,93 @@
 }
 
 /* ==========================================================================
+   (a2) QUIÉN TE VA A ESTAR MIRANDO — retrato + fichas de especie
+   Cada especie nombrada en el texto aparece con su foto real y su autor.
+   ========================================================================== */
+.nat-encuentros {
+  display: grid;
+  gap: var(--gap);
+  align-items: start;
+  margin-top: var(--gap-lg);
+  padding-top: var(--gap-lg);
+  border-top: 1px solid var(--color-borde-suave);
+}
+
+@media (min-width: 52em) {
+  .nat-encuentros {
+    grid-template-columns: var(--nat-retrato) minmax(0, 1fr);
+    gap: var(--gap-lg);
+  }
+}
+
+.nat-encuentros__retrato {
+  width: var(--nat-retrato);
+}
+
+.nat-encuentros__retrato .marco {
+  border-radius: var(--radio-lg);
+  box-shadow: var(--sombra-md);
+}
+
+.nat-encuentros__credito {
+  margin-top: var(--esp-2xs);
+}
+
+.nat-encuentros__texto {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--esp-sm);
+}
+
+.nat-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--gap-sm);
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.nat-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--esp-2xs);
+  padding: var(--esp-3xs) var(--esp-sm) var(--esp-3xs) var(--esp-3xs);
+  border: 1px solid var(--color-borde-suave);
+  border-radius: var(--radio-full);
+  background-color: var(--color-superficie);
+}
+
+.nat-chip__foto {
+  flex: none;
+  width: var(--nat-chip-foto);
+  height: var(--nat-chip-foto);
+  border-radius: var(--radio-full);
+  object-fit: cover;
+  box-shadow: var(--sombra-xs);
+}
+
+.nat-chip__texto {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  line-height: var(--alto-linea-titulo);
+}
+
+.nat-chip__nombre {
+  font-size: var(--fs-pequeno);
+  color: var(--color-texto);
+}
+
+.nat-chip__autor {
+  font-size: var(--fs-micro);
+  letter-spacing: 0.04em;
+  color: var(--color-texto-suave);
+}
+
+/* ==========================================================================
    (b) LAS 101 AVES
    ========================================================================== */
 .nat-aves {
@@ -176,7 +298,7 @@
   pointer-events: none;
   background-image: radial-gradient(
     ellipse at 50% 0%,
-    rgb(var(--verde-menta-rgb) / 0.16),
+    rgb(var(--verde-menta-rgb) / 0.14),
     rgb(var(--verde-menta-rgb) / 0) 65%
   );
 }
@@ -186,42 +308,8 @@
   z-index: var(--z-base);
 }
 
-/* Sobre tinta, el anillo de foco oliva no contrasta: se pasa a menta */
-.nat-aves :focus-visible {
-  outline-color: var(--verde-menta);
-}
-
-/* ---- Titular con la cifra en display ------------------------------------- */
 .nat-aves__encabezado {
   max-width: var(--ancho-sm);
-}
-
-.nat-aves__titulo {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: var(--esp-2xs);
-  text-transform: none;
-  letter-spacing: normal;
-}
-
-.nat-aves__cifra {
-  font-family: var(--fuente-display);
-  font-size: var(--paso-6);
-  font-weight: var(--peso-normal);
-  line-height: var(--alto-linea-apretado);
-  letter-spacing: var(--track-display);
-  color: var(--color-acento);
-}
-
-.nat-aves__palabras {
-  font-family: var(--fuente-titulo);
-  font-size: var(--fs-h3);
-  font-weight: var(--peso-ligero);
-  text-transform: uppercase;
-  letter-spacing: var(--track-caps);
-  line-height: var(--alto-linea-titulo);
-  color: var(--color-texto-inverso);
 }
 
 /* ---- Fichas: endémica + migratorias -------------------------------------- */
@@ -229,20 +317,19 @@
   display: grid;
   gap: var(--gap);
   margin-top: var(--gap-lg);
+  align-items: stretch;
 }
 
 @media (min-width: 48em) {
   .nat-aves__fichas {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
+    grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr);
   }
 }
 
 .nat-ficha {
   display: flex;
   flex-direction: column;
-  align-items: flex-start;
-  gap: var(--esp-2xs);
-  padding: var(--esp-lg);
+  overflow: hidden;
   border: 1px solid var(--color-borde-inverso);
   border-radius: var(--radio-lg);
   background-color: var(--color-superficie-oscura);
@@ -253,10 +340,27 @@
   background-color: rgb(var(--amarillo-rgb) / 0.07);
 }
 
-.nat-aves .nat-ficha--endemica .pildora {
-  background-color: rgb(var(--amarillo-rgb) / 0.2);
-  border-color: rgb(var(--amarillo-rgb) / 0.5);
-  color: var(--color-destacado);
+.nat-ficha__figura {
+  flex: none;
+  height: var(--nat-alto-ficha);
+  border-radius: 0;
+}
+
+.nat-ficha__figura > img {
+  object-position: center 34%;
+}
+
+.nat-ficha__cuerpo {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--esp-2xs);
+  padding: var(--esp-lg);
+}
+
+.nat-ficha--dato .nat-ficha__cuerpo {
+  justify-content: center;
+  height: 100%;
 }
 
 .nat-ficha__titulo {
@@ -281,17 +385,22 @@
   color: var(--color-texto-inverso-suave);
 }
 
+/* Aclaración honesta: la foto es del hábitat, no de la especie */
+.nat-ficha__aviso {
+  margin: 0;
+  padding-left: var(--esp-sm);
+  border-left: 2px solid rgb(var(--amarillo-rgb) / 0.5);
+  font-size: var(--fs-micro);
+  line-height: var(--alto-linea-base);
+  color: var(--color-texto-inverso-suave);
+}
+
 .nat-ficha .cifra + .cifra-etiqueta {
   margin-bottom: var(--esp-2xs);
 }
 
-/* ---- Galería del concurso ------------------------------------------------ */
+/* ---- El muro del concurso ------------------------------------------------ */
 .nat-galeria {
-  /* Alinea el primer ítem del carril con el borde del .contenedor--ancho */
-  --nat-borde: max(
-    var(--padding-contenedor),
-    calc((100% - var(--ancho-xl)) / 2)
-  );
   margin-top: var(--esp-2xl);
 }
 
@@ -301,111 +410,93 @@
   align-items: flex-end;
   justify-content: space-between;
   gap: var(--esp-sm) var(--gap);
-  margin-bottom: var(--esp-md);
+  margin-bottom: var(--gap);
 }
 
-.nat-galeria__nota {
-  margin-top: var(--esp-2xs);
-  color: var(--color-texto-inverso-suave);
+.nat-galeria__titulos {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--esp-2xs);
   max-width: var(--medida);
 }
 
-.nat-galeria__pista {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.6em;
+.nat-galeria__nota {
   margin: 0;
-  font-family: var(--fuente-titulo);
-  font-size: var(--fs-micro);
-  font-weight: var(--peso-medio);
-  text-transform: uppercase;
-  letter-spacing: var(--track-caps);
-  color: var(--color-acento);
+  font-size: var(--fs-pequeno);
+  color: var(--color-texto-inverso-suave);
 }
 
-.nat-galeria__pista::after {
-  content: "→";
-  animation: nat-desliza 2.4s var(--ease-suave) infinite;
-}
-
-@keyframes nat-desliza {
-  0%,
-  100% {
-    transform: translateX(0);
-  }
-  50% {
-    transform: translateX(0.4em);
-  }
-}
-
-/* ---- El carril: scroll horizontal con snap -------------------------------- */
-.nat-rail {
-  display: grid;
-  grid-auto-flow: column;
-  grid-auto-columns: clamp(9.5rem, 42vw, 14rem);
-  gap: var(--gap-sm);
-  margin: 0;
-  padding-block: var(--esp-2xs) var(--esp-sm);
-  padding-inline: var(--nat-borde);
-  list-style: none;
-  overflow-x: auto;
-  overflow-y: hidden;
-  overscroll-behavior-x: contain;
-  scroll-snap-type: x proximity;
-  scroll-padding-inline-start: var(--nat-borde);
-  scrollbar-width: thin;
-  scrollbar-color: rgb(var(--verde-menta-rgb) / 0.55) rgb(var(--crema-rgb) / 0.1);
-  -webkit-overflow-scrolling: touch;
-}
-
-/* Dos filas en pantallas grandes: el recorrido horizontal se reduce a la mitad */
-@media (min-width: 60em) {
-  .nat-rail {
-    grid-template-rows: repeat(2, minmax(0, 1fr));
-    grid-auto-columns: clamp(11rem, 15vw, 14.5rem);
-    gap: var(--gap-sm);
-  }
-}
-
-.nat-rail::-webkit-scrollbar {
-  height: 0.5rem;
-}
-
-.nat-rail::-webkit-scrollbar-track {
-  background-color: rgb(var(--crema-rgb) / 0.08);
-  border-radius: var(--radio-full);
-}
-
-.nat-rail::-webkit-scrollbar-thumb {
-  background-color: rgb(var(--verde-menta-rgb) / 0.55);
-  border-radius: var(--radio-full);
-}
-
-.nat-rail__item {
-  scroll-snap-align: start;
-}
-
-/* ---- Cada fotografía ------------------------------------------------------ */
-.nat-foto {
+.nat-galeria__dato {
   display: flex;
   flex-direction: column;
-  align-content: flex-start;
+  align-items: flex-end;
+  gap: var(--esp-3xs);
+  margin: 0;
+  text-align: end;
+}
+
+.nat-galeria__cifra {
+  font-family: var(--fuente-display);
+  font-size: var(--fs-h2);
+  font-weight: var(--peso-fuerte);
+  font-optical-sizing: auto;
+  font-variation-settings: var(--ejes-display);
+  line-height: 1;
+  letter-spacing: var(--track-display);
+  color: var(--color-destacado);
+}
+
+.nat-galeria__cifra-pie {
+  font-family: var(--fuente-titulo);
+  font-size: var(--fs-micro);
+  text-transform: uppercase;
+  letter-spacing: var(--track-caps);
+  color: var(--color-texto-inverso-suave);
+}
+
+/* Muro de columnas: cada foto conserva su proporción real, como una copia
+   colgada en pared. Nada de recortes cuadrados de banco de imágenes.       */
+.nat-muro {
+  columns: 2;
+  column-gap: var(--gap-sm);
+}
+
+@media (min-width: 48em) {
+  .nat-muro {
+    columns: 3;
+  }
+}
+
+@media (min-width: 72em) {
+  .nat-muro {
+    columns: 4;
+  }
+}
+
+.nat-obra {
+  display: flex;
+  flex-direction: column;
   gap: var(--esp-2xs);
+  margin: 0 0 var(--gap-sm);
+  break-inside: avoid;
+  -webkit-column-break-inside: avoid;
+  page-break-inside: avoid;
+}
+
+.nat-obra__disparador {
+  position: relative;
+  display: block;
   width: 100%;
   padding: 0;
-  text-align: left;
-  color: var(--color-texto-inverso);
+  overflow: hidden;
   border-radius: var(--radio-md);
-  transition: transform var(--transicion);
-}
-
-.nat-foto__marco {
-  display: block;
-  border-radius: var(--radio-md);
+  background-color: rgb(var(--crema-rgb) / 0.06);
   box-shadow: var(--sombra-md);
+  transition: transform var(--transicion), box-shadow var(--transicion);
 }
 
-.nat-foto__marco::after {
+.nat-obra__disparador::after {
   content: "";
   position: absolute;
   inset: 0;
@@ -414,45 +505,79 @@
   pointer-events: none;
 }
 
-.nat-foto:hover {
-  transform: translateY(-4px);
+.nat-obra__disparador > img {
+  width: 100%;
+  height: auto;
+  transition: transform var(--dur-lenta) var(--ease-suave);
 }
 
-.nat-foto:hover .nat-foto__marco > img,
-.nat-foto:focus-visible .nat-foto__marco > img {
+.nat-obra__disparador:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--sombra-lg);
+}
+
+.nat-obra__disparador:hover > img,
+.nat-obra__disparador:focus-visible > img {
   transform: scale(var(--escala-hover));
 }
 
-.nat-foto__pie {
+.nat-obra__pie {
   display: flex;
   flex-direction: column;
-  gap: var(--esp-3xs);
+  gap: 0;
+  margin: 0;
+  line-height: var(--alto-linea-titulo);
 }
 
-.nat-foto__especie {
-  font-family: var(--fuente-titulo);
+.nat-obra__especie {
   font-size: var(--fs-pequeno);
-  font-weight: var(--peso-normal);
-  line-height: var(--alto-linea-titulo);
   color: var(--color-texto-inverso);
 }
 
-.nat-foto__especie--anonima {
+.nat-obra__especie--anonima {
   color: var(--color-texto-inverso-suave);
 }
 
 /* Nombres científicos en cursiva, como manda la nomenclatura binomial */
 .nat-cientifico {
-  font-family: var(--fuente-cuerpo);
   font-style: italic;
   letter-spacing: 0.01em;
 }
 
 /* El crédito del fotógrafo es obligatorio: siempre visible, nunca en hover */
-.nat-foto__credito {
+.nat-obra__autor {
   font-size: var(--fs-micro);
   letter-spacing: 0.04em;
   color: var(--color-acento);
+}
+
+/* ---- Resto del muro, plegado ---------------------------------------------- */
+.nat-mas {
+  margin-top: var(--esp-sm);
+  text-align: center;
+}
+
+.nat-mas__boton {
+  list-style: none;
+}
+
+.nat-mas__boton::-webkit-details-marker {
+  display: none;
+}
+
+.nat-mas__boton::after {
+  content: "+";
+  font-size: var(--fs-cuerpo);
+  line-height: 1;
+}
+
+.nat-mas[open] .nat-mas__boton::after {
+  content: "–";
+}
+
+.nat-muro--resto {
+  margin-top: var(--gap);
+  text-align: start;
 }
 
 .nat-aves__acciones {
@@ -466,33 +591,146 @@
 }
 
 /* ==========================================================================
-   (c) BIODIVERSIDAD
+   (c) BIODIVERSIDAD — los ambientes del predio, con foto real
    ========================================================================== */
-.nat-cifras {
+.nat-habitats {
+  display: grid;
+  gap: var(--gap);
   margin: 0;
   padding: 0;
   list-style: none;
 }
 
-.nat-cifra {
+@media (min-width: 40em) {
+  .nat-habitats {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .nat-habitat--ancho {
+    grid-column: span 2;
+  }
+}
+
+@media (min-width: 64em) {
+  .nat-habitats {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .nat-habitat--ancho {
+    grid-column: span 3;
+  }
+}
+
+.nat-habitat {
+  position: relative;
+  display: flex;
+  align-items: flex-end;
+  min-height: var(--nat-alto-habitat);
+  overflow: hidden;
+  border-radius: var(--radio-lg);
+  box-shadow: var(--sombra-md);
+  isolation: isolate;
+}
+
+.nat-habitat--ancho {
+  min-height: var(--nat-alto-habitat-ancho);
+}
+
+.nat-habitat__foto {
+  position: absolute;
+  inset: 0;
+  z-index: var(--z-fondo);
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform var(--dur-lenta) var(--ease-suave);
+}
+
+/* Velo de bosque hondo: donde va el texto la veladura llega al 88-94 %, así
+   que la crema queda por encima de 8:1 y el amarillo por encima de 6:1 sea
+   cual sea la fotografía de debajo.                                         */
+.nat-habitat::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: var(--z-base);
+  pointer-events: none;
+  background-image: linear-gradient(
+    to top,
+    rgb(var(--verde-bosque-hondo-rgb) / 0.94) 0%,
+    rgb(var(--verde-bosque-hondo-rgb) / 0.88) 45%,
+    rgb(var(--verde-bosque-hondo-rgb) / 0.35) 78%,
+    rgb(var(--verde-bosque-hondo-rgb) / 0.1) 100%
+  );
+}
+
+.nat-habitat:hover .nat-habitat__foto {
+  transform: scale(var(--escala-hover));
+}
+
+.nat-habitat__cuerpo {
+  position: relative;
+  z-index: var(--z-elevado);
   display: flex;
   flex-direction: column;
-  align-items: center;
-  justify-content: center;
   gap: var(--esp-3xs);
-  padding: var(--esp-md) var(--esp-sm);
-  text-align: center;
+  width: 100%;
+  padding: var(--esp-md);
+  color: var(--color-texto-inverso);
 }
 
-.nat-cifra .cifra {
+@media (min-width: 40em) {
+  .nat-habitat--ancho .nat-habitat__cuerpo {
+    padding: var(--esp-lg);
+    max-width: var(--ancho-xs);
+  }
+}
+
+.nat-habitat__lugar {
+  margin: 0;
+  font-family: var(--fuente-titulo);
+  font-size: var(--fs-micro);
+  font-weight: var(--peso-medio);
+  text-transform: uppercase;
+  letter-spacing: var(--track-caps);
+  color: var(--color-acento-inverso);
+}
+
+.nat-habitat__cifra {
+  margin: 0;
+  font-family: var(--fuente-display);
   font-size: var(--paso-4);
+  font-weight: var(--peso-fuerte);
+  font-optical-sizing: auto;
+  font-variation-settings: var(--ejes-display);
+  line-height: var(--alto-linea-apretado);
+  letter-spacing: var(--track-display);
+  color: var(--color-destacado);
 }
 
-.nat-cifra .cifra-etiqueta {
-  max-width: 14ch;
+.nat-habitat--ancho .nat-habitat__cifra {
+  font-size: var(--paso-5);
 }
 
-/* ---- Panel de conservación ----------------------------------------------- */
+.nat-habitat__etiqueta {
+  margin: 0;
+  font-family: var(--fuente-titulo);
+  font-size: var(--fs-pequeno);
+  color: var(--color-texto-inverso);
+}
+
+.nat-habitat__texto {
+  margin: 0;
+  font-size: var(--fs-micro);
+  line-height: var(--alto-linea-base);
+  color: var(--color-texto-inverso-suave);
+}
+
+.nat-bio__aclaracion {
+  margin-top: var(--esp-md);
+}
+
+/* ---- Panel de conservación (CITES III) ----------------------------------- */
 .nat-conservacion {
   display: grid;
   gap: var(--gap);
@@ -536,15 +774,16 @@
   flex-direction: column;
   gap: var(--esp-3xs);
   padding-left: var(--esp-sm);
-  border-left: 2px solid var(--color-acento);
+  border-left: 2px solid var(--color-borde-fuerte);
 }
 
 .nat-especie__nombre {
-  font-family: var(--fuente-titulo);
+  font-family: var(--fuente-display);
   font-size: var(--fs-h4);
-  font-weight: var(--peso-normal);
-  text-transform: uppercase;
-  letter-spacing: var(--track-caps);
+  font-weight: var(--peso-display);
+  font-optical-sizing: auto;
+  font-variation-settings: var(--ejes-display);
+  line-height: var(--alto-linea-titulo);
   color: var(--color-texto);
 }
 
@@ -552,6 +791,11 @@
   font-style: italic;
   font-size: var(--fs-pequeno);
   color: var(--color-texto-suave);
+}
+
+.nat-conservacion__pie {
+  grid-column: 1 / -1;
+  margin: 0;
 }
 
 /* ==========================================================================
@@ -582,6 +826,10 @@
 
 .nat-mosaico__alto {
   grid-row: span 2;
+}
+
+.nat-mosaico__ancho {
+  grid-column: span 2;
 }
 
 .nat-vivero__texto {
@@ -622,6 +870,8 @@
   flex: none;
   font-family: var(--fuente-display);
   font-size: var(--fs-h4);
+  font-weight: var(--peso-display);
+  font-optical-sizing: auto;
   line-height: 1;
   letter-spacing: var(--track-display);
   color: var(--color-acento-texto);
@@ -653,7 +903,7 @@
   width: 2.75rem;
   height: 2.75rem;
   border-radius: var(--radio-full);
-  background-color: var(--verde-oliva);
+  background-color: var(--verde-bosque);
   color: var(--color-texto-inverso);
 }
 
@@ -681,4 +931,18 @@
   font-size: var(--fs-micro);
   line-height: var(--alto-linea-base);
   color: var(--color-texto-suave);
+}
+
+/* ==========================================================================
+   AJUSTES MÓVIL
+   ========================================================================== */
+@media (max-width: 30em) {
+  .nat-chip {
+    width: 100%;
+  }
+
+  .nat-galeria__dato {
+    align-items: flex-start;
+    text-align: start;
+  }
 }

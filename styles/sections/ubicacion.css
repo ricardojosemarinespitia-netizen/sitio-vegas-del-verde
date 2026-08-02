@@ -209,9 +209,14 @@
 }
 
 /* ==========================================================================
-   4. PIN PERSONALIZADO (lo inyecta js/mapa.js dentro de un L.divIcon)
+   4. PIN PEQUEÑO (lo inyecta js/mapa.js dentro de un L.divIcon)
+
+   v1 metía el símbolo del logo a 48 px anclado por el centro: tapaba la vista
+   satelital y señalaba mal. v2 lo reduce al disco de --tam-pin (36 px) con una
+   punta de --tam-pin-punta, y js/mapa.js ancla el icono en el VÉRTICE de la
+   punta, que es lo que cae sobre 7.0574425, -73.1144128.
+   La caja del divIcon mide [--tam-pin] × [--tam-pin + --tam-pin-punta].
    ========================================================================== */
-/* Leaflet fija el tamaño de la caja del divIcon (iconSize); el pin la llena. */
 .ubi-pin {
   position: relative;
   display: block;
@@ -221,38 +226,47 @@
 
 .ubi-pin__disco {
   position: absolute;
-  inset: 0;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: var(--tam-pin);
   display: grid;
   place-items: center;
   border-radius: var(--radio-full);
-  border: 1px solid rgb(var(--verde-oliva-rgb) / 0.35);
-  background-color: rgb(var(--crema-rgb) / 0.95);
-  box-shadow: var(--sombra-lg);
+  border: var(--borde-pin) solid var(--verde-bosque);
+  background-color: rgb(var(--crema-rgb) / 0.96);
+  box-shadow: var(--sombra-pin);
 }
 
 .ubi-pin__disco img {
-  width: 68%;
+  width: 62%;
   height: auto;
   background: none;
 }
 
-/* Punta del pin */
+/* Punta del pin: cuadrado girado 45°. El lado es la punta × √2 y se baja
+   punta × √2/2, de modo que su vértice inferior queda EXACTAMENTE en el
+   borde inferior de la caja del icono, que es donde ancla Leaflet.        */
 .ubi-pin__disco::after {
   content: "";
   position: absolute;
-  bottom: calc(var(--esp-3xs) * -1);
+  bottom: calc(var(--tam-pin-punta) * -0.7071);
   left: 50%;
-  width: 0.7em;
-  height: 0.7em;
+  width: calc(var(--tam-pin-punta) * 1.4142);
+  height: calc(var(--tam-pin-punta) * 1.4142);
   transform: translateX(-50%) rotate(45deg);
-  border-right: 1px solid rgb(var(--verde-oliva-rgb) / 0.35);
-  border-bottom: 1px solid rgb(var(--verde-oliva-rgb) / 0.35);
-  background-color: rgb(var(--crema-rgb) / 0.95);
+  border-right: var(--borde-pin) solid var(--verde-bosque);
+  border-bottom: var(--borde-pin) solid var(--verde-bosque);
+  background-color: rgb(var(--crema-rgb) / 0.96);
 }
 
+/* Latido muy contenido: llama la atención sin crecer hasta tapar el predio. */
 .ubi-pin__halo {
   position: absolute;
-  inset: 0;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: var(--tam-pin);
   border-radius: var(--radio-full);
   border: 1px solid var(--verde-menta);
   animation: ubi-pulso var(--ubi-dur-pulso) var(--ease-suave) infinite;
@@ -260,15 +274,15 @@
 
 @keyframes ubi-pulso {
   0% {
-    transform: scale(0.92);
-    opacity: 0.7;
+    transform: scale(1);
+    opacity: 0.6;
   }
   70% {
-    transform: scale(2);
+    transform: scale(1.7);
     opacity: 0;
   }
   100% {
-    transform: scale(2);
+    transform: scale(1.7);
     opacity: 0;
   }
 }

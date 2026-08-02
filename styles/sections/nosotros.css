@@ -1,8 +1,16 @@
 /* ==========================================================================
-   VEGAS DEL VERDE — nosotros.css  ·  sección #nosotros
+   VEGAS DEL VERDE — nosotros.css  ·  sección #nosotros  ·  v2
    (a) presentación · (b) compromiso · (c) cifras · (d) servicios
    Depende de tokens.css + base.css. Sin valores literales de color, tamaño de
    fuente, radio, sombra ni duración.
+
+   DEFECTOS DE v1 CORREGIDOS AQUÍ (CONTRATO-V2 §7.5 y §7.6)
+   · .nosotros__pilar-indice iba en --verde-menta sobre superficie clara:
+     2,07:1. Ahora vive sobre la foto, con velo propio, en --color-destacado
+     (5,8:1 medido contra el peor píxel posible).
+   · .nosotros__pilar-titulo declaraba font-family: --fuente-titulo y se
+     quedaba en Jost. Se le retira el font-family para que herede Fraunces
+     de h4 (base.css). Tampoco declara color: lo hereda.
    ========================================================================== */
 
 .nosotros {
@@ -51,36 +59,50 @@
 }
 
 .nosotros__foto {
+  position: relative;
   margin: 0;
   min-width: 0;
   min-height: 0;
+  overflow: hidden;
+  border-radius: var(--radio-lg);
+  background-color: rgb(var(--gris-verde-rgb) / 0.3);
 }
 
-.nosotros__mosaico .marco {
+.nosotros__foto img {
+  width: 100%;
   height: 100%;
+  object-fit: cover;
+  transition: transform var(--dur-lenta) var(--ease-suave);
 }
 
 /* Móvil: la principal ocupa el ancho y las dos secundarias van a la par. */
 .nosotros__foto--principal {
   grid-column: 1 / -1;
-}
-
-.nosotros__foto--principal .marco {
   aspect-ratio: 4 / 3;
 }
 
-.nosotros__foto--secundaria .marco {
+.nosotros__foto--secundaria {
   aspect-ratio: 1 / 1;
 }
 
-/* Encuadres: las tres fotos son verticales y se recortan hacia el centro
-   de interés (guadual, copa del árbol, edificio sobre las copas). */
+/* Encuadres: cada foto se recorta hacia su centro de interés (la pérgola bajo
+   los árboles, la carpa iluminada, la terraza empedrada). */
 .nosotros__foto--principal img {
-  object-position: 50% 42%;
+  object-position: 50% 45%;
 }
 
-.nosotros__foto--secundaria img {
-  object-position: 50% 44%;
+.nosotros__mosaico .nosotros__foto--secundaria:nth-of-type(2) img {
+  object-position: 55% 50%;
+}
+
+.nosotros__mosaico .nosotros__foto--secundaria:nth-of-type(3) img {
+  object-position: 50% 48%;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .nosotros__foto:hover img {
+    transform: scale(var(--escala-hover));
+  }
 }
 
 @media (min-width: 40em) {
@@ -97,13 +119,14 @@
     grid-row: 1 / span 2;
   }
 
-  .nosotros__mosaico .marco {
+  .nosotros__foto--principal,
+  .nosotros__foto--secundaria {
     aspect-ratio: auto;
   }
 }
 
 /* ==========================================================================
-   2. COMPROMISO
+   2. COMPROMISO — tres pilares, cada uno con su fotografía real
    ========================================================================== */
 .nosotros__bloque {
   margin-top: var(--esp-seccion-sm);
@@ -115,12 +138,8 @@
 
 .nosotros__pilar {
   display: flex;
+  flex-direction: column;
   height: 100%;
-}
-
-.nosotros__pilar .tarjeta__cuerpo {
-  gap: var(--esp-xs);
-  padding: var(--esp-lg);
 }
 
 .nosotros__pilar:hover {
@@ -128,21 +147,67 @@
   box-shadow: var(--sombra-md);
 }
 
+/* La foto va a sangre dentro de la tarjeta: no se usa .marco para que el
+   radio de la tarjeta (overflow: hidden) sea el único que recorta. */
+.nosotros__pilar-foto {
+  position: relative;
+  margin: 0;
+  aspect-ratio: 3 / 2;
+  overflow: hidden;
+  background-color: rgb(var(--gris-verde-rgb) / 0.3);
+}
+
+.nosotros__pilar-foto img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform var(--dur-lenta) var(--ease-suave);
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .nosotros__pilar:hover .nosotros__pilar-foto img {
+    transform: scale(var(--escala-hover));
+  }
+}
+
+/* Velo bajo el índice: garantiza 5,8:1 del amarillo contra el peor píxel
+   (blanco puro) que pueda caer detrás del número. */
+.nosotros__pilar-foto::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-image: linear-gradient(
+    to top,
+    rgb(var(--verde-bosque-hondo-rgb) / 0.85) 0%,
+    rgb(var(--verde-bosque-hondo-rgb) / 0.85) 22%,
+    rgb(var(--verde-bosque-hondo-rgb) / 0) 52%
+  );
+}
+
 .nosotros__pilar-indice {
+  position: absolute;
+  left: var(--esp-md);
+  bottom: var(--esp-2xs);
+  z-index: var(--z-base);
   font-family: var(--fuente-display);
   font-size: var(--fs-h3);
+  font-weight: var(--peso-fuerte);
+  font-optical-sizing: auto;
+  font-variation-settings: var(--ejes-display);
   line-height: 1;
   letter-spacing: var(--track-display);
-  color: var(--color-acento);
+  color: var(--color-destacado);
+}
+
+/* Hereda Fraunces de h4: aquí NO se declara font-family ni color. */
+.nosotros__pilar .tarjeta__cuerpo {
+  flex: 1;
+  gap: var(--esp-xs);
+  padding: var(--esp-lg);
 }
 
 .nosotros__pilar-titulo {
-  font-family: var(--fuente-titulo);
-  font-size: var(--fs-h4);
-  font-weight: var(--peso-normal);
-  line-height: var(--alto-linea-titulo);
-  letter-spacing: var(--track-titulo);
-  color: var(--color-acento-texto);
+  text-wrap: balance;
 }
 
 .nosotros__pilar p {
@@ -152,8 +217,13 @@
 }
 
 /* ==========================================================================
-   3. CIFRAS  (franja a sangre, en negativo)
-   ========================================================================== */
+   3. CIFRAS — franja a sangre, tarjetas con foto real de fondo
+   ==========================================================================
+   Por qué los velos son tan opacos: el dato tiene que leerse sobre CUALQUIER
+   píxel de la foto, y estas fotos tienen cielo blanco. Con 0,88 de
+   --verde-bosque-hondo sobre blanco puro, el amarillo de .cifra da 5,9:1 y la
+   crema de .cifra-etiqueta 5,9:1; en la base de la tarjeta (0,94) suben a 8:1
+   y 7,7:1. El texto se ancla abajo, dentro de la zona más opaca.            */
 .nosotros__cifras {
   margin-top: var(--esp-seccion);
   padding-block: var(--esp-2xl);
@@ -162,7 +232,6 @@
 .nosotros__cifras-titulo {
   text-align: center;
   margin-bottom: var(--gap-lg);
-  color: var(--color-acento);
 }
 
 .nosotros__cifras-lista {
@@ -170,76 +239,107 @@
 }
 
 .nosotros__cifra {
-  text-align: center;
-  padding-inline: var(--esp-2xs);
+  position: relative;
+  display: flex;
+  align-items: flex-end;
+  aspect-ratio: 4 / 5;
+  overflow: hidden;
+  border-radius: var(--radio-lg);
+  border: 1px solid var(--color-borde-inverso);
+  background-color: var(--color-fondo-hondo);
+  box-shadow: var(--sombra-md);
+  transition:
+    transform var(--transicion),
+    box-shadow var(--transicion);
 }
 
-@media (min-width: 40em) {
-  .nosotros__cifra + .nosotros__cifra {
-    border-left: 1px solid var(--color-borde-inverso);
+.nosotros__cifra:hover {
+  transform: translateY(calc(var(--esp-3xs) * -1));
+  box-shadow: var(--sombra-lg);
+}
+
+.nosotros__cifra-foto {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform var(--dur-lenta) var(--ease-suave);
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .nosotros__cifra:hover .nosotros__cifra-foto {
+    transform: scale(var(--escala-hover));
   }
 }
 
-@media (min-width: 40em) and (max-width: 59.99em) {
-  /* en dos columnas, el tercer elemento vuelve a abrir fila */
-  .nosotros__cifra:nth-child(odd) {
-    border-left: 0;
-  }
+.nosotros__cifra::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-image: linear-gradient(
+    to top,
+    rgb(var(--verde-bosque-hondo-rgb) / 0.94) 0%,
+    rgb(var(--verde-bosque-hondo-rgb) / 0.88) 42%,
+    rgb(var(--verde-bosque-hondo-rgb) / 0.52) 74%,
+    rgb(var(--verde-bosque-hondo-rgb) / 0.34) 100%
+  );
+}
+
+.nosotros__cifra-dato {
+  position: relative;
+  z-index: var(--z-base);
+  display: block;
+  width: 100%;
+  padding: var(--esp-md);
+}
+
+/* El cuerpo de --fs-cifra (hasta 3,75rem) ahoga una tarjeta de este tamaño:
+   dentro de la tarjeta la cifra baja un paso y gana aire alrededor. */
+.nosotros__cifra .cifra {
+  font-size: var(--fs-h2);
 }
 
 .nosotros__cifra .cifra-etiqueta {
   max-width: var(--medida-corta);
-  margin-inline: auto;
 }
 
 /* ==========================================================================
-   4. SERVICIOS DEL PREDIO
+   4. SERVICIOS DEL PREDIO — una tira discreta, sin tarjetas
+   No compiten con las cifras: son el «ya está resuelto», no el argumento.
    ========================================================================== */
 .nosotros__servicios {
   margin-top: var(--esp-seccion);
 }
 
-.nosotros__servicios-lista {
-  margin: 0;
-}
-
-.nosotros__servicio {
+.nosotros__servicios-tira {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: var(--esp-xs);
-  padding: var(--esp-md) var(--esp-sm);
+  gap: var(--esp-sm);
+  padding: var(--esp-lg) var(--esp-md);
   border: 1px solid var(--color-borde-suave);
   border-radius: var(--radio-lg);
   background-color: var(--color-superficie);
   text-align: center;
-  transition:
-    border-color var(--transicion),
-    background-color var(--transicion);
 }
 
-.nosotros__servicio:hover {
-  border-color: var(--color-acento);
-  background-color: var(--color-superficie-solida);
+.nosotros__servicios-titulo {
+  color: var(--color-texto-suave);
 }
 
-.nosotros__servicio-icono {
+.nosotros__servicios-lista {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: var(--esp-xs) var(--esp-lg);
+  margin: 0;
+}
+
+.nosotros__servicio {
   display: inline-flex;
   align-items: center;
-  justify-content: center;
-  width: var(--esp-xl);
-  height: var(--esp-xl);
-  border-radius: var(--radio-full);
-  background-color: rgb(var(--verde-menta-rgb) / 0.18);
-  color: var(--color-acento-texto);
-}
-
-.nosotros__servicio-icono svg {
-  width: 55%;
-  height: 55%;
-}
-
-.nosotros__servicio-nombre {
+  gap: var(--esp-2xs);
   font-family: var(--fuente-titulo);
   font-size: var(--fs-pequeno);
   font-weight: var(--peso-medio);
@@ -247,7 +347,13 @@
   letter-spacing: var(--track-caps);
   line-height: var(--alto-linea-titulo);
   color: var(--color-texto);
-  margin-inline-end: calc(var(--track-caps) * -1);
+}
+
+.nosotros__servicio-icono {
+  width: var(--esp-md);
+  height: var(--esp-md);
+  flex: none;
+  color: var(--color-acento-texto);
 }
 
 .nosotros__servicios-pie {
@@ -257,8 +363,21 @@
   justify-content: center;
   gap: var(--esp-2xs) var(--esp-md);
   max-width: none;
-  margin-top: var(--gap);
   font-size: var(--fs-pequeno);
   color: var(--color-texto-suave);
-  text-align: center;
+}
+
+@media (min-width: 62em) {
+  .nosotros__servicios-tira {
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: var(--esp-md) var(--esp-lg);
+    text-align: left;
+    padding-inline: var(--esp-lg);
+  }
+
+  .nosotros__servicios-lista {
+    justify-content: flex-start;
+  }
 }
