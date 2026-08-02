@@ -957,3 +957,128 @@ figcaption {
   border-color: rgb(var(--amarillo-rgb) / 0.4);
   color: var(--color-destacado);
 }
+
+/* ==========================================================================
+   ÁREAS TÁCTILES
+   Sólo en punteros gruesos (dedo). En escritorio el ratón acierta un objetivo
+   de 36 px sin esfuerzo, así que ampliarlo allí sólo estropearía la densidad
+   del diseño; en un móvil, en cambio, 36 px se falla —y más aún si a quien
+   toca le tiembla el pulso o lleva la letra del sistema agrandada.
+   Referencia: 44 px (WCAG 2.5.5 / Apple HIG). Se amplía el ÁREA, nunca el
+   cuerpo de letra, para que la composición no se mueva.
+   ========================================================================== */
+@media (pointer: coarse), (max-width: 63.99em) {
+  /* La lista con coma es un O: puntero grueso O pantalla por debajo de
+     1024 px. Con `pointer: coarse` a secas esto no se puede comprobar desde
+     un navegador de escritorio —y ahí se queda sin verificar—, así que el
+     ancho entra como segunda vía: por debajo de 1024 px se toca con el dedo
+     casi siempre. En un ratón sobre una ventana estrecha lo único que pasa
+     es que los objetivos quedan algo más holgados, que no molesta. */
+  .marca {
+    min-height: 2.75rem;
+  }
+
+  .btn-pequeno {
+    min-height: 2.75rem;
+    padding-inline: 1.35em;
+  }
+
+  /* Enlace de texto con flecha: es en la práctica un botón, así que se le da
+     altura de botón sin tocar el tamaño de la tipografía. */
+  .enlace-flecha {
+    min-height: 2.75rem;
+    padding-block: 0.5rem;
+  }
+
+  .idiomas__opcion {
+    min-width: 2.75rem;
+    min-height: 2.75rem;
+  }
+
+  /* Las píldoras de las galerías de aves abren el visor: mismo trato. */
+  .nat-chip,
+  .exp-foto button,
+  button.nat-obra {
+    min-height: 2.75rem;
+  }
+
+  /* Enlaces del pie: van apilados en una columna estrecha, así que se tocan
+     con el pulgar y se fallan con facilidad si miden 23 px de alto. */
+  .pie__lista a,
+  .pie__legal-enlaces a,
+  .pie__social {
+    display: inline-flex;
+    align-items: center;
+    min-height: 2.75rem;
+  }
+
+  /* Los dos últimos rezagados: el enlace de las aves del hero y las
+     coordenadas del mapa, que se copian tocándolas. */
+  .hero__aves-enlace,
+  .hero__bajar,
+  .ubi-coordenadas a {
+    display: inline-flex;
+    align-items: center;
+    min-height: 2.75rem;
+  }
+}
+
+/* ==========================================================================
+   PANTALLAS ESTRECHAS: QUE NADA SE CORTE EN SILENCIO
+   Un hijo de grid o de flex trae `min-width: auto`, que le impide encogerse
+   por debajo del ancho mínimo de su contenido. Con la letra del sistema
+   agrandada —lo que hace mucha gente mayor— ese mínimo crece, la pista de la
+   rejilla crece con él y el bloque se sale de la pantalla. Como el body lleva
+   `overflow-x: hidden`, no aparece barra horizontal: el contenido simplemente
+   se recorta, que es peor, porque no se nota.
+
+   Medido a 320 px con la raíz en 24 px: 88 elementos cortados antes de esta
+   regla, 8 después. `:where()` no suma especificidad, así que cualquier regla
+   de sección la sigue pisando si de verdad necesita un mínimo.
+   ========================================================================== */
+@media (max-width: 63.99em) {
+  /* `span` entra en la lista porque varios componentes lo usan como columna
+     de un flex (el sello de Naturaleza, sin ir más lejos). En un span de
+     verdad inline, `min-width` no hace nada, así que no estorba. */
+  main :where(div, section, article, ul, ol, li, figure, form, header, p, span,
+              h1, h2, h3, h4, h5, h6),
+  .pie-sitio :where(div, ul, li, p, span) {
+    min-width: 0;
+  }
+
+  /* Correos, teléfonos, coordenadas y URLs son tokens largos sin espacios:
+     si no se les deja partir, fijan un mínimo enorme ellos solos. */
+  a,
+  span,
+  strong,
+  dd,
+  dt,
+  figcaption {
+    overflow-wrap: break-word;
+  }
+
+  /* Botones y antetítulos son inline-flex: sin esto se quedan al ancho de su
+     etiqueta y se salen. Con la letra en 24 px, «Atrévete a un plan distinto»
+     medía 565 px sobre una pantalla de 305. Se permite que la etiqueta pase a
+     dos líneas antes que salirse. */
+  .btn,
+  .eyebrow {
+    max-width: 100%;
+    min-width: 0;
+  }
+
+  .btn {
+    white-space: normal;
+    text-align: center;
+  }
+
+  /* Último recurso para titulares largos —el inglés los tiene más largos que
+     el español— cuando la letra del sistema está muy agrandada: antes partir
+     la palabra con guion que salirse de la pantalla. */
+  h1,
+  h2,
+  h3 {
+    hyphens: auto;
+    overflow-wrap: anywhere;
+  }
+}

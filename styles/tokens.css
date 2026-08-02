@@ -141,7 +141,10 @@
   /* Escala fluida 375px → 1440px.
      Los dos pasos altos BAJAN respecto a v1: Poiret One era filiforme y
      necesitaba tamaño; Fraunces pesa mucho más a igual cuerpo.            */
-  --paso--2: clamp(0.72rem, 0.695rem + 0.11vw, 0.78rem);
+  /* Suelo de 12,8 px medidos en un móvil de 320 px. Antes bajaba a 11,5 y de
+     este paso cuelgan los créditos de los fotógrafos y los pies de foto: es
+     texto que hay que poder leer, no adorno. Ningún token baja de 12 px. */
+  --paso--2: clamp(0.8rem, 0.775rem + 0.11vw, 0.85rem);
   --paso--1: clamp(0.84rem, 0.797rem + 0.18vw, 0.94rem);
   --paso-0: clamp(1rem, 0.947rem + 0.23vw, 1.125rem);
   --paso-1: clamp(1.2rem, 1.093rem + 0.46vw, 1.45rem);
@@ -161,7 +164,7 @@
   --fs-grande: var(--paso-1);      /* entradillas / lead */
   --fs-pequeno: var(--paso--1);
   --fs-micro: var(--paso--2);      /* créditos, notas legales */
-  --fs-eyebrow: clamp(0.7rem, 0.665rem + 0.15vw, 0.78rem);
+  --fs-eyebrow: clamp(0.78rem, 0.752rem + 0.14vw, 0.85rem); /* suelo 12,5 px */
   --fs-cifra: var(--paso-5);       /* estadísticas (101 aves, 4 ha…) */
 
   --peso-ligero: 300;

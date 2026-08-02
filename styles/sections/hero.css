@@ -227,7 +227,9 @@
    el enlace tengan fondo garantizado, caiga donde caiga el borde de la foto.
    ========================================================================== */
 .hero__aves {
-  --tam-ave: var(--esp-xl);
+  /* Tope en píxeles: son miniaturas, no deben crecer con la raíz hasta
+     convertirse en medallones. */
+  --tam-ave: min(var(--esp-xl), 60px);
 
   position: relative;
   z-index: var(--z-base);
@@ -244,12 +246,17 @@
   );
 }
 
+/* `wrap`, no `nowrap`: el tamaño de cada ave sale de un token en rem, así que
+   con la letra del sistema agrandada las seis dejaban de caber y las de los
+   extremos se recortaban sin más (la tira no tiene desplazamiento lateral).
+   Envolviendo, pasan a una segunda fila y no se pierde ninguna. */
 .hero__aves-tira {
   display: flex;
-  flex-wrap: nowrap;
+  flex-wrap: wrap;
   justify-content: center;
   gap: var(--esp-2xs);
   margin: 0;
+  max-width: 100%;
 }
 
 .hero__ave {

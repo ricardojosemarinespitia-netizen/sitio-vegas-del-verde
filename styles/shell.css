@@ -392,9 +392,13 @@ body.menu-abierto {
      idioma y la hamburguesa se comían la barra entera. Estos topes mantienen el
      área táctil por encima de los 44 px sin dejar que sigan creciendo, así el
      logotipo conserva un ancho legible. */
+  /* El ancho sí se acota (el chip no necesita crecer con la fuente), pero la
+     ALTURA no baja de 44 px: es el objetivo táctil, y con la letra grande
+     sube a 48. Antes este tope lo dejaba en 38 y pisaba la regla de
+     base.css, que es la que fija el mínimo. */
   .idiomas__opcion {
-    min-width: min(2.4rem, 42px);
-    min-height: min(2.4rem, 42px);
+    min-width: min(2.75rem, 48px);
+    min-height: max(2.75rem, min(3rem, 48px));
     padding-inline: 0.3rem;
   }
 
@@ -607,4 +611,17 @@ body.menu-abierto {
   font-size: var(--fs-micro);
   color: var(--color-texto-inverso-suave);
   max-width: 78ch;
+}
+
+/* ==========================================================================
+   ÁREA TÁCTIL DEL SELECTOR DE IDIOMA
+   Va aquí y no en base.css por orden de cascada: shell.css se carga después,
+   así que la regla base de .idiomas__opcion (2,1 × 1,7 rem) ganaba y dejaba
+   el chip en 34 × 27 px. Mismo criterio que el resto: 44 px con el dedo.
+   ========================================================================== */
+@media (pointer: coarse), (max-width: 63.99em) {
+  .idiomas__opcion {
+    min-width: 2.75rem;
+    min-height: 2.75rem;
+  }
 }
