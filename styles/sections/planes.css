@@ -1,0 +1,373 @@
+/* ==========================================================================
+   VEGAS DEL VERDE — planes.css  ·  sección #planes «Planes por ocasión»
+   Depende de tokens.css y base.css. No toca ninguno de los dos.
+
+   El encargo de esta sección era explícito: los cinco carriles NO pueden
+   maquetarse igual. Si los cinco fueran «galería + lista + botón», la
+   repetición que le quitamos a la página se volvería a colar dentro de una
+   sola sección. Así que cada carril tiene su propia rejilla:
+
+     01 fiesta    foto grande arriba, texto y columna de tres debajo
+     02 familia   texto primero y una tira de cuatro retratos que se arrastra
+     03 empresa   dossier partido: retrato a un lado, par apaisado al otro
+     04 bienestar banda ancha + trío cuadrado, en negativo sobre bosque
+     05 talleres  banda tipográfica entre filetes, sin una sola foto
+
+   Ni un valor literal de color, tamaño, radio, sombra o duración: todo sale
+   de tokens.css. Las únicas medidas escritas a mano son los filetes de 1 px
+   —igual que en base.css— y las fracciones de rejilla, que no son tokens.
+   ========================================================================== */
+
+/* --------------------------------------------------------------------------
+   1. LA PILA DE CARRILES
+   Aire generoso entre carriles: cada uno es una unidad de lectura completa,
+   y si se tocan se leen como una lista de tarjetas, que es justo lo que no
+   queremos que parezcan.
+   -------------------------------------------------------------------------- */
+.planes__carriles {
+  display: flex;
+  flex-direction: column;
+  gap: var(--esp-3xl);
+}
+
+.planes-carril {
+  display: grid;
+  gap: var(--gap);
+}
+
+/* --------------------------------------------------------------------------
+   2. PIEZAS COMUNES A LOS CINCO
+   Lo único que comparten los carriles es la voz: micro-etiqueta con índice,
+   titular, párrafo, línea de «dónde» y botón. La disposición cambia siempre.
+   -------------------------------------------------------------------------- */
+.planes-carril__texto {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--esp-sm);
+}
+
+/* Micro-etiqueta: uno de los pocos sitios donde el caps sigue permitido
+   (§3 del contrato). Nunca crece de tamaño: es una etiqueta, no un título. */
+.planes-carril__ocasion {
+  display: flex;
+  align-items: baseline;
+  gap: 0.7em;
+  margin: 0;
+  font-family: var(--fuente-titulo);
+  font-size: var(--fs-micro);
+  font-weight: var(--peso-medio);
+  line-height: var(--alto-linea-titulo);
+  text-transform: uppercase;
+  letter-spacing: var(--track-caps);
+  color: var(--color-texto-suave);
+}
+
+.seccion--oscura .planes-carril__ocasion {
+  color: var(--color-texto-inverso-suave);
+}
+
+/* El índice es el hilo que enhebra los cinco carriles cuando ya no se
+   parecen en nada más. Va en el display, en cálido, y en tamaño de dato. */
+.planes-carril__indice {
+  font-family: var(--fuente-display);
+  font-size: var(--fs-pequeno);
+  font-weight: var(--peso-fuerte);
+  font-optical-sizing: auto;
+  font-variation-settings: var(--ejes-display);
+  letter-spacing: var(--track-titulo);
+  color: var(--color-acento-texto);
+}
+
+.seccion--oscura .planes-carril__indice {
+  color: var(--color-acento-inverso);
+}
+
+.planes-carril__copy {
+  margin: 0;
+  max-width: var(--medida);
+}
+
+.planes-carril__donde {
+  margin: 0;
+}
+
+/* base.css invierte .entradilla sobre fondo oscuro, pero NO .nota: su gris
+   verdoso (#4f5f53) sobre bosque se queda en 2:1 y no se lee. El carril de
+   bienestar es el único en negativo, así que la corrección vive aquí.     */
+.seccion--oscura .planes-carril__donde {
+  color: var(--color-texto-inverso-suave);
+}
+
+.planes-carril__cta {
+  margin-top: var(--esp-2xs);
+}
+
+/* --------------------------------------------------------------------------
+   3. CARRIL 01 · BODAS Y CONCIERTOS
+   La imagen manda: la carpa iluminada al lado del texto, y debajo un mosaico
+   de tres a dos columnas con el retrato de la ceremonia haciendo de columna
+   alta. Es el carril más ruidoso porque es el plan más ruidoso.
+
+   Primera versión medida: la foto grande iba a todo lo ancho (790 px de alto
+   sobre 1185) y la columna de tres al lado del texto sumaba 1265 px contra
+   326 px de texto. El carril entero medía 2088 px y el texto flotaba en un
+   hueco. Con la foto en columna la fila queda en 460 px y el mosaico en 846.
+   -------------------------------------------------------------------------- */
+.planes-fiesta__tira {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--gap-sm);
+  align-content: start;
+}
+
+/* La foto y el texto sólo se ponen en paralelo a partir de 1024 px. A 768 la
+   columna de texto se quedaba en 276 px —siete palabras por línea y el
+   rótulo del botón partido en dos— así que hasta ahí van apilados.        */
+@media (min-width: 64em) {
+  .planes-carril--fiesta {
+    grid-template-columns: 3fr 2fr;
+    align-items: start;
+  }
+
+  .planes-fiesta__principal {
+    grid-column: 1;
+    grid-row: 1;
+  }
+
+  .planes-fiesta__texto {
+    grid-column: 2;
+    grid-row: 1;
+    padding-top: var(--esp-2xs);
+  }
+
+  /* El mosaico baja a fila propia y cruza las dos columnas. Sólo aquí:
+     por debajo de 1024 el carril es de una columna y forzar la fila 2
+     lo montaría encima del texto.                                        */
+  .planes-fiesta__tira {
+    grid-column: 1 / -1;
+    grid-row: 2;
+  }
+}
+
+@media (min-width: 48em) {
+  /* Dos columnas en el mosaico: el retrato de la ceremonia ocupa las dos
+     filas y las dos apaisadas se apilan al lado. Así ninguna foto tiene
+     que recortarse contra su orientación natural.                        */
+  .planes-fiesta__tira {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .planes-fiesta__tira > :first-child {
+    grid-row: span 2;
+    aspect-ratio: auto;
+  }
+
+  /* La foto alta se saca del flujo. Si no, es ella la que fija el alto de
+     las dos filas —1031 px medidos— en vez de acomodarse a las dos
+     apaisadas de al lado, y el mosaico crece 190 px de la nada.          */
+  .planes-fiesta__tira > :first-child > img {
+    position: absolute;
+    inset: 0;
+  }
+}
+
+/* --------------------------------------------------------------------------
+   4. CARRIL 02 · CUMPLEAÑOS Y FAMILIA
+   Aquí el texto va delante y las fotos hacen de tira: en móvil se arrastra
+   con el dedo y se engancha foto a foto; a partir de tableta se despliega en
+   cuatro columnas. Se anula el arrastre si el usuario pidió menos movimiento.
+   -------------------------------------------------------------------------- */
+.planes-tira {
+  display: grid;
+  grid-auto-flow: column;
+  grid-auto-columns: 68%;
+  gap: var(--gap-sm);
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  overscroll-behavior-x: contain;
+  /* que la sombra del foco no se recorte contra el borde del carrusel */
+  padding-block: var(--esp-3xs);
+}
+
+.planes-tira__foto {
+  scroll-snap-align: start;
+}
+
+@media (min-width: 48em) {
+  .planes-tira {
+    grid-auto-flow: row;
+    grid-template-columns: repeat(4, 1fr);
+    overflow-x: visible;
+    scroll-snap-type: none;
+  }
+}
+
+/* --------------------------------------------------------------------------
+   5. CARRIL 03 · EMPRESAS
+   Dossier partido: el retrato del grupo a un lado y el par apaisado del
+   montaje al otro. Ni tira ni galería: dos bloques de peso distinto.
+   El orden se invierte respecto al carril 01 —fotos primero, texto después—
+   para que la página no coja cadencia.
+   -------------------------------------------------------------------------- */
+.planes-dossier {
+  display: grid;
+  gap: var(--gap-sm);
+}
+
+.planes-dossier__retrato {
+  aspect-ratio: 3 / 4;
+}
+
+.planes-dossier__par {
+  display: grid;
+  gap: var(--gap-sm);
+  align-content: space-between;
+}
+
+@media (min-width: 40em) {
+  .planes-dossier {
+    grid-template-columns: 3fr 4fr;
+    align-items: stretch;
+  }
+
+  .planes-dossier__retrato {
+    aspect-ratio: auto;
+  }
+}
+
+@media (min-width: 64em) {
+  .planes-carril--empresa {
+    grid-template-columns: 7fr 5fr;
+    align-items: center;
+    gap: var(--gap-lg);
+  }
+}
+
+/* --------------------------------------------------------------------------
+   6. CARRIL 04 · BIENESTAR
+   El único en negativo. La clase .seccion--oscura viaja en el <li> del HTML,
+   así que los colores inversos (titulares, entradilla, enlaces, viñetas de
+   .lista-hojas, foco amarillo) los pone base.css con sus contrastes ya
+   medidos. Aquí sólo se resuelven caja y rejilla.
+   -------------------------------------------------------------------------- */
+.planes-carril--bienestar {
+  border-radius: var(--radio-xl);
+  padding: var(--gap);
+  gap: var(--gap);
+}
+
+@media (min-width: 48em) {
+  .planes-carril--bienestar {
+    padding: var(--gap-lg);
+  }
+}
+
+.planes-bienestar__cuerpo {
+  display: grid;
+  gap: var(--gap);
+  align-items: start;
+}
+
+@media (min-width: 64em) {
+  .planes-bienestar__cuerpo {
+    grid-template-columns: 3fr 2fr;
+    gap: var(--gap-lg);
+  }
+}
+
+.planes-bienestar__lista {
+  margin: 0;
+}
+
+/* El trío va en cuadrados —a propósito, para que no se confunda con los
+   retratos de la tira del carril 02— y en colcha: uno ancho arriba y dos
+   pequeños debajo. En columna de tres medía 1245 px contra 550 de texto;
+   así se queda en unos 600 y las dos mitades del carril se equilibran. */
+.planes-bienestar__trio {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--gap-sm);
+  align-content: start;
+}
+
+.planes-bienestar__trio > :first-child {
+  grid-column: 1 / -1;
+}
+
+/* --------------------------------------------------------------------------
+   7. CARRIL 05 · TALLERES
+   Sin galería, a conciencia: no hay en el banco ninguna foto de un taller de
+   pintura o de jardinería, y el contrato prohíbe tanto inventar un nombre de
+   archivo como dejar un placeholder gris. Así que este carril es una banda
+   tipográfica entre dos filetes —el mismo recurso que las páginas de guardas
+   de un libro— y su rareza es justamente lo que corta la cadencia al final.
+   -------------------------------------------------------------------------- */
+.planes-carril--talleres {
+  justify-items: start;
+  gap: var(--esp-sm);
+  padding-block: var(--gap);
+  border-block: 1px solid var(--color-borde-suave);
+}
+
+.planes-talleres__titulo {
+  max-width: var(--medida-corta);
+}
+
+/* Los tres talleres se leen como un verso, no como un inventario.
+   En móvil bajan a una línea por taller y SIN separador: un punto medio al
+   principio de renglón se lee como un error de maquetación. A partir de
+   tableta se ponen en fila y el punto medio aparece entre uno y otro.     */
+.planes-talleres__lista {
+  display: flex;
+  flex-direction: column;
+  gap: var(--esp-2xs);
+  margin: 0;
+  font-size: var(--fs-grande);
+  font-weight: var(--peso-ligero);
+  line-height: var(--alto-linea-titulo);
+  color: var(--color-texto);
+}
+
+@media (min-width: 48em) {
+  .planes-talleres__lista {
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-items: baseline;
+    column-gap: var(--esp-md);
+    row-gap: var(--esp-2xs);
+  }
+
+  .planes-talleres__lista > li + li::before {
+    content: "·";
+    margin-inline-end: var(--esp-md);
+    color: var(--color-acento-texto);
+  }
+}
+
+.planes-talleres__copy {
+  color: var(--color-texto-suave);
+}
+
+/* --------------------------------------------------------------------------
+   8. RETOQUES FINOS
+   -------------------------------------------------------------------------- */
+/* Las fotos de esta sección son documentos, no decoración: el redondeo va
+   suave y el zoom al pasar el ratón se reserva a las que están dentro de una
+   rejilla, para que la foto grande del carril 01 no baile sola.            */
+.planes .marco {
+  border-radius: var(--radio-md);
+}
+
+.planes-fiesta__tira .marco:hover > img,
+.planes-tira .marco:hover > img,
+.planes-dossier .marco:hover > img,
+.planes-bienestar__trio .marco:hover > img {
+  transform: scale(var(--escala-hover));
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .planes-tira {
+    scroll-snap-type: none;
+  }
+}

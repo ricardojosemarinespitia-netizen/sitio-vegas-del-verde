@@ -1,206 +1,204 @@
 <!-- ==========================================================================
-     FRAGMENTO: HERO  ·  ancla #inicio
-     CSS propio: styles/sections/hero.css
-     v2 «Vende la escapada».
+     FRAGMENTO: INICIO  ·  ancla #inicio
+     CSS propio: styles/sections/inicio.css
 
-     QUÉ CAMBIÓ RESPECTO A v1
-     · El <h1> ya no es el nombre de la marca: es la PROMESA. El logotipo baja
-       a antetítulo contenido (.titulo-logotipo, Jost en caps — nunca Fraunces:
-       en la serifa no se parece al logo. CONTRATO-V2 §7.1).
-     · CTA primario con el acento cálido: «Reserva tu escape».
-     · Franja inferior con seis aves del concurso + ancla a #aves.
-     · Contenedor de VÍDEO futuro, listo y desactivado (ver bloque más abajo).
+     El hero a sangre de v2 ya no existe: #inicio pasa a ser una sección normal
+     del sistema (.seccion > .contenedor > .seccion-encabezado), como todas.
+     El <head> ya carga inicio.css; hero.css sigue en disco sólo porque lo usa
+     en/index.html, que todavía va con la arquitectura vieja.
 
-     La imagen de fondo NO lleva lazy: es el LCP de la página.
+     QUÉ POSEE ESTA SECCIÓN (ARQUITECTURA-V3 §9) Y NADIE MÁS
+       · el tagline de marca, que va en el .eyebrow
+       · el tamaño del predio: única mención en toda la página
+       · la promesa de cercanía a la vía: única mención en ese registro
+       · la frase «los árboles los ponemos nosotros», de la entradilla
+       · img/aereo-predio.jpg convertido en PLANO-ÍNDICE
+       · el rótulo del botón de esta sección, que no se repite en ninguna otra
+
+     Los cuatro primeros van escritos UNA sola vez cada uno, y sólo en el
+     texto visible: por eso este comentario no los reproduce. La verificación
+     de ARQUITECTURA-V3 §11 se hace con `grep` y hay que poder pasarla.
+
+     QUÉ TIENE PROHIBIDO DECIR
+       Ninguna cifra de biodiversidad, ningún aforo, ninguna dirección, ningún
+       horario, ninguna condición de alquiler y ningún precio. Se enlaza, no se
+       resume: para eso están las cuatro anclas del plano.
+
+     POR QUÉ EL <h1>
+       La estructura de sección pide h2.titulo-seccion, y así se ve: la clase
+       .titulo-seccion gana por especificidad a las reglas de h1 de base.css, de
+       modo que el cuerpo, el interlineado y el tracking son EXACTAMENTE los de
+       un h2. Sólo cambia la etiqueta, porque #inicio es la primera sección de
+       la página y ninguna otra lleva h1: dejarla en h2 dejaría el documento sin
+       encabezado de nivel 1 (BRIEF, «Calidad exigida» → SEO y accesibilidad).
+       Si el ensamblador exige h2 literal, es un carácter: cámbialo y nada más.
      ========================================================================== -->
-<section class="hero sobre-oscuro" id="inicio" aria-labelledby="inicio-titulo">
+<section class="seccion inicio" id="inicio" aria-labelledby="inicio-titulo">
+  <div class="contenedor contenedor--ancho inicio__interior reveal-secuencia">
 
-  <div class="hero__lienzo">
+    <header class="seccion-encabezado inicio__encabezado reveal">
+      <p class="eyebrow">Oasis para la recreación y el bienestar</p>
 
-    <img
-      class="hero__imagen"
-      src="img/aereo-predio.jpg"
-      width="2000"
-      height="1013"
-      alt="Vista aérea de Vegas del Verde: la alameda central y las construcciones del predio rodeadas por cuatro hectáreas de árboles."
-      fetchpriority="high"
-      decoding="async"
-    />
+      <h1 class="titulo-seccion inicio__titulo" id="inicio-titulo">
+        Escápate de la ciudad sin salir de ella
+      </h1>
 
-    <!-- ====================================================================
-         VÍDEO DE FONDO — PREPARADO, DESACTIVADO. NO HAY ARCHIVO TODAVÍA.
-         El atributo `hidden` + `preload="none"` garantizan que el navegador
-         NO pide video/hero.mp4: el sitio funciona perfecto sin ese archivo.
+      <p class="entradilla">
+        Cuatro hectáreas de bosque a 10&nbsp;minutos del Anillo Vial. Nosotros
+        ponemos los árboles; el plan lo pones tú.
+      </p>
 
-         PARA ACTIVARLO, cuando exista el vídeo:
-           1. Deja el archivo en  video/hero.mp4  (y, si lo tienes, un
-              video/hero.webm antes del mp4 como primer <source>).
-           2. Borra el atributo `hidden` de este <video> y añádele `autoplay`.
-           3. Añade la clase `hero--con-video` al <section class="hero …">.
-              Eso funde la foto y deja el vídeo delante (hero.css lo resuelve).
-           4. No toques nada más: `poster` ya es el render aéreo, así que el
-              LCP y el encuadre se mantienen mientras el vídeo carga, y con
-              `prefers-reduced-motion: reduce` hero.css devuelve la foto fija.
-         ==================================================================== -->
-    <video
-      class="hero__video"
-      hidden
-      muted
-      loop
-      playsinline
-      preload="none"
-      poster="img/aereo-predio.jpg"
-      width="1920"
-      height="1080"
-      aria-hidden="true"
-      tabindex="-1"
-    >
-      <source src="video/hero.mp4" type="video/mp4" />
-    </video>
-
-    <div class="hero__velo" aria-hidden="true"></div>
-  </div>
-
-  <div class="hero__contenido contenedor contenedor--ancho">
-
-    <p class="hero__marca">
-      <img
-        class="hero__simbolo"
-        src="img/logo/simbolo-vegas.png"
-        width="512"
-        height="512"
-        alt=""
-        fetchpriority="high"
-        decoding="async"
-      />
-      <span class="hero__logotipo titulo-logotipo">Vegas del Verde</span>
-    </p>
+      <div class="grupo-botones inicio__acciones">
+        <a
+          class="btn btn-whatsapp btn-grande"
+          href="https://wa.me/573166758362?text=Hola%2C%20quiero%20reservar%20mi%20escape%20en%20Vegas%20del%20Verde.%20%C2%BFQu%C3%A9%20fechas%20tienen%20libres%3F"
+          target="_blank"
+          rel="noopener"
+        >
+          <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" focusable="false">
+            <path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.46 1.32 4.96L2 22l5.25-1.38a9.87 9.87 0 0 0 4.79 1.22h.01c5.46 0 9.91-4.45 9.91-9.91 0-2.65-1.03-5.14-2.9-7.01A9.82 9.82 0 0 0 12.04 2Zm0 18.02h-.01a8.2 8.2 0 0 1-4.19-1.15l-.3-.18-3.12.82.83-3.04-.2-.31a8.19 8.19 0 0 1-1.26-4.38c0-4.54 3.7-8.24 8.25-8.24 2.2 0 4.27.86 5.83 2.42a8.2 8.2 0 0 1 2.41 5.83c0 4.54-3.7 8.23-8.24 8.23Z"/>
+            <path d="M17.47 14.38c-.3-.15-1.76-.87-2.03-.97-.27-.1-.47-.15-.67.15-.2.3-.77.97-.94 1.17-.17.2-.35.22-.65.07-.3-.15-1.26-.46-2.4-1.48-.89-.79-1.49-1.77-1.66-2.07-.17-.3-.02-.46.13-.61.13-.13.3-.35.45-.52.15-.17.2-.3.3-.5.1-.2.05-.37-.02-.52-.08-.15-.67-1.61-.92-2.21-.24-.58-.49-.5-.67-.51h-.57c-.2 0-.52.07-.79.37-.27.3-1.04 1.01-1.04 2.47s1.06 2.87 1.21 3.07c.15.2 2.1 3.2 5.08 4.49.71.31 1.26.49 1.69.63.71.23 1.36.19 1.87.12.57-.09 1.76-.72 2.01-1.41.25-.69.25-1.29.17-1.41-.07-.12-.27-.2-.57-.35Z"/>
+          </svg>
+          Reserva tu escape
+        </a>
+      </div>
+    </header>
 
     <!-- ====================================================================
-         TITULAR — tres opciones redactadas; queda activa la primera.
-         Para cambiarla, mueve el texto: no toques las clases ni el id.
+         EL PLANO-ÍNDICE  (ARQUITECTURA-V3 §1.1)
+         El aéreo deja de ser papel pintado: es el índice del sitio entero.
+         Cuatro anclas internas —Espacios, Sendero, Vivero, Cómo llegar— para
+         que el visitante vea de qué se compone el predio antes de leer nada, y
+         para que ninguna sección de más abajo tenga que re-listar lo que hay.
 
-         A) «Escápate de la ciudad sin salir de ella»   ← ACTIVA
-            La promesa central del rediseño. Es la única que nombra a la vez
-            el problema (la ciudad) y la solución (irse), y cabe en dos
-            líneas a 375 px sin partir palabras.
+         Las cuatro coordenadas (left/top en %) se eligieron ampliando el render
+         antes de fijarlas; van en inicio.css, no aquí, para que mover un punto
+         no obligue a tocar el HTML.
 
-         B) «Tu próximo plan no es en un salón»
-            Más provocadora y más comercial: ataca de frente a la competencia
-            (salones de eventos). Se reservó para el separador tras #nosotros.
+         La superposición sólo existe a partir de 64em. Por debajo, las cuatro
+         anclas bajan del plano y se convierten en una rejilla de pastillas: en
+         una pantalla de teléfono un punto de 12 px sobre una foto de 190 px de
+         alto no se acierta con el dedo (inicio.css lo explica en detalle).
 
-         C) «A 10 minutos del Anillo Vial, a un mundo de distancia»
-            La más informativa —resuelve la objeción «¿dónde queda?»— pero
-            es larga para un hero y repite el dato de la entradilla.
+         La foto NO se difiere: es el LCP de la página, así que va con
+         fetchpriority alto y sin el atributo de carga perezosa.
          ==================================================================== -->
-    <h1 class="hero__titular" id="inicio-titulo">
-      Escápate de la ciudad<br />sin salir de ella
-    </h1>
+    <figure class="inicio__plano reveal">
+      <div class="inicio__plano-lienzo">
+        <img
+          class="inicio__plano-foto"
+          src="img/aereo-predio.jpg"
+          width="2000"
+          height="1013"
+          alt="Vista aérea del predio de Vegas del Verde: un paseo ancho de tierra clara cruza en diagonal el prado, con las construcciones de techo blanco y la estructura de techo translúcido arriba, una vela de sombra triangular sobre el césped y el camino de acceso abajo a la derecha; el bosque lo rodea por los cuatro costados."
+          fetchpriority="high"
+          decoding="async"
+        />
 
-    <p class="hero__entrada">
-      Cuatro hectáreas de bosque a 10&nbsp;minutos del Anillo Vial. Nosotros
-      ponemos los árboles; el plan lo pones tú.
-    </p>
+        <ul class="inicio__anclas" role="list" aria-label="Índice del predio sobre el plano">
+          <li class="inicio__ancla-item inicio__ancla-item--vivero">
+            <a class="inicio__ancla" href="#vivero">
+              <span class="inicio__punto" aria-hidden="true"></span>
+              <span class="inicio__rotulo">Vivero</span>
+            </a>
+          </li>
+          <li class="inicio__ancla-item inicio__ancla-item--sendero">
+            <a class="inicio__ancla" href="#naturaleza">
+              <span class="inicio__punto" aria-hidden="true"></span>
+              <span class="inicio__rotulo">Sendero</span>
+            </a>
+          </li>
+          <li class="inicio__ancla-item inicio__ancla-item--espacios">
+            <a class="inicio__ancla" href="#espacios">
+              <span class="inicio__punto" aria-hidden="true"></span>
+              <span class="inicio__rotulo">Espacios</span>
+            </a>
+          </li>
+          <li class="inicio__ancla-item inicio__ancla-item--llegar">
+            <a class="inicio__ancla" href="#ubicacion">
+              <span class="inicio__punto" aria-hidden="true"></span>
+              <span class="inicio__rotulo">Cómo llegar</span>
+            </a>
+          </li>
+        </ul>
+      </div>
 
-    <div class="grupo-botones hero__acciones">
-      <a
-        class="btn btn-whatsapp btn-grande"
-        href="https://wa.me/573166758362?text=Hola%2C%20quiero%20reservar%20mi%20escape%20en%20Vegas%20del%20Verde.%20%C2%BFQu%C3%A9%20disponibilidad%20tienen%3F"
-        target="_blank"
-        rel="noopener"
-      >
-        <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" focusable="false">
-          <path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.46 1.32 4.96L2 22l5.25-1.38a9.87 9.87 0 0 0 4.79 1.22h.01c5.46 0 9.91-4.45 9.91-9.91 0-2.65-1.03-5.14-2.9-7.01A9.82 9.82 0 0 0 12.04 2Zm0 18.02h-.01a8.2 8.2 0 0 1-4.19-1.15l-.3-.18-3.12.82.83-3.04-.2-.31a8.19 8.19 0 0 1-1.26-4.38c0-4.54 3.7-8.24 8.25-8.24 2.2 0 4.27.86 5.83 2.42a8.2 8.2 0 0 1 2.41 5.83c0 4.54-3.7 8.23-8.24 8.23Z"/>
-          <path d="M17.47 14.38c-.3-.15-1.76-.87-2.03-.97-.27-.1-.47-.15-.67.15-.2.3-.77.97-.94 1.17-.17.2-.35.22-.65.07-.3-.15-1.26-.46-2.4-1.48-.89-.79-1.49-1.77-1.66-2.07-.17-.3-.02-.46.13-.61.13-.13.3-.35.45-.52.15-.17.2-.3.3-.5.1-.2.05-.37-.02-.52-.08-.15-.67-1.61-.92-2.21-.24-.58-.49-.5-.67-.51h-.57c-.2 0-.52.07-.79.37-.27.3-1.04 1.01-1.04 2.47s1.06 2.87 1.21 3.07c.15.2 2.1 3.2 5.08 4.49.71.31 1.26.49 1.69.63.71.23 1.36.19 1.87.12.57-.09 1.76-.72 2.01-1.41.25-.69.25-1.29.17-1.41-.07-.12-.27-.2-.57-.35Z"/>
-        </svg>
-        Reserva tu escape
-      </a>
+      <figcaption class="inicio__plano-pie">
+        El predio visto desde arriba. Cada punto del plano baja a esa parte del sitio.
+      </figcaption>
+    </figure>
 
-      <a class="btn btn-claro btn-grande" href="#espacios">Ver los espacios</a>
-    </div>
-
-  </div>
-
-  <!-- ======================================================================
-       FRANJA DE AVES — seis fotos del concurso de fotografía del predio.
-       Orden pensado para el recorte de móvil: las cuatro primeras cubren ya
-       las cuatro familias de color (turquesa, rojo, amarillo, verde); las dos
-       últimas se ocultan por debajo de 48em (hero.css) sin mover el layout.
-       Autores tomados literalmente de img/aves/_creditos.json.
-       ====================================================================== -->
-  <div class="hero__aves">
-
-    <ul class="hero__aves-tira">
-      <li class="hero__ave">
+    <!-- ====================================================================
+         TIRA DE AVES — ATMÓSFERA, NO ARCHIVO  (ARQUITECTURA-V3 §5)
+         Seis fotos del concurso en papel decorativo: aquí NO llevan ficha ni
+         crédito visible, porque el único sitio del sitio con fichas acreditadas
+         es el muro de #naturaleza y duplicarlas era justo el defecto medido.
+         El crédito al fotógrafo no se pierde: va en el `alt`, y sale literal de
+         img/aves/_creditos.json. Nunca se inventa un autor.
+         Orden: ave-46 · ave-38 · ave-27 · ave-07 · ave-56 · ave-31.
+         ==================================================================== -->
+    <ul class="inicio__aves reveal" role="list">
+      <li class="inicio__ave">
         <img
           src="img/aves/ave-46-momotus-subrufescens.jpg"
           width="867"
           height="1300"
-          alt="Barranquero (Momotus subrufescens) de corona turquesa y cola larga, posado en una rama del predio. Foto de Leyner Lozano."
+          alt="Ave de corona turquesa y cola larga (Momotus subrufescens) posada en una rama del predio, con una baya en el pico. Fotografía de Leyner Lozano."
           loading="lazy"
           decoding="async"
         />
       </li>
-      <li class="hero__ave">
+      <li class="inicio__ave">
         <img
           src="img/aves/ave-38-carpintero.jpg"
           width="1300"
           height="1040"
-          alt="Carpintero de cresta roja trepando por el tronco de un árbol del predio. Foto de Jesus Lopez."
+          alt="Carpintero de cresta roja y espalda oscura, agarrado al tronco de un árbol entre hojas verdes. Fotografía de Jesus Lopez."
           loading="lazy"
           decoding="async"
         />
       </li>
-      <li class="hero__ave">
-        <img
-          src="img/aves/ave-56-canario.jpg"
-          width="1300"
-          height="1300"
-          alt="Canario amarillo caminando sobre el césped entre hojas secas. Foto de Yeraldilsa Gamboa."
-          loading="lazy"
-          decoding="async"
-        />
-      </li>
-      <li class="hero__ave">
-        <img
-          src="img/aves/ave-31-periquito-bronceado.jpg"
-          width="867"
-          height="1300"
-          alt="Periquito bronceado, verde y de pico claro, asomado sobre una rama cubierta de musgo. Foto de Fabiola Rueda."
-          loading="lazy"
-          decoding="async"
-        />
-      </li>
-      <li class="hero__ave hero__ave--extra">
+      <li class="inicio__ave">
         <img
           src="img/aves/ave-27-colibri.jpg"
           width="867"
           height="1300"
-          alt="Colibrí en vuelo libando una flor naranja de heliconia. Foto de Eritmoratto."
+          alt="Colibrí de plumaje verde en pleno vuelo, con las alas abiertas junto a una flor naranja de heliconia. Fotografía de Eritmoratto."
           loading="lazy"
           decoding="async"
         />
       </li>
-      <li class="hero__ave hero__ave--extra">
+      <li class="inicio__ave">
         <img
           src="img/aves/ave-07-thraupis-episcopus.jpg"
           width="1040"
           height="1300"
-          alt="Azulejo (Thraupis episcopus) de plumaje azul pálido, posado en una rama sobre fondo verde. Foto de Jonathan Layton Avila."
+          alt="Ave de plumaje azul pálido (Thraupis episcopus) posada en una rama con musgo, sobre un fondo verde desenfocado. Fotografía de Jonathan Layton Avila."
+          loading="lazy"
+          decoding="async"
+        />
+      </li>
+      <li class="inicio__ave">
+        <img
+          src="img/aves/ave-56-canario.jpg"
+          width="1300"
+          height="1300"
+          alt="Canario amarillo caminando sobre el césped, entre hojas secas. Fotografía de Yeraldilsa Gamboa."
+          loading="lazy"
+          decoding="async"
+        />
+      </li>
+      <li class="inicio__ave">
+        <img
+          src="img/aves/ave-31-periquito-bronceado.jpg"
+          width="867"
+          height="1300"
+          alt="Periquito bronceado, verde y de pico anaranjado, inclinado sobre una rama cubierta de plantas epífitas, con luz cálida de la tarde. Fotografía de Fabiola Rueda."
           loading="lazy"
           decoding="async"
         />
       </li>
     </ul>
 
-    <div class="hero__aves-texto">
-      <a class="hero__aves-enlace" href="#aves">101 especies de aves viven aquí</a>
-      <p class="hero__aves-credito">
-        Fotografías del concurso del predio: Leyner Lozano, Jesus Lopez,
-        Yeraldilsa Gamboa, Fabiola Rueda, Eritmoratto y Jonathan Layton Avila.
-      </p>
-    </div>
-
   </div>
-
 </section>

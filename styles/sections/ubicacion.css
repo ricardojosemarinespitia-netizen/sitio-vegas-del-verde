@@ -1,7 +1,13 @@
 /* ==========================================================================
    VEGAS DEL VERDE — styles/sections/ubicacion.css
-   Sección #ubicacion: mapa satelital "Google Earth", dirección, referencias
-   y distancias. Prefijo propio: .ubi- · Depende de tokens.css y base.css.
+   Sección #ubicacion: mapa satelital "Google Earth", dirección, referencias,
+   distancias, canales de atención (bloque con id="contacto") y formulario que
+   abre WhatsApp. Prefijo propio: .ubi- · Depende de tokens.css y base.css.
+
+   v2 · Esta hoja absorbe lo que antes vivía en styles/sections/contacto.css:
+   esa hoja queda OBSOLETA y su <link> debe salir del <head>. Todo lo del
+   antiguo bloque de contacto se renombró al prefijo .ubi- para que la sección
+   sea autosuficiente y no dependa de una hoja que ya no se carga.
 
    Los overrides de Leaflet van scoped bajo #ubicacion a propósito: la hoja de
    Leaflet la inyecta js/mapa.js y podría quedar después de esta en el orden
@@ -14,6 +20,8 @@
   --ubi-control: 2.75rem;                       /* objetivo táctil de los +/- */
   --ubi-dur-pulso: calc(var(--dur-reveal) * 3); /* 2,7 s derivados del token  */
   --ubi-marco: var(--esp-3xs);
+  --ubi-alto-control: 3rem;                     /* objetivo táctil del campo  */
+  --ubi-icono: 2.75rem;
 }
 
 /* ==========================================================================
@@ -133,6 +141,17 @@
   color: var(--color-acento-texto);
 }
 
+/* «Repetir vuelo» es un mando del mapa, no una ruta: vive pegado al mapa.
+   Los botones de navegación (Google Maps y Waze) van más abajo, en su sitio. */
+.ubi-mapa__controles {
+  max-width: none;
+  margin-top: var(--esp-xs);
+}
+
+.ubi-mapa__controles [hidden] {
+  display: none;
+}
+
 /* ==========================================================================
    3. CAPA HUD
    ========================================================================== */
@@ -181,13 +200,8 @@
   background: none;
 }
 
-.ubi-hud__coord {
-  font-size: var(--fs-micro);
-  letter-spacing: 0.06em;
-  color: var(--color-texto-inverso-suave);
-  font-variant-numeric: tabular-nums;
-}
-
+/* La coordenada NO se repite aquí: se escribe una sola vez, en la tarjeta de
+   la dirección. El HUD sólo identifica la marca y el tipo de vista.        */
 .ubi-hud__etiqueta {
   display: inline-flex;
   align-items: center;
@@ -238,7 +252,12 @@
   box-shadow: var(--sombra-pin);
 }
 
-.ubi-pin__disco img {
+/* El prefijo .leaflet-container no es decorativo: leaflet.css trae
+   «.leaflet-container .leaflet-marker-pane img { width: auto }» con
+   especificidad (0,2,1). Sin subir la nuestra a (0,2,1) gana Leaflet, el
+   símbolo se pinta a su tamaño natural (512 px), el disco queda vacío y la
+   hoja se derrama sobre la vista satelital.                               */
+.leaflet-container .ubi-pin__disco img {
   width: 62%;
   height: auto;
   background: none;
@@ -410,17 +429,8 @@
   flex-wrap: wrap;
   gap: var(--esp-sm);
   align-items: center;
-  margin-top: var(--esp-lg);
-}
-
-.ubi-acciones__repetir[hidden] {
-  display: none;
-}
-
-@media (min-width: 48em) {
-  .ubi-acciones__repetir {
-    margin-left: auto;
-  }
+  justify-content: center;
+  margin-top: var(--gap-lg);
 }
 
 /* ==========================================================================
@@ -474,11 +484,6 @@
   color: var(--color-texto-suave);
 }
 
-.ubi-tarjeta__enlace {
-  margin-top: auto;
-  padding-top: var(--esp-2xs);
-}
-
 .ubi-refs {
   display: flex;
   flex-wrap: wrap;
@@ -496,6 +501,19 @@
   font-size: var(--fs-pequeno);
   line-height: 1.35;
   color: var(--color-texto);
+}
+
+/* La foto trae los mismos sitios señalados sobre el terreno: es la prueba de
+   la lista de arriba, no un adorno. Va sin recorte para no perder ningún pin. */
+.ubi-refs__figura {
+  margin-top: var(--esp-2xs);
+}
+
+.ubi-refs__foto {
+  width: 100%;
+  height: auto;
+  border-radius: var(--radio-md);
+  border: 1px solid var(--color-borde-suave);
 }
 
 /* ==========================================================================
@@ -590,12 +608,297 @@ html:not(.js) .ubi-dist__relleno {
 }
 
 /* ==========================================================================
-   10. CIERRE
+   10. CANALES Y FORMULARIO  (antes sección #contacto, ahora el cierre de ésta)
+   El bloque de canales conserva id="contacto": es el destino del menú y de los
+   enlaces externos que ya circulan.
    ========================================================================== */
-.ubi-cierre {
+.ubi-hablar {
+  display: grid;
+  gap: var(--gap-lg);
+  align-items: start;
+  margin-top: var(--esp-seccion-sm);
+  padding-top: var(--esp-seccion-sm);
+  border-top: 1px solid var(--color-borde-suave);
+}
+
+@media (min-width: 64em) {
+  .ubi-hablar {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1.15fr);
+  }
+}
+
+/* --- Canales -------------------------------------------------------------- */
+.ubi-canales {
+  display: flex;
+  flex-direction: column;
+  gap: var(--esp-sm);
+  scroll-margin-top: calc(var(--alto-header) + var(--esp-md));
+}
+
+.ubi-canal {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--esp-sm);
+  padding: var(--esp-md);
+  border: 1px solid var(--color-borde-suave);
+  border-radius: var(--radio-lg);
+  background-color: var(--color-superficie);
+  color: var(--color-texto);
+  text-decoration: none;
+  transition:
+    border-color var(--transicion),
+    background-color var(--transicion),
+    transform var(--transicion-rapida),
+    box-shadow var(--transicion);
+}
+
+a.ubi-canal:hover,
+a.ubi-canal:focus-visible {
+  color: var(--color-texto);
+  border-color: rgb(var(--verde-oliva-rgb) / 0.4);
+  background-color: var(--color-superficie-solida);
+  transform: translateY(-2px);
+  box-shadow: var(--sombra-md);
+}
+
+.ubi-canal--destacado {
+  border-color: rgb(var(--verde-menta-rgb) / 0.55);
+  background-color: rgb(var(--verde-menta-rgb) / 0.14);
+}
+
+.ubi-canal--estatico {
+  background-color: transparent;
+}
+
+.ubi-canal__icono {
+  display: grid;
+  place-items: center;
+  width: var(--ubi-icono);
+  height: var(--ubi-icono);
+  flex: none;
+  border-radius: var(--radio-full);
+  background-color: rgb(var(--verde-oliva-rgb) / 0.1);
+  color: var(--color-acento-texto);
+}
+
+.ubi-canal__icono svg {
+  width: 1.35em;
+  height: 1.35em;
+}
+
+.ubi-canal--destacado .ubi-canal__icono {
+  background-color: var(--verde-menta);
+  color: var(--tinta);
+}
+
+.ubi-canal__cuerpo {
+  display: flex;
+  flex-direction: column;
+  gap: var(--esp-3xs);
+  min-width: 0;
+}
+
+.ubi-canal__etiqueta {
+  font-family: var(--fuente-titulo);
+  font-size: var(--fs-micro);
+  font-weight: var(--peso-medio);
+  text-transform: uppercase;
+  letter-spacing: var(--track-caps);
+  color: var(--color-texto-suave);
+}
+
+.ubi-canal__valor {
+  font-size: var(--fs-grande);
+  font-weight: var(--peso-ligero);
+  line-height: var(--alto-linea-titulo);
+  overflow-wrap: anywhere;
+}
+
+.ubi-canal__pie {
+  font-size: var(--fs-pequeno);
+  color: var(--color-texto-suave);
+}
+
+/* --- Formulario ----------------------------------------------------------- */
+.ubi-form {
+  display: flex;
+  flex-direction: column;
+  gap: var(--esp-sm);
+  padding: var(--esp-lg);
+  border: 1px solid var(--color-borde-suave);
+  border-radius: var(--radio-lg);
+  background-color: var(--color-superficie-solida);
+  box-shadow: var(--sombra-sm);
+}
+
+.ubi-form__intro {
+  max-width: var(--medida);
+  margin: 0;
+}
+
+.ubi-campos {
+  display: grid;
+  gap: var(--esp-md);
+  margin-top: var(--esp-2xs);
+}
+
+@media (min-width: 34em) {
+  .ubi-campos {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .ubi-campo--ancho {
+    grid-column: 1 / -1;
+  }
+}
+
+/* El campo es un <p>: hay que neutralizar las reglas de párrafo de base.css */
+.ubi-campo {
+  display: flex;
+  flex-direction: column;
+  gap: var(--esp-3xs);
   max-width: none;
-  margin-top: var(--gap-lg);
-  text-align: center;
+  margin: 0;
+}
+
+.ubi-campo + .ubi-campo {
+  margin-top: 0;
+}
+
+.ubi-campo__etiqueta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 0.5em;
+  font-family: var(--fuente-titulo);
+  font-size: var(--fs-pequeno);
+  font-weight: var(--peso-medio);
+  letter-spacing: var(--track-titulo);
+  color: var(--color-texto);
+}
+
+.ubi-campo__marca,
+.ubi-campo__opcional {
+  font-family: var(--fuente-titulo);
+  font-size: var(--fs-micro);
+  font-weight: var(--peso-normal);
+  text-transform: uppercase;
+  letter-spacing: var(--track-caps);
+}
+
+.ubi-campo__marca {
+  color: var(--color-acento-texto);
+}
+
+.ubi-campo__opcional {
+  color: var(--color-texto-suave);
+}
+
+.ubi-campo__control {
+  width: 100%;
+  min-height: var(--ubi-alto-control);
+  padding: 0.7em 0.85em;
+  border: 1px solid var(--color-borde);
+  border-radius: var(--radio-sm);
+  /* Blanco puro de marca: la fundación no tiene un rol semántico para "campo
+     de formulario" y hace falta que el hueco se despegue de la tarjeta. */
+  background-color: var(--blanco);
+  color: var(--color-texto);
+  font-family: var(--fuente-cuerpo);
+  font-size: var(--fs-cuerpo);
+  line-height: var(--alto-linea-base);
+  transition:
+    border-color var(--transicion-rapida),
+    box-shadow var(--transicion-rapida);
+}
+
+.ubi-campo__control:hover {
+  border-color: rgb(var(--verde-oliva-rgb) / 0.55);
+}
+
+.ubi-campo__control:focus {
+  border-color: var(--verde-oliva);
+}
+
+.ubi-campo__control--area {
+  min-height: auto;
+  resize: vertical;
+}
+
+.ubi-campo__control[aria-invalid="true"] {
+  border-color: var(--color-alerta);
+  box-shadow: inset 0 0 0 1px rgb(var(--rojo-baya-rgb) / 0.4);
+}
+
+.ubi-campo__pista {
+  display: block;
+  font-size: var(--fs-micro);
+  color: var(--color-texto-suave);
+}
+
+.ubi-campo__error {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.4em;
+  font-size: var(--fs-micro);
+  font-weight: var(--peso-medio);
+  color: var(--color-alerta);
+}
+
+/* Mientras está vacío no ocupa sitio ni se anuncia. */
+.ubi-campo__error:empty {
+  display: none;
+}
+
+.ubi-campo__error::before {
+  content: "!";
+  display: inline-grid;
+  place-items: center;
+  width: 1.15em;
+  height: 1.15em;
+  flex: none;
+  margin-top: 0.15em;
+  border-radius: var(--radio-full);
+  background-color: var(--color-alerta);
+  color: var(--color-texto-inverso);
+  font-size: var(--fs-micro);
+  line-height: 1;
+}
+
+/* --- Estado, envío y legal ------------------------------------------------ */
+.ubi-form__estado {
+  max-width: none;
+  margin: 0;
+  padding: var(--esp-2xs) var(--esp-sm);
+  border-left: 2px solid var(--color-acento);
+  border-radius: var(--radio-xs);
+  background-color: rgb(var(--verde-menta-rgb) / 0.14);
+  font-size: var(--fs-pequeno);
+  color: var(--color-texto);
+}
+
+.ubi-form__estado:empty {
+  display: none;
+}
+
+.ubi-form__estado--error {
+  border-left-color: var(--color-alerta);
+  background-color: rgb(var(--rojo-baya-rgb) / 0.1);
+}
+
+.ubi-form__directo[hidden] {
+  display: none;
+}
+
+.ubi-form__directo {
+  align-self: flex-start;
+}
+
+.ubi-form__legal {
+  max-width: var(--medida);
+  margin: 0;
+  font-size: var(--fs-micro);
+  color: var(--color-texto-suave);
 }
 
 /* ==========================================================================
@@ -614,5 +917,13 @@ html:not(.js) .ubi-dist__relleno {
 
   .ubi-acciones .btn {
     flex: 1 1 100%;
+  }
+
+  .ubi-form {
+    padding: var(--esp-md);
+  }
+
+  .ubi-canal {
+    padding: var(--esp-sm);
   }
 }

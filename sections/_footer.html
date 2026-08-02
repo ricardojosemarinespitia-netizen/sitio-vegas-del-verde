@@ -1,6 +1,22 @@
 <!-- ==========================================================================
      FRAGMENTO: PIE DE PÁGINA  ·  se inserta al final de <body>, tras </main>
-     Contiene el ancla #contacto del menú. Propiedad del director de arte.
+     Propiedad del director de arte.
+
+     EL PIE ADELGAZÓ (ARQUITECTURA-V3, «queDesaparece»). Aquí sólo quedan:
+       marca y tagline · Instagram · un único enlace a #ubicacion ·
+       el cambio de idioma · 4 Family S.A.S. y el NIT · política y términos ·
+       el crédito fotográfico.
+
+     LO QUE SALIÓ DE AQUÍ Y POR QUÉ — cada uno tiene ya un dueño arriba:
+       · el horario, la dirección y el teléfono escrito  → #ubicacion
+       · Wifi · Baños · Vigilancia privada · Parqueadero → #nosotros
+       · el registro ICA y su resolución                 → #vivero
+       · el menú «Explorar», que reproducía la cabecera entera
+
+     NO le devuelvas ninguno de esos datos «porque un pie siempre los lleva»:
+     el sitio entero está montado sobre la regla de un hecho, un dueño, y este
+     pie era el reincidente. Tampoco le pongas id="contacto": ese id vive en el
+     bloque de canales de #ubicacion y duplicarlo rompería el salto del menú.
      ========================================================================== -->
 <footer class="pie-sitio">
   <div class="contenedor contenedor--ancho">
@@ -34,75 +50,19 @@
         </a>
       </div>
 
-      <div>
-        <h2 class="pie__titulo">Contacto</h2>
-        <ul class="pie__lista">
-          <li class="pie__dato">
-            <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" focusable="false">
-              <path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.46 1.32 4.96L2 22l5.25-1.38a9.87 9.87 0 0 0 4.79 1.22h.01c5.46 0 9.91-4.45 9.91-9.91 0-2.65-1.03-5.14-2.9-7.01A9.82 9.82 0 0 0 12.04 2Zm0 18.02h-.01a8.2 8.2 0 0 1-4.19-1.15l-.3-.18-3.12.82.83-3.04-.2-.31a8.19 8.19 0 0 1-1.26-4.38c0-4.54 3.7-8.24 8.25-8.24 2.2 0 4.27.86 5.83 2.42a8.2 8.2 0 0 1 2.41 5.83c0 4.54-3.7 8.23-8.24 8.23Z"/>
-            </svg>
-            <span>
-              Reservas y cotizaciones<br />
-              <a
-                href="https://wa.me/573166758362?text=Hola%2C%20quiero%20reservar%20en%20Vegas%20del%20Verde"
-                target="_blank"
-                rel="noopener"
-              >+57 316 675 8362</a>
-            </span>
-          </li>
-          <li class="pie__dato">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true" focusable="false">
-              <rect x="2.75" y="4.75" width="18.5" height="14.5" rx="2.5" />
-              <path d="m3.5 7 8.5 6 8.5-6" />
-            </svg>
-            <a href="mailto:vegasdelverde.1@gmail.com">vegasdelverde.1@gmail.com</a>
-          </li>
-          <li class="pie__dato">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true" focusable="false">
-              <path d="M12 21.5s7-6.1 7-11a7 7 0 1 0-14 0c0 4.9 7 11 7 11Z" />
-              <circle cx="12" cy="10.4" r="2.6" />
-            </svg>
-            <a
-              href="https://www.google.com/maps/place/Vegas+del+Verde/@7.0574425,-73.1144128,17z"
-              target="_blank"
-              rel="noopener"
-            >
-              Vereda Río Frío, 500 m sobre la vía Carabineros.<br />
-              Floridablanca, Santander, Colombia.
-            </a>
-          </li>
-        </ul>
-      </div>
-
-      <div>
-        <h2 class="pie__titulo">Horario</h2>
-        <ul class="pie__lista">
-          <li class="pie__dato">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true" focusable="false">
-              <circle cx="12" cy="12" r="9" />
-              <path d="M12 7v5.3l3.4 2" />
-            </svg>
-            <span>
-              Lunes a domingo<br />
-              <strong>6:00 a.&nbsp;m. – 10:00 p.&nbsp;m.</strong>
-            </span>
-          </li>
-          <li>Wifi · Baños · Vigilancia privada · Parqueadero</li>
-          <li>Vivero con registro ICA<br />Resolución n.º 00000819 del 03/02/2025</li>
-        </ul>
-      </div>
-
-      <div>
-        <h2 class="pie__titulo">Explorar</h2>
-        <ul class="pie__lista">
-          <li><a href="#nosotros">Nosotros</a></li>
-          <li><a href="#espacios">Espacios en alquiler</a></li>
-          <li><a href="#experiencias">Experiencias y bienestar</a></li>
-          <li><a href="#naturaleza">Naturaleza y vivero</a></li>
-          <li><a href="#colegios">Colegios</a></li>
-          <li><a href="#ubicacion">Cómo llegar</a></li>
-          <li><a href="en/index.html" hreflang="en" lang="en" rel="alternate">English version</a></li>
-        </ul>
+      <div class="pie__acciones">
+        <a class="enlace-flecha pie__enlace-mapa" href="#ubicacion">
+          Dónde queda y cómo llegar
+        </a>
+        <a
+          class="pie__idioma"
+          href="en/index.html"
+          hreflang="en"
+          lang="en"
+          rel="alternate"
+        >
+          Read this site in English
+        </a>
       </div>
 
     </div>

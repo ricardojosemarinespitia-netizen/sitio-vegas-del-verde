@@ -3,11 +3,22 @@
      Requiere:  styles/sections/ubicacion.css   (en el <head>)
                 js/mapa.js                      (con defer, al final del <body>)
 
+     v2 · Esta sección FUNDE la antigua #ubicacion con la antigua #contacto.
+     El bloque de canales conserva id="contacto" para no romper el enlace del
+     menú ni los enlaces externos que ya circulan. OJO INTEGRADOR:
+       · sections/contacto.html y styles/sections/contacto.css quedan OBSOLETOS:
+         quita su <link> del <head> y borra el fragmento del ensamblado.
+       · sections/_footer.html no debe llevar id="contacto": el id vive aquí.
+
      Leaflet + teselas Esri se cargan desde CDN EN TIEMPO DE EJECUCIÓN desde
      js/mapa.js (con integrity/SRI). No hace falta añadir nada al <head>.
-     Si el CDN falla o no hay red, la vista aérea de respaldo — que es lo que
-     se ve por defecto — simplemente se queda, y los botones de navegación
-     siguen funcionando igual.
+     Si el CDN falla o no hay red, la vista aérea de respaldo se queda y los
+     botones de navegación siguen funcionando igual.
+
+     El formulario NO envía a ningún servidor (no existe backend): compone el
+     mensaje y abre wa.me. El <script> del final es el que hace eso; si los
+     fragmentos se inyectan con innerHTML en vez de concatenarse, hay que mover
+     ese script a js/contacto.js y cargarlo con defer.
      ========================================================================== -->
 <section id="ubicacion" class="seccion seccion--alt ubi" aria-labelledby="ubicacion-titulo">
   <div class="contenedor contenedor--ancho">
@@ -15,17 +26,15 @@
     <header class="seccion-encabezado centrado reveal">
       <p class="eyebrow">Cómo llegar</p>
       <h2 id="ubicacion-titulo" class="titulo-seccion">
-        A 10 minutos del Anillo Vial, a un mundo de distancia
+        Dónde queda, cuándo abrimos y con quién hablas
       </h2>
       <p class="entradilla">
-        Estamos en la vereda Río Frío de Floridablanca, a 10,2&nbsp;km de Bucaramanga y
-        10,3&nbsp;km de Girón: cuatro hectáreas arboladas entre la quebrada Aranzoque y el
-        riachuelo La Florida, en pleno Área Metropolitana. Se sale de la ciudad sin salir
-        de ella.
+        Todo lo práctico en un solo sitio: el mapa, las referencias, el horario y el número
+        al que escribir.
       </p>
     </header>
 
-    <!-- ================= MAPA ================================================ -->
+    <!-- ================= 1 · MAPA CON VUELO ================================== -->
     <figure class="ubi-mapa reveal" data-mapa>
       <div class="ubi-mapa__marco">
         <div class="ubi-mapa__medio">
@@ -65,7 +74,6 @@
               />
               Vegas del Verde
             </span>
-            <span class="ubi-hud__coord">7.0574425,&nbsp;-73.1144128</span>
             <span class="ubi-hud__etiqueta">Vista satelital</span>
           </div>
 
@@ -90,58 +98,33 @@
           sector. Los botones para llegar siguen funcionando.
         </span>
       </figcaption>
+
+      <p class="ubi-mapa__controles">
+        <button
+          class="btn btn-secundario btn-pequeno"
+          type="button"
+          data-mapa-repetir
+          hidden
+        >
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true" focusable="false">
+            <path d="M20 12a8 8 0 1 1-2.6-5.9" />
+            <path d="M20.4 4.2v4.2h-4.2" />
+          </svg>
+          Repetir vuelo
+        </button>
+      </p>
     </figure>
 
-    <!-- ================= BOTONES DE NAVEGACIÓN =============================== -->
-    <div class="ubi-acciones reveal">
-      <a
-        class="btn btn-primario btn-grande"
-        href="https://www.google.com/maps/dir/?api=1&amp;destination=7.0574425,-73.1144128"
-        target="_blank"
-        rel="noopener"
-      >
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true" focusable="false">
-          <path d="M12 21.5s7-6.1 7-11a7 7 0 1 0-14 0c0 4.9 7 11 7 11Z" />
-          <circle cx="12" cy="10.4" r="2.6" />
-        </svg>
-        Llegar con Google Maps
-      </a>
-
-      <a
-        class="btn btn-secundario btn-grande"
-        href="https://waze.com/ul?ll=7.0574425,-73.1144128&amp;navigate=yes"
-        target="_blank"
-        rel="noopener"
-      >
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true" focusable="false">
-          <path d="M3.5 12.2 20.4 4.6a.55.55 0 0 1 .74.72l-7.4 16.6a.55.55 0 0 1-1.03-.09l-1.6-6.2a.55.55 0 0 0-.39-.4l-6.2-1.6a.55.55 0 0 1-.02-1.43Z" />
-        </svg>
-        Llegar con Waze
-      </a>
-
-      <button
-        class="btn btn-secundario ubi-acciones__repetir"
-        type="button"
-        data-mapa-repetir
-        hidden
-      >
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true" focusable="false">
-          <path d="M20 12a8 8 0 1 1-2.6-5.9" />
-          <path d="M20.4 4.2v4.2h-4.2" />
-        </svg>
-        Repetir vuelo
-      </button>
-    </div>
-
-    <!-- ================= DIRECCIÓN Y REFERENCIAS ============================= -->
+    <!-- ================= 2 y 3 · DIRECCIÓN Y REFERENCIAS ===================== -->
     <div class="ubi-info reveal-secuencia">
 
       <article class="ubi-tarjeta reveal">
         <h3 class="titulo-seccion titulo-seccion--xs">La dirección</h3>
         <address class="ubi-direccion">
-          Vereda Río Frío, 500&nbsp;mts sobre la vía Carabineros.<br />
+          Vereda Río Frío, 500&nbsp;m sobre la vía Carabineros.<br />
           Floridablanca, Santander, Colombia.
         </address>
+        <p class="nota">En el corazón del Área Metropolitana de Bucaramanga.</p>
         <p class="ubi-coordenadas">
           <span class="ubi-coordenadas__etiqueta">Coordenadas</span>
           <a
@@ -150,12 +133,6 @@
             rel="noopener"
           >7.0574425, -73.1144128</a>
         </p>
-        <p class="nota">
-          El predio cuenta con parqueadero propio y vigilancia privada.
-        </p>
-        <p class="ubi-tarjeta__enlace">
-          <a class="enlace-flecha" href="#contacto">Horario y contacto</a>
-        </p>
       </article>
 
       <article class="ubi-tarjeta reveal">
@@ -163,7 +140,7 @@
         <p class="nota">Si te suena alguno de estos sitios, ya sabes llegar.</p>
         <ul class="ubi-refs">
           <li class="ubi-ref">Anillo Vial Floridablanca&ndash;Girón</li>
-          <li class="ubi-ref">Conjunto Natura, ecoparque empresarial</li>
+          <li class="ubi-ref">Conjunto Natura</li>
           <li class="ubi-ref">Alkosto · Makro · PriceSmart</li>
           <li class="ubi-ref">Mediterráneo Fútbol Park</li>
           <li class="ubi-ref">Mediterráneo Royal</li>
@@ -171,19 +148,34 @@
           <li class="ubi-ref">C.C. La Florida</li>
           <li class="ubi-ref">C.C. Caracolí</li>
         </ul>
+
+        <figure class="ubi-refs__figura">
+          <img
+            class="ubi-refs__foto"
+            src="img/mapa-ubicacion.jpg"
+            width="1200"
+            height="1111"
+            alt="La misma vista aérea del sector, con cada uno de los puntos de referencia de la lista anterior señalado con un pin sobre la foto."
+            loading="lazy"
+            decoding="async"
+          />
+          <figcaption>
+            El predio, visto desde el aire, con los sitios que ya conoces marcados alrededor.
+          </figcaption>
+        </figure>
       </article>
 
     </div>
 
-    <!-- ================= DISTANCIAS ========================================== -->
+    <!-- ================= 4 · DISTANCIAS ====================================== -->
     <div class="ubi-dist reveal" role="group" aria-labelledby="ubicacion-distancias-titulo">
       <div class="ubi-dist__encabezado">
         <h3 class="titulo-seccion titulo-seccion--xs" id="ubicacion-distancias-titulo">
           Distancias desde el predio
         </h3>
         <p class="nota">
-          Pegados a la ciudad y en la puerta del Santander que se visita.
-          Distancias aproximadas.
+          Pegados a la ciudad y en la puerta del Santander que se visita. Distancias
+          aproximadas por carretera.
         </p>
       </div>
 
@@ -226,16 +218,471 @@
       </ol>
     </div>
 
-    <p class="ubi-cierre reveal">
+    <!-- ================= 5 · BOTONES DE NAVEGACIÓN =========================== -->
+    <div class="ubi-acciones reveal">
       <a
-        class="btn btn-whatsapp"
-        href="https://wa.me/573166758362?text=Hola%2C%20quiero%20confirmar%20c%C3%B3mo%20llegar%20a%20Vegas%20del%20Verde"
+        class="btn btn-primario btn-grande"
+        href="https://www.google.com/maps/dir/?api=1&amp;destination=7.0574425,-73.1144128"
         target="_blank"
         rel="noopener"
       >
-        ¿Dudas para llegar? Te guiamos por WhatsApp
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true" focusable="false">
+          <path d="M12 21.5s7-6.1 7-11a7 7 0 1 0-14 0c0 4.9 7 11 7 11Z" />
+          <circle cx="12" cy="10.4" r="2.6" />
+        </svg>
+        Llegar con Google Maps
       </a>
-    </p>
 
+      <a
+        class="btn btn-secundario btn-grande"
+        href="https://waze.com/ul?ll=7.0574425,-73.1144128&amp;navigate=yes"
+        target="_blank"
+        rel="noopener"
+      >
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true" focusable="false">
+          <path d="M3.5 12.2 20.4 4.6a.55.55 0 0 1 .74.72l-7.4 16.6a.55.55 0 0 1-1.03-.09l-1.6-6.2a.55.55 0 0 0-.39-.4l-6.2-1.6a.55.55 0 0 1-.02-1.43Z" />
+        </svg>
+        Llegar con Waze
+      </a>
+    </div>
+
+    <!-- ================= 6 y 7 · CANALES, HORARIO Y FORMULARIO =============== -->
+    <div class="ubi-hablar">
+
+      <!-- El id="contacto" se conserva aquí: es el destino del menú y de los
+           enlaces externos que ya circulan. No lo cambies ni lo dupliques. -->
+      <div
+        class="ubi-canales reveal-secuencia"
+        id="contacto"
+        role="group"
+        aria-labelledby="ubicacion-canales-titulo"
+      >
+        <h3 class="titulo-seccion titulo-seccion--xs reveal" id="ubicacion-canales-titulo">
+          Con quién hablas
+        </h3>
+
+        <a
+          class="ubi-canal ubi-canal--destacado reveal"
+          href="https://wa.me/573166758362?text=Hola%2C%20quiero%20informaci%C3%B3n%20sobre%20Vegas%20del%20Verde"
+          target="_blank"
+          rel="noopener"
+        >
+          <span class="ubi-canal__icono" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="currentColor" focusable="false">
+              <path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.46 1.32 4.96L2 22l5.25-1.38a9.87 9.87 0 0 0 4.79 1.22h.01c5.46 0 9.91-4.45 9.91-9.91 0-2.65-1.03-5.14-2.9-7.01A9.82 9.82 0 0 0 12.04 2Zm0 18.02h-.01a8.2 8.2 0 0 1-4.19-1.15l-.3-.18-3.12.82.83-3.04-.2-.31a8.19 8.19 0 0 1-1.26-4.38c0-4.54 3.7-8.24 8.25-8.24 2.2 0 4.27.86 5.83 2.42a8.2 8.2 0 0 1 2.41 5.83c0 4.54-3.7 8.23-8.24 8.23Z" />
+              <path d="M17.47 14.38c-.3-.15-1.76-.87-2.03-.97-.27-.1-.47-.15-.67.15-.2.3-.77.97-.94 1.17-.17.2-.35.22-.65.07-.3-.15-1.26-.46-2.4-1.48-.89-.79-1.49-1.77-1.66-2.07-.17-.3-.02-.46.13-.61.13-.13.3-.35.45-.52.15-.17.2-.3.3-.5.1-.2.05-.37-.02-.52-.08-.15-.67-1.61-.92-2.21-.24-.58-.49-.5-.67-.51h-.57c-.2 0-.52.07-.79.37-.27.3-1.04 1.01-1.04 2.47s1.06 2.87 1.21 3.07c.15.2 2.1 3.2 5.08 4.49.71.31 1.26.49 1.69.63.71.23 1.36.19 1.87.12.57-.09 1.76-.72 2.01-1.41.25-.69.25-1.29.17-1.41-.07-.12-.27-.2-.57-.35Z" />
+            </svg>
+          </span>
+          <span class="ubi-canal__cuerpo">
+            <span class="ubi-canal__etiqueta">WhatsApp</span>
+            <span class="ubi-canal__valor">+57 316 675 8362</span>
+            <span class="ubi-canal__pie">
+              No hay reservas en línea: la disponibilidad se confirma por WhatsApp.
+            </span>
+          </span>
+        </a>
+
+        <div class="ubi-canal ubi-canal--estatico reveal">
+          <span class="ubi-canal__icono" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" focusable="false">
+              <circle cx="12" cy="12" r="9" />
+              <path d="M12 7v5.3l3.4 2" />
+            </svg>
+          </span>
+          <span class="ubi-canal__cuerpo">
+            <span class="ubi-canal__etiqueta">Horario</span>
+            <span class="ubi-canal__valor">
+              Lunes a domingo, 6:00&nbsp;a.&nbsp;m. – 10:00&nbsp;p.&nbsp;m.
+            </span>
+            <span class="ubi-canal__pie">El mismo horario los siete días de la semana.</span>
+          </span>
+        </div>
+
+        <a class="ubi-canal reveal" href="mailto:vegasdelverde.1@gmail.com">
+          <span class="ubi-canal__icono" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" focusable="false">
+              <rect x="2.75" y="4.75" width="18.5" height="14.5" rx="2.5" />
+              <path d="m3.5 7 8.5 6 8.5-6" />
+            </svg>
+          </span>
+          <span class="ubi-canal__cuerpo">
+            <span class="ubi-canal__etiqueta">Correo</span>
+            <span class="ubi-canal__valor">vegasdelverde.1@gmail.com</span>
+            <span class="ubi-canal__pie">Si prefieres escribir por correo.</span>
+          </span>
+        </a>
+
+        <a
+          class="ubi-canal reveal"
+          href="https://instagram.com/vegasdelverde"
+          target="_blank"
+          rel="noopener"
+        >
+          <span class="ubi-canal__icono" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" focusable="false">
+              <rect x="3" y="3" width="18" height="18" rx="5" />
+              <circle cx="12" cy="12" r="4" />
+              <circle cx="17.3" cy="6.7" r="1.15" fill="currentColor" stroke="none" />
+            </svg>
+          </span>
+          <span class="ubi-canal__cuerpo">
+            <span class="ubi-canal__etiqueta">Instagram</span>
+            <span class="ubi-canal__valor">@vegasdelverde</span>
+            <span class="ubi-canal__pie">El día a día del predio.</span>
+          </span>
+        </a>
+      </div>
+
+      <!-- ================= 8 · FORMULARIO ==================================== -->
+      <form
+        class="ubi-form reveal"
+        id="form-contacto"
+        data-form-whatsapp
+        novalidate
+        aria-labelledby="ubicacion-form-titulo"
+      >
+        <h3 class="titulo-seccion titulo-seccion--xs" id="ubicacion-form-titulo">
+          Arma tu mensaje
+        </h3>
+        <p class="nota ubi-form__intro">
+          Rellena los campos marcados como obligatorios y te llevamos a WhatsApp con el
+          mensaje ya escrito. Este sitio no guarda nada de lo que escribas.
+        </p>
+
+        <div class="ubi-campos">
+
+          <p class="ubi-campo">
+            <label class="ubi-campo__etiqueta" for="ubicacion-nombre">
+              Nombre <span class="ubi-campo__marca">obligatorio</span>
+            </label>
+            <input
+              class="ubi-campo__control"
+              type="text"
+              id="ubicacion-nombre"
+              name="nombre"
+              autocomplete="name"
+              required
+              aria-required="true"
+              aria-describedby="ubicacion-nombre-error"
+            />
+            <span class="ubi-campo__error" id="ubicacion-nombre-error" data-error></span>
+          </p>
+
+          <p class="ubi-campo">
+            <label class="ubi-campo__etiqueta" for="ubicacion-telefono">
+              Teléfono <span class="ubi-campo__opcional">opcional</span>
+            </label>
+            <input
+              class="ubi-campo__control"
+              type="tel"
+              id="ubicacion-telefono"
+              name="telefono"
+              inputmode="tel"
+              autocomplete="tel"
+              aria-describedby="ubicacion-telefono-error"
+            />
+            <span class="ubi-campo__error" id="ubicacion-telefono-error" data-error></span>
+          </p>
+
+          <p class="ubi-campo ubi-campo--ancho">
+            <label class="ubi-campo__etiqueta" for="ubicacion-interes">
+              ¿Qué te interesa? <span class="ubi-campo__marca">obligatorio</span>
+            </label>
+            <select
+              class="ubi-campo__control"
+              id="ubicacion-interes"
+              name="interes"
+              required
+              aria-required="true"
+              aria-describedby="ubicacion-interes-error"
+            >
+              <option value="">Elige una opción</option>
+              <option value="espacios">Alquilar un espacio</option>
+              <option value="planes">Organizar un plan o una celebración</option>
+              <option value="colegios">Salida escolar o grupo educativo</option>
+              <option value="sendero">Sendero Ecovital</option>
+              <option value="vivero">Vivero</option>
+              <option value="otro">Otra consulta</option>
+            </select>
+            <span class="ubi-campo__error" id="ubicacion-interes-error" data-error></span>
+          </p>
+
+          <p class="ubi-campo">
+            <label class="ubi-campo__etiqueta" for="ubicacion-fecha">
+              Fecha <span class="ubi-campo__marca">obligatorio</span>
+            </label>
+            <input
+              class="ubi-campo__control"
+              type="date"
+              id="ubicacion-fecha"
+              name="fecha"
+              required
+              aria-required="true"
+              aria-describedby="ubicacion-fecha-error"
+            />
+            <span class="ubi-campo__error" id="ubicacion-fecha-error" data-error></span>
+          </p>
+
+          <p class="ubi-campo">
+            <label class="ubi-campo__etiqueta" for="ubicacion-personas">
+              N.º de personas <span class="ubi-campo__marca">obligatorio</span>
+            </label>
+            <input
+              class="ubi-campo__control"
+              type="number"
+              id="ubicacion-personas"
+              name="personas"
+              min="1"
+              step="1"
+              inputmode="numeric"
+              required
+              aria-required="true"
+              aria-describedby="ubicacion-personas-error"
+            />
+            <span class="ubi-campo__error" id="ubicacion-personas-error" data-error></span>
+          </p>
+
+          <p class="ubi-campo ubi-campo--ancho">
+            <label class="ubi-campo__etiqueta" for="ubicacion-mensaje">
+              Cuéntanos <span class="ubi-campo__marca">obligatorio</span>
+            </label>
+            <textarea
+              class="ubi-campo__control ubi-campo__control--area"
+              id="ubicacion-mensaje"
+              name="mensaje"
+              rows="4"
+              required
+              aria-required="true"
+              aria-describedby="ubicacion-mensaje-error ubicacion-mensaje-pista"
+            ></textarea>
+            <span class="ubi-campo__pista" id="ubicacion-mensaje-pista">
+              Por ejemplo: qué celebras, a qué hora llegarías o cuántas horas necesitas.
+            </span>
+            <span class="ubi-campo__error" id="ubicacion-mensaje-error" data-error></span>
+          </p>
+
+        </div>
+
+        <p class="ubi-form__estado" data-form-estado role="status" aria-live="polite"></p>
+
+        <button class="btn btn-whatsapp btn-grande btn-bloque" type="submit">
+          <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" focusable="false">
+            <path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.46 1.32 4.96L2 22l5.25-1.38a9.87 9.87 0 0 0 4.79 1.22h.01c5.46 0 9.91-4.45 9.91-9.91 0-2.65-1.03-5.14-2.9-7.01A9.82 9.82 0 0 0 12.04 2Zm0 18.02h-.01a8.2 8.2 0 0 1-4.19-1.15l-.3-.18-3.12.82.83-3.04-.2-.31a8.19 8.19 0 0 1-1.26-4.38c0-4.54 3.7-8.24 8.25-8.24 2.2 0 4.27.86 5.83 2.42a8.2 8.2 0 0 1 2.41 5.83c0 4.54-3.7 8.23-8.24 8.23Z" />
+          </svg>
+          Hablemos por WhatsApp
+        </button>
+
+        <a
+          class="enlace-flecha ubi-form__directo"
+          data-form-directo
+          href="https://wa.me/573166758362"
+          target="_blank"
+          rel="noopener"
+          hidden
+        >
+          Si no se abrió la pestaña, entra aquí
+        </a>
+
+        <p class="ubi-form__legal">
+          Al escribirnos aceptas nuestra
+          <a href="politica-de-datos.html">política de tratamiento de datos</a>.
+        </p>
+
+        <noscript>
+          <p class="ubi-form__legal">
+            Este formulario necesita JavaScript para armar el mensaje. Escríbenos directamente
+            por
+            <a
+              href="https://wa.me/573166758362?text=Hola%2C%20quiero%20informaci%C3%B3n%20sobre%20Vegas%20del%20Verde"
+              target="_blank"
+              rel="noopener"
+            >WhatsApp</a>
+            o al correo
+            <a href="mailto:vegasdelverde.1@gmail.com">vegasdelverde.1@gmail.com</a>.
+          </p>
+        </noscript>
+      </form>
+
+    </div>
   </div>
+
+  <!-- ======================================================================
+       Formulario → WhatsApp. Sin backend: compone el texto y abre wa.me.
+       ====================================================================== -->
+  <script>
+    (function () {
+      "use strict";
+
+      var formulario = document.querySelector("[data-form-whatsapp]");
+      if (!formulario) {
+        return;
+      }
+
+      var TELEFONO = "573166758362";
+      var PREFIJO = "ubicacion-";
+      var estado = formulario.querySelector("[data-form-estado]");
+      var directo = formulario.querySelector("[data-form-directo]");
+
+      function hoyISO() {
+        var f = new Date();
+        var mes = String(f.getMonth() + 1);
+        var dia = String(f.getDate());
+        if (mes.length < 2) { mes = "0" + mes; }
+        if (dia.length < 2) { dia = "0" + dia; }
+        return f.getFullYear() + "-" + mes + "-" + dia;
+      }
+
+      var reglas = [
+        {
+          campo: "nombre",
+          etiqueta: "Nombre",
+          probar: function (v) { return v.trim().length >= 2; },
+          error: "Escribe tu nombre para saber con quién hablamos."
+        },
+        {
+          campo: "telefono",
+          etiqueta: "Teléfono",
+          opcional: true,
+          probar: function (v) { return /^[0-9+()\s.-]{7,20}$/.test(v.trim()); },
+          error: "Revisa el teléfono: solo números, espacios y los signos + ( ) - ."
+        },
+        {
+          campo: "interes",
+          etiqueta: "¿Qué te interesa?",
+          probar: function (v) { return v !== ""; },
+          error: "Elige qué te interesa."
+        },
+        {
+          campo: "fecha",
+          etiqueta: "Fecha",
+          probar: function (v) { return v !== "" && v >= hoyISO(); },
+          error: "Pon la fecha que tienes en mente: hoy o posterior."
+        },
+        {
+          campo: "personas",
+          etiqueta: "N.º de personas",
+          probar: function (v) {
+            var n = Number(v);
+            return v !== "" && isFinite(n) && n >= 1 && Math.floor(n) === n;
+          },
+          error: "Indica un número entero de personas mayor que cero."
+        },
+        {
+          campo: "mensaje",
+          etiqueta: "Cuéntanos",
+          probar: function (v) { return v.trim().length >= 10; },
+          error: "Cuéntanos en una línea qué necesitas (mínimo 10 caracteres)."
+        }
+      ];
+
+      function nodoError(nombre) {
+        return document.getElementById(PREFIJO + nombre + "-error");
+      }
+
+      function limpiar(control, nombre) {
+        control.removeAttribute("aria-invalid");
+        var salida = nodoError(nombre);
+        if (salida) { salida.textContent = ""; }
+      }
+
+      function marcar(control, nombre, mensaje) {
+        control.setAttribute("aria-invalid", "true");
+        var salida = nodoError(nombre);
+        if (salida) { salida.textContent = mensaje; }
+      }
+
+      function revisar(regla, avisar) {
+        var control = formulario.elements[regla.campo];
+        if (!control) { return true; }
+        var valor = control.value || "";
+        var vacio = valor.trim() === "";
+
+        if (regla.opcional && vacio) {
+          limpiar(control, regla.campo);
+          return true;
+        }
+        if (regla.probar(valor)) {
+          limpiar(control, regla.campo);
+          return true;
+        }
+        if (avisar) { marcar(control, regla.campo, regla.error); }
+        return false;
+      }
+
+      /* Revalidación en vivo, sólo de lo que ya está marcado como incorrecto. */
+      reglas.forEach(function (regla) {
+        var control = formulario.elements[regla.campo];
+        if (!control) { return; }
+        var evento = control.tagName === "SELECT" || control.type === "date" ? "change" : "input";
+        control.addEventListener(evento, function () {
+          if (control.getAttribute("aria-invalid") === "true") {
+            revisar(regla, true);
+          }
+        });
+      });
+
+      function textoInteres() {
+        var select = formulario.elements.interes;
+        if (!select || select.selectedIndex < 1) { return ""; }
+        return select.options[select.selectedIndex].text;
+      }
+
+      function fechaLegible(iso) {
+        var p = iso.split("-");
+        return p.length === 3 ? p[2] + "/" + p[1] + "/" + p[0] : iso;
+      }
+
+      function componer() {
+        var d = formulario.elements;
+        var lineas = [];
+        lineas.push("Hola, soy " + d.nombre.value.trim() + ".");
+        lineas.push("Me interesa: " + textoInteres() + ".");
+        lineas.push("Fecha: " + fechaLegible(d.fecha.value));
+        lineas.push("Personas: " + d.personas.value);
+        if (d.telefono.value.trim()) { lineas.push("Mi teléfono: " + d.telefono.value.trim()); }
+        lineas.push("");
+        lineas.push(d.mensaje.value.trim());
+        lineas.push("");
+        lineas.push("(Escrito desde vegasdelverde.com)");
+        return lineas.join("\n");
+      }
+
+      formulario.addEventListener("submit", function (evento) {
+        evento.preventDefault();
+
+        var fallidos = [];
+        reglas.forEach(function (regla) {
+          if (!revisar(regla, true)) { fallidos.push(regla); }
+        });
+
+        if (fallidos.length) {
+          if (estado) {
+            estado.classList.add("ubi-form__estado--error");
+            estado.textContent =
+              fallidos.length === 1
+                ? "Falta revisar un campo: " + fallidos[0].etiqueta + "."
+                : "Faltan " + fallidos.length + " campos por revisar: " +
+                  fallidos.map(function (r) { return r.etiqueta; }).join(", ") + ".";
+          }
+          var primero = formulario.elements[fallidos[0].campo];
+          if (primero && typeof primero.focus === "function") { primero.focus(); }
+          return;
+        }
+
+        var url = "https://wa.me/" + TELEFONO + "?text=" + encodeURIComponent(componer());
+
+        if (directo) {
+          directo.href = url;
+          directo.hidden = false;
+        }
+        if (estado) {
+          estado.classList.remove("ubi-form__estado--error");
+          estado.textContent =
+            "Abrimos WhatsApp en otra pestaña con tu mensaje listo. Solo falta que lo envíes.";
+        }
+
+        window.open(url, "_blank", "noopener");
+      });
+    })();
+  </script>
 </section>

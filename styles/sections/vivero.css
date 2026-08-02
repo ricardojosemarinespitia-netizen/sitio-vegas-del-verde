@@ -1,0 +1,179 @@
+/* ==========================================================================
+   VEGAS DEL VERDE — styles/sections/vivero.css   ·  v2 «Vende la escapada»
+   Estiliza SÓLO el fragmento sections/vivero.html (#vivero).
+
+   Reglas de la casa que se respetan aquí:
+   · Ni un valor literal de color, tamaño, radio, sombra o duración: todo sale
+     de styles/tokens.css. Si falta un token, se pide; no se inventa.
+   · Ningún titular declara font-family (heredan Fraunces de base.css).
+   · text-transform: uppercase sólo en micro-etiquetas (índices y el rótulo
+     del sello), nunca en un titular.
+   · Ninguna regla pisa por especificidad un color de base.css.
+   · Sin !important.
+
+   Contraste medido sobre crema (#F7F2E7):
+     índice y sello en --color-acento-texto (terracota) ......... 5.30:1
+     detalle del sello en --color-texto-suave sobre salvia ...... 5.22:1
+     emblema del sello en --verde-bosque ....................... 10.66:1
+   ========================================================================== */
+
+/* --------------------------------------------------------------------------
+   1. ARMAZÓN — fotos y texto
+   Móvil: una columna, primero las fotos (son la prueba de que el vivero
+   existe), después lo que se vende.
+   -------------------------------------------------------------------------- */
+.viv-cuerpo {
+  display: grid;
+  gap: var(--gap-lg);
+  margin-top: var(--esp-xl);
+}
+
+@media (min-width: 62rem) {
+  .viv-cuerpo {
+    grid-template-columns: minmax(0, 1.02fr) minmax(0, 0.98fr);
+    align-items: start;
+    gap: var(--gap-lg);
+  }
+}
+
+/* --------------------------------------------------------------------------
+   2. EL MOSAICO — cuatro fotos reales del invernadero y los camellones
+   -------------------------------------------------------------------------- */
+.viv-mosaico {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--gap-sm);
+}
+
+/* A partir de tableta la segunda columna baja: el vivero es un terreno en
+   pendiente y el mosaico lo imita. Es un desfase fijo, no una animación:
+   no depende de prefers-reduced-motion. El padding inferior recupera el
+   espacio que se lleva el desplazamiento. */
+@media (min-width: 48rem) {
+  .viv-mosaico {
+    padding-bottom: var(--esp-xl);
+  }
+
+  .viv-foto:nth-child(even) > figure {
+    transform: translateY(var(--esp-xl));
+  }
+}
+
+.viv-foto > figure {
+  height: 100%;
+}
+
+/* El zoom al pasar el ratón usa --escala-hover, que vale 1 cuando el visitante
+   pide menos movimiento: se apaga solo. */
+.viv-foto:hover .marco > img,
+.viv-foto:focus-within .marco > img {
+  transform: scale(var(--escala-hover));
+}
+
+/* --------------------------------------------------------------------------
+   3. LA COLUMNA DE TEXTO
+   -------------------------------------------------------------------------- */
+.viv-texto {
+  display: flex;
+  flex-direction: column;
+  gap: var(--esp-md);
+  max-width: var(--medida);
+}
+
+.viv-lead {
+  font-size: var(--fs-grande);
+  line-height: var(--alto-linea-base);
+  color: var(--color-texto);
+}
+
+/* --------------------------------------------------------------------------
+   4. LOS CUATRO SERVICIOS
+   Lista numerada con filete: es un catálogo, no una promesa. Corta y densa.
+   -------------------------------------------------------------------------- */
+.viv-servicios {
+  display: grid;
+  border-top: 1px solid var(--color-borde-suave);
+}
+
+.viv-servicio {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  gap: var(--esp-sm);
+  align-items: baseline;
+  padding-block: var(--esp-xs);
+  border-bottom: 1px solid var(--color-borde-suave);
+}
+
+.viv-servicio__indice {
+  font-family: var(--fuente-titulo);
+  font-size: var(--fs-micro);
+  font-weight: var(--peso-medio);
+  text-transform: uppercase;
+  letter-spacing: var(--track-caps);
+  color: var(--color-acento-texto);
+  font-variant-numeric: tabular-nums;
+}
+
+.viv-servicio__nombre {
+  font-size: var(--fs-cuerpo);
+  line-height: var(--alto-linea-base);
+  color: var(--color-texto);
+}
+
+/* --------------------------------------------------------------------------
+   5. EL VIVERO COMO AULA — remate con enlace a los talleres
+   -------------------------------------------------------------------------- */
+.viv-aula {
+  margin: 0;
+  color: var(--color-texto-suave);
+}
+
+.viv-aula .enlace-flecha {
+  margin-left: var(--esp-2xs);
+}
+
+/* --------------------------------------------------------------------------
+   6. EL SELLO ICA — la prueba de confianza
+   -------------------------------------------------------------------------- */
+.viv-sello {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--esp-sm);
+  margin: 0;
+  padding: var(--esp-md);
+  border: 1px solid var(--color-borde-suave);
+  border-radius: var(--radio-md);
+  background-color: rgb(var(--salvia-rgb) / 0.6);
+}
+
+.viv-sello__emblema {
+  flex: none;
+  display: inline-flex;
+  color: var(--verde-bosque);
+}
+
+.viv-sello__emblema svg {
+  width: var(--esp-lg);
+  height: var(--esp-lg);
+}
+
+.viv-sello__texto {
+  display: flex;
+  flex-direction: column;
+  gap: var(--esp-3xs);
+}
+
+.viv-sello__titulo {
+  font-family: var(--fuente-titulo);
+  font-size: var(--fs-micro);
+  font-weight: var(--peso-medio);
+  text-transform: uppercase;
+  letter-spacing: var(--track-caps);
+  color: var(--color-acento-texto);
+}
+
+.viv-sello__detalle {
+  font-size: var(--fs-pequeno);
+  line-height: var(--alto-linea-base);
+  color: var(--color-texto-suave);
+}

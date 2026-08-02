@@ -1,0 +1,268 @@
+/* ==========================================================================
+   VEGAS DEL VERDE — inicio.css  ·  sección #inicio  ·  v2 «Vende la escapada»
+   Depende de tokens.css + base.css (cargarlos antes). Ningún valor literal de
+   color, de cuerpo de letra, de radio, de sombra ni de duración: todo sale de
+   los tokens. Este archivo NO toca tokens.css, base.css ni shell.css.
+
+   SUSTITUYE A styles/sections/hero.css. En el <head> de index.html hay que
+   cambiar el <link>: #inicio ya no es un hero a sangre, es una sección normal
+   del sistema, con .seccion-encabezado como todas las demás.
+
+   ESTRUCTURA
+     .inicio                      la sección (crema, la de serie)
+       .inicio__interior          columna: encabezado · plano · tira de aves
+         .inicio__encabezado      eyebrow + h1.titulo-seccion + entradilla + CTA
+         .inicio__plano           <figure> con el render aéreo
+           .inicio__plano-lienzo  contexto de posición de las cuatro anclas
+           .inicio__anclas        Espacios · Sendero · Vivero · Cómo llegar
+         .inicio__aves            seis miniaturas de atmósfera
+
+   POR QUÉ LAS ANCLAS NO SE SUPERPONEN HASTA 64em
+   Sobre el plano, cada ancla es una pastilla de ~2,1 rem de alto colocada en
+   coordenadas porcentuales. En un teléfono el render (2000 × 1013) baja a unos
+   190 px de alto: las cuatro pastillas se pisarían entre ellas y quedarían muy
+   por debajo del objetivo táctil de 44 px que pide WCAG 2.5.5. Por eso, por
+   debajo de 64em, las anclas SALEN del plano y se convierten en una rejilla de
+   dos columnas debajo de la foto, con altura de botón. El plano sigue siendo el
+   índice; lo que cambia es dónde se toca. El corte en 64em es el mismo que usa
+   base.css para dar tamaño táctil, así que no queda ninguna franja de anchos en
+   la que las anclas estén superpuestas y sean pequeñas a la vez.
+   ========================================================================== */
+
+/* La cabecera es fija (shell.css): la primera sección se aparta ella misma.
+   Y su scroll-margin vuelve a cero, porque #inicio ES el principio de la
+   página: con el margen de .seccion, volver al inicio dejaba un hueco. */
+.inicio {
+  padding-top: calc(var(--alto-header) + var(--esp-xl));
+  scroll-margin-top: 0;
+}
+
+.inicio__interior {
+  display: flex;
+  flex-direction: column;
+  gap: var(--gap-lg);
+}
+
+/* El aire entre bloques lo pone el `gap` del interior: el margen inferior de
+   .seccion-encabezado sobraría y descuadraría el ritmo. */
+.inicio__encabezado {
+  margin-bottom: 0;
+}
+
+.inicio__acciones {
+  margin-top: var(--esp-2xs);
+}
+
+/* ==========================================================================
+   1. EL PLANO-ÍNDICE
+   ========================================================================== */
+.inicio__plano {
+  display: flex;
+  flex-direction: column;
+  gap: var(--esp-2xs);
+}
+
+.inicio__plano-lienzo {
+  position: relative;
+}
+
+/* El radio va en la <img>, no en un contenedor con overflow oculto: así el
+   anillo de foco de un ancla cercana al borde nunca se recorta. */
+.inicio__plano-foto {
+  width: 100%;
+  height: auto;
+  border-radius: var(--radio-lg);
+  border: 1px solid var(--color-borde-suave);
+  box-shadow: var(--sombra-lg);
+}
+
+.inicio__plano-pie {
+  max-width: var(--medida);
+}
+
+/* ---- LAS CUATRO ANCLAS --------------------------------------------------
+   Móvil y tableta: rejilla de pastillas bajo el plano.                     */
+.inicio__anclas {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: var(--gap-sm);
+  margin-top: var(--esp-md);
+}
+
+/* En tableta las cuatro caben en una fila y dejan de parecer un formulario. */
+@media (min-width: 40em) {
+  .inicio__anclas {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+.inicio__ancla {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.6em;
+  /* «Cómo llegar» es el único rótulo que parte en dos líneas en una columna
+     estrecha. Sin esto, su pastilla queda más alta que las otras tres y la
+     fila se ve descuadrada. */
+  height: 100%;
+  /* Sin min-height literal: el padding vertical (--esp-sm arriba y abajo) más
+     la línea de la etiqueta pasan de 2,75 rem incluso con el cuerpo más
+     pequeño de la escala fluida. El objetivo táctil sale del sistema.      */
+  padding: var(--esp-sm);
+  border: 1px solid var(--color-borde-fuerte);
+  border-radius: var(--radio-full);
+  background-color: var(--color-superficie-solida);
+  /* Etiqueta, no titular: la fuente de etiqueta y las caps que §3 del
+     contrato sí permite en micro-rótulos.                                  */
+  font-family: var(--fuente-titulo);
+  font-size: var(--fs-pequeno);
+  font-weight: var(--peso-medio);
+  line-height: var(--alto-linea-titulo);
+  text-transform: uppercase;
+  letter-spacing: var(--track-boton);
+  text-decoration: none;
+  text-align: center;
+  /* 13,9:1 sobre la superficie clara. La regla `a` de base.css es (0,0,1):
+     esta clase (0,1,0) la gana sin necesidad de !important.                */
+  color: var(--color-texto);
+  transition:
+    background-color var(--transicion),
+    border-color var(--transicion),
+    color var(--transicion),
+    box-shadow var(--transicion);
+}
+
+.inicio__ancla:hover,
+.inicio__ancla:focus-visible {
+  background-color: var(--verde-bosque);
+  border-color: var(--verde-bosque);
+  color: var(--color-texto-inverso);
+}
+
+/* El punto es el pin del plano: coral —el único cálido del sistema— con un
+   aro del color de la pastilla para que se despegue de la foto. */
+.inicio__punto {
+  flex: none;
+  width: var(--esp-xs);
+  height: var(--esp-xs);
+  border: var(--borde-pin) solid var(--color-superficie-solida);
+  border-radius: var(--radio-full);
+  background-color: var(--color-accion);
+  box-shadow: var(--sombra-pin);
+  transition:
+    border-color var(--transicion),
+    transform var(--transicion);
+}
+
+.inicio__ancla:hover .inicio__punto,
+.inicio__ancla:focus-visible .inicio__punto {
+  border-color: var(--verde-bosque);
+  transform: scale(var(--escala-hover));
+}
+
+/* ---- ESCRITORIO: las anclas suben al plano ------------------------------ */
+@media (min-width: 64em) {
+  .inicio__anclas {
+    position: absolute;
+    inset: 0;
+    display: block;
+    margin-top: 0;
+    /* La lista cubre la foto entera; sólo los enlaces reciben el puntero. */
+    pointer-events: none;
+  }
+
+  .inicio__ancla-item {
+    position: absolute;
+    /* El grupo (punto + rótulo) se centra sobre su coordenada. */
+    transform: translate(-50%, -50%);
+  }
+
+  .inicio__ancla {
+    flex-direction: column;
+    gap: var(--esp-3xs);
+    height: auto;
+    padding: var(--esp-2xs) var(--esp-sm);
+    background-color: rgb(var(--crema-rgb) / 0.94);
+    backdrop-filter: var(--blur-vidrio);
+    -webkit-backdrop-filter: var(--blur-vidrio);
+    /* Sobre la foto el contorno no basta para separar la pastilla del fondo:
+       la sombra hace el trabajo que en plano hace el color de fondo. */
+    box-shadow: var(--sombra-md);
+    pointer-events: auto;
+  }
+
+  /* Coordenadas leídas sobre img/aereo-predio.jpg (2000 × 1013), ampliando el
+     archivo antes de fijarlas: la estructura de techo translúcido con las
+     mesas de cultivo debajo, la masa de árboles del costado, la alameda con el
+     prado y la vela de sombra, y el camino de acceso con los coches. */
+  .inicio__ancla-item--vivero   { left: 52%; top: 31%; }
+  .inicio__ancla-item--sendero  { left: 16%; top: 44%; }
+  .inicio__ancla-item--espacios { left: 41%; top: 63%; }
+  .inicio__ancla-item--llegar   { left: 76%; top: 85%; }
+}
+
+/* ==========================================================================
+   2. TIRA DE AVES — atmósfera
+   Miniaturas decorativas: ni ficha ni crédito visible (el crédito va en el
+   `alt`). Tope en píxeles para que no crezcan hasta volverse medallones si la
+   letra del sistema está agrandada.
+   ========================================================================== */
+/* Rejilla y no `flex-wrap`: con seis miniaturas de ancho fijo, en un teléfono
+   entraban cinco y la sexta caía sola en una segunda fila. En rejilla el ancho
+   sale de la columna, así que la fila siempre queda completa: tres y tres en
+   móvil, las seis seguidas a partir de 48em. */
+.inicio__aves {
+  /* Tope en píxeles a propósito: con la letra del sistema agrandada, un valor
+     en rem convertiría estas miniaturas en medallones y sacaría la fila de la
+     pantalla. Mismo recurso que ya usaba la tira del hero. */
+  --tam-ave: min(var(--esp-2xl), 64px);
+
+  display: grid;
+  grid-template-columns: repeat(3, var(--tam-ave));
+  justify-content: center;
+  gap: var(--gap-sm);
+  margin: 0;
+}
+
+@media (min-width: 48em) {
+  .inicio__aves {
+    grid-template-columns: repeat(6, var(--tam-ave));
+  }
+}
+
+.inicio__ave {
+  position: relative;
+  aspect-ratio: 1;
+  overflow: hidden;
+  border: 1px solid var(--color-borde-suave);
+  border-radius: var(--radio-full);
+  box-shadow: var(--sombra-sm);
+  transition: transform var(--transicion);
+}
+
+/* Absoluta y no `height: 100%`: el alto de la miniatura lo fija `aspect-ratio`,
+   y contra ese alto un porcentaje no resuelve igual en todos los navegadores. */
+.inicio__ave img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  background: none;
+}
+
+/* Encuadre archivo por archivo: en un recorte circular tan pequeño el centro
+   geométrico casi nunca cae sobre el ave. Los porcentajes salen de mirar cada
+   fotografía, no de suponerlos. */
+.inicio__ave:nth-child(1) img { object-position: 50% 28%; } /* Momotus      */
+.inicio__ave:nth-child(2) img { object-position: 55% 40%; } /* carpintero   */
+.inicio__ave:nth-child(3) img { object-position: 66% 44%; } /* colibrí      */
+.inicio__ave:nth-child(4) img { object-position: 45% 38%; } /* Thraupis     */
+.inicio__ave:nth-child(5) img { object-position: 42% 32%; } /* canario      */
+.inicio__ave:nth-child(6) img { object-position: 46% 52%; } /* periquito    */
+
+@media (prefers-reduced-motion: no-preference) {
+  .inicio__ave:hover {
+    transform: translateY(calc(var(--esp-3xs) * -1)) scale(var(--escala-hover));
+  }
+}

@@ -1,0 +1,444 @@
+<!-- ==========================================================================
+     FRAGMENTO: PLANES POR OCASIÓN  ·  id="planes"
+     CSS propio: styles/sections/planes.css
+     JS: ninguno propio. Sólo .reveal / .reveal-secuencia del script global.
+
+     QUÉ VENDE: los USOS del predio, no los contenedores. Cinco carriles por
+     tipo de cliente, probados con fotos de eventos que de verdad pasaron aquí.
+
+     REGLAS QUE SE RESPETAN AQUÍ, para quien venga a tocar esto:
+     · Ningún carril describe un espacio ni da su aforo. Lo NOMBRA y lo enlaza
+       a #espacios, y ahí se acaba. NO vuelvas a meter la capacidad en un
+       atributo title «porque no se ve»: el title sale como tooltip y lo
+       anuncian los lectores de pantalla, así que es publicar el aforo por la
+       puerta de atrás. Los aforos son de #espacios y de nadie más.
+     · Los cinco carriles NO se maquetan igual, a propósito:
+         01 fiesta    → foto grande + columna de tres        (imagen manda)
+         02 familia   → tira horizontal de cuatro retratos   (texto primero)
+         03 empresa   → dossier: retrato + par apaisado      (partido 50/50)
+         04 bienestar → banda ancha + trío + lista de siete  (fondo bosque)
+         05 talleres  → banda tipográfica, sin galería       (silencio)
+       Si los cinco fueran galería + lista + botón, la repetición que sacamos
+       de la página se colaría otra vez dentro de una sola sección.
+     · El carril 05 va SIN foto a conciencia: no hay en el banco ninguna
+       imagen de un taller de pintura o de jardinería, y antes que inventar un
+       nombre de archivo o dejar un hueco gris, se compone con tipografía.
+     · CTA: el rótulo «Atrévete a un plan distinto» es el mismo en los cinco
+       —es el rótulo de la sección—; lo que cambia es el mensaje de WhatsApp
+       y el remate para lector de pantalla.
+     ========================================================================== -->
+<section id="planes" class="seccion planes" aria-labelledby="planes-titulo">
+  <div class="contenedor">
+
+    <header class="seccion-encabezado reveal">
+      <p class="eyebrow">Planes por ocasión</p>
+      <h2 id="planes-titulo" class="titulo-seccion">Dime a quién traes y te digo dónde</h2>
+      <p class="entradilla">
+        Bodas, cumpleaños, reuniones de empresa, clases de yoga y talleres.
+        Cinco maneras distintas de usar el mismo bosque.
+      </p>
+    </header>
+
+    <ul class="planes__carriles reveal-secuencia">
+
+      <!-- ============================================================ 01/05
+           BODAS Y CONCIERTOS — la imagen manda: una foto grande y una
+           columna de tres al lado. Es el carril más ruidoso de los cinco.
+           ================================================================ -->
+      <li class="planes-carril planes-carril--fiesta reveal">
+
+        <figure class="marco marco--3-2 planes-fiesta__principal">
+          <img
+            src="img/eventos/boda-1.jpg"
+            width="1500"
+            height="1125"
+            loading="lazy"
+            decoding="async"
+            alt="Carpa blanca iluminada con guirnaldas de bombillos al anochecer: los invitados charlan sentados en sofás de estibas y pacas de paja repartidas sobre el césped."
+          />
+        </figure>
+
+        <div class="planes-carril__texto planes-fiesta__texto">
+          <p class="planes-carril__ocasion">
+            <span class="planes-carril__indice">01</span> Bodas y conciertos
+          </p>
+
+          <h3 class="titulo-seccion titulo-seccion--sm">
+            La fiesta empieza cuando se encienden los bombillos
+          </h3>
+
+          <p class="planes-carril__copy">
+            Matrimonios y conciertos. La ceremonia bajo un árbol de copa ancha, la carpa
+            iluminada con bombillos y la música puesta hasta que el cielo se ponga azul
+            oscuro. Ese momento no se decora: ya viene con el sitio.
+          </p>
+
+          <p class="nota planes-carril__donde">
+            Se monta en la
+            <a href="#espacios">Alameda</a>
+            o en
+            <a href="#espacios">La Vega</a>.
+          </p>
+
+          <a
+            class="btn btn-whatsapp planes-carril__cta"
+            href="https://wa.me/573166758362?text=Hola%2C%20quiero%20cotizar%20Vegas%20del%20Verde%20para%20un%20matrimonio%20o%20un%20concierto."
+            target="_blank"
+            rel="noopener"
+          >
+            Atrévete a un plan distinto<span class="solo-lectores">: matrimonio o concierto</span>
+          </a>
+        </div>
+
+        <div class="planes-fiesta__tira">
+          <figure class="marco marco--retrato">
+            <img
+              src="img/eventos/boda-2.jpg"
+              width="844"
+              height="1500"
+              loading="lazy"
+              decoding="async"
+              alt="Ceremonia montada sobre el césped: pasillo bordeado de flores blancas hacia dos sillas bajo telas beige colgadas de un árbol enorme, con una saxofonista tocando a un lado."
+            />
+          </figure>
+
+          <figure class="marco marco--4-3">
+            <img
+              src="img/eventos/boda-3.jpg"
+              width="1500"
+              height="1125"
+              loading="lazy"
+              decoding="async"
+              alt="La carpa llena de gente ya de noche, con una banda tocando en un extremo y bombillos colgados entre las ramas de los árboles."
+            />
+          </figure>
+
+          <figure class="marco marco--3-2">
+            <img
+              src="img/eventos/boda-4.jpg"
+              width="1500"
+              height="1000"
+              loading="lazy"
+              decoding="async"
+              alt="Carpa transparente con bombillos al atardecer, con las mesas montadas y una furgoneta clásica roja haciendo de barra junto a las materas floreadas."
+            />
+          </figure>
+        </div>
+
+      </li>
+
+      <!-- ============================================================ 02/05
+           CUMPLEAÑOS Y FAMILIA — aquí el texto va delante y las fotos se
+           leen como una tira: en móvil se arrastra con el dedo.
+           ================================================================ -->
+      <li class="planes-carril planes-carril--familia reveal">
+
+        <div class="planes-carril__texto planes-familia__texto">
+          <p class="planes-carril__ocasion">
+            <span class="planes-carril__indice">02</span> Cumpleaños y familia
+          </p>
+
+          <h3 class="titulo-seccion titulo-seccion--sm">
+            Sopla las velas bajo un árbol
+          </h3>
+
+          <p class="planes-carril__copy">
+            Reuniones sociales y familiares. Mesas de picnic, guirnaldas colgadas entre las
+            ramas y sitio de sobra para salir corriendo. Los niños se pierden a jugar y
+            vuelven solos cuando aparece la torta.
+          </p>
+
+          <p class="nota planes-carril__donde">
+            Cabe en
+            <a href="#espacios">La Vega</a>
+            y en el
+            <a href="#espacios">Teatrino</a>.
+          </p>
+
+          <a
+            class="btn btn-whatsapp planes-carril__cta"
+            href="https://wa.me/573166758362?text=Hola%2C%20quiero%20cotizar%20Vegas%20del%20Verde%20para%20un%20cumplea%C3%B1os%20o%20una%20reuni%C3%B3n%20familiar."
+            target="_blank"
+            rel="noopener"
+          >
+            Atrévete a un plan distinto<span class="solo-lectores">: cumpleaños o reunión familiar</span>
+          </a>
+        </div>
+
+        <div class="planes-tira">
+          <figure class="marco marco--retrato planes-tira__foto">
+            <img
+              src="img/eventos/infantil-1.jpg"
+              width="844"
+              height="1500"
+              loading="lazy"
+              decoding="async"
+              alt="Niñas y niños sentados en círculo sobre una alfombra de césped, bajo una guirnalda de flecos rosados, azules y verdes tendida entre los árboles."
+            />
+          </figure>
+
+          <figure class="marco marco--retrato planes-tira__foto">
+            <img
+              src="img/eventos/infantil-2.jpg"
+              width="1125"
+              height="1500"
+              loading="lazy"
+              decoding="async"
+              alt="Seis niños alrededor de una mesa de picnic de madera con una torta de velas encendidas, mientras una animadora aplaude de pie junto a un macizo de heliconias rojas."
+            />
+          </figure>
+
+          <figure class="marco marco--retrato planes-tira__foto">
+            <img
+              src="img/eventos/infantil-4.jpg"
+              width="1125"
+              height="1500"
+              loading="lazy"
+              decoding="async"
+              alt="Un niño salta con los brazos en alto a atrapar pompas de jabón junto a la mesa de picnic donde el resto del grupo se ríe."
+            />
+          </figure>
+
+          <figure class="marco marco--retrato planes-tira__foto">
+            <img
+              src="img/eventos/cumpleanos-1.jpg"
+              width="844"
+              height="1500"
+              loading="lazy"
+              decoding="async"
+              alt="Picnic decorado sobre el césped: mesas bajas de huacal con manteles de cuadros, cojines en el suelo, guirnaldas de flecos rosados y un cartel de feliz cumpleaños colgado entre dos árboles."
+            />
+          </figure>
+        </div>
+
+      </li>
+
+      <!-- ============================================================ 03/05
+           EMPRESAS — dossier partido: un retrato del grupo y, al lado, el
+           par apaisado del montaje. Ni galería ni tira: dos bloques.
+           ================================================================ -->
+      <li class="planes-carril planes-carril--empresa reveal">
+
+        <div class="planes-dossier">
+          <figure class="marco planes-dossier__retrato">
+            <img
+              src="img/parque/parque-21.jpg"
+              width="900"
+              height="1200"
+              loading="lazy"
+              decoding="async"
+              alt="Trece adultos posando juntos en fila sobre el césped, a la sombra de los árboles, al terminar una jornada en el predio."
+            />
+          </figure>
+
+          <div class="planes-dossier__par">
+            <figure class="marco marco--3-2">
+              <img
+                src="img/parque/parque-22.jpg"
+                width="1200"
+                height="800"
+                loading="lazy"
+                decoding="async"
+                alt="Carpa translúcida con bombillos montada sobre el césped: mesas altas con taburetes, sofás y sillones de mimbre entre macizos de heliconias."
+              />
+            </figure>
+
+            <figure class="marco marco--3-2">
+              <img
+                src="img/parque/parque-23.jpg"
+                width="1200"
+                height="800"
+                loading="lazy"
+                decoding="async"
+                alt="La misma carpa desde el otro extremo: butacas de terciopelo verde puestas en corro, mesas de centro con plantas y un atril naranja junto a las cajas del equipo."
+              />
+            </figure>
+          </div>
+        </div>
+
+        <div class="planes-carril__texto planes-empresa__texto">
+          <p class="planes-carril__ocasion">
+            <span class="planes-carril__indice">03</span> Empresas
+          </p>
+
+          <h3 class="titulo-seccion titulo-seccion--sm">
+            Saca a tu equipo de la sala de juntas
+          </h3>
+
+          <p class="planes-carril__copy">
+            Reuniones corporativas y eventos de empresa. Carpa translúcida sobre el césped,
+            mesas altas para el café y un corro de butacas donde la gente se habla de otra
+            manera. Nadie mira el reloj cuando no hay techo de oficina.
+          </p>
+
+          <p class="nota planes-carril__donde">
+            Va bien en la
+            <a href="#espacios">Alameda</a>
+            y en el
+            <a href="#espacios">Taller</a>.
+          </p>
+
+          <a
+            class="btn btn-whatsapp planes-carril__cta"
+            href="https://wa.me/573166758362?text=Hola%2C%20quiero%20cotizar%20Vegas%20del%20Verde%20para%20una%20reuni%C3%B3n%20corporativa%20o%20un%20evento%20de%20empresa."
+            target="_blank"
+            rel="noopener"
+          >
+            Atrévete a un plan distinto<span class="solo-lectores">: reunión corporativa o evento de empresa</span>
+          </a>
+        </div>
+
+      </li>
+
+      <!-- ============================================================ 04/05
+           BIENESTAR — el único carril en negativo. La clase .seccion--oscura
+           va aquí, sobre el <li>, para heredar de base.css los colores
+           inversos ya verificados (eyebrow, entradilla, enlaces, viñetas)
+           sin declarar ni un valor propio.
+           ================================================================ -->
+      <li class="planes-carril planes-carril--bienestar seccion--oscura reveal">
+
+        <figure class="marco marco--16-9 planes-bienestar__banda">
+          <img
+            src="img/eventos/yoga-2.jpg"
+            width="1500"
+            height="844"
+            loading="lazy"
+            decoding="async"
+            alt="Una decena de personas sentadas en sillas puestas en círculo sobre el césped, abriendo los brazos en cruz a la vez, con la instructora al frente."
+          />
+        </figure>
+
+        <div class="planes-bienestar__cuerpo">
+
+          <div class="planes-carril__texto">
+            <p class="planes-carril__ocasion">
+              <span class="planes-carril__indice">04</span> Bienestar
+            </p>
+
+            <h3 class="titulo-seccion titulo-seccion--sm">
+              Respira hondo, que aquí sobra aire
+            </h3>
+
+            <p class="planes-carril__copy">
+              Clases y sesiones al aire libre, con las esterillas puestas en círculo sobre
+              el césped y el sonido de fondo que ya sabes.
+            </p>
+
+            <ul class="lista-hojas planes-bienestar__lista">
+              <li>Caminatas terapéuticas</li>
+              <li>Entrenamiento funcional</li>
+              <li>Sesiones de acondicionamiento físico</li>
+              <li>Pilates</li>
+              <li>Yoga</li>
+              <li>Mindfulness</li>
+              <li>Taller para el manejo de las emociones</li>
+            </ul>
+
+            <p class="planes-carril__copy">
+              Y un gimnasio al aire libre, para quien prefiere sudar.
+            </p>
+
+            <p class="nota planes-carril__donde">
+              Se hace en el
+              <a href="#espacios">Teatrino</a>
+              o en la
+              <a href="#espacios">Cancha</a>.
+            </p>
+
+            <a
+              class="btn btn-whatsapp planes-carril__cta"
+              href="https://wa.me/573166758362?text=Hola%2C%20quiero%20cotizar%20Vegas%20del%20Verde%20para%20una%20actividad%20de%20bienestar%3A%20yoga%2C%20pilates%20o%20mindfulness."
+              target="_blank"
+              rel="noopener"
+            >
+              Atrévete a un plan distinto<span class="solo-lectores">: actividad de bienestar</span>
+            </a>
+          </div>
+
+          <div class="planes-bienestar__trio">
+            <figure class="marco marco--1-1">
+              <img
+                src="img/eventos/yoga-1.jpg"
+                width="1125"
+                height="1500"
+                loading="lazy"
+                decoding="async"
+                alt="Seis personas mayores sentadas en sillas repartidas sobre el césped, descalzas y con las esterillas a los pies, frente a una hilera de árboles jóvenes."
+              />
+            </figure>
+
+            <figure class="marco marco--1-1">
+              <img
+                src="img/parque/parque-33.jpg"
+                width="900"
+                height="1200"
+                loading="lazy"
+                decoding="async"
+                alt="Otra sesión, con la instructora sentada de espaldas guiando al grupo: cinco personas repartidas en sillas sobre el césped, cada una con su esterilla, frente a un macizo de flores naranjas."
+              />
+            </figure>
+
+            <figure class="marco marco--1-1">
+              <img
+                src="img/parque/parque-02.jpg"
+                width="675"
+                height="1200"
+                loading="lazy"
+                decoding="async"
+                alt="Doce esterillas de colores dispuestas en círculo, como los pétalos de una flor, alrededor de un pequeño centro con plantas, a la sombra de un árbol grande."
+              />
+            </figure>
+          </div>
+
+        </div>
+      </li>
+
+      <!-- ============================================================ 05/05
+           TALLERES — sin galería. Ver la nota de arriba: no hay foto real de
+           un taller de pintura ni de jardinería en el banco, así que este
+           carril se compone con tipografía y no con un hueco gris.
+           ================================================================ -->
+      <li class="planes-carril planes-carril--talleres reveal">
+
+        <p class="planes-carril__ocasion">
+          <span class="planes-carril__indice">05</span> Talleres
+        </p>
+
+        <h3 class="titulo-seccion titulo-seccion--sm planes-talleres__titulo">
+          Un taller donde la mesa está afuera
+        </h3>
+
+        <ul class="planes-talleres__lista">
+          <li>Talleres educativos</li>
+          <li>Talleres de jardinería</li>
+          <li>Talleres de pintura al aire libre</li>
+        </ul>
+
+        <p class="planes-carril__copy planes-talleres__copy">
+          Traes el grupo y el tema. El bosque pone el modelo, la luz y el olor a tierra
+          después de llover.
+        </p>
+
+        <p class="nota planes-carril__donde">
+          Se hace en el
+          <a href="#espacios">Taller</a>
+          y en el
+          <a href="#espacios">Teatrino</a>.
+        </p>
+
+        <a
+          class="btn btn-whatsapp planes-carril__cta"
+          href="https://wa.me/573166758362?text=Hola%2C%20quiero%20cotizar%20Vegas%20del%20Verde%20para%20un%20taller%20educativo%2C%20de%20jardiner%C3%ADa%20o%20de%20pintura%20al%20aire%20libre."
+          target="_blank"
+          rel="noopener"
+        >
+          Atrévete a un plan distinto<span class="solo-lectores">: taller educativo, de jardinería o de pintura</span>
+        </a>
+
+      </li>
+
+    </ul>
+
+  </div>
+</section>

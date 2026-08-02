@@ -1,102 +1,179 @@
 /* ==========================================================================
-   VEGAS DEL VERDE — sections/colegios.css
-   Bloque #colegios (grupos educativos).
-   Depende de tokens.css y base.css. No declara ningún valor literal.
+   VEGAS DEL VERDE — sections/colegios.css  ·  v2 «Vende la escapada»
+   Bloque #colegios · Salidas pedagógicas.
+
+   La sección es un ITINERARIO, no un catálogo: tres paradas en fila y el
+   formato de la jornada al lado de su foto. Depende de tokens.css y base.css;
+   no declara ningún valor literal de color, tamaño, radio, sombra ni duración
+   (la única excepción es el 1px de filete, igual que en base.css).
+
+   Se reescribió por completo: las clases .colegios__* de v1 desaparecieron
+   junto con la rejilla de siete tarjetas que repetía el resto del sitio.
    ========================================================================== */
 
 /* ==========================================================================
-   1. COLEGIOS Y GRUPOS EDUCATIVOS
+   1. LAS TRES PARADAS
    ========================================================================== */
-
-/* ---- Tira de fotografías ------------------------------------------------- */
-.colegios__galeria {
+.col-paradas {
   display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: var(--gap-sm);
-  margin-bottom: var(--gap-lg);
+  grid-template-columns: 1fr;
+  gap: var(--gap-lg);
+  list-style: none;
+  margin: 0;
+  padding: 0;
 }
 
-@media (min-width: 62em) {
-  .colegios__galeria {
-    grid-template-columns: repeat(4, minmax(0, 1fr));
+@media (min-width: 48em) {
+  .col-paradas {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
     gap: var(--gap);
   }
 }
 
-.colegios__foto {
+.col-parada {
+  display: flex;
+  flex-direction: column;
+  gap: var(--esp-2xs);
   min-width: 0;
 }
 
-.colegios__foto .marco {
-  box-shadow: var(--sombra-sm);
+/* La foto abre la parada y manda: sombra suave y zoom al pasar por encima. */
+.col-parada figure {
+  margin-bottom: var(--esp-xs);
 }
 
-.colegios__foto figcaption {
+.col-parada .marco {
+  box-shadow: var(--sombra-md);
+}
+
+.col-parada:hover .marco > img,
+.col-parada:focus-within .marco > img {
+  transform: scale(var(--escala-hover));
+}
+
+/* Micro-etiqueta: uno de los pocos caps permitidos por el §3 del contrato. */
+.col-parada__etiqueta {
   font-family: var(--fuente-titulo);
+  font-size: var(--fs-micro);
+  font-weight: var(--peso-medio);
   text-transform: uppercase;
   letter-spacing: var(--track-caps);
-}
-
-/* ---- Rejilla de la oferta ------------------------------------------------ */
-.colegios__rejilla {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(min(15.5rem, 100%), 1fr));
-  gap: var(--gap);
+  color: var(--color-acento-texto);
   margin: 0;
 }
 
-.colegios__tarjeta {
+.col-parada h3 {
+  margin: 0;
+  text-wrap: balance;
+}
+
+.col-parada > p:not(.col-parada__etiqueta) {
+  margin: 0;
+  font-size: var(--fs-pequeno);
+  color: var(--color-texto-suave);
+  max-width: var(--medida-corta);
+}
+
+/* ==========================================================================
+   2. EL FORMATO DE LA JORNADA
+   La foto de la charla a un lado, los cuatro hitos al otro.
+   ========================================================================== */
+.col-jornada {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--gap);
+  align-items: start;
+  margin-top: var(--gap-lg);
+  padding-top: var(--gap-lg);
+  border-top: 1px solid var(--color-borde-suave);
+}
+
+@media (min-width: 62em) {
+  .col-jornada {
+    grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.2fr);
+    gap: var(--gap-lg);
+    align-items: center;
+  }
+}
+
+.col-jornada__foto {
+  min-width: 0;
+}
+
+.col-jornada__foto .marco {
+  box-shadow: var(--sombra-lg);
+}
+
+/* En una sola columna la foto vertical se comía la pantalla entera (695×869
+   a 768 px). Se recorta a cuadrada y se le pone tope de ancho: la charla
+   queda en el centro del encuadre y el bloque de texto sigue a la vista. */
+@media (max-width: 61.99em) {
+  .col-jornada__foto {
+    max-width: var(--ancho-xs);
+    margin-inline: auto;
+  }
+
+  .col-jornada__foto .marco {
+    aspect-ratio: 1 / 1;
+  }
+}
+
+.col-jornada__texto {
+  min-width: 0;
+}
+
+.col-jornada__texto h3 {
+  margin: 0;
+}
+
+/* ---- Los cuatro hitos ---------------------------------------------------- */
+.col-hitos {
   display: flex;
   flex-direction: column;
-  align-items: flex-start;
-  gap: var(--esp-2xs);
-  padding: var(--esp-md);
-  background-color: var(--color-superficie-solida);
-  border: 1px solid var(--color-borde-suave);
-  border-radius: var(--radio-lg);
-  transition:
-    transform var(--transicion),
-    box-shadow var(--transicion),
-    border-color var(--transicion);
+  gap: var(--esp-md);
+  list-style: none;
+  margin: var(--esp-md) 0 0;
+  padding: 0;
 }
 
-.colegios__tarjeta:hover,
-.colegios__tarjeta:focus-within {
-  transform: translateY(calc(var(--esp-3xs) * -1));
-  box-shadow: var(--sombra-md);
-  border-color: rgb(var(--verde-oliva-rgb) / 0.3);
+.col-hito {
+  display: flex;
+  flex-direction: column;
+  gap: var(--esp-3xs);
+  padding-left: var(--esp-md);
+  border-left: 1px solid var(--color-borde-fuerte);
+  max-width: var(--medida);
 }
 
-.colegios__tarjeta p {
+.col-hito__nombre {
+  margin: 0;
+  font-family: var(--fuente-titulo);
+  font-size: var(--fs-micro);
+  font-weight: var(--peso-medio);
+  text-transform: uppercase;
+  letter-spacing: var(--track-caps);
+  color: var(--color-acento-texto);
+}
+
+.col-hito p:not(.col-hito__nombre) {
+  margin: 0;
   font-size: var(--fs-pequeno);
   color: var(--color-texto-suave);
 }
 
-.colegios__tarjeta .enlace-flecha {
-  margin-top: auto;
-  padding-top: var(--esp-2xs);
+.col-enlaces {
+  margin-top: var(--esp-lg);
+  max-width: var(--medida);
 }
 
-.colegios__icono {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: var(--esp-xl);
-  height: var(--esp-xl);
-  margin-bottom: var(--esp-2xs);
-  border-radius: var(--radio-full);
-  background-color: rgb(var(--verde-menta-rgb) / 0.2);
-  color: var(--color-acento-texto);
-  flex: none;
-}
-
-.colegios__icono svg {
-  width: var(--esp-md);
-  height: var(--esp-md);
-}
-
-/* ---- Cierre con CTA ------------------------------------------------------ */
-.colegios__cierre {
+/* ==========================================================================
+   3. CIERRE CON CTA
+   Caja en verde bosque dentro de una sección clara: hay que repintar a mano
+   el titular y el párrafo, porque las reglas de .seccion--oscura de base.css
+   no llegan hasta aquí. Dentro de la caja NO hay enlaces de texto: sólo el
+   botón de WhatsApp, que ya trae su propio contraste.
+   ========================================================================== */
+.col-cierre {
   display: flex;
   flex-wrap: wrap;
   align-items: center;
@@ -110,7 +187,7 @@
   box-shadow: var(--sombra-lg);
 }
 
-.colegios__cierre-texto {
+.col-cierre__bloque {
   display: flex;
   flex-direction: column;
   gap: var(--esp-2xs);
@@ -118,18 +195,25 @@
   flex: 1 1 var(--ancho-xs);
 }
 
-.colegios__cierre-texto .titulo-seccion {
+.col-cierre__bloque h3 {
+  margin: 0;
   color: var(--color-texto-inverso);
 }
 
-.colegios__cierre-texto p {
-  color: var(--color-texto-inverso-suave);
+.col-cierre__bloque p {
+  margin: 0;
   font-size: var(--fs-pequeno);
+  color: var(--color-texto-inverso-suave);
+  max-width: var(--medida);
+}
+
+.col-cierre :focus-visible {
+  outline-color: var(--color-destacado);
 }
 
 @media (min-width: 62em) {
-  .colegios__cierre {
-    padding: var(--esp-xl);
+  .col-cierre {
     flex-wrap: nowrap;
+    padding: var(--esp-xl);
   }
 }

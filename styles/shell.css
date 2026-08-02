@@ -458,11 +458,44 @@ body.menu-abierto {
   }
 }
 
+/* El pie adelgazó a dos bloques —marca y acciones—, así que la rejilla ya no
+   reparte cuatro columnas iguales: la marca manda y las acciones se van al
+   canto derecho en vez de estirarse a media página. */
 @media (min-width: 68em) {
   .pie__rejilla {
-    grid-template-columns: 1.4fr 1fr 1fr 1fr;
+    grid-template-columns: minmax(0, 1fr) auto;
+    align-items: start;
     gap: var(--gap);
   }
+}
+
+.pie__acciones {
+  display: flex;
+  flex-direction: column;
+  gap: var(--esp-sm);
+  align-items: flex-start;
+}
+
+@media (min-width: 68em) {
+  .pie__acciones {
+    align-items: flex-end;
+    text-align: right;
+  }
+}
+
+/* .enlace-flecha pinta en --color-acento-texto, pensado para fondo claro:
+   sobre el verde oscuro del pie no llega al contraste mínimo. */
+.pie__enlace-mapa,
+.pie-sitio a.pie__enlace-mapa {
+  color: var(--verde-menta);
+}
+
+.pie__idioma {
+  font-family: var(--fuente-titulo);
+  font-size: var(--fs-pequeno);
+  color: var(--color-texto-inverso-suave);
+  text-decoration: underline;
+  text-underline-offset: 0.25em;
 }
 
 .pie__marca {

@@ -2,58 +2,89 @@
      FRAGMENTO: ESPACIOS EN ALQUILER  ·  id="espacios"
      CSS propio: styles/sections/espacios.css
      JS: ninguno propio. Sólo usa .reveal / .reveal-secuencia del script global.
-     v2 «Vende la escapada»: cada espacio se vende por LA EXPERIENCIA que
-     permite; la capacidad va como dato de apoyo en la píldora, nunca de
-     titular. El bloque de 4 columnas de condiciones desaparece de la vista:
-     ahora es un enlace al final de la sección que lleva a su propia página,
-     condiciones-de-alquiler.html (CSS en styles/sections/condiciones.css).
+
+     ÁMBITO DE ESTA SECCIÓN — es el ÚNICO sitio del sitio donde se DESCRIBE un
+     espacio. Cualquier otra sección que nombre la Alameda, La Vega, el
+     Teatrino, el Taller o la Cancha enlaza aquí; no repite la ficha.
+
+     Cada espacio se vende por LA EXPERIENCIA que permite. La capacidad baja a
+     una .pildora de apoyo: es dato, nunca titular.
+
+     LO QUE AQUÍ NO SE ESCRIBE (y por qué):
+     · Las condiciones de alquiler (horas, mobiliario, sonido, catering) viven
+       en condiciones-de-alquiler.html. Se ENLAZAN, no se transcriben, y NO
+       son un modal: el cliente rechazó el modal expresamente.
+     · Los tipos de evento y sus galerías son de la sección de planes.
+     · El Sendero Ecovital y su precio son de la sección de naturaleza.
+
+     FOTOS — las seis abiertas y comprobadas una a una antes de escribir el alt:
+       img/espacios/alameda-2.jpg  1500×844   img/espacios/alameda-1.jpg 1125×1500
+       img/parque/parque-47.jpg     675×1200  img/parque/parque-56.jpg    675×1200
+       img/espacios/taller-1.jpg    849×1500  img/parque/parque-57.jpg    900×1200
      ========================================================================== -->
 <section id="espacios" class="seccion espacios" aria-labelledby="espacios-titulo">
   <div class="contenedor">
 
     <header class="seccion-encabezado reveal">
-      <p class="eyebrow">Alquiler de espacios</p>
-      <h2 id="espacios-titulo" class="titulo-seccion">Tu próximo plan no es en un salón</h2>
+      <p class="eyebrow">Espacios en alquiler</p>
+      <h2 id="espacios-titulo" class="titulo-seccion">Cinco escenarios y ningún salón</h2>
       <p class="entradilla">
-        Dentro de las cuatro hectáreas arboladas hay cinco escenarios que se alquilan por
-        separado. No cambian de tamaño nada más: cambian lo que puedes hacer en ellos.
-        Un prado abierto, un claro a la sombra, un campo plano, un taller bajo techo.
+        Cinco lugares con nombre propio, del prado que traga 150 personas al taller con
+        techo de caña. Aquí están todos, con su aforo y su foto.
       </p>
     </header>
 
     <ul class="espacios__rejilla reveal-secuencia">
 
-      <!-- ------------------------------------------------------------ 1/5 -->
+      <!-- ------------------------------------------------------------ 1/5
+           ALAMEDA · hasta 150 personas · dos fotos propias.
+           Ocupa la fila entera: es el espacio más grande del predio.       -->
       <li class="espacio espacio--destacado tarjeta reveal">
         <div class="espacio__interior">
 
-          <div class="marco espacio__marco">
-            <img
-              src="img/espacios/alameda-2.jpg"
-              width="1500"
-              height="844"
-              loading="lazy"
-              decoding="async"
-              alt="La Alameda: pradera de césped parejo con árboles de copa alta repartidos y un seto vivo cerrando el fondo."
-            />
+          <div class="espacio__galeria">
+            <div class="marco espacio__foto espacio__foto--principal">
+              <img
+                src="img/espacios/alameda-2.jpg"
+                width="1500"
+                height="844"
+                loading="lazy"
+                decoding="async"
+                alt="La Alameda vista a lo ancho: una pradera de césped parejo con árboles de tronco delgado repartidos sobre la hierba y un seto vivo cerrando el fondo."
+              />
+            </div>
+            <div class="marco espacio__foto espacio__foto--apoyo">
+              <img
+                src="img/espacios/alameda-1.jpg"
+                width="1125"
+                height="1500"
+                loading="lazy"
+                decoding="async"
+                alt="El mismo prado de la Alameda desde el borde arbolado: sombra moteada sobre el césped en primer término y la hilera de árboles del fondo bajo un cielo con nubes."
+              />
+            </div>
           </div>
 
           <div class="espacio__cuerpo">
             <h3 class="titulo-seccion titulo-seccion--sm espacio__titular">
-              Un concierto entre árboles
+              Cielo abierto de lado a lado
             </h3>
 
             <p class="pildora espacio__meta">Alameda · hasta 150 personas</p>
 
             <p class="espacio__texto">
-              El prado más ancho del predio: césped parejo, sin una sola pared, cerrado a lo
-              lejos por una hilera de árboles y un seto vivo. Cabe el aforo completo bajo
-              cielo abierto y todavía queda sombra en los bordes.
+              El prado más ancho del predio: césped parejo de punta a punta, sin una sola
+              pared, con árboles sueltos sobre la hierba y un seto vivo cerrando la vista.
+            </p>
+
+            <p class="espacio__texto">
+              Cabe el aforo entero sin que nadie se apriete, y en los bordes queda sombra
+              para quien ya tuvo bastante sol.
             </p>
 
             <a
               class="btn btn-whatsapp btn-bloque espacio__cta"
-              href="https://wa.me/573166758362?text=Hola%2C%20quiero%20cotizar%20la%20Alameda%20para%20un%20evento%20de%20hasta%20150%20personas."
+              href="https://wa.me/573166758362?text=Hola%2C%20quiero%20este%20plan%20en%20la%20Alameda.%20%C2%BFQu%C3%A9%20disponibilidad%20tienen%3F"
               target="_blank"
               rel="noopener"
             >
@@ -64,53 +95,55 @@
         </div>
       </li>
 
-      <!-- ------------------------------------------------------------ 2/5 -->
+      <!-- ------------------------------------------------------------ 2/5
+           LA VEGA · hasta 100 personas                                    -->
       <li class="espacio tarjeta reveal">
-        <div class="marco espacio__marco">
+        <div class="marco espacio__foto">
           <img
             src="img/parque/parque-47.jpg"
             width="675"
             height="1200"
             loading="lazy"
             decoding="async"
-            alt="La Vega: pradera llana de césped con un árbol grande dando sombra a un costado y un seto cerrando el fondo."
+            alt="La Vega: una explanada llana de césped abierto con un árbol grande dando sombra en el costado izquierdo y un seto recortado cerrando el fondo."
           />
         </div>
 
         <div class="espacio__cuerpo">
           <h3 class="titulo-seccion titulo-seccion--sm espacio__titular">
-            Cien invitados y ni una pared
+            Cien personas y ni una pared
           </h3>
 
           <p class="pildora espacio__meta">La Vega · hasta 100 personas</p>
 
           <p class="espacio__texto">
-            Una vega llana de césped abierto, con un árbol grande dando sombra a un costado y
-            la arboleda cerrando el fondo. Terreno parejo, sin desniveles, para montar el
-            plan a tu manera.
+            Una explanada llana de césped abierto, con un árbol grande dando sombra a un
+            costado y la arboleda cerrando el fondo. Terreno parejo, sin desniveles y sin
+            una columna que te diga por dónde va la cosa: lo montas a tu manera.
           </p>
 
           <a
             class="btn btn-whatsapp btn-bloque espacio__cta"
-            href="https://wa.me/573166758362?text=Hola%2C%20quiero%20cotizar%20La%20Vega%20para%20un%20plan%20de%20hasta%20100%20personas."
+            href="https://wa.me/573166758362?text=Hola%2C%20quiero%20este%20plan%20en%20La%20Vega.%20%C2%BFQu%C3%A9%20disponibilidad%20tienen%3F"
             target="_blank"
             rel="noopener"
           >
-            Reserva tu escape<span class="solo-lectores"> en La Vega</span>
+            Quiero este plan<span class="solo-lectores"> en La Vega</span>
           </a>
         </div>
       </li>
 
-      <!-- ------------------------------------------------------------ 3/5 -->
+      <!-- ------------------------------------------------------------ 3/5
+           TEATRINO · hasta 70 personas                                    -->
       <li class="espacio tarjeta reveal">
-        <div class="marco espacio__marco">
+        <div class="marco espacio__foto">
           <img
             src="img/parque/parque-56.jpg"
             width="675"
             height="1200"
             loading="lazy"
             decoding="async"
-            alt="Teatrino: un árbol enorme de copa abierta sobre un claro de césped, con una persona de pie al lado del tronco."
+            alt="El Teatrino: un árbol enorme de copa muy abierta en el centro de un claro de césped, con una persona de pie junto al tronco que da la medida de su tamaño."
           />
         </div>
 
@@ -122,14 +155,14 @@
           <p class="pildora espacio__meta">Teatrino · hasta 70 personas</p>
 
           <p class="espacio__texto">
-            Un claro a los pies de un árbol enorme: el césped hace de platea y la copa hace
-            de techo. Para cuentos, charlas, presentaciones y talleres en círculo, con la
-            sombra puesta desde el primer minuto.
+            Un claro a los pies de un árbol enorme. El césped hace de platea y la copa hace
+            de techo: quien habla se pone junto al tronco y el público se acomoda en la
+            hierba, en semicírculo. La sombra ya está puesta desde el primer minuto.
           </p>
 
           <a
             class="btn btn-whatsapp btn-bloque espacio__cta"
-            href="https://wa.me/573166758362?text=Hola%2C%20quiero%20cotizar%20el%20Teatrino%20para%20una%20actividad%20de%20hasta%2070%20personas."
+            href="https://wa.me/573166758362?text=Hola%2C%20quiero%20este%20plan%20en%20el%20Teatrino.%20%C2%BFQu%C3%A9%20disponibilidad%20tienen%3F"
             target="_blank"
             rel="noopener"
           >
@@ -138,16 +171,17 @@
         </div>
       </li>
 
-      <!-- ------------------------------------------------------------ 4/5 -->
+      <!-- ------------------------------------------------------------ 4/5
+           TALLER · hasta 45 personas · el espacio bajo techo              -->
       <li class="espacio tarjeta reveal">
-        <div class="marco espacio__marco">
+        <div class="marco espacio__foto">
           <img
             src="img/espacios/taller-1.jpg"
             width="849"
             height="1500"
             loading="lazy"
             decoding="async"
-            alt="Taller techado: cubierta y paredes de caña y estera, guirnalda de bombillos encendida, mesas, sillas Rimax blancas y cuadros de aves apoyados."
+            alt="El Taller por dentro: cubierta de caña, paredes de estera, dos guirnaldas de bombillos encendidas cruzando el techo, mesas de trabajo, sillas blancas y varios cuadros apoyados sobre las mesas."
           />
         </div>
 
@@ -159,32 +193,33 @@
           <p class="pildora espacio__meta">Taller · hasta 45 personas</p>
 
           <p class="espacio__texto">
-            El único espacio bajo techo: cubierta de caña, paredes en estera y una guirnalda
-            de bombillos de lado a lado. Piso firme y mesas para pintar, exponer o trabajar
-            en grupo aunque el cielo se abra.
+            El espacio bajo techo: cubierta de caña, paredes de estera y dos guirnaldas de
+            bombillos cruzando de lado a lado. Piso firme y seco, sombra a cualquier hora y
+            un aguacero de fondo que aquí sólo se oye.
           </p>
 
           <a
             class="btn btn-whatsapp btn-bloque espacio__cta"
-            href="https://wa.me/573166758362?text=Hola%2C%20quiero%20cotizar%20el%20Taller%20techado%20para%20un%20grupo%20de%20hasta%2045%20personas."
+            href="https://wa.me/573166758362?text=Hola%2C%20quiero%20este%20plan%20en%20el%20Taller.%20%C2%BFQu%C3%A9%20disponibilidad%20tienen%3F"
             target="_blank"
             rel="noopener"
           >
-            Vengo con mi curso<span class="solo-lectores"> al Taller</span>
+            Quiero este plan<span class="solo-lectores"> en el Taller</span>
           </a>
         </div>
       </li>
 
-      <!-- ------------------------------------------------------------ 5/5 -->
+      <!-- ------------------------------------------------------------ 5/5
+           CANCHA · 30 jugadores y 20 espectadores                         -->
       <li class="espacio tarjeta reveal">
-        <div class="marco espacio__marco">
+        <div class="marco espacio__foto">
           <img
             src="img/parque/parque-57.jpg"
             width="900"
             height="1200"
             loading="lazy"
             decoding="async"
-            alt="Cancha: campo de césped plano y ancho con el guadual cerrando el fondo y sombra de los árboles en el borde."
+            alt="La Cancha: un campo de césped plano y despejado con el guadual cerrando el fondo y árboles altos dando sombra en el borde derecho."
           />
         </div>
 
@@ -196,14 +231,14 @@
           <p class="pildora espacio__meta">Cancha · 30 jugadores y 20 espectadores</p>
 
           <p class="espacio__texto">
-            El campo más plano y ancho, con el guadual cerrando el fondo y sombra suficiente
-            en el borde para quien sólo viene a mirar. Para partidos, juegos y actividad
-            física en grupo.
+            El campo más plano y despejado, con el guadual cerrando el fondo. Sitio de
+            sobra para correr y borde en sombra para los veinte que vienen a mirar y a
+            gritar el gol desde la hierba.
           </p>
 
           <a
             class="btn btn-whatsapp btn-bloque espacio__cta"
-            href="https://wa.me/573166758362?text=Hola%2C%20quiero%20cotizar%20la%20Cancha%20para%2030%20jugadores%20y%2020%20espectadores."
+            href="https://wa.me/573166758362?text=Hola%2C%20quiero%20este%20plan%20en%20la%20Cancha.%20%C2%BFQu%C3%A9%20disponibilidad%20tienen%3F"
             target="_blank"
             rel="noopener"
           >
@@ -215,12 +250,14 @@
     </ul>
 
     <!-- ==================================================================
-         PIE DE SECCIÓN — el bloque de condiciones ya no vive aquí.
-         Un enlace discreto lleva a su propia página.
+         PIE DE SECCIÓN
+         Las condiciones no se transcriben aquí: tienen su propia página.
+         Es un ENLACE, no un modal.
          ================================================================== -->
     <div class="espacios__pie reveal">
       <p class="nota sin-margen espacios__pie-texto">
-        Mismo trato para los cinco: bloques de cuatro horas, con sillas y mesas incluidas.
+        Los cinco se alquilan con las mismas reglas, y están escritas enteras en su
+        propia página.
       </p>
       <a
         class="btn btn-secundario espacios__pie-boton"

@@ -1,16 +1,16 @@
 /* ==========================================================================
    VEGAS DEL VERDE — nosotros.css  ·  sección #nosotros  ·  v2
-   (a) presentación · (b) compromiso · (c) cifras · (d) servicios
+   (a) el predio · (b) lo básico resuelto · (c) el compromiso
    Depende de tokens.css + base.css. Sin valores literales de color, tamaño de
-   fuente, radio, sombra ni duración.
+   fuente, radio, sombra ni duración. No toca base.css, tokens.css ni shell.css.
 
    DEFECTOS DE v1 CORREGIDOS AQUÍ (CONTRATO-V2 §7.5 y §7.6)
    · .nosotros__pilar-indice iba en --verde-menta sobre superficie clara:
-     2,07:1. Ahora vive sobre la foto, con velo propio, en --color-destacado
-     (5,8:1 medido contra el peor píxel posible).
-   · .nosotros__pilar-titulo declaraba font-family: --fuente-titulo y se
-     quedaba en Jost. Se le retira el font-family para que herede Fraunces
-     de h4 (base.css). Tampoco declara color: lo hereda.
+     2,07:1. Ahora va en --color-acento-texto (terracota), 5,3:1 sobre la
+     superficie clara de la tarjeta.
+   · .nosotros__pilar-titulo declaraba font-family y se quedaba en Jost.
+     Ya no declara ninguna: hereda Fraunces de h4 (base.css). Tampoco declara
+     color, para que ninguna regla de sección pise a base.css.
    ========================================================================== */
 
 .nosotros {
@@ -18,7 +18,7 @@
 }
 
 /* ==========================================================================
-   1. PRESENTACIÓN  (texto + mosaico de fotos)
+   1. EL PREDIO — texto + una sola fotografía, a media página
    ========================================================================== */
 .nosotros__intro {
   display: grid;
@@ -26,9 +26,9 @@
   align-items: center;
 }
 
-@media (min-width: 62em) {
+@media (min-width: 52em) {
   .nosotros__intro {
-    grid-template-columns: 1fr 1.05fr;
+    grid-template-columns: 1.1fr 1fr;
   }
 }
 
@@ -43,280 +43,49 @@
   margin: 0;
 }
 
-.nosotros__firma {
-  font-family: var(--fuente-titulo);
-  font-size: var(--fs-pequeno);
-  text-transform: uppercase;
-  letter-spacing: var(--track-caps);
-  color: var(--color-texto-suave);
+/* .grupo-botones es un <p>: hay que devolverle el margen que trae de base. */
+.nosotros__texto .grupo-botones {
+  margin-top: var(--esp-2xs);
 }
 
-/* ---- Mosaico: una foto alta + dos apiladas ------------------------------- */
-.nosotros__mosaico {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: var(--gap-sm);
-}
-
-.nosotros__foto {
-  position: relative;
-  margin: 0;
-  min-width: 0;
-  min-height: 0;
-  overflow: hidden;
-  border-radius: var(--radio-lg);
-  background-color: rgb(var(--gris-verde-rgb) / 0.3);
-}
-
-.nosotros__foto img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  transition: transform var(--dur-lenta) var(--ease-suave);
-}
-
-/* Móvil: la principal ocupa el ancho y las dos secundarias van a la par. */
-.nosotros__foto--principal {
-  grid-column: 1 / -1;
+/* Las dos fotos del banco son verticales (9:16). A una columna, servirlas en
+   retrato las convierte en una pantalla entera de foto: el recorte se abre a
+   apaisado en móvil y sólo vuelve a retrato cuando hay dos columnas y la foto
+   tiene que igualar el alto del texto que lleva al lado. */
+.nosotros__foto,
+.nosotros__mural {
   aspect-ratio: 4 / 3;
 }
 
-.nosotros__foto--secundaria {
-  aspect-ratio: 1 / 1;
-}
-
-/* Encuadres: cada foto se recorta hacia su centro de interés (la pérgola bajo
-   los árboles, la carpa iluminada, la terraza empedrada). */
-.nosotros__foto--principal img {
-  object-position: 50% 45%;
-}
-
-.nosotros__mosaico .nosotros__foto--secundaria:nth-of-type(2) img {
-  object-position: 55% 50%;
-}
-
-.nosotros__mosaico .nosotros__foto--secundaria:nth-of-type(3) img {
-  object-position: 50% 48%;
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  .nosotros__foto:hover img {
-    transform: scale(var(--escala-hover));
-  }
-}
-
 @media (min-width: 40em) {
-  /* minmax(0, 1fr): sin esto las filas crecen hasta el alto intrínseco de las
-     fotos verticales y el mosaico se dispara. */
-  .nosotros__mosaico {
-    grid-template-columns: 1.15fr 1fr;
-    grid-template-rows: minmax(0, 1fr) minmax(0, 1fr);
-    aspect-ratio: 5 / 4;
+  .nosotros__foto,
+  .nosotros__mural {
+    aspect-ratio: 3 / 2;
   }
+}
 
-  .nosotros__foto--principal {
-    grid-column: 1;
-    grid-row: 1 / span 2;
-  }
+/* El prado se lee a ras de suelo: el encuadre se ancla por debajo del centro
+   para que manden el césped y la línea de árboles, no el cielo. */
+.nosotros__foto img {
+  object-position: 50% 62%;
+}
 
-  .nosotros__foto--principal,
-  .nosotros__foto--secundaria {
-    aspect-ratio: auto;
+@media (min-width: 52em) {
+  .nosotros__foto {
+    aspect-ratio: 4 / 5;
   }
 }
 
 /* ==========================================================================
-   2. COMPROMISO — tres pilares, cada uno con su fotografía real
-   ========================================================================== */
-.nosotros__bloque {
-  margin-top: var(--esp-seccion-sm);
-}
-
-.nosotros__pilares {
-  margin: 0;
-}
-
-.nosotros__pilar {
-  display: flex;
-  flex-direction: column;
-  height: 100%;
-}
-
-.nosotros__pilar:hover {
-  transform: translateY(calc(var(--esp-3xs) * -1));
-  box-shadow: var(--sombra-md);
-}
-
-/* La foto va a sangre dentro de la tarjeta: no se usa .marco para que el
-   radio de la tarjeta (overflow: hidden) sea el único que recorta. */
-.nosotros__pilar-foto {
-  position: relative;
-  margin: 0;
-  aspect-ratio: 3 / 2;
-  overflow: hidden;
-  background-color: rgb(var(--gris-verde-rgb) / 0.3);
-}
-
-.nosotros__pilar-foto img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  transition: transform var(--dur-lenta) var(--ease-suave);
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  .nosotros__pilar:hover .nosotros__pilar-foto img {
-    transform: scale(var(--escala-hover));
-  }
-}
-
-/* Velo bajo el índice: garantiza 5,8:1 del amarillo contra el peor píxel
-   (blanco puro) que pueda caer detrás del número. */
-.nosotros__pilar-foto::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background-image: linear-gradient(
-    to top,
-    rgb(var(--verde-bosque-hondo-rgb) / 0.85) 0%,
-    rgb(var(--verde-bosque-hondo-rgb) / 0.85) 22%,
-    rgb(var(--verde-bosque-hondo-rgb) / 0) 52%
-  );
-}
-
-.nosotros__pilar-indice {
-  position: absolute;
-  left: var(--esp-md);
-  bottom: var(--esp-2xs);
-  z-index: var(--z-base);
-  font-family: var(--fuente-display);
-  font-size: var(--fs-h3);
-  font-weight: var(--peso-fuerte);
-  font-optical-sizing: auto;
-  font-variation-settings: var(--ejes-display);
-  line-height: 1;
-  letter-spacing: var(--track-display);
-  color: var(--color-destacado);
-}
-
-/* Hereda Fraunces de h4: aquí NO se declara font-family ni color. */
-.nosotros__pilar .tarjeta__cuerpo {
-  flex: 1;
-  gap: var(--esp-xs);
-  padding: var(--esp-lg);
-}
-
-.nosotros__pilar-titulo {
-  text-wrap: balance;
-}
-
-.nosotros__pilar p {
-  font-size: var(--fs-pequeno);
-  color: var(--color-texto-suave);
-  margin: 0;
-}
-
-/* ==========================================================================
-   3. CIFRAS — franja a sangre, tarjetas con foto real de fondo
-   ==========================================================================
-   Por qué los velos son tan opacos: el dato tiene que leerse sobre CUALQUIER
-   píxel de la foto, y estas fotos tienen cielo blanco. Con 0,88 de
-   --verde-bosque-hondo sobre blanco puro, el amarillo de .cifra da 5,9:1 y la
-   crema de .cifra-etiqueta 5,9:1; en la base de la tarjeta (0,94) suben a 8:1
-   y 7,7:1. El texto se ancla abajo, dentro de la zona más opaca.            */
-.nosotros__cifras {
-  margin-top: var(--esp-seccion);
-  padding-block: var(--esp-2xl);
-}
-
-.nosotros__cifras-titulo {
-  text-align: center;
-  margin-bottom: var(--gap-lg);
-}
-
-.nosotros__cifras-lista {
-  margin: 0;
-}
-
-.nosotros__cifra {
-  position: relative;
-  display: flex;
-  align-items: flex-end;
-  aspect-ratio: 4 / 5;
-  overflow: hidden;
-  border-radius: var(--radio-lg);
-  border: 1px solid var(--color-borde-inverso);
-  background-color: var(--color-fondo-hondo);
-  box-shadow: var(--sombra-md);
-  transition:
-    transform var(--transicion),
-    box-shadow var(--transicion);
-}
-
-.nosotros__cifra:hover {
-  transform: translateY(calc(var(--esp-3xs) * -1));
-  box-shadow: var(--sombra-lg);
-}
-
-.nosotros__cifra-foto {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  transition: transform var(--dur-lenta) var(--ease-suave);
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  .nosotros__cifra:hover .nosotros__cifra-foto {
-    transform: scale(var(--escala-hover));
-  }
-}
-
-.nosotros__cifra::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background-image: linear-gradient(
-    to top,
-    rgb(var(--verde-bosque-hondo-rgb) / 0.94) 0%,
-    rgb(var(--verde-bosque-hondo-rgb) / 0.88) 42%,
-    rgb(var(--verde-bosque-hondo-rgb) / 0.52) 74%,
-    rgb(var(--verde-bosque-hondo-rgb) / 0.34) 100%
-  );
-}
-
-.nosotros__cifra-dato {
-  position: relative;
-  z-index: var(--z-base);
-  display: block;
-  width: 100%;
-  padding: var(--esp-md);
-}
-
-/* El cuerpo de --fs-cifra (hasta 3,75rem) ahoga una tarjeta de este tamaño:
-   dentro de la tarjeta la cifra baja un paso y gana aire alrededor. */
-.nosotros__cifra .cifra {
-  font-size: var(--fs-h2);
-}
-
-.nosotros__cifra .cifra-etiqueta {
-  max-width: var(--medida-corta);
-}
-
-/* ==========================================================================
-   4. SERVICIOS DEL PREDIO — una tira discreta, sin tarjetas
-   No compiten con las cifras: son el «ya está resuelto», no el argumento.
+   2. LO BÁSICO, RESUELTO — una tira discreta, sin tarjetas
+   Es el «ya está puesto», no el argumento de venta: va en voz baja.
    ========================================================================== */
 .nosotros__servicios {
-  margin-top: var(--esp-seccion);
-}
-
-.nosotros__servicios-tira {
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: var(--esp-sm);
+  margin-top: var(--esp-seccion-sm);
   padding: var(--esp-lg) var(--esp-md);
   border: 1px solid var(--color-borde-suave);
   border-radius: var(--radio-lg);
@@ -333,6 +102,8 @@
   flex-wrap: wrap;
   justify-content: center;
   gap: var(--esp-xs) var(--esp-lg);
+  list-style: none;
+  padding: 0;
   margin: 0;
 }
 
@@ -356,28 +127,109 @@
   color: var(--color-acento-texto);
 }
 
-.nosotros__servicios-pie {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  justify-content: center;
-  gap: var(--esp-2xs) var(--esp-md);
+.nosotros__servicios-extra {
+  margin: 0;
   max-width: none;
-  font-size: var(--fs-pequeno);
-  color: var(--color-texto-suave);
 }
 
 @media (min-width: 62em) {
-  .nosotros__servicios-tira {
+  .nosotros__servicios {
     flex-direction: row;
     flex-wrap: wrap;
     justify-content: space-between;
     gap: var(--esp-md) var(--esp-lg);
-    text-align: left;
     padding-inline: var(--esp-lg);
+    text-align: left;
   }
 
   .nosotros__servicios-lista {
     justify-content: flex-start;
   }
+}
+
+/* ==========================================================================
+   3. EL COMPROMISO — el mural a un lado, los tres pilares al otro
+   ========================================================================== */
+.nosotros__compromiso {
+  display: grid;
+  gap: var(--gap-lg);
+  align-items: center;
+  margin-top: var(--esp-seccion);
+}
+
+@media (min-width: 62em) {
+  .nosotros__compromiso {
+    grid-template-columns: 1fr 1.35fr;
+  }
+}
+
+/* El mural ocupa la franja media-baja del encuadre: el recorte baja para que
+   quepan entero el colibrí, el ave roja y el loro. */
+.nosotros__mural img {
+  object-position: 50% 57%;
+}
+
+@media (min-width: 62em) {
+  .nosotros__mural {
+    aspect-ratio: 4 / 5;
+  }
+}
+
+.nosotros__compromiso-texto .seccion-encabezado {
+  margin-bottom: var(--gap);
+}
+
+/* ---- Los tres pilares ---------------------------------------------------- */
+.nosotros__pilares {
+  display: grid;
+  gap: var(--gap-sm);
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.nosotros__pilar {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--esp-sm);
+  padding: var(--esp-md);
+}
+
+.nosotros__pilar:hover {
+  transform: translateY(calc(var(--esp-3xs) * -1));
+  box-shadow: var(--sombra-md);
+}
+
+/* Terracota sobre la superficie clara de la tarjeta: 5,3:1. En v1 este número
+   iba en verde menta y se quedaba en 2,07:1. */
+.nosotros__pilar-indice {
+  flex: none;
+  font-family: var(--fuente-display);
+  font-size: var(--fs-h3);
+  font-weight: var(--peso-fuerte);
+  font-optical-sizing: auto;
+  font-variation-settings: var(--ejes-display);
+  line-height: var(--alto-linea-apretado);
+  letter-spacing: var(--track-display);
+  color: var(--color-acento-texto);
+}
+
+.nosotros__pilar .tarjeta__cuerpo {
+  flex: 1;
+  gap: var(--esp-3xs);
+  padding: 0;
+  min-width: 0;
+}
+
+/* Hereda Fraunces y el color de h4 (base.css): aquí NO se declara ninguno. */
+.nosotros__pilar-titulo {
+  font-size: var(--fs-cuerpo);
+  line-height: var(--alto-linea-titulo);
+  text-wrap: balance;
+}
+
+.nosotros__pilar p {
+  margin: 0;
+  font-size: var(--fs-pequeno);
+  color: var(--color-texto-suave);
 }

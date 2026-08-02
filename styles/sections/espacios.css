@@ -1,26 +1,24 @@
 /* ==========================================================================
    VEGAS DEL VERDE — espacios.css  ·  v2 «Vende la escapada»
    Sección «Espacios en alquiler» (#espacios).
-   Depende de tokens.css + base.css. No declara ningún valor literal de color,
+   Depende de tokens.css + base.css. No declara NINGÚN valor literal de color,
    cuerpo tipográfico, radio, sombra ni duración: todo sale de los tokens.
    Prefijos propios: .espacios / .espacio
 
-   QUÉ CAMBIÓ EN v2
-   · La tarjeta ya no titula con el nombre del espacio: titula con la
-     EXPERIENCIA (h3.titulo-seccion--sm, que hereda Fraunces de base.css).
-     El nombre y la capacidad bajan a una .pildora de apoyo.
-   · Desaparecen el .espacios-tarjeta__cifra y el .espacios-tarjeta__unidad:
-     la capacidad dejó de ser el titular, así que ya no necesita cuerpo de
-     display ni caps espaciadas.
-   · El panel de condiciones de 4 columnas se sustituye por un enlace a la
-     página condiciones-de-alquiler.html.
+   CRITERIO
+   · La tarjeta no titula con el nombre del espacio: titula con la EXPERIENCIA
+     (h3.titulo-seccion--sm, que hereda Fraunces de base.css). El nombre y el
+     aforo bajan a una .pildora de apoyo.
+   · La Alameda es la única con dos fotos propias, así que es la única con
+     galería y con fila entera.
+   · Las condiciones de alquiler no ocupan espacio de sección: son un enlace
+     a su propia página en el pie.
    ========================================================================== */
 
 /* ==========================================================================
    1. REJILLA
    1 columna en móvil · 2 desde 52em. La Alameda ocupa siempre la fila
-   completa: es el espacio más grande y merece la portada de la sección.
-   No se pasa a 3 o 4 columnas porque los titulares de experiencia
+   completa. No se pasa a 3 o 4 columnas porque los titulares de experiencia
    («Un partido con banda sonora de pájaros») necesitan ancho para no
    partirse en cinco líneas.
    ========================================================================== */
@@ -52,7 +50,7 @@
 }
 
 /* Filete cálido que se dibuja al pasar el cursor o al enfocar el CTA.
-   Es decorativo (no transporta información), por eso puede ir en el color
+   Es decorativo —no transporta información—, por eso puede ir en el color
    de acción sin comprometer ninguna ratio de texto. */
 .espacio::after {
   content: "";
@@ -83,20 +81,20 @@
 }
 
 /* ---- Foto ----------------------------------------------------------------
-   Cuatro de las cinco fotos de origen son verticales. Sólo en móvil, con la
+   Las cinco fotos de origen menos una son verticales. Sólo en móvil, con la
    tarjeta a ~343 px, se muestran en 4/5: ahí el retrato respeta el encuadre.
    El corte a 3/2 entra en 34em y NO en el breakpoint de la rejilla (52em):
    entre ambos la tarjeta sigue a una columna pero ya mide 500-800 px de
-   ancho, y un 4/5 daba fotos de más de 850 px de alto: una tarjeta más alta
-   que la pantalla. El marco no lleva radio propio: lo recorta .tarjeta. */
-.espacio__marco {
+   ancho, y un 4/5 daba fotos de más de 850 px de alto —una tarjeta más alta
+   que la pantalla—. El marco no lleva radio propio: lo recorta .tarjeta. */
+.espacio__foto {
   border-radius: 0;
   aspect-ratio: 4 / 5;
   flex: none;
 }
 
 @media (min-width: 34em) {
-  .espacio__marco {
+  .espacio__foto {
     aspect-ratio: 3 / 2;
   }
 }
@@ -112,7 +110,7 @@
 }
 
 /* El titular hereda Fraunces de .titulo-seccion (base.css): aquí sólo se
-   ajusta el ritmo vertical, nunca la familia ni el peso. */
+   ajusta la medida, nunca la familia ni el peso. */
 .espacio__titular {
   max-width: var(--medida-corta);
 }
@@ -137,10 +135,10 @@
 
 /* ==========================================================================
    3. TARJETA DESTACADA — ALAMEDA
-   Foto panorámica + cuerpo al costado desde 62em.
-   Va una sola foto, la que asigna MAPA-FOTOS.json (espacios/alameda-2.jpg):
-   es una panorámica de 1500×844 y partir la columna en dos la obligaba a un
-   recorte casi cuadrado. Sola, ocupa su relación nativa sin sacrificar nada.
+   Es el único espacio con dos fotografías propias (alameda-2, panorámica de
+   1500×844, y alameda-1, vertical de 1125×1500), así que es el único que
+   monta galería. Van juntas y casi sin junta entre ellas: leídas como una
+   sola banda cuentan la anchura del prado mejor que cualquiera por separado.
    ========================================================================== */
 .espacio__interior {
   display: grid;
@@ -148,22 +146,58 @@
   height: 100%;
 }
 
-.espacio--destacado .espacio__marco {
+/* Móvil: las dos apiladas, cada una en 3/2. La vertical pierde cielo y suelo
+   en el recorte, que es justo lo prescindible: el prado está en el centro. */
+.espacio__galeria {
+  position: relative;
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--esp-3xs);
+}
+
+.espacio--destacado .espacio__foto {
   aspect-ratio: 3 / 2;
 }
 
-/* Desde 62em la foto pasa al costado del texto y recupera su 16/9 nativo.
-   El aspect-ratio sobre un ítem de rejilla estirado no fija la altura: sólo
-   aporta su medida al cálculo de la fila, así que si el cuerpo crece más
-   que la foto, la foto se estira con él y no queda ningún hueco. */
+/* Desde 34em dejan de compartir cuadrícula. Ponerlas lado a lado obligaba a
+   recortar la panorámica de 1500×844 casi a cuadrado —perdía la mitad del
+   ancho, que es lo único que esa foto tiene que contar—. Así que la
+   panorámica se queda con la banda entera en su 16/9 y la vertical entra de
+   recuadro sobre la esquina, en su 4/5: cada una conserva su forma real.
+   El recuadro cae sobre césped en primer término, nunca sobre la arboleda. */
+@media (min-width: 34em) {
+  .espacio__galeria {
+    display: block;
+  }
+
+  .espacio--destacado .espacio__foto--principal {
+    aspect-ratio: 16 / 9;
+  }
+
+  .espacio--destacado .espacio__foto--apoyo {
+    position: absolute;
+    inset-block-end: var(--esp-md);
+    inset-inline-start: var(--esp-md);
+    width: 28%;
+    aspect-ratio: 4 / 5;
+    border-radius: var(--radio-md);
+    box-shadow: var(--sombra-lg);
+  }
+}
+
+/* Desde 62em la galería se va al costado del texto y se estira con la fila.
+   El aspect-ratio de la principal no fija la altura del ítem estirado: sólo
+   aporta su medida al cálculo de la fila, así que si el cuerpo crece más que
+   la foto, la foto crece con él y no queda ningún hueco. */
 @media (min-width: 62em) {
   .espacio__interior {
-    grid-template-columns: 1.35fr 1fr;
+    grid-template-columns: 1.45fr 1fr;
     align-items: stretch;
   }
 
-  .espacio--destacado .espacio__marco {
-    aspect-ratio: 16 / 9;
+  .espacio__galeria,
+  .espacio--destacado .espacio__foto--principal {
+    height: 100%;
   }
 }
 
@@ -173,6 +207,8 @@
   justify-content: center;
 }
 
+/* En la destacada el texto sube a cuerpo normal y a tinta plena: es la
+   entrada de la sección y se lee de pie, no de refilón. */
 .espacio--destacado .espacio__texto {
   font-size: var(--fs-cuerpo);
   color: var(--color-texto);
@@ -194,8 +230,9 @@
 
 /* ==========================================================================
    4. PIE DE SECCIÓN — el acceso a las condiciones
-   Una línea de contexto y un botón secundario. Nada más: el detalle vive
-   en su propia página para no saturar la sección de espacios.
+   Una línea de contexto y un botón secundario que lleva a
+   condiciones-de-alquiler.html. Nada más: el detalle vive en su propia
+   página, no en un modal y no dentro de esta sección.
    ========================================================================== */
 .espacios__pie {
   display: flex;
@@ -218,4 +255,3 @@
     width: 100%;
   }
 }
-

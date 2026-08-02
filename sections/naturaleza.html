@@ -1,30 +1,39 @@
 <!-- ==========================================================================
-     FRAGMENTO: NATURALEZA  ·  v2 «Vende la escapada»
-     #naturaleza (Sendero Ecovital) · #aves (101 especies + concurso)
-     #biodiversidad (inventario) · #vivero
+     FRAGMENTO: NATURALEZA  ·  v3 «Un hecho, un dueño»
+     Una sola sección: #naturaleza. Funde lo que antes eran #naturaleza,
+     #aves y #biodiversidad (esas dos anclas ya no existen).
+
+     Qué posee esta sección y nadie más (ARQUITECTURA-V3 §9):
+       el Sendero Ecovital y su entrada, el único precio publicado del sitio ·
+       las dos corrientes de agua · el registro de aves, la especie endémica
+       y las migratorias · el censo de flora y de fauna menuda · los dos
+       árboles de CITES · el muro completo del concurso con sus créditos.
+
+     Qué NO dice esta sección, por ser de otra (se enlaza, no se describe):
+       las paradas pedagógicas y el jardín de insectos, de #colegios ·
+       el horario y el número escrito, de #ubicacion · las capacidades,
+       de #espacios · el tamaño del predio y su cercanía a la ciudad,
+       de #inicio.
 
      CSS propio: styles/sections/naturaleza.css
-     JS esperado: reveal global (.reveal / .reveal-secuencia) de js/app.js
-                  + lightbox global (data-lightbox="galeria-aves").
-     Sin JS todo queda visible y legible; el <details> del muro abre igual.
+     JS esperado: reveal global (.reveal / .reveal-secuencia) y lightbox
+     global (data-lightbox="muro-aves") de js/app.js. Sin JS todo queda
+     visible y legible, y el <details> del muro abre igual.
      ========================================================================== -->
 
-<!-- ==========================================================================
-     (a) SENDERO ECOVITAL  ·  el único precio del sitio
-     ========================================================================== -->
 <section id="naturaleza" class="seccion nat" aria-labelledby="naturaleza-titulo">
   <div class="contenedor">
 
     <header class="seccion-encabezado reveal">
-      <p class="eyebrow">Sendero Ecovital</p>
+      <p class="eyebrow">Sendero Ecovital y biodiversidad</p>
       <h2 id="naturaleza-titulo" class="titulo-seccion">Camina donde cantan 101 especies</h2>
       <p class="entradilla">
-        Cuatro hectáreas arboladas entre la quebrada Aranzoque y el riachuelo La Florida,
-        a diez minutos del Anillo Vial y a un mundo de distancia. Se recorren despacio,
-        con guía, mirando hacia arriba.
+        El recorrido guiado que sigue la quebrada, y el censo de lo que vive alrededor.
+        Es la única parte del predio con un precio publicado.
       </p>
     </header>
 
+    <!-- ---- El sendero: foto real del camino + el precio + el CTA ----------- -->
     <div class="nat-sendero">
 
       <div class="nat-sendero__media reveal reveal--izq">
@@ -36,7 +45,7 @@
               height="1500"
               loading="lazy"
               decoding="async"
-              alt="Camino de tierra y hojarasca del Sendero Ecovital, cubierto por el arco de las ramas y bordeado por setos y árboles jóvenes"
+              alt="Camino de tierra y hojarasca del Sendero Ecovital, cubierto por el arco de las ramas y bordeado de setos y árboles jóvenes"
             />
           </div>
         </figure>
@@ -48,22 +57,21 @@
               height="1200"
               loading="lazy"
               decoding="async"
-              alt="Muro y estructura de guadua del predio, con macetas de barro y plantas colgadas sobre el piso de gravilla"
+              alt="Cerramiento de cañas de guadua del predio, con orquídeas colgadas de una vara y materas de barro sobre la gravilla"
             />
           </div>
-          <figcaption class="credito nat-sendero__pie">Las guaduas del predio</figcaption>
+          <figcaption class="credito nat-sendero__pie">Guadua del predio</figcaption>
         </figure>
       </div>
 
       <div class="nat-sendero__texto reveal reveal--der">
         <h3 class="titulo-seccion titulo-seccion--sm nat-sendero__titulo">
-          Un recorrido guiado, no un paseo cualquiera
+          Se camina despacio y con alguien que sabe mirar
         </h3>
 
         <p>
-          El sendero es para <strong>pajarear</strong> —avistamiento de aves— y para observar
-          de cerca las plantas del lugar. Está bordeado por guaduas, Búcaro y Caracolí, y
-          sigue la quebrada Aranzoque hasta su encuentro con el riachuelo La Florida.
+          Es pajareo y observación de plantas a la vez: se anda poco y se para mucho.
+          Vas con guía, así que lo que oyes tiene nombre.
         </p>
 
         <p class="nat-ruta">
@@ -72,10 +80,15 @@
           <span class="nat-ruta__punto">Riachuelo La Florida</span>
         </p>
 
+        <p>
+          El camino sigue la quebrada hasta su encuentro con el riachuelo. Las dos
+          corrientes de agua rodean el terreno arbolado.
+        </p>
+
         <ul class="lista-hojas nat-sendero__lista">
-          <li>Guaduales que acompañan todo el trayecto</li>
-          <li>Búcaro y Caracolí, los árboles grandes del predio</li>
-          <li>Observación de aves y de plantas, siempre con guía</li>
+          <li>Guaduas a lado y lado del trayecto</li>
+          <li>Búcaro y Caracolí, los árboles grandes del recorrido</li>
+          <li>Recorrido guiado de pajareo y de observación de plantas</li>
         </ul>
 
         <div class="nat-precio">
@@ -90,7 +103,7 @@
         <div class="grupo-botones nat-sendero__acciones">
           <a
             class="btn btn-whatsapp btn-grande"
-            href="https://wa.me/573166758362?text=Hola%2C%20quiero%20reservar%20un%20recorrido%20por%20el%20Sendero%20Ecovital%20de%20Vegas%20del%20Verde."
+            href="https://wa.me/573166758362?text=Hola%2C%20quiero%20reservar%20un%20recorrido%20guiado%20por%20el%20Sendero%20Ecovital.%20Vamos%20___%20personas%20y%20nos%20gustar%C3%ADa%20ir%20el%20___."
             target="_blank"
             rel="noopener"
           >
@@ -98,281 +111,184 @@
           </a>
         </div>
 
-        <p class="nota">
-          Reservas por WhatsApp al 316 675 8362. Abierto de lunes a domingo,
-          de 6:00 a.m. a 10:00 p.m.
+        <p class="nota nat-sendero__nota">
+          Escribe con cuántos vienen y qué día les sirve.
+          <a href="#ubicacion">Cómo llegar</a>.
         </p>
       </div>
 
     </div>
 
-    <!-- ---- Quién te va a estar mirando: 10 especies con foto real ---------- -->
-    <aside class="nat-encuentros reveal" aria-labelledby="encuentros-titulo">
+    <!-- ---- Lo que el censo tiene y la cámara todavía no -------------------- -->
+    <div class="nat-registro reveal-secuencia">
 
-      <figure class="nat-encuentros__retrato">
-        <div class="marco marco--retrato">
-          <img
-            src="img/aves/ave-06-piaya-cayana.jpg"
-            width="1040"
-            height="1300"
-            loading="lazy"
-            decoding="async"
-            alt="Piaya cayana posada en una rama del predio — fotografía de Jonathan Layton Avila"
-          />
-        </div>
-        <figcaption class="credito nat-encuentros__credito">
-          <span class="nat-cientifico">Piaya cayana</span> — Foto: Jonathan Layton Avila
-        </figcaption>
-      </figure>
-
-      <div class="nat-encuentros__texto">
-        <p class="eyebrow">Quién te va a estar mirando</p>
-        <h3 id="encuentros-titulo" class="titulo-seccion titulo-seccion--sm">
-          Diez que puedes reconocer sin ser experto
-        </h3>
-        <p>
-          Todas estas fueron fotografiadas dentro del predio por la gente que vino a
-          caminarlo. Ninguna es de banco de imágenes.
-        </p>
-
-        <ul class="nat-chips">
-          <li class="nat-chip">
-            <img
-              class="nat-chip__foto"
-              src="img/aves/ave-26-azulejo-01.jpg"
-              width="867"
-              height="1300"
-              loading="lazy"
-              decoding="async"
-              alt="Azulejo fotografiado en Vegas del Verde por Erit Moratto"
-            />
-            <span class="nat-chip__texto">
-              <span class="nat-chip__nombre">Azulejo</span>
-              <span class="nat-chip__autor">Foto: Erit Moratto</span>
-            </span>
-          </li>
-          <li class="nat-chip">
-            <img
-              class="nat-chip__foto"
-              src="img/aves/ave-12-barranquero.jpg"
-              width="975"
-              height="1300"
-              loading="lazy"
-              decoding="async"
-              alt="Barranquero fotografiado en Vegas del Verde por Carlos Serrano"
-            />
-            <span class="nat-chip__texto">
-              <span class="nat-chip__nombre">Barranquero</span>
-              <span class="nat-chip__autor">Foto: Carlos Serrano</span>
-            </span>
-          </li>
-          <li class="nat-chip">
-            <img
-              class="nat-chip__foto"
-              src="img/aves/ave-55-carpintero.jpg"
-              width="1300"
-              height="1300"
-              loading="lazy"
-              decoding="async"
-              alt="Carpintero fotografiado en Vegas del Verde por Yeraldilsa Gamboa"
-            />
-            <span class="nat-chip__texto">
-              <span class="nat-chip__nombre">Carpintero</span>
-              <span class="nat-chip__autor">Foto: Yeraldilsa Gamboa</span>
-            </span>
-          </li>
-          <li class="nat-chip">
-            <img
-              class="nat-chip__foto"
-              src="img/aves/ave-35-amaziliatzacatl.jpg"
-              width="1040"
-              height="1300"
-              loading="lazy"
-              decoding="async"
-              alt="Colibrí Amazilia tzacatl fotografiado en Vegas del Verde por Jaime Suarez"
-            />
-            <span class="nat-chip__texto">
-              <span class="nat-chip__nombre">Colibrí</span>
-              <span class="nat-chip__autor">Foto: Jaime Suarez</span>
-            </span>
-          </li>
-          <li class="nat-chip">
-            <img
-              class="nat-chip__foto"
-              src="img/aves/ave-52-canario.jpg"
-              width="1300"
-              height="865"
-              loading="lazy"
-              decoding="async"
-              alt="Canario fotografiado en Vegas del Verde por Rutbel Rueda"
-            />
-            <span class="nat-chip__texto">
-              <span class="nat-chip__nombre">Canario</span>
-              <span class="nat-chip__autor">Foto: Rutbel Rueda</span>
-            </span>
-          </li>
-          <li class="nat-chip">
-            <img
-              class="nat-chip__foto"
-              src="img/aves/ave-33-loro-real.jpg"
-              width="867"
-              height="1300"
-              loading="lazy"
-              decoding="async"
-              alt="Loro real fotografiado en Vegas del Verde por Fabiola Rueda"
-            />
-            <span class="nat-chip__texto">
-              <span class="nat-chip__nombre">Loro real</span>
-              <span class="nat-chip__autor">Foto: Fabiola Rueda</span>
-            </span>
-          </li>
-          <li class="nat-chip">
-            <img
-              class="nat-chip__foto"
-              src="img/aves/ave-18-brotogeris-jugularis.jpg"
-              width="975"
-              height="1300"
-              loading="lazy"
-              decoding="async"
-              alt="Periquito bronceado fotografiado en Vegas del Verde por Diego Cespedes"
-            />
-            <span class="nat-chip__texto">
-              <span class="nat-chip__nombre">Periquito bronceado</span>
-              <span class="nat-chip__autor">Foto: Diego Cespedes</span>
-            </span>
-          </li>
-          <li class="nat-chip">
-            <img
-              class="nat-chip__foto"
-              src="img/aves/ave-05-zorzal-piquinegro.jpg"
-              width="1300"
-              height="1040"
-              loading="lazy"
-              decoding="async"
-              alt="Zorzal piquinegro fotografiado en Vegas del Verde por Francheska Salazar"
-            />
-            <span class="nat-chip__texto">
-              <span class="nat-chip__nombre">Zorzal piquinegro</span>
-              <span class="nat-chip__autor">Foto: Francheska Salazar</span>
-            </span>
-          </li>
-          <li class="nat-chip">
-            <img
-              class="nat-chip__foto"
-              src="img/aves/ave-34-eufonia-piquigruesa.jpg"
-              width="1040"
-              height="1300"
-              loading="lazy"
-              decoding="async"
-              alt="Eufonía piquigruesa fotografiada en Vegas del Verde por Francheska Salazar"
-            />
-            <span class="nat-chip__texto">
-              <span class="nat-chip__nombre">Eufonía piquigruesa</span>
-              <span class="nat-chip__autor">Foto: Francheska Salazar</span>
-            </span>
-          </li>
-          <li class="nat-chip">
-            <img
-              class="nat-chip__foto"
-              src="img/aves/ave-47-stilpnia-cyanicollis.jpg"
-              width="867"
-              height="1300"
-              loading="lazy"
-              decoding="async"
-              alt="Tángara cabeciazul fotografiada en Vegas del Verde por Leyner Lozano"
-            />
-            <span class="nat-chip__texto">
-              <span class="nat-chip__nombre">Tángara cabeciazul</span>
-              <span class="nat-chip__autor">Foto: Leyner Lozano</span>
-            </span>
-          </li>
-        </ul>
-
-        <p class="nota">
-          <a class="enlace-flecha" href="#aves">Ver las 57 fotografías del concurso</a>
-        </p>
-      </div>
-
-    </aside>
-
-  </div>
-</section>
-
-<!-- ==========================================================================
-     (b) LAS 101 AVES  ·  galería del concurso de fotografía
-     Cada foto lleva el crédito de su autor (img/aves/_creditos.json).
-     ========================================================================== -->
-<section id="aves" class="seccion seccion--oscura nat-aves" aria-labelledby="aves-titulo">
-
-  <div class="contenedor contenedor--ancho">
-    <header class="seccion-encabezado centrado nat-aves__encabezado reveal">
-      <p class="eyebrow">Pajareo · Birdwatching</p>
-      <h2 id="aves-titulo" class="titulo-seccion nat-aves__titulo">
-        101 especies. Solo tienes que quedarte quieto.
-      </h2>
-      <p class="entradilla">
-        El predio es un punto de aviturismo dentro del Área Metropolitana de Bucaramanga.
-        Entre las 101 especies registradas hay una endémica de Colombia y siete migratorias
-        boreales.
-      </p>
-    </header>
-
-    <div class="nat-aves__fichas reveal-secuencia">
+      <h3 class="titulo-seccion titulo-seccion--sm nat-registro__titulo reveal">
+        Dos apuntes del registro de aves
+      </h3>
 
       <article class="nat-ficha nat-ficha--endemica reveal">
-        <div class="marco nat-ficha__figura">
+        <p class="pildora pildora--destacada">Endémica de Colombia</p>
+        <h4 class="nat-ficha__titulo">Chachalaca Colombiana</h4>
+        <p class="nat-ficha__cientifico">Ortalis columbiana</p>
+        <p class="nat-ficha__texto">
+          Endémica quiere decir que no vive de forma silvestre en ningún otro país
+          del mundo. Está en el registro de este predio.
+        </p>
+        <p class="nat-ficha__aviso">
+          Todavía no hay una fotografía suya en el muro de aquí abajo.
+          Ese es justamente el plan.
+        </p>
+      </article>
+
+      <article class="nat-ficha nat-ficha--dato reveal">
+        <p class="cifra">7</p>
+        <p class="cifra-etiqueta">Especies migratorias boreales</p>
+        <p class="nat-ficha__texto">
+          Bajan desde el norte del continente y solo se dejan ver una parte del año.
+          No están siempre: hay que venir cuando llegan.
+        </p>
+      </article>
+
+    </div>
+
+    <!-- ---- El censo de lo que no vuela: ambientes con foto real ------------ -->
+    <div class="nat-censo">
+
+      <h3 class="titulo-seccion titulo-seccion--sm nat-censo__titulo reveal">
+        Aquí no solo hay aves
+      </h3>
+
+      <ul class="nat-habitats reveal-secuencia">
+
+        <li class="nat-habitat nat-habitat--ancho nat-habitat--foco-medio reveal">
           <img
-            src="img/parque/parque-63.jpg"
+            class="nat-habitat__foto"
+            src="img/parque/parque-61.jpg"
+            width="900"
+            height="1200"
+            loading="lazy"
+            decoding="async"
+            alt="Huella de losas de piedra entre bromelias y bastones del emperador en flor, bajo los árboles grandes del predio"
+          />
+          <div class="nat-habitat__cuerpo">
+            <p class="nat-habitat__lugar">El jardín</p>
+            <p class="nat-habitat__cifra">347</p>
+            <p class="nat-habitat__etiqueta">Especies de plantas · 20 familias botánicas</p>
+            <p class="nat-habitat__texto">
+              Bromelias, bastones del emperador y árboles altos compartiendo el mismo
+              tramo de camino.
+            </p>
+          </div>
+        </li>
+
+        <li class="nat-habitat nat-habitat--foco-bajo reveal">
+          <img
+            class="nat-habitat__foto"
+            src="img/parque/parque-60.jpg"
             width="675"
             height="1200"
             loading="lazy"
             decoding="async"
-            alt="Dosel cerrado de un árbol grande del predio abriéndose sobre el prado, con el sotobosque en sombra al fondo"
+            alt="Árbol grande de hoja ancha dando sombra sobre el camino de gravilla, con matas de hoja grande y hojarasca a su pie"
           />
-        </div>
-        <div class="nat-ficha__cuerpo">
-          <p class="pildora pildora--destacada">Endémica de Colombia</p>
-          <h3 class="nat-ficha__titulo">Chachalaca Colombiana</h3>
-          <p class="nat-ficha__cientifico">Ortalis columbiana</p>
-          <p class="nat-ficha__texto">
-            Endémica quiere decir que no vive de forma natural en ningún otro país del mundo.
-            Es la especie más singular del registro de Vegas del Verde.
-          </p>
-          <p class="nat-ficha__aviso">
-            En la foto está su bosque, no ella: ninguna de las 57 fotografías del concurso
-            la alcanzó todavía. Ese es justamente el plan.
-          </p>
-        </div>
-      </article>
+          <div class="nat-habitat__cuerpo">
+            <p class="nat-habitat__lugar">La hojarasca</p>
+            <p class="nat-habitat__cifra">18</p>
+            <p class="nat-habitat__etiqueta">Especies de anfibios</p>
+            <p class="nat-habitat__texto">Donde la hoja caída guarda humedad todo el día.</p>
+          </div>
+        </li>
 
-      <article class="nat-ficha nat-ficha--dato reveal">
-        <div class="nat-ficha__cuerpo">
-          <p class="cifra">7</p>
-          <p class="cifra-etiqueta">Especies migratorias boreales</p>
-          <p class="nat-ficha__texto">
-            Siete de las 101 son migratorias boreales: aves que bajan desde el norte del
-            continente y encuentran refugio en estas cuatro hectáreas. Están de paso, y
-            hay que salir a buscarlas cuando llegan.
-          </p>
-        </div>
-      </article>
+        <li class="nat-habitat nat-habitat--foco-bajo reveal">
+          <img
+            class="nat-habitat__foto"
+            src="img/parque/parque-13.jpg"
+            width="800"
+            height="1200"
+            loading="lazy"
+            decoding="async"
+            alt="Cactus al sol sobre piso de piedra y arena, delante de la pérgola de guadua y caña del predio"
+          />
+          <div class="nat-habitat__cuerpo">
+            <p class="nat-habitat__lugar">La piedra al sol</p>
+            <p class="nat-habitat__cifra">23</p>
+            <p class="nat-habitat__etiqueta">Especies de reptiles</p>
+            <p class="nat-habitat__texto">Piedra caliente, cactus y bordes secos: su sitio.</p>
+          </div>
+        </li>
+
+        <li class="nat-habitat nat-habitat--foco-alto reveal">
+          <img
+            class="nat-habitat__foto"
+            src="img/parque/parque-09.jpg"
+            width="675"
+            height="1200"
+            loading="lazy"
+            decoding="async"
+            alt="Copa amplia de un árbol grande abriéndose sobre el prado segado del predio, con el seto de fondo"
+          />
+          <div class="nat-habitat__cuerpo">
+            <p class="nat-habitat__lugar">El dosel</p>
+            <p class="nat-habitat__cifra">3</p>
+            <p class="nat-habitat__etiqueta">Especies de mamíferos</p>
+            <p class="nat-habitat__texto">Arriba, entre las ramas gruesas, lejos del camino.</p>
+          </div>
+        </li>
+
+      </ul>
+
+      <p class="nota nat-censo__aclaracion">
+        Las fotografías muestran los ambientes del predio, no las especies: no hay
+        fotografía propia de anfibios, reptiles ni mamíferos. Las cifras vienen del
+        inventario biológico del lugar.
+      </p>
 
     </div>
+
+    <!-- ---- Los dos árboles de CITES ---------------------------------------- -->
+    <aside class="nat-conservacion reveal" aria-labelledby="conservacion-titulo">
+      <div class="nat-conservacion__intro">
+        <p class="pildora">CITES · Apéndice III</p>
+        <h3 id="conservacion-titulo" class="titulo-seccion titulo-seccion--xs">
+          Dos árboles que no se talan a la ligera
+        </h3>
+        <p class="nota">
+          Esa es la lista de especies cuyo comercio internacional se controla.
+          Los dos son valiosos para conservación y los dos crecen dentro del predio.
+        </p>
+      </div>
+
+      <ul class="nat-especies">
+        <li class="nat-especie">Cedro</li>
+        <li class="nat-especie">Guayacán Amarillo</li>
+      </ul>
+
+      <p class="credito nat-conservacion__pie">
+        Todavía no hay fotografía propia de estos dos árboles. Cuando la haya, estará aquí.
+      </p>
+    </aside>
+
   </div>
 
-  <!-- ---- El muro de fotografía ------------------------------------------- -->
-  <div class="nat-galeria reveal">
+  <!-- ==========================================================================
+       EL MURO DEL CONCURSO
+       Es el único sitio del sitio con fichas de ave acreditadas. Publica el
+       archivo completo, porque un archivo incompleto no es un archivo.
+       Cada crédito sale de img/aves/_creditos.json; ninguno se inventa.
+       ========================================================================== -->
+  <div class="nat-muro-banda reveal">
     <div class="contenedor contenedor--ancho">
 
       <div class="nat-galeria__intro">
         <div class="nat-galeria__titulos">
           <p class="eyebrow">Concurso de fotografía</p>
           <h3 class="titulo-seccion titulo-seccion--sm">
-            Cincuenta y siete fotos, todas tomadas aquí dentro
+            Todas fueron tomadas aquí dentro
           </h3>
           <p class="nat-galeria__nota">
-            Las hicieron veinte fotógrafos de la comunidad, cámara en mano, dentro del predio.
-            Cada imagen conserva el nombre de quien la tomó.
+            Las hicieron los participantes del concurso, cámara en mano, dentro del predio.
+            Ninguna sale de un banco de imágenes y cada una conserva el nombre de quien
+            la tomó.
           </p>
         </div>
         <p class="nat-galeria__dato">
@@ -386,7 +302,7 @@
           <button
             type="button"
             class="nat-obra__disparador"
-            data-lightbox="galeria-aves"
+            data-lightbox="muro-aves"
             data-lightbox-caption="Momotus subrufescens — Foto: Leyner Lozano"
           >
             <img
@@ -395,7 +311,7 @@
               height="1300"
               loading="lazy"
               decoding="async"
-              alt="Momotus subrufescens en Vegas del Verde — fotografía de Leyner Lozano"
+              alt="Momotus subrufescens en el arbolado de Vegas del Verde, fotografía de Leyner Lozano"
             />
           </button>
           <figcaption class="nat-obra__pie">
@@ -407,175 +323,7 @@
           <button
             type="button"
             class="nat-obra__disparador"
-            data-lightbox="galeria-aves"
-            data-lightbox-caption="Colibrí — Foto: Erit Moratto"
-          >
-            <img
-              src="img/aves/ave-27-colibri.jpg"
-              width="867"
-              height="1300"
-              loading="lazy"
-              decoding="async"
-              alt="Colibrí en Vegas del Verde — fotografía de Erit Moratto"
-            />
-          </button>
-          <figcaption class="nat-obra__pie">
-            <span class="nat-obra__especie">Colibrí</span>
-            <span class="nat-obra__autor">Foto: Erit Moratto</span>
-          </figcaption>
-        </figure>
-        <figure class="nat-obra">
-          <button
-            type="button"
-            class="nat-obra__disparador"
-            data-lightbox="galeria-aves"
-            data-lightbox-caption="Carpintero — Foto: Jesus Lopez"
-          >
-            <img
-              src="img/aves/ave-38-carpintero.jpg"
-              width="1300"
-              height="1040"
-              loading="lazy"
-              decoding="async"
-              alt="Carpintero en Vegas del Verde — fotografía de Jesus Lopez"
-            />
-          </button>
-          <figcaption class="nat-obra__pie">
-            <span class="nat-obra__especie">Carpintero</span>
-            <span class="nat-obra__autor">Foto: Jesus Lopez</span>
-          </figcaption>
-        </figure>
-        <figure class="nat-obra">
-          <button
-            type="button"
-            class="nat-obra__disparador"
-            data-lightbox="galeria-aves"
-            data-lightbox-caption="Thraupis episcopus — Foto: Jonathan Layton Avila"
-          >
-            <img
-              src="img/aves/ave-07-thraupis-episcopus.jpg"
-              width="1040"
-              height="1300"
-              loading="lazy"
-              decoding="async"
-              alt="Thraupis episcopus en Vegas del Verde — fotografía de Jonathan Layton Avila"
-            />
-          </button>
-          <figcaption class="nat-obra__pie">
-            <span class="nat-obra__especie nat-cientifico">Thraupis episcopus</span>
-            <span class="nat-obra__autor">Foto: Jonathan Layton Avila</span>
-          </figcaption>
-        </figure>
-        <figure class="nat-obra">
-          <button
-            type="button"
-            class="nat-obra__disparador"
-            data-lightbox="galeria-aves"
-            data-lightbox-caption="Periquito bronceado — Foto: Fabiola Rueda"
-          >
-            <img
-              src="img/aves/ave-31-periquito-bronceado.jpg"
-              width="867"
-              height="1300"
-              loading="lazy"
-              decoding="async"
-              alt="Periquito bronceado en Vegas del Verde — fotografía de Fabiola Rueda"
-            />
-          </button>
-          <figcaption class="nat-obra__pie">
-            <span class="nat-obra__especie">Periquito bronceado</span>
-            <span class="nat-obra__autor">Foto: Fabiola Rueda</span>
-          </figcaption>
-        </figure>
-        <figure class="nat-obra">
-          <button
-            type="button"
-            class="nat-obra__disparador"
-            data-lightbox="galeria-aves"
-            data-lightbox-caption="Canario — Foto: Yeraldilsa Gamboa"
-          >
-            <img
-              src="img/aves/ave-56-canario.jpg"
-              width="1300"
-              height="1300"
-              loading="lazy"
-              decoding="async"
-              alt="Canario en Vegas del Verde — fotografía de Yeraldilsa Gamboa"
-            />
-          </button>
-          <figcaption class="nat-obra__pie">
-            <span class="nat-obra__especie">Canario</span>
-            <span class="nat-obra__autor">Foto: Yeraldilsa Gamboa</span>
-          </figcaption>
-        </figure>
-        <figure class="nat-obra">
-          <button
-            type="button"
-            class="nat-obra__disparador"
-            data-lightbox="galeria-aves"
-            data-lightbox-caption="Chondrohierax uncinatus — Foto: Leyner Lozano"
-          >
-            <img
-              src="img/aves/ave-45-chondrohierax-uncinatus.jpg"
-              width="867"
-              height="1300"
-              loading="lazy"
-              decoding="async"
-              alt="Chondrohierax uncinatus en Vegas del Verde — fotografía de Leyner Lozano"
-            />
-          </button>
-          <figcaption class="nat-obra__pie">
-            <span class="nat-obra__especie nat-cientifico">Chondrohierax uncinatus</span>
-            <span class="nat-obra__autor">Foto: Leyner Lozano</span>
-          </figcaption>
-        </figure>
-        <figure class="nat-obra">
-          <button
-            type="button"
-            class="nat-obra__disparador"
-            data-lightbox="galeria-aves"
-            data-lightbox-caption="Eufonia piquigruesa — Foto: Erit Moratto"
-          >
-            <img
-              src="img/aves/ave-25-eufonia-piquigruesa.jpg"
-              width="1300"
-              height="867"
-              loading="lazy"
-              decoding="async"
-              alt="Eufonia piquigruesa en Vegas del Verde — fotografía de Erit Moratto"
-            />
-          </button>
-          <figcaption class="nat-obra__pie">
-            <span class="nat-obra__especie">Eufonia piquigruesa</span>
-            <span class="nat-obra__autor">Foto: Erit Moratto</span>
-          </figcaption>
-        </figure>
-        <figure class="nat-obra">
-          <button
-            type="button"
-            class="nat-obra__disparador"
-            data-lightbox="galeria-aves"
-            data-lightbox-caption="Machetornis rixosa — Foto: José Belisario Cardenas"
-          >
-            <img
-              src="img/aves/ave-42-machetornis-rixosa.jpg"
-              width="1300"
-              height="1040"
-              loading="lazy"
-              decoding="async"
-              alt="Machetornis rixosa en Vegas del Verde — fotografía de José Belisario Cardenas"
-            />
-          </button>
-          <figcaption class="nat-obra__pie">
-            <span class="nat-obra__especie nat-cientifico">Machetornis rixosa</span>
-            <span class="nat-obra__autor">Foto: José Belisario Cardenas</span>
-          </figcaption>
-        </figure>
-        <figure class="nat-obra">
-          <button
-            type="button"
-            class="nat-obra__disparador"
-            data-lightbox="galeria-aves"
+            data-lightbox="muro-aves"
             data-lightbox-caption="Thamnophilus multistriatus — Foto: José Belisario Cardenas"
           >
             <img
@@ -584,7 +332,7 @@
               height="1300"
               loading="lazy"
               decoding="async"
-              alt="Thamnophilus multistriatus en Vegas del Verde — fotografía de José Belisario Cardenas"
+              alt="Thamnophilus multistriatus en el arbolado de Vegas del Verde, fotografía de José Belisario Cardenas"
             />
           </button>
           <figcaption class="nat-obra__pie">
@@ -596,28 +344,91 @@
           <button
             type="button"
             class="nat-obra__disparador"
-            data-lightbox="galeria-aves"
-            data-lightbox-caption="Tityra inquisitor — Foto: José Belisario Cardenas"
+            data-lightbox="muro-aves"
+            data-lightbox-caption="Barranquero — Foto: Carlos Serrano"
           >
             <img
-              src="img/aves/ave-44-tityra-inquisitor.jpg"
-              width="1040"
+              src="img/aves/ave-12-barranquero.jpg"
+              width="975"
               height="1300"
               loading="lazy"
               decoding="async"
-              alt="Tityra inquisitor en Vegas del Verde — fotografía de José Belisario Cardenas"
+              alt="Barranquero en el arbolado de Vegas del Verde, fotografía de Carlos Serrano"
             />
           </button>
           <figcaption class="nat-obra__pie">
-            <span class="nat-obra__especie nat-cientifico">Tityra inquisitor</span>
-            <span class="nat-obra__autor">Foto: José Belisario Cardenas</span>
+            <span class="nat-obra__especie">Barranquero</span>
+            <span class="nat-obra__autor">Foto: Carlos Serrano</span>
           </figcaption>
         </figure>
         <figure class="nat-obra">
           <button
             type="button"
             class="nat-obra__disparador"
-            data-lightbox="galeria-aves"
+            data-lightbox="muro-aves"
+            data-lightbox-caption="Cucú ardilla — Foto: Andrea Elizabeth"
+          >
+            <img
+              src="img/aves/ave-10-trepa-troncos.jpg"
+              width="813"
+              height="1300"
+              loading="lazy"
+              decoding="async"
+              alt="Cucú ardilla en el arbolado de Vegas del Verde, fotografía de Andrea Elizabeth"
+            />
+          </button>
+          <figcaption class="nat-obra__pie">
+            <span class="nat-obra__especie">Cucú ardilla</span>
+            <span class="nat-obra__autor">Foto: Andrea Elizabeth</span>
+          </figcaption>
+        </figure>
+        <figure class="nat-obra">
+          <button
+            type="button"
+            class="nat-obra__disparador"
+            data-lightbox="muro-aves"
+            data-lightbox-caption="Trepatroncos — Foto: Andrea Elizabeth"
+          >
+            <img
+              src="img/aves/ave-08-cucu-ardilla.jpg"
+              width="1300"
+              height="1023"
+              loading="lazy"
+              decoding="async"
+              alt="Trepatroncos en el arbolado de Vegas del Verde, fotografía de Andrea Elizabeth"
+            />
+          </button>
+          <figcaption class="nat-obra__pie">
+            <span class="nat-obra__especie">Trepatroncos</span>
+            <span class="nat-obra__autor">Foto: Andrea Elizabeth</span>
+          </figcaption>
+        </figure>
+        <figure class="nat-obra">
+          <button
+            type="button"
+            class="nat-obra__disparador"
+            data-lightbox="muro-aves"
+            data-lightbox-caption="Periquito bronceado — Foto: Fabiola Rueda"
+          >
+            <img
+              src="img/aves/ave-31-periquito-bronceado.jpg"
+              width="867"
+              height="1300"
+              loading="lazy"
+              decoding="async"
+              alt="Periquito bronceado en el arbolado de Vegas del Verde, fotografía de Fabiola Rueda"
+            />
+          </button>
+          <figcaption class="nat-obra__pie">
+            <span class="nat-obra__especie">Periquito bronceado</span>
+            <span class="nat-obra__autor">Foto: Fabiola Rueda</span>
+          </figcaption>
+        </figure>
+        <figure class="nat-obra">
+          <button
+            type="button"
+            class="nat-obra__disparador"
+            data-lightbox="muro-aves"
             data-lightbox-caption="Sinsonte — Foto: Sergio Barreto"
           >
             <img
@@ -626,7 +437,7 @@
               height="867"
               loading="lazy"
               decoding="async"
-              alt="Sinsonte en Vegas del Verde — fotografía de Sergio Barreto"
+              alt="Sinsonte en el arbolado de Vegas del Verde, fotografía de Sergio Barreto"
             />
           </button>
           <figcaption class="nat-obra__pie">
@@ -638,28 +449,49 @@
           <button
             type="button"
             class="nat-obra__disparador"
-            data-lightbox="galeria-aves"
-            data-lightbox-caption="Colibrí — Foto: Jesus Lopez"
+            data-lightbox="muro-aves"
+            data-lightbox-caption="Chondrohierax uncinatus — Foto: Leyner Lozano"
           >
             <img
-              src="img/aves/ave-39-colibri.jpg"
-              width="1300"
-              height="1040"
+              src="img/aves/ave-45-chondrohierax-uncinatus.jpg"
+              width="867"
+              height="1300"
               loading="lazy"
               decoding="async"
-              alt="Colibrí en Vegas del Verde — fotografía de Jesus Lopez"
+              alt="Chondrohierax uncinatus en el arbolado de Vegas del Verde, fotografía de Leyner Lozano"
             />
           </button>
           <figcaption class="nat-obra__pie">
-            <span class="nat-obra__especie">Colibrí</span>
-            <span class="nat-obra__autor">Foto: Jesus Lopez</span>
+            <span class="nat-obra__especie nat-cientifico">Chondrohierax uncinatus</span>
+            <span class="nat-obra__autor">Foto: Leyner Lozano</span>
           </figcaption>
         </figure>
         <figure class="nat-obra">
           <button
             type="button"
             class="nat-obra__disparador"
-            data-lightbox="galeria-aves"
+            data-lightbox="muro-aves"
+            data-lightbox-caption="Todirostrum cinereum — Foto: Jaime Suarez"
+          >
+            <img
+              src="img/aves/ave-37-todirostrumcinereum-foto-01.jpg"
+              width="1107"
+              height="1300"
+              loading="lazy"
+              decoding="async"
+              alt="Todirostrum cinereum en el arbolado de Vegas del Verde, fotografía de Jaime Suarez"
+            />
+          </button>
+          <figcaption class="nat-obra__pie">
+            <span class="nat-obra__especie nat-cientifico">Todirostrum cinereum</span>
+            <span class="nat-obra__autor">Foto: Jaime Suarez</span>
+          </figcaption>
+        </figure>
+        <figure class="nat-obra">
+          <button
+            type="button"
+            class="nat-obra__disparador"
+            data-lightbox="muro-aves"
             data-lightbox-caption="Batará carcajada — Foto: Carlos Serrano"
           >
             <img
@@ -668,7 +500,7 @@
               height="1300"
               loading="lazy"
               decoding="async"
-              alt="Batará carcajada en Vegas del Verde — fotografía de Carlos Serrano"
+              alt="Batará carcajada en el arbolado de Vegas del Verde, fotografía de Carlos Serrano"
             />
           </button>
           <figcaption class="nat-obra__pie">
@@ -676,16 +508,58 @@
             <span class="nat-obra__autor">Foto: Carlos Serrano</span>
           </figcaption>
         </figure>
+        <figure class="nat-obra">
+          <button
+            type="button"
+            class="nat-obra__disparador"
+            data-lightbox="muro-aves"
+            data-lightbox-caption="Eufonia piquigruesa — Foto: Francheska Salazar"
+          >
+            <img
+              src="img/aves/ave-34-eufonia-piquigruesa.jpg"
+              width="1040"
+              height="1300"
+              loading="lazy"
+              decoding="async"
+              alt="Eufonia piquigruesa en el arbolado de Vegas del Verde, fotografía de Francheska Salazar"
+            />
+          </button>
+          <figcaption class="nat-obra__pie">
+            <span class="nat-obra__especie">Eufonia piquigruesa</span>
+            <span class="nat-obra__autor">Foto: Francheska Salazar</span>
+          </figcaption>
+        </figure>
+        <figure class="nat-obra">
+          <button
+            type="button"
+            class="nat-obra__disparador"
+            data-lightbox="muro-aves"
+            data-lightbox-caption="Churica, azulejo y tángara palmarum — Foto: Yeraldilsa Gamboa"
+          >
+            <img
+              src="img/aves/ave-57-churica-azulejo-tangara-palmarum.jpg"
+              width="1300"
+              height="1300"
+              loading="lazy"
+              decoding="async"
+              alt="Churica, azulejo y tángara palmarum en el arbolado de Vegas del Verde, fotografía de Yeraldilsa Gamboa"
+            />
+          </button>
+          <figcaption class="nat-obra__pie">
+            <span class="nat-obra__especie">Churica, azulejo y tángara palmarum</span>
+            <span class="nat-obra__autor">Foto: Yeraldilsa Gamboa</span>
+          </figcaption>
+        </figure>
       </div>
 
       <details class="nat-mas">
-        <summary class="btn btn-fantasma nat-mas__boton">Ver las 43 fotografías restantes</summary>
+        <summary class="btn btn-secundario nat-mas__boton">Abrir el archivo completo</summary>
         <div class="nat-muro nat-muro--resto">
           <figure class="nat-obra">
             <button
               type="button"
               class="nat-obra__disparador"
-              data-lightbox="galeria-aves"
+              data-lightbox="muro-aves"
               data-lightbox-caption="Ave del predio — Foto: Arturo Sepulveda"
             >
               <img
@@ -694,7 +568,7 @@
                 height="975"
                 loading="lazy"
                 decoding="async"
-                alt="Ave silvestre posada entre la vegetación de Vegas del Verde — fotografía de Arturo Sepulveda"
+                alt="Ave sin identificar, fotografiada en Vegas del Verde por Arturo Sepulveda"
               />
             </button>
             <figcaption class="nat-obra__pie">
@@ -706,7 +580,7 @@
             <button
               type="button"
               class="nat-obra__disparador"
-              data-lightbox="galeria-aves"
+              data-lightbox="muro-aves"
               data-lightbox-caption="Ave del predio — Foto: Fabio Hernandez"
             >
               <img
@@ -715,7 +589,7 @@
                 height="887"
                 loading="lazy"
                 decoding="async"
-                alt="Ave silvestre posada entre la vegetación de Vegas del Verde — fotografía de Fabio Hernandez"
+                alt="Ave sin identificar, fotografiada en Vegas del Verde por Fabio Hernandez"
               />
             </button>
             <figcaption class="nat-obra__pie">
@@ -727,7 +601,7 @@
             <button
               type="button"
               class="nat-obra__disparador"
-              data-lightbox="galeria-aves"
+              data-lightbox="muro-aves"
               data-lightbox-caption="Thraupis episcopus — Foto: Fernando Caceres"
             >
               <img
@@ -736,7 +610,7 @@
                 height="1300"
                 loading="lazy"
                 decoding="async"
-                alt="Thraupis episcopus en Vegas del Verde — fotografía de Fernando Caceres"
+                alt="Thraupis episcopus en el arbolado de Vegas del Verde, fotografía de Fernando Caceres"
               />
             </button>
             <figcaption class="nat-obra__pie">
@@ -748,7 +622,7 @@
             <button
               type="button"
               class="nat-obra__disparador"
-              data-lightbox="galeria-aves"
+              data-lightbox="muro-aves"
               data-lightbox-caption="Azulejo palmero — Foto: Francheska Salazar"
             >
               <img
@@ -757,7 +631,7 @@
                 height="1039"
                 loading="lazy"
                 decoding="async"
-                alt="Azulejo palmero en Vegas del Verde — fotografía de Francheska Salazar"
+                alt="Azulejo palmero en el arbolado de Vegas del Verde, fotografía de Francheska Salazar"
               />
             </button>
             <figcaption class="nat-obra__pie">
@@ -769,7 +643,7 @@
             <button
               type="button"
               class="nat-obra__disparador"
-              data-lightbox="galeria-aves"
+              data-lightbox="muro-aves"
               data-lightbox-caption="Zorzal piquinegro — Foto: Francheska Salazar"
             >
               <img
@@ -778,7 +652,7 @@
                 height="1040"
                 loading="lazy"
                 decoding="async"
-                alt="Zorzal piquinegro en Vegas del Verde — fotografía de Francheska Salazar"
+                alt="Zorzal piquinegro en el arbolado de Vegas del Verde, fotografía de Francheska Salazar"
               />
             </button>
             <figcaption class="nat-obra__pie">
@@ -790,7 +664,7 @@
             <button
               type="button"
               class="nat-obra__disparador"
-              data-lightbox="galeria-aves"
+              data-lightbox="muro-aves"
               data-lightbox-caption="Piaya cayana — Foto: Jonathan Layton Avila"
             >
               <img
@@ -799,7 +673,7 @@
                 height="1300"
                 loading="lazy"
                 decoding="async"
-                alt="Piaya cayana en Vegas del Verde — fotografía de Jonathan Layton Avila"
+                alt="Piaya cayana en el arbolado de Vegas del Verde, fotografía de Jonathan Layton Avila"
               />
             </button>
             <figcaption class="nat-obra__pie">
@@ -811,28 +685,28 @@
             <button
               type="button"
               class="nat-obra__disparador"
-              data-lightbox="galeria-aves"
-              data-lightbox-caption="Trepatroncos — Foto: Andrea Elizabeth"
+              data-lightbox="muro-aves"
+              data-lightbox-caption="Thraupis episcopus — Foto: Jonathan Layton Avila"
             >
               <img
-                src="img/aves/ave-08-cucu-ardilla.jpg"
-                width="1300"
-                height="1023"
+                src="img/aves/ave-07-thraupis-episcopus.jpg"
+                width="1040"
+                height="1300"
                 loading="lazy"
                 decoding="async"
-                alt="Trepatroncos en Vegas del Verde — fotografía de Andrea Elizabeth"
+                alt="Thraupis episcopus en el arbolado de Vegas del Verde, fotografía de Jonathan Layton Avila"
               />
             </button>
             <figcaption class="nat-obra__pie">
-              <span class="nat-obra__especie">Trepatroncos</span>
-              <span class="nat-obra__autor">Foto: Andrea Elizabeth</span>
+              <span class="nat-obra__especie nat-cientifico">Thraupis episcopus</span>
+              <span class="nat-obra__autor">Foto: Jonathan Layton Avila</span>
             </figcaption>
           </figure>
           <figure class="nat-obra">
             <button
               type="button"
               class="nat-obra__disparador"
-              data-lightbox="galeria-aves"
+              data-lightbox="muro-aves"
               data-lightbox-caption="Eugenia piquigruesa — Foto: Andrea Elizabeth"
             >
               <img
@@ -841,7 +715,7 @@
                 height="1300"
                 loading="lazy"
                 decoding="async"
-                alt="Eugenia piquigruesa en Vegas del Verde — fotografía de Andrea Elizabeth"
+                alt="Eugenia piquigruesa en el arbolado de Vegas del Verde, fotografía de Andrea Elizabeth"
               />
             </button>
             <figcaption class="nat-obra__pie">
@@ -853,28 +727,7 @@
             <button
               type="button"
               class="nat-obra__disparador"
-              data-lightbox="galeria-aves"
-              data-lightbox-caption="Cucú ardilla — Foto: Andrea Elizabeth"
-            >
-              <img
-                src="img/aves/ave-10-trepa-troncos.jpg"
-                width="813"
-                height="1300"
-                loading="lazy"
-                decoding="async"
-                alt="Cucú ardilla en Vegas del Verde — fotografía de Andrea Elizabeth"
-              />
-            </button>
-            <figcaption class="nat-obra__pie">
-              <span class="nat-obra__especie">Cucú ardilla</span>
-              <span class="nat-obra__autor">Foto: Andrea Elizabeth</span>
-            </figcaption>
-          </figure>
-          <figure class="nat-obra">
-            <button
-              type="button"
-              class="nat-obra__disparador"
-              data-lightbox="galeria-aves"
+              data-lightbox="muro-aves"
               data-lightbox-caption="Ave del predio — Foto: Arturo Sepulveda"
             >
               <img
@@ -883,7 +736,7 @@
                 height="1300"
                 loading="lazy"
                 decoding="async"
-                alt="Ave silvestre posada entre la vegetación de Vegas del Verde — fotografía de Arturo Sepulveda"
+                alt="Ave sin identificar, fotografiada en Vegas del Verde por Arturo Sepulveda"
               />
             </button>
             <figcaption class="nat-obra__pie">
@@ -895,28 +748,7 @@
             <button
               type="button"
               class="nat-obra__disparador"
-              data-lightbox="galeria-aves"
-              data-lightbox-caption="Barranquero — Foto: Carlos Serrano"
-            >
-              <img
-                src="img/aves/ave-12-barranquero.jpg"
-                width="975"
-                height="1300"
-                loading="lazy"
-                decoding="async"
-                alt="Barranquero en Vegas del Verde — fotografía de Carlos Serrano"
-              />
-            </button>
-            <figcaption class="nat-obra__pie">
-              <span class="nat-obra__especie">Barranquero</span>
-              <span class="nat-obra__autor">Foto: Carlos Serrano</span>
-            </figcaption>
-          </figure>
-          <figure class="nat-obra">
-            <button
-              type="button"
-              class="nat-obra__disparador"
-              data-lightbox="galeria-aves"
+              data-lightbox="muro-aves"
               data-lightbox-caption="Saltador pío — Foto: Carlos Serrano"
             >
               <img
@@ -925,7 +757,7 @@
                 height="975"
                 loading="lazy"
                 decoding="async"
-                alt="Saltador pío en Vegas del Verde — fotografía de Carlos Serrano"
+                alt="Saltador pío en el arbolado de Vegas del Verde, fotografía de Carlos Serrano"
               />
             </button>
             <figcaption class="nat-obra__pie">
@@ -937,7 +769,7 @@
             <button
               type="button"
               class="nat-obra__disparador"
-              data-lightbox="galeria-aves"
+              data-lightbox="muro-aves"
               data-lightbox-caption="Tityra inquisitor · hembra — Foto: Daniel Arango"
             >
               <img
@@ -946,7 +778,7 @@
                 height="1120"
                 loading="lazy"
                 decoding="async"
-                alt="Tityra inquisitor · hembra en Vegas del Verde — fotografía de Daniel Arango"
+                alt="Tityra inquisitor · hembra en el arbolado de Vegas del Verde, fotografía de Daniel Arango"
               />
             </button>
             <figcaption class="nat-obra__pie">
@@ -958,7 +790,7 @@
             <button
               type="button"
               class="nat-obra__disparador"
-              data-lightbox="galeria-aves"
+              data-lightbox="muro-aves"
               data-lightbox-caption="Tityra inquisitor · macho — Foto: Daniel Arango"
             >
               <img
@@ -967,7 +799,7 @@
                 height="867"
                 loading="lazy"
                 decoding="async"
-                alt="Tityra inquisitor · macho en Vegas del Verde — fotografía de Daniel Arango"
+                alt="Tityra inquisitor · macho en el arbolado de Vegas del Verde, fotografía de Daniel Arango"
               />
             </button>
             <figcaption class="nat-obra__pie">
@@ -979,7 +811,7 @@
             <button
               type="button"
               class="nat-obra__disparador"
-              data-lightbox="galeria-aves"
+              data-lightbox="muro-aves"
               data-lightbox-caption="Tityra inquisitor · hembra — Foto: Daniel Arango"
             >
               <img
@@ -988,7 +820,7 @@
                 height="1053"
                 loading="lazy"
                 decoding="async"
-                alt="Tityra inquisitor · hembra en Vegas del Verde — fotografía de Daniel Arango"
+                alt="Tityra inquisitor · hembra en el arbolado de Vegas del Verde, fotografía de Daniel Arango"
               />
             </button>
             <figcaption class="nat-obra__pie">
@@ -1000,7 +832,7 @@
             <button
               type="button"
               class="nat-obra__disparador"
-              data-lightbox="galeria-aves"
+              data-lightbox="muro-aves"
               data-lightbox-caption="Brotogeris jugularis — Foto: Diego Cespedes"
             >
               <img
@@ -1009,7 +841,7 @@
                 height="1300"
                 loading="lazy"
                 decoding="async"
-                alt="Brotogeris jugularis en Vegas del Verde — fotografía de Diego Cespedes"
+                alt="Brotogeris jugularis en el arbolado de Vegas del Verde, fotografía de Diego Cespedes"
               />
             </button>
             <figcaption class="nat-obra__pie">
@@ -1021,7 +853,7 @@
             <button
               type="button"
               class="nat-obra__disparador"
-              data-lightbox="galeria-aves"
+              data-lightbox="muro-aves"
               data-lightbox-caption="Brotogeris jugularis — Foto: Diego Cespedes"
             >
               <img
@@ -1030,7 +862,7 @@
                 height="867"
                 loading="lazy"
                 decoding="async"
-                alt="Brotogeris jugularis en Vegas del Verde — fotografía de Diego Cespedes"
+                alt="Brotogeris jugularis en el arbolado de Vegas del Verde, fotografía de Diego Cespedes"
               />
             </button>
             <figcaption class="nat-obra__pie">
@@ -1042,7 +874,7 @@
             <button
               type="button"
               class="nat-obra__disparador"
-              data-lightbox="galeria-aves"
+              data-lightbox="muro-aves"
               data-lightbox-caption="Ave del predio — Foto: Diego Fernando Salazar"
             >
               <img
@@ -1051,7 +883,7 @@
                 height="731"
                 loading="lazy"
                 decoding="async"
-                alt="Ave silvestre posada entre la vegetación de Vegas del Verde — fotografía de Diego Fernando Salazar"
+                alt="Ave sin identificar, fotografiada en Vegas del Verde por Diego Fernando Salazar"
               />
             </button>
             <figcaption class="nat-obra__pie">
@@ -1063,7 +895,7 @@
             <button
               type="button"
               class="nat-obra__disparador"
-              data-lightbox="galeria-aves"
+              data-lightbox="muro-aves"
               data-lightbox-caption="Ave del predio — Foto: Diego Fernando Salazar"
             >
               <img
@@ -1072,7 +904,7 @@
                 height="1107"
                 loading="lazy"
                 decoding="async"
-                alt="Ave silvestre posada entre la vegetación de Vegas del Verde — fotografía de Diego Fernando Salazar"
+                alt="Ave sin identificar, fotografiada en Vegas del Verde por Diego Fernando Salazar"
               />
             </button>
             <figcaption class="nat-obra__pie">
@@ -1084,7 +916,7 @@
             <button
               type="button"
               class="nat-obra__disparador"
-              data-lightbox="galeria-aves"
+              data-lightbox="muro-aves"
               data-lightbox-caption="Ave del predio — Foto: Diego Fernando Salazar"
             >
               <img
@@ -1093,7 +925,7 @@
                 height="939"
                 loading="lazy"
                 decoding="async"
-                alt="Ave silvestre posada entre la vegetación de Vegas del Verde — fotografía de Diego Fernando Salazar"
+                alt="Ave sin identificar, fotografiada en Vegas del Verde por Diego Fernando Salazar"
               />
             </button>
             <figcaption class="nat-obra__pie">
@@ -1105,7 +937,7 @@
             <button
               type="button"
               class="nat-obra__disparador"
-              data-lightbox="galeria-aves"
+              data-lightbox="muro-aves"
               data-lightbox-caption="Ave del predio — Foto: Diego Fernando Salazar"
             >
               <img
@@ -1114,7 +946,7 @@
                 height="731"
                 loading="lazy"
                 decoding="async"
-                alt="Ave silvestre posada entre la vegetación de Vegas del Verde — fotografía de Diego Fernando Salazar"
+                alt="Ave sin identificar, fotografiada en Vegas del Verde por Diego Fernando Salazar"
               />
             </button>
             <figcaption class="nat-obra__pie">
@@ -1126,8 +958,8 @@
             <button
               type="button"
               class="nat-obra__disparador"
-              data-lightbox="galeria-aves"
-              data-lightbox-caption="Ave del predio — Foto: Diego Fernando Salazar"
+              data-lightbox="muro-aves"
+              data-lightbox-caption="Aves del predio — Foto: Diego Fernando Salazar"
             >
               <img
                 src="img/aves/ave-24-vegas.jpg"
@@ -1135,11 +967,11 @@
                 height="1098"
                 loading="lazy"
                 decoding="async"
-                alt="Ave silvestre posada entre la vegetación de Vegas del Verde — fotografía de Diego Fernando Salazar"
+                alt="Dos periquitos verdes posados en un tronco seco, recortados contra el cielo, fotografiados en Vegas del Verde por Diego Fernando Salazar"
               />
             </button>
             <figcaption class="nat-obra__pie">
-              <span class="nat-obra__especie nat-obra__especie--anonima">Ave del predio</span>
+              <span class="nat-obra__especie nat-obra__especie--anonima">Aves del predio</span>
               <span class="nat-obra__autor">Foto: Diego Fernando Salazar</span>
             </figcaption>
           </figure>
@@ -1147,7 +979,28 @@
             <button
               type="button"
               class="nat-obra__disparador"
-              data-lightbox="galeria-aves"
+              data-lightbox="muro-aves"
+              data-lightbox-caption="Eufonia piquigruesa — Foto: Erit Moratto"
+            >
+              <img
+                src="img/aves/ave-25-eufonia-piquigruesa.jpg"
+                width="1300"
+                height="867"
+                loading="lazy"
+                decoding="async"
+                alt="Eufonia piquigruesa en el arbolado de Vegas del Verde, fotografía de Erit Moratto"
+              />
+            </button>
+            <figcaption class="nat-obra__pie">
+              <span class="nat-obra__especie">Eufonia piquigruesa</span>
+              <span class="nat-obra__autor">Foto: Erit Moratto</span>
+            </figcaption>
+          </figure>
+          <figure class="nat-obra">
+            <button
+              type="button"
+              class="nat-obra__disparador"
+              data-lightbox="muro-aves"
               data-lightbox-caption="Azulejo — Foto: Erit Moratto"
             >
               <img
@@ -1156,7 +1009,7 @@
                 height="1300"
                 loading="lazy"
                 decoding="async"
-                alt="Azulejo en Vegas del Verde — fotografía de Erit Moratto"
+                alt="Azulejo en el arbolado de Vegas del Verde, fotografía de Erit Moratto"
               />
             </button>
             <figcaption class="nat-obra__pie">
@@ -1168,7 +1021,28 @@
             <button
               type="button"
               class="nat-obra__disparador"
-              data-lightbox="galeria-aves"
+              data-lightbox="muro-aves"
+              data-lightbox-caption="Colibrí — Foto: Erit Moratto"
+            >
+              <img
+                src="img/aves/ave-27-colibri.jpg"
+                width="867"
+                height="1300"
+                loading="lazy"
+                decoding="async"
+                alt="Colibrí en el arbolado de Vegas del Verde, fotografía de Erit Moratto"
+              />
+            </button>
+            <figcaption class="nat-obra__pie">
+              <span class="nat-obra__especie">Colibrí</span>
+              <span class="nat-obra__autor">Foto: Erit Moratto</span>
+            </figcaption>
+          </figure>
+          <figure class="nat-obra">
+            <button
+              type="button"
+              class="nat-obra__disparador"
+              data-lightbox="muro-aves"
               data-lightbox-caption="Loros — Foto: Fabio Hernandez"
             >
               <img
@@ -1177,7 +1051,7 @@
                 height="1017"
                 loading="lazy"
                 decoding="async"
-                alt="Loros en Vegas del Verde — fotografía de Fabio Hernandez"
+                alt="Loros en el arbolado de Vegas del Verde, fotografía de Fabio Hernandez"
               />
             </button>
             <figcaption class="nat-obra__pie">
@@ -1189,7 +1063,7 @@
             <button
               type="button"
               class="nat-obra__disparador"
-              data-lightbox="galeria-aves"
+              data-lightbox="muro-aves"
               data-lightbox-caption="Ave del predio — Foto: Fabio Hernandez"
             >
               <img
@@ -1198,7 +1072,7 @@
                 height="867"
                 loading="lazy"
                 decoding="async"
-                alt="Ave silvestre posada entre la vegetación de Vegas del Verde — fotografía de Fabio Hernandez"
+                alt="Ave sin identificar, fotografiada en Vegas del Verde por Fabio Hernandez"
               />
             </button>
             <figcaption class="nat-obra__pie">
@@ -1210,7 +1084,7 @@
             <button
               type="button"
               class="nat-obra__disparador"
-              data-lightbox="galeria-aves"
+              data-lightbox="muro-aves"
               data-lightbox-caption="Azulejo — Foto: Fabiola Rueda"
             >
               <img
@@ -1219,7 +1093,7 @@
                 height="1300"
                 loading="lazy"
                 decoding="async"
-                alt="Azulejo en Vegas del Verde — fotografía de Fabiola Rueda"
+                alt="Azulejo en el arbolado de Vegas del Verde, fotografía de Fabiola Rueda"
               />
             </button>
             <figcaption class="nat-obra__pie">
@@ -1231,7 +1105,7 @@
             <button
               type="button"
               class="nat-obra__disparador"
-              data-lightbox="galeria-aves"
+              data-lightbox="muro-aves"
               data-lightbox-caption="Euphonia — Foto: Fabiola Rueda"
             >
               <img
@@ -1240,7 +1114,7 @@
                 height="866"
                 loading="lazy"
                 decoding="async"
-                alt="Euphonia en Vegas del Verde — fotografía de Fabiola Rueda"
+                alt="Euphonia en el arbolado de Vegas del Verde, fotografía de Fabiola Rueda"
               />
             </button>
             <figcaption class="nat-obra__pie">
@@ -1252,7 +1126,7 @@
             <button
               type="button"
               class="nat-obra__disparador"
-              data-lightbox="galeria-aves"
+              data-lightbox="muro-aves"
               data-lightbox-caption="Loro real — Foto: Fabiola Rueda"
             >
               <img
@@ -1261,7 +1135,7 @@
                 height="1300"
                 loading="lazy"
                 decoding="async"
-                alt="Loro real en Vegas del Verde — fotografía de Fabiola Rueda"
+                alt="Loro real en el arbolado de Vegas del Verde, fotografía de Fabiola Rueda"
               />
             </button>
             <figcaption class="nat-obra__pie">
@@ -1273,28 +1147,7 @@
             <button
               type="button"
               class="nat-obra__disparador"
-              data-lightbox="galeria-aves"
-              data-lightbox-caption="Eufonía piquigruesa — Foto: Francheska Salazar"
-            >
-              <img
-                src="img/aves/ave-34-eufonia-piquigruesa.jpg"
-                width="1040"
-                height="1300"
-                loading="lazy"
-                decoding="async"
-                alt="Eufonía piquigruesa en Vegas del Verde — fotografía de Francheska Salazar"
-              />
-            </button>
-            <figcaption class="nat-obra__pie">
-              <span class="nat-obra__especie">Eufonía piquigruesa</span>
-              <span class="nat-obra__autor">Foto: Francheska Salazar</span>
-            </figcaption>
-          </figure>
-          <figure class="nat-obra">
-            <button
-              type="button"
-              class="nat-obra__disparador"
-              data-lightbox="galeria-aves"
+              data-lightbox="muro-aves"
               data-lightbox-caption="Amazilia tzacatl — Foto: Jaime Suarez"
             >
               <img
@@ -1303,7 +1156,7 @@
                 height="1300"
                 loading="lazy"
                 decoding="async"
-                alt="Amazilia tzacatl en Vegas del Verde — fotografía de Jaime Suarez"
+                alt="Amazilia tzacatl en el arbolado de Vegas del Verde, fotografía de Jaime Suarez"
               />
             </button>
             <figcaption class="nat-obra__pie">
@@ -1315,7 +1168,7 @@
             <button
               type="button"
               class="nat-obra__disparador"
-              data-lightbox="galeria-aves"
+              data-lightbox="muro-aves"
               data-lightbox-caption="Forpus conspicillatus — Foto: Jaime Suarez"
             >
               <img
@@ -1324,7 +1177,7 @@
                 height="1300"
                 loading="lazy"
                 decoding="async"
-                alt="Forpus conspicillatus en Vegas del Verde — fotografía de Jaime Suarez"
+                alt="Forpus conspicillatus en el arbolado de Vegas del Verde, fotografía de Jaime Suarez"
               />
             </button>
             <figcaption class="nat-obra__pie">
@@ -1336,28 +1189,49 @@
             <button
               type="button"
               class="nat-obra__disparador"
-              data-lightbox="galeria-aves"
-              data-lightbox-caption="Todirostrum cinereum — Foto: Jaime Suarez"
+              data-lightbox="muro-aves"
+              data-lightbox-caption="Carpintero — Foto: Jesus Lopez"
             >
               <img
-                src="img/aves/ave-37-todirostrumcinereum-foto-01.jpg"
-                width="1107"
-                height="1300"
+                src="img/aves/ave-38-carpintero.jpg"
+                width="1300"
+                height="1040"
                 loading="lazy"
                 decoding="async"
-                alt="Todirostrum cinereum en Vegas del Verde — fotografía de Jaime Suarez"
+                alt="Carpintero en el arbolado de Vegas del Verde, fotografía de Jesus Lopez"
               />
             </button>
             <figcaption class="nat-obra__pie">
-              <span class="nat-obra__especie nat-cientifico">Todirostrum cinereum</span>
-              <span class="nat-obra__autor">Foto: Jaime Suarez</span>
+              <span class="nat-obra__especie">Carpintero</span>
+              <span class="nat-obra__autor">Foto: Jesus Lopez</span>
             </figcaption>
           </figure>
           <figure class="nat-obra">
             <button
               type="button"
               class="nat-obra__disparador"
-              data-lightbox="galeria-aves"
+              data-lightbox="muro-aves"
+              data-lightbox-caption="Colibrí — Foto: Jesus Lopez"
+            >
+              <img
+                src="img/aves/ave-39-colibri.jpg"
+                width="1300"
+                height="1040"
+                loading="lazy"
+                decoding="async"
+                alt="Colibrí en el arbolado de Vegas del Verde, fotografía de Jesus Lopez"
+              />
+            </button>
+            <figcaption class="nat-obra__pie">
+              <span class="nat-obra__especie">Colibrí</span>
+              <span class="nat-obra__autor">Foto: Jesus Lopez</span>
+            </figcaption>
+          </figure>
+          <figure class="nat-obra">
+            <button
+              type="button"
+              class="nat-obra__disparador"
+              data-lightbox="muro-aves"
               data-lightbox-caption="Tirano siriri — Foto: Jesus Lopez"
             >
               <img
@@ -1366,7 +1240,7 @@
                 height="975"
                 loading="lazy"
                 decoding="async"
-                alt="Tirano siriri en Vegas del Verde — fotografía de Jesus Lopez"
+                alt="Tirano siriri en el arbolado de Vegas del Verde, fotografía de Jesus Lopez"
               />
             </button>
             <figcaption class="nat-obra__pie">
@@ -1378,7 +1252,7 @@
             <button
               type="button"
               class="nat-obra__disparador"
-              data-lightbox="galeria-aves"
+              data-lightbox="muro-aves"
               data-lightbox-caption="Todirostrum cinereum — Foto: Jonathan Layton Avila"
             >
               <img
@@ -1387,7 +1261,7 @@
                 height="1300"
                 loading="lazy"
                 decoding="async"
-                alt="Todirostrum cinereum en Vegas del Verde — fotografía de Jonathan Layton Avila"
+                alt="Todirostrum cinereum en el arbolado de Vegas del Verde, fotografía de Jonathan Layton Avila"
               />
             </button>
             <figcaption class="nat-obra__pie">
@@ -1399,7 +1273,49 @@
             <button
               type="button"
               class="nat-obra__disparador"
-              data-lightbox="galeria-aves"
+              data-lightbox="muro-aves"
+              data-lightbox-caption="Machetornis rixosa — Foto: José Belisario Cardenas"
+            >
+              <img
+                src="img/aves/ave-42-machetornis-rixosa.jpg"
+                width="1300"
+                height="1040"
+                loading="lazy"
+                decoding="async"
+                alt="Machetornis rixosa en el arbolado de Vegas del Verde, fotografía de José Belisario Cardenas"
+              />
+            </button>
+            <figcaption class="nat-obra__pie">
+              <span class="nat-obra__especie nat-cientifico">Machetornis rixosa</span>
+              <span class="nat-obra__autor">Foto: José Belisario Cardenas</span>
+            </figcaption>
+          </figure>
+          <figure class="nat-obra">
+            <button
+              type="button"
+              class="nat-obra__disparador"
+              data-lightbox="muro-aves"
+              data-lightbox-caption="Tityra inquisitor — Foto: José Belisario Cardenas"
+            >
+              <img
+                src="img/aves/ave-44-tityra-inquisitor.jpg"
+                width="1040"
+                height="1300"
+                loading="lazy"
+                decoding="async"
+                alt="Tityra inquisitor en el arbolado de Vegas del Verde, fotografía de José Belisario Cardenas"
+              />
+            </button>
+            <figcaption class="nat-obra__pie">
+              <span class="nat-obra__especie nat-cientifico">Tityra inquisitor</span>
+              <span class="nat-obra__autor">Foto: José Belisario Cardenas</span>
+            </figcaption>
+          </figure>
+          <figure class="nat-obra">
+            <button
+              type="button"
+              class="nat-obra__disparador"
+              data-lightbox="muro-aves"
               data-lightbox-caption="Stilpnia cyanicollis — Foto: Leyner Lozano"
             >
               <img
@@ -1408,7 +1324,7 @@
                 height="1300"
                 loading="lazy"
                 decoding="async"
-                alt="Stilpnia cyanicollis en Vegas del Verde — fotografía de Leyner Lozano"
+                alt="Stilpnia cyanicollis en el arbolado de Vegas del Verde, fotografía de Leyner Lozano"
               />
             </button>
             <figcaption class="nat-obra__pie">
@@ -1420,7 +1336,7 @@
             <button
               type="button"
               class="nat-obra__disparador"
-              data-lightbox="galeria-aves"
+              data-lightbox="muro-aves"
               data-lightbox-caption="Azulejo — Foto: Myriam Villalba"
             >
               <img
@@ -1429,7 +1345,7 @@
                 height="889"
                 loading="lazy"
                 decoding="async"
-                alt="Azulejo en Vegas del Verde — fotografía de Myriam Villalba"
+                alt="Azulejo en el arbolado de Vegas del Verde, fotografía de Myriam Villalba"
               />
             </button>
             <figcaption class="nat-obra__pie">
@@ -1441,7 +1357,7 @@
             <button
               type="button"
               class="nat-obra__disparador"
-              data-lightbox="galeria-aves"
+              data-lightbox="muro-aves"
               data-lightbox-caption="Azulejo — Foto: Myriam Villalba"
             >
               <img
@@ -1450,7 +1366,7 @@
                 height="900"
                 loading="lazy"
                 decoding="async"
-                alt="Azulejo en Vegas del Verde — fotografía de Myriam Villalba"
+                alt="Azulejo en el arbolado de Vegas del Verde, fotografía de Myriam Villalba"
               />
             </button>
             <figcaption class="nat-obra__pie">
@@ -1462,7 +1378,7 @@
             <button
               type="button"
               class="nat-obra__disparador"
-              data-lightbox="galeria-aves"
+              data-lightbox="muro-aves"
               data-lightbox-caption="Canario — Foto: Myriam Villalba"
             >
               <img
@@ -1471,7 +1387,7 @@
                 height="865"
                 loading="lazy"
                 decoding="async"
-                alt="Canario en Vegas del Verde — fotografía de Myriam Villalba"
+                alt="Canario en el arbolado de Vegas del Verde, fotografía de Myriam Villalba"
               />
             </button>
             <figcaption class="nat-obra__pie">
@@ -1483,7 +1399,7 @@
             <button
               type="button"
               class="nat-obra__disparador"
-              data-lightbox="galeria-aves"
+              data-lightbox="muro-aves"
               data-lightbox-caption="Azulejo — Foto: Rutbel Rueda"
             >
               <img
@@ -1492,7 +1408,7 @@
                 height="865"
                 loading="lazy"
                 decoding="async"
-                alt="Azulejo en Vegas del Verde — fotografía de Rutbel Rueda"
+                alt="Azulejo en el arbolado de Vegas del Verde, fotografía de Rutbel Rueda"
               />
             </button>
             <figcaption class="nat-obra__pie">
@@ -1504,7 +1420,7 @@
             <button
               type="button"
               class="nat-obra__disparador"
-              data-lightbox="galeria-aves"
+              data-lightbox="muro-aves"
               data-lightbox-caption="Canario — Foto: Rutbel Rueda"
             >
               <img
@@ -1513,7 +1429,7 @@
                 height="865"
                 loading="lazy"
                 decoding="async"
-                alt="Canario en Vegas del Verde — fotografía de Rutbel Rueda"
+                alt="Canario en el arbolado de Vegas del Verde, fotografía de Rutbel Rueda"
               />
             </button>
             <figcaption class="nat-obra__pie">
@@ -1525,7 +1441,7 @@
             <button
               type="button"
               class="nat-obra__disparador"
-              data-lightbox="galeria-aves"
+              data-lightbox="muro-aves"
               data-lightbox-caption="Cucarachero — Foto: Rutbel Rueda"
             >
               <img
@@ -1534,7 +1450,7 @@
                 height="865"
                 loading="lazy"
                 decoding="async"
-                alt="Cucarachero en Vegas del Verde — fotografía de Rutbel Rueda"
+                alt="Cucarachero en el arbolado de Vegas del Verde, fotografía de Rutbel Rueda"
               />
             </button>
             <figcaption class="nat-obra__pie">
@@ -1546,7 +1462,7 @@
             <button
               type="button"
               class="nat-obra__disparador"
-              data-lightbox="galeria-aves"
+              data-lightbox="muro-aves"
               data-lightbox-caption="Carpintero — Foto: Yeraldilsa Gamboa"
             >
               <img
@@ -1555,7 +1471,7 @@
                 height="1300"
                 loading="lazy"
                 decoding="async"
-                alt="Carpintero en Vegas del Verde — fotografía de Yeraldilsa Gamboa"
+                alt="Carpintero en el arbolado de Vegas del Verde, fotografía de Yeraldilsa Gamboa"
               />
             </button>
             <figcaption class="nat-obra__pie">
@@ -1567,289 +1483,31 @@
             <button
               type="button"
               class="nat-obra__disparador"
-              data-lightbox="galeria-aves"
-              data-lightbox-caption="Churica, azulejo y tángara palmarum — Foto: Yeraldilsa Gamboa"
+              data-lightbox="muro-aves"
+              data-lightbox-caption="Canario — Foto: Yeraldilsa Gamboa"
             >
               <img
-                src="img/aves/ave-57-churica-azulejo-tangara-palmarum.jpg"
+                src="img/aves/ave-56-canario.jpg"
                 width="1300"
                 height="1300"
                 loading="lazy"
                 decoding="async"
-                alt="Churica, azulejo y tángara palmarum en Vegas del Verde — fotografía de Yeraldilsa Gamboa"
+                alt="Canario en el arbolado de Vegas del Verde, fotografía de Yeraldilsa Gamboa"
               />
             </button>
             <figcaption class="nat-obra__pie">
-              <span class="nat-obra__especie">Churica, azulejo y tángara palmarum</span>
+              <span class="nat-obra__especie">Canario</span>
               <span class="nat-obra__autor">Foto: Yeraldilsa Gamboa</span>
             </figcaption>
           </figure>
         </div>
       </details>
 
-      <div class="nat-aves__acciones grupo-botones">
-        <a
-          class="btn btn-whatsapp btn-grande"
-          href="https://wa.me/573166758362?text=Hola%2C%20quiero%20salir%20a%20pajarear%20en%20Vegas%20del%20Verde%3A%20%C2%BFc%C3%B3mo%20reservo%20el%20recorrido%3F"
-          target="_blank"
-          rel="noopener"
-        >
-          Quiero salir a pajarear
-        </a>
-        <p class="nota nat-aves__nota">
-          Las fotografías son de sus autores y se publican con crédito.
-          El recorrido de avistamiento se reserva por WhatsApp.
-        </p>
-      </div>
+      <p class="nota nat-muro-banda__pie">
+        Las fotografías son de sus autores y se publican con crédito.
+      </p>
 
     </div>
   </div>
-</section>
 
-<!-- ==========================================================================
-     (c) BIODIVERSIDAD
-     Las fotos son de los AMBIENTES del predio, no de las especies: no existe
-     fotografía propia de anfibios, reptiles ni mamíferos. El alt describe lo
-     que se ve y la nota lo dice en claro.
-     ========================================================================== -->
-<section id="biodiversidad" class="seccion seccion--alt nat-bio" aria-labelledby="biodiversidad-titulo">
-  <div class="contenedor">
-
-    <header class="seccion-encabezado reveal">
-      <p class="eyebrow">Inventario del predio</p>
-      <h2 id="biodiversidad-titulo" class="titulo-seccion">Aquí no solo hay aves</h2>
-      <p class="entradilla">
-        347 especies de plantas de 20 familias botánicas, 18 de anfibios, 23 de reptiles
-        y 3 de mamíferos, registradas dentro de las cuatro hectáreas. Cada ambiente del
-        predio tiene sus inquilinos.
-      </p>
-    </header>
-
-    <ul class="nat-habitats reveal-secuencia">
-
-      <li class="nat-habitat nat-habitat--ancho reveal">
-        <img
-          class="nat-habitat__foto"
-          src="img/parque/parque-61.jpg"
-          width="900"
-          height="1200"
-          loading="lazy"
-          decoding="async"
-          alt="Huella de piedra entre bromelias y bastones del emperador en flor, bajo los árboles del predio"
-        />
-        <div class="nat-habitat__cuerpo">
-          <p class="nat-habitat__lugar">El jardín</p>
-          <p class="nat-habitat__cifra">347</p>
-          <p class="nat-habitat__etiqueta">Especies de plantas · 20 familias botánicas</p>
-          <p class="nat-habitat__texto">
-            Bromelias, heliconias y árboles grandes conviviendo en el mismo camino.
-          </p>
-        </div>
-      </li>
-
-      <li class="nat-habitat reveal">
-        <img
-          class="nat-habitat__foto"
-          src="img/parque/parque-36.jpg"
-          width="675"
-          height="1200"
-          loading="lazy"
-          decoding="async"
-          alt="Follaje denso de filodendros de hoja grande a la sombra, con plantas de hoja roja al fondo"
-        />
-        <div class="nat-habitat__cuerpo">
-          <p class="nat-habitat__lugar">La sombra del follaje</p>
-          <p class="nat-habitat__cifra">18</p>
-          <p class="nat-habitat__etiqueta">Especies de anfibios</p>
-          <p class="nat-habitat__texto">Donde no da el sol directo y la hojarasca guarda humedad.</p>
-        </div>
-      </li>
-
-      <li class="nat-habitat reveal">
-        <img
-          class="nat-habitat__foto"
-          src="img/parque/parque-13.jpg"
-          width="800"
-          height="1200"
-          loading="lazy"
-          decoding="async"
-          alt="Cactus y suculentas al sol sobre piso de piedra, delante de la pérgola de guadua del predio"
-        />
-        <div class="nat-habitat__cuerpo">
-          <p class="nat-habitat__lugar">La piedra al sol</p>
-          <p class="nat-habitat__cifra">23</p>
-          <p class="nat-habitat__etiqueta">Especies de reptiles</p>
-          <p class="nat-habitat__texto">Piedra caliente, cactus y bordes secos: su sitio favorito.</p>
-        </div>
-      </li>
-
-      <li class="nat-habitat reveal">
-        <img
-          class="nat-habitat__foto"
-          src="img/parque/parque-09.jpg"
-          width="675"
-          height="1200"
-          loading="lazy"
-          decoding="async"
-          alt="Copa amplia de un árbol grande proyectando sombra sobre el prado del predio"
-        />
-        <div class="nat-habitat__cuerpo">
-          <p class="nat-habitat__lugar">El dosel</p>
-          <p class="nat-habitat__cifra">3</p>
-          <p class="nat-habitat__etiqueta">Especies de mamíferos</p>
-          <p class="nat-habitat__texto">Arriba, entre las ramas grandes, lejos del camino.</p>
-        </div>
-      </li>
-
-    </ul>
-
-    <p class="nota nat-bio__aclaracion">
-      Las fotografías muestran los ambientes del predio, no las especies: las cifras vienen
-      del inventario biológico del lugar.
-    </p>
-
-    <aside class="nat-conservacion reveal" aria-labelledby="conservacion-titulo">
-      <div class="nat-conservacion__intro">
-        <p class="pildora">CITES · Apéndice III</p>
-        <h3 id="conservacion-titulo" class="titulo-seccion titulo-seccion--xs">
-          Dos árboles que no se talan a la ligera
-        </h3>
-        <p class="nota">
-          Están incluidos en el apéndice III de CITES, la convención que regula el comercio
-          internacional de especies amenazadas. Los dos crecen dentro del predio.
-        </p>
-      </div>
-
-      <ul class="nat-especies">
-        <li class="nat-especie">
-          <span class="nat-especie__nombre">Cedro</span>
-          <span class="nat-especie__cientifico">Cedrela odorata</span>
-        </li>
-        <li class="nat-especie">
-          <span class="nat-especie__nombre">Guayacán Amarillo</span>
-          <span class="nat-especie__cientifico">Handroanthus chrysanthus</span>
-        </li>
-      </ul>
-
-      <p class="credito nat-conservacion__pie">
-        Todavía no hay una fotografía propia de estos dos árboles. Cuando la haya, estará aquí.
-      </p>
-    </aside>
-
-  </div>
-</section>
-
-<!-- ==========================================================================
-     (d) VIVERO  ·  Registro ICA Resolución No. 00000819 (03/02/2025)
-     ========================================================================== -->
-<section id="vivero" class="seccion nat-vivero" aria-labelledby="vivero-titulo">
-  <div class="contenedor">
-
-    <header class="seccion-encabezado reveal">
-      <p class="eyebrow">Vivero</p>
-      <h2 id="vivero-titulo" class="titulo-seccion">Llévate un pedazo del bosque a casa</h2>
-      <p class="entradilla">
-        Espacio de producción y venta de plantas, y espacio de aprendizaje que apoya los
-        talleres de conexión con la naturaleza.
-      </p>
-    </header>
-
-    <div class="nat-vivero__cuerpo">
-
-      <div class="nat-mosaico reveal reveal--izq">
-        <div class="marco nat-mosaico__alto">
-          <img
-            src="img/parque/parque-35.jpg"
-            width="675"
-            height="1200"
-            loading="lazy"
-            decoding="async"
-            alt="Caladios de hoja rosada y follaje tropical en producción bajo la polisombra del vivero"
-          />
-        </div>
-        <div class="marco marco--1-1">
-          <img
-            src="img/parque/parque-40.jpg"
-            width="675"
-            height="1200"
-            loading="lazy"
-            decoding="async"
-            alt="Filodendros de hoja roja y amarilla en producción bajo la polisombra del vivero"
-          />
-        </div>
-        <div class="marco marco--1-1">
-          <img
-            src="img/parque/parque-42.jpg"
-            width="675"
-            height="1200"
-            loading="lazy"
-            decoding="async"
-            alt="Cícada en matera grande junto a palmas y follaje tropical, bajo la malla del vivero"
-          />
-        </div>
-        <div class="marco marco--16-9 nat-mosaico__ancho">
-          <img
-            src="img/parque/parque-49.jpg"
-            width="675"
-            height="1200"
-            loading="lazy"
-            decoding="async"
-            alt="Materas de barro con plantas de interior frente a un cerramiento de guadua, listas para decoración"
-          />
-        </div>
-      </div>
-
-      <div class="nat-vivero__texto reveal reveal--der">
-        <p>
-          Los clientes pueden adquirir complementos para decorar con plantas sus hogares,
-          oficinas o eventos.
-        </p>
-
-        <ul class="nat-servicios">
-          <li class="nat-servicio">
-            <span class="nat-servicio__indice" aria-hidden="true">01</span>
-            <span class="nat-servicio__nombre">Producción y venta de plantas</span>
-          </li>
-          <li class="nat-servicio">
-            <span class="nat-servicio__indice" aria-hidden="true">02</span>
-            <span class="nat-servicio__nombre">Venta de abonos</span>
-          </li>
-          <li class="nat-servicio">
-            <span class="nat-servicio__indice" aria-hidden="true">03</span>
-            <span class="nat-servicio__nombre">Mantenimiento de jardines y poda de árboles y raíces</span>
-          </li>
-          <li class="nat-servicio">
-            <span class="nat-servicio__indice" aria-hidden="true">04</span>
-            <span class="nat-servicio__nombre">Venta y alquiler de complementos para decoración de eventos</span>
-          </li>
-        </ul>
-
-        <div class="nat-sello">
-          <span class="nat-sello__emblema" aria-hidden="true">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"
-                 stroke-linecap="round" stroke-linejoin="round" focusable="false">
-              <path d="M12 2.5 20 6v6.1c0 4.5-3.2 7.9-8 9.4-4.8-1.5-8-4.9-8-9.4V6l8-3.5Z" />
-              <path d="m8.6 12.1 2.3 2.3 4.5-4.6" />
-            </svg>
-          </span>
-          <span class="nat-sello__texto">
-            <span class="nat-sello__titulo">Registro ICA</span>
-            <span class="nat-sello__detalle">Resolución No. 00000819 · 3 de febrero de 2025</span>
-          </span>
-        </div>
-
-        <div class="grupo-botones">
-          <a
-            class="btn btn-whatsapp btn-grande"
-            href="https://wa.me/573166758362?text=Hola%2C%20quiero%20informaci%C3%B3n%20del%20vivero%20de%20Vegas%20del%20Verde%3A%20plantas%2C%20abonos%20o%20mantenimiento%20de%20jardines."
-            target="_blank"
-            rel="noopener"
-          >
-            Quiero plantas del vivero
-          </a>
-        </div>
-      </div>
-
-    </div>
-  </div>
 </section>
