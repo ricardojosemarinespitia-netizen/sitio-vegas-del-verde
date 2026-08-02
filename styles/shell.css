@@ -56,13 +56,16 @@
 }
 
 /* ---- Marca --------------------------------------------------------------- */
+/* Cede ancho antes que nadie: si la barra se queda corta, encoge el logotipo
+   en vez de empujar fuera de pantalla al idioma o al menú. */
 .marca {
   display: inline-flex;
   align-items: center;
   gap: 0.7rem;
   text-decoration: none;
   color: var(--color-texto);
-  flex: none;
+  flex: 0 1 auto;
+  min-width: 0;
 }
 
 .marca__simbolo {
@@ -72,28 +75,16 @@
   flex: none;
 }
 
-/* El logotipo (color --teal, exento por ser marca) sólo aparece cuando la
-   barra tiene sitio de sobra; por debajo manda el símbolo solo. */
-.marca__nombre {
-  font-family: var(--fuente-titulo);
-  font-size: clamp(0.82rem, 0.72rem + 0.4vw, 1.05rem);
-  font-weight: var(--peso-normal);
-  text-transform: uppercase;
-  letter-spacing: 0.12em;
-  line-height: 1;
-  color: var(--teal);
-  white-space: nowrap;
-}
-
-@media (min-width: 62em) and (max-width: 78.99em) {
-  .marca__nombre {
-    position: absolute;
-    width: 1px;
-    height: 1px;
-    overflow: hidden;
-    clip-path: inset(50%);
-    white-space: nowrap;
-  }
+/* Logotipo horizontal sobre placa verde: trae el símbolo y la palabra en una
+   sola pieza, así que la cabecera ya no necesita texto aparte. Se dimensiona
+   por ANCHO (no por alto) para que en pantallas angostas o con tipografía
+   grande ceda espacio en vez de empujar fuera al selector de idioma. */
+.marca__logo {
+  width: clamp(7.5rem, 5.6rem + 6.4vw, 11.5rem);
+  max-width: 100%; /* el ancho real lo dicta lo que sobre en la barra */
+  min-width: 0;    /* sin esto el mínimo automático de flex lo deja rígido */
+  height: auto;
+  border-radius: var(--radio-xs);
 }
 
 /* ---- Navegación ---------------------------------------------------------- */
@@ -152,7 +143,7 @@
   display: flex;
   align-items: center;
   gap: var(--esp-2xs);
-  flex: none;
+  flex: none; /* intocable: idioma y menú nunca ceden ancho */
 }
 
 .idiomas {
@@ -161,6 +152,17 @@
   padding: 0.2rem;
   border: 1px solid rgb(var(--verde-oliva-rgb) / 0.22);
   border-radius: var(--radio-full);
+  flex: none;
+}
+
+/* Sólo entra en juego en el modo compacto de más abajo. */
+.idiomas__globo {
+  display: none;
+  width: 1.05rem;
+  height: 1.05rem;
+  margin-inline-start: 0.3rem;
+  color: var(--color-texto-suave);
+  flex: none;
 }
 
 .idiomas__opcion {
@@ -362,13 +364,54 @@ body.menu-abierto {
   }
 }
 
+/* Modo compacto de la barra.
+
+   OJO con este breakpoint: las media queries en `em` se miden contra la fuente
+   POR DEFECTO DEL NAVEGADOR, no contra la del sitio. Quien sube el tamaño de
+   letra del sistema —típicamente personas mayores— entra aquí aunque su
+   pantalla no sea estrecha: con la fuente base en 24 px, 26.5em son 636 px y
+   cualquier celular queda por debajo. Por eso aquí NO se puede esconder nada
+   que no tenga otra puerta de entrada: el selector de idioma se colapsa, no
+   desaparece. */
 @media (max-width: 26.5em) {
-  .marca__nombre {
-    letter-spacing: 0.08em;
+  .idiomas__globo {
+    display: block;
+  }
+
+  /* Se muestra sólo el idioma al que se puede cambiar: la mitad de ancho, un
+     solo toque, y el globo aclara de qué se trata. */
+  .idiomas__opcion[aria-current="true"] {
+    display: none;
   }
 
   .idiomas {
-    display: none; /* el selector de idioma vive dentro del menú en pantallas muy pequeñas */
+    border-color: rgb(var(--verde-oliva-rgb) / 0.34);
+  }
+
+  /* Con la fuente base en 24 px todo lo medido en rem crece un 50 %, y entre el
+     idioma y la hamburguesa se comían la barra entera. Estos topes mantienen el
+     área táctil por encima de los 44 px sin dejar que sigan creciendo, así el
+     logotipo conserva un ancho legible. */
+  .idiomas__opcion {
+    min-width: min(2.4rem, 42px);
+    min-height: min(2.4rem, 42px);
+    padding-inline: 0.3rem;
+  }
+
+  .idiomas__globo {
+    width: min(1.05rem, 21px);
+    height: min(1.05rem, 21px);
+  }
+
+  .boton-menu {
+    width: min(2.75rem, 48px);
+    height: min(2.75rem, 48px);
+  }
+
+  /* WhatsApp sí puede salir de la barra: encabeza el menú móvil y se repite en
+     cada espacio, en Contacto y en el pie. El idioma no tenía ese respaldo. */
+  .cabecera__cta {
+    display: none;
   }
 }
 

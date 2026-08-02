@@ -90,14 +90,13 @@
 
     <a class="marca" href="#inicio" aria-label="Vegas del Verde, ir al inicio">
       <img
-        class="marca__simbolo"
-        src="img/logo/simbolo-vegas.png"
-        width="512"
-        height="512"
-        alt=""
+        class="marca__logo"
+        src="img/logo/logo-vegas-barra.png"
+        width="1390"
+        height="356"
+        alt="Vegas del Verde"
         decoding="async"
       />
-      <span class="marca__nombre">Vegas del Verde</span>
     </a>
 
     <nav class="nav" id="nav-principal" aria-label="Navegación principal">
@@ -134,7 +133,14 @@
     </nav>
 
     <div class="cabecera__acciones">
+      <!-- Nunca se oculta: en pantallas angostas o con tipografía grande se
+           colapsa al globo + el idioma alterno (ver shell.css). -->
       <div class="idiomas" role="group" aria-label="Idioma del sitio">
+        <svg class="idiomas__globo" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true" focusable="false">
+          <circle cx="12" cy="12" r="9"/>
+          <path d="M3 12h18"/>
+          <path d="M12 3c2.4 2.5 3.6 5.5 3.6 9s-1.2 6.5-3.6 9c-2.4-2.5-3.6-5.5-3.6-9s1.2-6.5 3.6-9Z"/>
+        </svg>
         <a
           class="idiomas__opcion"
           href="index.html"
@@ -148,6 +154,7 @@
           hreflang="en"
           lang="en"
           rel="alternate"
+          aria-label="View this site in English"
         >EN</a>
       </div>
 
