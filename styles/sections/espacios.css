@@ -1,230 +1,231 @@
 /* ==========================================================================
-   VEGAS DEL VERDE — espacios.css  ·  v2 «Vende la escapada»
+   VEGAS DEL VERDE — espacios.css  ·  v3 «Ficha de catálogo»
    Sección «Espacios en alquiler» (#espacios).
    Depende de tokens.css + base.css. No declara NINGÚN valor literal de color,
    cuerpo tipográfico, radio, sombra ni duración: todo sale de los tokens.
    Prefijos propios: .espacios / .espacio
 
-   CRITERIO
-   · La tarjeta no titula con el nombre del espacio: titula con la EXPERIENCIA
-     (h3.titulo-seccion--sm, que hereda Fraunces de base.css). El nombre y el
-     aforo bajan a una .pildora de apoyo.
-   · La Alameda es la única con dos fotos propias, así que es la única con
-     galería y con fila entera.
-   · Las condiciones de alquiler no ocupan espacio de sección: son un enlace
-     a su propia página en el pie.
+   CRITERIO — qué cambia respecto de v2 y por qué
+   · Muere la tarjeta-caja. En v2 cada espacio era un rectángulo con fondo,
+     borde, radio, sombra al hover y un botón de bloque: cinco cajas iguales
+     compitiendo con la foto que llevaban dentro. Ahora la foto va a esquina
+     viva —sin radio, sin sombra, sin marco— y el texto flota debajo, los dos
+     directamente sobre el fondo de la página. Lo único que separa una ficha
+     de la siguiente es el aire.
+   · La figura es CUADRADA (1:1). El cuadrado es el formato que trata igual a
+     una panorámica de 1500×844 y a un retrato de 675×1200: las seis fotos de
+     origen tienen proporciones distintas y sólo el cuadrado las alinea en una
+     rejilla sin que ninguna mande sobre las demás.
+   · La jerarquía se invierte respecto de v2: antes titulaba la experiencia
+     («Un partido con banda sonora de pájaros») y el nombre bajaba a una
+     píldora. Ahora titula el NOMBRE, que es lo que el visitante busca y lo
+     que las demás secciones enlazan; el aforo sube a rótulo de categoría
+     sobre el título, y la experiencia se queda en una sola línea de apoyo.
+   · La Alameda mantiene trato mayor —doble columna y banda panorámica con
+     sus dos fotos propias— porque es el único espacio con dos fotos y el más
+     grande del predio. Trato mayor por tamaño, no por decoración: sigue sin
+     caja, sin borde y sin sombra.
+   · Se van también los cinco botones de bloque: un enlace sobrio
+     (.enlace-flecha de base.css) no le disputa el peso a la fotografía.
    ========================================================================== */
 
 /* ==========================================================================
    1. REJILLA
-   1 columna en móvil · 2 desde 52em. La Alameda ocupa siempre la fila
-   completa. No se pasa a 3 o 4 columnas porque los titulares de experiencia
-   («Un partido con banda sonora de pájaros») necesitan ancho para no
-   partirse en cinco líneas.
+   3 columnas en escritorio · 2 en tableta · 1 en móvil.
+   La v2 se paraba en 2 columnas porque sus titulares eran frases largas que
+   se partían en cinco líneas. Con el nombre del espacio como titular
+   («Teatrino», «La Vega») el problema desaparece y cabe la tercera columna.
+   El gap es generoso a propósito: sin borde ni fondo, el aire ES la
+   separación entre fichas, y por eso el vertical crece más que el
+   horizontal —lo que hay que impedir es que el pie de una ficha se lea como
+   principio de la de abajo—.
    ========================================================================== */
 .espacios__rejilla {
   display: grid;
   grid-template-columns: 1fr;
-  gap: var(--gap);
+  gap: var(--gap-lg) var(--gap);
   margin: 0;
+  padding: 0;
+  list-style: none;
 }
 
-@media (min-width: 52em) {
+@media (min-width: 48em) {
   .espacios__rejilla {
     grid-template-columns: repeat(2, 1fr);
   }
 
+  /* En dos columnas la Alameda ocupa la fila entera: su banda es 2:1, que es
+     exactamente el ancho de dos celdas cuadradas. */
   .espacio--destacado {
     grid-column: 1 / -1;
   }
 }
 
+@media (min-width: 68em) {
+  .espacios__rejilla {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  /* En tres columnas la Alameda ocupa dos y La Vega se sube a su derecha:
+     la primera fila queda 2+1 y la segunda 1+1+1, sin ningún hueco. */
+  .espacio--destacado {
+    grid-column: span 2;
+  }
+}
+
 /* ==========================================================================
-   2. TARJETA DE ESPACIO
-   Extiende .tarjeta (base.css): fondo, borde, radio y overflow ya vienen.
+   2. LA FICHA
+   No hereda .tarjeta: no hay superficie, no hay borde, no hay overflow que
+   recortar. Es sólo una columna de foto + texto.
    ========================================================================== */
 .espacio {
   display: flex;
   flex-direction: column;
+}
+
+/* ---- Figura --------------------------------------------------------------
+   Cuadrada y a esquina viva. El radio se declara en cero de forma explícita
+   —y no por omisión— para que quede escrito que es una decisión y no un
+   olvido: cualquiera que en el futuro añada una utilidad con radio a estas
+   figuras está deshaciendo el rediseño. Sin box-shadow, por lo mismo.        */
+.espacio__figura {
   position: relative;
+  margin: 0;
+  aspect-ratio: 1;
+  overflow: hidden;
+  border-radius: 0;
+  box-shadow: none;
+  background-color: var(--color-fondo-alt);
 }
 
-/* Filete cálido que se dibuja al pasar el cursor o al enfocar el CTA.
-   Es decorativo —no transporta información—, por eso puede ir en el color
-   de acción sin comprometer ninguna ratio de texto. */
-.espacio::after {
-  content: "";
-  position: absolute;
-  inset-inline: 0;
-  inset-block-end: 0;
-  height: 2px;
-  background-color: var(--color-accion);
-  transform: scaleX(0);
-  transform-origin: left;
-  transition: transform var(--transicion) var(--ease-salida);
+.espacio__img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  border-radius: 0;
+  transition: transform var(--dur-lenta) var(--ease-suave);
 }
 
-.espacio:hover::after,
-.espacio:focus-within::after {
-  transform: scaleX(1);
-}
-
-.espacio:hover {
-  transform: translateY(calc(var(--esp-3xs) * -1));
-  box-shadow: var(--sombra-lg);
+/* El único movimiento de la ficha: la foto respira dentro de su cuadrado.
+   No hay elevación ni sombra, porque no hay caja que elevar. */
+.espacio:hover .espacio__img,
+.espacio:focus-within .espacio__img {
+  transform: scale(var(--escala-hover));
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .espacio:hover {
+  .espacio:hover .espacio__img,
+  .espacio:focus-within .espacio__img {
     transform: none;
   }
 }
 
-/* ---- Foto ----------------------------------------------------------------
-   Las cinco fotos de origen menos una son verticales. Sólo en móvil, con la
-   tarjeta a ~343 px, se muestran en 4/5: ahí el retrato respeta el encuadre.
-   El corte a 3/2 entra en 34em y NO en el breakpoint de la rejilla (52em):
-   entre ambos la tarjeta sigue a una columna pero ya mide 500-800 px de
-   ancho, y un 4/5 daba fotos de más de 850 px de alto —una tarjeta más alta
-   que la pantalla—. El marco no lleva radio propio: lo recorta .tarjeta. */
-.espacio__foto {
-  border-radius: 0;
-  aspect-ratio: 4 / 5;
-  flex: none;
-}
-
-@media (min-width: 34em) {
-  .espacio__foto {
-    aspect-ratio: 3 / 2;
-  }
-}
-
-/* ---- Cuerpo -------------------------------------------------------------- */
+/* ---- Cuerpo: la caja de frase que va DEBAJO de la foto --------------------
+   Sin padding lateral: el texto arranca a plomo con el borde izquierdo de la
+   fotografía. Esa alineación es lo que hace que foto y texto se lean como una
+   sola pieza sin necesidad de encerrarlos en nada.                           */
 .espacio__cuerpo {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  gap: var(--esp-xs);
-  padding: var(--esp-md);
+  gap: var(--esp-2xs);
+  padding: var(--esp-sm) 0 0;
   flex: 1 1 auto;
 }
 
-/* El titular hereda Fraunces de .titulo-seccion (base.css): aquí sólo se
-   ajusta la medida, nunca la familia ni el peso. */
-.espacio__titular {
-  max-width: var(--medida-corta);
-}
-
-.espacio__meta {
-  margin: 0;
-}
-
-.espacio__texto {
-  font-size: var(--fs-pequeno);
-  line-height: var(--alto-linea-base);
+/* Rótulo de categoría: aquí el papel de categoría lo hace el AFORO, que es
+   el dato por el que se elige un espacio. Diminuto y muy espaciado, pero
+   nunca por debajo de --fs-eyebrow: ese suelo es deliberado. */
+.espacio__aforo {
+  font-family: var(--fuente-titulo);
+  font-size: var(--fs-eyebrow);
+  font-weight: var(--peso-medio);
+  text-transform: uppercase;
+  letter-spacing: var(--tracking-rotulo);
   color: var(--color-texto-suave);
   margin: 0;
 }
 
-/* El CTA queda pegado abajo para que los cinco botones se alineen aunque
-   las descripciones tengan distinto largo. */
-.espacio__cta {
+/* El titular hereda Fraunces, su peso fino y su caja de frase de
+   .titulo-seccion--sm (base.css): aquí sólo se abre el tracking al valor de
+   display y se le pone tinta plena. Ni familia ni peso se tocan. */
+.espacio__nombre {
+  letter-spacing: var(--tracking-display);
+  color: var(--carbon);
+  max-width: var(--medida-corta);
+}
+
+/* Una línea, no un párrafo. --paso--2 es el suelo declarado para el texto de
+   apoyo del sitio; no baja de ahí. */
+.espacio__texto {
+  font-size: var(--paso--2);
+  line-height: var(--alto-linea-base);
+  color: var(--carbon-suave);
+  max-width: var(--medida-corta);
+  margin: 0;
+}
+
+/* El enlace queda pegado abajo para que los cinco se alineen aunque las
+   líneas de apoyo tengan distinto largo. */
+.espacio__enlace {
   margin-top: auto;
-  padding-inline: var(--esp-sm);
+  padding-top: var(--esp-2xs);
 }
 
 /* ==========================================================================
-   3. TARJETA DESTACADA — ALAMEDA
-   Es el único espacio con dos fotografías propias (alameda-2, panorámica de
-   1500×844, y alameda-1, vertical de 1125×1500), así que es el único que
-   monta galería. Van juntas y casi sin junta entre ellas: leídas como una
-   sola banda cuentan la anchura del prado mejor que cualquiera por separado.
+   3. LA ALAMEDA — banda panorámica
+   Es el único espacio con dos fotografías propias: alameda-2 (panorámica de
+   1500×844) y alameda-1 (vertical de 1125×1500). En vez de meter la vertical
+   de recuadro sobre la panorámica —el truco de v2, que era justo una caja con
+   sombra sobre otra foto—, las dos se ponen a la par formando una banda 2:1,
+   con una junta finísima entre ellas. Leídas seguidas cuentan la anchura del
+   prado, que es lo único que esas dos fotos tienen que contar.
+   El reparto 1.6fr / 1fr no es arbitrario: deja a la panorámica cerca de su
+   16:9 real y a la vertical un hueco casi cuadrado, así ninguna de las dos
+   pierde su encuadre en el recorte.
    ========================================================================== */
-.espacio__interior {
+.espacio--destacado .espacio__figura--banda {
   display: grid;
-  grid-template-columns: 1fr;
+  grid-template-columns: 1.6fr 1fr;
+  gap: var(--esp-3xs);
+  background-color: transparent;
+}
+
+.espacio--destacado .espacio__img {
   height: 100%;
 }
 
-/* Móvil: las dos apiladas, cada una en 3/2. La vertical pierde cielo y suelo
-   en el recorte, que es justo lo prescindible: el prado está en el centro. */
-.espacio__galeria {
-  position: relative;
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: var(--esp-3xs);
-}
-
-.espacio--destacado .espacio__foto {
-  aspect-ratio: 3 / 2;
-}
-
-/* Desde 34em dejan de compartir cuadrícula. Ponerlas lado a lado obligaba a
-   recortar la panorámica de 1500×844 casi a cuadrado —perdía la mitad del
-   ancho, que es lo único que esa foto tiene que contar—. Así que la
-   panorámica se queda con la banda entera en su 16/9 y la vertical entra de
-   recuadro sobre la esquina, en su 4/5: cada una conserva su forma real.
-   El recuadro cae sobre césped en primer término, nunca sobre la arboleda. */
-@media (min-width: 34em) {
-  .espacio__galeria {
-    display: block;
+/* En móvil, a una columna, la banda no cabe: la vertical de apoyo se retira y
+   la panorámica se queda sola en el cuadrado de la rejilla. Se retira con
+   display:none y no cargándola aparte porque es decorativa por duplicado —la
+   principal ya cuenta el mismo prado— y su alt no aporta nada que no esté. */
+@media (max-width: 47.99em) {
+  .espacio--destacado .espacio__figura--banda {
+    grid-template-columns: 1fr;
   }
 
-  .espacio--destacado .espacio__foto--principal {
-    aspect-ratio: 16 / 9;
-  }
-
-  .espacio--destacado .espacio__foto--apoyo {
-    position: absolute;
-    inset-block-end: var(--esp-md);
-    inset-inline-start: var(--esp-md);
-    width: 28%;
-    aspect-ratio: 4 / 5;
-    border-radius: var(--radio-md);
-    box-shadow: var(--sombra-lg);
+  .espacio--destacado .espacio__img--apoyo {
+    display: none;
   }
 }
 
-/* Desde 62em la galería se va al costado del texto y se estira con la fila.
-   El aspect-ratio de la principal no fija la altura del ítem estirado: sólo
-   aporta su medida al cálculo de la fila, así que si el cuerpo crece más que
-   la foto, la foto crece con él y no queda ningún hueco. */
-@media (min-width: 62em) {
-  .espacio__interior {
-    grid-template-columns: 1.45fr 1fr;
-    align-items: stretch;
+/* Desde el primer breakpoint la Alameda ocupa dos celdas, así que su figura
+   deja de ser cuadrada y pasa a 2:1: dos cuadrados de ancho, uno de alto. */
+@media (min-width: 48em) {
+  .espacio--destacado .espacio__figura--banda {
+    aspect-ratio: 2 / 1;
   }
 
-  .espacio__galeria,
-  .espacio--destacado .espacio__foto--principal {
-    height: 100%;
+  /* Al ser la ficha de entrada, su línea de apoyo sube a cuerpo normal. Es la
+     única concesión de tamaño: nada de fondo, borde ni sombra. */
+  .espacio--destacado .espacio__texto {
+    font-size: var(--fs-cuerpo);
+    max-width: var(--medida);
   }
-}
 
-.espacio--destacado .espacio__cuerpo {
-  gap: var(--esp-sm);
-  padding: var(--esp-lg);
-  justify-content: center;
-}
-
-/* En la destacada el texto sube a cuerpo normal y a tinta plena: es la
-   entrada de la sección y se lee de pie, no de refilón. */
-.espacio--destacado .espacio__texto {
-  font-size: var(--fs-cuerpo);
-  color: var(--color-texto);
-  max-width: var(--medida);
-}
-
-.espacio--destacado .espacio__titular {
-  max-width: var(--medida);
-}
-
-/* En la destacada el CTA no necesita ocupar todo el ancho del panel. */
-@media (min-width: 62em) {
-  .espacio--destacado .espacio__cta {
-    display: inline-flex;
-    width: auto;
-    padding-inline: var(--esp-md);
+  .espacio--destacado .espacio__nombre {
+    max-width: var(--medida);
   }
 }
 

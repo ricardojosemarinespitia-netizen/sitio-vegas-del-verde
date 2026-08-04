@@ -49,6 +49,21 @@
   margin-bottom: 0;
 }
 
+/* v3 «Blackberry» — EL ÚNICO TITULAR EN MAYÚSCULAS DE TODA LA PÁGINA.
+   El referente abre con un display en caja alta, peso finísimo y las letras
+   abiertas; de la segunda sección en adelante todo vuelve a caja de frase. Aquí
+   se hace lo mismo y sólo aquí: los h2 del resto del sitio son frases largas en
+   español y en caps ocuparían tres renglones y gritarían (base.css lo deja
+   escrito). El cuerpo NO sube: sigue siendo el de .titulo-seccion (--fs-h2),
+   porque #inicio es una sección más de la retícula y no un hero a sangre.
+   Peso y tracking vienen ya de .titulo-seccion (--peso-display /
+   --tracking-display); lo único que esta regla añade es la caja alta, y gana a
+   `text-transform: none` de base.css por orden de cascada, no por especificidad
+   —las dos clases miden (0,1,0)— porque esta hoja se carga después. */
+.inicio__titulo {
+  text-transform: uppercase;
+}
+
 .inicio__acciones {
   margin-top: var(--esp-2xs);
 }
@@ -66,14 +81,19 @@
   position: relative;
 }
 
-/* El radio va en la <img>, no en un contenedor con overflow oculto: así el
-   anillo de foco de un ancla cercana al borde nunca se recorta. */
+/* v3: el plano va a ESQUINA VIVA, sin filete y sin sombra. Era una foto de
+   2000 px flotando sobre la crema con radio grande y --sombra-lg: la sombra la
+   despegaba de la página como una tarjeta de otro sitio, y el redondeo le
+   recortaba las esquinas al render, que es justo donde está el bosque que
+   rodea el predio. El radio se declara en cero explícitamente —no por
+   omisión— para que quede escrito que es decisión y no olvido; lo mismo la
+   sombra. Sin contenedor con overflow oculto, además, el anillo de foco de un
+   ancla pegada al borde nunca se recorta. */
 .inicio__plano-foto {
   width: 100%;
   height: auto;
-  border-radius: var(--radio-lg);
-  border: 1px solid var(--color-borde-suave);
-  box-shadow: var(--sombra-lg);
+  border-radius: 0;
+  box-shadow: none;
 }
 
 .inicio__plano-pie {
@@ -110,7 +130,10 @@
      pequeño de la escala fluida. El objetivo táctil sale del sistema.      */
   padding: var(--esp-sm);
   border: 1px solid var(--color-borde-fuerte);
-  border-radius: var(--radio-full);
+  /* v3: esquina viva, igual que .btn en base.css. La pastilla redondeada de v2
+     era el último resto del lenguaje anterior en esta sección; el contorno de
+     1 px hace todo el trabajo de separación que hacía la forma. */
+  border-radius: 0;
   background-color: var(--color-superficie-solida);
   /* Etiqueta, no titular: la fuente de etiqueta y las caps que §3 del
      contrato sí permite en micro-rótulos.                                  */
@@ -119,17 +142,28 @@
   font-weight: var(--peso-medio);
   line-height: var(--alto-linea-titulo);
   text-transform: uppercase;
-  letter-spacing: var(--track-boton);
+  /* El tracking de rótulo del sistema v3, el mismo del .btn y del nav. */
+  letter-spacing: var(--tracking-rotulo);
   text-decoration: none;
   text-align: center;
   /* 13,9:1 sobre la superficie clara. La regla `a` de base.css es (0,0,1):
      esta clase (0,1,0) la gana sin necesidad de !important.                */
   color: var(--color-texto);
+  /* Sin `box-shadow` en la transición: ya no hay ninguna sombra que animar. */
   transition:
     background-color var(--transicion),
     border-color var(--transicion),
-    color var(--transicion),
-    box-shadow var(--transicion);
+    color var(--transicion);
+}
+
+/* El rótulo no declara tipografía propia —la hereda entera de la pastilla—;
+   lo único suyo es poder partirse. «Cómo llegar» es el único de los cuatro que
+   pasa a dos líneas en una columna estrecha o con la letra del sistema
+   agrandada, y sin esto fija un mínimo que saca la rejilla de la pantalla. */
+.inicio__rotulo {
+  display: inline-block;
+  min-width: 0;
+  overflow-wrap: break-word;
 }
 
 .inicio__ancla:hover,
@@ -140,7 +174,11 @@
 }
 
 /* El punto es el pin del plano: coral —el único cálido del sistema— con un
-   aro del color de la pastilla para que se despegue de la foto. */
+   aro del color de la pastilla para que se despegue de la foto.
+   Es el ÚNICO redondeo que queda en la sección, y se queda por lo mismo que
+   .pildora conserva el suyo en base.css: un punto es un punto. Lo que sí se
+   va es la sombra: el punto vive DENTRO de la pastilla, nunca suelto sobre la
+   fotografía, así que --sombra-pin no separaba nada. */
 .inicio__punto {
   flex: none;
   width: var(--esp-xs);
@@ -148,7 +186,6 @@
   border: var(--borde-pin) solid var(--color-superficie-solida);
   border-radius: var(--radio-full);
   background-color: var(--color-accion);
-  box-shadow: var(--sombra-pin);
   transition:
     border-color var(--transicion),
     transform var(--transicion);
@@ -182,12 +219,13 @@
     gap: var(--esp-3xs);
     height: auto;
     padding: var(--esp-2xs) var(--esp-sm);
+    /* Sobre la foto la pastilla se separa con MATERIA, no con sombra: crema
+       casi opaca + desenfoque del fondo + el filete de 1 px que ya trae de la
+       regla base. La --sombra-md que llevaba en v2 era el único halo suave que
+       quedaba encima de una fotografía en toda la página. */
     background-color: rgb(var(--crema-rgb) / 0.94);
     backdrop-filter: var(--blur-vidrio);
     -webkit-backdrop-filter: var(--blur-vidrio);
-    /* Sobre la foto el contorno no basta para separar la pastilla del fondo:
-       la sombra hace el trabajo que en plano hace el color de fondo. */
-    box-shadow: var(--sombra-md);
     pointer-events: auto;
   }
 
@@ -230,14 +268,18 @@
   }
 }
 
+/* v3: los seis medallones pasan a CUADRADOS a esquina viva, como las fichas de
+   #espacios. Eran círculos con filete y --sombra-sm —seis broches— justo
+   debajo de un plano que ahora va a sangre; el contraste de lenguajes se veía
+   de lejos. Sin borde y sin sombra: el propio recorte hace de límite, que es
+   lo que ya hace .marco en base.css. */
 .inicio__ave {
   position: relative;
   aspect-ratio: 1;
   overflow: hidden;
-  border: 1px solid var(--color-borde-suave);
-  border-radius: var(--radio-full);
-  box-shadow: var(--sombra-sm);
-  transition: transform var(--transicion);
+  border-radius: 0;
+  box-shadow: none;
+  background-color: var(--color-fondo-alt);
 }
 
 /* Absoluta y no `height: 100%`: el alto de la miniatura lo fija `aspect-ratio`,
@@ -249,11 +291,12 @@
   height: 100%;
   object-fit: cover;
   background: none;
+  transition: transform var(--dur-lenta) var(--ease-suave);
 }
 
-/* Encuadre archivo por archivo: en un recorte circular tan pequeño el centro
-   geométrico casi nunca cae sobre el ave. Los porcentajes salen de mirar cada
-   fotografía, no de suponerlos. */
+/* Encuadre archivo por archivo: en un recorte tan pequeño el centro geométrico
+   casi nunca cae sobre el ave. Los porcentajes salen de mirar cada fotografía,
+   no de suponerlos. */
 .inicio__ave:nth-child(1) img { object-position: 50% 28%; } /* Momotus      */
 .inicio__ave:nth-child(2) img { object-position: 55% 40%; } /* carpintero   */
 .inicio__ave:nth-child(3) img { object-position: 66% 44%; } /* colibrí      */
@@ -261,8 +304,13 @@
 .inicio__ave:nth-child(5) img { object-position: 42% 32%; } /* canario      */
 .inicio__ave:nth-child(6) img { object-position: 46% 52%; } /* periquito    */
 
+/* El único movimiento: la foto respira DENTRO de su cuadrado, igual que en las
+   fichas de #espacios. Antes se levantaba la miniatura entera —un salto de
+   tarjeta que sin sombra ya no significa nada—; ahora se mueve la imagen y el
+   recorte se queda quieto. --escala-hover vale 1 cuando el visitante pide
+   menos movimiento, así que se apaga solo. */
 @media (prefers-reduced-motion: no-preference) {
-  .inicio__ave:hover {
-    transform: translateY(calc(var(--esp-3xs) * -1)) scale(var(--escala-hover));
+  .inicio__ave:hover img {
+    transform: scale(var(--escala-hover));
   }
 }

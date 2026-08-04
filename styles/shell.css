@@ -84,7 +84,8 @@
   max-width: 100%; /* el ancho real lo dicta lo que sobre en la barra */
   min-width: 0;    /* sin esto el mínimo automático de flex lo deja rígido */
   height: auto;
-  border-radius: var(--radio-xs);
+  /* v3: es una imagen, y en este sistema ninguna imagen lleva radio. */
+  border-radius: 0;
 }
 
 /* ---- Navegación ---------------------------------------------------------- */
@@ -97,6 +98,9 @@
   list-style: none;
 }
 
+/* Los enlaces de la barra son rótulos, no titulares: caps pequeñas con el
+   tracking del sistema. El CUERPO no baja de --fs-pequeno (suelo 12,5 px):
+   el tracking abre la etiqueta, no el tamaño.                             */
 .nav__enlace {
   position: relative;
   display: inline-block;
@@ -105,7 +109,10 @@
   font-size: var(--fs-pequeno);
   font-weight: var(--peso-normal);
   text-transform: uppercase;
-  letter-spacing: 0.08em;
+  letter-spacing: var(--tracking-rotulo);
+  /* El tracking añade un hueco muerto tras la última letra de CADA enlace y
+     la barra ya iba justa por debajo de 1280 px; se recupera. */
+  margin-inline-end: calc(var(--tracking-rotulo) * -1);
   text-decoration: none;
   color: var(--color-texto);
   white-space: nowrap;
@@ -146,12 +153,18 @@
   flex: none; /* intocable: idioma y menú nunca ceden ancho */
 }
 
+/* Conmutador segmentado de esquina viva. El barrido «ultrapremium» cuadró
+   .boton-menu y .marca__logo pero se saltó estas dos reglas, y el selector se
+   quedaba como pastilla circular a 8 px de la hamburguesa cuadrada (móvil) y
+   pegado al .cabecera__cta cuadrado (escritorio). No entra en las excepciones
+   pactadas: no es .pildora ni un chip diminuto, es un control de 44 × 44 con
+   estado activo relleno.                                                    */
 .idiomas {
   display: inline-flex;
   align-items: center;
   padding: 0.2rem;
   border: 1px solid rgb(var(--verde-oliva-rgb) / 0.22);
-  border-radius: var(--radio-full);
+  border-radius: 0;
   flex: none;
 }
 
@@ -172,7 +185,7 @@
   min-width: 2.1rem;
   min-height: 1.7rem;
   padding-inline: 0.35rem;
-  border-radius: var(--radio-full);
+  border-radius: 0;
   font-family: var(--fuente-titulo);
   font-size: var(--fs-micro);
   font-weight: var(--peso-medio);
@@ -204,7 +217,7 @@
   justify-content: center;
   width: 2.75rem;
   height: 2.75rem;
-  border-radius: var(--radio-full);
+  border-radius: 0;
   border: 1px solid rgb(var(--verde-oliva-rgb) / 0.22);
   color: var(--color-texto);
   transition: background-color var(--transicion-rapida);
@@ -332,7 +345,7 @@ body.menu-abierto {
     display: block;
     padding-block: var(--esp-sm);
     font-size: var(--fs-cuerpo);
-    letter-spacing: var(--track-caps);
+    letter-spacing: var(--tracking-rotulo);
   }
 
   .nav__enlace::after {
@@ -430,8 +443,17 @@ body.menu-abierto {
 /* ==========================================================================
    4. PIE DE PÁGINA
    ========================================================================== */
+/* v3: el pie pasa del verde bosque al CARBÓN. Decidido mirando el contraste,
+   no el gusto: el verde bosque #1E3D2F tiene 0.049 de luminancia y el carbón
+   #2B2B2B 0.024, o sea que el pie se hace MÁS profundo, no menos. Eso sube
+   todos los pares que ya estaban medidos en vez de degradarlos:
+     · --color-texto-inverso-suave (crema 78 %) pasa de 7.2:1 a 8.1:1 → los
+       créditos de los fotógrafos, que es el texto que había que proteger.
+     · --color-texto-inverso (crema plena) pasa de 10.7:1 a 12.1:1.
+     · --verde-menta, que es el acento del pie, pasa de 5.5:1 a 6.5:1.
+   Ningún token del pie hay que tocarlo: todos mejoran solos.             */
 .pie-sitio {
-  background-color: var(--color-fondo-oscuro);
+  background-color: var(--color-fondo-carbon);
   color: var(--color-texto-inverso);
   padding-block: var(--esp-3xl) var(--esp-lg);
   scroll-margin-top: calc(var(--alto-header) + var(--esp-md));
@@ -514,8 +536,9 @@ body.menu-abierto {
 .pie__nombre {
   font-family: var(--fuente-display);
   font-size: var(--paso-2);
+  font-weight: var(--peso-display);
   line-height: 1.1;
-  letter-spacing: var(--track-display);
+  letter-spacing: var(--tracking-display);
   color: var(--color-texto-inverso);
 }
 
@@ -523,7 +546,7 @@ body.menu-abierto {
   font-family: var(--fuente-titulo);
   font-size: var(--fs-micro);
   text-transform: uppercase;
-  letter-spacing: var(--track-caps);
+  letter-spacing: var(--tracking-rotulo);
   color: var(--verde-menta);
 }
 
@@ -532,7 +555,7 @@ body.menu-abierto {
   font-size: var(--fs-eyebrow);
   font-weight: var(--peso-medio);
   text-transform: uppercase;
-  letter-spacing: var(--track-eyebrow);
+  letter-spacing: var(--tracking-rotulo);
   color: var(--verde-menta);
   margin-bottom: var(--esp-sm);
 }
@@ -576,11 +599,32 @@ body.menu-abierto {
   align-items: center;
   gap: 0.55em;
   padding: 0.5em 1.1em;
-  border: 1px solid var(--color-borde-inverso);
-  border-radius: var(--radio-full);
+  /* Filete a currentColor, igual que .btn-fantasma en base.css: es la variante
+     fantasma del sistema y aquí es la ÚNICA afordancia del control (el enlace
+     va sin subrayado y en la misma crema que el <p> .pie__nombre que tiene
+     justo encima). Con --color-borde-inverso (crema al 20 %) el contorno se
+     quedaba en 1,84:1 sobre el carbón del pie, por debajo del 3:1 que pide
+     WCAG 1.4.11. El token sigue siendo correcto para filetes DECORATIVOS
+     como el de .pie__legal, por eso no se toca allí.                        */
+  border: 1px solid currentColor;
+  /* botón fantasma del pie: cuadrado como el resto del sistema */
+  border-radius: 0;
+  /* La pastilla tiene que poder ENCOGER. Es un inline-flex dentro de la
+     columna .pie__marca, así que su ancho es fit-content y su suelo era el
+     min-content: icono + separación + «@vegasdelverde» (un token sin espacios,
+     con tracking de rótulo) + relleno, todo medido en em y por tanto creciendo
+     con la raíz. Quien amplía el texto del navegador al 200 % —el 1.4.4 de
+     WCAG, y en la práctica las personas mayores— lo veía desbordar el viewport
+     en cualquier ancho de teléfono, y como el body recorta en horizontal no
+     había forma de desplazarse hasta la etiqueta. Permitir el corte del token
+     baja el min-content y deja que la caja se ajuste a la columna.          */
+  max-width: 100%;
+  min-width: 0;
+  overflow-wrap: anywhere;
   font-family: var(--fuente-titulo);
   font-size: var(--fs-pequeno);
-  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  letter-spacing: var(--tracking-rotulo);
   transition:
     background-color var(--transicion),
     border-color var(--transicion);

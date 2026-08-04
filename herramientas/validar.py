@@ -56,7 +56,7 @@ for t in trozos:
     orden_real.append(sid)
     regiones[sid] = t[m.start():]
 
-ESPERADO = ["inicio", "nosotros", "espacios", "planes", "colegios",
+ESPERADO = ["inicio", "nosotros", "espacios", "planes", "momentos", "colegios",
             "naturaleza", "vivero", "ubicacion"]
 
 print("=" * 74)
@@ -104,8 +104,13 @@ HECHOS = [
   [r"\bcatering\b", r"no incluye sonido"], False),
  ("Observatorios como parada pedagogica", ["colegios"],
   [r"observatorio"], True),
+ # «mariposa» a secas se retiro del patron: el mural pintado en el muro
+ # turquesa de img/parque/parque-11.jpg lleva mariposas, y describirlo en el
+ # alt no es afirmar que exista el jardin. Un escape real del hecho tendria
+ # que nombrar a los polinizadores o el avistamiento, y eso si se sigue
+ # cazando. Se prefiere un patron que no obligue a mentir en un alt.
  ("Jardin de polinizadores y mariposas", ["colegios"],
-  [r"polinizador", r"mariposa"], True),
+  [r"polinizador", r"avistamiento de mariposas", r"jard[ií]n de mariposas"], True),
  ("Sendero Ecovital (descrito)", ["naturaleza"],
   [r"sendero"], True),
  ("Entrada $15.000 (unico precio publicado)", ["naturaleza"],

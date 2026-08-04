@@ -50,6 +50,13 @@
   --tinta: #16281f;              /* era #1a2b33 · tinta VERDE, ya no azulada */
   --blanco: #ffffff;
 
+  /* — Carbones: las bandas «Blackberry» —
+     Grises neutros puros (sin verde) que puntúan la página crema. Son bandas
+     de sección y pie, NO texto sobre claro: --carbon da 13.4:1 con la crema
+     y --carbon-suave 11.6:1, ambos muy por encima de AAA en negativo.      */
+  --carbon: #2b2b2b;             /* NUEVO · banda oscura neutra              */
+  --carbon-suave: #333333;       /* NUEVO · banda un punto más abierta       */
+
   /* — Cálidos: el acento de ACCIÓN — */
   --amarillo: #e4cb3a;           /* = círculos del logo · intacto            */
   --rojo-baya: #e84c40;          /* = bayas del logo · intacto               */
@@ -69,6 +76,8 @@
   --gris-verde-rgb: 194 199 179;
   --crema-rgb: 247 242 231;
   --tinta-rgb: 22 40 31;
+  --carbon-rgb: 43 43 43;
+  --carbon-suave-rgb: 51 51 51;
   --amarillo-rgb: 228 203 58;
   --rojo-baya-rgb: 232 76 64;
   --coral-rgb: 224 112 60;
@@ -84,6 +93,8 @@
   --color-fondo-alt: var(--salvia);            /* franjas alternas          */
   --color-fondo-oscuro: var(--verde-bosque);   /* secciones en negativo     */
   --color-fondo-hondo: var(--verde-bosque-hondo); /* pie de sitio           */
+  --color-fondo-carbon: var(--carbon);         /* bandas neutras de sección */
+  --color-fondo-carbon-suave: var(--carbon-suave);
   --color-superficie: rgb(var(--blanco-rgb) / 0.62);   /* tarjetas sobre crema */
   --color-superficie-solida: #fdfaf1;
   --color-superficie-oscura: rgb(var(--crema-rgb) / 0.07); /* sobre bosque  */
@@ -170,7 +181,12 @@
   --peso-ligero: 300;
   --peso-normal: 400;
   --peso-medio: 500;
-  --peso-display: 500;   /* NUEVO · el peso de los titulares en Fraunces   */
+  /* v3 «Blackberry»: el display adelgaza de 500 a 320. Fraunces es variable
+     (300–700), así que 320 es un peso real, no una simulación. A cuerpos de
+     display grandes el trazo fino es lo que da el aire editorial; los cuerpos
+     pequeños NO usan este token (h3/h4 heredan, pero apenas se notan), y las
+     cifras siguen en --peso-fuerte para que el dato no se desvanezca.     */
+  --peso-display: 320;   /* era 500 · el peso de los titulares en Fraunces */
   --peso-fuerte: 600;    /* NUEVO · sólo para cifras y remates             */
 
   --alto-linea-apretado: 1.02;   /* era 1.06 */
@@ -179,10 +195,22 @@
   --alto-linea-suelto: 1.8;
 
   --track-display: -0.02em;   /* era -0.015em · Fraunces pide más cierre   */
-  --track-titulo: -0.005em;   /* era 0.02em                                */
+  /* OJO: --track-titulo es NEGATIVO y ya NO se usa en ningún titular. Sólo
+     queda vivo en tres etiquetas de formulario/dato en Jost (.campo__etiqueta,
+     .ubi-campo__etiqueta, .ubi-dist__lugar). Los titulares serif van todos
+     con --tracking-display; no lo reintroduzcas en ningún hN ni en ningún
+     modificador de .titulo-seccion.                                        */
+  --track-titulo: -0.005em;   /* era 0.02em · sólo micro-etiquetas en Jost  */
   --track-caps: 0.14em;       /* SÓLO micro-etiquetas, ya no los h2        */
   --track-eyebrow: 0.26em;    /* antetítulo — el único caps «de sección»   */
   --track-boton: 0.09em;
+
+  /* v3 «Blackberry» — los dos únicos trackings del nuevo sistema:
+     --tracking-rotulo va en TODO lo que es rótulo en caps (eyebrow, botón,
+     nav, píldora); --tracking-display abre los titulares serif finos, que a
+     peso 320 y cuerpo grande piden aire en vez del cierre negativo de v2.  */
+  --tracking-rotulo: 0.16em;
+  --tracking-display: 0.04em;
 
   --medida: 68ch;            /* longitud de línea máxima cómoda */
   --medida-corta: 46ch;

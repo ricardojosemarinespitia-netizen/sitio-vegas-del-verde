@@ -105,9 +105,12 @@ table {
 /* ==========================================================================
    2. TIPOGRAFÍA
    ========================================================================== */
-/* Los titulares van en Fraunces. La delicadeza de v1 (peso 300) se cambia
-   por --peso-display (500): es lo que le da carácter al nuevo display.
-   font-optical-sizing deja que Fraunces afine el contraste según el cuerpo. */
+/* Los titulares van en Fraunces con --peso-display, que en v3 baja a 320:
+   serif enorme y FINO, el gesto del referente. font-optical-sizing deja que
+   Fraunces afine el contraste según el cuerpo.
+   El tracking cerrado de v2 (--track-display, negativo) se cambia por
+   --tracking-display (+0.04em): un peso 320 a cuerpo de display necesita
+   aire entre letras, no cierre, o los astas finas se empastan.            */
 h1,
 h2,
 h3,
@@ -117,7 +120,12 @@ h4 {
   font-optical-sizing: auto;
   font-variation-settings: var(--ejes-display);
   line-height: var(--alto-linea-titulo);
-  letter-spacing: var(--track-titulo);
+  /* DUEÑO ÚNICO del tracking de titulares. Antes aquí vivía --track-titulo
+     (el token de v2, NEGATIVO: -0.005em) y sólo h1/h2 lo corregían uno a uno,
+     así que todo h3/h4 y todo modificador que volviera a declarar el token
+     se salía del sistema en dirección contraria a la pactada. Ahora el valor
+     se declara una sola vez para los cuatro y NADIE vuelve a redeclararlo.  */
+  letter-spacing: var(--tracking-display);
   color: var(--color-texto);
   text-wrap: balance;
 }
@@ -125,12 +133,14 @@ h4 {
 h1 {
   font-size: var(--fs-h1);
   line-height: var(--alto-linea-apretado);
-  letter-spacing: var(--track-display);
 }
 
+/* Los h2 se quedan en caja de frase a propósito: son frases largas en
+   español («Un refugio natural a veinte minutos de Bucaramanga») y en
+   mayúsculas espaciadas ocuparían tres líneas y gritarían. Sólo el rótulo
+   diminuto (.eyebrow) va en caps.                                         */
 h2 {
   font-size: var(--fs-h2);
-  letter-spacing: var(--track-display);
 }
 
 h3 {
@@ -139,7 +149,6 @@ h3 {
 
 h4 {
   font-size: var(--fs-h4);
-  letter-spacing: 0;
 }
 
 /* h5/h6 NO son titulares: son micro-etiquetas. Se quedan en la fuente de
@@ -203,9 +212,22 @@ ul:not([class]) li::marker {
   max-width: var(--medida);
 }
 
+/* La sangría de la hojita y la palabra más larga del ítem son las dos cosas
+   que fijan el min-content de la lista. Como .lista-hojas suele vivir en una
+   columna flex con `align-items: flex-start` (los carriles de #planes y el
+   sendero de #naturaleza), la lista se dimensiona a fit-content y ese
+   min-content es su suelo: con la raíz tipográfica agrandada, 1.6em de
+   sangría más «acondicionamiento» superaban el ancho de la columna y el
+   texto sobrante quedaba recortado por body{overflow-x:hidden}, sin scroll
+   posible, o sea ILEGIBLE. Se acota la sangría contra el viewport (la hojita
+   mide 0.62em, así que 9vw la sigue despejando) y se permite partir la
+   palabra sólo cuando no cabe entera: `anywhere` —y no `break-word`— porque
+   es el único valor que además REBAJA el min-content, que es lo que hace
+   que la lista pueda ceder en vez de desbordar.                           */
 .lista-hojas > li {
   position: relative;
-  padding-left: 1.6em;
+  padding-left: min(1.6em, 9vw);
+  overflow-wrap: anywhere;
 }
 
 .lista-hojas > li::before {
@@ -331,12 +353,38 @@ a:hover {
   color: var(--color-texto-inverso);
 }
 
+/* Hermana neutra de .seccion--oscura: misma mecánica exacta (fondo + texto
+   inverso + titulares + enlaces con :not(.btn)), sólo cambia el fondo. Es la
+   banda gris carbón que puntúa la página crema. .seccion--carbon-suave es la
+   misma banda un punto más abierta, para dos bandas seguidas.             */
+.seccion--carbon {
+  background-color: var(--color-fondo-carbon);
+  color: var(--color-texto-inverso);
+}
+
+.seccion--carbon-suave {
+  background-color: var(--color-fondo-carbon-suave);
+  color: var(--color-texto-inverso);
+}
+
 .seccion--oscura h1,
 .seccion--oscura h2,
 .seccion--oscura h3,
 .seccion--oscura h4,
 .seccion--oscura h5,
-.seccion--oscura h6 {
+.seccion--oscura h6,
+.seccion--carbon h1,
+.seccion--carbon h2,
+.seccion--carbon h3,
+.seccion--carbon h4,
+.seccion--carbon h5,
+.seccion--carbon h6,
+.seccion--carbon-suave h1,
+.seccion--carbon-suave h2,
+.seccion--carbon-suave h3,
+.seccion--carbon-suave h4,
+.seccion--carbon-suave h5,
+.seccion--carbon-suave h6 {
   color: var(--color-texto-inverso);
 }
 
@@ -350,6 +398,30 @@ a:hover {
 
 .seccion--oscura a:not(.btn):hover {
   color: var(--color-texto-inverso);
+}
+
+/* Sobre carbón neutro el coral claro se ensucia; el enlace va en crema con
+   subrayado, que es como distingue el referente los enlaces en negativo.
+   El :not(.btn) es tan obligatorio aquí como arriba, por lo mismo.        */
+.seccion--carbon a:not(.btn),
+.seccion--carbon-suave a:not(.btn) {
+  color: var(--color-texto-inverso);
+  text-decoration-color: var(--color-borde-inverso);
+}
+
+.seccion--carbon a:not(.btn):hover,
+.seccion--carbon-suave a:not(.btn):hover {
+  text-decoration-color: currentColor;
+}
+
+.seccion--carbon :focus-visible,
+.seccion--carbon-suave :focus-visible {
+  outline-color: var(--color-destacado);
+}
+
+.seccion--carbon .entradilla,
+.seccion--carbon-suave .entradilla {
+  color: var(--color-texto-inverso-suave);
 }
 
 /* Grids */
@@ -465,10 +537,14 @@ a:hover {
   font-size: var(--fs-eyebrow);
   font-weight: var(--peso-medio);
   text-transform: uppercase;
-  letter-spacing: var(--track-eyebrow);
+  /* v3: el tracking baja de 0.26em a --tracking-rotulo (0.16em). El CUERPO
+     no se toca: --fs-eyebrow tiene suelo de 12,5 px puesto adrede.        */
+  letter-spacing: var(--tracking-rotulo);
   /* el tracking sobra tras la última letra y descuadra el centrado */
-  margin: 0 calc(var(--track-eyebrow) * -1) 0 0;
-  color: var(--color-acento-texto);
+  margin: 0 calc(var(--tracking-rotulo) * -1) 0 0;
+  /* El coral se retira: en el sistema del referente el rótulo es un dato de
+     servicio en gris neutro, no un acento. 6.1:1 sobre crema.             */
+  color: var(--color-texto-suave);
 }
 
 .eyebrow::before {
@@ -489,9 +565,11 @@ a:hover {
   opacity: 0.75;
 }
 
-/* Sobre bosque el cálido sigue siendo cálido: coral claro, 5.7:1. */
-.seccion--oscura .eyebrow {
-  color: var(--color-acento-inverso);
+/* Sobre fondo oscuro (bosque o carbón) el rótulo sigue siendo neutro: crema
+   al 78 %, 7.2:1 sobre bosque y 11.1:1 sobre carbón. */
+.seccion--oscura .eyebrow,
+.seccion--carbon .eyebrow {
+  color: var(--color-texto-inverso-suave);
 }
 
 /* v1: MAYÚSCULAS ESPACIADAS EN TODOS LOS TÍTULOS. v2: caja alta y baja.
@@ -504,20 +582,22 @@ a:hover {
   font-optical-sizing: auto;
   font-variation-settings: var(--ejes-display);
   text-transform: none;
-  letter-spacing: var(--track-display);
+  letter-spacing: var(--tracking-display);
   line-height: var(--alto-linea-titulo);
   text-wrap: balance;
   margin: 0;
 }
 
+/* Los modificadores de tamaño SÓLO cambian el cuerpo. El tracking lo pone
+   .titulo-seccion (y, en los <hN>, la regla de titulares): si un modificador
+   lo vuelve a declarar, reintroduce el valor de v2 y saca al titular del
+   sistema. Los tres tamaños comparten --tracking-display.                  */
 .titulo-seccion--sm {
   font-size: var(--fs-h3);
-  letter-spacing: var(--track-titulo);
 }
 
 .titulo-seccion--xs {
   font-size: var(--fs-h4);
-  letter-spacing: 0;
 }
 
 .titulo-display {
@@ -526,7 +606,7 @@ a:hover {
   font-weight: var(--peso-display);
   font-optical-sizing: auto;
   font-variation-settings: var(--ejes-display);
-  letter-spacing: var(--track-display);
+  letter-spacing: var(--tracking-display);
   line-height: var(--alto-linea-apretado);
   text-transform: none;
 }
@@ -652,21 +732,46 @@ a:hover {
 /* ==========================================================================
    7. BOTONES
    ========================================================================== */
+/* v3: ESQUINA VIVA EN TODO EL SISTEMA DE BOTONES. La píldora era el gesto de
+   v2; el referente es cuadrado sin excepción, y media píldora + media caja
+   sería lo peor de los dos. El radio se pone a 0 explícitamente (no se borra
+   la línea) para que quede claro que es una decisión, no un olvido.
+   El padding se abre a 0.8em/2em (≈10 × 28 px al cuerpo del botón) y el
+   min-height de 2.75rem se conserva intacto: es el objetivo táctil.       */
+/* ANCHO MÍNIMO INTRÍNSECO — el fallo de accesibilidad que arregla el bloque
+   de abajo. El ancho que el botón EXIGE es font-relativo (rótulo en caps +
+   --tracking-rotulo + dos rellenos en em); el ancho que TIENE se lo fija el
+   viewport. En cuanto el usuario agranda el tamaño de fuente del navegador
+   (WCAG 1.4.4 «Resize text») el primero adelanta al segundo, y como .btn es
+   un inline-flex centrado, la etiqueta se salía dibujada POR LOS DOS LADOS
+   del filete —hasta 39 px— o el botón rompía su columna. Cuatro palancas:
+     · min-width: 0 ......... lo hace comprimible como ítem flex;
+     · max-width: 100% ...... lo ata a su carril, nunca al viewport;
+     · overflow-wrap: anywhere  baja su min-content de «la palabra más larga
+       con tracking» a un carácter, que es lo que permite que ceda de verdad;
+     · el min() del relleno lateral mide el aire contra el VIEWPORT, no
+       contra la fuente, así que deja de crecer justo cuando no cabe.
+   El min() no toca el diseño a tamaño de fuente por defecto: 9vw sólo gana
+   a 2em por debajo de ~336 px de ancho, y con la raíz normal a esa anchura
+   2em ya son menores. Sólo actúa cuando la raíz está agrandada.           */
 .btn {
   display: inline-flex;
   align-items: center;
   justify-content: center;
   gap: 0.6em;
-  padding: 0.85em 1.7em;
+  padding: 0.8em min(2em, 9vw);
+  min-width: 0;
+  max-width: 100%;
+  overflow-wrap: anywhere;
   min-height: 2.75rem;
   border: 1px solid transparent;
-  border-radius: var(--radio-full);
+  border-radius: 0;
   font-family: var(--fuente-titulo);
   font-size: var(--fs-pequeno);
   font-weight: var(--peso-medio);
   line-height: 1;
   text-transform: uppercase;
-  letter-spacing: var(--track-boton);
+  letter-spacing: var(--tracking-rotulo);
   text-decoration: none;
   text-align: center;
   cursor: pointer;
@@ -698,24 +803,31 @@ a:hover {
    El borde --color-accion-borde no es decorativo: el relleno coral sólo
    contrasta 2.9:1 contra la crema y WCAG 1.4.11 pide 3:1 en el contorno
    del componente; el borde terracota lo sube a 5.3:1. NO LO QUITES.      */
+/* La sombra --sombra-accion se retira: en este sistema nada flota. El borde
+   terracota se queda, porque no es decoración sino el 3:1 de contorno.    */
 .btn-primario {
   background-color: var(--color-accion);
   border-color: var(--color-accion-borde);
   color: var(--color-accion-texto);
-  box-shadow: var(--sombra-accion);
 }
 
 .btn-primario:hover {
   background-color: var(--color-accion-hover);
   border-color: var(--color-accion-hover);
   color: var(--color-texto-inverso);
-  box-shadow: var(--sombra-md);
 }
 
 /* Secundario — contorno verde. El botón «cuéntame más», nunca el «reserva». */
+/* El relleno es TRANSPARENTE, así que el filete es lo único que dibuja el
+   límite del control y WCAG 1.4.11 le exige 3:1 contra el fondo que tenga
+   detrás. Al 40 % de alfa daba 2.16:1 sobre la crema y 2.09:1 sobre la salvia:
+   fallaba en los dos fondos del sitio y el botón se leía como texto suelto.
+   A plena opacidad sube a 10.66:1 sobre crema y 9.16:1 sobre salvia, sigue
+   siendo 1px y no cambia ni la geometría ni el peso frente al .btn-whatsapp
+   relleno. NO LE BAJES EL ALFA: por debajo de 0.55 vuelve a incumplir.     */
 .btn-secundario {
   background-color: transparent;
-  border-color: rgb(var(--verde-bosque-rgb) / 0.4);
+  border-color: var(--verde-bosque);
   color: var(--verde-bosque);
 }
 
@@ -727,34 +839,36 @@ a:hover {
 
 /* WhatsApp — es el CTA de conversión del sitio: comparte el cálido del
    primario. Antes era verde menta y competía con el fondo verde.         */
+/* Sigue RELLENO —es el único botón de conversión del sitio y tiene que pesar
+   más que los fantasmas— pero ahora cuadrado, sin sombra y con el tracking
+   de rótulo, como el resto del sistema.                                   */
 .btn-whatsapp {
   background-color: var(--color-accion);
   border-color: var(--color-accion-borde);
   color: var(--color-accion-texto);
-  box-shadow: var(--sombra-accion);
 }
 
 .btn-whatsapp:hover {
   background-color: var(--color-accion-hover);
   border-color: var(--color-accion-hover);
   color: var(--color-texto-inverso);
-  box-shadow: var(--sombra-md);
 }
 
 /* Destacado — amarillo del logo, 9.5:1 con tinta. Para un solo CTA por
    pantalla como mucho (el del hero, o el del sendero).                    */
+/* Mismo criterio que el secundario: el filete al 25 % de alfa era todavía más
+   flojo (el amarillo del logo tampoco llega a 3:1 contra la crema por sí
+   solo), así que el borde va a bosque pleno y es él quien da el contorno.  */
 .btn-destacado {
   background-color: var(--color-destacado);
-  border-color: rgb(var(--verde-bosque-rgb) / 0.25);
+  border-color: var(--verde-bosque);
   color: var(--tinta);
-  box-shadow: var(--sombra-sm);
 }
 
 .btn-destacado:hover {
   background-color: var(--verde-bosque);
   border-color: var(--verde-bosque);
   color: var(--color-destacado);
-  box-shadow: var(--sombra-md);
 }
 
 /* Sobre foto o fondo oscuro */
@@ -770,27 +884,71 @@ a:hover {
   color: var(--tinta);
 }
 
-.btn-fantasma {
+/* BOTÓN FANTASMA — el botón por defecto del sistema v3: fondo transparente,
+   filete de 1px y etiqueta en caps espaciadas. Es el que debería llevar todo
+   lo que no sea el CTA de WhatsApp.
+   Se declaran los dos nombres a la vez —.btn-fantasma (el que ya existía y
+   está en el marcado) y .btn--fantasma (la convención BEM del rediseño)—
+   porque no me toca editar el HTML y así funciona el que se escriba.
+   Sobre CLARO hereda el color del texto: `currentColor` en el borde es lo
+   que hace que el mismo botón sirva sobre crema y sobre foto sin variante. */
+.btn-fantasma,
+.btn--fantasma {
   background-color: transparent;
-  border-color: var(--color-borde-inverso);
+  border-color: currentColor;
+  color: var(--color-texto);
+}
+
+.btn-fantasma:hover,
+.btn--fantasma:hover {
+  background-color: rgb(var(--tinta-rgb) / 0.06);
+  color: var(--color-texto);
+}
+
+/* Sobre cualquier fondo oscuro el fantasma se invierte solo. El filete al
+   20 % de crema es demasiado tenue para WCAG 1.4.11 en el estado de reposo,
+   así que sube a crema plena en el hover y el foco lo cubre aparte.       */
+.seccion--oscura .btn-fantasma,
+.seccion--oscura .btn--fantasma,
+.seccion--carbon .btn-fantasma,
+.seccion--carbon .btn--fantasma,
+.seccion--carbon-suave .btn-fantasma,
+.seccion--carbon-suave .btn--fantasma,
+.sobre-oscuro .btn-fantasma,
+.sobre-oscuro .btn--fantasma,
+.pie-sitio .btn-fantasma,
+.pie-sitio .btn--fantasma {
   color: var(--color-texto-inverso);
 }
 
-.btn-fantasma:hover {
+.seccion--oscura .btn-fantasma:hover,
+.seccion--oscura .btn--fantasma:hover,
+.seccion--carbon .btn-fantasma:hover,
+.seccion--carbon .btn--fantasma:hover,
+.seccion--carbon-suave .btn-fantasma:hover,
+.seccion--carbon-suave .btn--fantasma:hover,
+.sobre-oscuro .btn-fantasma:hover,
+.sobre-oscuro .btn--fantasma:hover,
+.pie-sitio .btn-fantasma:hover,
+.pie-sitio .btn--fantasma:hover {
   background-color: rgb(var(--crema-rgb) / 0.12);
-  border-color: var(--color-texto-inverso);
   color: var(--color-texto-inverso);
 }
 
-/* Modificadores de tamaño */
+/* Modificadores de tamaño. Sobrescriben el padding entero, así que tienen que
+   repetir el min() contra el viewport o reintroducen el desbordamiento de
+   .btn con otro número (el CTA del sendero se salía 34,9 px de su columna
+   precisamente por los 2,2em de aquí). Los topes en vw están elegidos para
+   que a tamaño de fuente por defecto NUNCA ganen: 11vw = 2,2em de --fs-cuerpo
+   a 320 px, y 5vw queda por encima de 1,15em de --fs-micro.               */
 .btn-grande {
-  padding: 1.05em 2.2em;
+  padding: 1.05em min(2.2em, 11vw);
   min-height: 3.25rem;
   font-size: var(--fs-cuerpo);
 }
 
 .btn-pequeno {
-  padding: 0.6em 1.15em;
+  padding: 0.6em min(1.15em, 5vw);
   min-height: 2.25rem;
   font-size: var(--fs-micro);
 }
@@ -800,7 +958,16 @@ a:hover {
   width: 100%;
 }
 
-/* Enlace con flecha, para CTAs de bajo peso */
+/* Enlace con flecha, para CTAs de bajo peso.
+
+   EL CORAL SE QUEDA AQUÍ, A PROPÓSITO. En v3 los rótulos en caps espaciadas
+   migraron a gris (.eyebrow, §5), pero esto no es un rótulo: es un ENLACE, y
+   el color es lo único que lo señala como pulsable —no lleva subrayado y
+   comparte fuente, cuerpo y tracking con las micro-etiquetas de su alrededor—.
+   Si se le quita el acento, deja de distinguirse de una etiqueta muerta. Mismo
+   criterio que .pildora con el radio: la regla general manda salvo cuando la
+   forma (o el color) es lo que comunica la función. Si algún día se decide
+   pasarlo a gris, hay que devolverle el subrayado en el mismo movimiento.     */
 .enlace-flecha {
   display: inline-flex;
   align-items: center;
@@ -809,7 +976,7 @@ a:hover {
   font-size: var(--fs-pequeno);
   font-weight: var(--peso-medio);
   text-transform: uppercase;
-  letter-spacing: var(--track-boton);
+  letter-spacing: var(--tracking-rotulo);
   text-decoration: none;
   color: var(--color-acento-texto);
 }
@@ -833,14 +1000,17 @@ a:hover {
 /* ==========================================================================
    8. TARJETAS E IMÁGENES (base compartida; cada sección la extiende)
    ========================================================================== */
+/* v3: ni radio ni sombra. La separación de la tarjeta contra la crema la hace
+   el filete de 1px que ya estaba (--color-borde-suave), que ahora es el único
+   recurso: si una tarjeta necesita destacar más, se le sube el borde, nunca
+   se le pone sombra. Se retira `box-shadow` de la transición porque ya no
+   hay ninguna sombra que transicionar.                                    */
 .tarjeta {
   background-color: var(--color-superficie);
   border: 1px solid var(--color-borde-suave);
-  border-radius: var(--radio-lg);
+  border-radius: 0;
   overflow: hidden;
-  transition:
-    transform var(--transicion),
-    box-shadow var(--transicion);
+  transition: transform var(--transicion);
 }
 
 .tarjeta__cuerpo {
@@ -850,10 +1020,14 @@ a:hover {
   gap: var(--esp-2xs);
 }
 
+/* FOTOGRAFÍA A ESQUINA VIVA. Es el cambio que más se nota del rediseño: la
+   foto llega al borde del marco sin redondeo y sin sombra. Nada de lo que
+   contiene una imagen lleva radio en v3.                                  */
 .marco {
   position: relative;
   overflow: hidden;
-  border-radius: var(--radio-lg);
+  border-radius: 0;
+  box-shadow: none;
   background-color: rgb(var(--gris-verde-rgb) / 0.3);
 }
 
@@ -895,7 +1069,7 @@ figcaption {
   font-optical-sizing: auto;
   font-variation-settings: var(--ejes-display);
   line-height: 1;
-  letter-spacing: var(--track-display);
+  letter-spacing: var(--tracking-display);
   color: var(--color-acento-texto);
 }
 
@@ -911,7 +1085,7 @@ figcaption {
   font-family: var(--fuente-titulo);
   font-size: var(--fs-micro);
   text-transform: uppercase;
-  letter-spacing: var(--track-caps);
+  letter-spacing: var(--tracking-rotulo);
   color: var(--color-texto-suave);
 }
 
@@ -921,7 +1095,11 @@ figcaption {
 
 /* Etiqueta / píldora */
 /* La píldora es etiqueta de dato, no CTA: se queda en verde y en voz baja
-   para no competir con el coral de los botones.                           */
+   para no competir con el coral de los botones.
+   EXCEPCIÓN DELIBERADA AL «todo cuadrado»: la píldora CONSERVA --radio-full.
+   Mide 0.4em de alto útil y su lectura como chip depende de la forma; a
+   esquina viva se confunde con un botón pequeño, que es justo lo que no es.
+   Las esquinas vivas mandan en foto, tarjeta y botón; en los chips, no.   */
 .pildora {
   display: inline-flex;
   align-items: center;
@@ -934,7 +1112,7 @@ figcaption {
   font-size: var(--fs-micro);
   font-weight: var(--peso-medio);
   text-transform: uppercase;
-  letter-spacing: var(--track-caps);
+  letter-spacing: var(--tracking-rotulo);
   color: var(--verde-bosque);
 }
 
@@ -956,6 +1134,26 @@ figcaption {
   background-color: rgb(var(--amarillo-rgb) / 0.12);
   border-color: rgb(var(--amarillo-rgb) / 0.4);
   color: var(--color-destacado);
+}
+
+/* Sobre carbón el menta del negativo verde no pega: la banda neutra pide
+   componentes neutros. Píldora y cifra van en crema y amarillo, que son los
+   dos que mantienen el contraste contra un gris del 17 % de luminancia.  */
+.seccion--carbon .pildora,
+.seccion--carbon-suave .pildora {
+  background-color: rgb(var(--crema-rgb) / 0.08);
+  border-color: var(--color-borde-inverso);
+  color: var(--color-texto-inverso);
+}
+
+.seccion--carbon .cifra,
+.seccion--carbon-suave .cifra {
+  color: var(--color-destacado);
+}
+
+.seccion--carbon .cifra-etiqueta,
+.seccion--carbon-suave .cifra-etiqueta {
+  color: var(--color-texto-inverso-suave);
 }
 
 /* ==========================================================================
@@ -1062,9 +1260,17 @@ figcaption {
   /* Botones y antetítulos son inline-flex: sin esto se quedan al ancho de su
      etiqueta y se salen. Con la letra en 24 px, «Atrévete a un plan distinto»
      medía 565 px sobre una pantalla de 305. Se permite que la etiqueta pase a
-     dos líneas antes que salirse. */
+     dos líneas antes que salirse.
+
+     `.pie__social` —el botón fantasma de Instagram del pie— es inline-flex
+     igual que un `.btn` pero no lleva esa clase, así que se quedaba fuera de
+     la red. A 320 px con la raíz en 24 px medía 296,8 px dentro de una
+     `.pie__marca` de 264,8 y su borde derecho caía en x=324,4: el
+     `overflow-x: hidden` del body se comía los últimos 4 px, justo el borde
+     del botón. */
   .btn,
-  .eyebrow {
+  .eyebrow,
+  .pie__social {
     max-width: 100%;
     min-width: 0;
   }

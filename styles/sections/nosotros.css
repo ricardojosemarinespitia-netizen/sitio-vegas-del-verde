@@ -88,7 +88,11 @@
   margin-top: var(--esp-seccion-sm);
   padding: var(--esp-lg) var(--esp-md);
   border: 1px solid var(--color-borde-suave);
-  border-radius: var(--radio-lg);
+  /* v3: esquina viva, como .tarjeta en base.css. Esta tira es una caja de
+     servicio —wifi, baños, vigilancia, parqueadero—, no una tarjeta de
+     producto: con --radio-lg parecía un widget. El filete de 1 px es todo el
+     recurso de separación que necesita contra la crema. */
+  border-radius: 0;
   background-color: var(--color-superficie);
   text-align: center;
 }
@@ -115,7 +119,10 @@
   font-size: var(--fs-pequeno);
   font-weight: var(--peso-medio);
   text-transform: uppercase;
-  letter-spacing: var(--track-caps);
+  /* v3: el tracking de rótulo del sistema (0.16em) en lugar del --track-caps
+     de v2 (0.14em). Es el mismo valor que llevan .eyebrow, .btn y el nav, y la
+     coherencia de los micro-rótulos es de las cosas que más se notan. */
+  letter-spacing: var(--tracking-rotulo);
   line-height: var(--alto-linea-titulo);
   color: var(--color-texto);
 }
@@ -193,11 +200,17 @@
   align-items: flex-start;
   gap: var(--esp-sm);
   padding: var(--esp-md);
+  transition: border-color var(--transicion);
 }
 
+/* v3: el pilar ya no se levanta ni proyecta sombra. Eran tres tarjetas
+   flotando al pasar el ratón, y .tarjeta perdió en base.css tanto el radio
+   como la sombra: mantener aquí el hover elevado dejaba el gesto sin la pieza
+   que lo justificaba. Lo que responde ahora es el filete, que sube de
+   --color-borde-suave al borde de componente. Es un cambio de una unidad, que
+   es lo que pide una lista que se lee, no un carrusel de tarjetas. */
 .nosotros__pilar:hover {
-  transform: translateY(calc(var(--esp-3xs) * -1));
-  box-shadow: var(--sombra-md);
+  border-color: var(--color-borde-fuerte);
 }
 
 /* Terracota sobre la superficie clara de la tarjeta: 5,3:1. En v1 este número
@@ -210,7 +223,10 @@
   font-optical-sizing: auto;
   font-variation-settings: var(--ejes-display);
   line-height: var(--alto-linea-apretado);
-  letter-spacing: var(--track-display);
+  /* v3: el cierre negativo de v2 (--track-display, -0.02em) se cambia por el
+     tracking abierto del nuevo display. En una cifra de dos dígitos en
+     Fraunces el cierre pegaba el 0 al 1. */
+  letter-spacing: var(--tracking-display);
   color: var(--color-acento-texto);
 }
 

@@ -50,6 +50,19 @@
     if (devolverFoco) botonMenu.focus();
   }
 
+  /* El panel abierto TAPA el resto de la página: ocupa min(21rem, 84vw) desde
+     el borde derecho y el velo cubre lo que queda. Con el ratón nada de lo de
+     atrás es alcanzable, pero el foco del teclado sí se iba: desde el último
+     enlace del panel Tab entraba en los ~116 controles ocultos, y Shift+Tab
+     desde el primero se escapaba hacia atrás por la marca y «Saltar al
+     contenido». Se cierra el ciclo igual que en el lightbox (más abajo): el
+     foco da la vuelta dentro de #nav-principal y la salida es Escape, el velo
+     o pulsar un enlace. */
+  const FOCABLES = 'a[href], button:not([disabled]), input:not([disabled]), select:not([disabled]), textarea:not([disabled]), [tabindex]:not([tabindex="-1"])';
+  function focablesDelMenu() {
+    return [...nav.querySelectorAll(FOCABLES)].filter(el => el.getClientRects().length);
+  }
+
   if (botonMenu && nav) {
     botonMenu.addEventListener('click', () => {
       const abierto = botonMenu.getAttribute('aria-expanded') === 'true';
@@ -58,7 +71,21 @@
     velo?.addEventListener('click', () => cerrarMenu());
     nav.querySelectorAll('a').forEach(a => a.addEventListener('click', () => cerrarMenu({ devolverFoco: false })));
     document.addEventListener('keydown', e => {
-      if (e.key === 'Escape' && botonMenu.getAttribute('aria-expanded') === 'true') cerrarMenu();
+      if (botonMenu.getAttribute('aria-expanded') !== 'true') return;
+      if (e.key === 'Escape') { cerrarMenu(); return; }
+      if (e.key !== 'Tab') return;
+      const focables = focablesDelMenu();
+      if (!focables.length) return;
+      const primero = focables[0];
+      const ultimo = focables[focables.length - 1];
+      const dentro = nav.contains(document.activeElement);
+      if (e.shiftKey && (document.activeElement === primero || !dentro)) {
+        e.preventDefault();
+        ultimo.focus();
+      } else if (!e.shiftKey && (document.activeElement === ultimo || !dentro)) {
+        e.preventDefault();
+        primero.focus();
+      }
     });
   }
 

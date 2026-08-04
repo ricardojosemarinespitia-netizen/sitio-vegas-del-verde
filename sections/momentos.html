@@ -1,0 +1,240 @@
+<!-- ==========================================================================
+     FRAGMENTO: MOMENTOS  ·  id="momentos"
+     CSS propio: styles/sections/momentos.css
+     JS: ninguno propio. Sólo .reveal / .reveal-secuencia del script global.
+
+     QUÉ ES: una banda de carbón que corta la página crema entre #planes y
+     #colegios. Es la única pausa visual del recorrido: sirve para respirar,
+     no para informar.
+
+     QUÉ POSEE ESTA SECCIÓN (ARQUITECTURA-V3, «un hecho, un dueño»)
+       NADA. Ni un solo hecho. Esta sección es ATMÓSFERA PURA y por eso puede
+       borrarse entera sin que la página pierda un dato.
+
+     QUÉ TIENE PROHIBIDO DECIR
+       TODO hecho: aforos, precios, horarios, direcciones, superficies,
+       distancias, cifras de especies, condiciones de alquiler, nombres de
+       espacios y nombres de planes. Los pies de foto describen LO QUE SE VE
+       en la imagen y se paran ahí. Si alguna vez alguien quiere «aprovechar»
+       este hueco para meter un dato, el dato ya tiene dueño en otra sección:
+       lo que corresponde es enlazar allí, no repetirlo aquí.
+
+     POR QUÉ NO ESTÁ EN LA NAVEGACIÓN NI EN EL PIE
+       Porque no es un destino. Nadie busca «momentos» en un menú; se lo
+       encuentra al bajar. Meterla en el menú la convertiría en una promesa
+       de contenido que esta sección no tiene intención de cumplir.
+
+     LOS CUATRO RECUADROS SON VÍDEO EN DIFERIDO
+       Hoy cada recuadro es una foto. Mañana cada uno será un clip corto de
+       unos segundos, en bucle y sin sonido. El marcado del <video> queda
+       escrito, listo para pegar, dentro del comentario de cada recuadro.
+       Va COMENTADO y no simplemente `hidden` (como en el hero de v2) porque
+       herramientas/validar.py comprueba que todo src exista en disco y sólo
+       tiene pactada la excepción de video/hero.mp4: dejar cuatro rutas vivas
+       apuntando a archivos inexistentes rompería esa comprobación cada vez
+       que se corre. En cuanto los cuatro clips estén en video/, se descomenta
+       y se añade la excepción en validar.py y validar_sitio.py.
+
+     NO HAY ICONO DE PLAY SOBRE LAS FOTOS, Y NO SE PONE
+       Un triángulo de reproducción encima de una imagen fija promete algo que
+       no ocurre al pulsarlo. Mientras esto sean fotos, se ven como fotos.
+     ========================================================================== -->
+<section id="momentos" class="seccion seccion--carbon momentos" aria-labelledby="momentos-titulo">
+  <div class="contenedor">
+
+    <header class="seccion-encabezado momentos__encabezado reveal">
+      <p class="eyebrow">Momentos</p>
+      <h2 id="momentos-titulo" class="titulo-seccion momentos__titulo">
+        Aquí el día se toma su tiempo
+      </h2>
+    </header>
+
+    <ul class="momentos__rejilla reveal-secuencia" role="list">
+
+      <!-- ============================================================ 01/04
+           HOY: foto. MAÑANA: video/momento-1.mp4
+
+           PARA ACTIVAR EL VÍDEO DE ESTE RECUADRO, en tres pasos:
+             1. Deja el archivo en  video/momento-1.mp4  (y, si lo tienes, un
+                video/momento-1.webm como primer <source>).
+             2. Descomenta el bloque <video> de abajo y añade `autoplay`.
+                El `poster` ya es esta misma foto: mientras el clip carga se
+                ve exactamente lo que se veía antes, sin hueco negro.
+             3. Añade la clase `momentos__marco--con-video` al <div class="marco…">
+                de este recuadro: momentos.css funde la foto y deja el vídeo delante, y con
+                `prefers-reduced-motion: reduce` devuelve la foto fija.
+           No borres el <img>: es el suelo del recuadro si la red falla.
+
+           <video
+             class="momentos__video"
+             muted
+             loop
+             playsinline
+             preload="none"
+             poster="img/parque/parque-25.jpg"
+             width="1920"
+             height="1080"
+             aria-hidden="true"
+             tabindex="-1"
+           >
+             <source src="video/momento-1.mp4" type="video/mp4" />
+           </video>
+           ================================================================ -->
+      <li class="momentos__pieza reveal">
+        <figure class="momentos__figura">
+          <div class="marco marco--16-9 momentos__marco">
+            <img
+              src="img/parque/parque-25.jpg"
+              width="1200"
+              height="800"
+              loading="lazy"
+              decoding="async"
+              alt="Atardecer nublado sobre el predio: bajo una carpa translúcida colgada de guirnaldas de bombillos, un grupo de invitados charla de pie; delante pasa un camino de gravilla entre matas y macetas de barro con flores."
+            />
+          </div>
+          <figcaption class="momentos__pie">
+            Las guirnaldas se encienden antes de que se vaya la luz.
+          </figcaption>
+        </figure>
+      </li>
+
+      <!-- ============================================================ 02/04
+           HOY: foto. MAÑANA: video/momento-2.mp4
+
+           PARA ACTIVAR EL VÍDEO DE ESTE RECUADRO, en tres pasos:
+             1. Deja el archivo en  video/momento-2.mp4  (y, si lo tienes, un
+                video/momento-2.webm como primer <source>).
+             2. Descomenta el bloque <video> de abajo y añade `autoplay`.
+             3. AÑADE la clase `momentos__marco--con-video` al <div class="marco…">.
+                Añadir, no sustituir: `momentos__marco--anclar-abajo` se queda.
+                El poster de este recuadro es la foto CUADRADA parque-27.jpg, así
+                que sin esa clase el poster volvería a recortarse por el centro y
+                a decapitar el corro mientras el clip carga. (Los fotogramas del
+                clip son 16:9 y no se recortan; el ancla les da igual.)
+
+           <video
+             class="momentos__video"
+             muted
+             loop
+             playsinline
+             preload="none"
+             poster="img/parque/parque-27.jpg"
+             width="1920"
+             height="1080"
+             aria-hidden="true"
+             tabindex="-1"
+           >
+             <source src="video/momento-2.mp4" type="video/mp4" />
+           </video>
+           ================================================================ -->
+      <li class="momentos__pieza reveal">
+        <figure class="momentos__figura">
+          <!-- `momentos__marco--anclar-abajo`: única foto CUADRADA del cuarteto
+               (1200×1200). Recortada a 16:9 desde el centro perdía 525 px de
+               alto y dejaba al corro de cabezas contra el borde inferior, con
+               los aros cortados. El modificador la ancla abajo. Ver el porqué
+               largo en styles/sections/momentos.css §3.1. -->
+          <div class="marco marco--16-9 momentos__marco momentos__marco--anclar-abajo">
+            <img
+              src="img/parque/parque-27.jpg"
+              width="1200"
+              height="1200"
+              loading="lazy"
+              decoding="async"
+              alt="Seis niños sentados en corro sobre el césped, casi todos de espaldas, escuchando a una monitora que sostiene un libro ilustrado abierto; dos acompañantes adultas los rodean, a un lado hay aros de colores en la hierba y detrás se abre el prado bajo los árboles."
+            />
+          </div>
+          <figcaption class="momentos__pie">
+            Un corro en la hierba, un libro abierto y aros de colores al lado.
+          </figcaption>
+        </figure>
+      </li>
+
+      <!-- ============================================================ 03/04
+           HOY: foto. MAÑANA: video/momento-3.mp4
+
+           PARA ACTIVAR EL VÍDEO DE ESTE RECUADRO, en tres pasos:
+             1. Deja el archivo en  video/momento-3.mp4  (y, si lo tienes, un
+                video/momento-3.webm como primer <source>).
+             2. Descomenta el bloque <video> de abajo y añade `autoplay`.
+             3. Añade la clase `momentos__marco--con-video` al <div class="marco…">.
+
+           <video
+             class="momentos__video"
+             muted
+             loop
+             playsinline
+             preload="none"
+             poster="img/parque/parque-31.jpg"
+             width="1920"
+             height="1080"
+             aria-hidden="true"
+             tabindex="-1"
+           >
+             <source src="video/momento-3.mp4" type="video/mp4" />
+           </video>
+           ================================================================ -->
+      <li class="momentos__pieza reveal">
+        <figure class="momentos__figura">
+          <div class="marco marco--16-9 momentos__marco">
+            <img
+              src="img/parque/parque-31.jpg"
+              width="1200"
+              height="675"
+              loading="lazy"
+              decoding="async"
+              alt="Rueda de personas mayores sentadas en sillas repartidas sobre el césped, con los brazos abiertos en cruz siguiendo a quien guía desde el centro; hay esterillas de colores en el suelo y árboles alrededor."
+            />
+          </div>
+          <figcaption class="momentos__pie">
+            Los brazos se abren a la vez, en corro, bajo los árboles.
+          </figcaption>
+        </figure>
+      </li>
+
+      <!-- ============================================================ 04/04
+           HOY: foto. MAÑANA: video/momento-4.mp4
+
+           PARA ACTIVAR EL VÍDEO DE ESTE RECUADRO, en tres pasos:
+             1. Deja el archivo en  video/momento-4.mp4  (y, si lo tienes, un
+                video/momento-4.webm como primer <source>).
+             2. Descomenta el bloque <video> de abajo y añade `autoplay`.
+             3. Añade la clase `momentos__marco--con-video` al <div class="marco…">.
+
+           <video
+             class="momentos__video"
+             muted
+             loop
+             playsinline
+             preload="none"
+             poster="img/parque/parque-11.jpg"
+             width="1920"
+             height="1080"
+             aria-hidden="true"
+             tabindex="-1"
+           >
+             <source src="video/momento-4.mp4" type="video/mp4" />
+           </video>
+           ================================================================ -->
+      <li class="momentos__pieza reveal">
+        <figure class="momentos__figura">
+          <div class="marco marco--16-9 momentos__marco">
+            <img
+              src="img/parque/parque-11.jpg"
+              width="1200"
+              height="800"
+              loading="lazy"
+              decoding="async"
+              alt="Patio de baldosas claras a la sombra de una pérgola de madera cubierta de caña; al fondo, una pared turquesa pintada con un mural de plantas y mariposas, una fila de macetas de barro y una palmera en un tiesto blanco. En primer plano cruza una rama de buganvilla en flor."
+            />
+          </div>
+          <figcaption class="momentos__pie">
+            La caña filtra el sol y la buganvilla se mete en el encuadre.
+          </figcaption>
+        </figure>
+      </li>
+
+    </ul>
+
+  </div>
+</section>

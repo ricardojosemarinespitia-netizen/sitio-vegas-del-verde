@@ -12,10 +12,22 @@
    · Sin !important.
 
    Contraste medido sobre crema (#F7F2E7):
-     índice y sello en --color-acento-texto (terracota) ......... 5.30:1
+     índice y sello en --color-texto-suave (v3, antes terracota) . 6.10:1
      detalle del sello en --color-texto-suave sobre salvia ...... 5.22:1
      emblema del sello en --verde-bosque ....................... 10.66:1
    ========================================================================== */
+
+/* --------------------------------------------------------------------------
+   0. TOKEN LOCAL DE LA SECCIÓN
+   El desfase del mosaico se usaba dos veces (el desplazamiento de la segunda
+   columna y el hueco que hay que recuperar debajo) escrito como --esp-xl en
+   los dos sitios. Con nombre propio no se puede cambiar uno y olvidar el otro,
+   que es exactamente como se descuadra una rejilla. Sale de la escala, como
+   manda la casa; mismo recurso que .nat y .ubi.
+   -------------------------------------------------------------------------- */
+.viv {
+  --viv-desfase: var(--esp-xl);
+}
 
 /* --------------------------------------------------------------------------
    1. ARMAZÓN — fotos y texto
@@ -51,11 +63,11 @@
    espacio que se lleva el desplazamiento. */
 @media (min-width: 48rem) {
   .viv-mosaico {
-    padding-bottom: var(--esp-xl);
+    padding-bottom: var(--viv-desfase);
   }
 
   .viv-foto:nth-child(even) > figure {
-    transform: translateY(var(--esp-xl));
+    transform: translateY(var(--viv-desfase));
   }
 }
 
@@ -104,13 +116,17 @@
   border-bottom: 1px solid var(--color-borde-suave);
 }
 
+/* v3: el índice («01», «02»…) pierde el coral y pasa al gris de rótulo de
+   .eyebrow (base.css §5). Es numeración de catálogo —un dato de servicio—, y
+   en terracota competía con el nombre del servicio, que es lo que hay que
+   leer. Sube de 5.3:1 a 6.1:1 sobre crema, de paso. */
 .viv-servicio__indice {
   font-family: var(--fuente-titulo);
   font-size: var(--fs-micro);
   font-weight: var(--peso-medio);
   text-transform: uppercase;
-  letter-spacing: var(--track-caps);
-  color: var(--color-acento-texto);
+  letter-spacing: var(--tracking-rotulo);
+  color: var(--color-texto-suave);
   font-variant-numeric: tabular-nums;
 }
 
@@ -135,6 +151,10 @@
 /* --------------------------------------------------------------------------
    6. EL SELLO ICA — la prueba de confianza
    -------------------------------------------------------------------------- */
+/* v3: esquina viva. El sello es un documento —un registro del ICA—, y era la
+   última caja redondeada de la sección: con el mosaico y el marco de las fotos
+   ya a esquina viva, se quedaba sola. El filete de 1 px y el fondo salvia
+   hacen la separación entera. */
 .viv-sello {
   display: flex;
   align-items: flex-start;
@@ -142,7 +162,7 @@
   margin: 0;
   padding: var(--esp-md);
   border: 1px solid var(--color-borde-suave);
-  border-radius: var(--radio-md);
+  border-radius: 0;
   background-color: rgb(var(--salvia-rgb) / 0.6);
 }
 
@@ -163,13 +183,16 @@
   gap: var(--esp-3xs);
 }
 
+/* «Registro ICA» es el rótulo del documento, no su titular: mismo gris que el
+   índice de arriba y que .eyebrow. Quien da la nota de confianza es el emblema
+   en verde bosque, que sí conserva su color. */
 .viv-sello__titulo {
   font-family: var(--fuente-titulo);
   font-size: var(--fs-micro);
   font-weight: var(--peso-medio);
   text-transform: uppercase;
-  letter-spacing: var(--track-caps);
-  color: var(--color-acento-texto);
+  letter-spacing: var(--tracking-rotulo);
+  color: var(--color-texto-suave);
 }
 
 .viv-sello__detalle {

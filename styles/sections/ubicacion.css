@@ -12,6 +12,30 @@
    Los overrides de Leaflet van scoped bajo #ubicacion a propósito: la hoja de
    Leaflet la inyecta js/mapa.js y podría quedar después de esta en el orden
    de cascada; la especificidad del id nos deja ganar sin usar !important.
+
+   v3 «Blackberry» — QUÉ SE BARRIÓ Y QUÉ NO
+   Todo lo que en esta sección es TARJETA, FOTO, CAMPO o CAJA pasa a esquina
+   viva y se queda sin sombra: dirección, referencias, distancias, canales y
+   formulario. Es la misma dieta de base.css (.tarjeta y .marco perdieron radio
+   y sombra) y la que ya llevan #espacios y #momentos.
+
+   Lo que NO se ha tocado, y no por olvido: la FORMA del visor y el PIN. Es
+   decir .ubi-mapa__marco, .ubi-mapa__medio y su viñeta, .ubi-hud*, .ubi-pin*,
+   la pastilla de activación y los overrides de Leaflet. Ahí la forma es
+   geometría medida (el vértice de la punta cae sobre
+   la coordenada, la viñeta hereda el radio del visor, el objetivo táctil de
+   los controles) y cualquier retoque de estilo se paga en el mapa. Siguen
+   siendo, por tanto, las últimas piezas con radio y sombra de la página: el
+   marco del visor (--radio-xl + --sombra-lg), la cápsula del HUD y la pastilla
+   de activación. Si el director de arte quiere el visor también a esquina
+   viva, es un cambio de tres líneas —.ubi-mapa__marco y .ubi-mapa__medio—,
+   pero se hace mirando el mapa, no a ciegas.
+
+   Se conservan redondas, a propósito y con el mismo criterio que .pildora en
+   base.css («las esquinas vivas mandan en foto, tarjeta y botón; en los chips,
+   no»): la píldora de referencia .ubi-ref, el disco de icono .ubi-canal__icono
+   y la viñeta de error. Son grafismos diminutos cuya lectura depende de la
+   forma, no cajas de contenido.
    ========================================================================== */
 
 .ubi {
@@ -134,6 +158,15 @@
 }
 
 .ubi-mapa--interactivo .ubi-mapa__nota-respaldo {
+  display: none;
+}
+
+/* El crédito de las teselas lo enciende js/mapa.js quitando el atributo
+   `hidden` cuando el mapa interactivo arranca de verdad. El pie es un
+   contenedor flex, así que la regla se escribe: si alguien le da un `display`
+   propio a este <span>, el `hidden` del navegador deja de valer y el crédito
+   aparece con el mapa apagado, atribuyendo a Esri una foto que no es suya. */
+.ubi-mapa__credito[hidden] {
   display: none;
 }
 
@@ -449,13 +482,16 @@
   }
 }
 
+/* v3: esquina viva y ninguna sombra. La dirección y las referencias son datos
+   de servicio, y en el sistema nuevo un dato de servicio va en una caja de
+   filete, no en una tarjeta redondeada. */
 .ubi-tarjeta {
   display: flex;
   flex-direction: column;
   gap: var(--esp-xs);
   padding: var(--esp-lg);
   border: 1px solid var(--color-borde-suave);
-  border-radius: var(--radio-lg);
+  border-radius: 0;
   background-color: var(--color-superficie);
 }
 
@@ -480,7 +516,7 @@
   font-family: var(--fuente-titulo);
   font-size: var(--fs-micro);
   text-transform: uppercase;
-  letter-spacing: var(--track-caps);
+  letter-spacing: var(--tracking-rotulo);
   color: var(--color-texto-suave);
 }
 
@@ -493,6 +529,8 @@
   list-style: none;
 }
 
+/* El radio pleno se queda: .ubi-ref es un chip, y los chips conservan la forma
+   por el mismo motivo que .pildora en base.css. */
 .ubi-ref {
   padding: 0.45em 0.95em;
   border: 1px solid var(--color-borde-suave);
@@ -512,7 +550,10 @@
 .ubi-refs__foto {
   width: 100%;
   height: auto;
-  border-radius: var(--radio-md);
+  /* Fotografía: esquina viva, como todas las del sitio desde v3. El filete se
+     queda porque esta imagen lleva rótulos sobre fondo claro y sin él se
+     derrama sobre la salvia de la sección. */
+  border-radius: 0;
   border: 1px solid var(--color-borde-suave);
 }
 
@@ -523,7 +564,7 @@
   margin-top: var(--gap-lg);
   padding: var(--esp-lg);
   border: 1px solid var(--color-borde-suave);
-  border-radius: var(--radio-lg);
+  border-radius: 0;
   background-color: var(--color-superficie);
 }
 
@@ -570,7 +611,9 @@
   grid-row: 2;
   display: block;
   height: var(--esp-3xs);
-  border-radius: var(--radio-full);
+  /* v3: la barra de distancia es un instrumento de medida, no una pastilla.
+     A 4 px de alto el radio pleno se comía los dos extremos del dato. */
+  border-radius: 0;
   background-color: rgb(var(--verde-oliva-rgb) / 0.12);
   overflow: hidden;
 }
@@ -641,24 +684,24 @@ html:not(.js) .ubi-dist__relleno {
   gap: var(--esp-sm);
   padding: var(--esp-md);
   border: 1px solid var(--color-borde-suave);
-  border-radius: var(--radio-lg);
+  border-radius: 0;
   background-color: var(--color-superficie);
   color: var(--color-texto);
   text-decoration: none;
   transition:
     border-color var(--transicion),
-    background-color var(--transicion),
-    transform var(--transicion-rapida),
-    box-shadow var(--transicion);
+    background-color var(--transicion);
 }
 
+/* v3: el canal ya no se levanta ni proyecta sombra al pasar por encima. Lo que
+   responde es el filete y el fondo, que es lo que puede responder una caja sin
+   elevación. Se quita también `transform` de la transición: sin salto no hay
+   nada que interpolar. */
 a.ubi-canal:hover,
 a.ubi-canal:focus-visible {
   color: var(--color-texto);
-  border-color: rgb(var(--verde-oliva-rgb) / 0.4);
+  border-color: var(--color-borde-fuerte);
   background-color: var(--color-superficie-solida);
-  transform: translateY(-2px);
-  box-shadow: var(--sombra-md);
 }
 
 .ubi-canal--destacado {
@@ -703,7 +746,7 @@ a.ubi-canal:focus-visible {
   font-size: var(--fs-micro);
   font-weight: var(--peso-medio);
   text-transform: uppercase;
-  letter-spacing: var(--track-caps);
+  letter-spacing: var(--tracking-rotulo);
   color: var(--color-texto-suave);
 }
 
@@ -726,9 +769,8 @@ a.ubi-canal:focus-visible {
   gap: var(--esp-sm);
   padding: var(--esp-lg);
   border: 1px solid var(--color-borde-suave);
-  border-radius: var(--radio-lg);
+  border-radius: 0;
   background-color: var(--color-superficie-solida);
-  box-shadow: var(--sombra-sm);
 }
 
 .ubi-form__intro {
@@ -783,9 +825,14 @@ a.ubi-canal:focus-visible {
   font-size: var(--fs-micro);
   font-weight: var(--peso-normal);
   text-transform: uppercase;
-  letter-spacing: var(--track-caps);
+  letter-spacing: var(--tracking-rotulo);
 }
 
+/* El coral se queda, a propósito, con el mismo criterio que .ubi-ref con el
+   radio: la migración de v3 pasó los RÓTULOS a gris, y «obligatorio» no es un
+   rótulo decorativo sino la marca semántica de un campo requerido. El color es
+   parte de lo que informa, y va a juego con el mensaje de error del
+   formulario. .ubi-campo__opcional, que sí es un rótulo, va en gris. */
 .ubi-campo__marca {
   color: var(--color-acento-texto);
 }
@@ -798,10 +845,18 @@ a.ubi-canal:focus-visible {
   width: 100%;
   min-height: var(--ubi-alto-control);
   padding: 0.7em 0.85em;
-  border: 1px solid var(--color-borde);
-  border-radius: var(--radio-sm);
+  /* CONTORNO DE CONTROL, no filete decorativo. WCAG 1.4.11 pide 3:1 para el
+     borde que identifica un campo. Sobre el papel del panel (.ubi-form, que
+     es quien pinta --color-superficie-solida) el filete decorativo
+     --color-borde daba 1,66:1 y el relleno blanco 1,04:1: el hueco donde hay
+     que escribir no se veía. --color-borde-fuerte (oliva) da 5,33:1 contra el
+     papel y 5,57:1 contra el propio relleno. */
+  border: 1px solid var(--color-borde-fuerte);
+  /* Esquina viva, igual que el .btn al que acompañan: quien delimita el campo
+     es el filete, no la forma. */
+  border-radius: 0;
   /* Blanco puro de marca: la fundación no tiene un rol semántico para "campo
-     de formulario" y hace falta que el hueco se despegue de la tarjeta. */
+     de formulario". Solo separa el hueco del papel; no es lo que lo delimita. */
   background-color: var(--blanco);
   color: var(--color-texto);
   font-family: var(--fuente-cuerpo);
@@ -812,12 +867,17 @@ a.ubi-canal:focus-visible {
     box-shadow var(--transicion-rapida);
 }
 
+/* El reposo ya es el filete fuerte, así que hover y foco solo pueden ir a
+   MÁS: bosque (11,4:1 contra el papel), el mismo verde con el que base.css
+   dibuja el aro de :focus-visible. El foco dobla además el filete por dentro
+   para que también se note con ratón, cuando no hay aro. */
 .ubi-campo__control:hover {
-  border-color: rgb(var(--verde-oliva-rgb) / 0.55);
+  border-color: var(--verde-bosque);
 }
 
 .ubi-campo__control:focus {
-  border-color: var(--verde-oliva);
+  border-color: var(--verde-bosque);
+  box-shadow: inset 0 0 0 1px var(--verde-bosque);
 }
 
 .ubi-campo__control--area {
@@ -871,7 +931,7 @@ a.ubi-canal:focus-visible {
   margin: 0;
   padding: var(--esp-2xs) var(--esp-sm);
   border-left: 2px solid var(--color-acento);
-  border-radius: var(--radio-xs);
+  border-radius: 0;
   background-color: rgb(var(--verde-menta-rgb) / 0.14);
   font-size: var(--fs-pequeno);
   color: var(--color-texto);

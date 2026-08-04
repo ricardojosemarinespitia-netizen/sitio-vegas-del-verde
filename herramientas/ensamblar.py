@@ -6,7 +6,7 @@ index.html NO se edita a mano. Se ARMA:
     <head> + cabecera  +  <main> concatenando sections/*.html  +  pie + scripts
 
 Orden del <main> (ARQUITECTURA-V3):
-    inicio -> nosotros -> espacios -> planes -> colegios -> naturaleza -> vivero -> ubicacion
+    inicio -> nosotros -> espacios -> planes -> momentos -> colegios -> naturaleza -> vivero -> ubicacion
 """
 import io, os, re, sys
 
@@ -18,6 +18,7 @@ ORDEN = [
     ("nosotros",   "nosotros.html"),
     ("espacios",   "espacios.html"),
     ("planes",     "planes.html"),
+    ("momentos",   "momentos.html"),
     ("colegios",   "colegios.html"),
     ("naturaleza", "naturaleza.html"),
     ("vivero",     "vivero.html"),
@@ -30,6 +31,7 @@ CSS_SECCIONES = [
     "styles/sections/nosotros.css",
     "styles/sections/espacios.css",
     "styles/sections/planes.css",
+    "styles/sections/momentos.css",
     "styles/sections/colegios.css",
     "styles/sections/naturaleza.css",
     "styles/sections/vivero.css",

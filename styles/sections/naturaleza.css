@@ -55,9 +55,14 @@
   padding-block-end: var(--nat-solape);
 }
 
+/* v3: la composición del sendero pierde radios y sombras. Eran dos fotografías
+   con --radio-xl / --radio-lg y --sombra-lg cada una, una encima de la otra:
+   el rincón más «tarjeta» de toda la página. A esquina viva la solapa se lee
+   mejor, porque lo que separa el inserto de la foto de abajo pasa a ser el
+   filete de crema que ya lleva, y no un halo. */
 .nat-sendero__principal .marco {
-  border-radius: var(--radio-xl);
-  box-shadow: var(--sombra-lg);
+  border-radius: 0;
+  box-shadow: none;
 }
 
 .nat-sendero__inset {
@@ -67,10 +72,12 @@
   width: min(46%, 13rem);
 }
 
+/* El filete de crema NO es decoración: es lo que despega el inserto de la
+   fotografía que tiene debajo ahora que no hay sombra que lo haga. */
 .nat-sendero__inset .marco {
   border: var(--esp-3xs) solid var(--color-fondo);
-  border-radius: var(--radio-lg);
-  box-shadow: var(--sombra-lg);
+  border-radius: 0;
+  box-shadow: none;
 }
 
 .nat-sendero__pie {
@@ -105,7 +112,13 @@
 /* ---- Micro-gráfico de la ruta: quebrada → riachuelo ----------------------
    Va en vertical y no en horizontal a propósito: los dos rótulos en caja
    alta no caben seguidos ni en la columna de escritorio, y al partirse
-   dejaban el filete colgando al final del primer renglón como un error. */
+   dejaban el filete colgando al final del primer renglón como un error.
+
+   El color de los dos rótulos («Quebrada Aranzoque», «Riachuelo») se declara
+   AQUÍ y lo heredan los .nat-ruta__punto; no hay ningún `color` más abajo.
+   v3: gris neutro como .eyebrow (base.css §5) —el coral se reserva para el
+   acento de verdad, no para cada micro-etiqueta—. La gota y el filete siguen
+   en --color-borde-fuerte, que es lo que dibuja el gráfico. */
 .nat-ruta {
   display: flex;
   flex-direction: column;
@@ -117,8 +130,8 @@
   font-size: var(--fs-micro);
   font-weight: var(--peso-medio);
   text-transform: uppercase;
-  letter-spacing: var(--track-caps);
-  color: var(--color-acento-texto);
+  letter-spacing: var(--tracking-rotulo);
+  color: var(--color-texto-suave);
 }
 
 .nat-ruta__punto {
@@ -163,7 +176,7 @@
   font-size: var(--fs-micro);
   font-weight: var(--peso-medio);
   text-transform: uppercase;
-  letter-spacing: var(--track-caps);
+  letter-spacing: var(--tracking-rotulo);
   color: var(--color-texto-suave);
 }
 
@@ -178,7 +191,7 @@
   font-optical-sizing: auto;
   font-variation-settings: var(--ejes-display);
   line-height: var(--alto-linea-apretado);
-  letter-spacing: var(--track-display);
+  letter-spacing: var(--tracking-display);
   color: var(--color-acento-texto);
 }
 
@@ -191,7 +204,7 @@
   font-size: var(--fs-pequeno);
   font-weight: var(--peso-medio);
   text-transform: uppercase;
-  letter-spacing: var(--track-caps);
+  letter-spacing: var(--tracking-rotulo);
   color: var(--color-texto-suave);
 }
 
@@ -236,7 +249,10 @@
   gap: var(--esp-2xs);
   padding: var(--esp-lg);
   border: 1px solid var(--color-borde-suave);
-  border-radius: var(--radio-lg);
+  /* v3: esquina viva, como .tarjeta. Estas dos son fichas de registro —una
+     especie endémica y un dato de migración—, o sea documentos; el redondeo
+     las disfrazaba de tarjeta de producto. */
+  border-radius: 0;
   background-color: var(--color-superficie);
 }
 
@@ -329,8 +345,11 @@
   align-items: flex-end;
   min-height: var(--nat-alto-habitat);
   overflow: hidden;
-  border-radius: var(--radio-lg);
-  box-shadow: var(--sombra-md);
+  /* v3: los cinco ambientes son fotografía a sangre con el dato encima, no
+     tarjetas. Fuera el radio y fuera la sombra: el velo de bosque hondo del
+     ::after ya da todo el límite que necesita cada pieza contra la crema. */
+  border-radius: 0;
+  box-shadow: none;
   isolation: isolate;
 }
 
@@ -403,14 +422,19 @@
   }
 }
 
+/* Rótulo sobre foto oscurecida: la variante inversa del gris de .eyebrow, no
+   el coral claro. Es el mismo token que ya usa .eyebrow bajo .seccion--oscura
+   y .seccion--carbon (base.css §5) —crema al 78 %—, así que el rótulo de «El
+   jardín» y el de #momentos hablan igual. --color-texto-suave no sirve aquí:
+   es gris de fondo claro y sobre el velo quedaría ilegible. */
 .nat-habitat__lugar {
   margin: 0;
   font-family: var(--fuente-titulo);
   font-size: var(--fs-micro);
   font-weight: var(--peso-medio);
   text-transform: uppercase;
-  letter-spacing: var(--track-caps);
-  color: var(--color-acento-inverso);
+  letter-spacing: var(--tracking-rotulo);
+  color: var(--color-texto-inverso-suave);
 }
 
 .nat-habitat__cifra {
@@ -421,7 +445,7 @@
   font-optical-sizing: auto;
   font-variation-settings: var(--ejes-display);
   line-height: var(--alto-linea-apretado);
-  letter-spacing: var(--track-display);
+  letter-spacing: var(--tracking-display);
   color: var(--color-destacado);
 }
 
@@ -457,7 +481,8 @@
   margin-top: var(--gap-lg);
   padding: var(--esp-lg);
   border: 1px solid var(--color-borde-suave);
-  border-radius: var(--radio-lg);
+  /* v3: esquina viva. Ver §2: aquí tampoco hay tarjetas, hay documentos. */
+  border-radius: 0;
   background-color: var(--color-superficie-solida);
 }
 
@@ -565,7 +590,7 @@
   font-optical-sizing: auto;
   font-variation-settings: var(--ejes-display);
   line-height: 1;
-  letter-spacing: var(--track-display);
+  letter-spacing: var(--tracking-display);
   color: var(--color-acento-texto);
 }
 
@@ -573,7 +598,7 @@
   font-family: var(--fuente-titulo);
   font-size: var(--fs-micro);
   text-transform: uppercase;
-  letter-spacing: var(--track-caps);
+  letter-spacing: var(--tracking-rotulo);
   color: var(--color-texto-suave);
 }
 
@@ -606,6 +631,11 @@
   page-break-inside: avoid;
 }
 
+/* v3: la copia colgada en la pared pierde el redondeo y la sombra. Son entre
+   veinte y treinta fotografías en columnas: veinte sombras suaves seguidas no
+   se leen como profundidad, se leen como suciedad. El filete del ::after —que
+   sí se queda— es lo que da el canto de la copia, y ahora se ve entero porque
+   ya no hay esquina redonda que se lo coma. */
 .nat-obra__disparador {
   position: relative;
   display: block;
@@ -613,11 +643,11 @@
   padding: 0;
   overflow: hidden;
   border: 0;
-  border-radius: var(--radio-md);
+  border-radius: 0;
   background-color: rgb(var(--verde-bosque-rgb) / 0.06);
-  box-shadow: var(--sombra-sm);
+  box-shadow: none;
   cursor: pointer;
-  transition: transform var(--transicion), box-shadow var(--transicion);
+  transition: transform var(--transicion);
 }
 
 .nat-obra__disparador::after {
@@ -635,10 +665,8 @@
   transition: transform var(--dur-lenta) var(--ease-suave);
 }
 
-.nat-obra__disparador:hover {
-  box-shadow: var(--sombra-md);
-}
-
+/* El único gesto al pasar por encima es que la copia se acerca dentro de su
+   recorte; ya no se eleva. Sin sombra no hay nada que elevar. */
 .nat-obra__disparador:hover > img,
 .nat-obra__disparador:focus-visible > img {
   transform: scale(var(--escala-hover));

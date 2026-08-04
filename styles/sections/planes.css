@@ -59,7 +59,8 @@
   font-weight: var(--peso-medio);
   line-height: var(--alto-linea-titulo);
   text-transform: uppercase;
-  letter-spacing: var(--track-caps);
+  /* v3: --tracking-rotulo, el único tracking de caps del sistema. */
+  letter-spacing: var(--tracking-rotulo);
   color: var(--color-texto-suave);
 }
 
@@ -75,7 +76,10 @@
   font-weight: var(--peso-fuerte);
   font-optical-sizing: auto;
   font-variation-settings: var(--ejes-display);
-  letter-spacing: var(--track-titulo);
+  /* v3: el índice es display, así que abre con --tracking-display en vez del
+     cierre de titular de v2. Los cinco números son el hilo que enhebra los
+     carriles y van a la par de los índices de #nosotros. */
+  letter-spacing: var(--tracking-display);
   color: var(--color-acento-texto);
 }
 
@@ -250,9 +254,26 @@
    así que los colores inversos (titulares, entradilla, enlaces, viñetas de
    .lista-hojas, foco amarillo) los pone base.css con sus contrastes ya
    medidos. Aquí sólo se resuelven caja y rejilla.
+
+   POR QUÉ SIGUE EN VERDE BOSQUE Y NO PASA A .seccion--carbon-suave (v3)
+   El ritmo de la página es crema · crema · crema · crema · CARBÓN (#momentos)
+   · salvia · crema · crema · salvia, y #momentos entra inmediatamente después
+   de #planes. Este carril es el penúltimo de los cinco: entre su bloque
+   oscuro y la banda de carbón sólo media el carril 05, que es una banda
+   tipográfica de tres líneas. Pasarlo a carbón suave (#333) pondría dos
+   rectángulos gris neutro casi idénticos a un scroll corto el uno del otro y
+   la banda de #momentos dejaría de ser una pausa para ser la segunda de dos.
+   El verde bosque, en cambio, es el negativo DE MARCA —el mismo del pie de
+   sitio— y se lee como otra cosa: un bloque dentro de una sección clara, no
+   una banda de sección. Un registro cada uno, y ninguno se repite pegado.
+   El carril 05, que es el que cierra #planes y toca con #momentos, va en
+   claro: la banda oscura no se duplica en el empalme.
    -------------------------------------------------------------------------- */
 .planes-carril--bienestar {
-  border-radius: var(--radio-xl);
+  /* v3: esquina viva. Con --radio-xl era una pastilla verde de 36 px de radio
+     dentro de una página que ya no redondea ni fotos ni tarjetas ni botones;
+     era, de largo, la forma más blanda que quedaba en el sitio. */
+  border-radius: 0;
   padding: var(--gap);
   gap: var(--gap);
 }
@@ -352,13 +373,19 @@
 /* --------------------------------------------------------------------------
    8. RETOQUES FINOS
    -------------------------------------------------------------------------- */
-/* Las fotos de esta sección son documentos, no decoración: el redondeo va
-   suave y el zoom al pasar el ratón se reserva a las que están dentro de una
-   rejilla, para que la foto grande del carril 01 no baile sola.            */
+/* Las fotos de esta sección son documentos, no decoración. En v2 eso se decía
+   con `border-radius: var(--radio-md)` en todos los .marco de la sección: un
+   redondeo suave que ahora contradice a base.css, donde .marco va a esquina
+   viva. El cero se deja ESCRITO —y no simplemente borrado— porque este
+   selector, (0,2,0), es el que hay que pisar para volver a redondear las trece
+   fotografías de #planes de una sola vez: quien lo intente tiene que borrar
+   antes esta línea y leer por qué está aquí.                               */
 .planes .marco {
-  border-radius: var(--radio-md);
+  border-radius: 0;
 }
 
+/* El zoom al pasar el ratón sí se conserva, y sólo en las fotos que están
+   dentro de una rejilla, para que la foto grande del carril 01 no baile sola. */
 .planes-fiesta__tira .marco:hover > img,
 .planes-tira .marco:hover > img,
 .planes-dossier .marco:hover > img,

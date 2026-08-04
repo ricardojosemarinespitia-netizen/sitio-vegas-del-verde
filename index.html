@@ -39,6 +39,7 @@
 <link rel="stylesheet" href="styles/sections/nosotros.css">
 <link rel="stylesheet" href="styles/sections/espacios.css">
 <link rel="stylesheet" href="styles/sections/planes.css">
+<link rel="stylesheet" href="styles/sections/momentos.css">
 <link rel="stylesheet" href="styles/sections/colegios.css">
 <link rel="stylesheet" href="styles/sections/naturaleza.css">
 <link rel="stylesheet" href="styles/sections/vivero.css">
@@ -624,8 +625,24 @@
      espacio. Cualquier otra sección que nombre la Alameda, La Vega, el
      Teatrino, el Taller o la Cancha enlaza aquí; no repite la ficha.
 
-     Cada espacio se vende por LA EXPERIENCIA que permite. La capacidad baja a
-     una .pildora de apoyo: es dato, nunca titular.
+     ESTRUCTURA v3 «tarjeta editorial» (rediseño de agosto de 2026)
+     Se abandona la tarjeta-caja (fondo, borde, radio y sombra) por el patrón
+     de fichas de catálogo: la foto va a esquina viva y el texto flota debajo,
+     los dos sobre el fondo de la página. Cada ficha, en este orden:
+       1. figura CUADRADA (aspect-ratio 1) con la foto a cover, sin radio;
+       2. rótulo diminuto en caps espaciadas con el AFORO —el dato, arriba,
+          en el sitio del rótulo de categoría—;
+       3. el NOMBRE del espacio como titular, en Fraunces y en caja de frase
+          (antes titulaba la experiencia; el nombre es lo que se busca);
+       4. UNA línea de texto —la experiencia, podada del copy anterior—;
+       5. un enlace sobrio de cotización, no un botón de bloque.
+     La Alameda conserva trato mayor: ocupa doble columna con sus dos fotos
+     propias montadas en una banda panorámica 2:1.
+
+     LOS CINCO SON LOS DEL BRIEF: Alameda, La Vega, Teatrino, Taller y Cancha.
+     No existe ningún «Prado»: ver ARQUITECTURA-V3 §7.1, que manda borrar el
+     «Prado Japonés» de condiciones-de-alquiler.html por ser un espacio
+     inventado. El quinto espacio es el Taller y el otro es la Cancha.
 
      LO QUE AQUÍ NO SE ESCRIBE (y por qué):
      · Las condiciones de alquiler (horas, mobiliario, sonido, catering) viven
@@ -655,68 +672,53 @@
 
       <!-- ------------------------------------------------------------ 1/5
            ALAMEDA · hasta 150 personas · dos fotos propias.
-           Ocupa la fila entera: es el espacio más grande del predio.       -->
-      <li class="espacio espacio--destacado tarjeta reveal">
-        <div class="espacio__interior">
+           Doble columna y banda panorámica: es el espacio más grande.     -->
+      <li class="espacio espacio--destacado reveal">
+        <figure class="espacio__figura espacio__figura--banda">
+          <img
+            class="espacio__img"
+            src="img/espacios/alameda-2.jpg"
+            width="1500"
+            height="844"
+            loading="lazy"
+            decoding="async"
+            alt="La Alameda vista a lo ancho: una pradera de césped parejo con árboles de tronco delgado repartidos sobre la hierba y un seto vivo cerrando el fondo."
+          />
+          <img
+            class="espacio__img espacio__img--apoyo"
+            src="img/espacios/alameda-1.jpg"
+            width="1125"
+            height="1500"
+            loading="lazy"
+            decoding="async"
+            alt="El mismo prado de la Alameda desde el borde arbolado: sombra moteada sobre el césped en primer término y la hilera de árboles del fondo bajo un cielo con nubes."
+          />
+        </figure>
 
-          <div class="espacio__galeria">
-            <div class="marco espacio__foto espacio__foto--principal">
-              <img
-                src="img/espacios/alameda-2.jpg"
-                width="1500"
-                height="844"
-                loading="lazy"
-                decoding="async"
-                alt="La Alameda vista a lo ancho: una pradera de césped parejo con árboles de tronco delgado repartidos sobre la hierba y un seto vivo cerrando el fondo."
-              />
-            </div>
-            <div class="marco espacio__foto espacio__foto--apoyo">
-              <img
-                src="img/espacios/alameda-1.jpg"
-                width="1125"
-                height="1500"
-                loading="lazy"
-                decoding="async"
-                alt="El mismo prado de la Alameda desde el borde arbolado: sombra moteada sobre el césped en primer término y la hilera de árboles del fondo bajo un cielo con nubes."
-              />
-            </div>
-          </div>
-
-          <div class="espacio__cuerpo">
-            <h3 class="titulo-seccion titulo-seccion--sm espacio__titular">
-              Cielo abierto de lado a lado
-            </h3>
-
-            <p class="pildora espacio__meta">Alameda · hasta 150 personas</p>
-
-            <p class="espacio__texto">
-              El prado más ancho del predio: césped parejo de punta a punta, sin una sola
-              pared, con árboles sueltos sobre la hierba y un seto vivo cerrando la vista.
-            </p>
-
-            <p class="espacio__texto">
-              Cabe el aforo entero sin que nadie se apriete, y en los bordes queda sombra
-              para quien ya tuvo bastante sol.
-            </p>
-
-            <a
-              class="btn btn-whatsapp btn-bloque espacio__cta"
-              href="https://wa.me/573166758362?text=Hola%2C%20quiero%20este%20plan%20en%20la%20Alameda.%20%C2%BFQu%C3%A9%20disponibilidad%20tienen%3F"
-              target="_blank"
-              rel="noopener"
-            >
-              Quiero este plan<span class="solo-lectores"> en la Alameda</span>
-            </a>
-          </div>
-
+        <div class="espacio__cuerpo">
+          <p class="espacio__aforo">Hasta 150 personas</p>
+          <h3 class="titulo-seccion titulo-seccion--sm espacio__nombre">Alameda</h3>
+          <p class="espacio__texto">
+            El prado más ancho del predio, sin una sola pared y con sombra de sobra en
+            los bordes.
+          </p>
+          <a
+            class="enlace-flecha espacio__enlace"
+            href="https://wa.me/573166758362?text=Hola%2C%20quiero%20este%20plan%20en%20la%20Alameda.%20%C2%BFQu%C3%A9%20disponibilidad%20tienen%3F"
+            target="_blank"
+            rel="noopener"
+          >
+            Quiero este plan<span class="solo-lectores"> en la Alameda</span>
+          </a>
         </div>
       </li>
 
       <!-- ------------------------------------------------------------ 2/5
            LA VEGA · hasta 100 personas                                    -->
-      <li class="espacio tarjeta reveal">
-        <div class="marco espacio__foto">
+      <li class="espacio reveal">
+        <figure class="espacio__figura">
           <img
+            class="espacio__img"
             src="img/parque/parque-47.jpg"
             width="675"
             height="1200"
@@ -724,23 +726,16 @@
             decoding="async"
             alt="La Vega: una explanada llana de césped abierto con un árbol grande dando sombra en el costado izquierdo y un seto recortado cerrando el fondo."
           />
-        </div>
+        </figure>
 
         <div class="espacio__cuerpo">
-          <h3 class="titulo-seccion titulo-seccion--sm espacio__titular">
-            Cien personas y ni una pared
-          </h3>
-
-          <p class="pildora espacio__meta">La Vega · hasta 100 personas</p>
-
+          <p class="espacio__aforo">Hasta 100 personas</p>
+          <h3 class="titulo-seccion titulo-seccion--sm espacio__nombre">La Vega</h3>
           <p class="espacio__texto">
-            Una explanada llana de césped abierto, con un árbol grande dando sombra a un
-            costado y la arboleda cerrando el fondo. Terreno parejo, sin desniveles y sin
-            una columna que te diga por dónde va la cosa: lo montas a tu manera.
+            Explanada llana y pareja, sin desniveles ni columnas: se monta a tu manera.
           </p>
-
           <a
-            class="btn btn-whatsapp btn-bloque espacio__cta"
+            class="enlace-flecha espacio__enlace"
             href="https://wa.me/573166758362?text=Hola%2C%20quiero%20este%20plan%20en%20La%20Vega.%20%C2%BFQu%C3%A9%20disponibilidad%20tienen%3F"
             target="_blank"
             rel="noopener"
@@ -752,9 +747,10 @@
 
       <!-- ------------------------------------------------------------ 3/5
            TEATRINO · hasta 70 personas                                    -->
-      <li class="espacio tarjeta reveal">
-        <div class="marco espacio__foto">
+      <li class="espacio reveal">
+        <figure class="espacio__figura">
           <img
+            class="espacio__img"
             src="img/parque/parque-56.jpg"
             width="675"
             height="1200"
@@ -762,37 +758,31 @@
             decoding="async"
             alt="El Teatrino: un árbol enorme de copa muy abierta en el centro de un claro de césped, con una persona de pie junto al tronco que da la medida de su tamaño."
           />
-        </div>
+        </figure>
 
         <div class="espacio__cuerpo">
-          <h3 class="titulo-seccion titulo-seccion--sm espacio__titular">
-            Que el escenario sea el bosque
-          </h3>
-
-          <p class="pildora espacio__meta">Teatrino · hasta 70 personas</p>
-
+          <p class="espacio__aforo">Hasta 70 personas</p>
+          <h3 class="titulo-seccion titulo-seccion--sm espacio__nombre">Teatrino</h3>
           <p class="espacio__texto">
-            Un claro a los pies de un árbol enorme. El césped hace de platea y la copa hace
-            de techo: quien habla se pone junto al tronco y el público se acomoda en la
-            hierba, en semicírculo. La sombra ya está puesta desde el primer minuto.
+            Un claro al pie de un árbol enorme: el césped hace de platea y la copa, de techo.
           </p>
-
           <a
-            class="btn btn-whatsapp btn-bloque espacio__cta"
+            class="enlace-flecha espacio__enlace"
             href="https://wa.me/573166758362?text=Hola%2C%20quiero%20este%20plan%20en%20el%20Teatrino.%20%C2%BFQu%C3%A9%20disponibilidad%20tienen%3F"
             target="_blank"
             rel="noopener"
           >
-            Atrévete a un plan distinto<span class="solo-lectores"> en el Teatrino</span>
+            Quiero este plan<span class="solo-lectores"> en el Teatrino</span>
           </a>
         </div>
       </li>
 
       <!-- ------------------------------------------------------------ 4/5
            TALLER · hasta 45 personas · el espacio bajo techo              -->
-      <li class="espacio tarjeta reveal">
-        <div class="marco espacio__foto">
+      <li class="espacio reveal">
+        <figure class="espacio__figura">
           <img
+            class="espacio__img"
             src="img/espacios/taller-1.jpg"
             width="849"
             height="1500"
@@ -800,23 +790,17 @@
             decoding="async"
             alt="El Taller por dentro: cubierta de caña, paredes de estera, dos guirnaldas de bombillos encendidas cruzando el techo, mesas de trabajo, sillas blancas y varios cuadros apoyados sobre las mesas."
           />
-        </div>
+        </figure>
 
         <div class="espacio__cuerpo">
-          <h3 class="titulo-seccion titulo-seccion--sm espacio__titular">
-            Aquí la lluvia no cancela nada
-          </h3>
-
-          <p class="pildora espacio__meta">Taller · hasta 45 personas</p>
-
+          <p class="espacio__aforo">Hasta 45 personas</p>
+          <h3 class="titulo-seccion titulo-seccion--sm espacio__nombre">Taller</h3>
           <p class="espacio__texto">
-            El espacio bajo techo: cubierta de caña, paredes de estera y dos guirnaldas de
-            bombillos cruzando de lado a lado. Piso firme y seco, sombra a cualquier hora y
-            un aguacero de fondo que aquí sólo se oye.
+            El único bajo techo: cubierta de caña, piso firme y seco, y un aguacero que
+            aquí sólo se oye.
           </p>
-
           <a
-            class="btn btn-whatsapp btn-bloque espacio__cta"
+            class="enlace-flecha espacio__enlace"
             href="https://wa.me/573166758362?text=Hola%2C%20quiero%20este%20plan%20en%20el%20Taller.%20%C2%BFQu%C3%A9%20disponibilidad%20tienen%3F"
             target="_blank"
             rel="noopener"
@@ -828,9 +812,10 @@
 
       <!-- ------------------------------------------------------------ 5/5
            CANCHA · 30 jugadores y 20 espectadores                         -->
-      <li class="espacio tarjeta reveal">
-        <div class="marco espacio__foto">
+      <li class="espacio reveal">
+        <figure class="espacio__figura">
           <img
+            class="espacio__img"
             src="img/parque/parque-57.jpg"
             width="900"
             height="1200"
@@ -838,23 +823,17 @@
             decoding="async"
             alt="La Cancha: un campo de césped plano y despejado con el guadual cerrando el fondo y árboles altos dando sombra en el borde derecho."
           />
-        </div>
+        </figure>
 
         <div class="espacio__cuerpo">
-          <h3 class="titulo-seccion titulo-seccion--sm espacio__titular">
-            Un partido con banda sonora de pájaros
-          </h3>
-
-          <p class="pildora espacio__meta">Cancha · 30 jugadores y 20 espectadores</p>
-
+          <p class="espacio__aforo">30 jugadores · 20 espectadores</p>
+          <h3 class="titulo-seccion titulo-seccion--sm espacio__nombre">Cancha</h3>
           <p class="espacio__texto">
-            El campo más plano y despejado, con el guadual cerrando el fondo. Sitio de
-            sobra para correr y borde en sombra para los veinte que vienen a mirar y a
-            gritar el gol desde la hierba.
+            El campo más plano y despejado, con el guadual cerrando el fondo y borde en
+            sombra para mirar.
           </p>
-
           <a
-            class="btn btn-whatsapp btn-bloque espacio__cta"
+            class="enlace-flecha espacio__enlace"
             href="https://wa.me/573166758362?text=Hola%2C%20quiero%20este%20plan%20en%20la%20Cancha.%20%C2%BFQu%C3%A9%20disponibilidad%20tienen%3F"
             target="_blank"
             rel="noopener"
@@ -1020,9 +999,9 @@
            CUMPLEAÑOS Y FAMILIA — aquí el texto va delante y las fotos se
            leen como una tira: en móvil se arrastra con el dedo.
            ================================================================ -->
-      <li class="planes-carril planes-carril--familia reveal">
+      <li class="planes-carril reveal">
 
-        <div class="planes-carril__texto planes-familia__texto">
+        <div class="planes-carril__texto">
           <p class="planes-carril__ocasion">
             <span class="planes-carril__indice">02</span> Cumpleaños y familia
           </p>
@@ -1145,7 +1124,7 @@
           </div>
         </div>
 
-        <div class="planes-carril__texto planes-empresa__texto">
+        <div class="planes-carril__texto">
           <p class="planes-carril__ocasion">
             <span class="planes-carril__indice">03</span> Empresas
           </p>
@@ -1187,7 +1166,7 @@
            ================================================================ -->
       <li class="planes-carril planes-carril--bienestar seccion--oscura reveal">
 
-        <figure class="marco marco--16-9 planes-bienestar__banda">
+        <figure class="marco marco--16-9">
           <img
             src="img/eventos/yoga-2.jpg"
             width="1500"
@@ -1325,6 +1304,247 @@
           Atrévete a un plan distinto<span class="solo-lectores">: taller educativo, de jardinería o de pintura</span>
         </a>
 
+      </li>
+
+    </ul>
+
+  </div>
+</section>
+
+<!-- ==========================================================================
+     FRAGMENTO: MOMENTOS  ·  id="momentos"
+     CSS propio: styles/sections/momentos.css
+     JS: ninguno propio. Sólo .reveal / .reveal-secuencia del script global.
+
+     QUÉ ES: una banda de carbón que corta la página crema entre #planes y
+     #colegios. Es la única pausa visual del recorrido: sirve para respirar,
+     no para informar.
+
+     QUÉ POSEE ESTA SECCIÓN (ARQUITECTURA-V3, «un hecho, un dueño»)
+       NADA. Ni un solo hecho. Esta sección es ATMÓSFERA PURA y por eso puede
+       borrarse entera sin que la página pierda un dato.
+
+     QUÉ TIENE PROHIBIDO DECIR
+       TODO hecho: aforos, precios, horarios, direcciones, superficies,
+       distancias, cifras de especies, condiciones de alquiler, nombres de
+       espacios y nombres de planes. Los pies de foto describen LO QUE SE VE
+       en la imagen y se paran ahí. Si alguna vez alguien quiere «aprovechar»
+       este hueco para meter un dato, el dato ya tiene dueño en otra sección:
+       lo que corresponde es enlazar allí, no repetirlo aquí.
+
+     POR QUÉ NO ESTÁ EN LA NAVEGACIÓN NI EN EL PIE
+       Porque no es un destino. Nadie busca «momentos» en un menú; se lo
+       encuentra al bajar. Meterla en el menú la convertiría en una promesa
+       de contenido que esta sección no tiene intención de cumplir.
+
+     LOS CUATRO RECUADROS SON VÍDEO EN DIFERIDO
+       Hoy cada recuadro es una foto. Mañana cada uno será un clip corto de
+       unos segundos, en bucle y sin sonido. El marcado del <video> queda
+       escrito, listo para pegar, dentro del comentario de cada recuadro.
+       Va COMENTADO y no simplemente `hidden` (como en el hero de v2) porque
+       herramientas/validar.py comprueba que todo src exista en disco y sólo
+       tiene pactada la excepción de video/hero.mp4: dejar cuatro rutas vivas
+       apuntando a archivos inexistentes rompería esa comprobación cada vez
+       que se corre. En cuanto los cuatro clips estén en video/, se descomenta
+       y se añade la excepción en validar.py y validar_sitio.py.
+
+     NO HAY ICONO DE PLAY SOBRE LAS FOTOS, Y NO SE PONE
+       Un triángulo de reproducción encima de una imagen fija promete algo que
+       no ocurre al pulsarlo. Mientras esto sean fotos, se ven como fotos.
+     ========================================================================== -->
+<section id="momentos" class="seccion seccion--carbon momentos" aria-labelledby="momentos-titulo">
+  <div class="contenedor">
+
+    <header class="seccion-encabezado momentos__encabezado reveal">
+      <p class="eyebrow">Momentos</p>
+      <h2 id="momentos-titulo" class="titulo-seccion momentos__titulo">
+        Aquí el día se toma su tiempo
+      </h2>
+    </header>
+
+    <ul class="momentos__rejilla reveal-secuencia" role="list">
+
+      <!-- ============================================================ 01/04
+           HOY: foto. MAÑANA: video/momento-1.mp4
+
+           PARA ACTIVAR EL VÍDEO DE ESTE RECUADRO, en tres pasos:
+             1. Deja el archivo en  video/momento-1.mp4  (y, si lo tienes, un
+                video/momento-1.webm como primer <source>).
+             2. Descomenta el bloque <video> de abajo y añade `autoplay`.
+                El `poster` ya es esta misma foto: mientras el clip carga se
+                ve exactamente lo que se veía antes, sin hueco negro.
+             3. Añade la clase `momentos__marco--con-video` al <div class="marco…">
+                de este recuadro: momentos.css funde la foto y deja el vídeo delante, y con
+                `prefers-reduced-motion: reduce` devuelve la foto fija.
+           No borres el <img>: es el suelo del recuadro si la red falla.
+
+           <video
+             class="momentos__video"
+             muted
+             loop
+             playsinline
+             preload="none"
+             poster="img/parque/parque-25.jpg"
+             width="1920"
+             height="1080"
+             aria-hidden="true"
+             tabindex="-1"
+           >
+             <source src="video/momento-1.mp4" type="video/mp4" />
+           </video>
+           ================================================================ -->
+      <li class="momentos__pieza reveal">
+        <figure class="momentos__figura">
+          <div class="marco marco--16-9 momentos__marco">
+            <img
+              src="img/parque/parque-25.jpg"
+              width="1200"
+              height="800"
+              loading="lazy"
+              decoding="async"
+              alt="Atardecer nublado sobre el predio: bajo una carpa translúcida colgada de guirnaldas de bombillos, un grupo de invitados charla de pie; delante pasa un camino de gravilla entre matas y macetas de barro con flores."
+            />
+          </div>
+          <figcaption class="momentos__pie">
+            Las guirnaldas se encienden antes de que se vaya la luz.
+          </figcaption>
+        </figure>
+      </li>
+
+      <!-- ============================================================ 02/04
+           HOY: foto. MAÑANA: video/momento-2.mp4
+
+           PARA ACTIVAR EL VÍDEO DE ESTE RECUADRO, en tres pasos:
+             1. Deja el archivo en  video/momento-2.mp4  (y, si lo tienes, un
+                video/momento-2.webm como primer <source>).
+             2. Descomenta el bloque <video> de abajo y añade `autoplay`.
+             3. AÑADE la clase `momentos__marco--con-video` al <div class="marco…">.
+                Añadir, no sustituir: `momentos__marco--anclar-abajo` se queda.
+                El poster de este recuadro es la foto CUADRADA parque-27.jpg, así
+                que sin esa clase el poster volvería a recortarse por el centro y
+                a decapitar el corro mientras el clip carga. (Los fotogramas del
+                clip son 16:9 y no se recortan; el ancla les da igual.)
+
+           <video
+             class="momentos__video"
+             muted
+             loop
+             playsinline
+             preload="none"
+             poster="img/parque/parque-27.jpg"
+             width="1920"
+             height="1080"
+             aria-hidden="true"
+             tabindex="-1"
+           >
+             <source src="video/momento-2.mp4" type="video/mp4" />
+           </video>
+           ================================================================ -->
+      <li class="momentos__pieza reveal">
+        <figure class="momentos__figura">
+          <!-- `momentos__marco--anclar-abajo`: única foto CUADRADA del cuarteto
+               (1200×1200). Recortada a 16:9 desde el centro perdía 525 px de
+               alto y dejaba al corro de cabezas contra el borde inferior, con
+               los aros cortados. El modificador la ancla abajo. Ver el porqué
+               largo en styles/sections/momentos.css §3.1. -->
+          <div class="marco marco--16-9 momentos__marco momentos__marco--anclar-abajo">
+            <img
+              src="img/parque/parque-27.jpg"
+              width="1200"
+              height="1200"
+              loading="lazy"
+              decoding="async"
+              alt="Seis niños sentados en corro sobre el césped, casi todos de espaldas, escuchando a una monitora que sostiene un libro ilustrado abierto; dos acompañantes adultas los rodean, a un lado hay aros de colores en la hierba y detrás se abre el prado bajo los árboles."
+            />
+          </div>
+          <figcaption class="momentos__pie">
+            Un corro en la hierba, un libro abierto y aros de colores al lado.
+          </figcaption>
+        </figure>
+      </li>
+
+      <!-- ============================================================ 03/04
+           HOY: foto. MAÑANA: video/momento-3.mp4
+
+           PARA ACTIVAR EL VÍDEO DE ESTE RECUADRO, en tres pasos:
+             1. Deja el archivo en  video/momento-3.mp4  (y, si lo tienes, un
+                video/momento-3.webm como primer <source>).
+             2. Descomenta el bloque <video> de abajo y añade `autoplay`.
+             3. Añade la clase `momentos__marco--con-video` al <div class="marco…">.
+
+           <video
+             class="momentos__video"
+             muted
+             loop
+             playsinline
+             preload="none"
+             poster="img/parque/parque-31.jpg"
+             width="1920"
+             height="1080"
+             aria-hidden="true"
+             tabindex="-1"
+           >
+             <source src="video/momento-3.mp4" type="video/mp4" />
+           </video>
+           ================================================================ -->
+      <li class="momentos__pieza reveal">
+        <figure class="momentos__figura">
+          <div class="marco marco--16-9 momentos__marco">
+            <img
+              src="img/parque/parque-31.jpg"
+              width="1200"
+              height="675"
+              loading="lazy"
+              decoding="async"
+              alt="Rueda de personas mayores sentadas en sillas repartidas sobre el césped, con los brazos abiertos en cruz siguiendo a quien guía desde el centro; hay esterillas de colores en el suelo y árboles alrededor."
+            />
+          </div>
+          <figcaption class="momentos__pie">
+            Los brazos se abren a la vez, en corro, bajo los árboles.
+          </figcaption>
+        </figure>
+      </li>
+
+      <!-- ============================================================ 04/04
+           HOY: foto. MAÑANA: video/momento-4.mp4
+
+           PARA ACTIVAR EL VÍDEO DE ESTE RECUADRO, en tres pasos:
+             1. Deja el archivo en  video/momento-4.mp4  (y, si lo tienes, un
+                video/momento-4.webm como primer <source>).
+             2. Descomenta el bloque <video> de abajo y añade `autoplay`.
+             3. Añade la clase `momentos__marco--con-video` al <div class="marco…">.
+
+           <video
+             class="momentos__video"
+             muted
+             loop
+             playsinline
+             preload="none"
+             poster="img/parque/parque-11.jpg"
+             width="1920"
+             height="1080"
+             aria-hidden="true"
+             tabindex="-1"
+           >
+             <source src="video/momento-4.mp4" type="video/mp4" />
+           </video>
+           ================================================================ -->
+      <li class="momentos__pieza reveal">
+        <figure class="momentos__figura">
+          <div class="marco marco--16-9 momentos__marco">
+            <img
+              src="img/parque/parque-11.jpg"
+              width="1200"
+              height="800"
+              loading="lazy"
+              decoding="async"
+              alt="Patio de baldosas claras a la sombra de una pérgola de madera cubierta de caña; al fondo, una pared turquesa pintada con un mural de plantas y mariposas, una fila de macetas de barro y una palmera en un tiesto blanco. En primer plano cruza una rama de buganvilla en flor."
+            />
+          </div>
+          <figcaption class="momentos__pie">
+            La caña filtra el sol y la buganvilla se mete en el encuadre.
+          </figcaption>
+        </figure>
       </li>
 
     </ul>

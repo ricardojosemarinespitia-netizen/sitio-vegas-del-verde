@@ -12,6 +12,19 @@
    ========================================================================== */
 
 /* ==========================================================================
+   0. LA FOTOGRAFÍA DE LA SECCIÓN — v3
+   Las cinco fotos de #colegios llevaban sombra propia: --sombra-md en las tres
+   paradas y --sombra-lg en la de la jornada. En v3 .marco va a esquina viva y
+   sin sombra (base.css), así que las dos declaraciones salen y en su lugar
+   queda esta, escrita en la raíz de la sección: un `none` explícito que sirve
+   de guarda. Si alguien vuelve a colgarle sombra a una foto de aquí, tiene que
+   pasar por encima de (0,2,0) y leer esto antes.
+   ========================================================================== */
+.col .marco {
+  box-shadow: none;
+}
+
+/* ==========================================================================
    1. LAS TRES PARADAS
    ========================================================================== */
 .col-paradas {
@@ -37,13 +50,10 @@
   min-width: 0;
 }
 
-/* La foto abre la parada y manda: sombra suave y zoom al pasar por encima. */
+/* La foto abre la parada y manda. Lo hace por tamaño y por posición, no por
+   elevación: la sombra se fue arriba (§0) y queda el zoom al pasar. */
 .col-parada figure {
   margin-bottom: var(--esp-xs);
-}
-
-.col-parada .marco {
-  box-shadow: var(--sombra-md);
 }
 
 .col-parada:hover .marco > img,
@@ -51,14 +61,21 @@
   transform: scale(var(--escala-hover));
 }
 
-/* Micro-etiqueta: uno de los pocos caps permitidos por el §3 del contrato. */
+/* Micro-etiqueta: uno de los pocos caps permitidos por el §3 del contrato.
+
+   v3: se retira el coral, igual que en .eyebrow (base.css §5). El rótulo es un
+   dato de servicio en gris neutro, no un acento: si cada micro-etiqueta grita
+   en terracota, el acento deja de señalar nada. La pasada de v3 trajo el
+   tracking (--tracking-rotulo) pero se dejó el color a medio camino; esto lo
+   completa. Sobre la banda de salvia de la sección el gris mide 5.3:1 —más que
+   los 4.6:1 que daba el coral—, así que el cambio también gana contraste. */
 .col-parada__etiqueta {
   font-family: var(--fuente-titulo);
   font-size: var(--fs-micro);
   font-weight: var(--peso-medio);
   text-transform: uppercase;
-  letter-spacing: var(--track-caps);
-  color: var(--color-acento-texto);
+  letter-spacing: var(--tracking-rotulo);
+  color: var(--color-texto-suave);
   margin: 0;
 }
 
@@ -98,10 +115,6 @@
 
 .col-jornada__foto {
   min-width: 0;
-}
-
-.col-jornada__foto .marco {
-  box-shadow: var(--sombra-lg);
 }
 
 /* En una sola columna la foto vertical se comía la pantalla entera (695×869
@@ -145,14 +158,16 @@
   max-width: var(--medida);
 }
 
+/* Gris neutro por el mismo motivo que .col-parada__etiqueta (§1): es un rótulo
+   de servicio, no un acento. Los dos rótulos de la sección van a juego. */
 .col-hito__nombre {
   margin: 0;
   font-family: var(--fuente-titulo);
   font-size: var(--fs-micro);
   font-weight: var(--peso-medio);
   text-transform: uppercase;
-  letter-spacing: var(--track-caps);
-  color: var(--color-acento-texto);
+  letter-spacing: var(--tracking-rotulo);
+  color: var(--color-texto-suave);
 }
 
 .col-hito p:not(.col-hito__nombre) {
@@ -173,6 +188,12 @@
    no llegan hasta aquí. Dentro de la caja NO hay enlaces de texto: sólo el
    botón de WhatsApp, que ya trae su propio contraste.
    ========================================================================== */
+/* v3: la caja pierde el radio y la sombra. Era una pastilla verde de 36 px de
+   radio flotando sobre la salvia; ahora es un bloque de negativo con la esquina
+   viva, hermano del carril de bienestar de #planes. El registro se mantiene
+   —verde bosque para los bloques de negativo DENTRO de una sección clara,
+   carbón sólo para las bandas de sección a todo lo ancho, como #momentos— y
+   así ninguna de las dos cosas se confunde con la otra. */
 .col-cierre {
   display: flex;
   flex-wrap: wrap;
@@ -181,10 +202,9 @@
   gap: var(--gap);
   margin-top: var(--gap-lg);
   padding: var(--esp-lg);
-  border-radius: var(--radio-xl);
+  border-radius: 0;
   background-color: var(--color-fondo-oscuro);
   color: var(--color-texto-inverso);
-  box-shadow: var(--sombra-lg);
 }
 
 .col-cierre__bloque {

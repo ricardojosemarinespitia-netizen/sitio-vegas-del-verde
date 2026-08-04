@@ -1,0 +1,165 @@
+/* ==========================================================================
+   VEGAS DEL VERDE — styles/sections/momentos.css  ·  v3 «Blackberry»
+   Bloque #momentos · Banda de carbón entre #planes y #colegios.
+
+   QUÉ HACE ESTA HOJA: casi nada, y a propósito. La banda oscura funciona por
+   sustracción —fondo carbón, esquina viva, sin sombra, mucho aire— así que
+   todo lo que se añada aquí resta. Si alguien viene a «mejorarla» con
+   degradados, bordes, hovers vistosos o un icono de reproducción, la banda
+   deja de ser una pausa y se convierte en otra sección que grita.
+
+   El fondo carbón NO se declara aquí: lo pone la clase de sistema
+   .seccion--carbon (base.css + tokens.css). Esta hoja sólo se ocupa de la
+   rejilla, del recuadro y del pie de foto.
+
+   Depende de tokens.css y base.css; no declara ningún valor literal de color,
+   tamaño, radio, sombra ni duración.
+   ========================================================================== */
+
+/* ==========================================================================
+   1. ENCABEZADO
+   Rótulo diminuto + una sola línea de Fraunces fina. No hay entradilla: la
+   sección no tiene nada que explicar, y una entradilla la empujaría a
+   inventarse un hecho para llenarla.
+   ========================================================================== */
+.momentos__encabezado {
+  margin-bottom: var(--esp-xl);
+}
+
+/* Los tokens inversos son los mismos que usa .seccion--oscura. Sobre carbón
+   (--carbon, #2B2B2B) la crema da 13.4:1 y la crema al 78 % 11.1:1: AAA
+   holgado en los dos casos, muy por encima del 4.5:1 que pide AA. */
+.momentos__titulo {
+  color: var(--color-texto-inverso);
+  /* Titular de una línea: se le deja respirar en ancho de lectura corta en
+     vez de estirarse hasta el borde del contenedor. */
+  max-width: 22ch;
+  text-wrap: balance;
+}
+
+/* ==========================================================================
+   2. LA REJILLA
+   Móvil: una columna. Escritorio: 2 × 2. No hay estado intermedio de tres,
+   porque cuatro piezas en tres columnas dejan una huérfana abajo.
+   ========================================================================== */
+.momentos__rejilla {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--gap-lg);
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+@media (min-width: 48em) {
+  .momentos__rejilla {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    /* Aire generoso y desigual: más entre filas que entre columnas, para que
+       las cuatro piezas se lean como cuatro momentos sueltos y no como una
+       tabla de dos por dos. */
+    column-gap: var(--gap-lg);
+    row-gap: var(--esp-2xl);
+  }
+}
+
+.momentos__figura {
+  display: flex;
+  flex-direction: column;
+  gap: var(--esp-sm);
+}
+
+/* ==========================================================================
+   3. EL RECUADRO
+   .marco ya resuelve el 16:9 y el object-fit; aquí sólo se le quita lo que
+   sobra sobre carbón: el redondeo y el fondo verde de espera.
+   ========================================================================== */
+.momentos__marco {
+  /* Esquina viva: es la firma de la banda oscura. El radio redondeado de
+     .marco pertenece a las secciones claras. */
+  border-radius: 0;
+  /* Sin sombra: sobre carbón una sombra no se ve y sólo ensucia el borde.
+     El propio contraste foto/fondo hace de límite. */
+  box-shadow: none;
+  /* Mientras la foto carga, el hueco es un carbón un punto más abierto que
+     el fondo: se intuye el recuadro sin que aparezca un rectángulo verde. */
+  background-color: var(--color-fondo-carbon-suave);
+}
+
+/* El zoom al pasar el ratón de .marco no se hereda aquí: estas piezas no son
+   enlaces, no llevan a ninguna parte, y un zoom sin destino es una promesa
+   falsa. Se anula explícitamente por si alguna regla genérica lo alcanza. */
+.momentos__marco > img:hover {
+  transform: none;
+}
+
+/* --------------------------------------------------------------------------
+   3.1 ENCUADRE ANCLADO ABAJO  (hoy sólo lo usa el recuadro 02)
+
+   El recuadro es 16:9 y `.marco > img` recorta con `cover` desde el centro.
+   Tres de las cuatro fotos del cuarteto son apaisadas (1200×800, 1200×675) y
+   pierden poco o nada. La cuarta —el corro en la hierba— es la ÚNICA cuadrada
+   (1200×1200): centrada se le van 525 px de alto, el 43,75 %, repartidos a
+   partes iguales arriba y abajo. Como el grupo vive en el tercio inferior del
+   original, ese recorte lo decapita: quedan copas de árbol y césped vacío, una
+   tira de cabezas pegada al borde inferior y los aros cortados por la mitad.
+
+   Anclar el encuadre abajo deja visible la mitad inferior del original, que es
+   donde está la escena: entran enteros los niños, la monitora, el libro y los
+   aros, y encima les queda aire de prado.
+
+   Se aplica también al <video> —hoy comentado en el fragmento— porque su
+   `poster` es esta misma foto cuadrada: sin esta línea, el día que se active
+   el clip volvería el recorte malo mientras carga. Los fotogramas del clip son
+   16:9 y no se recortan, así que para ellos la declaración es inocua.
+
+   Es encuadre, no maquillaje: no toca tamaño, color, radio ni sombra. Mismo
+   recurso que ya usan hero.css, inicio.css, nosotros.css, naturaleza.css,
+   ubicacion.css y experiencias.css.
+   -------------------------------------------------------------------------- */
+.momentos__marco--anclar-abajo > img,
+.momentos__marco--anclar-abajo > .momentos__video {
+  object-position: 50% 100%;
+}
+
+/* ==========================================================================
+   4. PIE DE FOTO
+   Describe lo que se ve y nada más (ver el contrato en sections/momentos.html).
+   Cuerpo en --fs-micro, que es --paso--2: el suelo de 12,5 px del sistema.
+   Por debajo de ahí no baja ningún texto del sitio.
+   ========================================================================== */
+.momentos__pie {
+  font-family: var(--fuente-cuerpo);
+  font-size: var(--fs-micro);
+  line-height: var(--alto-linea-suelto);
+  color: var(--color-texto-inverso-suave);
+  max-width: 46ch;
+}
+
+/* ==========================================================================
+   5. VÍDEO EN DIFERIDO
+   Hoy no hay ningún <video> en el HTML: el marcado está escrito y comentado
+   dentro de cada recuadro. Estas reglas se dejan puestas para que el día que
+   se descomente no haya que tocar CSS: se añade la clase al recuadro y ya.
+   ========================================================================== */
+.momentos__video {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0;
+  transition: opacity var(--dur-lenta) var(--ease);
+}
+
+/* La foto se queda debajo como poster permanente: si el clip no carga, el
+   recuadro nunca se queda en negro. */
+.momentos__marco--con-video .momentos__video {
+  opacity: 1;
+}
+
+/* Quien pide menos movimiento se queda con la foto fija, no con el bucle. */
+@media (prefers-reduced-motion: reduce) {
+  .momentos__video {
+    display: none;
+  }
+}
