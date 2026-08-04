@@ -1,21 +1,43 @@
 /* ==========================================================================
-   VEGAS DEL VERDE — inicio.css  ·  sección #inicio  ·  v2 «Vende la escapada»
+   VEGAS DEL VERDE — inicio.css  ·  sección #inicio  ·  v4 «abrir de verdad»
    Depende de tokens.css + base.css (cargarlos antes). Ningún valor literal de
    color, de cuerpo de letra, de radio, de sombra ni de duración: todo sale de
    los tokens. Este archivo NO toca tokens.css, base.css ni shell.css.
 
-   SUSTITUYE A styles/sections/hero.css. En el <head> de index.html hay que
-   cambiar el <link>: #inicio ya no es un hero a sangre, es una sección normal
-   del sistema, con .seccion-encabezado como todas las demás.
+   QUÉ CAMBIA RESPECTO A v3
+   v3 metió #inicio dentro de la retícula común: .contenedor, encabezado,
+   figura, tira. Leída en fila con las ocho secciones siguientes, la portada
+   tenía exactamente el mismo compás que un listado de espacios, y eso —no la
+   falta de efectos— es lo que hacía que la página se leyera como generada.
+   v4 rompe ese compás con dos escalas que ninguna otra sección usa:
+
+     1. PORTADA A SANGRE, alto de ventana, foto a pantalla completa y el
+        titular encima a --fs-hero (hasta 84 px en 1440). Es el único titular
+        de la página que sube de --fs-h2.
+     2. PLANO-ÍNDICE A SANGRE, de borde a borde de la ventana y a proporción
+        natural en escritorio, para que las cuatro anclas sigan cayendo
+        exactamente sobre lo que señalan.
+
+   POR QUÉ NADA DE ESTO USA 100vw
+   Los dos bloques a sangre son hijos directos del <section>, así que su 100 %
+   ya es el ancho del <body>, que descuenta la barra de scroll. Con 100vw
+   habría 15 px de desbordamiento horizontal real en todo escritorio con
+   barra visible. El mismo motivo explica el `margin-inline` con max() que
+   alinea el pie del plano y la tira de aves con el contenedor: es aritmética
+   de porcentajes, no de ventana.
 
    ESTRUCTURA
-     .inicio                      la sección (crema, la de serie)
-       .inicio__interior          columna: encabezado · plano · tira de aves
-         .inicio__encabezado      eyebrow + h1.titulo-seccion + entradilla + CTA
-         .inicio__plano           <figure> con el render aéreo
-           .inicio__plano-lienzo  contexto de posición de las cuatro anclas
-           .inicio__anclas        Espacios · Sendero · Vivero · Cómo llegar
-         .inicio__aves            seis miniaturas de atmósfera
+     .inicio                        la sección (crema, la de serie)
+       .inicio__portada             a sangre · alto de ventana
+         .inicio__portada-foto      la fotografía, object-fit: cover
+         .inicio__portada-velo      degradado de legibilidad
+         .inicio__portada-interior  .contenedor con el encabezado
+       .inicio__plano               <figure> a sangre con el render aéreo
+         .inicio__plano-lienzo      sistema de coordenadas de las anclas
+           .inicio__plano-marco     proporción + recorte de la foto
+           .inicio__anclas          Vivero · Sendero · Espacios · Cómo llegar
+         .inicio__plano-pie         <figcaption>, alineado al contenedor
+       .inicio__aves                seis miniaturas de atmósfera
 
    POR QUÉ LAS ANCLAS NO SE SUPERPONEN HASTA 64em
    Sobre el plano, cada ancla es una pastilla de ~2,1 rem de alto colocada en
@@ -29,39 +51,147 @@
    la que las anclas estén superpuestas y sean pequeñas a la vez.
    ========================================================================== */
 
-/* La cabecera es fija (shell.css): la primera sección se aparta ella misma.
-   Y su scroll-margin vuelve a cero, porque #inicio ES el principio de la
-   página: con el margen de .seccion, volver al inicio dejaba un hueco. */
+/* La cabecera es fija (shell.css): la portada se aparta ella misma justo lo
+   que mide la barra, ni un píxel más. El --esp-xl que llevaba de más en v3
+   dejaba una franja de crema encima de la foto que le quitaba el efecto de
+   pantalla completa. Y su scroll-margin vuelve a cero, porque #inicio ES el
+   principio de la página: con el margen de .seccion, volver al inicio dejaba
+   un hueco. */
 .inicio {
-  padding-top: calc(var(--alto-header) + var(--esp-xl));
+  padding-top: var(--alto-header);
+  padding-bottom: var(--esp-seccion);
   scroll-margin-top: 0;
 }
 
-.inicio__interior {
+/* ==========================================================================
+   1. PORTADA A SANGRE
+   ========================================================================== */
+/* El alto: la ventana entera menos la cabecera. Va como `min-height` y no
+   como `height` para que, con la tipografía del sistema agrandada o en un
+   teléfono muy corto, el bloque crezca en lugar de recortar el titular.
+   La primera declaración es el respaldo para navegadores sin `svh`: si la
+   segunda no se entiende, se descarta entera y queda un alto razonable. */
+.inicio__portada {
+  position: relative;
   display: flex;
-  flex-direction: column;
-  gap: var(--gap-lg);
+  align-items: flex-end;
+  min-height: 30rem;
+  min-height: clamp(28rem, calc(100svh - var(--alto-header)), 52rem);
+  overflow: hidden;
+  /* Color de espera mientras baja la fotografía: el texto en crema ya es
+     legible sobre él, así que no hay ni un fotograma de texto invisible. */
+  background-color: var(--color-fondo-hondo);
+  color: var(--color-texto-inverso);
 }
 
-/* El aire entre bloques lo pone el `gap` del interior: el margen inferior de
-   .seccion-encabezado sobraría y descuadraría el ritmo. */
+/* Es un <img> y no un background-image: así se puede priorizar como LCP, se
+   puede describir y el navegador elige la decodificación. A esquina viva y sin
+   sombra como todo lo que contiene una imagen en este sistema.
+   El encuadre se ancla algo por debajo del centro: en el archivo, la franja
+   interesante —copas, tronco y prado— vive entre el 40 % y el 65 % del alto;
+   con el centro geométrico la portada apaisada se llenaba de cielo. */
+.inicio__portada-foto {
+  position: absolute;
+  inset: 0;
+  z-index: var(--z-fondo);
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: 50% 52%;
+  border-radius: 0;
+  box-shadow: none;
+}
+
+/* VELO DE LEGIBILIDAD, medido y no «a ojo».
+   Peor caso posible: que detrás del texto caiga el cielo blanco del archivo.
+   Con 0.74 de verde bosque hondo encima, ese blanco baja a un gris verdoso
+   que da 5,9:1 contra la crema del texto; con 0.66, 4,9:1. Los dos pasan el
+   4,5:1 de AA para texto pequeño, que es el que manda porque de este bloque
+   cuelga el .eyebrow a 12,5 px. Arriba el velo se abre hasta 0.30 para que la
+   fotografía siga siendo una fotografía: ahí no hay texto que proteger. */
+.inicio__portada-velo {
+  position: absolute;
+  inset: 0;
+  z-index: var(--z-base);
+  background-image: linear-gradient(
+    to top,
+    rgb(var(--verde-bosque-hondo-rgb) / 0.9) 0%,
+    rgb(var(--verde-bosque-hondo-rgb) / 0.8) 40%,
+    rgb(var(--verde-bosque-hondo-rgb) / 0.66) 70%,
+    rgb(var(--verde-bosque-hondo-rgb) / 0.3) 100%
+  );
+}
+
+.inicio__portada-interior {
+  position: relative;
+  z-index: var(--z-elevado);
+  width: 100%;
+  padding-block: var(--esp-2xl) var(--esp-xl);
+}
+
+/* En un teléfono corto (320 × 568) el titular ocupa cinco líneas y el bloque
+   pasa del alto de la ventana: ahí el aire vale menos que ver el botón, así
+   que el relleno vertical baja un paso. No se toca el cuerpo del titular: la
+   escala fluida ya lo bajó a 2,8 rem, y por debajo de eso el titular deja de
+   ser una portada. */
+@media (max-width: 47.99em) {
+  .inicio__portada-interior {
+    padding-block: var(--esp-xl) var(--esp-lg);
+  }
+}
+
+/* El aire de debajo lo pone el padding del interior. */
 .inicio__encabezado {
   margin-bottom: 0;
+  gap: var(--esp-sm);
 }
 
-/* v3 «Blackberry» — EL ÚNICO TITULAR EN MAYÚSCULAS DE TODA LA PÁGINA.
-   El referente abre con un display en caja alta, peso finísimo y las letras
-   abiertas; de la segunda sección en adelante todo vuelve a caja de frase. Aquí
-   se hace lo mismo y sólo aquí: los h2 del resto del sitio son frases largas en
-   español y en caps ocuparían tres renglones y gritarían (base.css lo deja
-   escrito). El cuerpo NO sube: sigue siendo el de .titulo-seccion (--fs-h2),
-   porque #inicio es una sección más de la retícula y no un hero a sangre.
+/* v3 «Blackberry» — EL ÚNICO TITULAR EN MAYÚSCULAS DE TODA LA PÁGINA, y desde
+   v4 también el único que sube de cuerpo. El referente abre con un display en
+   caja alta, peso finísimo y las letras abiertas; de la segunda sección en
+   adelante todo vuelve a caja de frase. Aquí se hace lo mismo y sólo aquí: los
+   h2 del resto del sitio son frases largas en español y en caps ocuparían tres
+   renglones y gritarían (base.css lo deja escrito).
+
+   EL CUERPO: --fs-hero es el único paso de la escala que llega a 5,25 rem en
+   1440 y baja solo a 2,8 rem en 320, así que la presencia grande y la
+   supervivencia en pantalla estrecha salen del mismo token, sin literales.
+
+   LA MEDIDA EN `ch` Y NO EN `rem`: 15ch se mide contra el propio cuerpo del
+   titular, de modo que el número de palabras por línea es el mismo en 1440 que
+   en 768. Con un máximo en rem, el titular se partía en tres líneas arriba y
+   en una sola abajo. `overflow-wrap` es la red de seguridad para el sistema
+   con la letra agrandada: ninguna palabra de esta frase la necesita a tamaño
+   normal, pero si alguna llegara a no caber, parte en vez de desbordar.
+
    Peso y tracking vienen ya de .titulo-seccion (--peso-display /
-   --tracking-display); lo único que esta regla añade es la caja alta, y gana a
-   `text-transform: none` de base.css por orden de cascada, no por especificidad
-   —las dos clases miden (0,1,0)— porque esta hoja se carga después. */
+   --tracking-display); esta regla añade caja alta, cuerpo, interlineado
+   apretado —a este tamaño el 1,14 de titular abre demasiado— y el color en
+   negativo. Gana a base.css por orden de cascada, no por especificidad: las
+   dos clases miden (0,1,0) y esta hoja se carga después. */
 .inicio__titulo {
   text-transform: uppercase;
+  font-size: var(--fs-hero);
+  line-height: var(--alto-linea-apretado);
+  max-width: 15ch;
+  overflow-wrap: break-word;
+  color: var(--color-texto-inverso);
+}
+
+/* Sobre la portada no hay .seccion--oscura de la que heredar el negativo: el
+   fondo oscuro es local, así que el rótulo y la entradilla se repintan aquí.
+   Las dos reglas miden (0,2,0) y ganan a .eyebrow y .entradilla de base.css
+   sin necesidad de !important.
+   El rótulo va en crema PLENA y la entradilla en la crema al 78 %: el rótulo
+   es el que está más arriba —donde el velo es más flojo— y el que lleva el
+   cuerpo más pequeño de los dos. */
+.inicio__portada .eyebrow {
+  color: var(--color-texto-inverso);
+}
+
+.inicio__portada .entradilla {
+  color: var(--color-texto-inverso-suave);
+  max-width: var(--medida-corta);
 }
 
 .inicio__acciones {
@@ -69,16 +199,44 @@
 }
 
 /* ==========================================================================
-   1. EL PLANO-ÍNDICE
+   2. EL PLANO-ÍNDICE
    ========================================================================== */
 .inicio__plano {
-  display: flex;
-  flex-direction: column;
-  gap: var(--esp-2xs);
+  margin-top: var(--esp-seccion-sm);
 }
 
+/* Sólo sistema de coordenadas: ni recorta ni mide. Si llevara `overflow` se
+   comería la rejilla de anclas de móvil, que es hija suya y vive fuera de la
+   foto. */
 .inicio__plano-lienzo {
   position: relative;
+}
+
+/* La proporción y el recorte, aquí. En móvil y en tableta la foto se recorta
+   a una caja más alta que la del archivo: a 375 px de ancho, el aéreo servido
+   a su proporción natural (1,97) mide 190 px de alto y no se ve nada. Como por
+   debajo de 64em las anclas NO están encima, recortar es gratis: no hay ningún
+   punto que se salga del encuadre. A partir de 64em la caja recupera la
+   proporción exacta del archivo (2000 × 1013) y el recorte desaparece, que es
+   la condición para que las coordenadas en % sigan cayendo sobre el sitio
+   que señalan. */
+.inicio__plano-marco {
+  position: relative;
+  aspect-ratio: 4 / 3;
+  overflow: hidden;
+  background-color: var(--color-fondo-alt);
+}
+
+@media (min-width: 48em) {
+  .inicio__plano-marco {
+    aspect-ratio: 16 / 9;
+  }
+}
+
+@media (min-width: 64em) {
+  .inicio__plano-marco {
+    aspect-ratio: 2000 / 1013;
+  }
 }
 
 /* v3: el plano va a ESQUINA VIVA, sin filete y sin sombra. Era una foto de
@@ -87,26 +245,41 @@
    recortaba las esquinas al render, que es justo donde está el bosque que
    rodea el predio. El radio se declara en cero explícitamente —no por
    omisión— para que quede escrito que es decisión y no olvido; lo mismo la
-   sombra. Sin contenedor con overflow oculto, además, el anillo de foco de un
-   ancla pegada al borde nunca se recorta. */
+   sombra. */
 .inicio__plano-foto {
+  position: absolute;
+  inset: 0;
   width: 100%;
-  height: auto;
+  height: 100%;
+  object-fit: cover;
+  object-position: 50% 50%;
   border-radius: 0;
   box-shadow: none;
 }
 
+/* El pie NO va centrado ni ocupa el ancho de la ventana: se alinea con el
+   margen izquierdo del contenedor y conserva medida corta de lectura.
+   El max() hace de contenedor sin serlo: mientras la ventana sea más estrecha
+   que --ancho-xl gana el relleno del contenedor; en cuanto es más ancha, gana
+   la mitad de lo que sobra, que es exactamente donde empieza .contenedor. Todo
+   en porcentajes del padre —el <section>—, nunca en vw. */
 .inicio__plano-pie {
-  max-width: var(--medida);
+  max-width: var(--medida-corta);
+  margin-block: var(--esp-sm) 0;
+  margin-inline: max(var(--padding-contenedor), calc((100% - var(--ancho-xl)) / 2)) auto;
 }
 
 /* ---- LAS CUATRO ANCLAS --------------------------------------------------
-   Móvil y tableta: rejilla de pastillas bajo el plano.                     */
+   Móvil y tableta: rejilla de pastillas bajo el plano. Al vivir fuera del
+   .contenedor, el margen lateral se lo pone ella misma con el mismo max() del
+   pie, para que la rejilla no arranque pegada al borde de la pantalla.      */
 .inicio__anclas {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   gap: var(--gap-sm);
-  margin-top: var(--esp-md);
+  max-width: calc(var(--ancho-xl) + var(--padding-contenedor) * 2);
+  margin: var(--esp-md) auto 0;
+  padding-inline: var(--padding-contenedor);
 }
 
 /* En tableta las cuatro caben en una fila y dejan de parecer un formulario. */
@@ -203,7 +376,9 @@
     position: absolute;
     inset: 0;
     display: block;
-    margin-top: 0;
+    max-width: none;
+    margin: 0;
+    padding-inline: 0;
     /* La lista cubre la foto entera; sólo los enlaces reciben el puntero. */
     pointer-events: none;
   }
@@ -232,7 +407,9 @@
   /* Coordenadas leídas sobre img/aereo-predio.jpg (2000 × 1013), ampliando el
      archivo antes de fijarlas: la estructura de techo translúcido con las
      mesas de cultivo debajo, la masa de árboles del costado, la alameda con el
-     prado y la vela de sombra, y el camino de acceso con los coches. */
+     prado y la vela de sombra, y el camino de acceso con los coches.
+     Siguen valiendo en v4 porque a partir de 64em el marco recupera la
+     proporción exacta del archivo: la foto se amplía, no se recorta.       */
   .inicio__ancla-item--vivero   { left: 52%; top: 31%; }
   .inicio__ancla-item--sendero  { left: 16%; top: 44%; }
   .inicio__ancla-item--espacios { left: 41%; top: 63%; }
@@ -240,7 +417,7 @@
 }
 
 /* ==========================================================================
-   2. TIRA DE AVES — atmósfera
+   3. TIRA DE AVES — atmósfera
    Miniaturas decorativas: ni ficha ni crédito visible (el crédito va en el
    `alt`). Tope en píxeles para que no crezcan hasta volverse medallones si la
    letra del sistema está agrandada.
@@ -248,7 +425,10 @@
 /* Rejilla y no `flex-wrap`: con seis miniaturas de ancho fijo, en un teléfono
    entraban cinco y la sexta caía sola en una segunda fila. En rejilla el ancho
    sale de la columna, así que la fila siempre queda completa: tres y tres en
-   móvil, las seis seguidas a partir de 48em. */
+   móvil, las seis seguidas a partir de 48em.
+   v4: la tira deja de ir centrada y arranca en el margen del contenedor, en
+   la misma vertical que el pie del plano. Centrada era la enésima fila
+   simétrica de la página; alineada, cierra el bloque como una nota al pie. */
 .inicio__aves {
   /* Tope en píxeles a propósito: con la letra del sistema agrandada, un valor
      en rem convertiría estas miniaturas en medallones y sacaría la fila de la
@@ -257,9 +437,11 @@
 
   display: grid;
   grid-template-columns: repeat(3, var(--tam-ave));
-  justify-content: center;
+  justify-content: start;
   gap: var(--gap-sm);
-  margin: 0;
+  margin-block: var(--esp-lg) 0;
+  margin-inline: max(var(--padding-contenedor), calc((100% - var(--ancho-xl)) / 2)) auto;
+  padding: 0;
 }
 
 @media (min-width: 48em) {

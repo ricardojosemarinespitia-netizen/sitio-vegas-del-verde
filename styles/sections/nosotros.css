@@ -1,16 +1,38 @@
 /* ==========================================================================
-   VEGAS DEL VERDE — nosotros.css  ·  sección #nosotros  ·  v2
+   VEGAS DEL VERDE — nosotros.css  ·  sección #nosotros  ·  v4 «asimetría»
    (a) el predio · (b) lo básico resuelto · (c) el compromiso
    Depende de tokens.css + base.css. Sin valores literales de color, tamaño de
    fuente, radio, sombra ni duración. No toca base.css, tokens.css ni shell.css.
 
-   DEFECTOS DE v1 CORREGIDOS AQUÍ (CONTRATO-V2 §7.5 y §7.6)
+   QUÉ CAMBIA RESPECTO A v3
+   v3 era el patrón más genérico de la página: encabezado con entradilla,
+   rejilla de dos columnas casi iguales, caja de servicios centrada y tres
+   tarjetas. v4 lo recompone en asimetría, sin tocar una sola palabra:
+
+     · TITULAR y DISCURSO en columnas de anchos distintos (5 y 6 de 12) con
+       una calle vacía en medio, y el titular pegado al scroll. La entradilla
+       baja al discurso: el titular se queda solo, que es lo que le da peso.
+     · LA FOTO sale del contenedor y sangra por el borde IZQUIERDO de la
+       ventana. Su borde derecho cae a dos tercios del ancho de la retícula,
+       así que ni se alinea con el texto ni parte la página por la mitad.
+     · SERVICIOS pasa de caja con filete y centrada a tira bajo un hilo,
+       alineada a la izquierda.
+     · COMPROMISO invierte la sangría: el texto en la retícula y el panel de
+       aves saliéndose por la DERECHA. Los pilares dejan de ser tarjetas y
+       pasan a tres renglones separados por un hilo.
+
+   LAS DOS SANGRÍAS NO USAN 100vw
+   Las dos figuras son hijas directas del <section>, así que su 100 % ya es el
+   ancho del <body>, que descuenta la barra de scroll. Con 100vw habría 15 px
+   de desbordamiento horizontal real en todo escritorio con barra visible.
+   Los márgenes y las pistas que las alinean con el contenedor son aritmética
+   de porcentajes del propio <section>, nunca de la ventana.
+
+   DEFECTOS DE v1 CORREGIDOS AQUÍ Y QUE SIGUEN VIGENTES
    · .nosotros__pilar-indice iba en --verde-menta sobre superficie clara:
-     2,07:1. Ahora va en --color-acento-texto (terracota), 5,3:1 sobre la
-     superficie clara de la tarjeta.
+     2,07:1. Va en --color-acento-texto (terracota), 5,3:1 sobre la crema.
    · .nosotros__pilar-titulo declaraba font-family y se quedaba en Jost.
-     Ya no declara ninguna: hereda Fraunces de h4 (base.css). Tampoco declara
-     color, para que ninguna regla de sección pise a base.css.
+     No declara ninguna: hereda Fraunces de h4 (base.css). Tampoco color.
    ========================================================================== */
 
 .nosotros {
@@ -18,83 +40,129 @@
 }
 
 /* ==========================================================================
-   1. EL PREDIO — texto + una sola fotografía, a media página
+   1. EL PREDIO — titular a un lado, discurso al otro
    ========================================================================== */
-.nosotros__intro {
+.nosotros__predio {
   display: grid;
-  gap: var(--gap-lg);
-  align-items: center;
+  gap: var(--gap);
 }
 
-@media (min-width: 52em) {
-  .nosotros__intro {
-    grid-template-columns: 1.1fr 1fr;
-  }
+/* El aire entre el titular y el discurso lo pone el `gap` de la rejilla: el
+   margen inferior de .seccion-encabezado sobraría y descuadraría las dos
+   columnas, que arrancan a la misma altura. */
+.nosotros__titular {
+  margin-bottom: 0;
 }
 
-.nosotros__texto {
+.nosotros__discurso {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
   gap: var(--esp-sm);
 }
 
-.nosotros__texto p {
+.nosotros__discurso p {
   margin: 0;
+  max-width: var(--medida);
 }
 
 /* .grupo-botones es un <p>: hay que devolverle el margen que trae de base. */
-.nosotros__texto .grupo-botones {
+.nosotros__discurso .grupo-botones {
   margin-top: var(--esp-2xs);
 }
 
-/* Las dos fotos del banco son verticales (9:16). A una columna, servirlas en
-   retrato las convierte en una pantalla entera de foto: el recorte se abre a
-   apaisado en móvil y sólo vuelve a retrato cuando hay dos columnas y la foto
-   tiene que igualar el alto del texto que lleva al lado. */
-.nosotros__foto,
-.nosotros__mural {
-  aspect-ratio: 4 / 3;
+@media (min-width: 62em) {
+  .nosotros__predio {
+    grid-template-columns: repeat(12, minmax(0, 1fr));
+    column-gap: var(--gap);
+    align-items: start;
+  }
+
+  /* Cinco columnas de doce, y pegado al scroll mientras se lee el texto de al
+     lado. El desplazamiento superior es la cabecera fija más un respiro: el
+     mismo cálculo que usa .seccion en su scroll-margin. */
+  .nosotros__titular {
+    grid-column: 1 / span 5;
+    position: sticky;
+    top: calc(var(--alto-header) + var(--esp-lg));
+  }
+
+  /* Empieza en la 7 y no en la 6: la columna vacía en medio es la calle que
+     hace legible la asimetría. */
+  .nosotros__discurso {
+    grid-column: 7 / -1;
+  }
 }
 
-@media (min-width: 40em) {
-  .nosotros__foto,
-  .nosotros__mural {
-    aspect-ratio: 3 / 2;
-  }
+/* ---- La foto grande, a sangre por la izquierda --------------------------
+   No lleva .marco: no es una foto encajonada en una tarjeta, es una imagen
+   que toca el borde de la pantalla. El recorte y la proporción se declaran
+   aquí porque el archivo es vertical (675 × 1200) y a una columna, servido en
+   retrato, se comía una pantalla entera de foto.                           */
+.nosotros__foto {
+  position: relative;
+  overflow: hidden;
+  aspect-ratio: 4 / 3;
+  margin-top: var(--gap-lg);
+  border-radius: 0;
+  box-shadow: none;
+  background-color: rgb(var(--gris-verde-rgb) / 0.3);
 }
 
 /* El prado se lee a ras de suelo: el encuadre se ancla por debajo del centro
    para que manden el césped y la línea de árboles, no el cielo. */
 .nosotros__foto img {
-  object-position: 50% 62%;
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: 50% 48%;
+  transition: transform var(--dur-lenta) var(--ease-suave);
 }
 
-@media (min-width: 52em) {
-  .nosotros__foto {
-    aspect-ratio: 4 / 5;
+/* El borde derecho de la foto cae a dos tercios del ancho del contenedor:
+   la mitad de lo que sobra a los lados del contenedor (que es donde empieza
+   .contenedor) más un tercio de su ancho. Así muerde la columna de texto de
+   arriba en vez de alinearse con ella, y la proporción del gesto es la misma
+   en 1024 que en 2560. El max() sólo protege el caso improbable de que el
+   cálculo quede por debajo del margen de página. */
+/* El combinador de hijo NO es decorativo: en/index.html —que todavía va con la
+   arquitectura vieja y enlaza esta misma hoja— tiene tres <figure> con esta
+   clase METIDOS dentro de un contenedor. Sin el `>`, este margen enorme se les
+   aplicaría también y los dejaría convertidos en una tira estrecha. La sangría
+   sólo tiene sentido para la figura que cuelga directamente del <section>, que
+   es la única que llega al borde de la ventana. */
+@media (min-width: 62em) {
+  .nosotros > .nosotros__foto {
+    aspect-ratio: 3 / 2;
+    margin-right: max(
+      var(--padding-contenedor),
+      calc((100% - var(--ancho-xl)) / 2 + var(--ancho-xl) * 0.34)
+    );
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .nosotros__foto:hover img {
+    transform: scale(var(--escala-hover));
   }
 }
 
 /* ==========================================================================
-   2. LO BÁSICO, RESUELTO — una tira discreta, sin tarjetas
-   Es el «ya está puesto», no el argumento de venta: va en voz baja.
+   2. LO BÁSICO, RESUELTO — una tira discreta, sin caja y sin centrar
+   Es el «ya está puesto», no el argumento de venta: va en voz baja. En v3
+   iba dentro de un rectángulo con filete y todo centrado, y con eso pesaba
+   más que el discurso que tiene encima. Ahora es un hilo y una fila.
    ========================================================================== */
 .nosotros__servicios {
   display: flex;
   flex-direction: column;
-  align-items: center;
+  align-items: flex-start;
   gap: var(--esp-sm);
   margin-top: var(--esp-seccion-sm);
-  padding: var(--esp-lg) var(--esp-md);
-  border: 1px solid var(--color-borde-suave);
-  /* v3: esquina viva, como .tarjeta en base.css. Esta tira es una caja de
-     servicio —wifi, baños, vigilancia, parqueadero—, no una tarjeta de
-     producto: con --radio-lg parecía un widget. El filete de 1 px es todo el
-     recurso de separación que necesita contra la crema. */
-  border-radius: 0;
-  background-color: var(--color-superficie);
-  text-align: center;
+  padding-top: var(--esp-lg);
+  border-top: 1px solid var(--color-borde-suave);
+  text-align: left;
 }
 
 .nosotros__servicios-titulo {
@@ -104,7 +172,6 @@
 .nosotros__servicios-lista {
   display: flex;
   flex-wrap: wrap;
-  justify-content: center;
   gap: var(--esp-xs) var(--esp-lg);
   list-style: none;
   padding: 0;
@@ -119,9 +186,9 @@
   font-size: var(--fs-pequeno);
   font-weight: var(--peso-medio);
   text-transform: uppercase;
-  /* v3: el tracking de rótulo del sistema (0.16em) en lugar del --track-caps
-     de v2 (0.14em). Es el mismo valor que llevan .eyebrow, .btn y el nav, y la
-     coherencia de los micro-rótulos es de las cosas que más se notan. */
+  /* El tracking de rótulo del sistema (0.16em), el mismo que llevan .eyebrow,
+     .btn y el nav: la coherencia de los micro-rótulos es de las cosas que
+     más se notan. */
   letter-spacing: var(--tracking-rotulo);
   line-height: var(--alto-linea-titulo);
   color: var(--color-texto);
@@ -143,37 +210,76 @@
   .nosotros__servicios {
     flex-direction: row;
     flex-wrap: wrap;
+    align-items: center;
     justify-content: space-between;
     gap: var(--esp-md) var(--esp-lg);
-    padding-inline: var(--esp-lg);
-    text-align: left;
-  }
-
-  .nosotros__servicios-lista {
-    justify-content: flex-start;
   }
 }
 
 /* ==========================================================================
-   3. EL COMPROMISO — el mural a un lado, los tres pilares al otro
+   3. EL COMPROMISO — el texto en la retícula, el panel saliéndose a la derecha
    ========================================================================== */
 .nosotros__compromiso {
   display: grid;
   gap: var(--gap-lg);
-  align-items: center;
   margin-top: var(--esp-seccion);
 }
 
+/* A una columna, el bloque de texto se pone él mismo el margen de página: no
+   está dentro de ningún .contenedor. */
+.nosotros__compromiso-texto {
+  padding-inline: var(--padding-contenedor);
+}
+
+.nosotros__compromiso-texto .seccion-encabezado {
+  margin-bottom: var(--gap);
+}
+
+/* Tres pistas: margen de página · texto · panel.
+   La primera pista NO lleva contenido: es el hueco que alinea el texto con
+   el borde izquierdo del contenedor del resto de la página. Se calcula con
+   los mismos porcentajes que .contenedor —la mitad de lo que sobra, con el
+   relleno de página como suelo— pero medidos aquí, en la rejilla, donde el
+   100 % sí es el ancho del <section>. La tercera pista llega al borde de la
+   ventana porque la rejilla no tiene relleno a la derecha.                 */
 @media (min-width: 62em) {
   .nosotros__compromiso {
-    grid-template-columns: 1fr 1.35fr;
+    grid-template-columns:
+      max(var(--padding-contenedor), calc((100% - var(--ancho-xl)) / 2))
+      minmax(0, 1fr)
+      minmax(0, 44%);
+    gap: 0;
+    align-items: center;
+  }
+
+  .nosotros__compromiso-texto {
+    grid-column: 2;
+    padding-inline: 0 var(--gap-lg);
+  }
+
+  .nosotros__mural {
+    grid-column: 3;
   }
 }
 
-/* El mural ocupa la franja media-baja del encuadre: el recorte baja para que
-   quepan entero el colibrí, el ave roja y el loro. */
+/* El panel tampoco lleva .marco, por lo mismo que la foto del prado. El
+   recorte baja para que quepan enteros el colibrí, el ave roja y el loro. */
+.nosotros__mural {
+  position: relative;
+  overflow: hidden;
+  aspect-ratio: 4 / 3;
+  border-radius: 0;
+  box-shadow: none;
+  background-color: rgb(var(--gris-verde-rgb) / 0.3);
+}
+
 .nosotros__mural img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
   object-position: 50% 57%;
+  transition: transform var(--dur-lenta) var(--ease-suave);
 }
 
 @media (min-width: 62em) {
@@ -182,14 +288,20 @@
   }
 }
 
-.nosotros__compromiso-texto .seccion-encabezado {
-  margin-bottom: var(--gap);
+@media (prefers-reduced-motion: no-preference) {
+  .nosotros__mural:hover img {
+    transform: scale(var(--escala-hover));
+  }
 }
 
-/* ---- Los tres pilares ---------------------------------------------------- */
+/* ---- Los tres pilares ----------------------------------------------------
+   v4: dejan de ser tarjetas. Eran tres rectángulos con fondo y filete dentro
+   de una columna que ya está llena de texto, y en una página con nueve
+   secciones de rejilla eso es exactamente el defecto que se está corrigiendo.
+   Ahora son tres renglones separados por un hilo, con la cifra grande de
+   índice: una lista que se lee.                                            */
 .nosotros__pilares {
   display: grid;
-  gap: var(--gap-sm);
   list-style: none;
   padding: 0;
   margin: 0;
@@ -197,24 +309,26 @@
 
 .nosotros__pilar {
   display: flex;
-  align-items: flex-start;
-  gap: var(--esp-sm);
-  padding: var(--esp-md);
+  align-items: baseline;
+  gap: var(--esp-md);
+  padding-block: var(--esp-md);
+  border-top: 1px solid var(--color-borde-suave);
   transition: border-color var(--transicion);
 }
 
-/* v3: el pilar ya no se levanta ni proyecta sombra. Eran tres tarjetas
-   flotando al pasar el ratón, y .tarjeta perdió en base.css tanto el radio
-   como la sombra: mantener aquí el hover elevado dejaba el gesto sin la pieza
-   que lo justificaba. Lo que responde ahora es el filete, que sube de
-   --color-borde-suave al borde de componente. Es un cambio de una unidad, que
-   es lo que pide una lista que se lee, no un carrusel de tarjetas. */
-.nosotros__pilar:hover {
-  border-color: var(--color-borde-fuerte);
+.nosotros__pilar:last-child {
+  border-bottom: 1px solid var(--color-borde-suave);
 }
 
-/* Terracota sobre la superficie clara de la tarjeta: 5,3:1. En v1 este número
-   iba en verde menta y se quedaba en 2,07:1. */
+/* Lo que responde al ratón es el filete, que sube de --color-borde-suave al
+   borde de componente. Es un cambio de una unidad, que es lo que pide una
+   lista, no un carrusel de tarjetas. */
+.nosotros__pilar:hover {
+  border-top-color: var(--color-borde-fuerte);
+}
+
+/* Terracota sobre la crema: 5,3:1. En v1 este número iba en verde menta y se
+   quedaba en 2,07:1. */
 .nosotros__pilar-indice {
   flex: none;
   font-family: var(--fuente-display);
@@ -223,17 +337,17 @@
   font-optical-sizing: auto;
   font-variation-settings: var(--ejes-display);
   line-height: var(--alto-linea-apretado);
-  /* v3: el cierre negativo de v2 (--track-display, -0.02em) se cambia por el
-     tracking abierto del nuevo display. En una cifra de dos dígitos en
-     Fraunces el cierre pegaba el 0 al 1. */
+  /* El tracking abierto del display: en una cifra de dos dígitos en Fraunces
+     el cierre negativo de v2 pegaba el 0 al 1. */
   letter-spacing: var(--tracking-display);
   color: var(--color-acento-texto);
 }
 
-.nosotros__pilar .tarjeta__cuerpo {
+.nosotros__pilar-cuerpo {
+  display: flex;
+  flex-direction: column;
+  gap: var(--esp-2xs);
   flex: 1;
-  gap: var(--esp-3xs);
-  padding: 0;
   min-width: 0;
 }
 
@@ -242,6 +356,7 @@
   font-size: var(--fs-cuerpo);
   line-height: var(--alto-linea-titulo);
   text-wrap: balance;
+  margin: 0;
 }
 
 .nosotros__pilar p {

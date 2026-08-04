@@ -1,19 +1,29 @@
 /* ==========================================================================
-   VEGAS DEL VERDE — styles/sections/momentos.css  ·  v3 «Blackberry»
+   VEGAS DEL VERDE — styles/sections/momentos.css  ·  v3.1 «Blackberry»
    Bloque #momentos · Banda de carbón entre #planes y #colegios.
 
-   QUÉ HACE ESTA HOJA: casi nada, y a propósito. La banda oscura funciona por
-   sustracción —fondo carbón, esquina viva, sin sombra, mucho aire— así que
-   todo lo que se añada aquí resta. Si alguien viene a «mejorarla» con
-   degradados, bordes, hovers vistosos o un icono de reproducción, la banda
-   deja de ser una pausa y se convierte en otra sección que grita.
+   QUÉ HACE ESTA HOJA: coloca cuatro clips VERTICALES sobre el carbón y nada
+   más. La banda oscura funciona por sustracción —fondo carbón, esquina viva,
+   sin sombra, mucho aire— así que todo lo que se añada aquí resta. Si alguien
+   viene a «mejorarla» con degradados, bordes, hovers vistosos, filtros o un
+   icono de reproducción, la banda deja de ser una pausa y se convierte en
+   otra sección que grita.
+
+   QUÉ CAMBIÓ EN v3.1: la rejilla 2×2 de fotos apaisadas se retira entera y
+   nace el MURO ESCALONADO de vídeo (§3). El material es metraje de móvil,
+   720×1280, y se muestra en vertical sin recortar: recortarlo a apaisado
+   sería borrar justamente lo que lo hace parecer grabado por alguien que
+   estaba allí. Lo que sostiene la composición no es el tamaño de las piezas
+   sino su DESIGUALDAD: cuatro anchos distintos y cuatro desfases verticales
+   distintos. En cuanto dos piezas empiezan a medir lo mismo, el muro vuelve
+   a leerse como una rejilla y se pierde el efecto.
 
    El fondo carbón NO se declara aquí: lo pone la clase de sistema
-   .seccion--carbon (base.css + tokens.css). Esta hoja sólo se ocupa de la
-   rejilla, del recuadro y del pie de foto.
+   .seccion--carbon (base.css + tokens.css). Esta hoja sólo se ocupa del muro,
+   del recuadro, del clip y del pie.
 
    Depende de tokens.css y base.css; no declara ningún valor literal de color,
-   tamaño, radio, sombra ni duración.
+   tamaño de fuente, radio, sombra ni duración.
    ========================================================================== */
 
 /* ==========================================================================
@@ -38,27 +48,131 @@
 }
 
 /* ==========================================================================
-   2. LA REJILLA
-   Móvil: una columna. Escritorio: 2 × 2. No hay estado intermedio de tres,
-   porque cuatro piezas en tres columnas dejan una huérfana abajo.
+   2. EL MURO
+   Una sola rejilla de TRECE columnas para los tres tamaños de pantalla. Trece
+   y no doce a propósito: con doce, cuatro piezas de anchos 4+3+3+2 suman
+   exactamente doce y el aire entre ellas queda idéntico —vuelve la sensación
+   de tabla—. Con trece sobra una columna, que se deja VACÍA entre la primera
+   y la segunda pieza: es el hueco que desiguala el ritmo horizontal.
+
+   `align-items: start` es obligatorio: sin él las piezas se estiran hasta la
+   altura de la fila y los desfases dejan de verse.
    ========================================================================== */
-.momentos__rejilla {
+.momentos__muro {
   display: grid;
-  grid-template-columns: 1fr;
-  gap: var(--gap-lg);
+  grid-template-columns: repeat(13, minmax(0, 1fr));
+  align-items: start;
+  column-gap: var(--gap-sm);
+  row-gap: var(--esp-xl);
   list-style: none;
   margin: 0;
   padding: 0;
 }
 
 @media (min-width: 48em) {
-  .momentos__rejilla {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    /* Aire generoso y desigual: más entre filas que entre columnas, para que
-       las cuatro piezas se lean como cuatro momentos sueltos y no como una
-       tabla de dos por dos. */
-    column-gap: var(--gap-lg);
+  .momentos__muro {
+    column-gap: var(--gap);
     row-gap: var(--esp-2xl);
+  }
+}
+
+/* ==========================================================================
+   3. LA COMPOSICIÓN ESCALONADA
+   Cada pieza declara DÓNDE empieza y cuánto ocupa (`grid-column`) y CUÁNTO
+   baja respecto a sus vecinas (`--desfase`). El desfase es un margen
+   superior, no un `transform`: así el muro reserva la altura que ocupa y no
+   se solapa con el pie de la sección.
+
+   Los desfases NO son progresivos (0, 1, 2, 3…) sino desordenados a
+   conciencia: si crecieran en escalera, la escalera sería el patrón nuevo.
+   -------------------------------------------------------------------------- */
+.momentos__pieza {
+  margin-block-start: var(--desfase, 0);
+}
+
+/* --------------------------------------------------------------------------
+   3.1 MÓVIL — tres filas, ninguna alineada con la anterior
+   La protagonista deja libres las dos últimas columnas por la derecha; las
+   dos piezas centrales se reparten la fila con anchos distintos y una de las
+   dos cae más abajo; la última entra sangrada por la izquierda. Ninguna pieza
+   llega a ancho completo: un vertical a 375 px de ancho mide más de 660 px de
+   alto y se comería la pantalla entera él solo.
+   -------------------------------------------------------------------------- */
+.momentos__pieza--uno {
+  grid-column: 1 / 12;
+  --desfase: 0;
+}
+
+.momentos__pieza--dos {
+  grid-column: 1 / 8;
+  --desfase: 0;
+}
+
+.momentos__pieza--tres {
+  grid-column: 8 / -1;
+  --desfase: var(--esp-lg);
+}
+
+.momentos__pieza--cuatro {
+  grid-column: 4 / 12;
+  --desfase: 0;
+}
+
+/* --------------------------------------------------------------------------
+   3.2 TABLETA — dos filas de dos, cruzadas
+   Las cuatro piezas miden distinto (6 / 4 / 5 / 3 columnas): en cuanto dos de
+   ellas coincidieron en ancho —pasó con la primera versión de este bloque—,
+   la fila de arriba se leyó como un par de tarjetas gemelas y el muro volvió
+   a parecer una rejilla. Ninguna comparte borde superior ni inferior, y las
+   dos de abajo entran desplazadas hacia dentro respecto a las de arriba.
+   -------------------------------------------------------------------------- */
+@media (min-width: 48em) {
+  .momentos__pieza--uno {
+    grid-column: 1 / 7;
+  }
+
+  .momentos__pieza--dos {
+    grid-column: 8 / 12;
+    --desfase: var(--esp-3xl);
+  }
+
+  .momentos__pieza--tres {
+    grid-column: 2 / 7;
+    --desfase: 0;
+  }
+
+  .momentos__pieza--cuatro {
+    grid-column: 8 / 11;
+    --desfase: var(--esp-lg);
+  }
+}
+
+/* --------------------------------------------------------------------------
+   3.3 ESCRITORIO — una sola banda de cuatro, en diagonal
+   Aquí es donde la composición hace su trabajo: cuatro piezas seguidas de
+   anchos 4 / 3 / 3 / 2 columnas, la columna 5 vacía como respiro, y desfases
+   de 0 → mucho → poco → muchísimo. El borde superior sube y baja; el
+   inferior desciende hacia la derecha. Nada se alinea con nada.
+   -------------------------------------------------------------------------- */
+@media (min-width: 64em) {
+  .momentos__pieza--uno {
+    grid-column: 1 / 5;
+    --desfase: 0;
+  }
+
+  .momentos__pieza--dos {
+    grid-column: 6 / 9;
+    --desfase: var(--esp-3xl);
+  }
+
+  .momentos__pieza--tres {
+    grid-column: 9 / 12;
+    --desfase: var(--esp-lg);
+  }
+
+  .momentos__pieza--cuatro {
+    grid-column: 12 / -1;
+    --desfase: var(--esp-4xl);
   }
 }
 
@@ -69,63 +183,44 @@
 }
 
 /* ==========================================================================
-   3. EL RECUADRO
-   .marco ya resuelve el 16:9 y el object-fit; aquí sólo se le quita lo que
-   sobra sobre carbón: el redondeo y el fondo verde de espera.
+   4. EL RECUADRO Y EL CLIP
+   `aspect-ratio: 9 / 16` es exactamente la proporción de los archivos
+   (720×1280), así que el `cover` no llega a recortar nada: se ve el
+   fotograma entero, que es como se grabó. La proporción va en el RECUADRO y
+   no en el vídeo para que el hueco esté reservado antes de que el clip
+   exista: sin JS, sin red o con el vídeo bloqueado, el alto es el mismo y la
+   página no da ningún salto.
    ========================================================================== */
 .momentos__marco {
-  /* Esquina viva: es la firma de la banda oscura. El radio redondeado de
-     .marco pertenece a las secciones claras. */
+  aspect-ratio: 9 / 16;
+  /* Esquina viva: es la firma de la banda oscura. El radio redondeado
+     pertenece a las secciones claras. */
   border-radius: 0;
   /* Sin sombra: sobre carbón una sombra no se ve y sólo ensucia el borde.
-     El propio contraste foto/fondo hace de límite. */
+     El propio contraste imagen/fondo hace de límite. */
   box-shadow: none;
-  /* Mientras la foto carga, el hueco es un carbón un punto más abierto que
+  /* Mientras el póster carga, el hueco es un carbón un punto más abierto que
      el fondo: se intuye el recuadro sin que aparezca un rectángulo verde. */
   background-color: var(--color-fondo-carbon-suave);
 }
 
-/* El zoom al pasar el ratón de .marco no se hereda aquí: estas piezas no son
-   enlaces, no llevan a ninguna parte, y un zoom sin destino es una promesa
-   falsa. Se anula explícitamente por si alguna regla genérica lo alcanza. */
-.momentos__marco > img:hover {
-  transform: none;
-}
-
-/* --------------------------------------------------------------------------
-   3.1 ENCUADRE ANCLADO ABAJO  (hoy sólo lo usa el recuadro 02)
-
-   El recuadro es 16:9 y `.marco > img` recorta con `cover` desde el centro.
-   Tres de las cuatro fotos del cuarteto son apaisadas (1200×800, 1200×675) y
-   pierden poco o nada. La cuarta —el corro en la hierba— es la ÚNICA cuadrada
-   (1200×1200): centrada se le van 525 px de alto, el 43,75 %, repartidos a
-   partes iguales arriba y abajo. Como el grupo vive en el tercio inferior del
-   original, ese recorte lo decapita: quedan copas de árbol y césped vacío, una
-   tira de cabezas pegada al borde inferior y los aros cortados por la mitad.
-
-   Anclar el encuadre abajo deja visible la mitad inferior del original, que es
-   donde está la escena: entran enteros los niños, la monitora, el libro y los
-   aros, y encima les queda aire de prado.
-
-   Se aplica también al <video> —hoy comentado en el fragmento— porque su
-   `poster` es esta misma foto cuadrada: sin esta línea, el día que se active
-   el clip volvería el recorte malo mientras carga. Los fotogramas del clip son
-   16:9 y no se recortan, así que para ellos la declaración es inocua.
-
-   Es encuadre, no maquillaje: no toca tamaño, color, radio ni sombra. Mismo
-   recurso que ya usan hero.css, inicio.css, nosotros.css, naturaleza.css,
-   ubicacion.css y experiencias.css.
-   -------------------------------------------------------------------------- */
-.momentos__marco--anclar-abajo > img,
-.momentos__marco--anclar-abajo > .momentos__video {
-  object-position: 50% 100%;
+/* El clip llena su recuadro. `display: block` quita la línea base de elemento
+   en línea que dejaría una franja de carbón bajo el vídeo.
+   NO hay opacidad ni fundido: el <video> enseña su propio `poster` hasta que
+   llegan los fotogramas, así que ya hay continuidad sin animar nada. */
+.momentos__video {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
 }
 
 /* ==========================================================================
-   4. PIE DE FOTO
-   Describe lo que se ve y nada más (ver el contrato en sections/momentos.html).
-   Cuerpo en --fs-micro, que es --paso--2: el suelo de 12,5 px del sistema.
-   Por debajo de ahí no baja ningún texto del sitio.
+   5. PIE
+   Describe lo que se ve en el clip y nada más (ver el contrato en
+   sections/momentos.html). Cuerpo en --fs-micro, que es --paso--2: el suelo
+   de 12,5 px del sistema. Por debajo de ahí no baja ningún texto del sitio,
+   y menos éste, que es lo único que se lee en toda la banda.
    ========================================================================== */
 .momentos__pie {
   font-family: var(--fuente-cuerpo);
@@ -136,30 +231,10 @@
 }
 
 /* ==========================================================================
-   5. VÍDEO EN DIFERIDO
-   Hoy no hay ningún <video> en el HTML: el marcado está escrito y comentado
-   dentro de cada recuadro. Estas reglas se dejan puestas para que el día que
-   se descomente no haya que tocar CSS: se añade la clase al recuadro y ya.
+   6. MENOS MOVIMIENTO
+   Quien pide `prefers-reduced-motion: reduce` NO ve el bucle: js/momentos-video.js
+   no llama nunca a play() y cada <video> se queda enseñando su póster, que es
+   una foto fija del mismo sitio. Aquí no hace falta ninguna regla que oculte
+   el vídeo —hacerlo dejaría cuatro huecos de carbón vacío—; esta nota está
+   para que nadie «arregle» el olvido añadiendo un display:none.
    ========================================================================== */
-.momentos__video {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  opacity: 0;
-  transition: opacity var(--dur-lenta) var(--ease);
-}
-
-/* La foto se queda debajo como poster permanente: si el clip no carga, el
-   recuadro nunca se queda en negro. */
-.momentos__marco--con-video .momentos__video {
-  opacity: 1;
-}
-
-/* Quien pide menos movimiento se queda con la foto fija, no con el bucle. */
-@media (prefers-reduced-motion: reduce) {
-  .momentos__video {
-    display: none;
-  }
-}

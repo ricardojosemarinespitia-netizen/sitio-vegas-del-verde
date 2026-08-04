@@ -19,53 +19,89 @@
      JS esperado: reveal global (.reveal / .reveal-secuencia) y lightbox
      global (data-lightbox="muro-aves") de js/app.js. Sin JS todo queda
      visible y legible, y el <details> del muro abre igual.
+
+     COMPOSICIÓN (v3.1 «se nota qué manda»)
+     La sección ya no es una pila de bloques iguales. Son cuatro movimientos
+     de peso distinto, y dos de ellos rompen la caja del contenedor:
+
+       1 · .nat-apertura — A SANGRE POR LA IZQUIERDA. El encabezado de la
+           sección se funde aquí dentro: el Sendero no se presenta después
+           del titular, ES el titular. Foto alta contra el borde de la
+           pantalla + columna de texto más ancha con el precio al final.
+       2 · .nat-registro — el más callado: tres columnas desiguales sin caja
+           ninguna, sólo un filete arriba. Es una nota al margen del anterior.
+       3 · .nat-vida     — A SANGRE POR LA DERECHA, al revés que la apertura:
+           el censo a la izquierda y una COLUMNA DE VÍDEO vertical pegada al
+           borde derecho. Ver abajo.
+       4 · .nat-conservacion — pie de página de la sección: filete y tipografía.
+       5 · el muro del concurso, intacto.
+
+     EL VÍDEO (js/naturaleza-video.js, se carga al final de este fragmento)
+     Metraje propio, vertical (720×1280) y SIN pista de audio. Va marcado
+     `muted loop playsinline preload="none"` con el póster de img/video/ como
+     suelo: si la red falla o el navegador bloquea la reproducción, se queda
+     la foto fija y no pasa nada. Arranca al entrar en pantalla y se para al
+     salir; con prefers-reduced-motion: reduce no se reproduce nunca.
+     Sin controles y sin icono de play falso: no es un reproductor, es una
+     fotografía que se mueve.
+     OJO CON EL PIE: el jardín de polinizadores es de #colegios. Aquí el pie
+     describe lo que se ve —flores, mariposa, viento— y no nombra ni reclama
+     ningún jardín.
      ========================================================================== -->
 
 <section id="naturaleza" class="seccion nat" aria-labelledby="naturaleza-titulo">
-  <div class="contenedor">
 
-    <header class="seccion-encabezado reveal">
-      <p class="eyebrow">Sendero Ecovital y biodiversidad</p>
-      <h2 id="naturaleza-titulo" class="titulo-seccion">Camina donde cantan 101 especies</h2>
-      <p class="entradilla">
-        El recorrido guiado que sigue la quebrada, y el censo de lo que vive alrededor.
-        Es la única parte del predio con un precio publicado.
-      </p>
-    </header>
+  <!-- ======================================================================
+       1 · APERTURA A SANGRE POR LA IZQUIERDA
+       El encabezado de sección vive DENTRO de esta composición: la foto del
+       camino toca el borde de la pantalla y el titular arranca a su derecha.
+       Es lo principal de la sección y tiene que verse que lo es.
+       ====================================================================== -->
+  <div class="nat-apertura">
 
-    <!-- ---- El sendero: foto real del camino + el precio + el CTA ----------- -->
-    <div class="nat-sendero">
+    <div class="nat-apertura__media reveal reveal--izq">
+      <figure class="nat-apertura__principal">
+        <div class="marco marco--retrato">
+          <img
+            src="img/espacios/sendero-1.jpg"
+            width="844"
+            height="1500"
+            loading="lazy"
+            decoding="async"
+            alt="Camino de tierra y hojarasca del Sendero Ecovital, cubierto por el arco de las ramas y bordeado de setos y árboles jóvenes"
+          />
+        </div>
+      </figure>
+      <figure class="nat-apertura__inset">
+        <div class="marco marco--1-1">
+          <img
+            src="img/parque/parque-45.jpg"
+            width="675"
+            height="1200"
+            loading="lazy"
+            decoding="async"
+            alt="Cerramiento de cañas de guadua del predio, con orquídeas colgadas de una vara y materas de barro sobre la gravilla"
+          />
+        </div>
+        <figcaption class="credito nat-apertura__pie">Guadua del predio</figcaption>
+      </figure>
+    </div>
 
-      <div class="nat-sendero__media reveal reveal--izq">
-        <figure class="nat-sendero__principal">
-          <div class="marco marco--retrato">
-            <img
-              src="img/espacios/sendero-1.jpg"
-              width="844"
-              height="1500"
-              loading="lazy"
-              decoding="async"
-              alt="Camino de tierra y hojarasca del Sendero Ecovital, cubierto por el arco de las ramas y bordeado de setos y árboles jóvenes"
-            />
-          </div>
-        </figure>
-        <figure class="nat-sendero__inset">
-          <div class="marco marco--1-1">
-            <img
-              src="img/parque/parque-45.jpg"
-              width="675"
-              height="1200"
-              loading="lazy"
-              decoding="async"
-              alt="Cerramiento de cañas de guadua del predio, con orquídeas colgadas de una vara y materas de barro sobre la gravilla"
-            />
-          </div>
-          <figcaption class="credito nat-sendero__pie">Guadua del predio</figcaption>
-        </figure>
-      </div>
+    <div class="nat-apertura__texto reveal reveal--der">
 
-      <div class="nat-sendero__texto reveal reveal--der">
-        <h3 class="titulo-seccion titulo-seccion--sm nat-sendero__titulo">
+      <header class="nat-apertura__encabezado">
+        <p class="eyebrow">Sendero Ecovital y biodiversidad</p>
+        <h2 id="naturaleza-titulo" class="titulo-seccion nat-apertura__titulo">
+          Camina donde cantan 101 especies
+        </h2>
+        <p class="entradilla">
+          El recorrido guiado que sigue la quebrada, y el censo de lo que vive alrededor.
+          Es la única parte del predio con un precio publicado.
+        </p>
+      </header>
+
+      <div class="nat-apertura__cuerpo">
+        <h3 class="titulo-seccion titulo-seccion--xs nat-apertura__antetitulo">
           Se camina despacio y con alguien que sabe mirar
         </h3>
 
@@ -85,12 +121,16 @@
           corrientes de agua rodean el terreno arbolado.
         </p>
 
-        <ul class="lista-hojas nat-sendero__lista">
+        <ul class="lista-hojas nat-apertura__lista">
           <li>Guaduas a lado y lado del trayecto</li>
           <li>Búcaro y Caracolí, los árboles grandes del recorrido</li>
           <li>Recorrido guiado de pajareo y de observación de plantas</li>
         </ul>
+      </div>
 
+      <!-- El único precio publicado del sitio, y el CTA a su lado: dos
+           columnas desiguales cerradas por filete arriba y abajo. -->
+      <div class="nat-oferta">
         <div class="nat-precio">
           <p class="nat-precio__etiqueta">Entrada al Sendero Ecovital</p>
           <p class="nat-precio__valor">
@@ -100,29 +140,38 @@
           <p class="nat-precio__unidad">por persona</p>
         </div>
 
-        <div class="grupo-botones nat-sendero__acciones">
-          <a
-            class="btn btn-whatsapp btn-grande"
-            href="https://wa.me/573166758362?text=Hola%2C%20quiero%20reservar%20un%20recorrido%20guiado%20por%20el%20Sendero%20Ecovital.%20Vamos%20___%20personas%20y%20nos%20gustar%C3%ADa%20ir%20el%20___."
-            target="_blank"
-            rel="noopener"
-          >
-            Atrévete al sendero
-          </a>
-        </div>
+        <div class="nat-oferta__accion">
+          <div class="grupo-botones">
+            <a
+              class="btn btn-whatsapp btn-grande"
+              href="https://wa.me/573166758362?text=Hola%2C%20quiero%20reservar%20un%20recorrido%20guiado%20por%20el%20Sendero%20Ecovital.%20Vamos%20___%20personas%20y%20nos%20gustar%C3%ADa%20ir%20el%20___."
+              target="_blank"
+              rel="noopener"
+            >
+              Atrévete al sendero
+            </a>
+          </div>
 
-        <p class="nota nat-sendero__nota">
-          Escribe con cuántos vienen y qué día les sirve.
-          <a href="#ubicacion">Cómo llegar</a>.
-        </p>
+          <p class="nota nat-oferta__nota">
+            Escribe con cuántos vienen y qué día les sirve.
+            <a href="#ubicacion">Cómo llegar</a>.
+          </p>
+        </div>
       </div>
 
     </div>
 
-    <!-- ---- Lo que el censo tiene y la cámara todavía no -------------------- -->
+  </div>
+
+  <!-- ======================================================================
+       2 · LA NOTA AL MARGEN
+       Tres columnas desiguales, sin caja: el rótulo estrecho a la izquierda,
+       la endémica ancha en el centro y el dato migratorio en un carril fino.
+       ====================================================================== -->
+  <div class="contenedor">
     <div class="nat-registro reveal-secuencia">
 
-      <h3 class="titulo-seccion titulo-seccion--sm nat-registro__titulo reveal">
+      <h3 class="titulo-seccion titulo-seccion--xs nat-registro__titulo reveal">
         Dos apuntes del registro de aves
       </h3>
 
@@ -150,8 +199,15 @@
       </article>
 
     </div>
+  </div>
 
-    <!-- ---- El censo de lo que no vuela: ambientes con foto real ------------ -->
+  <!-- ======================================================================
+       3 · A SANGRE POR LA DERECHA: el censo y la columna de vídeo
+       Contrapeso de la apertura. El vídeo es metraje propio, vertical y mudo;
+       el póster es el suelo si la red falla.
+       ====================================================================== -->
+  <div class="nat-vida">
+
     <div class="nat-censo">
 
       <h3 class="titulo-seccion titulo-seccion--sm nat-censo__titulo reveal">
@@ -245,7 +301,36 @@
 
     </div>
 
-    <!-- ---- Los dos árboles de CITES ---------------------------------------- -->
+    <!-- ---- La columna de vídeo, pegada al borde derecho -------------------- -->
+    <figure class="nat-video reveal reveal--der">
+      <video
+        class="nat-video__pieza"
+        width="720"
+        height="1280"
+        muted
+        loop
+        playsinline
+        preload="none"
+        poster="img/video/mariposa-verbena.jpg"
+        aria-label="Una mariposa parda, con las alas cerradas, posada en lo alto de una vara de verbena de flores moradas; alrededor, decenas de varas más y hojas verdes, con la vegetación del fondo desenfocada."
+        data-video-escena
+      >
+        <source src="video/mariposa-verbena.webm" type="video/webm" />
+        <source src="video/mariposa-verbena.mp4" type="video/mp4" />
+      </video>
+      <figcaption class="nat-video__pie">
+        Una mariposa parda descansa en lo alto de una vara en flor.
+      </figcaption>
+    </figure>
+
+  </div>
+
+  <!-- ======================================================================
+       4 · PIE DE LA SECCIÓN: los dos árboles de CITES
+       Ya no es una caja: es un filete y tipografía. Es un dato de archivo,
+       no una tarjeta, y no puede pesar lo mismo que el sendero.
+       ====================================================================== -->
+  <div class="contenedor">
     <aside class="nat-conservacion reveal" aria-labelledby="conservacion-titulo">
       <div class="nat-conservacion__intro">
         <p class="pildora">CITES · Apéndice III</p>
@@ -267,7 +352,6 @@
         Todavía no hay fotografía propia de estos dos árboles. Cuando la haya, estará aquí.
       </p>
     </aside>
-
   </div>
 
   <!-- ==========================================================================
@@ -1509,5 +1593,13 @@
 
     </div>
   </div>
+
+  <!-- El vídeo de arriba necesita su propio script. Va DENTRO del fragmento a
+       propósito: index.html se ensambla con herramientas/ensamblar.py, que
+       copia las secciones tal cual pero NO toca los <script> del <head> ni los
+       del pie. Así la sección se lleva su comportamiento consigo, igual que
+       hace sections/ubicacion.html con el formulario. Sin este archivo el
+       vídeo se queda en su póster y no se rompe nada. -->
+  <script src="js/naturaleza-video.js" defer></script>
 
 </section>

@@ -1,6 +1,19 @@
 /* ==========================================================================
-   VEGAS DEL VERDE — styles/sections/vivero.css   ·  v2 «Vende la escapada»
+   VEGAS DEL VERDE — styles/sections/vivero.css   ·  v3.1 «tres tiempos»
    Estiliza SÓLO el fragmento sections/vivero.html (#vivero).
+
+   QUÉ CAMBIÓ EN v3.1
+   El contenido no se toca: cambia el ancho de las cajas. Antes la sección era
+   —otra vez— encabezado arriba y una rejilla de dos columnas debajo, con el
+   mismo margen que las otras ocho. Ahora son tres anchos distintos seguidos:
+   encabezado corto · banda de fotos A SANGRE · cuerpo en dos columnas
+   desiguales. Esa alternancia de anchura es lo que hace que la página deje de
+   sonar a plantilla; no hay ningún efecto nuevo.
+
+   El desfase del mosaico se conserva, pero ahora se lee de otra manera: en una
+   banda horizontal de cuatro fotos, descolgar la segunda y la cuarta rompe la
+   línea de arriba y la de abajo a la vez. Es el mismo gesto de v2 —el vivero
+   es un terreno en pendiente— pero por fin se nota.
 
    Reglas de la casa que se respetan aquí:
    · Ni un valor literal de color, tamaño, radio, sombra o duración: todo sale
@@ -11,58 +24,82 @@
    · Ninguna regla pisa por especificidad un color de base.css.
    · Sin !important.
 
-   Contraste medido sobre crema (#F7F2E7):
-     índice y sello en --color-texto-suave (v3, antes terracota) . 6.10:1
+   Contraste medido sobre crema (#F7F2E7) — sin cambios respecto a v3:
+     índice y sello en --color-texto-suave ...................... 6.10:1
      detalle del sello en --color-texto-suave sobre salvia ...... 5.22:1
      emblema del sello en --verde-bosque ....................... 10.66:1
    ========================================================================== */
 
 /* --------------------------------------------------------------------------
-   0. TOKEN LOCAL DE LA SECCIÓN
-   El desfase del mosaico se usaba dos veces (el desplazamiento de la segunda
-   columna y el hueco que hay que recuperar debajo) escrito como --esp-xl en
-   los dos sitios. Con nombre propio no se puede cambiar uno y olvidar el otro,
-   que es exactamente como se descuadra una rejilla. Sale de la escala, como
-   manda la casa; mismo recurso que .nat y .ubi.
+   0. TOKENS LOCALES DE LA SECCIÓN
    -------------------------------------------------------------------------- */
 .viv {
+  /* El desfase de la banda se usa dos veces (el desplazamiento de las fotos
+     pares y el hueco que hay que recuperar debajo). Con nombre propio no se
+     puede cambiar uno y olvidar el otro, que es exactamente como se descuadra
+     una rejilla. Sale de la escala, como manda la casa. */
   --viv-desfase: var(--esp-xl);
+
+  /* El margen del .contenedor, reproducido con un porcentaje del ancho del
+     bloque a sangre. Mismo recurso —y mismo motivo— que --nat-margen en
+     naturaleza.css: 100vw INCLUYE la barra de scroll y metería 15 px de
+     desbordamiento real que el overflow-x del body taparía sin arreglar.
+     OJO: #vivero usa .contenedor--ancho, así que la cuenta va contra
+     --ancho-xl, no contra --ancho-lg. */
+  --viv-margen: max(
+    var(--padding-contenedor),
+    calc((100% - var(--ancho-xl)) / 2)
+  );
 }
 
 /* --------------------------------------------------------------------------
-   1. ARMAZÓN — fotos y texto
-   Móvil: una columna, primero las fotos (son la prueba de que el vivero
-   existe), después lo que se vende.
+   1. EL ENCABEZADO
+   Se queda corto y a la izquierda —no se centra ni se ensancha— porque lo
+   siguiente es una banda de borde a borde: si el titular ya viniera ancho,
+   la banda no rompería nada.
    -------------------------------------------------------------------------- */
-.viv-cuerpo {
-  display: grid;
-  gap: var(--gap-lg);
-  margin-top: var(--esp-xl);
-}
-
-@media (min-width: 62rem) {
-  .viv-cuerpo {
-    grid-template-columns: minmax(0, 1.02fr) minmax(0, 0.98fr);
-    align-items: start;
-    gap: var(--gap-lg);
-  }
+.viv-encabezado {
+  max-width: var(--medida);
+  margin-bottom: var(--gap-lg);
 }
 
 /* --------------------------------------------------------------------------
-   2. EL MOSAICO — cuatro fotos reales del invernadero y los camellones
+   2. LA BANDA A SANGRE — cuatro fotos reales del invernadero y los camellones
    -------------------------------------------------------------------------- */
-.viv-mosaico {
+/* OJO CON EL SELECTOR: la banda es un <ul>, y base.css §1 lleva
+   `ul[class] { padding: 0 }`, que con (0,1,1) le gana a un `.viv-friso` de
+   (0,1,0) y deja la banda sin márgenes también en móvil, pegada a los dos
+   cantos de la pantalla. Por eso el relleno se escribe con el prefijo de
+   sección delante: (0,2,0) y asunto zanjado. No lo simplifiques. */
+.viv .viv-friso {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: var(--gap-sm);
+  margin: 0;
+  padding: 0 var(--viv-margen);
+  list-style: none;
 }
 
-/* A partir de tableta la segunda columna baja: el vivero es un terreno en
-   pendiente y el mosaico lo imita. Es un desfase fijo, no una animación:
-   no depende de prefers-reduced-motion. El padding inferior recupera el
-   espacio que se lleva el desplazamiento. */
+/* A partir de tableta las cuatro fotos se ponen en fila, la banda pierde los
+   márgenes laterales y toca los dos bordes de la pantalla.
+
+   LOS ANCHOS SON DESIGUALES A PROPÓSITO: 1.12 / 0.88 / 0.88 / 1.12. Cuatro
+   columnas idénticas volverían a ser una rejilla, que es justo lo que se está
+   quitando de la página; con los extremos más anchos la banda tiene principio
+   y final, y no parece una tira cortada al azar.
+
+   El desfase de las pares rompe además la línea superior y la inferior. Es un
+   desplazamiento fijo, no una animación: no depende de prefers-reduced-motion.
+   El padding inferior recupera el espacio que se lleva. */
 @media (min-width: 48rem) {
-  .viv-mosaico {
+  .viv .viv-friso {
+    grid-template-columns:
+      minmax(0, 1.12fr)
+      minmax(0, 0.88fr)
+      minmax(0, 0.88fr)
+      minmax(0, 1.12fr);
+    align-items: start;
+    padding-inline: 0;
     padding-bottom: var(--viv-desfase);
   }
 
@@ -75,6 +112,20 @@
   height: 100%;
 }
 
+/* Las fotos de los extremos tocan el borde de la pantalla —eso es el sangrado
+   y está bien—, pero su PIE es texto, y un texto pegado al canto del monitor
+   se lee mal y parece un fallo de maquetación. Se le da la sangría mínima que
+   lo despega sin mover la foto. */
+@media (min-width: 48rem) {
+  .viv-foto:first-child figcaption {
+    padding-inline-start: var(--esp-2xs);
+  }
+
+  .viv-foto:last-child figcaption {
+    padding-inline-end: var(--esp-2xs);
+  }
+}
+
 /* El zoom al pasar el ratón usa --escala-hover, que vale 1 cuando el visitante
    pide menos movimiento: se apaga solo. */
 .viv-foto:hover .marco > img,
@@ -83,12 +134,32 @@
 }
 
 /* --------------------------------------------------------------------------
-   3. LA COLUMNA DE TEXTO
+   3. EL CUERPO — dos columnas desiguales
+   Izquierda (más ancha): lo que se vende. Derecha: lo que da confianza.
+   La proporción 1.22 / 0.78 no es capricho: el catálogo tiene una línea de
+   cuatro renglones largos («Venta de productos y alquiler de complementos…»)
+   y a la mitad del ancho se partía en cuatro líneas cada uno.
    -------------------------------------------------------------------------- */
-.viv-texto {
+.viv-cuerpo {
+  display: grid;
+  gap: var(--gap-lg);
+  margin-top: var(--gap-lg);
+}
+
+@media (min-width: 62rem) {
+  .viv-cuerpo {
+    grid-template-columns: minmax(0, 1.22fr) minmax(0, 0.78fr);
+    align-items: start;
+    gap: var(--gap-lg);
+  }
+}
+
+.viv-oferta,
+.viv-respaldo {
   display: flex;
   flex-direction: column;
   gap: var(--esp-md);
+  min-width: 0;
   max-width: var(--medida);
 }
 
@@ -152,7 +223,7 @@
    6. EL SELLO ICA — la prueba de confianza
    -------------------------------------------------------------------------- */
 /* v3: esquina viva. El sello es un documento —un registro del ICA—, y era la
-   última caja redondeada de la sección: con el mosaico y el marco de las fotos
+   última caja redondeada de la sección: con la banda y el marco de las fotos
    ya a esquina viva, se quedaba sola. El filete de 1 px y el fondo salvia
    hacen la separación entera. */
 .viv-sello {

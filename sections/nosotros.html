@@ -14,6 +14,25 @@
      · el aforo o el precio de cualquier espacio
      Se ENLAZA a #espacios; no se describe ninguno.
 
+     v4 — POR QUÉ SE REORDENARON LAS CAJAS (el texto no cambió ni una coma)
+     v3 servía esto en el compás común: encabezado con entradilla, rejilla de
+     dos columnas, caja de servicios centrada, tres pilares en tarjeta. Nueve
+     secciones seguidas con ese mismo compás son lo que hace que una página se
+     lea como generada. Aquí se rompe con una composición ASIMÉTRICA:
+
+       · el TITULAR se queda solo en una columna estrecha a la izquierda y se
+         pega al scroll; el DISCURSO entero —entradilla incluida— pasa a la
+         columna ancha de la derecha. Titular a un lado, contenido al otro.
+       · la FOTO del prado sale del contenedor y sangra por el borde
+         izquierdo de la ventana hasta dos tercios del ancho de la retícula.
+         Ya no es media rejilla dentro de un marco: es una imagen grande y
+         descentrada.
+       · «Lo básico, resuelto» deja de ser una caja con filete y centrada, y
+         pasa a una tira alineada a la izquierda bajo un hilo.
+       · el COMPROMISO invierte el sentido de la sangría —texto a la
+         izquierda, panel de aves saliéndose por la derecha— para que los dos
+         bloques de fotografía no repitan el mismo gesto.
+
      Bloques: (a) el predio · (b) lo básico resuelto · (c) el compromiso
      Fotos: parque-05.jpg (arbolado y prado a ras de suelo, verificada) y
             parque-20.jpg (el panel pintado con aves del predio, verificada:
@@ -22,60 +41,79 @@
      ========================================================================== -->
 <section class="seccion nosotros" id="nosotros" aria-labelledby="nosotros-titulo">
 
-  <div class="contenedor">
+  <!-- (a) EL PREDIO ---------------------------------------------------------
+       Dos columnas de anchos distintos y alturas distintas: 5 de 12 para el
+       titular y 6 de 12 para el discurso, con una calle vacía en medio. La
+       columna del titular se queda pegada al scroll mientras se lee el texto
+       de al lado, que es lo que hace que la asimetría se lea como decisión y
+       no como descuadre.
+       ---------------------------------------------------------------------- -->
+  <div class="contenedor contenedor--ancho nosotros__predio">
 
-    <header class="seccion-encabezado reveal">
+    <header class="seccion-encabezado nosotros__titular reveal reveal--izq">
       <p class="eyebrow">El predio</p>
       <h2 class="titulo-seccion" id="nosotros-titulo">
         Lo que hay detrás de la portería
       </h2>
+    </header>
+
+    <!-- Sin `reveal--der`: la entrada horizontal desplaza 28 px hacia la
+         DERECHA, y en una columna que ocupa todo el ancho eso sí genera
+         desbordamiento real (a la izquierda el navegador no deja desplazar;
+         a la derecha, sí). El bloque entra en vertical, como el resto. -->
+    <div class="nosotros__discurso reveal">
       <p class="entradilla">
         Un predio privado con portería y vigilancia, no un parque público.
         Lo básico ya está puesto antes de que llegues.
       </p>
-    </header>
+      <p>
+        Entras por una portería. A partir de ahí la ciudad se queda afuera:
+        un refugio natural que brinda tranquilidad y seguridad en medio del
+        bullicio urbano.
+      </p>
+      <p>
+        Eso cambia cómo se siente el día. Puedes traer un curso completo o una
+        celebración con toda la familia y bajar la guardia, porque el predio
+        está cerrado y hay vigilancia privada mientras dure tu plan.
+      </p>
+      <p>
+        Se alquila a colegios, empresas y particulares. Tú decides qué pasa
+        adentro.
+      </p>
 
-    <!-- (a) EL PREDIO -------------------------------------------------------- -->
-    <div class="nosotros__intro">
-
-      <div class="nosotros__texto reveal reveal--izq">
-        <p>
-          Entras por una portería. A partir de ahí la ciudad se queda afuera:
-          un refugio natural que brinda tranquilidad y seguridad en medio del
-          bullicio urbano.
-        </p>
-        <p>
-          Eso cambia cómo se siente el día. Puedes traer un curso completo o una
-          celebración con toda la familia y bajar la guardia, porque el predio
-          está cerrado y hay vigilancia privada mientras dure tu plan.
-        </p>
-        <p>
-          Se alquila a colegios, empresas y particulares. Tú decides qué pasa
-          adentro.
-        </p>
-
-        <p class="grupo-botones">
-          <a class="btn btn-secundario" href="#espacios">Ver los cinco espacios</a>
-        </p>
-      </div>
-
-      <figure class="marco nosotros__foto reveal reveal--der">
-        <img
-          src="img/parque/parque-05.jpg"
-          width="675"
-          height="1200"
-          alt="Prado abierto del predio a ras de suelo, con la sombra de un árbol grande cayendo sobre el césped recién cortado y una hilera de árboles cerrando el fondo."
-          loading="lazy"
-          decoding="async"
-        />
-      </figure>
-
+      <p class="grupo-botones">
+        <a class="btn btn-secundario" href="#espacios">Ver los cinco espacios</a>
+      </p>
     </div>
 
-    <!-- (b) LO BÁSICO, RESUELTO ----------------------------------------------
-         Los iconos son legítimos aquí: wifi, baños, vigilancia y parqueadero
-         son conceptos de servicio, no cosas que se vendan por su fotografía.
-         ---------------------------------------------------------------------- -->
+  </div>
+
+  <!-- LA FOTO GRANDE, A SANGRE POR LA IZQUIERDA -----------------------------
+       Hija DIRECTA del <section> y no del .contenedor: así su 100 % es el
+       ancho del <body> —que ya descuenta la barra de scroll— y puede tocar el
+       borde de la ventana sin 100vw, que desbordaría 15 px. El borde derecho
+       no queda al azar: cae a dos tercios del ancho del contenedor, de modo
+       que la imagen muerde la columna de texto de arriba en lugar de alinearse
+       con ella.
+       ---------------------------------------------------------------------- -->
+  <figure class="nosotros__foto reveal">
+    <img
+      src="img/parque/parque-05.jpg"
+      width="675"
+      height="1200"
+      alt="Prado abierto del predio a ras de suelo, con la sombra de un árbol grande cayendo sobre el césped recién cortado y una hilera de árboles cerrando el fondo."
+      loading="lazy"
+      decoding="async"
+    />
+  </figure>
+
+  <!-- (b) LO BÁSICO, RESUELTO ----------------------------------------------
+       Los iconos son legítimos aquí: wifi, baños, vigilancia y parqueadero
+       son conceptos de servicio, no cosas que se vendan por su fotografía.
+       Ya no van dentro de una caja con filete: un hilo arriba y todo alineado
+       a la izquierda. Es el «ya está puesto», no el argumento de venta.
+       ---------------------------------------------------------------------- -->
+  <div class="contenedor contenedor--ancho">
     <div class="nosotros__servicios reveal">
 
       <h3 class="titulo-seccion titulo-seccion--xs nosotros__servicios-titulo">
@@ -135,82 +173,87 @@
       </p>
 
     </div>
-
-    <!-- (c) EL COMPROMISO ----------------------------------------------------
-         Los tres pilares del BRIEF, enteros y una sola vez en todo el sitio.
-         ---------------------------------------------------------------------- -->
-    <section class="nosotros__compromiso" aria-labelledby="compromiso-titulo">
-
-      <figure class="marco nosotros__mural reveal reveal--izq">
-        <img
-          src="img/parque/parque-20.jpg"
-          width="900"
-          height="1200"
-          alt="Panel pintado con aves del predio, apoyado sobre el césped junto a una construcción de caña: un colibrí en vuelo, una tángara roja posada en una rama y un perico verde entre hojas, sobre fondo turquesa, entre platanillos y heliconias."
-          loading="lazy"
-          decoding="async"
-        />
-      </figure>
-
-      <div class="nosotros__compromiso-texto reveal reveal--der">
-
-        <header class="seccion-encabezado">
-          <p class="eyebrow">Nuestro compromiso</p>
-          <h3 class="titulo-seccion titulo-seccion--sm" id="compromiso-titulo">
-            Aquí se viene a estar bien
-          </h3>
-          <p class="entradilla">
-            Creemos en el poder de la conexión y el aprendizaje conjunto. Por
-            eso abrimos el predio a actividades que promueven el bienestar
-            físico, mental y emocional.
-          </p>
-        </header>
-
-        <ol class="nosotros__pilares reveal-secuencia">
-
-          <li class="tarjeta nosotros__pilar reveal">
-            <span class="nosotros__pilar-indice" aria-hidden="true">01</span>
-            <div class="tarjeta__cuerpo">
-              <h4 class="nosotros__pilar-titulo">
-                Educación ambiental y conciencia social
-              </h4>
-              <p>
-                Que te vuelvas a casa con algo aprendido, no sólo con fotos.
-              </p>
-            </div>
-          </li>
-
-          <li class="tarjeta nosotros__pilar reveal">
-            <span class="nosotros__pilar-indice" aria-hidden="true">02</span>
-            <div class="tarjeta__cuerpo">
-              <h4 class="nosotros__pilar-titulo">
-                Desarrollo de relaciones sanas y respetuosas
-              </h4>
-              <p>
-                Sitio de sobra para sentarse en círculo y hablarse de frente,
-                sin prisa.
-              </p>
-            </div>
-          </li>
-
-          <li class="tarjeta nosotros__pilar reveal">
-            <span class="nosotros__pilar-indice" aria-hidden="true">03</span>
-            <div class="tarjeta__cuerpo">
-              <h4 class="nosotros__pilar-titulo">
-                Respeto por la naturaleza y por los demás
-              </h4>
-              <p>
-                Lo dejas como lo encontraste. Tu plan pasa; el bosque se queda.
-              </p>
-            </div>
-          </li>
-
-        </ol>
-
-      </div>
-
-    </section>
-
   </div>
+
+  <!-- (c) EL COMPROMISO ----------------------------------------------------
+       Los tres pilares del BRIEF, enteros y una sola vez en todo el sitio.
+       Aquí la sangría cambia de mano: el texto se queda en la retícula y el
+       panel de aves se sale por el borde DERECHO. Los pilares ya no son tres
+       tarjetas sino tres renglones separados por un hilo, con la cifra grande
+       haciendo de índice: una lista que se lee, no un carrusel.
+       ---------------------------------------------------------------------- -->
+  <section class="nosotros__compromiso" aria-labelledby="compromiso-titulo">
+
+    <div class="nosotros__compromiso-texto reveal reveal--izq">
+
+      <header class="seccion-encabezado">
+        <p class="eyebrow">Nuestro compromiso</p>
+        <h3 class="titulo-seccion titulo-seccion--sm" id="compromiso-titulo">
+          Aquí se viene a estar bien
+        </h3>
+        <p class="entradilla">
+          Creemos en el poder de la conexión y el aprendizaje conjunto. Por
+          eso abrimos el predio a actividades que promueven el bienestar
+          físico, mental y emocional.
+        </p>
+      </header>
+
+      <ol class="nosotros__pilares reveal-secuencia">
+
+        <li class="nosotros__pilar reveal">
+          <span class="nosotros__pilar-indice" aria-hidden="true">01</span>
+          <div class="nosotros__pilar-cuerpo">
+            <h4 class="nosotros__pilar-titulo">
+              Educación ambiental y conciencia social
+            </h4>
+            <p>
+              Que te vuelvas a casa con algo aprendido, no sólo con fotos.
+            </p>
+          </div>
+        </li>
+
+        <li class="nosotros__pilar reveal">
+          <span class="nosotros__pilar-indice" aria-hidden="true">02</span>
+          <div class="nosotros__pilar-cuerpo">
+            <h4 class="nosotros__pilar-titulo">
+              Desarrollo de relaciones sanas y respetuosas
+            </h4>
+            <p>
+              Sitio de sobra para sentarse en círculo y hablarse de frente,
+              sin prisa.
+            </p>
+          </div>
+        </li>
+
+        <li class="nosotros__pilar reveal">
+          <span class="nosotros__pilar-indice" aria-hidden="true">03</span>
+          <div class="nosotros__pilar-cuerpo">
+            <h4 class="nosotros__pilar-titulo">
+              Respeto por la naturaleza y por los demás
+            </h4>
+            <p>
+              Lo dejas como lo encontraste. Tu plan pasa; el bosque se queda.
+            </p>
+          </div>
+        </li>
+
+      </ol>
+
+    </div>
+
+    <!-- Tampoco aquí: el panel sangra por el borde derecho de la ventana, y
+         un `reveal--der` lo empujaría 28 px fuera de la pantalla. -->
+    <figure class="nosotros__mural reveal">
+      <img
+        src="img/parque/parque-20.jpg"
+        width="900"
+        height="1200"
+        alt="Panel pintado con aves del predio, apoyado sobre el césped junto a una construcción de caña: un colibrí en vuelo, una tángara roja posada en una rama y un perico verde entre hojas, sobre fondo turquesa, entre platanillos y heliconias."
+        loading="lazy"
+        decoding="async"
+      />
+    </figure>
+
+  </section>
 
 </section>

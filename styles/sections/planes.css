@@ -16,6 +16,15 @@
    Ni un valor literal de color, tamaño, radio, sombra o duración: todo sale
    de tokens.css. Las únicas medidas escritas a mano son los filetes de 1 px
    —igual que en base.css— y las fracciones de rejilla, que no son tokens.
+
+   REVISIÓN DE AGOSTO DE 2026 — LOS CINCO ANCHOS
+   El reparto interno de arriba ya estaba bien, pero medido en pantalla los
+   cinco carriles daban 1200 px de ancho y x = 113 EXACTAMENTE IGUALES: cinco
+   losas del mismo tamaño una encima de otra. Por dentro cambiaban; por fuera
+   eran el mismo rectángulo cinco veces, y eso es lo que se lee como página
+   generada. A partir de --planes-paso (§1 bis) cada carril declara su propia
+   caja y se alternan los bordes: izquierda, derecha, izquierda, derecha,
+   izquierda. Ninguno empieza donde acaba el anterior.
    ========================================================================== */
 
 /* --------------------------------------------------------------------------
@@ -33,6 +42,50 @@
 .planes-carril {
   display: grid;
   gap: var(--gap);
+}
+
+/* --------------------------------------------------------------------------
+   1 bis. LAS DOS MEDIDAS DE LA SECCIÓN
+   -------------------------------------------------------------------------- */
+
+/* --planes-sangrado — cuánto hay que retroceder para SALIRSE del contenedor
+   y llegar al borde de la ventana. Es el ancho del padding del contenedor
+   más, si la ventana es más ancha que el contenedor, la mitad de lo que
+   sobra. Se calcula sin un solo porcentaje a propósito: los porcentajes
+   dentro de una variable se resuelven en el elemento que la USA, y esta
+   variable la usan hijos de rejilla cuyo bloque contenedor es su celda y no
+   la sección. En vw sale un valor único y estable para todos.
+   Por encima de 1280 px el cálculo se pasa por el ancho de la barra de
+   desplazamiento (7-8 px, porque 100vw la incluye y el área de maquetación
+   no). Es sangrado: el sobrante cae fuera de la ventana y lo recorta el
+   `overflow-x: hidden` del body, así que no abre scroll horizontal.
+
+   --planes-paso — el paso de una retícula de doce columnas medida sobre el
+   contenedor: una columna más un --gap. Con él, «entrar dos columnas» o
+   «ocupar ocho de doce» son medidas reales y no porcentajes a ojo, y los
+   cinco carriles caen sobre la misma retícula que #espacios.
+   Su `100%` SÓLO vale en los <li> de .planes__carriles, que miden lo que el
+   contenedor; no lo uses más adentro.                                       */
+.planes {
+  /* El sobrante de los dos sangrados se recorta AQUÍ, en la sección, y no se
+     deja caer al body. `clip` y no `hidden` a propósito: `hidden` convertiría
+     la sección en un contenedor de scroll —y con ello rompería el
+     `scroll-margin-top` de las anclas y el `position: sticky` de cualquier
+     cosa que se meta dentro—, mientras que `clip` sólo recorta. Al ir sobre
+     el eje X y dejar el Y en visible, la animación de entrada (que desplaza
+     28 px en vertical) sigue funcionando.
+     Sin esta línea, la tira del carril 02 sacaba 8 px fuera del área de
+     maquetación a 1440 px: los 100vw del cálculo del sangrado incluyen la
+     barra de desplazamiento y el área de maquetación no. */
+  overflow-x: clip;
+  --planes-margen-libre: max(
+    0px,
+    (100vw - var(--ancho-contenedor) - var(--padding-contenedor) * 2) / 2
+  );
+  --planes-sangrado: calc(
+    (var(--padding-contenedor) + var(--planes-margen-libre)) * -1
+  );
+  --planes-paso: calc((100% - var(--gap) * 11) / 12 + var(--gap));
 }
 
 /* --------------------------------------------------------------------------
@@ -125,6 +178,21 @@
   align-content: start;
 }
 
+/* LA FOTO A SANGRE POR LA IZQUIERDA.
+   El carril más ruidoso es el único que se sale del contenedor, y se sale
+   por el lado por el que se entra a leer. Sólo la figura: el texto, el
+   mosaico y el botón se quedan en la columna, así que la página no pierde su
+   margen izquierdo —lo pierde una foto, que es distinto—.
+   Va sobre la FIGURA y no sobre el <li> para que el mosaico de tres que baja
+   debajo vuelva a alinear con el resto de la sección sin compensar nada.
+   Desde 768: por debajo de ahí el margen del contenedor son 18 px y salirse
+   no es un gesto, es un descuadre.                                          */
+@media (min-width: 48em) {
+  .planes-fiesta__principal {
+    margin-inline-start: var(--planes-sangrado);
+  }
+}
+
 /* La foto y el texto sólo se ponen en paralelo a partir de 1024 px. A 768 la
    columna de texto se quedaba en 276 px —siete palabras por línea y el
    rótulo del botón partido en dos— así que hasta ahí van apilados.        */
@@ -205,6 +273,24 @@
     overflow-x: visible;
     scroll-snap-type: none;
   }
+
+  /* La caja del carril 02, al revés que la del 01: el texto ENTRA una columna
+     por la izquierda y la tira SALE por la derecha. Dos gestos opuestos en
+     dos carriles seguidos es lo que impide que la pila coja cadencia.
+     El texto en doce columnas y no en un `max-width` suelto: así la sangría
+     coincide con la retícula de #espacios y no es un número a ojo.          */
+  .planes-carril--familia {
+    grid-template-columns: repeat(12, 1fr);
+  }
+
+  .planes-carril--familia .planes-carril__texto {
+    grid-column: 2 / span 7;
+  }
+
+  .planes-carril--familia .planes-tira {
+    grid-column: 1 / -1;
+    margin-inline-end: var(--planes-sangrado);
+  }
 }
 
 /* --------------------------------------------------------------------------
@@ -237,6 +323,16 @@
 
   .planes-dossier__retrato {
     aspect-ratio: auto;
+  }
+}
+
+/* La caja del 03: pega a la izquierda y se queda a DOS COLUMNAS del borde
+   derecho. Es el carril más callado de los tres claros, y la manera de
+   decirlo sin tocar ni una palabra es que no llegue al final del renglón.
+   Diez columnas de doce = diez pasos menos el gap sobrante del último.      */
+@media (min-width: 48em) {
+  .planes-carril--empresa {
+    max-width: calc(var(--planes-paso) * 10 - var(--gap));
   }
 }
 
@@ -278,8 +374,15 @@
   gap: var(--gap);
 }
 
+/* La caja del 04: espejo de la del 03. ENTRA dos columnas por la izquierda y
+   pega a la derecha, así que entre el bloque claro de arriba y el verde de
+   abajo hay un quiebro y no una arista compartida. Y de paso refuerza lo que
+   dice la nota larga de aquí arriba: esto es un BLOQUE dentro de una sección
+   clara, no una banda de sección —una banda iría de borde a borde, y ésta
+   deja ver la crema por el lado por el que se empieza a leer—.              */
 @media (min-width: 48em) {
   .planes-carril--bienestar {
+    margin-inline-start: calc(var(--planes-paso) * 2);
     padding: var(--gap-lg);
   }
 }
@@ -331,7 +434,23 @@
   border-block: 1px solid var(--color-borde-suave);
 }
 
+/* La caja del 05: vuelve a pegar a la izquierda —la página tiene que
+   recuperar su margen antes de que entre #momentos— pero ocupa sólo OCHO de
+   las doce columnas. Los dos filetes se acortan con él, y un filete que no
+   llega al borde es exactamente lo que distingue un colofón de un separador
+   de sección.                                                                */
+@media (min-width: 48em) {
+  .planes-carril--talleres {
+    max-width: calc(var(--planes-paso) * 8 - var(--gap));
+  }
+}
+
+/* Sin una sola foto, lo único que puede pesar es la letra. El titular sube un
+   escalón de la escala —de --fs-h3 (--paso-2) a --paso-3— y se queda uno por
+   debajo del --fs-h2 del titular de la sección, que sigue mandando. Es el
+   contraste de escala que en los otros cuatro carriles hace la fotografía. */
 .planes-talleres__titulo {
+  font-size: var(--paso-3);
   max-width: var(--medida-corta);
 }
 

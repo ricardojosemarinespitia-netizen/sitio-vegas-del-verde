@@ -20,6 +20,19 @@
          05 talleres  → banda tipográfica, sin galería       (silencio)
        Si los cinco fueran galería + lista + botón, la repetición que sacamos
        de la página se colaría otra vez dentro de una sola sección.
+     · Y NO OCUPAN EL MISMO ANCHO (revisión de agosto de 2026). Aunque por
+       dentro cada carril era distinto, los cinco medían 1200 px clavados y
+       empezaban en la misma x: cinco losas apiladas. Ahora cada uno tiene su
+       propia caja y se alternan izquierda y derecha:
+         01 la foto grande SALE del contenedor por la izquierda (a sangre)
+         02 el texto entra una columna y la tira SALE por la derecha
+         03 pega a la izquierda y se queda a dos columnas del borde derecho
+         04 entra dos columnas por la izquierda y pega a la derecha
+         05 pega a la izquierda y ocupa sólo ocho de las doce columnas
+       Las medidas están en planes.css; aquí sólo viajan los modificadores.
+     · El 04 conserva .seccion--oscura y el 05 sigue en CLARO: justo después
+       de #planes entra #momentos, que es una banda carbón a todo el ancho, y
+       dos bloques oscuros seguidos anularían esa puntuación.
      · El carril 05 va SIN foto a conciencia: no hay en el banco ninguna
        imagen de un taller de pintura o de jardinería, y antes que inventar un
        nombre de archivo o dejar un hueco gris, se compone con tipografía.
@@ -129,9 +142,11 @@
 
       <!-- ============================================================ 02/05
            CUMPLEAÑOS Y FAMILIA — aquí el texto va delante y las fotos se
-           leen como una tira: en móvil se arrastra con el dedo.
+           leen como una tira: en móvil se arrastra con el dedo. El texto
+           entra una columna por la izquierda y la tira se sale por la
+           derecha, al revés que el carril 01.
            ================================================================ -->
-      <li class="planes-carril reveal">
+      <li class="planes-carril planes-carril--familia reveal">
 
         <div class="planes-carril__texto">
           <p class="planes-carril__ocasion">

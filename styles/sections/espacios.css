@@ -12,10 +12,14 @@
      viva —sin radio, sin sombra, sin marco— y el texto flota debajo, los dos
      directamente sobre el fondo de la página. Lo único que separa una ficha
      de la siguiente es el aire.
-   · La figura es CUADRADA (1:1). El cuadrado es el formato que trata igual a
-     una panorámica de 1500×844 y a un retrato de 675×1200: las seis fotos de
-     origen tienen proporciones distintas y sólo el cuadrado las alinea en una
-     rejilla sin que ninguna mande sobre las demás.
+   · La figura NO tiene una proporción única. En la primera v3 las cinco eran
+     cuadrados 1:1 —el formato que trata igual a una panorámica de 1500×844 y
+     a un retrato de 675×1200— y esa neutralidad, repetida cinco veces en una
+     rejilla de tres columnas, es exactamente lo que hacía que la sección se
+     leyera como un catálogo generado. La proporción pasa a ser una VARIABLE
+     por ficha (--espacio-ratio) y se elige contra el original: los cuatro
+     retratos verticales admiten 3/4 y 4/5 sin recorte violento, y sólo el
+     Teatrino y la Cancha se cuadran.
    · La jerarquía se invierte respecto de v2: antes titulaba la experiencia
      («Un partido con banda sonora de pájaros») y el nombre bajaba a una
      píldora. Ahora titula el NOMBRE, que es lo que el visitante busca y lo
@@ -27,18 +31,46 @@
      caja, sin borde y sin sombra.
    · Se van también los cinco botones de bloque: un enlace sobrio
      (.enlace-flecha de base.css) no le disputa el peso a la fotografía.
+   · Y —revisión de agosto de 2026— se va la RETÍCULA UNIFORME. Ver §1.
    ========================================================================== */
 
 /* ==========================================================================
-   1. REJILLA
-   3 columnas en escritorio · 2 en tableta · 1 en móvil.
-   La v2 se paraba en 2 columnas porque sus titulares eran frases largas que
-   se partían en cinco líneas. Con el nombre del espacio como titular
-   («Teatrino», «La Vega») el problema desaparece y cabe la tercera columna.
-   El gap es generoso a propósito: sin borde ni fondo, el aire ES la
-   separación entre fichas, y por eso el vertical crece más que el
-   horizontal —lo que hay que impedir es que el pie de una ficha se lea como
-   principio de la de abajo—.
+   1. REJILLA — de catálogo a página de revista
+   ==========================================================================
+   EL PROBLEMA QUE SE ARREGLA AQUÍ
+   La rejilla anterior era `repeat(3, 1fr)` con la Alameda a doble columna:
+   una fila 2+1 y otra 1+1+1, sin un solo hueco. Medida en pantalla, daba
+   cuatro fichas de 376×552 px EXACTAMENTE iguales, empezando las tres de
+   abajo en la misma línea. Esa igualdad métrica —no la falta de efectos— es
+   lo que delata una página armada por una máquina: nadie que maqueta a mano
+   le da el mismo tamaño a cinco cosas de tamaños distintos.
+
+   CÓMO SE ROMPE
+   La rejilla pasa a 12 columnas y cada ficha declara TRES cosas propias:
+     · cuántas columnas ocupa      → grid-column
+     · con qué proporción recorta  → --espacio-ratio
+     · cuánto baja respecto de su vecina → --espacio-desfase
+   Con 12 columnas, un tramo de 3 y uno de 8 conviven en la misma fila y
+   sobra una columna de aire entre ellos: el hueco es parte de la
+   composición, no un fallo de reparto.
+
+   Tres escalas y no una: la Alameda ocupa 8 columnas (788 px medidos a
+   1440), el Teatrino 5 (479 px) y las otras tres 3 (273 px). Entre la mayor
+   y las menores hay factor 2,9 de ancho y factor 2 de proporción.
+
+   POR QUÉ 12 COLUMNAS Y NO 3 CON `span`
+   Con `repeat(3,1fr)` los únicos anchos posibles son 1, 2 o 3 celdas y las
+   fichas vuelven a medir todas lo mismo. Doce columnas dan 5+3+3 y 8+3 en la
+   misma retícula, que es justo lo que hacía falta. El `gap` no cambia: entre
+   dos fichas contiguas sigue habiendo exactamente un --gap, y una columna
+   vacía entre dos tramos vale un --gap + una columna + un --gap.
+
+   EL DESFASE
+   `margin-block-start` sobre el ítem de rejilla. Se declara SÓLO dentro de
+   los @media: en móvil, a una columna, un desfase sería un hueco tonto.
+   Los valores son escalones de la escala de espaciado, no números sueltos, y
+   van en progresión (0 · --esp-lg · --esp-2xl) para que la segunda fila baje
+   en diagonal de izquierda a derecha en vez de saltar al azar.
    ========================================================================== */
 .espacios__rejilla {
   display: grid;
@@ -49,27 +81,107 @@
   list-style: none;
 }
 
+/* ---- Móvil: una columna, pero NO cinco cajas iguales ----------------------
+   A una sola columna el ancho ya no puede variar, así que la variación la
+   lleva entera la proporción de la foto: panorámica, cuadrado y tres
+   verticales de tres alturas distintas. El pulgar recorre alturas distintas,
+   que es lo único que se puede escalonar sin ancho.                        */
+.espacio--destacado { --espacio-ratio: 3 / 2; }
+.espacio--alto      { --espacio-ratio: 4 / 5; }
+.espacio--medio     { --espacio-ratio: 1; }
+.espacio--esbelto   { --espacio-ratio: 4 / 5; }
+.espacio--breve     { --espacio-ratio: 3 / 4; }
+
+/* ---- Tableta (768–1087) ---------------------------------------------------
+   Dos tramos por fila, alternando el peso: ancho a la izquierda y estrecho a
+   la derecha en la primera, y al revés en la segunda. Así ninguna de las dos
+   filas repite el gesto de la otra.
+   Las alturas están calculadas para que el escalón no abra un hueco feo: a
+   768 px la fila de La Vega/Teatrino cierra con 3 px de diferencia y la de
+   Taller/Cancha con 41 px.                                                  */
 @media (min-width: 48em) {
   .espacios__rejilla {
-    grid-template-columns: repeat(2, 1fr);
+    grid-template-columns: repeat(12, 1fr);
   }
 
-  /* En dos columnas la Alameda ocupa la fila entera: su banda es 2:1, que es
-     exactamente el ancho de dos celdas cuadradas. */
+  /* La Alameda abre a todo el ancho con su banda panorámica. */
   .espacio--destacado {
     grid-column: 1 / -1;
+    --espacio-ratio: 2 / 1;
+  }
+
+  .espacio--alto {
+    grid-column: 1 / span 7;
+    --espacio-ratio: 1;
+  }
+
+  .espacio--medio {
+    grid-column: 8 / span 5;
+    --espacio-ratio: 4 / 5;
+    --espacio-desfase: var(--esp-xl);
+  }
+
+  .espacio--esbelto {
+    grid-column: 1 / span 5;
+    --espacio-ratio: 3 / 4;
+  }
+
+  .espacio--breve {
+    grid-column: 6 / span 7;
+    --espacio-ratio: 1;
+    --espacio-desfase: var(--esp-lg);
   }
 }
 
+/* ---- Escritorio (≥1088) ---------------------------------------------------
+   La composición definitiva, medida a 1440 px sobre un contenedor de 1200:
+
+     fila 1   Alameda  col  1–8   788 px   banda 2:1        desfase 0
+              La Vega  col 10–12  273 px   vertical 3:4     desfase 64
+     fila 2   Teatrino col  1–5   479 px   cuadrado         desfase 0
+              Taller   col  7–9   273 px   vertical 3:4     desfase 32
+              Cancha   col 10–12  273 px   cuadrado         desfase 64
+
+   La columna 9 queda vacía en la primera fila y la 6 en la segunda: son las
+   dos calles de aire que impiden que las fichas se lean como una tira.
+   Los pies quedan a 555 / 604 en la primera fila y a 642 / 581 / 522 en la
+   segunda: el borde inferior baja en diagonal, que es el remate de revista
+   que se buscaba, y el hueco mayor no pasa de 120 px.
+   La Vega y Cancha comparten las columnas 10–12: hay una columna real de
+   fichas pequeñas a la derecha, y no cinco piezas flotando.                 */
 @media (min-width: 68em) {
-  .espacios__rejilla {
-    grid-template-columns: repeat(3, 1fr);
+  .espacio--destacado {
+    grid-column: 1 / span 8;
+    grid-row: 1;
+    --espacio-ratio: 2 / 1;
   }
 
-  /* En tres columnas la Alameda ocupa dos y La Vega se sube a su derecha:
-     la primera fila queda 2+1 y la segunda 1+1+1, sin ningún hueco. */
-  .espacio--destacado {
-    grid-column: span 2;
+  .espacio--alto {
+    grid-column: 10 / span 3;
+    grid-row: 1;
+    --espacio-ratio: 3 / 4;
+    --espacio-desfase: var(--esp-2xl);
+  }
+
+  .espacio--medio {
+    grid-column: 1 / span 5;
+    grid-row: 2;
+    --espacio-ratio: 1;
+    --espacio-desfase: 0px;
+  }
+
+  .espacio--esbelto {
+    grid-column: 7 / span 3;
+    grid-row: 2;
+    --espacio-ratio: 3 / 4;
+    --espacio-desfase: var(--esp-lg);
+  }
+
+  .espacio--breve {
+    grid-column: 10 / span 3;
+    grid-row: 2;
+    --espacio-ratio: 1;
+    --espacio-desfase: var(--esp-2xl);
   }
 }
 
@@ -81,17 +193,29 @@
 .espacio {
   display: flex;
   flex-direction: column;
+  /* El escalonado. Cero por defecto: sólo los @media lo levantan. */
+  margin-block-start: var(--espacio-desfase, 0px);
+  /* SIN estirar. Antes las fichas se estiraban al alto de su fila y el
+     enlace se pegaba abajo con margin-top:auto para que los cinco quedaran
+     alineados. Ahora la alineación es justo lo que NO se quiere: cada ficha
+     mide lo que mide y el borde inferior de la fila queda dentado a
+     propósito. Si se estirasen, el desfase abriría un vacío entre el texto y
+     el enlace en vez de mover la ficha entera. */
+  align-self: start;
 }
 
 /* ---- Figura --------------------------------------------------------------
-   Cuadrada y a esquina viva. El radio se declara en cero de forma explícita
-   —y no por omisión— para que quede escrito que es una decisión y no un
-   olvido: cualquiera que en el futuro añada una utilidad con radio a estas
-   figuras está deshaciendo el rediseño. Sin box-shadow, por lo mismo.        */
+   A esquina viva. El radio se declara en cero de forma explícita —y no por
+   omisión— para que quede escrito que es una decisión y no un olvido:
+   cualquiera que en el futuro añada una utilidad con radio a estas figuras
+   está deshaciendo el rediseño. Sin box-shadow, por lo mismo.
+   La proporción la pone la ficha con --espacio-ratio (§1). El 1 de reserva
+   es el valor de la v3 anterior: si algún día se añade un sexto espacio y
+   se olvida su modificador, cae en cuadrado y no en un alto de cero.        */
 .espacio__figura {
   position: relative;
   margin: 0;
-  aspect-ratio: 1;
+  aspect-ratio: var(--espacio-ratio, 1);
   overflow: hidden;
   border-radius: 0;
   box-shadow: none;
@@ -166,10 +290,10 @@
   margin: 0;
 }
 
-/* El enlace queda pegado abajo para que los cinco se alineen aunque las
-   líneas de apoyo tengan distinto largo. */
+/* El enlace va detrás del texto, sin `margin-top:auto`: ver la nota de
+   `align-self` en .espacio. Alinear los cinco enlaces exigiría estirar las
+   fichas, y estirarlas mata el escalonado. */
 .espacio__enlace {
-  margin-top: auto;
   padding-top: var(--esp-2xs);
 }
 
@@ -197,7 +321,7 @@
 }
 
 /* En móvil, a una columna, la banda no cabe: la vertical de apoyo se retira y
-   la panorámica se queda sola en el cuadrado de la rejilla. Se retira con
+   la panorámica se queda sola en el 3:2 de la rejilla. Se retira con
    display:none y no cargándola aparte porque es decorativa por duplicado —la
    principal ya cuenta el mismo prado— y su alt no aporta nada que no esté. */
 @media (max-width: 47.99em) {
@@ -210,22 +334,29 @@
   }
 }
 
-/* Desde el primer breakpoint la Alameda ocupa dos celdas, así que su figura
-   deja de ser cuadrada y pasa a 2:1: dos cuadrados de ancho, uno de alto. */
+/* Desde el primer breakpoint la Alameda ocupa la fila entera y su figura pasa
+   a 2:1 (lo pone --espacio-ratio en §1). Aquí sólo sube el CUERPO del texto:
+   es la ficha de entrada y su tipografía tiene que pesar más que la de las
+   pequeñas, o el salto de escala se queda a medias en la fotografía. */
 @media (min-width: 48em) {
-  .espacio--destacado .espacio__figura--banda {
-    aspect-ratio: 2 / 1;
+  /* La única ficha con nombre a --paso-3: un escalón por encima del
+     --fs-h3 (--paso-2) de las otras cuatro y uno por debajo del --fs-h2 del
+     titular de la sección, que sigue mandando. */
+  .espacio--destacado .espacio__nombre {
+    font-size: var(--paso-3);
+    max-width: var(--medida);
   }
 
-  /* Al ser la ficha de entrada, su línea de apoyo sube a cuerpo normal. Es la
-     única concesión de tamaño: nada de fondo, borde ni sombra. */
   .espacio--destacado .espacio__texto {
     font-size: var(--fs-cuerpo);
     max-width: var(--medida);
   }
 
-  .espacio--destacado .espacio__nombre {
-    max-width: var(--medida);
+  /* El aforo de la ficha grande sube de --fs-eyebrow a --fs-pequeno (13,4 px
+     de suelo, por encima del suelo de 12,5 del sistema). Sigue siendo el
+     rótulo más pequeño de su ficha; lo que cambia es que su ficha es mayor. */
+  .espacio--destacado .espacio__aforo {
+    font-size: var(--fs-pequeno);
   }
 }
 

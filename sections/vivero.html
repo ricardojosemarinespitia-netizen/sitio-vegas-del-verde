@@ -20,12 +20,29 @@
      Fotos verificadas en disco (img/parque/, 675 × 1200 cada una):
        parque-35 caladios en producción · parque-40 filodendros y camellones
        parque-42 cícada y lantana       · parque-49 materas de barro
+
+     COMPOSICIÓN (v3.1)
+     El mosaico de dos por dos y la columna de texto al lado eran, medidos, la
+     misma caja que las otras ocho secciones. Ahora la sección va en tres
+     tiempos de anchura distinta:
+
+       1 · el encabezado, corto y a la izquierda, dentro del contenedor;
+       2 · .viv-friso — A SANGRE. Las cuatro fotos verticales en una sola
+           banda de borde a borde de la pantalla, con las columnas de ancho
+           DESIGUAL y la segunda y la cuarta descolgadas (el vivero es un
+           terreno en pendiente y la banda lo imita). Es el único bloque de
+           la sección que se sale del contenedor, y por eso corta;
+       3 · .viv-cuerpo — dos columnas desiguales: a la izquierda lo que se
+           vende (entradilla larga y el catálogo numerado), a la derecha lo
+           que da confianza (el aula, el sello del ICA y el botón).
+
+     Ni una palabra del texto cambia: sólo las cajas.
      ========================================================================== -->
 
 <section id="vivero" class="seccion viv" aria-labelledby="vivero-titulo">
-  <div class="contenedor contenedor--ancho">
 
-    <header class="seccion-encabezado reveal">
+  <div class="contenedor contenedor--ancho">
+    <header class="seccion-encabezado viv-encabezado reveal">
       <p class="eyebrow">Vivero</p>
       <h2 id="vivero-titulo" class="titulo-seccion">Te llevas a casa lo que crece aquí</h2>
       <p class="entradilla">
@@ -33,78 +50,80 @@
         en tu casa, en tu oficina o en tu evento.
       </p>
     </header>
+  </div>
 
+  <!-- ---------- La banda a sangre: las cuatro fotos del vivero ---------- -->
+  <ul class="viv-friso reveal-secuencia">
+    <li class="viv-foto reveal">
+      <figure>
+        <div class="marco marco--retrato">
+          <img
+            src="img/parque/parque-35.jpg"
+            width="675"
+            height="1200"
+            alt="Caladios de hoja rosada y verde en producción bajo la polisombra del vivero, sembrados en bolsa negra frente a un macizo de platanillos."
+            loading="lazy"
+            decoding="async"
+          />
+        </div>
+        <figcaption>El vivero, por dentro</figcaption>
+      </figure>
+    </li>
+
+    <li class="viv-foto reveal">
+      <figure>
+        <div class="marco marco--retrato">
+          <img
+            src="img/parque/parque-40.jpg"
+            width="675"
+            height="1200"
+            alt="Filodendros de hoja roja y limón en primer plano y, al fondo, los camellones de plantas ornamentales bajo la malla de sombra del vivero."
+            loading="lazy"
+            decoding="async"
+          />
+        </div>
+        <figcaption>Camellones bajo malla</figcaption>
+      </figure>
+    </li>
+
+    <li class="viv-foto reveal">
+      <figure>
+        <div class="marco marco--retrato">
+          <img
+            src="img/parque/parque-42.jpg"
+            width="675"
+            height="1200"
+            alt="Una cícada sembrada en matera grande junto a una lantana en flor, al borde del camellón de bolsas del vivero, bajo la malla de sombra."
+            loading="lazy"
+            decoding="async"
+          />
+        </div>
+        <figcaption>Lista para sembrar</figcaption>
+      </figure>
+    </li>
+
+    <li class="viv-foto reveal">
+      <figure>
+        <div class="marco marco--retrato">
+          <img
+            src="img/parque/parque-49.jpg"
+            width="675"
+            height="1200"
+            alt="Materas de barro con plantas de interior de hoja ancha frente a un cerramiento de guadua, listas para llevar a una casa, una oficina o un evento."
+            loading="lazy"
+            decoding="async"
+          />
+        </div>
+        <figcaption>Materas listas para llevar</figcaption>
+      </figure>
+    </li>
+  </ul>
+
+  <div class="contenedor contenedor--ancho">
     <div class="viv-cuerpo">
 
-      <!-- ---------- Las cuatro fotos del vivero ---------- -->
-      <ul class="viv-mosaico reveal-secuencia">
-        <li class="viv-foto reveal">
-          <figure>
-            <div class="marco marco--retrato">
-              <img
-                src="img/parque/parque-35.jpg"
-                width="675"
-                height="1200"
-                alt="Caladios de hoja rosada y verde en producción bajo la polisombra del vivero, sembrados en bolsa negra frente a un macizo de platanillos."
-                loading="lazy"
-                decoding="async"
-              />
-            </div>
-            <figcaption>El vivero, por dentro</figcaption>
-          </figure>
-        </li>
-
-        <li class="viv-foto reveal">
-          <figure>
-            <div class="marco marco--retrato">
-              <img
-                src="img/parque/parque-40.jpg"
-                width="675"
-                height="1200"
-                alt="Filodendros de hoja roja y limón en primer plano y, al fondo, los camellones de plantas ornamentales bajo la malla de sombra del vivero."
-                loading="lazy"
-                decoding="async"
-              />
-            </div>
-            <figcaption>Camellones bajo malla</figcaption>
-          </figure>
-        </li>
-
-        <li class="viv-foto reveal">
-          <figure>
-            <div class="marco marco--retrato">
-              <img
-                src="img/parque/parque-42.jpg"
-                width="675"
-                height="1200"
-                alt="Una cícada sembrada en matera grande junto a una lantana en flor, al borde del camellón de bolsas del vivero, bajo la malla de sombra."
-                loading="lazy"
-                decoding="async"
-              />
-            </div>
-            <figcaption>Lista para sembrar</figcaption>
-          </figure>
-        </li>
-
-        <li class="viv-foto reveal">
-          <figure>
-            <div class="marco marco--retrato">
-              <img
-                src="img/parque/parque-49.jpg"
-                width="675"
-                height="1200"
-                alt="Materas de barro con plantas de interior de hoja ancha frente a un cerramiento de guadua, listas para llevar a una casa, una oficina o un evento."
-                loading="lazy"
-                decoding="async"
-              />
-            </div>
-            <figcaption>Materas listas para llevar</figcaption>
-          </figure>
-        </li>
-      </ul>
-
-      <!-- ---------- Qué sale del vivero ---------- -->
-      <div class="viv-texto reveal reveal--der">
+      <!-- ---------- Lo que sale del vivero: el catálogo ---------- -->
+      <div class="viv-oferta reveal">
 
         <p class="viv-lead">
           Escoges la planta en el camellón y te la llevas: en bolsa para sembrar o
@@ -130,6 +149,11 @@
             <span class="viv-servicio__nombre">Venta de productos y alquiler de complementos para decoración de eventos</span>
           </li>
         </ul>
+
+      </div>
+
+      <!-- ---------- Lo que da confianza: el aula, el sello y el botón ------- -->
+      <div class="viv-respaldo reveal reveal--der">
 
         <p class="viv-aula">
           El vivero es además un espacio de aprendizaje: apoya los talleres de

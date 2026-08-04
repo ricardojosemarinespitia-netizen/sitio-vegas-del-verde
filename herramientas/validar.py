@@ -178,9 +178,16 @@ HECHOS = [
 # se retiran, una clase como .inicio__ancla-item--sendero se cuenta como si la
 # sección hubiera escrito «Sendero» en pantalla. Lo que SÍ se conserva es todo
 # lo que se lee o se oye: el texto, alt, title, aria-label y placeholder.
+# `poster` va en esta lista por la misma razon que `src`: es una RUTA DE
+# ARCHIVO, no algo que nadie lea en pantalla. Sin el, el nombre de un video
+# —video/jardin-polinizadores.mp4— se contaba como si la seccion hubiera
+# escrito «polinizadores» en el texto visible, y hacia saltar la tabla de
+# propiedad de una seccion que no es su duena. Es una trampa que solo aparece
+# cuando se mete video, asi que queda documentada aqui.
 RE_MAQUINA = re.compile(
-    r'\s(?:class|id|href|src|srcset|for|form|name|type|rel|role|loading|'
-    r'decoding|fetchpriority|target|hreflang|lang|width|height|viewBox|d|'
+    r'\s(?:class|id|href|src|srcset|poster|for|form|name|type|rel|role|loading|'
+    r'decoding|fetchpriority|preload|playsinline|muted|loop|target|hreflang|'
+    r'lang|width|height|viewBox|d|'
     r'aria-labelledby|aria-controls|aria-describedby|data-[a-z-]*)="[^"]*"',
     re.I)
 
@@ -288,7 +295,8 @@ print("   «ecoposada» : %d   ·   «data-modal» : %d" % (n_eco, n_modal))
 # (atmósfera vs. archivo acreditado). Se listan las repetidas para revisarlas.
 usos = {}
 for reg in orden_real:
-    for m in re.finditer(r'<img\b[^>]*\bsrc="([^"]+)"', sin_comentarios(regiones[reg])):
+    limpio_reg = sin_comentarios(regiones[reg])
+    for m in re.finditer(r'<img\b[^>]*\bsrc="([^"]+)"', limpio_reg):
         usos.setdefault(m.group(1), []).append(reg)
 repes = {k: v for k, v in usos.items() if len(v) > 1}
 print()
@@ -297,6 +305,26 @@ print("f) UN ARCHIVO, UN PAPEL")
 print("   <img> distintos en el <main>: %d   ·   repetidos: %d" % (len(usos), len(repes)))
 for k in sorted(repes):
     print("     %-44s %s" % (k, repes[k]))
+
+# El VIDEO se cuenta aparte y sin excepciones. La regla de las aves (una misma
+# foto puede hacer de atmosfera en un sitio y de archivo acreditado en otro) no
+# le aplica: un clip repetido en dos secciones se nota muchisimo mas que una
+# foto, porque se MUEVE, y el visitante lo lee como que no habia mas material.
+# Este bloque existe porque el chequeo de arriba solo miraba <img> y dejo pasar
+# el mismo clip en #momentos y en #naturaleza, puesto por dos manos distintas.
+usos_v = {}
+for reg in orden_real:
+    limpio_reg = sin_comentarios(regiones[reg])
+    for m in re.finditer(r'<source\b[^>]*\bsrc="([^"]+\.(?:mp4|webm))"', limpio_reg):
+        usos_v.setdefault(re.sub(r'\.(mp4|webm)$', '', m.group(1)), []).append(reg)
+    for m in re.finditer(r'\bposter="([^"]+)"', limpio_reg):
+        usos_v.setdefault(m.group(1), []).append(reg)
+usos_v = {k: sorted(set(v)) for k, v in usos_v.items()}
+repes_v = {k: v for k, v in usos_v.items() if len(v) > 1}
+print("   clips y posters distintos   : %d   ·   repetidos: %d %s"
+      % (len(usos_v), len(repes_v), "  *** REVISAR ***" if repes_v else ""))
+for k in sorted(repes_v):
+    print("     %-44s %s" % (k, repes_v[k]))
 
 # ============================================ g) HIGIENE DE CSS EN EL HTML
 cuerpo = doc[i_body:]

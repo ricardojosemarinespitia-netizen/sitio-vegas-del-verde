@@ -1,11 +1,21 @@
 <!-- ==========================================================================
      FRAGMENTO: MOMENTOS  ·  id="momentos"
      CSS propio: styles/sections/momentos.css
-     JS: ninguno propio. Sólo .reveal / .reveal-secuencia del script global.
+     JS propio:  js/momentos-video.js   (reproducción perezosa de los clips)
 
      QUÉ ES: una banda de carbón que corta la página crema entre #planes y
      #colegios. Es la única pausa visual del recorrido: sirve para respirar,
-     no para informar.
+     no para informar. Desde v3.1 ya no es una rejilla de fotos: es un MURO
+     DE VÍDEO en vertical, metraje de móvil grabado en el predio.
+
+     POR QUÉ VERTICAL Y POR QUÉ ESCALONADO
+       Los seis clips son 720×1280, retrato, sin pista de audio: son de
+       teléfono, no de banco de imágenes. Presentarlos en una rejilla regular
+       de recuadros iguales los devolvería al terreno del «genérico»: lo que
+       delata a un muro de archivo es la simetría. Aquí van CUATRO piezas de
+       anchos distintos (protagonista + tres menores) y con desfases
+       verticales desiguales, de modo que la línea de arriba nunca coincide
+       y la de abajo tampoco. La composición está en momentos.css §3.
 
      QUÉ POSEE ESTA SECCIÓN (ARQUITECTURA-V3, «un hecho, un dueño»)
        NADA. Ni un solo hecho. Esta sección es ATMÓSFERA PURA y por eso puede
@@ -14,30 +24,58 @@
      QUÉ TIENE PROHIBIDO DECIR
        TODO hecho: aforos, precios, horarios, direcciones, superficies,
        distancias, cifras de especies, condiciones de alquiler, nombres de
-       espacios y nombres de planes. Los pies de foto describen LO QUE SE VE
-       en la imagen y se paran ahí. Si alguna vez alguien quiere «aprovechar»
-       este hueco para meter un dato, el dato ya tiene dueño en otra sección:
-       lo que corresponde es enlazar allí, no repetirlo aquí.
+       espacios y nombres de planes. Los pies describen LO QUE SE VE en el
+       clip y se paran ahí.
+       OJO ESPECIAL CON ESTOS CLIPS: el jardín de polinizadores es un hecho
+       de #colegios. Aquí se pueden VER mariposas y flores —son imagen—, pero
+       no se puede afirmar que exista un jardín ni describirlo como
+       instalación. Por eso ningún pie nombra «polinizadores», «jardín de
+       mariposas» ni «avistamiento»: se describe el encuadre, no el
+       equipamiento. Por lo mismo NO se usa el sexto clip disponible,
+       video/jardin-polinizadores.*: su ruta viaja en el atributo `poster`,
+       que herramientas/validar.py sí lee como texto, y colaría la palabra
+       «polinizador» dentro de una sección que no es su dueña.
+
+     LOS CUATRO CLIPS, EN ORDEN DE LECTURA
+       01  video/mariposa-naranja.*   3,6 s · plano abierto de las varas
+       02  video/verbena-viento.*     6,2 s · primer plano, la vara se mece
+       03  video/mariposa-amarilla.*  4,6 s · contraluz, amarilla al borde
+       04  video/mariposas-par.*      2,1 s · dos naranjas, la más pequeña
+       Cada <video> lleva el webm PRIMERO y el mp4 después (el webm pesa más
+       aquí, pero el orden lo decide el navegador por soporte, no por tamaño;
+       Safari cae al mp4). `width`/`height` son los del archivo y el marco
+       tiene `aspect-ratio`, así que no hay salto de layout.
+
+     EL PÓSTER ES EL SUELO, NO HAY <img> DEBAJO
+       Cada clip trae su propio fotograma en img/video/<mismo-nombre>.jpg.
+       Si el vídeo no carga, si no hay JS, si el navegador bloquea la
+       reproducción o si el usuario pide menos movimiento, se queda esa foto
+       fija: nunca un hueco negro. Poner además un <img> debajo duplicaría la
+       descarga para enseñar exactamente la misma imagen.
+       Los cuatro pósters (unos 600 kB en total) SÍ se descargan siempre, aunque
+       el visitante no llegue a esta altura de la página: `poster` no admite
+       carga diferida. Es el precio de que la sección nunca aparezca vacía, y se
+       paga a sabiendas. Los clips, que pesan varios megas, no se tocan hasta
+       que la banda entra en pantalla.
+
+     NO HAY ICONO DE PLAY, Y NO SE PONE
+       Los clips arrancan solos, en silencio y en bucle, cuando entran en
+       pantalla; se pausan al salir. No hay nada que pulsar, así que un
+       triángulo encima sería un control falso. Toda esa lógica —incluida la
+       de `prefers-reduced-motion`— vive en js/momentos-video.js.
+
+     POR QUÉ EL <script> VA AQUÍ DENTRO Y NO AL FINAL DEL <body>
+       herramientas/ensamblar.py copia tal cual la cola de index.html
+       (donde están app.js y mapa.js), así que un fragmento no puede añadir
+       nada allí. Se carga con `defer`, de modo que no bloquea el parseo y se
+       ejecuta con el DOM ya completo, igual que los otros dos. Si el
+       integrador prefiere tenerlo junto a los demás, puede moverlo a la cola
+       de index.html y borrar esta línea: el JS no depende de dónde se cargue.
 
      POR QUÉ NO ESTÁ EN LA NAVEGACIÓN NI EN EL PIE
        Porque no es un destino. Nadie busca «momentos» en un menú; se lo
        encuentra al bajar. Meterla en el menú la convertiría en una promesa
        de contenido que esta sección no tiene intención de cumplir.
-
-     LOS CUATRO RECUADROS SON VÍDEO EN DIFERIDO
-       Hoy cada recuadro es una foto. Mañana cada uno será un clip corto de
-       unos segundos, en bucle y sin sonido. El marcado del <video> queda
-       escrito, listo para pegar, dentro del comentario de cada recuadro.
-       Va COMENTADO y no simplemente `hidden` (como en el hero de v2) porque
-       herramientas/validar.py comprueba que todo src exista en disco y sólo
-       tiene pactada la excepción de video/hero.mp4: dejar cuatro rutas vivas
-       apuntando a archivos inexistentes rompería esa comprobación cada vez
-       que se corre. En cuanto los cuatro clips estén en video/, se descomenta
-       y se añade la excepción en validar.py y validar_sitio.py.
-
-     NO HAY ICONO DE PLAY SOBRE LAS FOTOS, Y NO SE PONE
-       Un triángulo de reproducción encima de una imagen fija promete algo que
-       no ocurre al pulsarlo. Mientras esto sean fotos, se ven como fotos.
      ========================================================================== -->
 <section id="momentos" class="seccion seccion--carbon momentos" aria-labelledby="momentos-titulo">
   <div class="contenedor">
@@ -49,187 +87,123 @@
       </h2>
     </header>
 
-    <ul class="momentos__rejilla reveal-secuencia" role="list">
+    <ul class="momentos__muro reveal-secuencia" role="list">
 
-      <!-- ============================================================ 01/04
-           HOY: foto. MAÑANA: video/momento-1.mp4
-
-           PARA ACTIVAR EL VÍDEO DE ESTE RECUADRO, en tres pasos:
-             1. Deja el archivo en  video/momento-1.mp4  (y, si lo tienes, un
-                video/momento-1.webm como primer <source>).
-             2. Descomenta el bloque <video> de abajo y añade `autoplay`.
-                El `poster` ya es esta misma foto: mientras el clip carga se
-                ve exactamente lo que se veía antes, sin hueco negro.
-             3. Añade la clase `momentos__marco--con-video` al <div class="marco…">
-                de este recuadro: momentos.css funde la foto y deja el vídeo delante, y con
-                `prefers-reduced-motion: reduce` devuelve la foto fija.
-           No borres el <img>: es el suelo del recuadro si la red falla.
-
-           <video
-             class="momentos__video"
-             muted
-             loop
-             playsinline
-             preload="none"
-             poster="img/parque/parque-25.jpg"
-             width="1920"
-             height="1080"
-             aria-hidden="true"
-             tabindex="-1"
-           >
-             <source src="video/momento-1.mp4" type="video/mp4" />
-           </video>
-           ================================================================ -->
-      <li class="momentos__pieza reveal">
+      <!-- ---------------------------------------------------------- 01/04
+           PROTAGONISTA. Es el plano más abierto del cuarteto y por eso es el
+           más ancho: sitúa al espectador (las varas, el verde del fondo, la
+           luz) antes de que los otros tres se metan de cerca.               -->
+      <li class="momentos__pieza momentos__pieza--uno reveal">
         <figure class="momentos__figura">
-          <div class="marco marco--16-9 momentos__marco">
-            <img
-              src="img/parque/parque-25.jpg"
-              width="1200"
-              height="800"
-              loading="lazy"
-              decoding="async"
-              alt="Atardecer nublado sobre el predio: bajo una carpa translúcida colgada de guirnaldas de bombillos, un grupo de invitados charla de pie; delante pasa un camino de gravilla entre matas y macetas de barro con flores."
-            />
+          <div class="marco momentos__marco">
+            <video
+              class="momentos__video"
+              data-momento-video
+              muted
+              loop
+              playsinline
+              preload="none"
+              poster="img/video/mariposa-naranja.jpg"
+              width="720"
+              height="1280"
+              aria-hidden="true"
+              tabindex="-1"
+            >
+              <source src="video/mariposa-naranja.webm" type="video/webm" />
+              <source src="video/mariposa-naranja.mp4" type="video/mp4" />
+            </video>
           </div>
           <figcaption class="momentos__pie">
-            Las guirnaldas se encienden antes de que se vaya la luz.
+            Una mariposa naranja se posa entre las varas moradas y sigue.
           </figcaption>
         </figure>
       </li>
 
-      <!-- ============================================================ 02/04
-           HOY: foto. MAÑANA: video/momento-2.mp4
-
-           PARA ACTIVAR EL VÍDEO DE ESTE RECUADRO, en tres pasos:
-             1. Deja el archivo en  video/momento-2.mp4  (y, si lo tienes, un
-                video/momento-2.webm como primer <source>).
-             2. Descomenta el bloque <video> de abajo y añade `autoplay`.
-             3. AÑADE la clase `momentos__marco--con-video` al <div class="marco…">.
-                Añadir, no sustituir: `momentos__marco--anclar-abajo` se queda.
-                El poster de este recuadro es la foto CUADRADA parque-27.jpg, así
-                que sin esa clase el poster volvería a recortarse por el centro y
-                a decapitar el corro mientras el clip carga. (Los fotogramas del
-                clip son 16:9 y no se recortan; el ancla les da igual.)
-
-           <video
-             class="momentos__video"
-             muted
-             loop
-             playsinline
-             preload="none"
-             poster="img/parque/parque-27.jpg"
-             width="1920"
-             height="1080"
-             aria-hidden="true"
-             tabindex="-1"
-           >
-             <source src="video/momento-2.mp4" type="video/mp4" />
-           </video>
-           ================================================================ -->
-      <li class="momentos__pieza reveal">
+      <!-- ---------------------------------------------------------- 02/04
+           El clip largo (6,2 s) y el único primer plano: aguanta el bucle
+           sin que se note el corte. Va desfasado hacia abajo para romper la
+           línea superior.                                                   -->
+      <li class="momentos__pieza momentos__pieza--dos reveal">
         <figure class="momentos__figura">
-          <!-- `momentos__marco--anclar-abajo`: única foto CUADRADA del cuarteto
-               (1200×1200). Recortada a 16:9 desde el centro perdía 525 px de
-               alto y dejaba al corro de cabezas contra el borde inferior, con
-               los aros cortados. El modificador la ancla abajo. Ver el porqué
-               largo en styles/sections/momentos.css §3.1. -->
-          <div class="marco marco--16-9 momentos__marco momentos__marco--anclar-abajo">
-            <img
-              src="img/parque/parque-27.jpg"
-              width="1200"
-              height="1200"
-              loading="lazy"
-              decoding="async"
-              alt="Seis niños sentados en corro sobre el césped, casi todos de espaldas, escuchando a una monitora que sostiene un libro ilustrado abierto; dos acompañantes adultas los rodean, a un lado hay aros de colores en la hierba y detrás se abre el prado bajo los árboles."
-            />
+          <div class="marco momentos__marco">
+            <video
+              class="momentos__video"
+              data-momento-video
+              muted
+              loop
+              playsinline
+              preload="none"
+              poster="img/video/verbena-viento.jpg"
+              width="720"
+              height="1280"
+              aria-hidden="true"
+              tabindex="-1"
+            >
+              <source src="video/verbena-viento.webm" type="video/webm" />
+              <source src="video/verbena-viento.mp4" type="video/mp4" />
+            </video>
           </div>
           <figcaption class="momentos__pie">
-            Un corro en la hierba, un libro abierto y aros de colores al lado.
+            El viento mueve las varas en flor y una parda no se suelta.
           </figcaption>
         </figure>
       </li>
 
-      <!-- ============================================================ 03/04
-           HOY: foto. MAÑANA: video/momento-3.mp4
-
-           PARA ACTIVAR EL VÍDEO DE ESTE RECUADRO, en tres pasos:
-             1. Deja el archivo en  video/momento-3.mp4  (y, si lo tienes, un
-                video/momento-3.webm como primer <source>).
-             2. Descomenta el bloque <video> de abajo y añade `autoplay`.
-             3. Añade la clase `momentos__marco--con-video` al <div class="marco…">.
-
-           <video
-             class="momentos__video"
-             muted
-             loop
-             playsinline
-             preload="none"
-             poster="img/parque/parque-31.jpg"
-             width="1920"
-             height="1080"
-             aria-hidden="true"
-             tabindex="-1"
-           >
-             <source src="video/momento-3.mp4" type="video/mp4" />
-           </video>
-           ================================================================ -->
-      <li class="momentos__pieza reveal">
+      <!-- ---------------------------------------------------------- 03/04
+           Contraluz: el fondo se va a oscuro y la mariposa entra por el
+           borde izquierdo. Se deja a tamaño medio y con poco desfase.       -->
+      <li class="momentos__pieza momentos__pieza--tres reveal">
         <figure class="momentos__figura">
-          <div class="marco marco--16-9 momentos__marco">
-            <img
-              src="img/parque/parque-31.jpg"
-              width="1200"
-              height="675"
-              loading="lazy"
-              decoding="async"
-              alt="Rueda de personas mayores sentadas en sillas repartidas sobre el césped, con los brazos abiertos en cruz siguiendo a quien guía desde el centro; hay esterillas de colores en el suelo y árboles alrededor."
-            />
+          <div class="marco momentos__marco">
+            <video
+              class="momentos__video"
+              data-momento-video
+              muted
+              loop
+              playsinline
+              preload="none"
+              poster="img/video/mariposa-amarilla.jpg"
+              width="720"
+              height="1280"
+              aria-hidden="true"
+              tabindex="-1"
+            >
+              <source src="video/mariposa-amarilla.webm" type="video/webm" />
+              <source src="video/mariposa-amarilla.mp4" type="video/mp4" />
+            </video>
           </div>
           <figcaption class="momentos__pie">
-            Los brazos se abren a la vez, en corro, bajo los árboles.
+            A contraluz, una amarilla asoma por el borde del encuadre.
           </figcaption>
         </figure>
       </li>
 
-      <!-- ============================================================ 04/04
-           HOY: foto. MAÑANA: video/momento-4.mp4
-
-           PARA ACTIVAR EL VÍDEO DE ESTE RECUADRO, en tres pasos:
-             1. Deja el archivo en  video/momento-4.mp4  (y, si lo tienes, un
-                video/momento-4.webm como primer <source>).
-             2. Descomenta el bloque <video> de abajo y añade `autoplay`.
-             3. Añade la clase `momentos__marco--con-video` al <div class="marco…">.
-
-           <video
-             class="momentos__video"
-             muted
-             loop
-             playsinline
-             preload="none"
-             poster="img/parque/parque-11.jpg"
-             width="1920"
-             height="1080"
-             aria-hidden="true"
-             tabindex="-1"
-           >
-             <source src="video/momento-4.mp4" type="video/mp4" />
-           </video>
-           ================================================================ -->
-      <li class="momentos__pieza reveal">
+      <!-- ---------------------------------------------------------- 04/04
+           La pieza pequeña: dura dos segundos y va la más baja de las
+           cuatro. Naranja sobre verde, que es lo que aguanta el tamaño
+           chico; un plano de detalle sutil aquí no se leería.               -->
+      <li class="momentos__pieza momentos__pieza--cuatro reveal">
         <figure class="momentos__figura">
-          <div class="marco marco--16-9 momentos__marco">
-            <img
-              src="img/parque/parque-11.jpg"
-              width="1200"
-              height="800"
-              loading="lazy"
-              decoding="async"
-              alt="Patio de baldosas claras a la sombra de una pérgola de madera cubierta de caña; al fondo, una pared turquesa pintada con un mural de plantas y mariposas, una fila de macetas de barro y una palmera en un tiesto blanco. En primer plano cruza una rama de buganvilla en flor."
-            />
+          <div class="marco momentos__marco">
+            <video
+              class="momentos__video"
+              data-momento-video
+              muted
+              loop
+              playsinline
+              preload="none"
+              poster="img/video/mariposas-par.jpg"
+              width="720"
+              height="1280"
+              aria-hidden="true"
+              tabindex="-1"
+            >
+              <source src="video/mariposas-par.webm" type="video/webm" />
+              <source src="video/mariposas-par.mp4" type="video/mp4" />
+            </video>
           </div>
           <figcaption class="momentos__pie">
-            La caña filtra el sol y la buganvilla se mete en el encuadre.
+            Dos naranjas coinciden en la misma mata.
           </figcaption>
         </figure>
       </li>
@@ -237,4 +211,6 @@
     </ul>
 
   </div>
+
+  <script src="js/momentos-video.js" defer></script>
 </section>

@@ -11,7 +11,7 @@
      Se abandona la tarjeta-caja (fondo, borde, radio y sombra) por el patrón
      de fichas de catálogo: la foto va a esquina viva y el texto flota debajo,
      los dos sobre el fondo de la página. Cada ficha, en este orden:
-       1. figura CUADRADA (aspect-ratio 1) con la foto a cover, sin radio;
+       1. la figura con la foto a cover, sin radio;
        2. rótulo diminuto en caps espaciadas con el AFORO —el dato, arriba,
           en el sitio del rótulo de categoría—;
        3. el NOMBRE del espacio como titular, en Fraunces y en caja de frase
@@ -20,6 +20,23 @@
        5. un enlace sobrio de cotización, no un botón de bloque.
      La Alameda conserva trato mayor: ocupa doble columna con sus dos fotos
      propias montadas en una banda panorámica 2:1.
+
+     LOS CINCO NO MIDEN LO MISMO (revisión de agosto de 2026)
+     Hasta aquí las cinco figuras eran cuadrados idénticos en una rejilla de
+     tres columnas: la ficha estaba bien resuelta, pero cinco cuadrados del
+     mismo tamaño empezando todos a la misma altura se leen como un catálogo
+     generado, no como una página. Cada <li> lleva ahora un modificador de
+     ESCALA —cuánto ocupa y con qué proporción se recorta su foto— y de
+     DESFASE —cuánto baja respecto de su vecina—. Los cinco modificadores
+     nombran el papel en la composición, no el espacio:
+
+       espacio--destacado  Alameda · banda 2:1 sobre 8 de 12 columnas
+       espacio--alto       La Vega · columna estrecha, la más alta, desfasada
+       espacio--medio      Teatrino · el cuadrado grande que abre la 2.ª fila
+       espacio--esbelto    Taller · vertical estrecho, desfase corto
+       espacio--breve      Cancha · el más pequeño, desfase largo
+
+     Los valores viven en espacios.css y sólo ahí; el HTML no sabe de medidas.
 
      LOS CINCO SON LOS DEL BRIEF: Alameda, La Vega, Teatrino, Taller y Cancha.
      No existe ningún «Prado»: ver ARQUITECTURA-V3 §7.1, que manda borrar el
@@ -96,8 +113,10 @@
       </li>
 
       <!-- ------------------------------------------------------------ 2/5
-           LA VEGA · hasta 100 personas                                    -->
-      <li class="espacio reveal">
+           LA VEGA · hasta 100 personas
+           Columna estrecha y alta a la derecha de la Alameda, arrancando por
+           debajo de ella: es el desfase el que rompe la fila.               -->
+      <li class="espacio espacio--alto reveal">
         <figure class="espacio__figura">
           <img
             class="espacio__img"
@@ -128,8 +147,10 @@
       </li>
 
       <!-- ------------------------------------------------------------ 3/5
-           TEATRINO · hasta 70 personas                                    -->
-      <li class="espacio reveal">
+           TEATRINO · hasta 70 personas
+           El cuadrado grande: abre la segunda fila a plomo con la Alameda y
+           es la única de las cuatro pequeñas que no baja.                   -->
+      <li class="espacio espacio--medio reveal">
         <figure class="espacio__figura">
           <img
             class="espacio__img"
@@ -160,8 +181,9 @@
       </li>
 
       <!-- ------------------------------------------------------------ 4/5
-           TALLER · hasta 45 personas · el espacio bajo techo              -->
-      <li class="espacio reveal">
+           TALLER · hasta 45 personas · el espacio bajo techo
+           Vertical estrecho, con el primer peldaño del escalonado.          -->
+      <li class="espacio espacio--esbelto reveal">
         <figure class="espacio__figura">
           <img
             class="espacio__img"
@@ -193,8 +215,10 @@
       </li>
 
       <!-- ------------------------------------------------------------ 5/5
-           CANCHA · 30 jugadores y 20 espectadores                         -->
-      <li class="espacio reveal">
+           CANCHA · 30 jugadores y 20 espectadores
+           La más pequeña de las cinco y la que más baja: cierra el
+           escalonado de la segunda fila.                                    -->
+      <li class="espacio espacio--breve reveal">
         <figure class="espacio__figura">
           <img
             class="espacio__img"

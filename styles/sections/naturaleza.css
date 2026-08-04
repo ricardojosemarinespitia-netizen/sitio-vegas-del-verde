@@ -1,54 +1,109 @@
 /* ==========================================================================
-   VEGAS DEL VERDE — styles/sections/naturaleza.css  ·  v3 «Un hecho, un dueño»
+   VEGAS DEL VERDE — styles/sections/naturaleza.css  ·  v3.1 «se nota qué manda»
    UNA sola sección: #naturaleza (Sendero Ecovital + registro de aves +
-   censo de fauna y flora + muro del concurso). Las anclas #aves y
+   censo de fauna y flora + vídeo + muro del concurso). Las anclas #aves y
    #biodiversidad ya no existen y sus estilos se han fundido aquí.
    Prefijo propio: .nat-*   ·   Depende de tokens.css + base.css (cargar antes).
 
-   Qué cambió respecto a v2:
-   · Se borran .nat-chips / .nat-encuentros: los diez chips de ave con crédito
-     hacían el mismo papel que el muro a un scroll de distancia.
-   · Se borran .nat-vivero / .nat-mosaico / .nat-servicios / .nat-sello:
-     el vivero es ahora sección propia y se lleva su hoja (styles/sections/vivero.css).
-   · El muro deja de vivir en una sección oscura y pasa a una banda salvia
-     dentro de la sección clara: todos sus colores se recalcularon contra
-     --color-fondo-alt (crédito terracota sobre salvia = 4.55:1, AA).
+   QUÉ CAMBIÓ EN v3.1 — y por qué
+   El defecto no era de color ni de detalle: era MÉTRICO. La sección más larga
+   del sitio era una pila de cuatro bloques del mismo ancho, con el mismo aire
+   entre ellos y un h3 centrado en el mismo sitio cada vez. Da igual lo bien
+   escrito que esté: leído a un metro de distancia, ese ritmo constante es lo
+   que delata una página generada. Lo que se hace aquí es romper el ritmo y
+   repartir el peso:
+
+     · La sección ya NO abre con un encabezado suelto. El encabezado se mete
+       dentro de .nat-apertura, que va A SANGRE por la izquierda: la foto del
+       camino toca el borde de la pantalla. Lo principal se ve que es principal
+       porque es lo más grande y lo primero, no porque lo diga un rótulo.
+     · .nat-registro pierde las dos cajas y pasa a tres columnas desiguales
+       con un solo filete arriba: es una nota al margen, y pesa como tal.
+     · .nat-vida va A SANGRE por la DERECHA, o sea al revés que la apertura, y
+       mete una columna de vídeo vertical contra el borde. Los dos sangrados
+       son opuestos a propósito: si los dos fueran por el mismo lado, el
+       recurso se volvería otra plantilla.
+     · .nat-conservacion pierde la caja y el relleno: es el pie de la sección.
+     · El muro del concurso NO se toca (§5): ya era la pieza distinta.
+
+   CÓMO SE SANGRA AQUÍ, Y POR QUÉ NO CON vw
+   Los bloques a sangre son hijos DIRECTOS de <section>, no de .contenedor, así
+   que ya nacen con el ancho de la página: no hace falta ningún truco de
+   100vw / calc(50% - 50vw). Eso importa —100vw INCLUYE la barra de scroll y
+   mete 15 px de desbordamiento real que el `overflow-x: hidden` del body tapa
+   sin arreglar—. Para que el texto siga alineado con el resto de la página se
+   usa --nat-margen, que reproduce el margen del .contenedor con un porcentaje
+   del ancho del propio bloque. Sin vw en ninguna parte.
 
    Reglas que se respetan aquí:
    · Ningún valor literal de color, tamaño de fuente, radio, sombra o duración.
      Lo que la fundación no cubre se declara como token LOCAL, agrupado abajo
      y siempre derivado de la escala.
-   · Ninguna regla pisa por especificidad un color de base.css.
+   · Ninguna regla pisa por especificidad un color de base.css. Sin !important.
    · Ningún titular declara font-family: heredan Fraunces de base.css.
    · Caps sólo donde los autoriza el §3 del CONTRATO-V2 (eyebrow, .btn,
      .pildora, .cifra-etiqueta y micro-etiquetas propias de esta hoja).
+   · Esquina viva y sin sombra en toda fotografía y toda caja.
    ========================================================================== */
 
 .nat {
   /* --- Tokens locales (lo que la fundación no cubre) ---------------------- */
+
+  /* EL MARGEN DE PÁGINA, REPRODUCIDO SIN vw.
+     .contenedor centra un ancho máximo de --ancho-contenedor dejando a cada
+     lado, como mínimo, --padding-contenedor. Esto es exactamente esa cuenta,
+     pero expresada como porcentaje del bloque a sangre —que mide toda la
+     página—, para que el texto de un bloque a sangre caiga en la MISMA línea
+     vertical que el texto de un bloque dentro del contenedor. Si se usara
+     50vw, la barra de scroll (15 px en escritorio) desplazaría esa línea y
+     además desbordaría. */
+  --nat-margen: max(
+    var(--padding-contenedor),
+    calc((100% - var(--ancho-contenedor)) / 2)
+  );
+
   --nat-solape: clamp(1.25rem, 7%, 3.25rem);      /* aire para el inserto    */
+  --nat-alto-apertura: clamp(26rem, 46vw, 40rem); /* alto de la foto a sangre */
   --nat-alto-habitat: clamp(15rem, 30vw, 19rem);
   --nat-alto-habitat-ancho: clamp(17rem, 32vw, 23rem);
+  --nat-col-video: clamp(15rem, 24vw, 21rem);     /* ancho de la columna 9:16 */
   --nat-filete: 2px;                              /* filetes de lista/aviso  */
 }
 
 /* ==========================================================================
-   1. EL SENDERO ECOVITAL
+   1. LA APERTURA — el Sendero Ecovital, a sangre por la izquierda
+   Aquí vive el encabezado de la sección. Es deliberado: si el titular va en
+   su propia franja centrada arriba y la foto empieza después, la sección
+   abre igual que las otras ocho. Fundidos, abre como una portada.
    ========================================================================== */
-.nat-sendero {
+.nat-apertura {
   display: grid;
-  gap: var(--gap-lg);
-  align-items: center;
+  gap: var(--gap);
+  /* En móvil no hay sangrado: una columna con los márgenes de la página. */
+  padding-inline: var(--nat-margen);
 }
 
 @media (min-width: 62em) {
-  .nat-sendero {
-    grid-template-columns: minmax(0, 0.88fr) minmax(0, 1fr);
+  .nat-apertura {
+    /* DESIGUAL A PROPÓSITO. Ni 1fr/1fr ni la proporción áurea de manual: la
+       foto es un vertical de 844×1500 y con más de un tercio del ancho se
+       come el titular; con menos, deja de ser una portada y parece un icono. */
+    grid-template-columns: minmax(0, 0.82fr) minmax(0, 1.18fr);
+    align-items: stretch;
+    gap: 0;
+    padding-inline: 0;
+  }
+
+  .nat-apertura__texto {
+    /* El texto recupera la línea del contenedor por la derecha y se separa de
+       la foto por la izquierda. Ese hueco no es un `gap`: es padding, para
+       que el inserto de guadua pueda invadirlo sin descuadrar la rejilla. */
+    padding-inline: var(--gap-lg) var(--nat-margen);
   }
 }
 
-/* ---- Composición de fotos: principal + inserto solapado ------------------- */
-.nat-sendero__media {
+/* ---- Composición de fotos: principal a sangre + inserto solapado ---------- */
+.nat-apertura__media {
   position: relative;
   /* El aire reservado permite que el inserto se solape SIN desbordar nunca */
   padding-inline-end: var(--nat-solape);
@@ -60,53 +115,202 @@
    el rincón más «tarjeta» de toda la página. A esquina viva la solapa se lee
    mejor, porque lo que separa el inserto de la foto de abajo pasa a ser el
    filete de crema que ya lleva, y no un halo. */
-.nat-sendero__principal .marco {
+.nat-apertura__principal .marco {
   border-radius: 0;
   box-shadow: none;
 }
 
-.nat-sendero__inset {
+@media (min-width: 62em) {
+  /* A partir de aquí la foto deja de tener proporción fija y se estira a lo
+     alto de la composición: es una banda vertical contra el borde, no una
+     estampa. El recorte se hace por el pie del camino, que es donde está el
+     suelo de hojarasca que nombra el alt. */
+  .nat-apertura__media {
+    padding-inline-end: 0;
+  }
+
+  .nat-apertura__principal,
+  .nat-apertura__principal .marco {
+    height: 100%;
+  }
+
+  .nat-apertura__principal .marco {
+    aspect-ratio: auto;
+    min-height: var(--nat-alto-apertura);
+  }
+
+  .nat-apertura__principal .marco > img {
+    object-position: center 62%;
+  }
+}
+
+/* El inserto se descuelga del borde inferior de la foto grande y se mete en el
+   hueco entre las dos columnas. Es el único elemento de la sección que cruza
+   una línea de la rejilla, y por eso funciona: rompe la caja una vez. */
+.nat-apertura__inset {
   position: absolute;
   inset-inline-end: 0;
   inset-block-end: 0;
   width: min(46%, 13rem);
 }
 
+@media (min-width: 62em) {
+  /* El inserto sale del carril de la foto y se mete en el hueco que separa
+     las dos columnas. Ese hueco es padding del texto (var(--gap-lg), de 3,3
+     a 4 rem) y el saliente nunca pasa de --nat-solape (3,25 rem como mucho),
+     así que la solapa se ve y el texto no se toca.
+     El borde INFERIOR sigue a cero: el pie «Guadua del predio» tiene que caer
+     en el aire de crema que reserva padding-block-end, no encima de la foto,
+     donde el gris del crédito quedaría ilegible. */
+  .nat-apertura__inset {
+    inset-inline-end: calc(var(--nat-solape) * -1);
+    width: min(52%, 12rem);
+  }
+}
+
 /* El filete de crema NO es decoración: es lo que despega el inserto de la
    fotografía que tiene debajo ahora que no hay sombra que lo haga. */
-.nat-sendero__inset .marco {
+.nat-apertura__inset .marco {
   border: var(--esp-3xs) solid var(--color-fondo);
   border-radius: 0;
   box-shadow: none;
 }
 
-.nat-sendero__pie {
+.nat-apertura__pie {
   margin-top: var(--esp-3xs);
   text-align: end;
 }
 
 /* ---- Columna de texto ---------------------------------------------------- */
-.nat-sendero__texto {
+.nat-apertura__texto {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  gap: var(--esp-md);
+  /* Aire GRANDE entre los tres movimientos de la columna (encabezado, cuerpo,
+     oferta) y aire pequeño dentro de cada uno: así se leen como tres cosas y
+     no como nueve párrafos seguidos. */
+  gap: var(--gap);
+  justify-content: center;
 }
 
-.nat-sendero__titulo {
+.nat-apertura__encabezado {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--esp-xs);
+  max-width: var(--medida);
+}
+
+/* CONTRASTE DE ESCALA. El titular de esta sección es el más grande de la
+   página después del hero, porque esta sección es la más larga y la que
+   vende lo único que tiene precio. Sube un paso entero sobre --fs-h2. */
+@media (min-width: 62em) {
+  .nat-apertura__titulo {
+    font-size: var(--fs-h1);
+  }
+}
+
+.nat-apertura__cuerpo {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--esp-sm);
+  max-width: var(--medida);
+}
+
+/* El subtítulo baja a --xs y se queda pequeño a propósito: entre el h2 grande
+   y el cuerpo hace de bisagra, no de segundo titular. */
+.nat-apertura__antetitulo {
   margin: 0;
 }
 
-.nat-sendero__lista {
+.nat-apertura__lista {
   gap: var(--esp-3xs);
+  margin-top: var(--esp-2xs);
 }
 
-.nat-sendero__acciones {
-  margin-top: var(--esp-3xs);
+/* ---- El único precio del sitio, y su botón ------------------------------- */
+/* Dos columnas desiguales cerradas por filete arriba y abajo: la cifra manda
+   y el botón la acompaña. Antes eran tres bloques apilados y el precio
+   quedaba como un párrafo más. */
+.nat-oferta {
+  display: grid;
+  gap: var(--esp-md);
+  width: 100%;
+  padding-block: var(--esp-md);
+  border-block: 1px solid var(--color-borde-suave);
 }
 
-.nat-sendero__nota {
+@media (min-width: 40em) {
+  .nat-oferta {
+    grid-template-columns: minmax(0, auto) minmax(0, 1fr);
+    align-items: center;
+    gap: var(--gap);
+  }
+}
+
+.nat-oferta__accion {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--esp-2xs);
+  min-width: 0;
+}
+
+.nat-oferta__nota {
   margin: 0;
+}
+
+.nat-precio {
+  display: flex;
+  flex-direction: column;
+  gap: var(--esp-3xs);
+  min-width: 0;
+  max-width: var(--medida-corta);
+}
+
+.nat-precio__etiqueta {
+  margin: 0;
+  font-family: var(--fuente-titulo);
+  font-size: var(--fs-micro);
+  font-weight: var(--peso-medio);
+  text-transform: uppercase;
+  letter-spacing: var(--tracking-rotulo);
+  color: var(--color-texto-suave);
+}
+
+.nat-precio__valor {
+  display: flex;
+  align-items: baseline;
+  gap: 0.14em;
+  margin: 0;
+  font-family: var(--fuente-display);
+  font-size: var(--paso-4);
+  font-weight: var(--peso-display);
+  font-optical-sizing: auto;
+  font-variation-settings: var(--ejes-display);
+  line-height: var(--alto-linea-apretado);
+  letter-spacing: var(--tracking-display);
+  color: var(--color-acento-texto);
+}
+
+.nat-precio__simbolo {
+  font-size: 0.6em;
+}
+
+.nat-precio__moneda {
+  font-family: var(--fuente-titulo);
+  font-size: var(--fs-pequeno);
+  font-weight: var(--peso-medio);
+  text-transform: uppercase;
+  letter-spacing: var(--tracking-rotulo);
+  color: var(--color-texto-suave);
+}
+
+.nat-precio__unidad {
+  margin: 0;
+  font-size: var(--fs-pequeno);
+  color: var(--color-texto-suave);
 }
 
 /* ---- Micro-gráfico de la ruta: quebrada → riachuelo ----------------------
@@ -159,87 +363,42 @@
   background-color: var(--color-borde-fuerte);
 }
 
-/* ---- El único precio del sitio: ficha, no etiqueta ------------------------ */
-.nat-precio {
-  display: flex;
-  flex-direction: column;
-  gap: var(--esp-3xs);
-  width: 100%;
-  max-width: var(--medida-corta);
-  padding-block: var(--esp-md);
-  border-block: 1px solid var(--color-borde-suave);
-}
-
-.nat-precio__etiqueta {
-  margin: 0;
-  font-family: var(--fuente-titulo);
-  font-size: var(--fs-micro);
-  font-weight: var(--peso-medio);
-  text-transform: uppercase;
-  letter-spacing: var(--tracking-rotulo);
-  color: var(--color-texto-suave);
-}
-
-.nat-precio__valor {
-  display: flex;
-  align-items: baseline;
-  gap: 0.14em;
-  margin: 0;
-  font-family: var(--fuente-display);
-  font-size: var(--paso-4);
-  font-weight: var(--peso-display);
-  font-optical-sizing: auto;
-  font-variation-settings: var(--ejes-display);
-  line-height: var(--alto-linea-apretado);
-  letter-spacing: var(--tracking-display);
-  color: var(--color-acento-texto);
-}
-
-.nat-precio__simbolo {
-  font-size: 0.6em;
-}
-
-.nat-precio__moneda {
-  font-family: var(--fuente-titulo);
-  font-size: var(--fs-pequeno);
-  font-weight: var(--peso-medio);
-  text-transform: uppercase;
-  letter-spacing: var(--tracking-rotulo);
-  color: var(--color-texto-suave);
-}
-
-.nat-precio__unidad {
-  margin: 0;
-  font-size: var(--fs-pequeno);
-  color: var(--color-texto-suave);
-}
-
 /* ==========================================================================
-   2. DOS APUNTES DEL REGISTRO — endémica + migratorias
+   2. LA NOTA AL MARGEN — endémica + migratorias
    Sin foto a propósito: no existe fotografía propia de la Chachalaca, y
    ponerle al lado el retrato de otro pájaro sería mentir con una imagen.
+
+   v3.1: SIN CAJAS. Eran dos tarjetas con borde, relleno y fondo, del mismo
+   tamaño que todo lo demás de la sección; a esa altura de la página el
+   visitante ya ha visto tres rejillas de tarjetas y ésta no aportaba ninguna
+   jerarquía nueva. Ahora son tres columnas desiguales colgando de un único
+   filete: el rótulo en un carril estrecho, la endémica ancha y el dato
+   migratorio en un carril fino separado por su propio filete vertical.
    ========================================================================== */
 .nat-registro {
   display: grid;
   gap: var(--gap);
   margin-top: var(--gap-lg);
-  padding-top: var(--gap-lg);
-  border-top: 1px solid var(--color-borde-suave);
+  padding-top: var(--esp-md);
+  border-top: 1px solid var(--color-borde-fuerte);
 }
 
-@media (min-width: 48em) {
+@media (min-width: 62em) {
   .nat-registro {
-    grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr);
-    align-items: stretch;
-  }
-
-  .nat-registro__titulo {
-    grid-column: 1 / -1;
+    grid-template-columns:
+      minmax(0, 0.55fr)
+      minmax(0, 1.45fr)
+      minmax(0, 0.85fr);
+    align-items: start;
+    gap: var(--gap-lg);
   }
 }
 
+/* El rótulo del bloque baja a --xs y se queda arriba del todo del carril: es
+   un encabezado de margen, no un titular de sección. */
 .nat-registro__titulo {
   margin: 0;
+  max-width: var(--medida-corta);
 }
 
 .nat-ficha {
@@ -247,22 +406,30 @@
   flex-direction: column;
   align-items: flex-start;
   gap: var(--esp-2xs);
-  padding: var(--esp-lg);
-  border: 1px solid var(--color-borde-suave);
-  /* v3: esquina viva, como .tarjeta. Estas dos son fichas de registro —una
-     especie endémica y un dato de migración—, o sea documentos; el redondeo
-     las disfrazaba de tarjeta de producto. */
-  border-radius: 0;
-  background-color: var(--color-superficie);
+  min-width: 0;
 }
 
-.nat-ficha--endemica {
-  border-color: rgb(var(--verde-oliva-rgb) / 0.32);
-  background-color: rgb(var(--amarillo-rgb) / 0.1);
+/* El único acento de este bloque es la píldora ámbar de la endémica, que ya
+   lleva su propio color en base.css. El fondo tintado sobraba: dos señales
+   para el mismo hecho. Lo que sí distingue a la endémica de los dos apuntes es
+   la ESCALA: su párrafo se queda en el cuerpo base y el del dato migratorio
+   baja a --fs-pequeno. De los dos, el que manda es el primero. */
+.nat-ficha--endemica .nat-ficha__texto {
+  font-size: var(--fs-cuerpo);
 }
 
 .nat-ficha--dato {
-  justify-content: center;
+  padding-left: var(--esp-md);
+  border-left: 1px solid var(--color-borde-suave);
+}
+
+@media (max-width: 61.99em) {
+  .nat-ficha--dato {
+    padding-left: 0;
+    padding-top: var(--esp-md);
+    border-left: 0;
+    border-top: 1px solid var(--color-borde-suave);
+  }
 }
 
 .nat-ficha__titulo {
@@ -301,10 +468,29 @@
 }
 
 /* ==========================================================================
-   3. EL CENSO — los ambientes del predio, con foto real
+   3. LA VIDA — el censo a la izquierda, la columna de vídeo a sangre derecha
    ========================================================================== */
+.nat-vida {
+  display: grid;
+  gap: var(--gap-lg);
+  margin-top: var(--esp-seccion);
+  padding-inline: var(--nat-margen);
+}
+
+/* El sangrado entra tarde (72em) porque por debajo de ese ancho la columna de
+   vídeo dejaría al censo menos de 32rem y sus fichas de ambiente se
+   estrangulan. Hasta ahí, apilado: censo y después vídeo. */
+@media (min-width: 72em) {
+  .nat-vida {
+    grid-template-columns: minmax(0, 1fr) var(--nat-col-video);
+    align-items: start;
+    gap: var(--gap-lg);
+    padding-inline-end: 0;
+  }
+}
+
 .nat-censo {
-  margin-top: var(--gap-lg);
+  min-width: 0;
 }
 
 .nat-censo__titulo {
@@ -329,7 +515,10 @@
   }
 }
 
-@media (min-width: 64em) {
+/* El paso a tres columnas se retrasa de 64em a 78em: con la columna de vídeo
+   a la derecha, el censo mide bastante menos que la página y a 64em las tres
+   fichas caían por debajo de 15rem cada una. */
+@media (min-width: 78em) {
   .nat-habitats {
     grid-template-columns: repeat(3, minmax(0, 1fr));
   }
@@ -345,7 +534,7 @@
   align-items: flex-end;
   min-height: var(--nat-alto-habitat);
   overflow: hidden;
-  /* v3: los cinco ambientes son fotografía a sangre con el dato encima, no
+  /* v3: los cuatro ambientes son fotografía a sangre con el dato encima, no
      tarjetas. Fuera el radio y fuera la sombra: el velo de bosque hondo del
      ::after ya da todo el límite que necesita cada pieza contra la crema. */
   border-radius: 0;
@@ -353,6 +542,9 @@
   isolation: isolate;
 }
 
+/* El jardín (347 plantas) es el dato grande del censo y ocupa toda la fila:
+   se le da más alto que a los otros tres para que la diferencia se vea antes
+   de leer la cifra. */
 .nat-habitat--ancho {
   min-height: var(--nat-alto-habitat-ancho);
 }
@@ -472,26 +664,73 @@
   max-width: var(--medida);
 }
 
+/* ---- LA COLUMNA DE VÍDEO -------------------------------------------------
+   Metraje propio, vertical (720×1280) y sin pista de audio. No es un
+   reproductor: no lleva controles, no lleva icono de play y no se puede
+   pausar a mano. Es una fotografía que respira, y por eso se trata con las
+   mismas reglas que una foto: esquina viva, sin sombra y pie debajo.
+
+   El width/height del atributo reserva la caja antes de que baje un byte, así
+   que el layout no salta. El póster es el suelo: si la red falla, si el
+   navegador bloquea la reproducción automática o si el visitante pide menos
+   movimiento, lo que queda es esa imagen fija y la composición no cambia.
+   -------------------------------------------------------------------------- */
+.nat-video {
+  min-width: 0;
+  /* En móvil el vertical no puede ocupar el ancho entero: a 375 px daría
+     667 px de alto y se comería la pantalla. Se acota y se queda a la
+     izquierda, alineado con el texto, no centrado. */
+  width: min(100%, 17rem);
+}
+
+@media (min-width: 72em) {
+  .nat-video {
+    width: auto;
+    /* Se queda a la vista mientras se recorre el censo, que es largo. No es
+       una animación: es posición. Con el header fijo descontado. */
+    position: sticky;
+    top: calc(var(--alto-header) + var(--esp-md));
+  }
+}
+
+.nat-video__pieza {
+  display: block;
+  width: 100%;
+  height: auto;
+  border-radius: 0;
+  box-shadow: none;
+  /* Mientras el póster carga, el hueco es del mismo gris verdoso que usa
+     .marco para las fotos: nunca un rectángulo negro. */
+  background-color: rgb(var(--gris-verde-rgb) / 0.3);
+  object-fit: cover;
+}
+
+.nat-video__pie {
+  margin-top: var(--esp-2xs);
+  font-size: var(--fs-micro);
+  color: var(--color-texto-suave);
+}
+
 /* ==========================================================================
    4. CONSERVACIÓN — Cedro y Guayacán Amarillo (CITES III)
+   v3.1: era una caja con borde, fondo propio y --esp-xl de relleno, o sea la
+   pieza con MÁS presencia visual de la sección… para el dato más pequeño que
+   contiene. Ahora es lo que es: el pie de la sección. Un filete, tres
+   columnas y nada más.
    ========================================================================== */
 .nat-conservacion {
   display: grid;
   gap: var(--gap);
   margin-top: var(--gap-lg);
-  padding: var(--esp-lg);
-  border: 1px solid var(--color-borde-suave);
-  /* v3: esquina viva. Ver §2: aquí tampoco hay tarjetas, hay documentos. */
-  border-radius: 0;
-  background-color: var(--color-superficie-solida);
+  padding-top: var(--esp-md);
+  border-top: 1px solid var(--color-borde-suave);
 }
 
 @media (min-width: 54em) {
   .nat-conservacion {
-    grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr);
-    align-items: center;
+    grid-template-columns: minmax(0, 1.3fr) minmax(0, 0.7fr);
+    align-items: start;
     gap: var(--gap-lg);
-    padding: var(--esp-xl);
   }
 }
 
@@ -518,6 +757,15 @@
   list-style: none;
 }
 
+/* Los dos nombres van uno al lado del otro en cuanto hay sitio: son dos
+   rótulos cortos y apilados dejaban un carril medio vacío. */
+@media (min-width: 30em) {
+  .nat-especies {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: var(--gap-sm);
+  }
+}
+
 .nat-especie {
   padding-left: var(--esp-sm);
   border-left: var(--nat-filete) solid var(--color-borde-fuerte);
@@ -539,6 +787,8 @@
    5. EL MURO DEL CONCURSO
    Banda salvia a todo el ancho que llega hasta el borde inferior de la
    sección (de ahí el margen negativo, que compensa el padding de .seccion).
+   NO SE TOCA EN v3.1: ya era la pieza que rompía el ritmo, y los créditos de
+   los fotógrafos no se mueven de donde están.
    ========================================================================== */
 .nat-muro-banda {
   margin-top: var(--esp-seccion);

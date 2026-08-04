@@ -19,22 +19,46 @@
        img/parque/parque-34.jpg  675x1200   hileras de plantas bajo malla de sombra
        img/parque/parque-52.jpg  675x1200   franja florecida al borde del prado
        img/parque/parque-32.jpg  900x1200   charla a un grupo bajo la zona techada
+
+     COMPOSICIÓN (v3.1) — LA SECCIÓN TIPOGRÁFICA DEL SITIO
+     Es la sección más corta, así que es la que puede permitirse ser la más
+     tipográfica, y la que menos necesita fotografía grande para sostenerse:
+
+       1 · .col-portada — el titular más grande de la página después del hero,
+           con la entradilla descolgada en un carril estrecho a su derecha.
+           Nada centrado.
+       2 · .col-paradas — deja de ser una rejilla de tres tarjetas iguales y
+           pasa a ser lo que el texto dice que es: un ITINERARIO. Tres filas
+           apiladas separadas por filete, con la fotografía en un carril
+           estrecho a la izquierda y el titular grande a la derecha. Se lee
+           como un índice, no como un catálogo de producto.
+       3 · .col-jornada — la charla al lado y los cuatro hitos en escalera de
+           dos por dos, no en una columna de cuatro renglones.
+       4 · .col-cierre — sin cambios.
+
+     Ni una palabra del texto cambia, y la sección sigue SIN un solo dígito
+     que no sea una hora (ARQUITECTURA-V3 §10): los rótulos de parada siguen
+     escritos con letras («Primera», «Segunda», «Tercera») y no se numeran.
      ========================================================================== -->
 
 <section id="colegios" class="seccion seccion--alt col" aria-labelledby="colegios-titulo">
   <div class="contenedor contenedor--ancho">
 
-    <header class="seccion-encabezado reveal">
-      <p class="eyebrow">Salidas pedagógicas</p>
-      <h2 id="colegios-titulo" class="titulo-seccion">Un día de colegio que no cabe en un aula</h2>
-      <p class="entradilla">
+    <header class="col-portada reveal">
+      <div class="col-portada__titulo">
+        <p class="eyebrow">Salidas pedagógicas</p>
+        <h2 id="colegios-titulo" class="titulo-seccion col-titular">
+          Un día de colegio que no cabe en un aula
+        </h2>
+      </div>
+      <p class="entradilla col-portada__entradilla">
         Una jornada fuera del aula, de la llegada al regreso del bus. Con tres paradas
         pensadas para un curso: el observatorio de aves, el de plantas y el jardín
         de polinizadores.
       </p>
     </header>
 
-    <!-- ---------- Las tres paradas ---------- -->
+    <!-- ---------- Las tres paradas, en fila india ---------- -->
     <ul class="col-paradas reveal-secuencia">
 
       <li class="col-parada reveal">
@@ -52,7 +76,7 @@
           <figcaption>La parada de aves, frente al mural de la caseta</figcaption>
         </figure>
         <p class="col-parada__etiqueta">Primera parada</p>
-        <h3 class="titulo-seccion titulo-seccion--xs">Bajar la voz y levantar la mirada</h3>
+        <h3 class="titulo-seccion titulo-seccion--sm">Bajar la voz y levantar la mirada</h3>
         <p>
           El grupo se reparte, se queda quieto y aprende lo primero del pajareo:
           escuchar antes de mirar. Cada quien anota lo que oye, busca de dónde viene
@@ -75,7 +99,7 @@
           <figcaption>Las plantas, en hilera y al alcance de la mano</figcaption>
         </figure>
         <p class="col-parada__etiqueta">Segunda parada</p>
-        <h3 class="titulo-seccion titulo-seccion--xs">Que una mata deje de ser «una mata»</h3>
+        <h3 class="titulo-seccion titulo-seccion--sm">Que una mata deje de ser «una mata»</h3>
         <p>
           Aquí se aprende a mirar una hoja: la forma, el borde, la nervadura, el olor.
           Los estudiantes se van con nombres propios donde antes sólo veían verde.
@@ -97,7 +121,7 @@
           <figcaption>Las floraciones donde se hace el avistamiento</figcaption>
         </figure>
         <p class="col-parada__etiqueta">Tercera parada</p>
-        <h3 class="titulo-seccion titulo-seccion--xs">Sentarse a esperar una mariposa</h3>
+        <h3 class="titulo-seccion titulo-seccion--sm">Sentarse a esperar una mariposa</h3>
         <p>
           La parada más quieta del día. El grupo se sienta frente a las floraciones del
           jardín de polinizadores y espera: mariposas, abejas y quien más venga a

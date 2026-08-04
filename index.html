@@ -28,7 +28,7 @@
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght,SOFT,WONK@9..144,300..700,0..100,0..1&family=Jost:wght@300;400;500&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,300..700&family=Fraunces:opsz,wght,SOFT,WONK@9..144,300..700,0..100,0..1&display=swap">
 
 <link rel="preload" as="image" href="img/aereo-predio.jpg" fetchpriority="high">
 
@@ -198,10 +198,24 @@
      FRAGMENTO: INICIO  ·  ancla #inicio
      CSS propio: styles/sections/inicio.css
 
-     El hero a sangre de v2 ya no existe: #inicio pasa a ser una sección normal
-     del sistema (.seccion > .contenedor > .seccion-encabezado), como todas.
-     El <head> ya carga inicio.css; hero.css sigue en disco sólo porque lo usa
-     en/index.html, que todavía va con la arquitectura vieja.
+     v4 «abrir de verdad». Hasta v3 esta sección era una más de la retícula:
+     rótulo, titular, entradilla y una foto dentro del contenedor, igual que
+     las ocho siguientes. Ahora se parte en DOS MOVIMIENTOS de escala distinta,
+     que es lo que separa una portada de un listado:
+
+       1. PORTADA A SANGRE — una sola fotografía ocupando la ventana entera
+          (menos la altura de la cabecera fija), con el titular encima en
+          Fraunces fino y grande. Es lo primero que se ve y no comparte fila
+          con nada.
+       2. EL PLANO-ÍNDICE — el aéreo, que ya no va metido en el contenedor:
+          cruza la ventana de borde a borde y llega a los 729 px de alto en un
+          escritorio de 1440. La idea de v3 se conserva entera (cuatro anclas
+          que bajan a cuatro secciones); lo que cambia es el tamaño.
+
+     Los dos bloques son hijos DIRECTOS del <section>, no del .contenedor: así
+     miden el 100 % del ancho del <body> —que ya descuenta la barra de scroll—
+     y se van a sangre sin recurrir a 100vw, que sí desborda 15 px. El texto de
+     cada bloque vuelve a la retícula con su propio .contenedor.
 
      QUÉ POSEE ESTA SECCIÓN (ARQUITECTURA-V3 §9) Y NADIE MÁS
        · el tagline de marca, que va en el .eyebrow
@@ -221,182 +235,223 @@
        resume: para eso están las cuatro anclas del plano.
 
      POR QUÉ EL <h1>
-       La estructura de sección pide h2.titulo-seccion, y así se ve: la clase
-       .titulo-seccion gana por especificidad a las reglas de h1 de base.css, de
-       modo que el cuerpo, el interlineado y el tracking son EXACTAMENTE los de
-       un h2. Sólo cambia la etiqueta, porque #inicio es la primera sección de
-       la página y ninguna otra lleva h1: dejarla en h2 dejaría el documento sin
-       encabezado de nivel 1 (BRIEF, «Calidad exigida» → SEO y accesibilidad).
-       Si el ensamblador exige h2 literal, es un carácter: cámbialo y nada más.
+       La estructura de sección pide h2.titulo-seccion, y de ahí saca el peso,
+       el tracking y la familia. Sólo cambia la etiqueta, porque #inicio es la
+       primera sección de la página y ninguna otra lleva h1: dejarla en h2
+       dejaría el documento sin encabezado de nivel 1 (BRIEF, «Calidad
+       exigida» → SEO y accesibilidad). Si el ensamblador exige h2 literal, es
+       un carácter: cámbialo y nada más.
      ========================================================================== -->
 <section class="seccion inicio" id="inicio" aria-labelledby="inicio-titulo">
-  <div class="contenedor contenedor--ancho inicio__interior reveal-secuencia">
 
-    <header class="seccion-encabezado inicio__encabezado reveal">
-      <p class="eyebrow">Oasis para la recreación y el bienestar</p>
+  <!-- ======================================================================
+       1. PORTADA A SANGRE
+       La fotografía NO se difiere: es el LCP de la página, así que va con
+       fetchpriority alto y sin el atributo de carga perezosa. Es un <img> y no
+       un background-image justamente por eso —un fondo de CSS no se puede
+       priorizar ni describir— y porque así lleva su propio texto alternativo.
 
-      <h1 class="titulo-seccion inicio__titulo" id="inicio-titulo">
-        Escápate de la ciudad sin salir de ella
-      </h1>
+       El velo es un <div> vacío y no un ::after de la portada porque encima
+       de él va el texto: con un pseudoelemento habría que ordenar tres capas
+       con z-index sobre el mismo elemento y el orden natural del documento ya
+       resuelve dos de ellas.
+       ====================================================================== -->
+  <div class="inicio__portada">
 
-      <p class="entradilla">
-        Cuatro hectáreas de bosque a 10&nbsp;minutos del Anillo Vial. Nosotros
-        ponemos los árboles; el plan lo pones tú.
-      </p>
+    <img
+      class="inicio__portada-foto"
+      src="img/portada-inicio.jpg"
+      width="1400"
+      height="2489"
+      alt="Prado del predio en un mediodía despejado: dos árboles grandes de copa abierta dan sombra sobre el césped, una hilera de arbustos cierra el fondo y tres materas de barro con flores se alinean en primer plano sobre un murito de piedra."
+      fetchpriority="high"
+      decoding="async"
+    />
 
-      <div class="grupo-botones inicio__acciones">
-        <a
-          class="btn btn-whatsapp btn-grande"
-          href="https://wa.me/573166758362?text=Hola%2C%20quiero%20reservar%20mi%20escape%20en%20Vegas%20del%20Verde.%20%C2%BFQu%C3%A9%20fechas%20tienen%20libres%3F"
-          target="_blank"
-          rel="noopener"
-        >
-          <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" focusable="false">
-            <path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.46 1.32 4.96L2 22l5.25-1.38a9.87 9.87 0 0 0 4.79 1.22h.01c5.46 0 9.91-4.45 9.91-9.91 0-2.65-1.03-5.14-2.9-7.01A9.82 9.82 0 0 0 12.04 2Zm0 18.02h-.01a8.2 8.2 0 0 1-4.19-1.15l-.3-.18-3.12.82.83-3.04-.2-.31a8.19 8.19 0 0 1-1.26-4.38c0-4.54 3.7-8.24 8.25-8.24 2.2 0 4.27.86 5.83 2.42a8.2 8.2 0 0 1 2.41 5.83c0 4.54-3.7 8.23-8.24 8.23Z"/>
-            <path d="M17.47 14.38c-.3-.15-1.76-.87-2.03-.97-.27-.1-.47-.15-.67.15-.2.3-.77.97-.94 1.17-.17.2-.35.22-.65.07-.3-.15-1.26-.46-2.4-1.48-.89-.79-1.49-1.77-1.66-2.07-.17-.3-.02-.46.13-.61.13-.13.3-.35.45-.52.15-.17.2-.3.3-.5.1-.2.05-.37-.02-.52-.08-.15-.67-1.61-.92-2.21-.24-.58-.49-.5-.67-.51h-.57c-.2 0-.52.07-.79.37-.27.3-1.04 1.01-1.04 2.47s1.06 2.87 1.21 3.07c.15.2 2.1 3.2 5.08 4.49.71.31 1.26.49 1.69.63.71.23 1.36.19 1.87.12.57-.09 1.76-.72 2.01-1.41.25-.69.25-1.29.17-1.41-.07-.12-.27-.2-.57-.35Z"/>
-          </svg>
-          Reserva tu escape
-        </a>
-      </div>
-    </header>
+    <div class="inicio__portada-velo" aria-hidden="true"></div>
 
-    <!-- ====================================================================
-         EL PLANO-ÍNDICE  (ARQUITECTURA-V3 §1.1)
-         El aéreo deja de ser papel pintado: es el índice del sitio entero.
-         Cuatro anclas internas —Espacios, Sendero, Vivero, Cómo llegar— para
-         que el visitante vea de qué se compone el predio antes de leer nada, y
-         para que ninguna sección de más abajo tenga que re-listar lo que hay.
+    <div class="contenedor contenedor--ancho inicio__portada-interior">
+      <header class="seccion-encabezado inicio__encabezado reveal">
+        <p class="eyebrow">Oasis para la recreación y el bienestar</p>
 
-         Las cuatro coordenadas (left/top en %) se eligieron ampliando el render
-         antes de fijarlas; van en inicio.css, no aquí, para que mover un punto
-         no obligue a tocar el HTML.
+        <h1 class="titulo-seccion inicio__titulo" id="inicio-titulo">
+          Escápate de la ciudad sin salir de ella
+        </h1>
 
-         La superposición sólo existe a partir de 64em. Por debajo, las cuatro
-         anclas bajan del plano y se convierten en una rejilla de pastillas: en
-         una pantalla de teléfono un punto de 12 px sobre una foto de 190 px de
-         alto no se acierta con el dedo (inicio.css lo explica en detalle).
+        <p class="entradilla">
+          Cuatro hectáreas de bosque a 10&nbsp;minutos del Anillo Vial. Nosotros
+          ponemos los árboles; el plan lo pones tú.
+        </p>
 
-         La foto NO se difiere: es el LCP de la página, así que va con
-         fetchpriority alto y sin el atributo de carga perezosa.
-         ==================================================================== -->
-    <figure class="inicio__plano reveal">
-      <div class="inicio__plano-lienzo">
+        <div class="grupo-botones inicio__acciones">
+          <a
+            class="btn btn-whatsapp btn-grande"
+            href="https://wa.me/573166758362?text=Hola%2C%20quiero%20reservar%20mi%20escape%20en%20Vegas%20del%20Verde.%20%C2%BFQu%C3%A9%20fechas%20tienen%20libres%3F"
+            target="_blank"
+            rel="noopener"
+          >
+            <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" focusable="false">
+              <path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.46 1.32 4.96L2 22l5.25-1.38a9.87 9.87 0 0 0 4.79 1.22h.01c5.46 0 9.91-4.45 9.91-9.91 0-2.65-1.03-5.14-2.9-7.01A9.82 9.82 0 0 0 12.04 2Zm0 18.02h-.01a8.2 8.2 0 0 1-4.19-1.15l-.3-.18-3.12.82.83-3.04-.2-.31a8.19 8.19 0 0 1-1.26-4.38c0-4.54 3.7-8.24 8.25-8.24 2.2 0 4.27.86 5.83 2.42a8.2 8.2 0 0 1 2.41 5.83c0 4.54-3.7 8.23-8.24 8.23Z"/>
+              <path d="M17.47 14.38c-.3-.15-1.76-.87-2.03-.97-.27-.1-.47-.15-.67.15-.2.3-.77.97-.94 1.17-.17.2-.35.22-.65.07-.3-.15-1.26-.46-2.4-1.48-.89-.79-1.49-1.77-1.66-2.07-.17-.3-.02-.46.13-.61.13-.13.3-.35.45-.52.15-.17.2-.3.3-.5.1-.2.05-.37-.02-.52-.08-.15-.67-1.61-.92-2.21-.24-.58-.49-.5-.67-.51h-.57c-.2 0-.52.07-.79.37-.27.3-1.04 1.01-1.04 2.47s1.06 2.87 1.21 3.07c.15.2 2.1 3.2 5.08 4.49.71.31 1.26.49 1.69.63.71.23 1.36.19 1.87.12.57-.09 1.76-.72 2.01-1.41.25-.69.25-1.29.17-1.41-.07-.12-.27-.2-.57-.35Z"/>
+            </svg>
+            Reserva tu escape
+          </a>
+        </div>
+      </header>
+    </div>
+
+  </div>
+
+  <!-- ======================================================================
+       2. EL PLANO-ÍNDICE  (ARQUITECTURA-V3 §1.1)
+       El aéreo deja de ser papel pintado: es el índice del sitio entero.
+       Cuatro anclas internas —Espacios, Sendero, Vivero, Cómo llegar— para
+       que el visitante vea de qué se compone el predio antes de leer nada, y
+       para que ninguna sección de más abajo tenga que re-listar lo que hay.
+
+       Las cuatro coordenadas (left/top en %) se eligieron ampliando el render
+       antes de fijarlas; van en inicio.css, no aquí, para que mover un punto
+       no obligue a tocar el HTML.
+
+       TRES CAJAS Y NO UNA, a propósito:
+         .inicio__plano-lienzo → sólo da el sistema de coordenadas. No recorta.
+         .inicio__plano-marco  → el que lleva la proporción y el recorte.
+         .inicio__anclas       → hermana del marco, NO hija. Si viviera dentro
+           del marco, el `overflow: hidden` que recorta la foto se comería la
+           rejilla de pastillas que las anclas forman debajo del plano en
+           móvil y en tableta.
+
+       La superposición sólo existe a partir de 64em. Por debajo, las cuatro
+       anclas bajan del plano y se convierten en una rejilla de pastillas: en
+       una pantalla de teléfono un punto de 12 px sobre una foto de 190 px de
+       alto no se acierta con el dedo (inicio.css lo explica en detalle).
+       ====================================================================== -->
+  <figure class="inicio__plano reveal">
+
+    <div class="inicio__plano-lienzo">
+
+      <div class="inicio__plano-marco">
         <img
           class="inicio__plano-foto"
           src="img/aereo-predio.jpg"
           width="2000"
           height="1013"
           alt="Vista aérea del predio de Vegas del Verde: un paseo ancho de tierra clara cruza en diagonal el prado, con las construcciones de techo blanco y la estructura de techo translúcido arriba, una vela de sombra triangular sobre el césped y el camino de acceso abajo a la derecha; el bosque lo rodea por los cuatro costados."
-          fetchpriority="high"
+          loading="lazy"
           decoding="async"
         />
-
-        <ul class="inicio__anclas" role="list" aria-label="Índice del predio sobre el plano">
-          <li class="inicio__ancla-item inicio__ancla-item--vivero">
-            <a class="inicio__ancla" href="#vivero">
-              <span class="inicio__punto" aria-hidden="true"></span>
-              <span class="inicio__rotulo">Vivero</span>
-            </a>
-          </li>
-          <li class="inicio__ancla-item inicio__ancla-item--sendero">
-            <a class="inicio__ancla" href="#naturaleza">
-              <span class="inicio__punto" aria-hidden="true"></span>
-              <span class="inicio__rotulo">Sendero</span>
-            </a>
-          </li>
-          <li class="inicio__ancla-item inicio__ancla-item--espacios">
-            <a class="inicio__ancla" href="#espacios">
-              <span class="inicio__punto" aria-hidden="true"></span>
-              <span class="inicio__rotulo">Espacios</span>
-            </a>
-          </li>
-          <li class="inicio__ancla-item inicio__ancla-item--llegar">
-            <a class="inicio__ancla" href="#ubicacion">
-              <span class="inicio__punto" aria-hidden="true"></span>
-              <span class="inicio__rotulo">Cómo llegar</span>
-            </a>
-          </li>
-        </ul>
       </div>
 
-      <figcaption class="inicio__plano-pie">
-        El predio visto desde arriba. Cada punto del plano baja a esa parte del sitio.
-      </figcaption>
-    </figure>
+      <ul class="inicio__anclas" role="list" aria-label="Índice del predio sobre el plano">
+        <li class="inicio__ancla-item inicio__ancla-item--vivero">
+          <a class="inicio__ancla" href="#vivero">
+            <span class="inicio__punto" aria-hidden="true"></span>
+            <span class="inicio__rotulo">Vivero</span>
+          </a>
+        </li>
+        <li class="inicio__ancla-item inicio__ancla-item--sendero">
+          <a class="inicio__ancla" href="#naturaleza">
+            <span class="inicio__punto" aria-hidden="true"></span>
+            <span class="inicio__rotulo">Sendero</span>
+          </a>
+        </li>
+        <li class="inicio__ancla-item inicio__ancla-item--espacios">
+          <a class="inicio__ancla" href="#espacios">
+            <span class="inicio__punto" aria-hidden="true"></span>
+            <span class="inicio__rotulo">Espacios</span>
+          </a>
+        </li>
+        <li class="inicio__ancla-item inicio__ancla-item--llegar">
+          <a class="inicio__ancla" href="#ubicacion">
+            <span class="inicio__punto" aria-hidden="true"></span>
+            <span class="inicio__rotulo">Cómo llegar</span>
+          </a>
+        </li>
+      </ul>
 
-    <!-- ====================================================================
-         TIRA DE AVES — ATMÓSFERA, NO ARCHIVO  (ARQUITECTURA-V3 §5)
-         Seis fotos del concurso en papel decorativo: aquí NO llevan ficha ni
-         crédito visible, porque el único sitio del sitio con fichas acreditadas
-         es el muro de #naturaleza y duplicarlas era justo el defecto medido.
-         El crédito al fotógrafo no se pierde: va en el `alt`, y sale literal de
-         img/aves/_creditos.json. Nunca se inventa un autor.
-         Orden: ave-46 · ave-38 · ave-27 · ave-07 · ave-56 · ave-31.
-         ==================================================================== -->
-    <ul class="inicio__aves reveal" role="list">
-      <li class="inicio__ave">
-        <img
-          src="img/aves/ave-46-momotus-subrufescens.jpg"
-          width="867"
-          height="1300"
-          alt="Ave de corona turquesa y cola larga (Momotus subrufescens) posada en una rama del predio, con una baya en el pico. Fotografía de Leyner Lozano."
-          loading="lazy"
-          decoding="async"
-        />
-      </li>
-      <li class="inicio__ave">
-        <img
-          src="img/aves/ave-38-carpintero.jpg"
-          width="1300"
-          height="1040"
-          alt="Carpintero de cresta roja y espalda oscura, agarrado al tronco de un árbol entre hojas verdes. Fotografía de Jesus Lopez."
-          loading="lazy"
-          decoding="async"
-        />
-      </li>
-      <li class="inicio__ave">
-        <img
-          src="img/aves/ave-27-colibri.jpg"
-          width="867"
-          height="1300"
-          alt="Colibrí de plumaje verde en pleno vuelo, con las alas abiertas junto a una flor naranja de heliconia. Fotografía de Eritmoratto."
-          loading="lazy"
-          decoding="async"
-        />
-      </li>
-      <li class="inicio__ave">
-        <img
-          src="img/aves/ave-07-thraupis-episcopus.jpg"
-          width="1040"
-          height="1300"
-          alt="Ave de plumaje azul pálido (Thraupis episcopus) posada en una rama con musgo, sobre un fondo verde desenfocado. Fotografía de Jonathan Layton Avila."
-          loading="lazy"
-          decoding="async"
-        />
-      </li>
-      <li class="inicio__ave">
-        <img
-          src="img/aves/ave-56-canario.jpg"
-          width="1300"
-          height="1300"
-          alt="Canario amarillo caminando sobre el césped, entre hojas secas. Fotografía de Yeraldilsa Gamboa."
-          loading="lazy"
-          decoding="async"
-        />
-      </li>
-      <li class="inicio__ave">
-        <img
-          src="img/aves/ave-31-periquito-bronceado.jpg"
-          width="867"
-          height="1300"
-          alt="Periquito bronceado, verde y de pico anaranjado, inclinado sobre una rama cubierta de plantas epífitas, con luz cálida de la tarde. Fotografía de Fabiola Rueda."
-          loading="lazy"
-          decoding="async"
-        />
-      </li>
-    </ul>
+    </div>
 
-  </div>
+    <figcaption class="inicio__plano-pie">
+      El predio visto desde arriba. Cada punto del plano baja a esa parte del sitio.
+    </figcaption>
+
+  </figure>
+
+  <!-- ======================================================================
+       TIRA DE AVES — ATMÓSFERA, NO ARCHIVO  (ARQUITECTURA-V3 §5)
+       Seis fotos del concurso en papel decorativo: aquí NO llevan ficha ni
+       crédito visible, porque el único sitio del sitio con fichas acreditadas
+       es el muro de #naturaleza y duplicarlas era justo el defecto medido.
+       El crédito al fotógrafo no se pierde: va en el `alt`, y sale literal de
+       img/aves/_creditos.json. Nunca se inventa un autor.
+       Orden: ave-46 · ave-38 · ave-27 · ave-07 · ave-56 · ave-31.
+       La tira ya no va centrada: arranca en el margen izquierdo del
+       contenedor, alineada con el pie del plano. Seis cuadrados centrados
+       debajo de una imagen a sangre eran otra fila simétrica más.
+       ====================================================================== -->
+  <ul class="inicio__aves reveal" role="list">
+    <li class="inicio__ave">
+      <img
+        src="img/aves/ave-46-momotus-subrufescens.jpg"
+        width="867"
+        height="1300"
+        alt="Ave de corona turquesa y cola larga (Momotus subrufescens) posada en una rama del predio, con una baya en el pico. Fotografía de Leyner Lozano."
+        loading="lazy"
+        decoding="async"
+      />
+    </li>
+    <li class="inicio__ave">
+      <img
+        src="img/aves/ave-38-carpintero.jpg"
+        width="1300"
+        height="1040"
+        alt="Carpintero de cresta roja y espalda oscura, agarrado al tronco de un árbol entre hojas verdes. Fotografía de Jesus Lopez."
+        loading="lazy"
+        decoding="async"
+      />
+    </li>
+    <li class="inicio__ave">
+      <img
+        src="img/aves/ave-27-colibri.jpg"
+        width="867"
+        height="1300"
+        alt="Colibrí de plumaje verde en pleno vuelo, con las alas abiertas junto a una flor naranja de heliconia. Fotografía de Eritmoratto."
+        loading="lazy"
+        decoding="async"
+      />
+    </li>
+    <li class="inicio__ave">
+      <img
+        src="img/aves/ave-07-thraupis-episcopus.jpg"
+        width="1040"
+        height="1300"
+        alt="Ave de plumaje azul pálido (Thraupis episcopus) posada en una rama con musgo, sobre un fondo verde desenfocado. Fotografía de Jonathan Layton Avila."
+        loading="lazy"
+        decoding="async"
+      />
+    </li>
+    <li class="inicio__ave">
+      <img
+        src="img/aves/ave-56-canario.jpg"
+        width="1300"
+        height="1300"
+        alt="Canario amarillo caminando sobre el césped, entre hojas secas. Fotografía de Yeraldilsa Gamboa."
+        loading="lazy"
+        decoding="async"
+      />
+    </li>
+    <li class="inicio__ave">
+      <img
+        src="img/aves/ave-31-periquito-bronceado.jpg"
+        width="867"
+        height="1300"
+        alt="Periquito bronceado, verde y de pico anaranjado, inclinado sobre una rama cubierta de plantas epífitas, con luz cálida de la tarde. Fotografía de Fabiola Rueda."
+        loading="lazy"
+        decoding="async"
+      />
+    </li>
+  </ul>
+
 </section>
 
 <!-- ==========================================================================
@@ -415,6 +470,25 @@
      · el aforo o el precio de cualquier espacio
      Se ENLAZA a #espacios; no se describe ninguno.
 
+     v4 — POR QUÉ SE REORDENARON LAS CAJAS (el texto no cambió ni una coma)
+     v3 servía esto en el compás común: encabezado con entradilla, rejilla de
+     dos columnas, caja de servicios centrada, tres pilares en tarjeta. Nueve
+     secciones seguidas con ese mismo compás son lo que hace que una página se
+     lea como generada. Aquí se rompe con una composición ASIMÉTRICA:
+
+       · el TITULAR se queda solo en una columna estrecha a la izquierda y se
+         pega al scroll; el DISCURSO entero —entradilla incluida— pasa a la
+         columna ancha de la derecha. Titular a un lado, contenido al otro.
+       · la FOTO del prado sale del contenedor y sangra por el borde
+         izquierdo de la ventana hasta dos tercios del ancho de la retícula.
+         Ya no es media rejilla dentro de un marco: es una imagen grande y
+         descentrada.
+       · «Lo básico, resuelto» deja de ser una caja con filete y centrada, y
+         pasa a una tira alineada a la izquierda bajo un hilo.
+       · el COMPROMISO invierte el sentido de la sangría —texto a la
+         izquierda, panel de aves saliéndose por la derecha— para que los dos
+         bloques de fotografía no repitan el mismo gesto.
+
      Bloques: (a) el predio · (b) lo básico resuelto · (c) el compromiso
      Fotos: parque-05.jpg (arbolado y prado a ras de suelo, verificada) y
             parque-20.jpg (el panel pintado con aves del predio, verificada:
@@ -423,60 +497,79 @@
      ========================================================================== -->
 <section class="seccion nosotros" id="nosotros" aria-labelledby="nosotros-titulo">
 
-  <div class="contenedor">
+  <!-- (a) EL PREDIO ---------------------------------------------------------
+       Dos columnas de anchos distintos y alturas distintas: 5 de 12 para el
+       titular y 6 de 12 para el discurso, con una calle vacía en medio. La
+       columna del titular se queda pegada al scroll mientras se lee el texto
+       de al lado, que es lo que hace que la asimetría se lea como decisión y
+       no como descuadre.
+       ---------------------------------------------------------------------- -->
+  <div class="contenedor contenedor--ancho nosotros__predio">
 
-    <header class="seccion-encabezado reveal">
+    <header class="seccion-encabezado nosotros__titular reveal reveal--izq">
       <p class="eyebrow">El predio</p>
       <h2 class="titulo-seccion" id="nosotros-titulo">
         Lo que hay detrás de la portería
       </h2>
+    </header>
+
+    <!-- Sin `reveal--der`: la entrada horizontal desplaza 28 px hacia la
+         DERECHA, y en una columna que ocupa todo el ancho eso sí genera
+         desbordamiento real (a la izquierda el navegador no deja desplazar;
+         a la derecha, sí). El bloque entra en vertical, como el resto. -->
+    <div class="nosotros__discurso reveal">
       <p class="entradilla">
         Un predio privado con portería y vigilancia, no un parque público.
         Lo básico ya está puesto antes de que llegues.
       </p>
-    </header>
+      <p>
+        Entras por una portería. A partir de ahí la ciudad se queda afuera:
+        un refugio natural que brinda tranquilidad y seguridad en medio del
+        bullicio urbano.
+      </p>
+      <p>
+        Eso cambia cómo se siente el día. Puedes traer un curso completo o una
+        celebración con toda la familia y bajar la guardia, porque el predio
+        está cerrado y hay vigilancia privada mientras dure tu plan.
+      </p>
+      <p>
+        Se alquila a colegios, empresas y particulares. Tú decides qué pasa
+        adentro.
+      </p>
 
-    <!-- (a) EL PREDIO -------------------------------------------------------- -->
-    <div class="nosotros__intro">
-
-      <div class="nosotros__texto reveal reveal--izq">
-        <p>
-          Entras por una portería. A partir de ahí la ciudad se queda afuera:
-          un refugio natural que brinda tranquilidad y seguridad en medio del
-          bullicio urbano.
-        </p>
-        <p>
-          Eso cambia cómo se siente el día. Puedes traer un curso completo o una
-          celebración con toda la familia y bajar la guardia, porque el predio
-          está cerrado y hay vigilancia privada mientras dure tu plan.
-        </p>
-        <p>
-          Se alquila a colegios, empresas y particulares. Tú decides qué pasa
-          adentro.
-        </p>
-
-        <p class="grupo-botones">
-          <a class="btn btn-secundario" href="#espacios">Ver los cinco espacios</a>
-        </p>
-      </div>
-
-      <figure class="marco nosotros__foto reveal reveal--der">
-        <img
-          src="img/parque/parque-05.jpg"
-          width="675"
-          height="1200"
-          alt="Prado abierto del predio a ras de suelo, con la sombra de un árbol grande cayendo sobre el césped recién cortado y una hilera de árboles cerrando el fondo."
-          loading="lazy"
-          decoding="async"
-        />
-      </figure>
-
+      <p class="grupo-botones">
+        <a class="btn btn-secundario" href="#espacios">Ver los cinco espacios</a>
+      </p>
     </div>
 
-    <!-- (b) LO BÁSICO, RESUELTO ----------------------------------------------
-         Los iconos son legítimos aquí: wifi, baños, vigilancia y parqueadero
-         son conceptos de servicio, no cosas que se vendan por su fotografía.
-         ---------------------------------------------------------------------- -->
+  </div>
+
+  <!-- LA FOTO GRANDE, A SANGRE POR LA IZQUIERDA -----------------------------
+       Hija DIRECTA del <section> y no del .contenedor: así su 100 % es el
+       ancho del <body> —que ya descuenta la barra de scroll— y puede tocar el
+       borde de la ventana sin 100vw, que desbordaría 15 px. El borde derecho
+       no queda al azar: cae a dos tercios del ancho del contenedor, de modo
+       que la imagen muerde la columna de texto de arriba en lugar de alinearse
+       con ella.
+       ---------------------------------------------------------------------- -->
+  <figure class="nosotros__foto reveal">
+    <img
+      src="img/parque/parque-05.jpg"
+      width="675"
+      height="1200"
+      alt="Prado abierto del predio a ras de suelo, con la sombra de un árbol grande cayendo sobre el césped recién cortado y una hilera de árboles cerrando el fondo."
+      loading="lazy"
+      decoding="async"
+    />
+  </figure>
+
+  <!-- (b) LO BÁSICO, RESUELTO ----------------------------------------------
+       Los iconos son legítimos aquí: wifi, baños, vigilancia y parqueadero
+       son conceptos de servicio, no cosas que se vendan por su fotografía.
+       Ya no van dentro de una caja con filete: un hilo arriba y todo alineado
+       a la izquierda. Es el «ya está puesto», no el argumento de venta.
+       ---------------------------------------------------------------------- -->
+  <div class="contenedor contenedor--ancho">
     <div class="nosotros__servicios reveal">
 
       <h3 class="titulo-seccion titulo-seccion--xs nosotros__servicios-titulo">
@@ -536,83 +629,88 @@
       </p>
 
     </div>
-
-    <!-- (c) EL COMPROMISO ----------------------------------------------------
-         Los tres pilares del BRIEF, enteros y una sola vez en todo el sitio.
-         ---------------------------------------------------------------------- -->
-    <section class="nosotros__compromiso" aria-labelledby="compromiso-titulo">
-
-      <figure class="marco nosotros__mural reveal reveal--izq">
-        <img
-          src="img/parque/parque-20.jpg"
-          width="900"
-          height="1200"
-          alt="Panel pintado con aves del predio, apoyado sobre el césped junto a una construcción de caña: un colibrí en vuelo, una tángara roja posada en una rama y un perico verde entre hojas, sobre fondo turquesa, entre platanillos y heliconias."
-          loading="lazy"
-          decoding="async"
-        />
-      </figure>
-
-      <div class="nosotros__compromiso-texto reveal reveal--der">
-
-        <header class="seccion-encabezado">
-          <p class="eyebrow">Nuestro compromiso</p>
-          <h3 class="titulo-seccion titulo-seccion--sm" id="compromiso-titulo">
-            Aquí se viene a estar bien
-          </h3>
-          <p class="entradilla">
-            Creemos en el poder de la conexión y el aprendizaje conjunto. Por
-            eso abrimos el predio a actividades que promueven el bienestar
-            físico, mental y emocional.
-          </p>
-        </header>
-
-        <ol class="nosotros__pilares reveal-secuencia">
-
-          <li class="tarjeta nosotros__pilar reveal">
-            <span class="nosotros__pilar-indice" aria-hidden="true">01</span>
-            <div class="tarjeta__cuerpo">
-              <h4 class="nosotros__pilar-titulo">
-                Educación ambiental y conciencia social
-              </h4>
-              <p>
-                Que te vuelvas a casa con algo aprendido, no sólo con fotos.
-              </p>
-            </div>
-          </li>
-
-          <li class="tarjeta nosotros__pilar reveal">
-            <span class="nosotros__pilar-indice" aria-hidden="true">02</span>
-            <div class="tarjeta__cuerpo">
-              <h4 class="nosotros__pilar-titulo">
-                Desarrollo de relaciones sanas y respetuosas
-              </h4>
-              <p>
-                Sitio de sobra para sentarse en círculo y hablarse de frente,
-                sin prisa.
-              </p>
-            </div>
-          </li>
-
-          <li class="tarjeta nosotros__pilar reveal">
-            <span class="nosotros__pilar-indice" aria-hidden="true">03</span>
-            <div class="tarjeta__cuerpo">
-              <h4 class="nosotros__pilar-titulo">
-                Respeto por la naturaleza y por los demás
-              </h4>
-              <p>
-                Lo dejas como lo encontraste. Tu plan pasa; el bosque se queda.
-              </p>
-            </div>
-          </li>
-
-        </ol>
-
-      </div>
-
-    </section>
-
   </div>
+
+  <!-- (c) EL COMPROMISO ----------------------------------------------------
+       Los tres pilares del BRIEF, enteros y una sola vez en todo el sitio.
+       Aquí la sangría cambia de mano: el texto se queda en la retícula y el
+       panel de aves se sale por el borde DERECHO. Los pilares ya no son tres
+       tarjetas sino tres renglones separados por un hilo, con la cifra grande
+       haciendo de índice: una lista que se lee, no un carrusel.
+       ---------------------------------------------------------------------- -->
+  <section class="nosotros__compromiso" aria-labelledby="compromiso-titulo">
+
+    <div class="nosotros__compromiso-texto reveal reveal--izq">
+
+      <header class="seccion-encabezado">
+        <p class="eyebrow">Nuestro compromiso</p>
+        <h3 class="titulo-seccion titulo-seccion--sm" id="compromiso-titulo">
+          Aquí se viene a estar bien
+        </h3>
+        <p class="entradilla">
+          Creemos en el poder de la conexión y el aprendizaje conjunto. Por
+          eso abrimos el predio a actividades que promueven el bienestar
+          físico, mental y emocional.
+        </p>
+      </header>
+
+      <ol class="nosotros__pilares reveal-secuencia">
+
+        <li class="nosotros__pilar reveal">
+          <span class="nosotros__pilar-indice" aria-hidden="true">01</span>
+          <div class="nosotros__pilar-cuerpo">
+            <h4 class="nosotros__pilar-titulo">
+              Educación ambiental y conciencia social
+            </h4>
+            <p>
+              Que te vuelvas a casa con algo aprendido, no sólo con fotos.
+            </p>
+          </div>
+        </li>
+
+        <li class="nosotros__pilar reveal">
+          <span class="nosotros__pilar-indice" aria-hidden="true">02</span>
+          <div class="nosotros__pilar-cuerpo">
+            <h4 class="nosotros__pilar-titulo">
+              Desarrollo de relaciones sanas y respetuosas
+            </h4>
+            <p>
+              Sitio de sobra para sentarse en círculo y hablarse de frente,
+              sin prisa.
+            </p>
+          </div>
+        </li>
+
+        <li class="nosotros__pilar reveal">
+          <span class="nosotros__pilar-indice" aria-hidden="true">03</span>
+          <div class="nosotros__pilar-cuerpo">
+            <h4 class="nosotros__pilar-titulo">
+              Respeto por la naturaleza y por los demás
+            </h4>
+            <p>
+              Lo dejas como lo encontraste. Tu plan pasa; el bosque se queda.
+            </p>
+          </div>
+        </li>
+
+      </ol>
+
+    </div>
+
+    <!-- Tampoco aquí: el panel sangra por el borde derecho de la ventana, y
+         un `reveal--der` lo empujaría 28 px fuera de la pantalla. -->
+    <figure class="nosotros__mural reveal">
+      <img
+        src="img/parque/parque-20.jpg"
+        width="900"
+        height="1200"
+        alt="Panel pintado con aves del predio, apoyado sobre el césped junto a una construcción de caña: un colibrí en vuelo, una tángara roja posada en una rama y un perico verde entre hojas, sobre fondo turquesa, entre platanillos y heliconias."
+        loading="lazy"
+        decoding="async"
+      />
+    </figure>
+
+  </section>
 
 </section>
 
@@ -629,7 +727,7 @@
      Se abandona la tarjeta-caja (fondo, borde, radio y sombra) por el patrón
      de fichas de catálogo: la foto va a esquina viva y el texto flota debajo,
      los dos sobre el fondo de la página. Cada ficha, en este orden:
-       1. figura CUADRADA (aspect-ratio 1) con la foto a cover, sin radio;
+       1. la figura con la foto a cover, sin radio;
        2. rótulo diminuto en caps espaciadas con el AFORO —el dato, arriba,
           en el sitio del rótulo de categoría—;
        3. el NOMBRE del espacio como titular, en Fraunces y en caja de frase
@@ -638,6 +736,23 @@
        5. un enlace sobrio de cotización, no un botón de bloque.
      La Alameda conserva trato mayor: ocupa doble columna con sus dos fotos
      propias montadas en una banda panorámica 2:1.
+
+     LOS CINCO NO MIDEN LO MISMO (revisión de agosto de 2026)
+     Hasta aquí las cinco figuras eran cuadrados idénticos en una rejilla de
+     tres columnas: la ficha estaba bien resuelta, pero cinco cuadrados del
+     mismo tamaño empezando todos a la misma altura se leen como un catálogo
+     generado, no como una página. Cada <li> lleva ahora un modificador de
+     ESCALA —cuánto ocupa y con qué proporción se recorta su foto— y de
+     DESFASE —cuánto baja respecto de su vecina—. Los cinco modificadores
+     nombran el papel en la composición, no el espacio:
+
+       espacio--destacado  Alameda · banda 2:1 sobre 8 de 12 columnas
+       espacio--alto       La Vega · columna estrecha, la más alta, desfasada
+       espacio--medio      Teatrino · el cuadrado grande que abre la 2.ª fila
+       espacio--esbelto    Taller · vertical estrecho, desfase corto
+       espacio--breve      Cancha · el más pequeño, desfase largo
+
+     Los valores viven en espacios.css y sólo ahí; el HTML no sabe de medidas.
 
      LOS CINCO SON LOS DEL BRIEF: Alameda, La Vega, Teatrino, Taller y Cancha.
      No existe ningún «Prado»: ver ARQUITECTURA-V3 §7.1, que manda borrar el
@@ -714,8 +829,10 @@
       </li>
 
       <!-- ------------------------------------------------------------ 2/5
-           LA VEGA · hasta 100 personas                                    -->
-      <li class="espacio reveal">
+           LA VEGA · hasta 100 personas
+           Columna estrecha y alta a la derecha de la Alameda, arrancando por
+           debajo de ella: es el desfase el que rompe la fila.               -->
+      <li class="espacio espacio--alto reveal">
         <figure class="espacio__figura">
           <img
             class="espacio__img"
@@ -746,8 +863,10 @@
       </li>
 
       <!-- ------------------------------------------------------------ 3/5
-           TEATRINO · hasta 70 personas                                    -->
-      <li class="espacio reveal">
+           TEATRINO · hasta 70 personas
+           El cuadrado grande: abre la segunda fila a plomo con la Alameda y
+           es la única de las cuatro pequeñas que no baja.                   -->
+      <li class="espacio espacio--medio reveal">
         <figure class="espacio__figura">
           <img
             class="espacio__img"
@@ -778,8 +897,9 @@
       </li>
 
       <!-- ------------------------------------------------------------ 4/5
-           TALLER · hasta 45 personas · el espacio bajo techo              -->
-      <li class="espacio reveal">
+           TALLER · hasta 45 personas · el espacio bajo techo
+           Vertical estrecho, con el primer peldaño del escalonado.          -->
+      <li class="espacio espacio--esbelto reveal">
         <figure class="espacio__figura">
           <img
             class="espacio__img"
@@ -811,8 +931,10 @@
       </li>
 
       <!-- ------------------------------------------------------------ 5/5
-           CANCHA · 30 jugadores y 20 espectadores                         -->
-      <li class="espacio reveal">
+           CANCHA · 30 jugadores y 20 espectadores
+           La más pequeña de las cinco y la que más baja: cierra el
+           escalonado de la segunda fila.                                    -->
+      <li class="espacio espacio--breve reveal">
         <figure class="espacio__figura">
           <img
             class="espacio__img"
@@ -888,6 +1010,19 @@
          05 talleres  → banda tipográfica, sin galería       (silencio)
        Si los cinco fueran galería + lista + botón, la repetición que sacamos
        de la página se colaría otra vez dentro de una sola sección.
+     · Y NO OCUPAN EL MISMO ANCHO (revisión de agosto de 2026). Aunque por
+       dentro cada carril era distinto, los cinco medían 1200 px clavados y
+       empezaban en la misma x: cinco losas apiladas. Ahora cada uno tiene su
+       propia caja y se alternan izquierda y derecha:
+         01 la foto grande SALE del contenedor por la izquierda (a sangre)
+         02 el texto entra una columna y la tira SALE por la derecha
+         03 pega a la izquierda y se queda a dos columnas del borde derecho
+         04 entra dos columnas por la izquierda y pega a la derecha
+         05 pega a la izquierda y ocupa sólo ocho de las doce columnas
+       Las medidas están en planes.css; aquí sólo viajan los modificadores.
+     · El 04 conserva .seccion--oscura y el 05 sigue en CLARO: justo después
+       de #planes entra #momentos, que es una banda carbón a todo el ancho, y
+       dos bloques oscuros seguidos anularían esa puntuación.
      · El carril 05 va SIN foto a conciencia: no hay en el banco ninguna
        imagen de un taller de pintura o de jardinería, y antes que inventar un
        nombre de archivo o dejar un hueco gris, se compone con tipografía.
@@ -997,9 +1132,11 @@
 
       <!-- ============================================================ 02/05
            CUMPLEAÑOS Y FAMILIA — aquí el texto va delante y las fotos se
-           leen como una tira: en móvil se arrastra con el dedo.
+           leen como una tira: en móvil se arrastra con el dedo. El texto
+           entra una columna por la izquierda y la tira se sale por la
+           derecha, al revés que el carril 01.
            ================================================================ -->
-      <li class="planes-carril reveal">
+      <li class="planes-carril planes-carril--familia reveal">
 
         <div class="planes-carril__texto">
           <p class="planes-carril__ocasion">
@@ -1314,11 +1451,21 @@
 <!-- ==========================================================================
      FRAGMENTO: MOMENTOS  ·  id="momentos"
      CSS propio: styles/sections/momentos.css
-     JS: ninguno propio. Sólo .reveal / .reveal-secuencia del script global.
+     JS propio:  js/momentos-video.js   (reproducción perezosa de los clips)
 
      QUÉ ES: una banda de carbón que corta la página crema entre #planes y
      #colegios. Es la única pausa visual del recorrido: sirve para respirar,
-     no para informar.
+     no para informar. Desde v3.1 ya no es una rejilla de fotos: es un MURO
+     DE VÍDEO en vertical, metraje de móvil grabado en el predio.
+
+     POR QUÉ VERTICAL Y POR QUÉ ESCALONADO
+       Los seis clips son 720×1280, retrato, sin pista de audio: son de
+       teléfono, no de banco de imágenes. Presentarlos en una rejilla regular
+       de recuadros iguales los devolvería al terreno del «genérico»: lo que
+       delata a un muro de archivo es la simetría. Aquí van CUATRO piezas de
+       anchos distintos (protagonista + tres menores) y con desfases
+       verticales desiguales, de modo que la línea de arriba nunca coincide
+       y la de abajo tampoco. La composición está en momentos.css §3.
 
      QUÉ POSEE ESTA SECCIÓN (ARQUITECTURA-V3, «un hecho, un dueño»)
        NADA. Ni un solo hecho. Esta sección es ATMÓSFERA PURA y por eso puede
@@ -1327,30 +1474,58 @@
      QUÉ TIENE PROHIBIDO DECIR
        TODO hecho: aforos, precios, horarios, direcciones, superficies,
        distancias, cifras de especies, condiciones de alquiler, nombres de
-       espacios y nombres de planes. Los pies de foto describen LO QUE SE VE
-       en la imagen y se paran ahí. Si alguna vez alguien quiere «aprovechar»
-       este hueco para meter un dato, el dato ya tiene dueño en otra sección:
-       lo que corresponde es enlazar allí, no repetirlo aquí.
+       espacios y nombres de planes. Los pies describen LO QUE SE VE en el
+       clip y se paran ahí.
+       OJO ESPECIAL CON ESTOS CLIPS: el jardín de polinizadores es un hecho
+       de #colegios. Aquí se pueden VER mariposas y flores —son imagen—, pero
+       no se puede afirmar que exista un jardín ni describirlo como
+       instalación. Por eso ningún pie nombra «polinizadores», «jardín de
+       mariposas» ni «avistamiento»: se describe el encuadre, no el
+       equipamiento. Por lo mismo NO se usa el sexto clip disponible,
+       video/jardin-polinizadores.*: su ruta viaja en el atributo `poster`,
+       que herramientas/validar.py sí lee como texto, y colaría la palabra
+       «polinizador» dentro de una sección que no es su dueña.
+
+     LOS CUATRO CLIPS, EN ORDEN DE LECTURA
+       01  video/mariposa-naranja.*   3,6 s · plano abierto de las varas
+       02  video/verbena-viento.*     6,2 s · primer plano, la vara se mece
+       03  video/mariposa-amarilla.*  4,6 s · contraluz, amarilla al borde
+       04  video/mariposas-par.*      2,1 s · dos naranjas, la más pequeña
+       Cada <video> lleva el webm PRIMERO y el mp4 después (el webm pesa más
+       aquí, pero el orden lo decide el navegador por soporte, no por tamaño;
+       Safari cae al mp4). `width`/`height` son los del archivo y el marco
+       tiene `aspect-ratio`, así que no hay salto de layout.
+
+     EL PÓSTER ES EL SUELO, NO HAY <img> DEBAJO
+       Cada clip trae su propio fotograma en img/video/<mismo-nombre>.jpg.
+       Si el vídeo no carga, si no hay JS, si el navegador bloquea la
+       reproducción o si el usuario pide menos movimiento, se queda esa foto
+       fija: nunca un hueco negro. Poner además un <img> debajo duplicaría la
+       descarga para enseñar exactamente la misma imagen.
+       Los cuatro pósters (unos 600 kB en total) SÍ se descargan siempre, aunque
+       el visitante no llegue a esta altura de la página: `poster` no admite
+       carga diferida. Es el precio de que la sección nunca aparezca vacía, y se
+       paga a sabiendas. Los clips, que pesan varios megas, no se tocan hasta
+       que la banda entra en pantalla.
+
+     NO HAY ICONO DE PLAY, Y NO SE PONE
+       Los clips arrancan solos, en silencio y en bucle, cuando entran en
+       pantalla; se pausan al salir. No hay nada que pulsar, así que un
+       triángulo encima sería un control falso. Toda esa lógica —incluida la
+       de `prefers-reduced-motion`— vive en js/momentos-video.js.
+
+     POR QUÉ EL <script> VA AQUÍ DENTRO Y NO AL FINAL DEL <body>
+       herramientas/ensamblar.py copia tal cual la cola de index.html
+       (donde están app.js y mapa.js), así que un fragmento no puede añadir
+       nada allí. Se carga con `defer`, de modo que no bloquea el parseo y se
+       ejecuta con el DOM ya completo, igual que los otros dos. Si el
+       integrador prefiere tenerlo junto a los demás, puede moverlo a la cola
+       de index.html y borrar esta línea: el JS no depende de dónde se cargue.
 
      POR QUÉ NO ESTÁ EN LA NAVEGACIÓN NI EN EL PIE
        Porque no es un destino. Nadie busca «momentos» en un menú; se lo
        encuentra al bajar. Meterla en el menú la convertiría en una promesa
        de contenido que esta sección no tiene intención de cumplir.
-
-     LOS CUATRO RECUADROS SON VÍDEO EN DIFERIDO
-       Hoy cada recuadro es una foto. Mañana cada uno será un clip corto de
-       unos segundos, en bucle y sin sonido. El marcado del <video> queda
-       escrito, listo para pegar, dentro del comentario de cada recuadro.
-       Va COMENTADO y no simplemente `hidden` (como en el hero de v2) porque
-       herramientas/validar.py comprueba que todo src exista en disco y sólo
-       tiene pactada la excepción de video/hero.mp4: dejar cuatro rutas vivas
-       apuntando a archivos inexistentes rompería esa comprobación cada vez
-       que se corre. En cuanto los cuatro clips estén en video/, se descomenta
-       y se añade la excepción en validar.py y validar_sitio.py.
-
-     NO HAY ICONO DE PLAY SOBRE LAS FOTOS, Y NO SE PONE
-       Un triángulo de reproducción encima de una imagen fija promete algo que
-       no ocurre al pulsarlo. Mientras esto sean fotos, se ven como fotos.
      ========================================================================== -->
 <section id="momentos" class="seccion seccion--carbon momentos" aria-labelledby="momentos-titulo">
   <div class="contenedor">
@@ -1362,187 +1537,123 @@
       </h2>
     </header>
 
-    <ul class="momentos__rejilla reveal-secuencia" role="list">
+    <ul class="momentos__muro reveal-secuencia" role="list">
 
-      <!-- ============================================================ 01/04
-           HOY: foto. MAÑANA: video/momento-1.mp4
-
-           PARA ACTIVAR EL VÍDEO DE ESTE RECUADRO, en tres pasos:
-             1. Deja el archivo en  video/momento-1.mp4  (y, si lo tienes, un
-                video/momento-1.webm como primer <source>).
-             2. Descomenta el bloque <video> de abajo y añade `autoplay`.
-                El `poster` ya es esta misma foto: mientras el clip carga se
-                ve exactamente lo que se veía antes, sin hueco negro.
-             3. Añade la clase `momentos__marco--con-video` al <div class="marco…">
-                de este recuadro: momentos.css funde la foto y deja el vídeo delante, y con
-                `prefers-reduced-motion: reduce` devuelve la foto fija.
-           No borres el <img>: es el suelo del recuadro si la red falla.
-
-           <video
-             class="momentos__video"
-             muted
-             loop
-             playsinline
-             preload="none"
-             poster="img/parque/parque-25.jpg"
-             width="1920"
-             height="1080"
-             aria-hidden="true"
-             tabindex="-1"
-           >
-             <source src="video/momento-1.mp4" type="video/mp4" />
-           </video>
-           ================================================================ -->
-      <li class="momentos__pieza reveal">
+      <!-- ---------------------------------------------------------- 01/04
+           PROTAGONISTA. Es el plano más abierto del cuarteto y por eso es el
+           más ancho: sitúa al espectador (las varas, el verde del fondo, la
+           luz) antes de que los otros tres se metan de cerca.               -->
+      <li class="momentos__pieza momentos__pieza--uno reveal">
         <figure class="momentos__figura">
-          <div class="marco marco--16-9 momentos__marco">
-            <img
-              src="img/parque/parque-25.jpg"
-              width="1200"
-              height="800"
-              loading="lazy"
-              decoding="async"
-              alt="Atardecer nublado sobre el predio: bajo una carpa translúcida colgada de guirnaldas de bombillos, un grupo de invitados charla de pie; delante pasa un camino de gravilla entre matas y macetas de barro con flores."
-            />
+          <div class="marco momentos__marco">
+            <video
+              class="momentos__video"
+              data-momento-video
+              muted
+              loop
+              playsinline
+              preload="none"
+              poster="img/video/mariposa-naranja.jpg"
+              width="720"
+              height="1280"
+              aria-hidden="true"
+              tabindex="-1"
+            >
+              <source src="video/mariposa-naranja.webm" type="video/webm" />
+              <source src="video/mariposa-naranja.mp4" type="video/mp4" />
+            </video>
           </div>
           <figcaption class="momentos__pie">
-            Las guirnaldas se encienden antes de que se vaya la luz.
+            Una mariposa naranja se posa entre las varas moradas y sigue.
           </figcaption>
         </figure>
       </li>
 
-      <!-- ============================================================ 02/04
-           HOY: foto. MAÑANA: video/momento-2.mp4
-
-           PARA ACTIVAR EL VÍDEO DE ESTE RECUADRO, en tres pasos:
-             1. Deja el archivo en  video/momento-2.mp4  (y, si lo tienes, un
-                video/momento-2.webm como primer <source>).
-             2. Descomenta el bloque <video> de abajo y añade `autoplay`.
-             3. AÑADE la clase `momentos__marco--con-video` al <div class="marco…">.
-                Añadir, no sustituir: `momentos__marco--anclar-abajo` se queda.
-                El poster de este recuadro es la foto CUADRADA parque-27.jpg, así
-                que sin esa clase el poster volvería a recortarse por el centro y
-                a decapitar el corro mientras el clip carga. (Los fotogramas del
-                clip son 16:9 y no se recortan; el ancla les da igual.)
-
-           <video
-             class="momentos__video"
-             muted
-             loop
-             playsinline
-             preload="none"
-             poster="img/parque/parque-27.jpg"
-             width="1920"
-             height="1080"
-             aria-hidden="true"
-             tabindex="-1"
-           >
-             <source src="video/momento-2.mp4" type="video/mp4" />
-           </video>
-           ================================================================ -->
-      <li class="momentos__pieza reveal">
+      <!-- ---------------------------------------------------------- 02/04
+           El clip largo (6,2 s) y el único primer plano: aguanta el bucle
+           sin que se note el corte. Va desfasado hacia abajo para romper la
+           línea superior.                                                   -->
+      <li class="momentos__pieza momentos__pieza--dos reveal">
         <figure class="momentos__figura">
-          <!-- `momentos__marco--anclar-abajo`: única foto CUADRADA del cuarteto
-               (1200×1200). Recortada a 16:9 desde el centro perdía 525 px de
-               alto y dejaba al corro de cabezas contra el borde inferior, con
-               los aros cortados. El modificador la ancla abajo. Ver el porqué
-               largo en styles/sections/momentos.css §3.1. -->
-          <div class="marco marco--16-9 momentos__marco momentos__marco--anclar-abajo">
-            <img
-              src="img/parque/parque-27.jpg"
-              width="1200"
-              height="1200"
-              loading="lazy"
-              decoding="async"
-              alt="Seis niños sentados en corro sobre el césped, casi todos de espaldas, escuchando a una monitora que sostiene un libro ilustrado abierto; dos acompañantes adultas los rodean, a un lado hay aros de colores en la hierba y detrás se abre el prado bajo los árboles."
-            />
+          <div class="marco momentos__marco">
+            <video
+              class="momentos__video"
+              data-momento-video
+              muted
+              loop
+              playsinline
+              preload="none"
+              poster="img/video/verbena-viento.jpg"
+              width="720"
+              height="1280"
+              aria-hidden="true"
+              tabindex="-1"
+            >
+              <source src="video/verbena-viento.webm" type="video/webm" />
+              <source src="video/verbena-viento.mp4" type="video/mp4" />
+            </video>
           </div>
           <figcaption class="momentos__pie">
-            Un corro en la hierba, un libro abierto y aros de colores al lado.
+            El viento mueve las varas en flor y una parda no se suelta.
           </figcaption>
         </figure>
       </li>
 
-      <!-- ============================================================ 03/04
-           HOY: foto. MAÑANA: video/momento-3.mp4
-
-           PARA ACTIVAR EL VÍDEO DE ESTE RECUADRO, en tres pasos:
-             1. Deja el archivo en  video/momento-3.mp4  (y, si lo tienes, un
-                video/momento-3.webm como primer <source>).
-             2. Descomenta el bloque <video> de abajo y añade `autoplay`.
-             3. Añade la clase `momentos__marco--con-video` al <div class="marco…">.
-
-           <video
-             class="momentos__video"
-             muted
-             loop
-             playsinline
-             preload="none"
-             poster="img/parque/parque-31.jpg"
-             width="1920"
-             height="1080"
-             aria-hidden="true"
-             tabindex="-1"
-           >
-             <source src="video/momento-3.mp4" type="video/mp4" />
-           </video>
-           ================================================================ -->
-      <li class="momentos__pieza reveal">
+      <!-- ---------------------------------------------------------- 03/04
+           Contraluz: el fondo se va a oscuro y la mariposa entra por el
+           borde izquierdo. Se deja a tamaño medio y con poco desfase.       -->
+      <li class="momentos__pieza momentos__pieza--tres reveal">
         <figure class="momentos__figura">
-          <div class="marco marco--16-9 momentos__marco">
-            <img
-              src="img/parque/parque-31.jpg"
-              width="1200"
-              height="675"
-              loading="lazy"
-              decoding="async"
-              alt="Rueda de personas mayores sentadas en sillas repartidas sobre el césped, con los brazos abiertos en cruz siguiendo a quien guía desde el centro; hay esterillas de colores en el suelo y árboles alrededor."
-            />
+          <div class="marco momentos__marco">
+            <video
+              class="momentos__video"
+              data-momento-video
+              muted
+              loop
+              playsinline
+              preload="none"
+              poster="img/video/mariposa-amarilla.jpg"
+              width="720"
+              height="1280"
+              aria-hidden="true"
+              tabindex="-1"
+            >
+              <source src="video/mariposa-amarilla.webm" type="video/webm" />
+              <source src="video/mariposa-amarilla.mp4" type="video/mp4" />
+            </video>
           </div>
           <figcaption class="momentos__pie">
-            Los brazos se abren a la vez, en corro, bajo los árboles.
+            A contraluz, una amarilla asoma por el borde del encuadre.
           </figcaption>
         </figure>
       </li>
 
-      <!-- ============================================================ 04/04
-           HOY: foto. MAÑANA: video/momento-4.mp4
-
-           PARA ACTIVAR EL VÍDEO DE ESTE RECUADRO, en tres pasos:
-             1. Deja el archivo en  video/momento-4.mp4  (y, si lo tienes, un
-                video/momento-4.webm como primer <source>).
-             2. Descomenta el bloque <video> de abajo y añade `autoplay`.
-             3. Añade la clase `momentos__marco--con-video` al <div class="marco…">.
-
-           <video
-             class="momentos__video"
-             muted
-             loop
-             playsinline
-             preload="none"
-             poster="img/parque/parque-11.jpg"
-             width="1920"
-             height="1080"
-             aria-hidden="true"
-             tabindex="-1"
-           >
-             <source src="video/momento-4.mp4" type="video/mp4" />
-           </video>
-           ================================================================ -->
-      <li class="momentos__pieza reveal">
+      <!-- ---------------------------------------------------------- 04/04
+           La pieza pequeña: dura dos segundos y va la más baja de las
+           cuatro. Naranja sobre verde, que es lo que aguanta el tamaño
+           chico; un plano de detalle sutil aquí no se leería.               -->
+      <li class="momentos__pieza momentos__pieza--cuatro reveal">
         <figure class="momentos__figura">
-          <div class="marco marco--16-9 momentos__marco">
-            <img
-              src="img/parque/parque-11.jpg"
-              width="1200"
-              height="800"
-              loading="lazy"
-              decoding="async"
-              alt="Patio de baldosas claras a la sombra de una pérgola de madera cubierta de caña; al fondo, una pared turquesa pintada con un mural de plantas y mariposas, una fila de macetas de barro y una palmera en un tiesto blanco. En primer plano cruza una rama de buganvilla en flor."
-            />
+          <div class="marco momentos__marco">
+            <video
+              class="momentos__video"
+              data-momento-video
+              muted
+              loop
+              playsinline
+              preload="none"
+              poster="img/video/mariposas-par.jpg"
+              width="720"
+              height="1280"
+              aria-hidden="true"
+              tabindex="-1"
+            >
+              <source src="video/mariposas-par.webm" type="video/webm" />
+              <source src="video/mariposas-par.mp4" type="video/mp4" />
+            </video>
           </div>
           <figcaption class="momentos__pie">
-            La caña filtra el sol y la buganvilla se mete en el encuadre.
+            Dos naranjas coinciden en la misma mata.
           </figcaption>
         </figure>
       </li>
@@ -1550,6 +1661,8 @@
     </ul>
 
   </div>
+
+  <script src="js/momentos-video.js" defer></script>
 </section>
 
 <!-- ==========================================================================
@@ -1573,22 +1686,46 @@
        img/parque/parque-34.jpg  675x1200   hileras de plantas bajo malla de sombra
        img/parque/parque-52.jpg  675x1200   franja florecida al borde del prado
        img/parque/parque-32.jpg  900x1200   charla a un grupo bajo la zona techada
+
+     COMPOSICIÓN (v3.1) — LA SECCIÓN TIPOGRÁFICA DEL SITIO
+     Es la sección más corta, así que es la que puede permitirse ser la más
+     tipográfica, y la que menos necesita fotografía grande para sostenerse:
+
+       1 · .col-portada — el titular más grande de la página después del hero,
+           con la entradilla descolgada en un carril estrecho a su derecha.
+           Nada centrado.
+       2 · .col-paradas — deja de ser una rejilla de tres tarjetas iguales y
+           pasa a ser lo que el texto dice que es: un ITINERARIO. Tres filas
+           apiladas separadas por filete, con la fotografía en un carril
+           estrecho a la izquierda y el titular grande a la derecha. Se lee
+           como un índice, no como un catálogo de producto.
+       3 · .col-jornada — la charla al lado y los cuatro hitos en escalera de
+           dos por dos, no en una columna de cuatro renglones.
+       4 · .col-cierre — sin cambios.
+
+     Ni una palabra del texto cambia, y la sección sigue SIN un solo dígito
+     que no sea una hora (ARQUITECTURA-V3 §10): los rótulos de parada siguen
+     escritos con letras («Primera», «Segunda», «Tercera») y no se numeran.
      ========================================================================== -->
 
 <section id="colegios" class="seccion seccion--alt col" aria-labelledby="colegios-titulo">
   <div class="contenedor contenedor--ancho">
 
-    <header class="seccion-encabezado reveal">
-      <p class="eyebrow">Salidas pedagógicas</p>
-      <h2 id="colegios-titulo" class="titulo-seccion">Un día de colegio que no cabe en un aula</h2>
-      <p class="entradilla">
+    <header class="col-portada reveal">
+      <div class="col-portada__titulo">
+        <p class="eyebrow">Salidas pedagógicas</p>
+        <h2 id="colegios-titulo" class="titulo-seccion col-titular">
+          Un día de colegio que no cabe en un aula
+        </h2>
+      </div>
+      <p class="entradilla col-portada__entradilla">
         Una jornada fuera del aula, de la llegada al regreso del bus. Con tres paradas
         pensadas para un curso: el observatorio de aves, el de plantas y el jardín
         de polinizadores.
       </p>
     </header>
 
-    <!-- ---------- Las tres paradas ---------- -->
+    <!-- ---------- Las tres paradas, en fila india ---------- -->
     <ul class="col-paradas reveal-secuencia">
 
       <li class="col-parada reveal">
@@ -1606,7 +1743,7 @@
           <figcaption>La parada de aves, frente al mural de la caseta</figcaption>
         </figure>
         <p class="col-parada__etiqueta">Primera parada</p>
-        <h3 class="titulo-seccion titulo-seccion--xs">Bajar la voz y levantar la mirada</h3>
+        <h3 class="titulo-seccion titulo-seccion--sm">Bajar la voz y levantar la mirada</h3>
         <p>
           El grupo se reparte, se queda quieto y aprende lo primero del pajareo:
           escuchar antes de mirar. Cada quien anota lo que oye, busca de dónde viene
@@ -1629,7 +1766,7 @@
           <figcaption>Las plantas, en hilera y al alcance de la mano</figcaption>
         </figure>
         <p class="col-parada__etiqueta">Segunda parada</p>
-        <h3 class="titulo-seccion titulo-seccion--xs">Que una mata deje de ser «una mata»</h3>
+        <h3 class="titulo-seccion titulo-seccion--sm">Que una mata deje de ser «una mata»</h3>
         <p>
           Aquí se aprende a mirar una hoja: la forma, el borde, la nervadura, el olor.
           Los estudiantes se van con nombres propios donde antes sólo veían verde.
@@ -1651,7 +1788,7 @@
           <figcaption>Las floraciones donde se hace el avistamiento</figcaption>
         </figure>
         <p class="col-parada__etiqueta">Tercera parada</p>
-        <h3 class="titulo-seccion titulo-seccion--xs">Sentarse a esperar una mariposa</h3>
+        <h3 class="titulo-seccion titulo-seccion--sm">Sentarse a esperar una mariposa</h3>
         <p>
           La parada más quieta del día. El grupo se sienta frente a las floraciones del
           jardín de polinizadores y espera: mariposas, abejas y quien más venga a
@@ -1769,53 +1906,89 @@
      JS esperado: reveal global (.reveal / .reveal-secuencia) y lightbox
      global (data-lightbox="muro-aves") de js/app.js. Sin JS todo queda
      visible y legible, y el <details> del muro abre igual.
+
+     COMPOSICIÓN (v3.1 «se nota qué manda»)
+     La sección ya no es una pila de bloques iguales. Son cuatro movimientos
+     de peso distinto, y dos de ellos rompen la caja del contenedor:
+
+       1 · .nat-apertura — A SANGRE POR LA IZQUIERDA. El encabezado de la
+           sección se funde aquí dentro: el Sendero no se presenta después
+           del titular, ES el titular. Foto alta contra el borde de la
+           pantalla + columna de texto más ancha con el precio al final.
+       2 · .nat-registro — el más callado: tres columnas desiguales sin caja
+           ninguna, sólo un filete arriba. Es una nota al margen del anterior.
+       3 · .nat-vida     — A SANGRE POR LA DERECHA, al revés que la apertura:
+           el censo a la izquierda y una COLUMNA DE VÍDEO vertical pegada al
+           borde derecho. Ver abajo.
+       4 · .nat-conservacion — pie de página de la sección: filete y tipografía.
+       5 · el muro del concurso, intacto.
+
+     EL VÍDEO (js/naturaleza-video.js, se carga al final de este fragmento)
+     Metraje propio, vertical (720×1280) y SIN pista de audio. Va marcado
+     `muted loop playsinline preload="none"` con el póster de img/video/ como
+     suelo: si la red falla o el navegador bloquea la reproducción, se queda
+     la foto fija y no pasa nada. Arranca al entrar en pantalla y se para al
+     salir; con prefers-reduced-motion: reduce no se reproduce nunca.
+     Sin controles y sin icono de play falso: no es un reproductor, es una
+     fotografía que se mueve.
+     OJO CON EL PIE: el jardín de polinizadores es de #colegios. Aquí el pie
+     describe lo que se ve —flores, mariposa, viento— y no nombra ni reclama
+     ningún jardín.
      ========================================================================== -->
 
 <section id="naturaleza" class="seccion nat" aria-labelledby="naturaleza-titulo">
-  <div class="contenedor">
 
-    <header class="seccion-encabezado reveal">
-      <p class="eyebrow">Sendero Ecovital y biodiversidad</p>
-      <h2 id="naturaleza-titulo" class="titulo-seccion">Camina donde cantan 101 especies</h2>
-      <p class="entradilla">
-        El recorrido guiado que sigue la quebrada, y el censo de lo que vive alrededor.
-        Es la única parte del predio con un precio publicado.
-      </p>
-    </header>
+  <!-- ======================================================================
+       1 · APERTURA A SANGRE POR LA IZQUIERDA
+       El encabezado de sección vive DENTRO de esta composición: la foto del
+       camino toca el borde de la pantalla y el titular arranca a su derecha.
+       Es lo principal de la sección y tiene que verse que lo es.
+       ====================================================================== -->
+  <div class="nat-apertura">
 
-    <!-- ---- El sendero: foto real del camino + el precio + el CTA ----------- -->
-    <div class="nat-sendero">
+    <div class="nat-apertura__media reveal reveal--izq">
+      <figure class="nat-apertura__principal">
+        <div class="marco marco--retrato">
+          <img
+            src="img/espacios/sendero-1.jpg"
+            width="844"
+            height="1500"
+            loading="lazy"
+            decoding="async"
+            alt="Camino de tierra y hojarasca del Sendero Ecovital, cubierto por el arco de las ramas y bordeado de setos y árboles jóvenes"
+          />
+        </div>
+      </figure>
+      <figure class="nat-apertura__inset">
+        <div class="marco marco--1-1">
+          <img
+            src="img/parque/parque-45.jpg"
+            width="675"
+            height="1200"
+            loading="lazy"
+            decoding="async"
+            alt="Cerramiento de cañas de guadua del predio, con orquídeas colgadas de una vara y materas de barro sobre la gravilla"
+          />
+        </div>
+        <figcaption class="credito nat-apertura__pie">Guadua del predio</figcaption>
+      </figure>
+    </div>
 
-      <div class="nat-sendero__media reveal reveal--izq">
-        <figure class="nat-sendero__principal">
-          <div class="marco marco--retrato">
-            <img
-              src="img/espacios/sendero-1.jpg"
-              width="844"
-              height="1500"
-              loading="lazy"
-              decoding="async"
-              alt="Camino de tierra y hojarasca del Sendero Ecovital, cubierto por el arco de las ramas y bordeado de setos y árboles jóvenes"
-            />
-          </div>
-        </figure>
-        <figure class="nat-sendero__inset">
-          <div class="marco marco--1-1">
-            <img
-              src="img/parque/parque-45.jpg"
-              width="675"
-              height="1200"
-              loading="lazy"
-              decoding="async"
-              alt="Cerramiento de cañas de guadua del predio, con orquídeas colgadas de una vara y materas de barro sobre la gravilla"
-            />
-          </div>
-          <figcaption class="credito nat-sendero__pie">Guadua del predio</figcaption>
-        </figure>
-      </div>
+    <div class="nat-apertura__texto reveal reveal--der">
 
-      <div class="nat-sendero__texto reveal reveal--der">
-        <h3 class="titulo-seccion titulo-seccion--sm nat-sendero__titulo">
+      <header class="nat-apertura__encabezado">
+        <p class="eyebrow">Sendero Ecovital y biodiversidad</p>
+        <h2 id="naturaleza-titulo" class="titulo-seccion nat-apertura__titulo">
+          Camina donde cantan 101 especies
+        </h2>
+        <p class="entradilla">
+          El recorrido guiado que sigue la quebrada, y el censo de lo que vive alrededor.
+          Es la única parte del predio con un precio publicado.
+        </p>
+      </header>
+
+      <div class="nat-apertura__cuerpo">
+        <h3 class="titulo-seccion titulo-seccion--xs nat-apertura__antetitulo">
           Se camina despacio y con alguien que sabe mirar
         </h3>
 
@@ -1835,12 +2008,16 @@
           corrientes de agua rodean el terreno arbolado.
         </p>
 
-        <ul class="lista-hojas nat-sendero__lista">
+        <ul class="lista-hojas nat-apertura__lista">
           <li>Guaduas a lado y lado del trayecto</li>
           <li>Búcaro y Caracolí, los árboles grandes del recorrido</li>
           <li>Recorrido guiado de pajareo y de observación de plantas</li>
         </ul>
+      </div>
 
+      <!-- El único precio publicado del sitio, y el CTA a su lado: dos
+           columnas desiguales cerradas por filete arriba y abajo. -->
+      <div class="nat-oferta">
         <div class="nat-precio">
           <p class="nat-precio__etiqueta">Entrada al Sendero Ecovital</p>
           <p class="nat-precio__valor">
@@ -1850,29 +2027,38 @@
           <p class="nat-precio__unidad">por persona</p>
         </div>
 
-        <div class="grupo-botones nat-sendero__acciones">
-          <a
-            class="btn btn-whatsapp btn-grande"
-            href="https://wa.me/573166758362?text=Hola%2C%20quiero%20reservar%20un%20recorrido%20guiado%20por%20el%20Sendero%20Ecovital.%20Vamos%20___%20personas%20y%20nos%20gustar%C3%ADa%20ir%20el%20___."
-            target="_blank"
-            rel="noopener"
-          >
-            Atrévete al sendero
-          </a>
-        </div>
+        <div class="nat-oferta__accion">
+          <div class="grupo-botones">
+            <a
+              class="btn btn-whatsapp btn-grande"
+              href="https://wa.me/573166758362?text=Hola%2C%20quiero%20reservar%20un%20recorrido%20guiado%20por%20el%20Sendero%20Ecovital.%20Vamos%20___%20personas%20y%20nos%20gustar%C3%ADa%20ir%20el%20___."
+              target="_blank"
+              rel="noopener"
+            >
+              Atrévete al sendero
+            </a>
+          </div>
 
-        <p class="nota nat-sendero__nota">
-          Escribe con cuántos vienen y qué día les sirve.
-          <a href="#ubicacion">Cómo llegar</a>.
-        </p>
+          <p class="nota nat-oferta__nota">
+            Escribe con cuántos vienen y qué día les sirve.
+            <a href="#ubicacion">Cómo llegar</a>.
+          </p>
+        </div>
       </div>
 
     </div>
 
-    <!-- ---- Lo que el censo tiene y la cámara todavía no -------------------- -->
+  </div>
+
+  <!-- ======================================================================
+       2 · LA NOTA AL MARGEN
+       Tres columnas desiguales, sin caja: el rótulo estrecho a la izquierda,
+       la endémica ancha en el centro y el dato migratorio en un carril fino.
+       ====================================================================== -->
+  <div class="contenedor">
     <div class="nat-registro reveal-secuencia">
 
-      <h3 class="titulo-seccion titulo-seccion--sm nat-registro__titulo reveal">
+      <h3 class="titulo-seccion titulo-seccion--xs nat-registro__titulo reveal">
         Dos apuntes del registro de aves
       </h3>
 
@@ -1900,8 +2086,15 @@
       </article>
 
     </div>
+  </div>
 
-    <!-- ---- El censo de lo que no vuela: ambientes con foto real ------------ -->
+  <!-- ======================================================================
+       3 · A SANGRE POR LA DERECHA: el censo y la columna de vídeo
+       Contrapeso de la apertura. El vídeo es metraje propio, vertical y mudo;
+       el póster es el suelo si la red falla.
+       ====================================================================== -->
+  <div class="nat-vida">
+
     <div class="nat-censo">
 
       <h3 class="titulo-seccion titulo-seccion--sm nat-censo__titulo reveal">
@@ -1995,7 +2188,36 @@
 
     </div>
 
-    <!-- ---- Los dos árboles de CITES ---------------------------------------- -->
+    <!-- ---- La columna de vídeo, pegada al borde derecho -------------------- -->
+    <figure class="nat-video reveal reveal--der">
+      <video
+        class="nat-video__pieza"
+        width="720"
+        height="1280"
+        muted
+        loop
+        playsinline
+        preload="none"
+        poster="img/video/mariposa-verbena.jpg"
+        aria-label="Una mariposa parda, con las alas cerradas, posada en lo alto de una vara de verbena de flores moradas; alrededor, decenas de varas más y hojas verdes, con la vegetación del fondo desenfocada."
+        data-video-escena
+      >
+        <source src="video/mariposa-verbena.webm" type="video/webm" />
+        <source src="video/mariposa-verbena.mp4" type="video/mp4" />
+      </video>
+      <figcaption class="nat-video__pie">
+        Una mariposa parda descansa en lo alto de una vara en flor.
+      </figcaption>
+    </figure>
+
+  </div>
+
+  <!-- ======================================================================
+       4 · PIE DE LA SECCIÓN: los dos árboles de CITES
+       Ya no es una caja: es un filete y tipografía. Es un dato de archivo,
+       no una tarjeta, y no puede pesar lo mismo que el sendero.
+       ====================================================================== -->
+  <div class="contenedor">
     <aside class="nat-conservacion reveal" aria-labelledby="conservacion-titulo">
       <div class="nat-conservacion__intro">
         <p class="pildora">CITES · Apéndice III</p>
@@ -2017,7 +2239,6 @@
         Todavía no hay fotografía propia de estos dos árboles. Cuando la haya, estará aquí.
       </p>
     </aside>
-
   </div>
 
   <!-- ==========================================================================
@@ -3260,6 +3481,14 @@
     </div>
   </div>
 
+  <!-- El vídeo de arriba necesita su propio script. Va DENTRO del fragmento a
+       propósito: index.html se ensambla con herramientas/ensamblar.py, que
+       copia las secciones tal cual pero NO toca los <script> del <head> ni los
+       del pie. Así la sección se lleva su comportamiento consigo, igual que
+       hace sections/ubicacion.html con el formulario. Sin este archivo el
+       vídeo se queda en su póster y no se rompe nada. -->
+  <script src="js/naturaleza-video.js" defer></script>
+
 </section>
 
 <!-- ==========================================================================
@@ -3284,12 +3513,29 @@
      Fotos verificadas en disco (img/parque/, 675 × 1200 cada una):
        parque-35 caladios en producción · parque-40 filodendros y camellones
        parque-42 cícada y lantana       · parque-49 materas de barro
+
+     COMPOSICIÓN (v3.1)
+     El mosaico de dos por dos y la columna de texto al lado eran, medidos, la
+     misma caja que las otras ocho secciones. Ahora la sección va en tres
+     tiempos de anchura distinta:
+
+       1 · el encabezado, corto y a la izquierda, dentro del contenedor;
+       2 · .viv-friso — A SANGRE. Las cuatro fotos verticales en una sola
+           banda de borde a borde de la pantalla, con las columnas de ancho
+           DESIGUAL y la segunda y la cuarta descolgadas (el vivero es un
+           terreno en pendiente y la banda lo imita). Es el único bloque de
+           la sección que se sale del contenedor, y por eso corta;
+       3 · .viv-cuerpo — dos columnas desiguales: a la izquierda lo que se
+           vende (entradilla larga y el catálogo numerado), a la derecha lo
+           que da confianza (el aula, el sello del ICA y el botón).
+
+     Ni una palabra del texto cambia: sólo las cajas.
      ========================================================================== -->
 
 <section id="vivero" class="seccion viv" aria-labelledby="vivero-titulo">
-  <div class="contenedor contenedor--ancho">
 
-    <header class="seccion-encabezado reveal">
+  <div class="contenedor contenedor--ancho">
+    <header class="seccion-encabezado viv-encabezado reveal">
       <p class="eyebrow">Vivero</p>
       <h2 id="vivero-titulo" class="titulo-seccion">Te llevas a casa lo que crece aquí</h2>
       <p class="entradilla">
@@ -3297,78 +3543,80 @@
         en tu casa, en tu oficina o en tu evento.
       </p>
     </header>
+  </div>
 
+  <!-- ---------- La banda a sangre: las cuatro fotos del vivero ---------- -->
+  <ul class="viv-friso reveal-secuencia">
+    <li class="viv-foto reveal">
+      <figure>
+        <div class="marco marco--retrato">
+          <img
+            src="img/parque/parque-35.jpg"
+            width="675"
+            height="1200"
+            alt="Caladios de hoja rosada y verde en producción bajo la polisombra del vivero, sembrados en bolsa negra frente a un macizo de platanillos."
+            loading="lazy"
+            decoding="async"
+          />
+        </div>
+        <figcaption>El vivero, por dentro</figcaption>
+      </figure>
+    </li>
+
+    <li class="viv-foto reveal">
+      <figure>
+        <div class="marco marco--retrato">
+          <img
+            src="img/parque/parque-40.jpg"
+            width="675"
+            height="1200"
+            alt="Filodendros de hoja roja y limón en primer plano y, al fondo, los camellones de plantas ornamentales bajo la malla de sombra del vivero."
+            loading="lazy"
+            decoding="async"
+          />
+        </div>
+        <figcaption>Camellones bajo malla</figcaption>
+      </figure>
+    </li>
+
+    <li class="viv-foto reveal">
+      <figure>
+        <div class="marco marco--retrato">
+          <img
+            src="img/parque/parque-42.jpg"
+            width="675"
+            height="1200"
+            alt="Una cícada sembrada en matera grande junto a una lantana en flor, al borde del camellón de bolsas del vivero, bajo la malla de sombra."
+            loading="lazy"
+            decoding="async"
+          />
+        </div>
+        <figcaption>Lista para sembrar</figcaption>
+      </figure>
+    </li>
+
+    <li class="viv-foto reveal">
+      <figure>
+        <div class="marco marco--retrato">
+          <img
+            src="img/parque/parque-49.jpg"
+            width="675"
+            height="1200"
+            alt="Materas de barro con plantas de interior de hoja ancha frente a un cerramiento de guadua, listas para llevar a una casa, una oficina o un evento."
+            loading="lazy"
+            decoding="async"
+          />
+        </div>
+        <figcaption>Materas listas para llevar</figcaption>
+      </figure>
+    </li>
+  </ul>
+
+  <div class="contenedor contenedor--ancho">
     <div class="viv-cuerpo">
 
-      <!-- ---------- Las cuatro fotos del vivero ---------- -->
-      <ul class="viv-mosaico reveal-secuencia">
-        <li class="viv-foto reveal">
-          <figure>
-            <div class="marco marco--retrato">
-              <img
-                src="img/parque/parque-35.jpg"
-                width="675"
-                height="1200"
-                alt="Caladios de hoja rosada y verde en producción bajo la polisombra del vivero, sembrados en bolsa negra frente a un macizo de platanillos."
-                loading="lazy"
-                decoding="async"
-              />
-            </div>
-            <figcaption>El vivero, por dentro</figcaption>
-          </figure>
-        </li>
-
-        <li class="viv-foto reveal">
-          <figure>
-            <div class="marco marco--retrato">
-              <img
-                src="img/parque/parque-40.jpg"
-                width="675"
-                height="1200"
-                alt="Filodendros de hoja roja y limón en primer plano y, al fondo, los camellones de plantas ornamentales bajo la malla de sombra del vivero."
-                loading="lazy"
-                decoding="async"
-              />
-            </div>
-            <figcaption>Camellones bajo malla</figcaption>
-          </figure>
-        </li>
-
-        <li class="viv-foto reveal">
-          <figure>
-            <div class="marco marco--retrato">
-              <img
-                src="img/parque/parque-42.jpg"
-                width="675"
-                height="1200"
-                alt="Una cícada sembrada en matera grande junto a una lantana en flor, al borde del camellón de bolsas del vivero, bajo la malla de sombra."
-                loading="lazy"
-                decoding="async"
-              />
-            </div>
-            <figcaption>Lista para sembrar</figcaption>
-          </figure>
-        </li>
-
-        <li class="viv-foto reveal">
-          <figure>
-            <div class="marco marco--retrato">
-              <img
-                src="img/parque/parque-49.jpg"
-                width="675"
-                height="1200"
-                alt="Materas de barro con plantas de interior de hoja ancha frente a un cerramiento de guadua, listas para llevar a una casa, una oficina o un evento."
-                loading="lazy"
-                decoding="async"
-              />
-            </div>
-            <figcaption>Materas listas para llevar</figcaption>
-          </figure>
-        </li>
-      </ul>
-
-      <!-- ---------- Qué sale del vivero ---------- -->
-      <div class="viv-texto reveal reveal--der">
+      <!-- ---------- Lo que sale del vivero: el catálogo ---------- -->
+      <div class="viv-oferta reveal">
 
         <p class="viv-lead">
           Escoges la planta en el camellón y te la llevas: en bolsa para sembrar o
@@ -3394,6 +3642,11 @@
             <span class="viv-servicio__nombre">Venta de productos y alquiler de complementos para decoración de eventos</span>
           </li>
         </ul>
+
+      </div>
+
+      <!-- ---------- Lo que da confianza: el aula, el sello y el botón ------- -->
+      <div class="viv-respaldo reveal reveal--der">
 
         <p class="viv-aula">
           El vivero es además un espacio de aprendizaje: apoya los talleres de

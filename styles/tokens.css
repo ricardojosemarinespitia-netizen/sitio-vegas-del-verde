@@ -16,16 +16,23 @@
    · El display pasa de Poiret One a FRAUNCES (carácter editorial).
    · Los títulos de sección dejan de ir en MAYÚSCULAS espaciadas.
 
-   >>> EL INTEGRADOR DEBE SUSTITUIR EL <link> DE FUENTES DEL <head> POR ESTE:
+   >>> EL <link> DE FUENTES QUE LLEVA EL <head> DE TODAS LAS PÁGINAS (v4):
 
        <link rel="preconnect" href="https://fonts.googleapis.com">
        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-       <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300..700&family=Jost:wght@300;400;500&display=swap">
+       <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,300..700&family=Fraunces:opsz,wght,SOFT,WONK@9..144,300..700,0..100,0..1&display=swap">
 
-       (Poiret One y Josefin Sans YA NO SE CARGAN: bórralas del <head>.)
-       Opcional, si se quieren los ejes SOFT y WONK de Fraunces —los usa
-       base.css y se ignoran solos si no están—, usa este otro href:
-       https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght,SOFT,WONK@9..144,300..700,0..100,0..1&family=Jost:wght@300;400;500&display=swap
+       Pide los ejes SOFT y WONK de Fraunces porque los usa base.css; si
+       algún día se recorta el href, se ignoran solos y no rompen nada.
+
+       CUIDADO AL EDITAR ESA URL CON HERRAMIENTAS DE TEXTO: los tramos
+       `@9..40` y `@9..144` llevan arroba, y una sustitución con comillas
+       dobles en Perl/PowerShell los interpreta como variable y se los come
+       en silencio. Ya pasó una vez en este proyecto: la página se quedó con
+       las fuentes de respaldo y no fue evidente. Después de tocarla,
+       compruébala con `curl` y mira que devuelva las dos familias.
+
+       (Poiret One, Josefin Sans y Jost YA NO SE CARGAN.)
    ========================================================================== */
 
 :root {
@@ -46,16 +53,28 @@
   /* — Neutros cálidos — */
   --salvia: #dde5cd;             /* era #dbe7d3 · fondo claro del logo, +cálido */
   --gris-verde: #c2c7b3;         /* era #bac4b4                              */
-  --crema: #f7f2e7;              /* era #f2efe9 · fondo de página, +cálido   */
-  --tinta: #16281f;              /* era #1a2b33 · tinta VERDE, ya no azulada */
+  /* v4 · EL FONDO SE APARTA DEL VERDE DE LAS FOTOS.
+     Se midieron los verdes reales de 36 fotos del sitio (61.488 píxeles
+     verdes, en OKLCh): son OLIVA APAGADO — L 0,526 · croma 0,082 · matiz
+     123°. No son esmeralda; tienen poco color propio.
+     La crema anterior (#f7f2e7) estaba a sólo 37° de matiz de ese oliva:
+     misma familia cálida amarillenta, así que en vez de realzarlo lo
+     aplanaba. El greige de ahora se va al lado complementario (unos 80° de
+     distancia), y por contraste simultáneo empuja el verde a verse más
+     verde sin que el fondo tenga color propio suficiente para competirle
+     (croma del fondo 0,013). Comprobado además a ojo, componiendo las
+     mismas fotos sobre ocho fondos candidatos.                            */
+  --crema: #ede6e2;              /* era #f7f2e7 · greige, aparta del oliva   */
+  --tinta: #16281f;              /* tinta VERDE, ya no azulada              */
   --blanco: #ffffff;
 
   /* — Carbones: las bandas «Blackberry» —
-     Grises neutros puros (sin verde) que puntúan la página crema. Son bandas
-     de sección y pie, NO texto sobre claro: --carbon da 13.4:1 con la crema
-     y --carbon-suave 11.6:1, ambos muy por encima de AAA en negativo.      */
-  --carbon: #2b2b2b;             /* NUEVO · banda oscura neutra              */
-  --carbon-suave: #333333;       /* NUEVO · banda un punto más abierta       */
+     v4: más hondos y con una gota de calidez, porque contra un negro casi
+     puro el verde de las fotos se ve LUMINOSO, y ese es el efecto galería
+     que se busca. El cambio además SUBE los contrastes en negativo:
+     claro sobre banda pasa de 12,68:1 a 14,07:1 y la menta de 7,37 a 9,04. */
+  --carbon: #1c1a17;             /* era #2b2b2b · tinta cálida, más honda    */
+  --carbon-suave: #24211d;       /* era #333333 · banda un punto más abierta */
 
   /* — Cálidos: el acento de ACCIÓN — */
   --amarillo: #e4cb3a;           /* = círculos del logo · intacto            */
@@ -74,10 +93,10 @@
   --verde-texto-rgb: 47 95 65;
   --salvia-rgb: 221 229 205;
   --gris-verde-rgb: 194 199 179;
-  --crema-rgb: 247 242 231;
+  --crema-rgb: 237 230 226;
   --tinta-rgb: 22 40 31;
-  --carbon-rgb: 43 43 43;
-  --carbon-suave-rgb: 51 51 51;
+  --carbon-rgb: 28 26 23;
+  --carbon-suave-rgb: 36 33 29;
   --amarillo-rgb: 228 203 58;
   --rojo-baya-rgb: 232 76 64;
   --coral-rgb: 224 112 60;
@@ -133,16 +152,25 @@
      --fuente-display  → titulares y cifras. Fraunces: serif editorial de
                          contraste alto que conversa con el trazo déco del
                          logo sin imitarlo.
-     --fuente-titulo   → REDEFINIDA en v2: ya no es un segundo display,
-                         es LA FUENTE DE ETIQUETA (eyebrow, botón, píldora,
-                         micro-caps). Jost = Futura de los años 20, misma
-                         familia geométrica que el lettering del logo.
-     --fuente-cuerpo   → Jost.
+     --fuente-titulo   → LA FUENTE DE ETIQUETA (eyebrow, botón, píldora,
+                         micro-caps).
+     --fuente-cuerpo   → la de leer.
+
+     v4 · JOST SALE, ENTRA DM SANS, y no es por gusto.
+     Jost es una geométrica —una Futura de los años 20— y en las geométricas
+     la «a», la «o» y la «e» son casi el mismo círculo. Eso se aguanta en un
+     titular, pero este sitio tiene un SUELO de 12,5 px puesto adrede para
+     lectores mayores (ver la escala de abajo), y ahí las aperturas cerradas
+     de Jost hacen trabajar de más al ojo. DM Sans conserva el aire
+     geométrico que conversa con el lettering del logo, pero abre las
+     aperturas y sube la altura de x: al mismo tamaño en píxeles se lee más
+     grande. Es la misma familia de decisión que toma blackberryfarm.com,
+     que usa DM Sans para todo lo que no es display.
      --------------------------------------------------------------------- */
   --fuente-display: "Fraunces", "Marcellus", Georgia, "Times New Roman", serif;
-  --fuente-titulo: "Jost", "Josefin Sans", -apple-system, BlinkMacSystemFont,
+  --fuente-titulo: "DM Sans", "Jost", -apple-system, BlinkMacSystemFont,
     "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-  --fuente-cuerpo: "Jost", "Josefin Sans", -apple-system, BlinkMacSystemFont,
+  --fuente-cuerpo: "DM Sans", "Jost", -apple-system, BlinkMacSystemFont,
     "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
 
   /* Ejes variables de Fraunces. Si el <link> no los pide, se ignoran solos. */

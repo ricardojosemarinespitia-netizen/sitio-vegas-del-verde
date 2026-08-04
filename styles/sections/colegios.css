@@ -1,14 +1,27 @@
 /* ==========================================================================
-   VEGAS DEL VERDE — sections/colegios.css  ·  v2 «Vende la escapada»
+   VEGAS DEL VERDE — sections/colegios.css  ·  v3.1 «la sección tipográfica»
    Bloque #colegios · Salidas pedagógicas.
 
-   La sección es un ITINERARIO, no un catálogo: tres paradas en fila y el
-   formato de la jornada al lado de su foto. Depende de tokens.css y base.css;
-   no declara ningún valor literal de color, tamaño, radio, sombra ni duración
-   (la única excepción es el 1px de filete, igual que en base.css).
+   La sección es un ITINERARIO, no un catálogo. Eso ya estaba escrito en v2 y
+   en el texto… pero la maquetación decía lo contrario: tres tarjetas iguales
+   en fila, con la foto arriba y el texto debajo, exactamente igual que las
+   rejillas de #espacios, #planes y #vivero. Ocho secciones seguidas con la
+   misma métrica es lo que hace que una página se lea como generada.
 
-   Se reescribió por completo: las clases .colegios__* de v1 desaparecieron
-   junto con la rejilla de siete tarjetas que repetía el resto del sitio.
+   QUÉ CAMBIÓ EN v3.1 — sin tocar una sola palabra del texto
+   · .col-portada: el titular se va a --fs-h1 (el mayor de la página después
+     del hero) y la entradilla se descuelga a un carril estrecho a su derecha,
+     alineada por abajo. Es la sección más corta del sitio: puede permitirse
+     ser la más tipográfica, que es justo lo que la distingue de las demás.
+   · .col-paradas: de rejilla de tres columnas a TRES FILAS apiladas con
+     filete. La foto baja a un carril estrecho a la izquierda y el titular
+     sube de --xs a --sm. Se lee como un índice numerado con palabras.
+   · .col-hitos: de columna de cuatro renglones a escalera de dos por dos.
+   · .col-cierre: intacto.
+
+   Depende de tokens.css y base.css; no declara ningún valor literal de color,
+   tamaño, radio, sombra ni duración (la única excepción es el 1px de filete,
+   igual que en base.css). Sin !important.
    ========================================================================== */
 
 /* ==========================================================================
@@ -25,35 +38,143 @@
 }
 
 /* ==========================================================================
-   1. LAS TRES PARADAS
+   1. LA PORTADA
+   Dos columnas desiguales y nada centrado. La entradilla se alinea por ABAJO
+   con el titular (align-items: end) en vez de por arriba: así las dos piezas
+   comparten una línea de base visible y el hueco queda arriba, que es donde
+   una portada de revista quiere el aire.
+   ========================================================================== */
+.col-portada {
+  display: grid;
+  gap: var(--esp-md);
+  margin-bottom: var(--gap-lg);
+}
+
+@media (min-width: 62em) {
+  .col-portada {
+    grid-template-columns: minmax(0, 1.35fr) minmax(0, 0.65fr);
+    align-items: end;
+    gap: var(--gap-lg);
+  }
+}
+
+.col-portada__titulo {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--esp-xs);
+  min-width: 0;
+}
+
+/* El único titular de sección que sube de --fs-h2 a --fs-h1. Se lo puede
+   permitir porque es la frase más corta de las nueve secciones y porque
+   debajo no hay ninguna foto que compita: sólo filetes y texto. */
+@media (min-width: 62em) {
+  .col-titular {
+    font-size: var(--fs-h1);
+  }
+}
+
+.col-portada__entradilla {
+  margin: 0;
+  min-width: 0;
+  max-width: var(--medida-corta);
+}
+
+/* ==========================================================================
+   2. LAS TRES PARADAS — un itinerario, en fila india
    ========================================================================== */
 .col-paradas {
   display: grid;
   grid-template-columns: 1fr;
-  gap: var(--gap-lg);
+  gap: 0;
   list-style: none;
   margin: 0;
   padding: 0;
+  border-top: 1px solid var(--color-borde-fuerte);
+}
+
+/* Cada parada es una FILA, no una tarjeta: filete arriba, aire generoso y la
+   foto en un carril estrecho a la izquierda. El carril no llega a un tercio
+   del ancho a propósito —la foto ilustra la parada, no la encabeza— y eso es
+   lo que deja sitio para que el titular vaya grande. */
+.col-parada {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--esp-2xs);
+  min-width: 0;
+  padding-block: var(--gap);
+  border-bottom: 1px solid var(--color-borde-suave);
+}
+
+.col-parada:last-child {
+  border-bottom: 0;
 }
 
 @media (min-width: 48em) {
-  .col-paradas {
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-    gap: var(--gap);
+  .col-parada {
+    grid-template-columns: minmax(0, 13rem) minmax(0, 1fr);
+    grid-template-rows: auto auto 1fr;
+    column-gap: var(--gap-lg);
+    row-gap: var(--esp-2xs);
+    align-items: start;
+    grid-template-areas:
+      "foto rotulo"
+      "foto titulo"
+      "foto texto";
+  }
+
+  .col-parada > figure {
+    grid-area: foto;
+  }
+
+  .col-parada__etiqueta {
+    grid-area: rotulo;
+  }
+
+  .col-parada h3 {
+    grid-area: titulo;
+  }
+
+  .col-parada > p:not(.col-parada__etiqueta) {
+    grid-area: texto;
   }
 }
 
-.col-parada {
-  display: flex;
-  flex-direction: column;
-  gap: var(--esp-2xs);
+/* En escritorio la fila se abre a TRES carriles: foto · rótulo y titular ·
+   párrafo. Con dos, el párrafo se quedaba en su medida cómoda (68ch) y dejaba
+   un tercio de la fila vacío a la derecha, que no es aire compuesto sino
+   sobra. Con tres, el titular grande y el texto pequeño quedan enfrentados,
+   que es como se lee un índice de revista: se puede recorrer la columna de
+   titulares sin leer los párrafos. */
+@media (min-width: 68em) {
+  .col-parada {
+    grid-template-columns:
+      minmax(0, 13rem)
+      minmax(0, 1.05fr)
+      minmax(0, 0.95fr);
+    grid-template-rows: auto 1fr;
+    grid-template-areas:
+      "foto rotulo texto"
+      "foto titulo texto";
+  }
+
+  .col-parada > p:not(.col-parada__etiqueta) {
+    align-self: start;
+  }
+}
+
+/* La foto ya no manda por tamaño; el pie de foto sí se queda, porque nombra
+   lo que se ve. El zoom al pasar por encima es el único gesto que sobrevive. */
+.col-parada figure {
+  margin-bottom: var(--esp-xs);
   min-width: 0;
 }
 
-/* La foto abre la parada y manda. Lo hace por tamaño y por posición, no por
-   elevación: la sombra se fue arriba (§0) y queda el zoom al pasar. */
-.col-parada figure {
-  margin-bottom: var(--esp-xs);
+@media (min-width: 48em) {
+  .col-parada figure {
+    margin-bottom: 0;
+  }
 }
 
 .col-parada:hover .marco > img,
@@ -62,13 +183,15 @@
 }
 
 /* Micro-etiqueta: uno de los pocos caps permitidos por el §3 del contrato.
+   Sigue escrita con palabras («Primera parada») y no con cifras: §10 de
+   ARQUITECTURA-V3 le prohíbe a esta sección cualquier dígito que no sea una
+   hora, y esa regla vale también para lo que se le añada por diseño.
 
    v3: se retira el coral, igual que en .eyebrow (base.css §5). El rótulo es un
    dato de servicio en gris neutro, no un acento: si cada micro-etiqueta grita
-   en terracota, el acento deja de señalar nada. La pasada de v3 trajo el
-   tracking (--tracking-rotulo) pero se dejó el color a medio camino; esto lo
-   completa. Sobre la banda de salvia de la sección el gris mide 5.3:1 —más que
-   los 4.6:1 que daba el coral—, así que el cambio también gana contraste. */
+   en terracota, el acento deja de señalar nada. Sobre la banda de salvia de la
+   sección el gris mide 5.3:1 —más que los 4.6:1 que daba el coral—, así que el
+   cambio también gana contraste. */
 .col-parada__etiqueta {
   font-family: var(--fuente-titulo);
   font-size: var(--fs-micro);
@@ -88,12 +211,12 @@
   margin: 0;
   font-size: var(--fs-pequeno);
   color: var(--color-texto-suave);
-  max-width: var(--medida-corta);
+  max-width: var(--medida);
 }
 
 /* ==========================================================================
-   2. EL FORMATO DE LA JORNADA
-   La foto de la charla a un lado, los cuatro hitos al otro.
+   3. EL FORMATO DE LA JORNADA
+   La foto de la charla a un lado, los cuatro hitos al otro en escalera.
    ========================================================================== */
 .col-jornada {
   display: grid;
@@ -102,14 +225,14 @@
   align-items: start;
   margin-top: var(--gap-lg);
   padding-top: var(--gap-lg);
-  border-top: 1px solid var(--color-borde-suave);
+  border-top: 1px solid var(--color-borde-fuerte);
 }
 
 @media (min-width: 62em) {
   .col-jornada {
-    grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.2fr);
+    grid-template-columns: minmax(0, 0.72fr) minmax(0, 1.28fr);
     gap: var(--gap-lg);
-    align-items: center;
+    align-items: start;
   }
 }
 
@@ -139,14 +262,22 @@
   margin: 0;
 }
 
-/* ---- Los cuatro hitos ---------------------------------------------------- */
+/* ---- Los cuatro hitos, en escalera de dos por dos ------------------------
+   Cuatro renglones apilados en una columna eran otra lista vertical más, la
+   tercera de la sección. En dos por dos el bloque se ensancha, la jornada se
+   lee de un vistazo y el conjunto deja de caer siempre hacia abajo.        */
 .col-hitos {
-  display: flex;
-  flex-direction: column;
-  gap: var(--esp-md);
+  display: grid;
+  gap: var(--esp-md) var(--gap);
   list-style: none;
   margin: var(--esp-md) 0 0;
   padding: 0;
+}
+
+@media (min-width: 40em) {
+  .col-hitos {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
 }
 
 .col-hito {
@@ -155,10 +286,11 @@
   gap: var(--esp-3xs);
   padding-left: var(--esp-md);
   border-left: 1px solid var(--color-borde-fuerte);
+  min-width: 0;
   max-width: var(--medida);
 }
 
-/* Gris neutro por el mismo motivo que .col-parada__etiqueta (§1): es un rótulo
+/* Gris neutro por el mismo motivo que .col-parada__etiqueta (§2): es un rótulo
    de servicio, no un acento. Los dos rótulos de la sección van a juego. */
 .col-hito__nombre {
   margin: 0;
@@ -182,7 +314,7 @@
 }
 
 /* ==========================================================================
-   3. CIERRE CON CTA
+   4. CIERRE CON CTA
    Caja en verde bosque dentro de una sección clara: hay que repintar a mano
    el titular y el párrafo, porque las reglas de .seccion--oscura de base.css
    no llegan hasta aquí. Dentro de la caja NO hay enlaces de texto: sólo el
