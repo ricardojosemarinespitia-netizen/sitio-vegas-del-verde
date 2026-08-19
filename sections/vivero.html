@@ -36,10 +36,34 @@
            vende (entradilla larga y el catálogo numerado), a la derecha lo
            que da confianza (el aula, el sello del ICA y el botón).
 
-     Ni una palabra del texto cambia: sólo las cajas.
+     v4 · LA SECCIÓN PASA A BANDA OSCURA (.seccion--carbon)
+     #naturaleza termina en una banda salvia y #ubicacion es salvia entera:
+     #vivero quedaba en medio, en crema, sin cambio de material, y ése era el
+     motivo principal de que la página sonara a plantilla justo aquí. Sobre el
+     carbón cálido los verdes de estas cuatro fotos se vuelven luminosos —está
+     razonado en tokens.css §1— y la sección se lee como una sala de galería.
+
+     Se usa .seccion--carbon Y NO .seccion--carbon-suave, aunque la variante
+     suave existiera justo para «no repetir banda»: base.css §5 invierte el
+     color de .eyebrow sólo bajo .seccion--oscura y .seccion--carbon, y se
+     olvidó de --carbon-suave. Con la variante suave el antetítulo se quedaba
+     en el gris calculado contra la crema —2,4:1 sobre el carbón, ilegible— y
+     arreglarlo desde aquí sería pisar por especificidad un color de base.css,
+     que es justo lo que el contrato prohíbe. #momentos, la otra banda oscura,
+     queda tres secciones más arriba: repetir el mismo negro a esa distancia se
+     lee como sistema, no como descuido. Todo el reajuste de contraste de la
+     sección vive en vivero.css.
+
+     El otro cambio de v4: los cuatro huecos de foto dejan de compartir
+     proporción. Cada uno lleva la suya (3/4 · 5/8 · 9/16 · 4/5), así que los
+     pies caen a alturas distintas y de paso se recorta mucho menos de unos
+     originales que son 9/16. La clase .marco--retrato SALE del marcado por eso:
+     la proporción la fija ahora vivero.css hueco por hueco.
+
+     Ni una palabra del texto cambia: sólo las cajas y el material.
      ========================================================================== -->
 
-<section id="vivero" class="seccion viv" aria-labelledby="vivero-titulo">
+<section id="vivero" class="seccion seccion--carbon viv" aria-labelledby="vivero-titulo">
 
   <div class="contenedor contenedor--ancho">
     <header class="seccion-encabezado viv-encabezado reveal">
@@ -56,7 +80,7 @@
   <ul class="viv-friso reveal-secuencia">
     <li class="viv-foto reveal">
       <figure>
-        <div class="marco marco--retrato">
+        <div class="marco">
           <img
             src="img/parque/parque-35.jpg"
             width="675"
@@ -72,7 +96,7 @@
 
     <li class="viv-foto reveal">
       <figure>
-        <div class="marco marco--retrato">
+        <div class="marco">
           <img
             src="img/parque/parque-40.jpg"
             width="675"
@@ -88,7 +112,7 @@
 
     <li class="viv-foto reveal">
       <figure>
-        <div class="marco marco--retrato">
+        <div class="marco">
           <img
             src="img/parque/parque-42.jpg"
             width="675"
@@ -104,7 +128,7 @@
 
     <li class="viv-foto reveal">
       <figure>
-        <div class="marco marco--retrato">
+        <div class="marco">
           <img
             src="img/parque/parque-49.jpg"
             width="675"
@@ -164,10 +188,10 @@
         <!-- Sello de confianza. Única aparición del registro ICA en el sitio. -->
         <p class="viv-sello">
           <span class="viv-sello__emblema" aria-hidden="true">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"
+            <svg class="icono-traza" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"
                  stroke-linecap="round" stroke-linejoin="round" focusable="false">
-              <path d="M12 2.5 20 6v6.1c0 4.5-3.2 7.9-8 9.4-4.8-1.5-8-4.9-8-9.4V6l8-3.5Z" />
-              <path d="m8.6 12.1 2.3 2.3 4.5-4.6" />
+              <path d="M12 2.5 20 6v6.1c0 4.5-3.2 7.9-8 9.4-4.8-1.5-8-4.9-8-9.4V6l8-3.5Z"  pathLength="1"/>
+              <path d="m8.6 12.1 2.3 2.3 4.5-4.6"  pathLength="1"/>
             </svg>
           </span>
           <span class="viv-sello__texto">

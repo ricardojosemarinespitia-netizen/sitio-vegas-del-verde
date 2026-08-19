@@ -17,6 +17,20 @@ python herramientas/validar_css.py    # ninguna clase depende de una hoja huérf
 python herramientas/mapa_fotos.py     # regenera MAPA-FOTOS.json desde lo publicado
 ```
 
+### Si no tienes Python
+
+Los dos imprescindibles están portados a Node y hacen exactamente lo mismo
+(mismo orden, mismo bloque de `<link>`, mismos códigos de salida):
+
+```sh
+node herramientas/ensamblar.js && node herramientas/validar.js
+```
+
+Se comprobó que `ensamblar.js` reproduce el `index.html` byte a byte. **Los
+pares .py/.js hay que mantenerlos en paralelo:** si cambias `ORDEN`,
+`CSS_SECCIONES` o la tabla `HECHOS` en uno, cámbialo en el otro. `validar_sitio`,
+`validar_css` y `mapa_fotos` siguen sólo en Python.
+
 `validar.py` sale con código 0 si está limpio y 1 si hay hallazgos, así que se
 puede encadenar: `python herramientas/ensamblar.py && python herramientas/validar.py`.
 

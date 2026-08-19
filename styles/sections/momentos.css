@@ -1,50 +1,180 @@
 /* ==========================================================================
-   VEGAS DEL VERDE — styles/sections/momentos.css  ·  v3.1 «Blackberry»
+   VEGAS DEL VERDE — styles/sections/momentos.css  ·  v3.2 «sala de proyección»
    Bloque #momentos · Banda de carbón entre #planes y #colegios.
 
    QUÉ HACE ESTA HOJA: coloca cuatro clips VERTICALES sobre el carbón y nada
    más. La banda oscura funciona por sustracción —fondo carbón, esquina viva,
-   sin sombra, mucho aire— así que todo lo que se añada aquí resta. Si alguien
-   viene a «mejorarla» con degradados, bordes, hovers vistosos, filtros o un
-   icono de reproducción, la banda deja de ser una pausa y se convierte en
-   otra sección que grita.
+   sin sombra, mucho aire— así que casi todo lo que se añada aquí resta.
 
-   QUÉ CAMBIÓ EN v3.1: la rejilla 2×2 de fotos apaisadas se retira entera y
-   nace el MURO ESCALONADO de vídeo (§3). El material es metraje de móvil,
-   720×1280, y se muestra en vertical sin recortar: recortarlo a apaisado
-   sería borrar justamente lo que lo hace parecer grabado por alguien que
-   estaba allí. Lo que sostiene la composición no es el tamaño de las piezas
-   sino su DESIGUALDAD: cuatro anchos distintos y cuatro desfases verticales
-   distintos. En cuanto dos piezas empiezan a medir lo mismo, el muro vuelve
-   a leerse como una rejilla y se pierde el efecto.
+   -------------------------------------------------------------------------
+   QUÉ CAMBIÓ EN v3.2, Y POR QUÉ SE TOCA UNA SECCIÓN QUE YA ESTABA BIEN
+
+   El encargo era literal: «#momentos es la sección de vídeo real, ahí el
+   diseño debe ser LO MÁS CINEMATOGRÁFICO del sitio». En v3.1 la composición
+   del muro ya era buena (§3, intacta), pero la banda seguía entrando y
+   saliendo como una sección más: encabezado apilado igual que las otras
+   ocho, ancho de contenedor igual que las otras ocho, y el mismo fundido de
+   entrada de 900 ms que usa la página entera. Lo que se añade son cuatro
+   cosas, todas de la misma familia —cómo se proyecta una imagen— y ninguna
+   decorativa:
+
+     1 · §1  La cabecera deja de apilarse y pasa a CARTELA: filete a todo lo
+             ancho, rótulo y titular en la misma línea de base. Es la única
+             cabecera del sitio que no apila, y basta para que la banda se
+             anuncie como otra cosa antes de que empiece el vídeo.
+     2 · §2  El muro SANGRA POR LA DERECHA en escritorio. La cuarta pieza sale
+             de cuadro. Sangrar por un solo lado no es un descuido: #naturaleza
+             ya sangra izquierda y derecha en bloques distintos, y una banda
+             que se escapa sólo por un lado se lee como un travelling.
+     3 · §5  Los cuatro pies dejan de ser cuatro rótulos iguales: el de la
+             pieza protagonista sube de cuerpo y de color, y los cuatro
+             arrancan en una hoja con la orientación alternada.
+     4 · §6  Luz y grano sobre el carbón, con el grano a la deriva según el
+             scroll. Es la excepción declarada al «no añadas nada» de abajo.
+     5 · §7  El revelado pasa de 900 ms a --dur-lenta (550 ms) y los clips
+             entran con .reveal--velo, la cortina de clip-path que ya vivía
+             sin usar en base.css. Un vídeo que se descubre de arriba abajo
+             es un telón; un vídeo que hace fade es un banner.
+
+   LA ADVERTENCIA DE v3.1 SIGUE EN PIE, CON UNA EXCEPCIÓN NOMBRADA
+   Decía: «si alguien viene a mejorarla con degradados, bordes, hovers
+   vistosos, filtros o un icono de reproducción, la banda deja de ser una
+   pausa y se convierte en otra sección que grita». Se mantiene entera salvo
+   por el grano y la viñeta de §6, y se mantiene por el mismo motivo por el
+   que se hace la excepción: el grano no AÑADE un elemento, le da materia a
+   un color plano. Un rectángulo `background-color` se lee como CSS; un
+   rectángulo con grano se lee como una proyección. Sigue prohibido todo lo
+   demás de esa lista, y en particular el icono de play (los clips arrancan
+   solos: un triángulo encima sería un control falso).
+
+   SOBRE LOS RADIOS — ARBITRAJE DE LA DIRECCIÓN DE ARTE, Y CORRECCIÓN
+   La v3.2 dejaba los cuatro clips a esquina viva razonando que la fotografía
+   va sin radio en todo el sitio (base.css §8). Ese razonamiento era correcto
+   cuando se escribió y dejó de serlo al cerrarse las nueve secciones: las
+   otras siete adoptaron el motivo de HOJA también en la fotografía, así que
+   la esquina viva pasó de ser la norma a ser la excepción, y #momentos se
+   habría leído como traído de otro sitio. La norma fijada es:
+
+     · La foto o el clip que SANGRA fuera de pantalla conserva a CERO las
+       esquinas que tocan el borde. Nunca se redondea contra el canto de la
+       ventana.
+     · El que vive DENTRO de la maqueta lleva hoja: dos esquinas curvas y dos
+       vivas, en diagonal, y dos piezas vecinas nunca con la misma diagonal.
+
+   Aquí se aplica en §4. Las piezas uno, dos y tres van con hoja entera; la
+   cuarta también, salvo desde 64em, que es exactamente el tramo donde el muro
+   sangra por la derecha (§2) y sus dos esquinas derechas se ponen a cero. El
+   media query que crea la sangría es el mismo que retira el radio, así que la
+   regla no se puede desincronizar por descuido.
+
+   El resto del gesto orgánico de este tramo de página no cambia: las hojas de
+   los pies (§5) y el labio de carbón del borde superior de #colegios
+   (colegios.css §1), que es un bloque de COLOR y no una imagen.
 
    El fondo carbón NO se declara aquí: lo pone la clase de sistema
-   .seccion--carbon (base.css + tokens.css). Esta hoja sólo se ocupa del muro,
-   del recuadro, del clip y del pie.
+   .seccion--carbon (base.css + tokens.css). Esta hoja sólo se ocupa de la
+   cartela, del muro, del recuadro, del clip y del pie.
 
    Depende de tokens.css y base.css; no declara ningún valor literal de color,
-   tamaño de fuente, radio, sombra ni duración.
+   tamaño de fuente, radio, sombra ni duración. Sin !important.
    ========================================================================== */
 
 /* ==========================================================================
-   1. ENCABEZADO
+   0. APILADO
+   El grano y la viñeta de §6 son pseudoelementos POSICIONADOS de la sección.
+   Un elemento posicionado con z-index:0 pinta por encima del contenido en
+   flujo normal, así que sin esta regla las dos capas taparían la cartela y
+   el muro. Se sube el contenido a --z-base y las capas se quedan en
+   --z-fondo. No se usa z-index negativo a propósito: .seccion es
+   position:relative SIN z-index, o sea que no crea contexto de apilado, y un
+   -1 se iría detrás del propio color de fondo de la banda.
+   ========================================================================== */
+.momentos > .contenedor {
+  position: relative;
+  z-index: var(--z-base);
+}
+
+/* `overflow: clip` y NO `overflow: hidden`, y la diferencia importa dos veces:
+     · La capa de grano de §6 se declara más alta que la banda para que su
+       deriva no deje ver un canto sin textura. Sin recorte, ese sobrante se
+       metería en #planes por arriba y en #colegios por abajo, que son crema y
+       salvia: se vería.
+     · El muro sangrado de §2 se pasa del borde derecho lo que mide media barra
+       de scroll. Aquí se corta, y se corta justo en el canto de la pantalla.
+   `hidden` haría las dos cosas igual de bien, pero convertiría la sección en
+   un CONTENEDOR DE SCROLL, y entonces el `animation-timeline: view()` de §6
+   se mediría contra la propia sección —que nunca se desplaza por dentro— en
+   vez de contra la página, y la deriva se quedaría congelada. `clip` recorta
+   sin crear contenedor de scroll. Donde no esté soportado se ignora y lo
+   único que pasa es que asoman 2 rem de grano al 5,5 % de opacidad. */
+.momentos {
+  overflow: clip;
+}
+
+/* ==========================================================================
+   1. LA CARTELA
    Rótulo diminuto + una sola línea de Fraunces fina. No hay entradilla: la
    sección no tiene nada que explicar, y una entradilla la empujaría a
    inventarse un hecho para llenarla.
+
+   El filete superior a todo lo ancho es lo que convierte el encabezado en
+   cartela. En crema al 20 % (--color-borde-inverso) sobre carbón se ve sin
+   pesar; en pleno sería un borde de caja.
    ========================================================================== */
 .momentos__encabezado {
-  margin-bottom: var(--esp-xl);
+  /* .seccion-encabezado (base.css §5) trae max-width: var(--medida) y una
+     columna flex. Las dos cosas se anulan aquí: la cartela ocupa el ancho
+     entero y en escritorio no apila. Misma especificidad (0,1,0) que la
+     clase de sistema, y esta hoja carga después, así que gana por orden. */
+  max-width: none;
+  border-top: 1px solid var(--color-borde-inverso);
+  padding-top: var(--esp-md);
+  margin-bottom: var(--esp-2xl);
+}
+
+/* Rótulo y titular EN LA MISMA LÍNEA, uno al lado del otro. Ninguna otra
+   sección del sitio hace esto —las ocho restantes apilan eyebrow sobre
+   título—, y es la diferencia que se nota antes de leer nada. Sólo desde
+   62em: por debajo, el titular a --fs-h1 y el rótulo en la misma línea
+   dejarían al rótulo colgando de un renglón de una palabra.
+
+   `align-items: end` y NO `baseline`, aunque baseline sería lo bonito. El
+   .eyebrow es un inline-flex con `align-items: center` y un ::before de 1 px
+   dentro, así que no tiene ningún ítem alineado por línea de base y el motor
+   se ve obligado a SINTETIZARLE una a partir de la caja. Dónde cae esa línea
+   sintética depende del navegador, y una cabecera que se coloca distinto en
+   cada motor no es una cabecera. Con `end` el rótulo se apoya en el pie del
+   titular —que a este cuerpo va a dos líneas—, que es la misma imagen que se
+   buscaba y además es determinista. */
+@media (min-width: 62em) {
+  .momentos__encabezado {
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr);
+    align-items: end;
+    column-gap: var(--gap-lg);
+    row-gap: 0;
+    margin-bottom: var(--esp-3xl);
+  }
 }
 
 /* Los tokens inversos son los mismos que usa .seccion--oscura. Sobre carbón
-   (--carbon, #2B2B2B) la crema da 13.4:1 y la crema al 78 % 11.1:1: AAA
-   holgado en los dos casos, muy por encima del 4.5:1 que pide AA. */
+   (--carbon) la crema da 14,1:1 y la crema al 78 % 11,1:1: AAA holgado en los
+   dos casos, muy por encima del 4.5:1 que pide AA.
+   El titular sube de --fs-h2 a --fs-h1 sólo en la cartela de escritorio: es
+   una frase de cuatro palabras y es lo único que se lee en toda la banda. */
 .momentos__titulo {
   color: var(--color-texto-inverso);
   /* Titular de una línea: se le deja respirar en ancho de lectura corta en
      vez de estirarse hasta el borde del contenedor. */
   max-width: 22ch;
   text-wrap: balance;
+}
+
+@media (min-width: 62em) {
+  .momentos__titulo {
+    font-size: var(--fs-h1);
+    max-width: 20ch;
+  }
 }
 
 /* ==========================================================================
@@ -76,8 +206,34 @@
   }
 }
 
+/* ---- LA SANGRÍA POR LA DERECHA -------------------------------------------
+   El muro es hijo de .contenedor, así que su bloque contenedor mide justo el
+   ancho del contenido. `50% - 50vw` es la mitad de esa caja menos la mitad
+   del viewport: un número NEGATIVO que estira el muro exactamente hasta el
+   borde derecho de la pantalla. La cuarta pieza deja de estar «a la derecha»
+   y pasa a estar SALIENDO DE CUADRO, que es lo que se buscaba.
+
+   Sobre el viejo aviso de naturaleza.css («ojo con 100vw, incluye la barra de
+   scroll»): aquí el desbordamiento es de media barra (~8 px) y se absorbe con
+   el padding de la derecha, que es mayor. Y no aparece scroll horizontal
+   porque el overflow-x:hidden del body se propaga al viewport.
+
+   El relleno de la derecha es --esp-sm y no --padding-contenedor a propósito:
+   con el margen de página completo la pieza no llegaría a tocar el borde y no
+   habría sangría, sólo una banda un poco más ancha. Con 16 px la pieza roza
+   el canto de la pantalla y el pie de foto sigue sin riesgo de recorte.
+
+   Sólo desde 64em. Por debajo el muro se queda dentro del contenedor: un
+   vertical sangrado en un móvil no es cine, es un recorte.               */
+@media (min-width: 64em) {
+  .momentos__muro {
+    margin-inline-end: calc(50% - 50vw);
+    padding-inline-end: var(--esp-sm);
+  }
+}
+
 /* ==========================================================================
-   3. LA COMPOSICIÓN ESCALONADA
+   3. LA COMPOSICIÓN ESCALONADA   (v3.1 · intacta)
    Cada pieza declara DÓNDE empieza y cuánto ocupa (`grid-column`) y CUÁNTO
    baja respecto a sus vecinas (`--desfase`). El desfase es un margen
    superior, no un `transform`: así el muro reserva la altura que ocupa y no
@@ -193,9 +349,13 @@
    ========================================================================== */
 .momentos__marco {
   aspect-ratio: 9 / 16;
-  /* Esquina viva: es la firma de la banda oscura. El radio redondeado
-     pertenece a las secciones claras. */
-  border-radius: 0;
+  /* LA HOJA. Dos esquinas curvas en diagonal y dos vivas: el motivo orgánico
+     del sistema, el mismo que la viñeta de .lista-hojas en base.css §2. El
+     valor lo pone cada pieza en --momentos-hoja (justo debajo), porque la
+     diagonal alterna y el tamaño de la curva acompaña al tamaño de la pieza.
+     Gana a `.marco { border-radius: 0 }` de base.css por orden de carga: las
+     dos reglas miden (0,1,0) y esta hoja se enlaza después. */
+  border-radius: var(--momentos-hoja);
   /* Sin sombra: sobre carbón una sombra no se ve y sólo ensucia el borde.
      El propio contraste imagen/fondo hace de límite. */
   box-shadow: none;
@@ -204,25 +364,89 @@
   background-color: var(--color-fondo-carbon-suave);
 }
 
+/* ---- El reparto de hojas -------------------------------------------------
+   DIAGONALES ALTERNAS. Las curvas van en `0 R 0 R` (superior derecha e
+   inferior izquierda) o en `R 0 R 0` (superior izquierda e inferior derecha),
+   y no hay dos vecinas iguales: uno y tres llevan una, dos y cuatro la otra.
+   Vale para las tres disposiciones —en móvil las que se tocan son la dos y la
+   tres, que también difieren—.
+
+   TAMAÑOS DESIGUALES. La curva crece con la pieza: --radio-xl en la
+   protagonista, --radio-lg en las dos medianas y --radio-md en la pequeña. Un
+   radio idéntico en cuatro recuadros de anchos distintos se lee como un ajuste
+   global aplicado encima, que es justo lo contrario de lo que se busca.     */
+.momentos__pieza--uno {
+  --momentos-hoja: 0 var(--radio-xl) 0 var(--radio-xl);
+}
+
+.momentos__pieza--dos {
+  --momentos-hoja: var(--radio-lg) 0 var(--radio-lg) 0;
+}
+
+.momentos__pieza--tres {
+  --momentos-hoja: 0 var(--radio-lg) 0 var(--radio-lg);
+}
+
+.momentos__pieza--cuatro {
+  --momentos-hoja: var(--radio-md) 0 var(--radio-md) 0;
+}
+
+/* LA EXCEPCIÓN DE LA PIEZA QUE SALE DE CUADRO. Desde 64em —y sólo desde 64em,
+   porque es el mismo umbral en el que el muro empieza a sangrar (§2)— la
+   cuarta pieza es la última columna de una rejilla que llega al canto de la
+   ventana. Sus dos esquinas derechas se van a cero: una curva contra el borde
+   de la pantalla parece un error de recorte, no una decisión. Le queda la
+   curva superior izquierda, que es la que sigue contando que la pieza
+   pertenece a la misma familia que las otras tres. */
+@media (min-width: 64em) {
+  .momentos__pieza--cuatro {
+    --momentos-hoja: var(--radio-md) 0 0 0;
+  }
+}
+
 /* El clip llena su recuadro. `display: block` quita la línea base de elemento
    en línea que dejaría una franja de carbón bajo el vídeo.
    NO hay opacidad ni fundido: el <video> enseña su propio `poster` hasta que
-   llegan los fotogramas, así que ya hay continuidad sin animar nada. */
+   llegan los fotogramas, así que ya hay continuidad sin animar nada.
+
+   `border-radius: inherit` NO es redundante con el `overflow: hidden` del
+   marco: varios motores —Safari en cabeza— han arrastrado durante años el
+   fallo de no recortar un <video> contra las esquinas redondeadas de su
+   contenedor, y el resultado es un rectángulo de vídeo asomando por debajo de
+   la curva. Dándole al propio clip el mismo radio que hereda del marco, se
+   recorta él solo y el fallo deja de existir. */
 .momentos__video {
   display: block;
   width: 100%;
   height: 100%;
   object-fit: cover;
+  border-radius: inherit;
 }
 
 /* ==========================================================================
    5. PIE
    Describe lo que se ve en el clip y nada más (ver el contrato en
    sections/momentos.html). Cuerpo en --fs-micro, que es --paso--2: el suelo
-   de 12,5 px del sistema. Por debajo de ahí no baja ningún texto del sitio,
-   y menos éste, que es lo único que se lee en toda la banda.
+   de 12,8 px del sistema. Por debajo de ahí no baja ningún texto del sitio.
+
+   v3.2 · LOS CUATRO PIES DEJAN DE SER IGUALES. Cuatro rótulos idénticos
+   debajo de cuatro piezas de tamaños distintos deshacían por abajo el
+   desnivel que §3 construye por arriba: la vista los leía como una fila de
+   etiquetas y volvía a ver una rejilla. Ahora el pie de la pieza
+   protagonista sube a --fs-pequeno y a crema plena, y los otros tres se
+   quedan en micro y en crema al 78 %. Hay jerarquía donde antes había lista.
+
+   LA HOJA. Es la única curva de esta hoja y no es un invento: es la misma
+   viñeta asimétrica de .lista-hojas en base.css §2 —dos esquinas a
+   --radio-full y dos a cero—, que es el gesto orgánico propio de este sistema
+   de diseño. Se orienta al revés en las piezas pares, así que no hay dos
+   hojas iguales seguidas. En menta sobre carbón mide 9,0:1, pero da igual:
+   es decoración, no información, y el pie se entiende entero sin ella.
    ========================================================================== */
 .momentos__pie {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.7em;
   font-family: var(--fuente-cuerpo);
   font-size: var(--fs-micro);
   line-height: var(--alto-linea-suelto);
@@ -230,11 +454,179 @@
   max-width: 46ch;
 }
 
+.momentos__pie::before {
+  content: "";
+  flex: none;
+  width: 0.62em;
+  height: 0.62em;
+  /* Alinea la hoja con la primera línea de texto, no con el borde de la caja. */
+  margin-block-start: 0.58em;
+  border-radius: 0 var(--radio-full) 0 var(--radio-full);
+  background-color: var(--color-acento);
+}
+
+/* Hoja espejada en las piezas pares: mismo motivo, orientación contraria. */
+.momentos__pieza--dos .momentos__pie::before,
+.momentos__pieza--cuatro .momentos__pie::before {
+  border-radius: var(--radio-full) 0 var(--radio-full) 0;
+}
+
+/* La protagonista habla más alto que las tres menores. Crema plena sobre
+   carbón: 14,1:1. */
+.momentos__pieza--uno .momentos__pie {
+  font-size: var(--fs-pequeno);
+  color: var(--color-texto-inverso);
+  max-width: 34ch;
+}
+
 /* ==========================================================================
-   6. MENOS MOVIMIENTO
+   6. LUZ Y GRANO — la materia de la banda
+   Dos capas, las dos decorativas, las dos por detrás del contenido (§0) y las
+   dos con pointer-events:none para que no se coman ningún clic.
+
+   POR QUÉ. El carbón plano es un `background-color`, y un `background-color`
+   a pantalla completa se lee como una caja de CSS. Con una luz suave detrás
+   de las piezas y un grano fino encima, el mismo carbón se lee como una
+   proyección. Es la diferencia entre una banda oscura y una sala oscura, y
+   cuesta dos pseudoelementos.
+
+   POR QUÉ LUZ Y NO VIÑETA. La primera versión de este bloque era una viñeta
+   —oscurecer los cantos—, y no funcionaba: la única forma de oscurecer sin
+   escribir un color literal es apilar --carbon sobre --carbon, que es el
+   mismo color y por tanto no se ve nada. Y no hay ningún token más oscuro que
+   el carbón: --verde-bosque-hondo, que parece más negro, tiene de hecho MÁS
+   luminancia (0,018 contra 0,010). Así que la profundidad se hace al revés,
+   que además es más cine: una luz de fondo tenue, descentrada hacia donde cae
+   la pieza protagonista, y los cantos que se quedan en el carbón desnudo. El
+   ojo lee lo mismo —centro abierto, bordes cerrados— y el efecto es el de un
+   foco detrás de la pantalla en vez del de un óvalo pegado encima.
+
+   LOS COLORES SALEN DE LOS TOKENS. El degradado usa el triplete --crema-rgb
+   con alfa; no hay ni un hexadecimal. El grano es un SVG `feTurbulence`
+   desaturado a gris: no lleva ningún color declarado —es ruido de
+   luminancia— y su intensidad la fija sólo la opacidad.
+
+   CONTRASTE. Las dos capas van DEBAJO del texto. Entre las dos levantan el
+   carbón unos pocos niveles justo donde se cruzan, y ninguna llega al 6 % de
+   alfa: la crema de la cartela baja de 14,1:1 a algo más de 13:1 y los pies
+   de foto de 9,0:1 a poco menos de 8,7:1. Los dos siguen muy por encima del
+   4.5:1 de AA, y el más apretado de los dos incluso por encima de AAA.
+   ========================================================================== */
+
+/* --- La luz: un foco tenue detrás del muro --------------------------------
+   Descentrado a propósito (38 % / 34 %): cae detrás de la pieza protagonista,
+   que es la más ancha y la que está más arriba. Centrado sería un halo; ahí
+   es una fuente de luz.                                                    */
+.momentos::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: var(--z-fondo);
+  pointer-events: none;
+  background-image: radial-gradient(
+    96% 68% at 38% 34%,
+    rgb(var(--crema-rgb) / 0.05) 0%,
+    rgb(var(--crema-rgb) / 0.018) 44%,
+    rgb(var(--crema-rgb) / 0) 74%
+  );
+}
+
+/* --- Grano ---------------------------------------------------------------
+   La capa se declara --esp-lg más alta que la banda por arriba y por abajo,
+   que es EXACTAMENTE el recorrido de la deriva (±2 rem, ver los keyframes):
+   así el movimiento nunca deja a la vista un canto sin textura, y el sobrante
+   lo recorta el `overflow: clip` de §0.                                    */
+.momentos::after {
+  content: "";
+  position: absolute;
+  inset: calc(var(--esp-lg) * -1) 0;
+  z-index: var(--z-fondo);
+  pointer-events: none;
+  opacity: 0.055;
+  background-repeat: repeat;
+  background-size: var(--esp-3xl) var(--esp-3xl);
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.86' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23g)'/%3E%3C/svg%3E");
+}
+
+/* --- La deriva: el ÚNICO parallax de la sección, y va en el FONDO ---------
+   La dirección de arte permite parallax del 5 al 15 % y SÓLO en fondos,
+   nunca en texto de lectura ni en la imagen que alguien está mirando. Aquí se
+   cumple al pie de la letra: lo que se mueve es la capa de grano, que no
+   contiene ni una letra ni un píxel de fotografía. El recorrido es --esp-2xl
+   (4 rem) sobre una banda de varios cientos de píxeles: por debajo del 15 %.
+
+   Se hace con línea de tiempo de scroll (`animation-timeline: view()`), no
+   con JS: sin listeners de scroll, sin trabajo en el hilo principal y con
+   `translate3d`, que la compone la GPU. En los navegadores que todavía no la
+   soportan, el @supports deja la capa quieta y no se pierde nada.
+
+   El @media de movimiento reducido es obligatorio y va por fuera: las
+   animaciones con línea de tiempo de scroll NO las frena el bloque global de
+   base.css, que sólo acorta duraciones —y una animación de scroll no tiene
+   duración en tiempo. Si no se guardara aquí, seguiría moviéndose.        */
+@keyframes momentos-deriva {
+  from {
+    transform: translate3d(0, calc(var(--esp-2xl) * -0.5), 0);
+  }
+
+  to {
+    transform: translate3d(0, calc(var(--esp-2xl) * 0.5), 0);
+  }
+}
+
+/* Se escriben las longhands y NO el atajo `animation:`. El atajo reinicia
+   animation-duration, y una animación con línea de tiempo de scroll necesita
+   `auto` para repartirse a lo largo del recorrido: con una duración en
+   segundos —o con el 0s que dejaría el atajo en los motores que aún no han
+   cambiado el valor inicial— la deriva se ejecuta de golpe y no se ve nada.
+   Dentro de este @supports, `auto` está garantizado. */
+@supports (animation-timeline: view()) {
+  @media (prefers-reduced-motion: no-preference) {
+    .momentos::after {
+      animation-name: momentos-deriva;
+      animation-duration: auto;
+      animation-timing-function: linear;
+      animation-fill-mode: both;
+      animation-timeline: view();
+    }
+  }
+}
+
+/* ==========================================================================
+   7. ENTRADA — el telón
+   base.css mueve todo el sitio con .reveal a --transicion-reveal (900 ms).
+   Aquí baja a --dur-lenta (550 ms) con --ease-salida, que es el tramo que
+   pide la dirección de arte (400–600 ms, easing de salida) y que además le va
+   mejor a un clip: 900 ms de fundido sobre un vídeo que ya se está moviendo
+   se leen como que la página va lenta.
+
+   El selector es .js .momentos .reveal (0,3,0) y le gana por especificidad
+   tanto a .js .reveal como a .js .reveal--velo (0,2,0), da igual el orden de
+   carga. Bajo `prefers-reduced-motion` no hace nada: base.css pone
+   `transition: none` y, por encima, un transition-duration con !important.
+
+   El escalonado lo sigue poniendo .reveal-secuencia de base.css: cuatro
+   hijos, muy por debajo del máximo de ocho.
+
+   .reveal--velo (base.css §6) es una cortina de clip-path que estaba escrita
+   y sin usar en todo el sitio. Es exactamente lo que necesita un muro de
+   vídeo: la pieza se descubre de arriba abajo en vez de aparecer. Se usa
+   aquí y en ningún otro sitio, así que no se gasta el recurso.
+   ========================================================================== */
+.js .momentos .reveal {
+  transition-duration: var(--dur-lenta);
+  transition-timing-function: var(--ease-salida);
+}
+
+/* ==========================================================================
+   8. MENOS MOVIMIENTO
    Quien pide `prefers-reduced-motion: reduce` NO ve el bucle: js/momentos-video.js
    no llama nunca a play() y cada <video> se queda enseñando su póster, que es
-   una foto fija del mismo sitio. Aquí no hace falta ninguna regla que oculte
-   el vídeo —hacerlo dejaría cuatro huecos de carbón vacío—; esta nota está
-   para que nadie «arregle» el olvido añadiendo un display:none.
+   una foto fija del mismo sitio. Tampoco ve la deriva del grano (§6) ni la
+   cortina de entrada (§7, la frena base.css). La viñeta y el grano se quedan,
+   porque son estáticos: quitar movimiento no es quitar textura.
+
+   Aquí no hace falta ninguna regla que oculte el vídeo —hacerlo dejaría
+   cuatro huecos de carbón vacío—; esta nota está para que nadie «arregle» el
+   olvido añadiendo un display:none.
    ========================================================================== */

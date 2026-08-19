@@ -33,6 +33,27 @@
          izquierda, panel de aves saliéndose por la derecha— para que los dos
          bloques de fotografía no repitan el mismo gesto.
 
+     v5 — LO QUE v4 NO ARREGLÓ (el texto sigue sin cambiar ni una coma)
+     v4 recompuso la retícula y estuvo bien: la asimetría se lee. Pero la
+     sección seguía siendo, de arriba abajo, papel crema con rectángulos a
+     escuadra encima. Sin una curva, sin un cambio de fondo y sin una sola
+     pieza que se salga de su caja, la asimetría sola no basta para que la
+     página deje de parecer generada. v5 añade tres cosas y ninguna toca un
+     hecho:
+
+       · CAPITULAR en el primer párrafo del discurso. Es el ancla visual que
+         le faltaba a una columna de cuatro párrafos seguidos, y de paso la
+         letra CUELGA fuera de la caja de texto por la izquierda, que es el
+         gesto que rompe la retícula sin mover nada de sitio.
+       · LA FOTO deja de ser un rectángulo: sangra por la izquierda y remata
+         en dos radios de hoja distintos por la derecha, la mano por la que sí
+         tiene borde.
+       · EL COMPROMISO pasa a ser una BANDA OSCURA de esquinas orgánicas
+         apoyada sobre el papel. Deja de ser «más texto en la misma página» y
+         se convierte en el cierre de capítulo de la sección: es el primer
+         negativo del sitio después del hero, y llega justo donde el discurso
+         cambia de registro (qué es el predio → para qué existe).
+
      Bloques: (a) el predio · (b) lo básico resuelto · (c) el compromiso
      Fotos: parque-05.jpg (arbolado y prado a ras de suelo, verificada) y
             parque-20.jpg (el panel pintado con aves del predio, verificada:
@@ -66,7 +87,11 @@
         Un predio privado con portería y vigilancia, no un parque público.
         Lo básico ya está puesto antes de que llegues.
       </p>
-      <p>
+      <!-- La capitular se marca con una clase y no con `p:nth-of-type(2)`
+           porque la entradilla también es un <p>: un selector posicional se
+           rompería en cuanto alguien añada o quite un párrafo. La letra que
+           agranda el CSS es la «E» de «Entras». -->
+      <p class="nosotros__parrafo--capitular">
         Entras por una portería. A partir de ahí la ciudad se queda afuera:
         un refugio natural que brinda tranquilidad y seguridad en medio del
         bullicio urbano.
@@ -123,45 +148,45 @@
       <ul class="nosotros__servicios-lista">
 
         <li class="nosotros__servicio">
-          <svg class="nosotros__servicio-icono" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+          <svg class="icono-traza nosotros__servicio-icono" viewBox="0 0 24 24" fill="none" stroke="currentColor"
                stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"
                aria-hidden="true" focusable="false">
-            <path d="M2.6 9.1a14.4 14.4 0 0 1 18.8 0" />
-            <path d="M5.9 12.8a9.6 9.6 0 0 1 12.2 0" />
-            <path d="M9.1 16.5a4.7 4.7 0 0 1 5.8 0" />
-            <circle cx="12" cy="19.9" r="1.1" fill="currentColor" stroke="none" />
+            <path d="M2.6 9.1a14.4 14.4 0 0 1 18.8 0"  pathLength="1"/>
+            <path d="M5.9 12.8a9.6 9.6 0 0 1 12.2 0"  pathLength="1"/>
+            <path d="M9.1 16.5a4.7 4.7 0 0 1 5.8 0"  pathLength="1"/>
+            <circle cx="12" cy="19.9" r="1.1" fill="currentColor" stroke="none"  pathLength="1"/>
           </svg>
           Wifi
         </li>
 
         <li class="nosotros__servicio">
-          <svg class="nosotros__servicio-icono" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+          <svg class="icono-traza nosotros__servicio-icono" viewBox="0 0 24 24" fill="none" stroke="currentColor"
                stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"
                aria-hidden="true" focusable="false">
-            <rect x="4.25" y="2.75" width="15.5" height="18.5" rx="2.75" />
-            <circle cx="12" cy="7.9" r="1.5" />
-            <path d="M9.5 16.6 12 10.9l2.5 5.7" />
-            <path d="M10.4 14.5h3.2" />
+            <rect x="4.25" y="2.75" width="15.5" height="18.5" rx="2.75"  pathLength="1"/>
+            <circle cx="12" cy="7.9" r="1.5"  pathLength="1"/>
+            <path d="M9.5 16.6 12 10.9l2.5 5.7"  pathLength="1"/>
+            <path d="M10.4 14.5h3.2"  pathLength="1"/>
           </svg>
           Baños
         </li>
 
         <li class="nosotros__servicio">
-          <svg class="nosotros__servicio-icono" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+          <svg class="icono-traza nosotros__servicio-icono" viewBox="0 0 24 24" fill="none" stroke="currentColor"
                stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"
                aria-hidden="true" focusable="false">
-            <path d="M12 2.8 4.9 5.6v5.7c0 4.4 3 8.4 7.1 9.9 4.1-1.5 7.1-5.5 7.1-9.9V5.6L12 2.8Z" />
-            <path d="m8.9 11.9 2.2 2.2 4-4.3" />
+            <path d="M12 2.8 4.9 5.6v5.7c0 4.4 3 8.4 7.1 9.9 4.1-1.5 7.1-5.5 7.1-9.9V5.6L12 2.8Z"  pathLength="1"/>
+            <path d="m8.9 11.9 2.2 2.2 4-4.3"  pathLength="1"/>
           </svg>
           Vigilancia privada
         </li>
 
         <li class="nosotros__servicio">
-          <svg class="nosotros__servicio-icono" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+          <svg class="icono-traza nosotros__servicio-icono" viewBox="0 0 24 24" fill="none" stroke="currentColor"
                stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"
                aria-hidden="true" focusable="false">
-            <rect x="3.25" y="3.25" width="17.5" height="17.5" rx="4.25" />
-            <path d="M9.8 17.1V7.4h3.2a2.9 2.9 0 0 1 0 5.9H9.8" />
+            <rect x="3.25" y="3.25" width="17.5" height="17.5" rx="4.25"  pathLength="1"/>
+            <path d="M9.8 17.1V7.4h3.2a2.9 2.9 0 0 1 0 5.9H9.8"  pathLength="1"/>
           </svg>
           Parqueadero
         </li>
@@ -181,8 +206,21 @@
        panel de aves se sale por el borde DERECHO. Los pilares ya no son tres
        tarjetas sino tres renglones separados por un hilo, con la cifra grande
        haciendo de índice: una lista que se lee, no un carrusel.
+
+       v5 — LA BANDA OSCURA. Se le añade `seccion--oscura`, que es una utilidad
+       de base.css y no un invento de esta hoja: trae el fondo verde bosque, el
+       texto en crema, los h1–h6 en negativo, el rótulo y la entradilla en
+       crema al 78 % y el foco en amarillo. Lo que NO trae —y por eso está
+       escrito a mano en nosotros.css— es el color del índice de cada pilar
+       (terracota sobre oscuro no llega a 4,5:1; va en amarillo del logo, 7,3),
+       el de sus párrafos y el de los filetes que los separan.
+
+       CUIDADO SI SE TOCA: `.seccion--oscura h1..h6` mide (0,1,1) y le gana a
+       cualquier clase suelta. Si algún día entra aquí una tarjeta CLARA, su
+       titular hay que pintarlo nombrando el ancestro, no con una clase a
+       secas, o se queda en crema sobre claro.
        ---------------------------------------------------------------------- -->
-  <section class="nosotros__compromiso" aria-labelledby="compromiso-titulo">
+  <section class="nosotros__compromiso seccion--oscura" aria-labelledby="compromiso-titulo">
 
     <div class="nosotros__compromiso-texto reveal reveal--izq">
 
@@ -241,9 +279,11 @@
 
     </div>
 
-    <!-- Tampoco aquí: el panel sangra por el borde derecho de la ventana, y
-         un `reveal--der` lo empujaría 28 px fuera de la pantalla. -->
-    <figure class="nosotros__mural reveal">
+    <!-- Tampoco aquí `reveal--der`: el panel sangra por el borde derecho de la
+         ventana y un desplazamiento horizontal lo empujaría 28 px fuera de la
+         pantalla. Entra con `reveal--zoom`, que sólo escala: no desplaza nada
+         y por tanto no puede desbordar. -->
+    <figure class="nosotros__mural reveal reveal--zoom">
       <img
         src="img/parque/parque-20.jpg"
         width="900"

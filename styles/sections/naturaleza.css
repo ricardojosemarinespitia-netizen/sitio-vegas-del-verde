@@ -24,7 +24,36 @@
        son opuestos a propósito: si los dos fueran por el mismo lado, el
        recurso se volvería otra plantilla.
      · .nat-conservacion pierde la caja y el relleno: es el pie de la sección.
-     · El muro del concurso NO se toca (§5): ya era la pieza distinta.
+
+   QUÉ AÑADE v4 — y por qué hacía falta
+   v3.1 repartió el PESO y acertó: eso se conserva entero, no se toca ni un
+   sangrado. Lo que seguía fallando era la FORMA. La sección que cuenta 347
+   plantas y 101 aves estaba dibujada entera con rectángulos de radio cero:
+   ocho fotos, cuatro fichas de ambiente, cincuenta y siete copias del muro y
+   dos bandas, todas con la misma esquina. Un radio único repetido cincuenta
+   veces —sea 0, sea 24 px— es lo que delata una plantilla, porque la
+   naturaleza no tiene un solo radio. v4 introduce cuatro:
+
+     · --nat-hoja-a..d: cuatro radios ASIMÉTRICOS derivados de la escala de
+       tokens, repartidos de modo que dos piezas vecinas nunca coincidan.
+     · El cauce entre la quebrada y el riachuelo pasa de filete recto a trazo
+       SVG que serpentea. Era el único gráfico de la sección y era una raya.
+     · La banda del muro entra por una cresta SVG irregular, no por un canto
+       recto a todo lo ancho.
+     · Capitular en la entrada del cuerpo y el «101» marcado dentro del propio
+       titular: registro editorial, que es el que sabe contar cifras sin que
+       parezcan una tabla.
+     · Deriva de fondo (parallax) del 14 % en la ÚNICA foto que puede
+       permitírsela: la del sangrado izquierdo, que es alta y está recortada.
+       Con animation-timeline: view(), sin una línea de JS, sin barra de
+       scroll robada y desactivada entera si se pide menos movimiento.
+     · Vuelve una sola sombra a la sección: la del inserto de guadua, que es
+       la única pieza que de verdad está ENCIMA de otra. v3 las quitó todas
+       porque veinte sombras seguidas se leen como suciedad; una sola, donde
+       hay solape real, se lee como profundidad. No hay ninguna más.
+     · El muro del concurso conserva intactos su marcado, su orden y sus
+       créditos: lo único que cambia es que las copias ya no comparten
+       esquina, igual que no la comparten las copias de una pared de verdad.
 
    CÓMO SE SANGRA AQUÍ, Y POR QUÉ NO CON vw
    Los bloques a sangre son hijos DIRECTOS de <section>, no de .contenedor, así
@@ -67,7 +96,28 @@
   --nat-alto-habitat: clamp(15rem, 30vw, 19rem);
   --nat-alto-habitat-ancho: clamp(17rem, 32vw, 23rem);
   --nat-col-video: clamp(15rem, 24vw, 21rem);     /* ancho de la columna 9:16 */
-  --nat-filete: 2px;                              /* filetes de lista/aviso  */
+  /* --nat-filete se retira en v4: los dos únicos sitios que lo usaban —el
+     aviso de la Chachalaca y los nombres de los dos árboles— ya no cuelgan de
+     un filete recto, sino de una superficie con radio de hoja y de la propia
+     viñeta de hoja del sistema. */
+
+  /* --- LA HOJA: el sistema de radios de esta sección ----------------------
+     No son cuatro esquinas iguales, y ése es todo el asunto. Un radio único
+     repetido en cincuenta cajas es lo que hace que una página parezca
+     generada; dos esquinas abiertas y dos cerradas, alternando la diagonal,
+     dan la silueta de una hoja y se leen como una decisión.
+
+     Los valores salen de la escala de tokens.css sin inventar ninguno:
+     --radio-xl (36 px) es la punta abierta, --radio-lg (24 px) el hombro y
+     --radio-md (14 px) la esquina cerrada. Las cuatro variantes se reparten
+     por la sección de modo que dos piezas vecinas NUNCA lleven la misma.
+     Las esquinas que caen contra el borde de la pantalla —los dos bloques a
+     sangre— se quedan a cero: una esquina redonda contra el canto del
+     navegador se lee como un error de recorte, no como una forma.          */
+  --nat-hoja-a: var(--radio-xl) var(--radio-md) var(--radio-xl) var(--radio-md);
+  --nat-hoja-b: var(--radio-md) var(--radio-xl) var(--radio-md) var(--radio-xl);
+  --nat-hoja-c: var(--radio-lg) var(--radio-md) var(--radio-lg) var(--radio-xl);
+  --nat-hoja-d: var(--radio-md) var(--radio-lg) var(--radio-xl) var(--radio-lg);
 }
 
 /* ==========================================================================
@@ -110,13 +160,17 @@
   padding-block-end: var(--nat-solape);
 }
 
-/* v3: la composición del sendero pierde radios y sombras. Eran dos fotografías
-   con --radio-xl / --radio-lg y --sombra-lg cada una, una encima de la otra:
-   el rincón más «tarjeta» de toda la página. A esquina viva la solapa se lee
-   mejor, porque lo que separa el inserto de la foto de abajo pasa a ser el
-   filete de crema que ya lleva, y no un halo. */
+/* v3 dejó las dos fotografías a esquina viva porque llevaban el MISMO radio y
+   la MISMA sombra: dos tarjetas apiladas, el rincón más genérico de la página.
+   v4 no vuelve a aquello. Le da a cada una un radio distinto y asimétrico —la
+   grande abre por arriba a la derecha, el inserto abre por la diagonal
+   contraria—, y la sombra vuelve sólo al inserto, que es el único elemento de
+   la sección que de verdad está encima de otro.
+   En móvil la foto grande no está a sangre, así que puede redondear las cuatro
+   esquinas; en escritorio sí lo está y las dos de la izquierda vuelven a cero
+   (ver el bloque de 62em). */
 .nat-apertura__principal .marco {
-  border-radius: 0;
+  border-radius: var(--nat-hoja-a);
   box-shadow: none;
 }
 
@@ -137,10 +191,53 @@
   .nat-apertura__principal .marco {
     aspect-ratio: auto;
     min-height: var(--nat-alto-apertura);
+    /* A sangre por la izquierda: las dos esquinas de ese lado se apoyan en el
+       canto del navegador y ahí un radio se lee como recorte fallido. Sólo
+       redondea el lado que da al texto, y con dos valores distintos. */
+    border-radius: 0 var(--radio-xl) var(--radio-lg) 0;
   }
 
   .nat-apertura__principal .marco > img {
     object-position: center 62%;
+  }
+}
+
+/* ---- Deriva de fondo (parallax) ------------------------------------------
+   Sólo aquí, y sólo en escritorio. Es la única fotografía de la sección que
+   cumple las tres condiciones para permitírselo: es alta (844×1500), está
+   recortada dentro de un marco con overflow y es FONDO —debajo no hay texto
+   que se mueva—. El recorrido es del 14 % del alto del marco, dentro de la
+   horquilla sutil; más que eso y el sendero «resbala».
+
+   Va con animation-timeline: view(), no con JavaScript: el navegador la
+   engancha al scroll compositor sin un solo listener, y donde no exista la
+   propiedad simplemente no pasa nada —la foto se queda quieta y encuadrada—.
+   Envuelto en prefers-reduced-motion: no-preference, así que quien pide menos
+   movimiento no recibe ninguno; el `animation-duration !important` que
+   base.css impone en el otro extremo de esa media query ni siquiera llega a
+   tener nada que anular.
+   -------------------------------------------------------------------------- */
+@keyframes nat-deriva {
+  from {
+    transform: translate3d(0, -12%, 0);
+  }
+
+  to {
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) and (min-width: 62em) {
+  @supports (animation-timeline: view()) {
+    .nat-apertura__principal .marco > img {
+      /* 118 % de alto: el sobrante es lo que se recorre. Al final del
+         recorrido la foto sigue tapando el marco entero, así que no hay
+         ningún instante con una franja vacía debajo. */
+      height: 118%;
+      animation: nat-deriva linear both;
+      animation-timeline: view();
+      animation-range: entry 0% exit 100%;
+    }
   }
 }
 
@@ -168,12 +265,15 @@
   }
 }
 
-/* El filete de crema NO es decoración: es lo que despega el inserto de la
-   fotografía que tiene debajo ahora que no hay sombra que lo haga. */
+/* El filete de crema despega el inserto de la fotografía que tiene debajo, y
+   la sombra —la ÚNICA de la sección— dice a qué distancia está. Es el único
+   sitio donde una sombra cuenta algo verdadero: aquí hay dos planos de verdad,
+   uno encima del otro. La diagonal del radio es la contraria a la de la foto
+   grande, para que las dos hojas no queden calcadas. */
 .nat-apertura__inset .marco {
   border: var(--esp-3xs) solid var(--color-fondo);
-  border-radius: 0;
-  box-shadow: none;
+  border-radius: var(--nat-hoja-b);
+  box-shadow: var(--sombra-lg);
 }
 
 .nat-apertura__pie {
@@ -210,6 +310,25 @@
   }
 }
 
+/* EL «101», DENTRO DEL TITULAR.
+   Es el único sitio de la página donde aparece esa cifra y estaba escrita como
+   una palabra más. Aquí se marca —peso de cifra y terracota, 5.3:1 sobre
+   crema— sin sacarla de la frase, que es lo que la hace legible como promesa
+   («cantan 101 especies») y no como estadística suelta.
+
+   El inline-block con min-width en `ch` y cifras tabulares es lo que permite
+   que el contador de js/app.js cuente de 0 a 101 sin que el titular se
+   recomponga en cada fotograma: la caja ya mide de entrada lo que va a medir
+   al final. Sin JS el 101 está escrito en el HTML y no cambia nada.          */
+.nat-titulo-cifra {
+  display: inline-block;
+  min-width: 3ch;
+  text-align: center;
+  font-weight: var(--peso-fuerte);
+  font-variant-numeric: tabular-nums;
+  color: var(--color-acento-texto);
+}
+
 .nat-apertura__cuerpo {
   display: flex;
   flex-direction: column;
@@ -222,6 +341,38 @@
    y el cuerpo hace de bisagra, no de segundo titular. */
 .nat-apertura__antetitulo {
   margin: 0;
+}
+
+/* CAPITULAR. Registro editorial, y de paso una jerarquía que no cuesta nada:
+   marca dónde empieza a leerse de verdad la sección. Va sólo en el PRIMER
+   párrafo del cuerpo —no en cada bloque, que sería otra plantilla— y en la
+   serifa del display, que es la que tiene un ojo que aguanta el tamaño.     */
+.nat-apertura__cuerpo > p:first-of-type::first-letter {
+  float: left;
+  margin-inline-end: 0.1em;
+  font-family: var(--fuente-display);
+  font-size: var(--paso-5);
+  font-weight: var(--peso-display);
+  font-optical-sizing: auto;
+  font-variation-settings: var(--ejes-display);
+  line-height: 0.74;
+  color: var(--color-acento-texto);
+}
+
+/* Donde exista `initial-letter` se usa: es la propiedad que sabe encajar la
+   capitular en un número EXACTO de renglones, que es de lo que vive una
+   capitular —una que sobresale o se queda corta respecto a la pauta se lee
+   como un descuido, no como un remate—. El bloque de arriba es la
+   aproximación a mano para los navegadores que aún no la tienen. */
+@supports (initial-letter: 2) or (-webkit-initial-letter: 2) {
+  .nat-apertura__cuerpo > p:first-of-type::first-letter {
+    -webkit-initial-letter: 2;
+    initial-letter: 2;
+    float: none;
+    margin-inline-end: 0.12em;
+    font-size: inherit;
+    line-height: inherit;
+  }
 }
 
 .nat-apertura__lista {
@@ -261,12 +412,25 @@
   margin: 0;
 }
 
+/* EL SELLO DEL PRECIO.
+   Es el único importe publicado en todo el sitio y estaba escrito como tres
+   párrafos sueltos entre dos filetes: se leía igual que la nota de al lado.
+   Ahora es una pieza con cuerpo propio —fondo salvia, la misma banda que usa
+   el muro, y radio de hoja—, o sea la única superficie tintada de la columna.
+   No lleva sombra: no está encima de nada.
+
+   Contraste comprobado sobre salvia (#dde5cd): terracota 4.55:1 (par
+   verificado en CONTRATO-V2 §4) y --color-texto-suave 5.2:1. Los dos pasan AA
+   y ninguno depende de una regla de esta hoja para conseguirlo.             */
 .nat-precio {
   display: flex;
   flex-direction: column;
   gap: var(--esp-3xs);
   min-width: 0;
   max-width: var(--medida-corta);
+  padding: var(--esp-md) var(--esp-lg);
+  border-radius: var(--nat-hoja-c);
+  background-color: var(--color-fondo-alt);
 }
 
 .nat-precio__etiqueta {
@@ -354,13 +518,19 @@
   background-color: var(--color-borde-fuerte);
 }
 
-/* El tramo de agua que une los dos puntos: cae desde el centro de la gota */
-.nat-ruta__linea {
+/* EL CAUCE. Era un filete recto de 1 px, o sea el borde de una tabla puesto
+   de canto. Una quebrada no baja recta: ahora es un trazo SVG que serpentea
+   dos veces y arranca justo bajo la gota del punto de arriba (de ahí el
+   margen de 0.25em, el mismo que tenía el filete: es la mitad de la gota).
+   `vector-effect: non-scaling-stroke` va en el marcado para que el grosor no
+   se deforme cuando preserveAspectRatio="none" estira el viewBox.           */
+.nat-ruta__cauce {
   flex: none;
-  width: 1px;
-  height: var(--esp-sm);
+  width: var(--esp-sm);
+  height: var(--esp-xl);
   margin-inline-start: 0.25em;
-  background-color: var(--color-borde-fuerte);
+  fill: none;
+  stroke: var(--color-borde-fuerte);
 }
 
 /* ==========================================================================
@@ -453,11 +623,20 @@
   color: var(--color-texto-suave);
 }
 
-/* Aclaración honesta: el muro todavía no la tiene */
+/* Aclaración honesta: el muro todavía no la tiene.
+   Deja de ser un filete recto y pasa a ser la única superficie tintada del
+   bloque, con radio de hoja. Sigue siendo el elemento más callado de la
+   ficha —cuerpo micro y gris— pero ahora se ve que es un aparte y no la
+   continuación del párrafo de arriba.
+   Sólo lleva --color-texto-suave, que sobre salvia da 5.2:1 (AA). Aquí NO se
+   tinta la ficha entera a propósito: el nombre científico va en oliva, y el
+   oliva sobre salvia se queda en 4.29:1. Sobre la crema del fondo llega a
+   4.51:1 y pasa; sobre salvia, no. Por eso el tinte se limita a este aparte. */
 .nat-ficha__aviso {
   margin: 0;
-  padding-left: var(--esp-sm);
-  border-left: var(--nat-filete) solid var(--color-borde-fuerte);
+  padding: var(--esp-sm) var(--esp-md);
+  border-radius: var(--nat-hoja-d);
+  background-color: var(--color-fondo-alt);
   font-size: var(--fs-micro);
   line-height: var(--alto-linea-base);
   color: var(--color-texto-suave);
@@ -515,16 +694,49 @@
   }
 }
 
+/* A dos columnas sobran cuatro fichas para tres huecos y la última se quedaba
+   sola ocupando media fila, con el otro medio vacío: el hueco leía como un
+   error de maquetación. Se le deja cruzar entera y el censo pasa a ser
+   ancha-dos-ancha, que además alterna el ritmo en vez de repetirlo. */
+@media (min-width: 40em) and (max-width: 77.99em) {
+  .nat-habitat:nth-child(4) {
+    grid-column: span 2;
+  }
+}
+
 /* El paso a tres columnas se retrasa de 64em a 78em: con la columna de vídeo
    a la derecha, el censo mide bastante menos que la página y a 64em las tres
    fichas caían por debajo de 15rem cada una. */
 @media (min-width: 78em) {
   .nat-habitats {
     grid-template-columns: repeat(3, minmax(0, 1fr));
+    /* SIN `stretch`. Éste es el cambio que desmonta la tabla: por defecto las
+       tres fichas de la segunda fila se igualaban al alto de la más alta y
+       salían tres rectángulos idénticos en fila, que es exactamente el aspecto
+       de una ficha técnica. Alineadas al principio, cada una puede medir lo
+       suyo y colgar a su altura. */
+    align-items: start;
   }
 
   .nat-habitat--ancho {
     grid-column: span 3;
+  }
+
+  /* Tres alturas distintas y dos descuelgues: el bloque deja de ser una banda
+     recta y pasa a ser una composición colgada. Los desfases son múltiplos
+     del propio ritmo de la rejilla (--gap-sm / --gap-lg), no números sueltos,
+     así que se mueven con ella al cambiar el ancho. */
+  .nat-habitat:nth-child(2) {
+    min-height: calc(var(--nat-alto-habitat) * 1.22);
+  }
+
+  .nat-habitat:nth-child(3) {
+    margin-top: var(--gap-lg);
+  }
+
+  .nat-habitat:nth-child(4) {
+    min-height: calc(var(--nat-alto-habitat) * 1.1);
+    margin-top: var(--gap-sm);
   }
 }
 
@@ -534,12 +746,29 @@
   align-items: flex-end;
   min-height: var(--nat-alto-habitat);
   overflow: hidden;
-  /* v3: los cuatro ambientes son fotografía a sangre con el dato encima, no
-     tarjetas. Fuera el radio y fuera la sombra: el velo de bosque hondo del
-     ::after ya da todo el límite que necesita cada pieza contra la crema. */
-  border-radius: 0;
+  /* Los cuatro ambientes siguen siendo fotografía con el dato encima, no
+     tarjetas: sin sombra, y el límite contra la crema lo sigue dando el velo
+     de bosque hondo del ::after. Lo que cambia en v4 es la esquina. Cuatro
+     rectángulos de radio cero, del mismo alto y en fila, se leen como las
+     cuatro celdas de una tabla —y esto es justamente lo que NO puede parecer
+     una tabla—. Cada ficha lleva ahora una hoja distinta; las cuatro se
+     asignan una a una porque son cuatro y el orden importa: la ancha abre
+     hacia dentro y las tres pequeñas alternan la diagonal. */
+  border-radius: var(--nat-hoja-c);
   box-shadow: none;
   isolation: isolate;
+}
+
+.nat-habitat:nth-child(2) {
+  border-radius: var(--nat-hoja-a);
+}
+
+.nat-habitat:nth-child(3) {
+  border-radius: var(--nat-hoja-b);
+}
+
+.nat-habitat:nth-child(4) {
+  border-radius: var(--nat-hoja-d);
 }
 
 /* El jardín (347 plantas) es el dato grande del censo y ocupa toda la fila:
@@ -634,6 +863,9 @@
   font-family: var(--fuente-display);
   font-size: var(--paso-4);
   font-weight: var(--peso-fuerte);
+  /* El 347 lo cuenta js/app.js al entrar en pantalla; con cifras de ancho
+     fijo el número no baila mientras sube. */
+  font-variant-numeric: tabular-nums;
   font-optical-sizing: auto;
   font-variation-settings: var(--ejes-display);
   line-height: var(--alto-linea-apretado);
@@ -697,7 +929,10 @@
   display: block;
   width: 100%;
   height: auto;
-  border-radius: 0;
+  /* La columna de vídeo cae al lado de la ficha 4, que lleva --nat-hoja-d:
+     ésta abre por la diagonal contraria para que las dos piezas vecinas no
+     compartan silueta. Sigue sin sombra: no está encima de nada. */
+  border-radius: var(--nat-hoja-a);
   box-shadow: none;
   /* Mientras el póster carga, el hueco es del mismo gris verdoso que usa
      .marco para las fotos: nunca un rectángulo negro. */
@@ -766,9 +1001,13 @@
   }
 }
 
+/* Los dos nombres cuelgan de una hoja, no de un filete. La forma es la MISMA
+   que base.css le da a la viñeta de .lista-hojas —dos esquinas a --radio-full
+   en diagonal—, sólo que a mayor tamaño y espejada entre los dos: es el gesto
+   orgánico que ya tiene el sistema, reutilizado en vez de inventado. */
 .nat-especie {
-  padding-left: var(--esp-sm);
-  border-left: var(--nat-filete) solid var(--color-borde-fuerte);
+  position: relative;
+  padding-left: var(--esp-lg);
   font-family: var(--fuente-display);
   font-size: var(--fs-h4);
   font-weight: var(--peso-display);
@@ -776,6 +1015,22 @@
   font-variation-settings: var(--ejes-display);
   line-height: var(--alto-linea-titulo);
   color: var(--color-texto);
+}
+
+.nat-especie::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0.4em;
+  width: 0.7em;
+  height: 0.7em;
+  border-radius: 0 var(--radio-full) 0 var(--radio-full);
+  background-color: var(--color-acento-alt);
+}
+
+/* La segunda hoja se gira: dos iguales seguidas volverían a ser una lista. */
+.nat-especie:nth-child(2)::before {
+  border-radius: var(--radio-full) 0 var(--radio-full) 0;
 }
 
 .nat-conservacion__pie {
@@ -791,10 +1046,31 @@
    los fotógrafos no se mueven de donde están.
    ========================================================================== */
 .nat-muro-banda {
+  position: relative;
   margin-top: var(--esp-seccion);
   margin-bottom: calc(var(--esp-seccion) * -1);
-  padding-block: var(--esp-seccion);
+  /* El relleno superior crece para dejar pasar la cresta: el canto ondulado
+     mide hasta 5rem y el contenido no puede meterse debajo. */
+  padding-block: calc(var(--esp-seccion) + var(--esp-xl)) var(--esp-seccion);
   background-color: var(--color-fondo-alt);
+}
+
+/* LA CRESTA. El canto de la banda era una recta de borde a borde: el gesto
+   más de plantilla que quedaba en la sección, y encima en la transición más
+   importante —de la crema al archivo del concurso—. Ahora la salvia entra por
+   una curva irregular de tres senos, ninguno del mismo ancho, dibujada en
+   crema encima de la banda. Es puro adorno: va aria-hidden en el marcado y si
+   el SVG no pintara volvería el canto recto de siempre, sin pérdida.
+   pointer-events: none porque se superpone al principio de la banda y no
+   puede robar ni un clic al muro que hay debajo. */
+.nat-cresta {
+  position: absolute;
+  inset-block-start: 0;
+  inset-inline: 0;
+  width: 100%;
+  height: clamp(2.25rem, 5vw, 5rem);
+  fill: var(--color-fondo);
+  pointer-events: none;
 }
 
 .nat-galeria__intro {
@@ -834,9 +1110,16 @@
 }
 
 .nat-galeria__cifra {
+  /* min-width en `ch` + cifras tabulares: el contador de js/app.js sube de 0
+     a 57 y el bloque está alineado a la derecha, así que sin ancho reservado
+     el rótulo de debajo se desplazaría en cada fotograma. */
+  display: inline-block;
+  min-width: 2ch;
+  text-align: end;
   font-family: var(--fuente-display);
   font-size: var(--fs-h2);
   font-weight: var(--peso-fuerte);
+  font-variant-numeric: tabular-nums;
   font-optical-sizing: auto;
   font-variation-settings: var(--ejes-display);
   line-height: 1;
@@ -881,11 +1164,17 @@
   page-break-inside: avoid;
 }
 
-/* v3: la copia colgada en la pared pierde el redondeo y la sombra. Son entre
-   veinte y treinta fotografías en columnas: veinte sombras suaves seguidas no
-   se leen como profundidad, se leen como suciedad. El filete del ::after —que
-   sí se queda— es lo que da el canto de la copia, y ahora se ve entero porque
-   ya no hay esquina redonda que se lo coma. */
+/* La copia colgada en la pared sigue SIN sombra: son cincuenta y siete
+   fotografías en columnas y cincuenta y siete sombras suaves seguidas no se
+   leen como profundidad, se leen como suciedad. El filete del ::after es lo
+   que da el canto de la copia.
+   Lo que cambia en v4 es la esquina, y aquí es donde más se nota: cincuenta y
+   siete rectángulos con la misma esquina son una hoja de contactos. Cinco
+   siluetas rotando —y CINCO a propósito, no cuatro ni tres— evitan que el
+   patrón se alinee con el número de columnas del muro, que es 2, 3 o 4 según
+   el ancho: con un ciclo de longitud prima ninguna columna repite la misma
+   forma dos veces seguidas y la pared se lee colgada a mano.
+   El ::after hereda el radio, así que el canto sigue cada silueta.          */
 .nat-obra__disparador {
   position: relative;
   display: block;
@@ -893,11 +1182,27 @@
   padding: 0;
   overflow: hidden;
   border: 0;
-  border-radius: 0;
+  border-radius: var(--nat-hoja-a);
   background-color: rgb(var(--verde-bosque-rgb) / 0.06);
   box-shadow: none;
   cursor: pointer;
   transition: transform var(--transicion);
+}
+
+.nat-obra:nth-child(5n + 2) .nat-obra__disparador {
+  border-radius: var(--nat-hoja-b);
+}
+
+.nat-obra:nth-child(5n + 3) .nat-obra__disparador {
+  border-radius: var(--nat-hoja-c);
+}
+
+.nat-obra:nth-child(5n + 4) .nat-obra__disparador {
+  border-radius: var(--nat-hoja-d);
+}
+
+.nat-obra:nth-child(5n + 5) .nat-obra__disparador {
+  border-radius: var(--radio-lg);
 }
 
 .nat-obra__disparador::after {

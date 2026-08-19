@@ -7,36 +7,42 @@
      espacio. Cualquier otra sección que nombre la Alameda, La Vega, el
      Teatrino, el Taller o la Cancha enlaza aquí; no repite la ficha.
 
-     ESTRUCTURA v3 «tarjeta editorial» (rediseño de agosto de 2026)
-     Se abandona la tarjeta-caja (fondo, borde, radio y sombra) por el patrón
-     de fichas de catálogo: la foto va a esquina viva y el texto flota debajo,
-     los dos sobre el fondo de la página. Cada ficha, en este orden:
-       1. la figura con la foto a cover, sin radio;
-       2. rótulo diminuto en caps espaciadas con el AFORO —el dato, arriba,
-          en el sitio del rótulo de categoría—;
-       3. el NOMBRE del espacio como titular, en Fraunces y en caja de frase
-          (antes titulaba la experiencia; el nombre es lo que se busca);
-       4. UNA línea de texto —la experiencia, podada del copy anterior—;
-       5. un enlace sobrio de cotización, no un botón de bloque.
-     La Alameda conserva trato mayor: ocupa doble columna con sus dos fotos
-     propias montadas en una banda panorámica 2:1.
+     ESTRUCTURA v4 «orgánica» (rediseño de agosto de 2026)
+     Se conserva la ficha editorial de v3 —foto arriba, texto flotando debajo,
+     sin caja— y se conservan las cinco escalas distintas de la rejilla. Lo
+     que cambia es la FORMA y el ANCLA:
 
-     LOS CINCO NO MIDEN LO MISMO (revisión de agosto de 2026)
-     Hasta aquí las cinco figuras eran cuadrados idénticos en una rejilla de
-     tres columnas: la ficha estaba bien resuelta, pero cinco cuadrados del
-     mismo tamaño empezando todos a la misma altura se leen como un catálogo
-     generado, no como una página. Cada <li> lleva ahora un modificador de
-     ESCALA —cuánto ocupa y con qué proporción se recorta su foto— y de
-     DESFASE —cuánto baja respecto de su vecina—. Los cinco modificadores
-     nombran el papel en la composición, no el espacio:
+     1. LA SILUETA DE CADA FOTO ES DISTINTA. Las cinco figuras iban a esquina
+        viva: cinco rectángulos idénticos de recorte, que es la mitad de lo
+        que hacía que la sección se leyera como catálogo aunque midieran
+        distinto. Ahora cada espacio tiene su propio contorno —hoja, arco,
+        banda— y ninguno repite el del vecino. Los valores están en el CSS.
+     2. EL AFORO PASA DE RENGLÓN A ANCLA. Era una línea de caps diminutas
+        encima del nombre; ahora es una cifra grande en Fraunces dentro de una
+        pastilla en forma de hoja que MONTA sobre la esquina inferior
+        izquierda de la foto. Es el elemento que se sale de su caja y el
+        primer punto de fijación de cada ficha.
+        Sigue siendo dato de apoyo y no titular (CONTRATO-V2 §6): el nombre
+        del espacio conserva el <h3> y la voz de Fraunces a plena tinta; la
+        cifra es un rótulo con peso gráfico, no el encabezado de la ficha.
+        Los HECHOS no cambian: «hasta 150 personas» se compone como
+        «150 · personas como máximo», y la Cancha conserva sus dos datos.
+     3. CADA FICHA ENTRA DE UNA MANERA. Cinco modificadores distintos de
+        .reveal (velo, der, izq, zoom, der) sobre el escalonado que ya trae
+        .reveal-secuencia: la sección se descubre en cinco gestos, no en uno
+        repetido cinco veces. Cinco hijos, muy por debajo del tope de ocho.
+     4. UNA HOJA DE FONDO. Un SVG decorativo (aria-hidden) sangra por el borde
+        derecho detrás del encabezado y se mueve con el scroll un 8 %, sólo
+        donde el navegador soporta `animation-timeline` y sólo si el usuario
+        no ha pedido menos movimiento. Es fondo: ni un texto se mueve.
 
+     LAS CINCO ESCALAS (de v3, intactas) — cuánto ocupa y cuánto baja cada una:
        espacio--destacado  Alameda · banda 2:1 sobre 8 de 12 columnas
        espacio--alto       La Vega · columna estrecha, la más alta, desfasada
        espacio--medio      Teatrino · el cuadrado grande que abre la 2.ª fila
        espacio--esbelto    Taller · vertical estrecho, desfase corto
        espacio--breve      Cancha · el más pequeño, desfase largo
-
-     Los valores viven en espacios.css y sólo ahí; el HTML no sabe de medidas.
+     El HTML no sabe de medidas: sólo viajan los modificadores.
 
      LOS CINCO SON LOS DEL BRIEF: Alameda, La Vega, Teatrino, Taller y Cancha.
      No existe ningún «Prado»: ver ARQUITECTURA-V3 §7.1, que manda borrar el
@@ -50,13 +56,37 @@
      · Los tipos de evento y sus galerías son de la sección de planes.
      · El Sendero Ecovital y su precio son de la sección de naturaleza.
 
-     FOTOS — las seis abiertas y comprobadas una a una antes de escribir el alt:
+     FOTOS — las seis abiertas y comprobadas una a una antes de escribir el alt.
+     No se añade ni se cambia ninguna en v4:
        img/espacios/alameda-2.jpg  1500×844   img/espacios/alameda-1.jpg 1125×1500
        img/parque/parque-47.jpg     675×1200  img/parque/parque-56.jpg    675×1200
        img/espacios/taller-1.jpg    849×1500  img/parque/parque-57.jpg    900×1200
      ========================================================================== -->
 <section id="espacios" class="seccion espacios" aria-labelledby="espacios-titulo">
-  <div class="contenedor">
+
+  <!-- Hoja de fondo. Decorativa: sin texto, sin enlace y fuera del árbol de
+       accesibilidad. El color se lo pone el CSS con `currentColor`, así que
+       aquí no viaja ni un valor literal. -->
+  <svg
+    class="espacios__hoja"
+    viewBox="0 0 320 440"
+    aria-hidden="true"
+    focusable="false"
+  >
+    <path
+      d="M160 6C58 96 16 216 160 434 304 216 262 96 160 6Z"
+      fill="currentColor"
+    />
+    <path
+      d="M160 40V404M160 150 62 108M160 150l98-42M160 252 74 206M160 252l86-46"
+      fill="none"
+      stroke="currentColor"
+      stroke-width="7"
+      stroke-linecap="round"
+    />
+  </svg>
+
+  <div class="contenedor espacios__contenedor">
 
     <header class="seccion-encabezado reveal">
       <p class="eyebrow">Espacios en alquiler</p>
@@ -71,8 +101,10 @@
 
       <!-- ------------------------------------------------------------ 1/5
            ALAMEDA · hasta 150 personas · dos fotos propias.
-           Doble columna y banda panorámica: es el espacio más grande.     -->
-      <li class="espacio espacio--destacado reveal">
+           Doble columna y banda panorámica: es el espacio más grande.
+           Entra con velo (la cortina sube): el gesto que corresponde a una
+           banda ancha, que no tiene lado por el que llegar.                -->
+      <li class="espacio espacio--destacado reveal reveal--velo">
         <figure class="espacio__figura espacio__figura--banda">
           <img
             class="espacio__img"
@@ -94,8 +126,12 @@
           />
         </figure>
 
+        <p class="espacio__aforo">
+          <span class="espacio__cifra">150</span>
+          <span class="espacio__glosa">personas como máximo</span>
+        </p>
+
         <div class="espacio__cuerpo">
-          <p class="espacio__aforo">Hasta 150 personas</p>
           <h3 class="titulo-seccion titulo-seccion--sm espacio__nombre">Alameda</h3>
           <p class="espacio__texto">
             El prado más ancho del predio, sin una sola pared y con sombra de sobra en
@@ -115,8 +151,9 @@
       <!-- ------------------------------------------------------------ 2/5
            LA VEGA · hasta 100 personas
            Columna estrecha y alta a la derecha de la Alameda, arrancando por
-           debajo de ella: es el desfase el que rompe la fila.               -->
-      <li class="espacio espacio--alto reveal">
+           debajo de ella: es el desfase el que rompe la fila.
+           Silueta de hoja y entrada desde la derecha, su propio lado.       -->
+      <li class="espacio espacio--alto reveal reveal--der">
         <figure class="espacio__figura">
           <img
             class="espacio__img"
@@ -129,8 +166,12 @@
           />
         </figure>
 
+        <p class="espacio__aforo">
+          <span class="espacio__cifra">100</span>
+          <span class="espacio__glosa">personas como máximo</span>
+        </p>
+
         <div class="espacio__cuerpo">
-          <p class="espacio__aforo">Hasta 100 personas</p>
           <h3 class="titulo-seccion titulo-seccion--sm espacio__nombre">La Vega</h3>
           <p class="espacio__texto">
             Explanada llana y pareja, sin desniveles ni columnas: se monta a tu manera.
@@ -149,8 +190,10 @@
       <!-- ------------------------------------------------------------ 3/5
            TEATRINO · hasta 70 personas
            El cuadrado grande: abre la segunda fila a plomo con la Alameda y
-           es la única de las cuatro pequeñas que no baja.                   -->
-      <li class="espacio espacio--medio reveal">
+           es la única de las cuatro pequeñas que no baja.
+           Su foto va recortada EN ARCO: la copa del árbol de la fotografía y
+           el medio punto de la silueta son la misma curva.                  -->
+      <li class="espacio espacio--medio reveal reveal--izq">
         <figure class="espacio__figura">
           <img
             class="espacio__img"
@@ -163,8 +206,12 @@
           />
         </figure>
 
+        <p class="espacio__aforo">
+          <span class="espacio__cifra">70</span>
+          <span class="espacio__glosa">personas como máximo</span>
+        </p>
+
         <div class="espacio__cuerpo">
-          <p class="espacio__aforo">Hasta 70 personas</p>
           <h3 class="titulo-seccion titulo-seccion--sm espacio__nombre">Teatrino</h3>
           <p class="espacio__texto">
             Un claro al pie de un árbol enorme: el césped hace de platea y la copa, de techo.
@@ -182,8 +229,10 @@
 
       <!-- ------------------------------------------------------------ 4/5
            TALLER · hasta 45 personas · el espacio bajo techo
-           Vertical estrecho, con el primer peldaño del escalonado.          -->
-      <li class="espacio espacio--esbelto reveal">
+           Vertical estrecho, con el primer peldaño del escalonado.
+           Su hoja va al revés que la de La Vega: las dos verticales de la
+           sección no comparten contorno.                                    -->
+      <li class="espacio espacio--esbelto reveal reveal--zoom">
         <figure class="espacio__figura">
           <img
             class="espacio__img"
@@ -196,8 +245,12 @@
           />
         </figure>
 
+        <p class="espacio__aforo">
+          <span class="espacio__cifra">45</span>
+          <span class="espacio__glosa">personas como máximo</span>
+        </p>
+
         <div class="espacio__cuerpo">
-          <p class="espacio__aforo">Hasta 45 personas</p>
           <h3 class="titulo-seccion titulo-seccion--sm espacio__nombre">Taller</h3>
           <p class="espacio__texto">
             El único bajo techo: cubierta de caña, piso firme y seco, y un aguacero que
@@ -217,8 +270,10 @@
       <!-- ------------------------------------------------------------ 5/5
            CANCHA · 30 jugadores y 20 espectadores
            La más pequeña de las cinco y la que más baja: cierra el
-           escalonado de la segunda fila.                                    -->
-      <li class="espacio espacio--breve reveal">
+           escalonado de la segunda fila.
+           Único aforo de dos cifras: la pastilla se parte en dos datos y es,
+           por eso, la más ancha de las cinco.                               -->
+      <li class="espacio espacio--breve reveal reveal--der">
         <figure class="espacio__figura">
           <img
             class="espacio__img"
@@ -231,8 +286,18 @@
           />
         </figure>
 
+        <p class="espacio__aforo espacio__aforo--doble">
+          <span class="espacio__dato">
+            <span class="espacio__cifra">30</span>
+            <span class="espacio__glosa">jugadores</span>
+          </span>
+          <span class="espacio__dato">
+            <span class="espacio__cifra">20</span>
+            <span class="espacio__glosa">espectadores</span>
+          </span>
+        </p>
+
         <div class="espacio__cuerpo">
-          <p class="espacio__aforo">30 jugadores · 20 espectadores</p>
           <h3 class="titulo-seccion titulo-seccion--sm espacio__nombre">Cancha</h3>
           <p class="espacio__texto">
             El campo más plano y despejado, con el guadual cerrando el fondo y borde en
@@ -255,6 +320,9 @@
          PIE DE SECCIÓN
          Las condiciones no se transcriben aquí: tienen su propia página.
          Es un ENLACE, no un modal.
+         v4: deja de ser un filete de 1 px y pasa a ser una tablilla con
+         contorno de hoja, para que el remate de la sección hable el mismo
+         idioma que las cinco fichas.
          ================================================================== -->
     <div class="espacios__pie reveal">
       <p class="nota sin-margen espacios__pie-texto">

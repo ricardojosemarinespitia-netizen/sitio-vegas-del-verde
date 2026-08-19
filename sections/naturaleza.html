@@ -20,9 +20,26 @@
      global (data-lightbox="muro-aves") de js/app.js. Sin JS todo queda
      visible y legible, y el <details> del muro abre igual.
 
-     COMPOSICIÓN (v3.1 «se nota qué manda»)
-     La sección ya no es una pila de bloques iguales. Son cuatro movimientos
-     de peso distinto, y dos de ellos rompen la caja del contenedor:
+     COMPOSICIÓN (v4 «orgánica»: v3.1 + forma)
+     v3.1 arregló la MÉTRICA (pesos distintos, dos sangrados opuestos) y eso
+     se conserva entero. Lo que v4 añade es FORMA, que es lo que seguía
+     faltando: la sección que habla de 347 plantas y 101 aves estaba dibujada
+     entera con rectángulos de esquina viva del mismo radio —cero— y eso es
+     precisamente lo que la hacía parecer una plantilla. Ahora:
+
+       · Toda fotografía lleva un radio ASIMÉTRICO y NINGUNA lleva el mismo:
+         dos esquinas abiertas y dos cerradas, alternando la diagonal. Es la
+         silueta de una hoja, y al repetirse variada se lee como sistema.
+       · El tramo de agua entre la quebrada y el riachuelo deja de ser un
+         filete recto y pasa a ser un cauce SVG que serpentea de verdad.
+       · La banda del muro no entra con un canto recto: la cresta SVG del
+         principio es el borde de un claro, no el de una tabla.
+       · Las cifras grandes (101, 347, 57) se cuentan solas al entrar en
+         pantalla con el contador de js/app.js. No se duplica ningún dato:
+         el valor de destino va en data-contador y el texto ya está escrito.
+       · Capitular en la entrada del cuerpo: registro editorial, no ficha.
+
+     Las cuatro (más una) movimientos siguen siendo los de v3.1:
 
        1 · .nat-apertura — A SANGRE POR LA IZQUIERDA. El encabezado de la
            sección se funde aquí dentro: el Sendero no se presenta después
@@ -91,12 +108,18 @@
 
       <header class="nat-apertura__encabezado">
         <p class="eyebrow">Sendero Ecovital y biodiversidad</p>
+        <!-- El «101» va marcado dentro del propio titular: es el dato que
+             distingue a este predio de cualquier finca de eventos y no aparece
+             en ningún otro sitio de la página, así que aquí tiene que verse
+             que es una cifra y no una palabra más. data-contador lo cuenta al
+             entrar en pantalla (js/app.js); si no hay JS, el 101 ya está
+             escrito y no pasa nada. -->
         <h2 id="naturaleza-titulo" class="titulo-seccion nat-apertura__titulo">
-          Camina donde cantan 101 especies
+          Camina donde cantan <span class="nat-titulo-cifra" data-contador="101">101</span> especies
         </h2>
         <p class="entradilla">
           El recorrido guiado que sigue la quebrada, y el censo de lo que vive alrededor.
-          Es la única parte del predio con un precio publicado.
+          Es la única visita suelta con un precio publicado.
         </p>
       </header>
 
@@ -110,9 +133,26 @@
           Vas con guía, así que lo que oyes tiene nombre.
         </p>
 
+        <!-- El cauce entre los dos puntos era un filete recto de 1 px. Un
+             filete recto es lo que dibuja una tabla; una quebrada serpentea.
+             El trazo es SVG y es decoración pura (aria-hidden): los dos
+             nombres ya están escritos al lado y el orden lo da el flujo. -->
         <p class="nat-ruta">
           <span class="nat-ruta__punto">Quebrada Aranzoque</span>
-          <span class="nat-ruta__linea" aria-hidden="true"></span>
+          <svg
+            class="nat-ruta__cauce"
+            viewBox="0 0 16 64"
+            preserveAspectRatio="none"
+            aria-hidden="true"
+            focusable="false"
+          >
+            <path
+              d="M1 0 C 13 12, 1 22, 8 34 C 15 46, 3 54, 1 64"
+              stroke-width="1.4"
+              stroke-linecap="round"
+              vector-effect="non-scaling-stroke"
+            />
+          </svg>
           <span class="nat-ruta__punto">Riachuelo La Florida</span>
         </p>
 
@@ -149,6 +189,13 @@
               rel="noopener"
             >
               Atrévete al sendero
+            </a>
+            <!-- El contrapunto del precio de al lado: esa entrada es para
+                 venir una vez; el Plan vecino es para volver. Vive en su
+                 propia página porque tiene tarifas, condiciones y beneficios
+                 que aquí obligarían a repetir media sección. -->
+            <a class="btn btn-secundario btn-grande" href="plan-vecino.html">
+              Ven todo el año
             </a>
           </div>
 
@@ -228,7 +275,7 @@
           />
           <div class="nat-habitat__cuerpo">
             <p class="nat-habitat__lugar">El jardín</p>
-            <p class="nat-habitat__cifra">347</p>
+            <p class="nat-habitat__cifra" data-contador="347">347</p>
             <p class="nat-habitat__etiqueta">Especies de plantas · 20 familias botánicas</p>
             <p class="nat-habitat__texto">
               Bromelias, bastones del emperador y árboles altos compartiendo el mismo
@@ -361,6 +408,25 @@
        Cada crédito sale de img/aves/_creditos.json; ninguno se inventa.
        ========================================================================== -->
   <div class="nat-muro-banda reveal">
+
+    <!-- LA CRESTA. La banda de salvia entraba con un canto recto a todo lo
+         ancho: el borde más «plantilla» que tenía la sección, y justo en el
+         cambio de movimiento más importante. Ahora el canto es una curva
+         irregular —tres senos de amplitud distinta, ninguno repetido— dibujada
+         en crema sobre la salvia: se lee como el borde de un claro y no como
+         el filo de una tabla. Es decoración pura y va oculta al lector de
+         pantalla; si el SVG no pinta, lo que queda es el canto recto de
+         siempre y no se pierde nada. -->
+    <svg
+      class="nat-cresta"
+      viewBox="0 0 1440 96"
+      preserveAspectRatio="none"
+      aria-hidden="true"
+      focusable="false"
+    >
+      <path d="M0 0 H1440 V18 C1268 66, 1146 22, 968 46 C782 71, 660 30, 470 58 C316 81, 178 44, 0 74 Z" />
+    </svg>
+
     <div class="contenedor contenedor--ancho">
 
       <div class="nat-galeria__intro">
@@ -376,7 +442,7 @@
           </p>
         </div>
         <p class="nat-galeria__dato">
-          <span class="nat-galeria__cifra">57</span>
+          <span class="nat-galeria__cifra" data-contador="57">57</span>
           <span class="nat-galeria__cifra-pie">Fotografías · 20 autores</span>
         </p>
       </div>

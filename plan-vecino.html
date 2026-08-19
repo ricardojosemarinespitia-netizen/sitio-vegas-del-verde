@@ -1,0 +1,511 @@
+<!doctype html>
+<html lang="es" class="no-js">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Plan vecino · Vegas del Verde</title>
+  <meta name="description" content="Plan vecino: un pase de 10, 20 o 30 entradas al bosque privado de Vegas del Verde, válido durante 12 meses para tu familia o tus amigos. Desde $100.000." />
+  <link rel="canonical" href="https://vegasdelverde.com/plan-vecino.html" />
+  <link rel="icon" href="img/logo/simbolo-vegas.png" type="image/png" />
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="Plan vecino · Vegas del Verde" />
+  <meta property="og:description" content="Tu propio bosque, todo el año. Un pase para venir a la naturaleza una y otra vez." />
+  <meta property="og:url" content="https://vegasdelverde.com/plan-vecino.html" />
+  <meta property="og:image" content="https://vegasdelverde.com/img/plan-vecino/pieza-1-portada.jpg" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,300..700&family=Fraunces:opsz,wght,SOFT,WONK@9..144,300..700,0..100,0..1&display=swap" />
+  <link rel="stylesheet" href="styles/tokens.css" />
+  <link rel="stylesheet" href="styles/base.css" />
+  <link rel="stylesheet" href="styles/shell.css" />
+  <link rel="stylesheet" href="styles/sections/plan-vecino.css" />
+  <script>document.documentElement.classList.remove('no-js');document.documentElement.classList.add('js');</script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Product",
+    "name": "Plan vecino · Vegas del Verde",
+    "description": "Pase de entradas al bosque privado de Vegas del Verde, válido durante 12 meses para el grupo familiar o de amigos.",
+    "brand": { "@type": "Brand", "name": "Vegas del Verde" },
+    "url": "https://vegasdelverde.com/plan-vecino.html",
+    "offers": [
+      { "@type": "Offer", "name": "Plan Semilla · 10 entradas anuales", "price": "100000", "priceCurrency": "COP", "availability": "https://schema.org/InStock" },
+      { "@type": "Offer", "name": "Plan Raíz · 20 entradas anuales", "price": "180000", "priceCurrency": "COP", "availability": "https://schema.org/InStock" },
+      { "@type": "Offer", "name": "Plan Bosque · 30 entradas anuales", "price": "240000", "priceCurrency": "COP", "availability": "https://schema.org/InStock" }
+    ]
+  }
+  </script>
+</head>
+<body class="pv">
+
+  <a class="saltar-contenido" href="#contenido">Saltar al contenido</a>
+
+  <header class="cabecera cabecera--compacta">
+    <div class="cabecera__interior contenedor contenedor--ancho">
+      <a class="marca" href="index.html" aria-label="Vegas del Verde, ir al inicio">
+        <img class="marca__logo" src="img/logo/logo-vegas-barra.png" width="1390" height="356" alt="Vegas del Verde" decoding="async" />
+      </a>
+      <a class="btn btn-secundario btn-pequeno" href="index.html">Volver al inicio</a>
+    </div>
+  </header>
+
+  <!-- ======================================================================
+       EL CARRUSEL «PLAN VECINO», LÁMINA POR LÁMINA
+
+       Cada lámina es una de las cinco imágenes del material de marca, con
+       su composición intacta. Encima se dibujan tarjetas HTML del mismo
+       color, tamaño y posición que las tarjetas de la lámina: como son
+       opacas, tapan por completo a las originales y el texto pasa a ser
+       texto de verdad. Los titulares quemados sobre la foto se quedan en la
+       foto —no se tapan ni se repiten— y por eso cada lámina lleva su
+       titular en `.solo-lectores`: da estructura sin duplicar nada a la
+       vista.
+       ====================================================================== -->
+  <main id="contenido">
+    <div class="pv-carrete">
+
+      <!-- ==================================================================
+           LÁMINA 1 · PORTADA
+           Fondo: la portada sin las mariposas ni el colibrí. Esos dos
+           elementos van recortados con transparencia y los anima
+           js/plan-vecino.js: nacen diminutos en el centro y crecen hasta la
+           posición y el tamaño que tienen en «animacion portada.jpeg».
+           Son decorado, así que si no hay JavaScript la lámina se lee igual.
+           ================================================================== -->
+      <section class="pv-pieza pv-portada" id="portada" aria-labelledby="pv-t-portada">
+        <h1 class="solo-lectores" id="pv-t-portada">Plan vecino · Tu propio bosque, todo el año</h1>
+
+        <picture>
+          <source srcset="img/plan-vecino/pieza-1-portada.webp" type="image/webp" />
+          <img
+            class="pv-pieza__fondo"
+            src="img/plan-vecino/pieza-1-portada.jpg"
+            width="1080" height="1350"
+            alt="Una visitante observa el jardín con binóculos, entre heliconias y follaje espeso."
+            fetchpriority="high" decoding="async"
+          />
+        </picture>
+
+        <div class="pv-bichos" data-bichos aria-hidden="true"></div>
+
+        <a class="pv-salto pv-salto--pildora" href="#planes">
+          <span class="solo-lectores">Conoce los planes</span>
+        </a>
+        <a class="pv-salto pv-salto--flecha pv-salto--flecha-portada" href="#pase">
+          <span class="solo-lectores">Ver la siguiente lámina</span>
+        </a>
+      </section>
+
+      <!-- ==================================================================
+           LÁMINA 2 · QUÉ ES EL PASE
+           Una sola tarjeta crema, con dos filas separadas por una punteada.
+           La manuscrita «una y otra vez» está pintada sobre la foto: no se
+           toca.
+           ================================================================== -->
+      <section class="pv-pieza pv-pase" id="pase" aria-labelledby="pv-t-pase">
+        <h2 class="solo-lectores" id="pv-t-pase">Un pase para venir a la naturaleza una y otra vez</h2>
+
+        <picture>
+          <source srcset="img/plan-vecino/pieza-2-pase.webp" type="image/webp" />
+          <img
+            class="pv-pieza__fondo"
+            src="img/plan-vecino/pieza-2-pase.jpg"
+            width="1080" height="1350"
+            alt="Una familia de cuatro entra al bosque por el camino de tierra, entre platanillos."
+            loading="lazy" decoding="async"
+          />
+        </picture>
+
+        <div class="pv-capa">
+          <div class="pv-tapa pv-tapa--pase reveal reveal--zoom">
+            <ul class="pv-pase__lista reveal-secuencia">
+
+              <li class="pv-pase__fila reveal">
+                <span class="pv-disco pv-pase__disco" aria-hidden="true">
+                  <svg class="icono-traza" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"
+                       stroke-linecap="round" stroke-linejoin="round" focusable="false">
+                    <path d="M3 9.2V7a1 1 0 0 1 1-1h16a1 1 0 0 1 1 1v2.2a2.8 2.8 0 0 0 0 5.6V17a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1v-2.2a2.8 2.8 0 0 0 0-5.6Z"  pathLength="1"/>
+                    <path d="M14 6.6v1.8m0 3v2m0 3.2v1.8" stroke-dasharray="0.1 3" />
+                  </svg>
+                </span>
+                <p class="pv-pase__texto">
+                  Con <strong>Plan Vecino</strong> tienes 10, 20 o 30 entradas<br />
+                  al bosque privado de Vegas del Verde.
+                </p>
+              </li>
+
+              <li class="pv-pase__fila reveal">
+                <span class="pv-disco pv-pase__disco" aria-hidden="true">
+                  <svg class="icono-traza" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"
+                       stroke-linecap="round" stroke-linejoin="round" focusable="false">
+                    <circle cx="12" cy="8" r="2.6"  pathLength="1"/>
+                    <path d="M7.4 19.4v-2.6a4.6 4.6 0 0 1 9.2 0v2.6"  pathLength="1"/>
+                    <circle cx="5.2" cy="9.8" r="2.1"  pathLength="1"/>
+                    <path d="M1.8 19.4v-2a3.4 3.4 0 0 1 3.4-3.4"  pathLength="1"/>
+                    <circle cx="18.8" cy="9.8" r="2.1"  pathLength="1"/>
+                    <path d="M22.2 19.4v-2a3.4 3.4 0 0 0-3.4-3.4"  pathLength="1"/>
+                  </svg>
+                </span>
+                <p class="pv-pase__texto">
+                  Disponibles para venir con tu <strong>familia</strong><br />
+                  o <strong>amigos</strong> todo el año.
+                </p>
+              </li>
+
+            </ul>
+          </div>
+        </div>
+
+        <a class="pv-salto pv-salto--flecha" href="#planes">
+          <span class="solo-lectores">Ver la siguiente lámina</span>
+        </a>
+      </section>
+
+      <!-- ==================================================================
+           LÁMINA 3 · LOS TRES PLANES
+           Tres tarjetas crema con disco de icono, nombre, precio y píldora
+           verde; debajo, la barra verde oscura y la tarjeta de vigencia.
+           ================================================================== -->
+      <section class="pv-pieza pv-planes" id="planes" aria-labelledby="pv-t-planes">
+        <h2 class="solo-lectores" id="pv-t-planes">Elige cómo quieres vivir el bosque</h2>
+
+        <picture>
+          <source srcset="img/plan-vecino/pieza-3-planes.webp" type="image/webp" />
+          <img
+            class="pv-pieza__fondo"
+            src="img/plan-vecino/pieza-3-planes.jpg"
+            width="1080" height="1350"
+            alt="El prado abierto de Vegas del Verde bajo un cielo despejado."
+            loading="lazy" decoding="async"
+          />
+        </picture>
+
+        <div class="pv-capa reveal-secuencia">
+
+          <article class="pv-tapa pv-tapa--plan pv-tapa--plan-1 reveal">
+            <span class="pv-disco pv-plan__disco" aria-hidden="true">
+              <svg class="icono-traza" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"
+                   stroke-linecap="round" stroke-linejoin="round" focusable="false">
+                <path d="M12 19.4v-7"  pathLength="1"/>
+                <path d="M12 12.4c0-3 2.2-5.4 5.2-5.4 0 3-2.2 5.4-5.2 5.4Z"  pathLength="1"/>
+                <path d="M12 14.2C12 11.7 10 9.7 7.4 9.7c0 2.5 2 4.5 4.6 4.5Z"  pathLength="1"/>
+                <path d="M6.4 19.4c1.4-1.1 3.3-1.7 5.6-1.7s4.2.6 5.6 1.7"  pathLength="1"/>
+              </svg>
+            </span>
+            <div>
+              <h3 class="pv-plan__nombre">Plan Semilla — $100.000</h3>
+              <p class="pv-plan__entradas">10 entradas anuales</p>
+            </div>
+          </article>
+
+          <article class="pv-tapa pv-tapa--plan pv-tapa--plan-2 reveal">
+            <span class="pv-disco pv-plan__disco" aria-hidden="true">
+              <svg class="icono-traza" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"
+                   stroke-linecap="round" stroke-linejoin="round" focusable="false">
+                <path d="M12 14V4.6"  pathLength="1"/>
+                <path d="M12 9.4c0-2.5 1.9-4.4 4.4-4.4 0 2.5-1.9 4.4-4.4 4.4Z"  pathLength="1"/>
+                <path d="M12 10.6C12 8.4 10.2 6.6 8 6.6c0 2.2 1.8 4 4 4Z"  pathLength="1"/>
+                <path d="M12 14c-1.6 1.6-2.1 3.4-1.9 5.6"  pathLength="1"/>
+                <path d="M12 14c1.6 1.6 2.1 3.4 1.9 5.6"  pathLength="1"/>
+                <path d="M12 14v5.8"  pathLength="1"/>
+              </svg>
+            </span>
+            <div>
+              <h3 class="pv-plan__nombre">Plan Raíz — $180.000</h3>
+              <p class="pv-plan__entradas">20 entradas anuales</p>
+            </div>
+          </article>
+
+          <article class="pv-tapa pv-tapa--plan pv-tapa--plan-3 reveal">
+            <span class="pv-disco pv-plan__disco" aria-hidden="true">
+              <svg class="icono-traza" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"
+                   stroke-linecap="round" stroke-linejoin="round" focusable="false">
+                <path d="M12 20.4v-8"  pathLength="1"/>
+                <path d="M12 13a5.5 5.5 0 1 0-4.3-8.9A4.4 4.4 0 0 0 4.4 11 4 4 0 0 0 8 13Z"  pathLength="1"/>
+                <path d="M12 13h4a4 4 0 0 0 3.4-6.1"  pathLength="1"/>
+                <path d="M9.4 20.4c.9-1.7 1.7-2.8 2.6-3.4.9.6 1.7 1.7 2.6 3.4"  pathLength="1"/>
+              </svg>
+            </span>
+            <div>
+              <h3 class="pv-plan__nombre">Plan Bosque — $240.000</h3>
+              <p class="pv-plan__entradas">30 entradas anuales</p>
+            </div>
+          </article>
+
+          <p class="pv-tapa pv-tapa--grupo reveal">
+            <span class="pv-linea__icono" aria-hidden="true">
+              <svg class="icono-traza" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"
+                   stroke-linecap="round" stroke-linejoin="round" focusable="false">
+                <circle cx="12" cy="8" r="2.6"  pathLength="1"/>
+                <path d="M7.4 19.4v-2.6a4.6 4.6 0 0 1 9.2 0v2.6"  pathLength="1"/>
+                <circle cx="5.2" cy="9.8" r="2.1"  pathLength="1"/>
+                <path d="M1.8 18.4v-1a3.4 3.4 0 0 1 3.4-3.4"  pathLength="1"/>
+                <circle cx="18.8" cy="9.8" r="2.1"  pathLength="1"/>
+                <path d="M22.2 18.4v-1a3.4 3.4 0 0 0-3.4-3.4"  pathLength="1"/>
+              </svg>
+            </span>
+            <span class="pv-linea__texto">
+              Para compartir con tu <strong>grupo familiar</strong><br />
+              o de <strong>amigos</strong>.
+            </span>
+          </p>
+
+          <p class="pv-tapa pv-tapa--vigencia reveal">
+            <span class="pv-linea__icono" aria-hidden="true">
+              <svg class="icono-traza" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"
+                   stroke-linecap="round" stroke-linejoin="round" focusable="false">
+                <rect x="3.4" y="5" width="17.2" height="15.6" rx="2"  pathLength="1"/>
+                <path d="M3.4 9.6h17.2M8 3.4v3.2M16 3.4v3.2"  data-traza="detalle"/>
+                <path d="M7.6 13.4h1.2m3.2 0h1.2m3.2 0h1.2M7.6 17h1.2m3.2 0h1.2"  data-traza="detalle"/>
+              </svg>
+            </span>
+            <span class="pv-linea__texto">
+              Válidos durante<br />
+              <strong>12 meses</strong>.
+            </span>
+          </p>
+
+        </div>
+
+        <a class="pv-salto pv-salto--flecha" href="#visita">
+          <span class="solo-lectores">Ver la siguiente lámina</span>
+        </a>
+      </section>
+
+      <!-- ==================================================================
+           LÁMINA 4 · CADA VISITA
+           Cuatro tarjetas crema, cada una con disco de icono y un ✓ antes
+           del título. El ✓ es adorno: va con aria-hidden.
+           ================================================================== -->
+      <section class="pv-pieza pv-visita" id="visita" aria-labelledby="pv-t-visita">
+        <h2 class="solo-lectores" id="pv-t-visita">Cada visita puede ser diferente</h2>
+
+        <picture>
+          <source srcset="img/plan-vecino/pieza-4-visita.webp" type="image/webp" />
+          <img
+            class="pv-pieza__fondo"
+            src="img/plan-vecino/pieza-4-visita.jpg"
+            width="1080" height="1350"
+            alt="El jardín de polinizadores en flor, con salvias rojas a lado y lado del camino."
+            loading="lazy" decoding="async"
+          />
+        </picture>
+
+        <div class="pv-capa reveal-secuencia">
+
+          <article class="pv-tapa pv-tapa--punto-1 reveal">
+            <span class="pv-disco pv-punto__disco" aria-hidden="true">
+              <svg class="icono-traza" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"
+                   stroke-linecap="round" stroke-linejoin="round" focusable="false">
+                <path d="M8.6 21c0-3.4 1.4-5.2 3-6.4 1.6-1.2 2.8-2.4 2.8-4.6"  pathLength="1"/>
+                <path d="M14.4 3.6c1.5 1.1 2.3 2.4 2.3 3.8s-.8 2.7-2.3 3.8c-1.5-1.1-2.3-2.4-2.3-3.8s.8-2.7 2.3-3.8Z"  pathLength="1"/>
+                <path d="M5 12.4c1.7 0 2.9.6 3.6 1.8"  pathLength="1"/>
+                <path d="M19.4 13.6a2 2 0 0 1 1.8 1.6"  pathLength="1"/>
+                <path d="M3 21h18"  pathLength="1"/>
+              </svg>
+            </span>
+            <div>
+              <h3 class="pv-punto__titulo">
+                <svg class="icono-traza pv-punto__check" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                     stroke-width="3" stroke-linecap="round" stroke-linejoin="round"
+                     aria-hidden="true" focusable="false">
+                  <path d="M4 12.8 9.4 18.4 20 5.6"  pathLength="1"/>
+                </svg>
+                <span>Sendero Ecovital</span>
+              </h3>
+              <p class="pv-punto__detalle">Recorrido guiado por el bosque.</p>
+            </div>
+          </article>
+
+          <article class="pv-tapa pv-tapa--punto-2 reveal">
+            <span class="pv-disco pv-punto__disco" aria-hidden="true">
+              <svg class="icono-traza" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"
+                   stroke-linecap="round" stroke-linejoin="round" focusable="false">
+                <path d="M2 9.6 7.8 11l1.8 2.4-1.4 2"  pathLength="1"/>
+                <path d="M7.8 11c1.8-1.4 3.6-1.6 5.4-.6"  pathLength="1"/>
+                <path d="M9.6 13.4c1.2.9 2.4 1.1 3.6.7"  pathLength="1"/>
+                <circle cx="17.6" cy="7.6" r="2.1"  pathLength="1"/>
+                <path d="M17.6 9.7v4.1"  pathLength="1"/>
+                <path d="M17.6 13.8c-1.7 0-2.8 1.1-2.8 2.8h5.6c0-1.7-1.1-2.8-2.8-2.8Z"  pathLength="1"/>
+                <path d="M15.6 20.2h4"  pathLength="1"/>
+              </svg>
+            </span>
+            <div>
+              <h3 class="pv-punto__titulo">
+                <svg class="icono-traza pv-punto__check" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                     stroke-width="3" stroke-linecap="round" stroke-linejoin="round"
+                     aria-hidden="true" focusable="false">
+                  <path d="M4 12.8 9.4 18.4 20 5.6"  pathLength="1"/>
+                </svg>
+                <span>Jardín de Polinizadores</span>
+              </h3>
+              <p class="pv-punto__detalle">Observación de aves y mariposas.</p>
+            </div>
+          </article>
+
+          <article class="pv-tapa pv-tapa--punto-3 reveal">
+            <span class="pv-disco pv-punto__disco" aria-hidden="true">
+              <svg class="icono-traza" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"
+                   stroke-linecap="round" stroke-linejoin="round" focusable="false">
+                <circle cx="12" cy="9.6" r="2.2"  pathLength="1"/>
+                <path d="M12 7.4c0-2 .9-3.4 2.6-3.4 0 1.9-.9 3.1-2.6 3.4Z"  pathLength="1"/>
+                <path d="M12 7.4c0-2-.9-3.4-2.6-3.4 0 1.9.9 3.1 2.6 3.4Z"  pathLength="1"/>
+                <path d="M14.2 9.6c1.9-.7 3.4-.2 4 1.5-1.8.7-3.2.2-4-1.5Z"  pathLength="1"/>
+                <path d="M9.8 9.6c-1.9-.7-3.4-.2-4 1.5 1.8.7 3.2.2 4-1.5Z"  pathLength="1"/>
+                <path d="M12.9 11.6c1.1 1.7 1 3.3-.5 4.4-1.2-1.5-1.1-3.1.5-4.4Z"  pathLength="1"/>
+                <path d="M11.1 11.6c-1.1 1.7-1 3.3.5 4.4 1.2-1.5 1.1-3.1-.5-4.4Z"  pathLength="1"/>
+                <path d="M12 16.6V21"  pathLength="1"/>
+              </svg>
+            </span>
+            <div>
+              <h3 class="pv-punto__titulo">
+                <svg class="icono-traza pv-punto__check" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                     stroke-width="3" stroke-linecap="round" stroke-linejoin="round"
+                     aria-hidden="true" focusable="false">
+                  <path d="M4 12.8 9.4 18.4 20 5.6"  pathLength="1"/>
+                </svg>
+                <span>Ruta de Flora Local</span>
+              </h3>
+              <p class="pv-punto__detalle">Reconocimiento de 20<br />especies nativas.</p>
+            </div>
+          </article>
+
+          <article class="pv-tapa pv-tapa--punto-4 reveal">
+            <span class="pv-disco pv-punto__disco" aria-hidden="true">
+              <svg class="icono-traza" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"
+                   stroke-linecap="round" stroke-linejoin="round" focusable="false">
+                <circle cx="9.6" cy="5.4" r="1.9"  pathLength="1"/>
+                <path d="M9.6 8.4v4.2"  pathLength="1"/>
+                <path d="M5.4 10.2 9.6 8.8l4.2 1.4"  pathLength="1"/>
+                <path d="M9.6 12.6 6 17.8h7.2Z"  pathLength="1"/>
+                <path d="M17.6 8.6c1.9 0 3.2 1.3 3.2 3.2s-1.3 3.6-3.2 3.6-3.2-1.7-3.2-3.6 1.3-3.2 3.2-3.2Z"  pathLength="1"/>
+                <path d="M17.6 15.4v3.4"  pathLength="1"/>
+                <path d="M3.4 20.6h17.2"  pathLength="1"/>
+              </svg>
+            </span>
+            <div>
+              <h3 class="pv-punto__titulo">
+                <svg class="icono-traza pv-punto__check" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                     stroke-width="3" stroke-linecap="round" stroke-linejoin="round"
+                     aria-hidden="true" focusable="false">
+                  <path d="M4 12.8 9.4 18.4 20 5.6"  pathLength="1"/>
+                </svg>
+                <span>Espacios de conexión</span>
+              </h3>
+              <p class="pv-punto__detalle">Naturaleza, tranquilidad<br />y bienestar.</p>
+            </div>
+          </article>
+
+        </div>
+
+        <a class="pv-salto pv-salto--flecha" href="#beneficios">
+          <span class="solo-lectores">Ver la siguiente lámina</span>
+        </a>
+      </section>
+
+      <!-- ==================================================================
+           LÁMINA 5 · LOS BENEFICIOS
+           De las tres tarjetas de bono sólo se tapa la MITAD IZQUIERDA: la
+           foto de la derecha es parte de la lámina y se queda como está.
+           La franja de WhatsApp sí es un enlace de verdad.
+           ================================================================== -->
+      <section class="pv-pieza pv-beneficios" id="beneficios" aria-labelledby="pv-t-beneficios">
+        <h2 class="solo-lectores" id="pv-t-beneficios">Tu plan vecino te da beneficios</h2>
+
+        <picture>
+          <source srcset="img/plan-vecino/pieza-5-beneficios.webp" type="image/webp" />
+          <img
+            class="pv-pieza__fondo"
+            src="img/plan-vecino/pieza-5-beneficios.jpg"
+            width="1080" height="1350"
+            alt="El vivero y la zona verde al mediodía, con el cielo lleno de nubes."
+            loading="lazy" decoding="async"
+          />
+        </picture>
+
+        <div class="pv-capa reveal-secuencia">
+
+          <!-- El texto va dentro de un ÚNICO hijo a propósito. La tapa es una
+               cuadrícula (para centrar verticalmente), y una cuadrícula
+               convierte en bloque a todos sus hijos: sin este <span>, el
+               <strong> se volvía una fila aparte y partía la frase en cinco
+               renglones, dejando «, acumulable para» abriendo línea con una
+               coma huérfana. Con un solo hijo, dentro se compone normal y los
+               únicos saltos son los dos <br> que reproducen la pieza. -->
+          <p class="pv-tapa pv-tapa--bono10 reveal"><span class="pv-bono10__texto">Cada recarga te entrega un <strong>bono equivalente<br />al 10% de valor del plan</strong>, acumulable para<br />redimir en:</span></p>
+
+          <div class="pv-tapa pv-tapa--bono pv-tapa--bono-1 reveal">
+            <span class="pv-disco pv-bono__disco" aria-hidden="true">
+              <svg class="icono-traza" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"
+                   stroke-linecap="round" stroke-linejoin="round" focusable="false">
+                <path d="M4.4 9.4h12v5.2a4 4 0 0 1-4 4h-4a4 4 0 0 1-4-4Z"  pathLength="1"/>
+                <path d="M16.4 10.8h1.8a2.4 2.4 0 0 1 0 4.8h-1.8"  pathLength="1"/>
+                <path d="M7.6 3.6c-.7 1-.7 1.8 0 2.8M10.4 3.6c-.7 1-.7 1.8 0 2.8M13.2 3.6c-.7 1-.7 1.8 0 2.8"  data-traza="detalle"/>
+                <path d="M3.4 21.2h14"  pathLength="1"/>
+              </svg>
+            </span>
+            <p class="pv-bono__texto">
+              Bebidas calientes en nuestro
+              <strong>café de paso</strong>
+            </p>
+          </div>
+
+          <div class="pv-tapa pv-tapa--bono pv-tapa--bono-2 reveal">
+            <span class="pv-disco pv-bono__disco" aria-hidden="true">
+              <svg class="icono-traza" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"
+                   stroke-linecap="round" stroke-linejoin="round" focusable="false">
+                <path d="M6.6 13.6h10.8l-1 7a1.4 1.4 0 0 1-1.4 1.2H9a1.4 1.4 0 0 1-1.4-1.2Z"  pathLength="1"/>
+                <path d="M12 13.6V7.8"  pathLength="1"/>
+                <path d="M12 9.6c0-2.4 1.8-4.2 4.2-4.2 0 2.4-1.8 4.2-4.2 4.2Z"  pathLength="1"/>
+                <path d="M12 11.2C12 9.2 10.4 7.6 8.4 7.6c0 2 1.6 3.6 3.6 3.6Z"  pathLength="1"/>
+              </svg>
+            </span>
+            <p class="pv-bono__texto">
+              Plantas seleccionadas de nuestro
+              <strong>vivero</strong>
+            </p>
+          </div>
+
+          <div class="pv-tapa pv-tapa--bono pv-tapa--bono-3 reveal">
+            <span class="pv-disco pv-bono__disco" aria-hidden="true">
+              <svg class="icono-traza" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"
+                   stroke-linecap="round" stroke-linejoin="round" focusable="false">
+                <path d="M3.4 10.6 12 4.4l8.6 6.2"  pathLength="1"/>
+                <path d="M5.6 9.6v10h12.8v-10"  pathLength="1"/>
+                <path d="M8.6 19.6v-2.4m0-2.4v-.8m6.8 5.6v-2.4m0-2.4v-.8"  data-traza="detalle"/>
+                <path d="M7 17.2h3.2M13.8 17.2H17"  data-traza="detalle"/>
+                <path d="M3.4 19.6h17.2"  pathLength="1"/>
+              </svg>
+            </span>
+            <p class="pv-bono__texto">
+              Descuentos en
+              <strong>alquiler de espacios</strong>
+            </p>
+          </div>
+
+          <a
+            class="pv-tapa pv-tapa--wa reveal"
+            href="https://wa.me/573166758362?text=Hola%2C%20quiero%20reservar%20mi%20Plan%20vecino%20de%20Vegas%20del%20Verde."
+            target="_blank" rel="noopener"
+          >
+            <svg class="pv-wa__icono" viewBox="0 0 32 32" aria-hidden="true" focusable="false">
+              <path class="pv-wa__burbuja" d="M16 2.7A13.3 13.3 0 0 0 4.6 22.8L2.7 29.3l6.7-1.8A13.3 13.3 0 1 0 16 2.7Z" />
+              <path class="pv-wa__telefono" d="M11.9 9.1c-.3-.7-.6-.7-.9-.7h-.7c-.3 0-.7.1-1.1.5-.4.4-1.4 1.4-1.4 3.4s1.5 3.9 1.7 4.2c.2.3 2.9 4.5 7 6.2 3.5 1.4 4.2 1.1 4.9 1 .8-.1 2.4-1 2.8-1.9.3-1 .3-1.8.2-2-.1-.2-.4-.3-.8-.5l-2.8-1.4c-.4-.2-.7-.2-1 .2l-1.3 1.6c-.2.3-.5.3-.9.1-.4-.2-1.8-.7-3.4-2.1-1.3-1.1-2.2-2.5-2.4-2.9-.2-.4 0-.6.2-.8l.7-.8c.2-.2.3-.4.4-.7.1-.2.1-.5 0-.7L11.9 9.1Z" />
+            </svg>
+            <span>
+              <span class="pv-wa__rotulo">Reserva tu <strong>Plan vecino</strong></span>
+              <span class="pv-wa__numero">+57 316 675 8362</span>
+            </span>
+          </a>
+
+        </div>
+      </section>
+
+    </div>
+  </main>
+
+  <script src="js/plan-vecino.js" defer></script>
+  <script src="js/app.js" defer></script>
+
+</body>
+</html>

@@ -19,106 +19,62 @@
      mensaje y abre wa.me. El <script> del final es el que hace eso; si los
      fragmentos se inyectan con innerHTML en vez de concatenarse, hay que mover
      ese script a js/contacto.js y cargarlo con defer.
+
+     ======================================================================
+     v4 · QUÉ SE RECOMPUSO Y POR QUÉ  (ni un hecho cambia de sitio: sólo las
+     cajas y el orden de lectura dentro de la propia sección)
+
+     El síntoma medido era el más literal del diagnóstico —«bloques uniformes»—:
+     la sección era una pila de SEIS rectángulos con el mismo filete, el mismo
+     relleno y el mismo fondo, uno debajo de otro (dirección · referencias ·
+     distancias · tres canales · formulario). Cuando todo tiene la misma caja,
+     nada tiene jerarquía y la página parece una plantilla rellenada.
+
+     1 · PORTADA A DOS COLUMNAS. El titular deja de ir centrado y comparte
+         primera línea con la DIRECCIÓN, que sale de su tarjeta y se convierte
+         en la placa de la sección. Es el primer dato que busca quien llega
+         hasta aquí: no puede estar dentro de una caja igual a las demás.
+
+     2 · EL MAPA VA A SANGRE. Era un visor blanco redondeado con sombra y
+         escuadras dentro del contenedor: el marco pesaba más que la foto
+         satelital. Ahora la vista satelital cruza la pantalla de lado a lado y
+         el marco desaparece. El BRIEF pide un efecto «tipo Google Earth»; esto
+         es lo que se parece a eso. Es el único bloque que se sale del
+         contenedor, igual que .viv-friso en #vivero.
+
+     3 · «LLEGAR CON GOOGLE MAPS» Y «LLEGAR CON WAZE» SUBEN. El BRIEF los pide
+         «bajo el mapa» y estaban tres bloques más abajo, después de las
+         distancias. Ahora van pegados al mapa, que es donde se buscan.
+
+     4 · SE ACABAN LAS CAJAS REPETIDAS. Referencias y distancias pasan a
+         bloques de filete horizontal —sin recuadro— con su encabezado a un
+         lado y el contenido al otro. Los canales pasan a filas con regla. El
+         ÚNICO recuadro que queda en toda la sección es el FORMULARIO, porque
+         es lo único que es de verdad un objeto: una cosa que se rellena.
+
+     El ancla #contacto, las coordenadas, el horario, el teléfono, el correo,
+     Instagram, las ocho referencias y las siete distancias siguen aquí y
+     siguen diciendo exactamente lo mismo.
      ========================================================================== -->
 <section id="ubicacion" class="seccion seccion--alt ubi" aria-labelledby="ubicacion-titulo">
+
+  <!-- ================= 1 · PORTADA: TITULAR + DIRECCIÓN ==================== -->
   <div class="contenedor contenedor--ancho">
+    <div class="ubi-portada">
 
-    <header class="seccion-encabezado centrado reveal">
-      <p class="eyebrow">Cómo llegar</p>
-      <h2 id="ubicacion-titulo" class="titulo-seccion">
-        Dónde queda, cuándo abrimos y con quién hablas
-      </h2>
-      <p class="entradilla">
-        Todo lo práctico en un solo sitio: el mapa, las referencias, el horario y el número
-        al que escribir.
-      </p>
-    </header>
+      <header class="seccion-encabezado ubi-portada__texto reveal">
+        <p class="eyebrow">Cómo llegar</p>
+        <h2 id="ubicacion-titulo" class="titulo-seccion">
+          Dónde queda, cuándo abrimos y con quién hablas
+        </h2>
+        <p class="entradilla">
+          Todo lo práctico en un solo sitio: el mapa, las referencias, el horario y el número
+          al que escribir.
+        </p>
+      </header>
 
-    <!-- ================= 1 · MAPA CON VUELO ================================== -->
-    <figure class="ubi-mapa reveal" data-mapa>
-      <div class="ubi-mapa__marco">
-        <div class="ubi-mapa__medio">
-
-          <!-- Lienzo del mapa interactivo (lo puebla js/mapa.js) -->
-          <div
-            class="ubi-mapa__lienzo"
-            id="mapa-vegas"
-            data-mapa-lienzo
-            role="application"
-            aria-label="Mapa satelital interactivo con la ubicación de Vegas del Verde. La dirección, las referencias cercanas y las distancias también están escritas debajo del mapa."
-          ></div>
-
-          <!-- Respaldo real: es lo que se ve mientras el mapa carga, lo que queda
-               si Leaflet no está disponible y lo único que se ve sin JavaScript. -->
-          <img
-            class="ubi-mapa__respaldo"
-            src="img/mapa-ubicacion.jpg"
-            width="1200"
-            height="1111"
-            alt="Vista aérea del sector: Vegas del Verde señalado entre los árboles, con las referencias cercanas marcadas — Conjunto Natura, Anillo Vial Floridablanca-Girón, Alkosto, Makro, PriceSmart, Mediterráneo Fútbol Park, Mediterráneo Royal y los centros comerciales Cañaveral, La Florida y Caracolí, con Bucaramanga y la cordillera al fondo."
-            loading="lazy"
-            decoding="async"
-          />
-
-          <!-- Capa HUD (decorativa, no intercepta el puntero) -->
-          <div class="ubi-hud" aria-hidden="true">
-            <span class="ubi-hud__marca">
-              <img
-                class="ubi-hud__simbolo"
-                src="img/logo/simbolo-vegas.png"
-                width="512"
-                height="512"
-                alt=""
-                loading="lazy"
-                decoding="async"
-              />
-              Vegas del Verde
-            </span>
-            <span class="ubi-hud__etiqueta">Vista satelital</span>
-          </div>
-
-          <!-- Sólo en pantallas táctiles: evita que el mapa secuestre el scroll -->
-          <button class="ubi-mapa__activar" type="button" data-mapa-activar hidden>
-            <span class="ubi-mapa__activar-pastilla">Toca para explorar el mapa</span>
-          </button>
-
-        </div>
-      </div>
-
-      <figcaption class="ubi-mapa__pie">
-        <span class="ubi-mapa__credito" data-mapa-credito hidden>
-          Vista satelital · Teselas &copy; Esri (World Imagery). El vuelo se ejecuta solo al
-          entrar la sección en pantalla.
-        </span>
-        <span class="ubi-mapa__nota-respaldo" data-mapa-respaldo-nota>
-          Vista aérea del sector con las referencias del entorno.
-        </span>
-        <span class="ubi-mapa__aviso" data-mapa-aviso hidden>
-          El mapa interactivo no está disponible en este momento; esta es la vista aérea del
-          sector. Los botones para llegar siguen funcionando.
-        </span>
-      </figcaption>
-
-      <p class="ubi-mapa__controles">
-        <button
-          class="btn btn-secundario btn-pequeno"
-          type="button"
-          data-mapa-repetir
-          hidden
-        >
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true" focusable="false">
-            <path d="M20 12a8 8 0 1 1-2.6-5.9" />
-            <path d="M20.4 4.2v4.2h-4.2" />
-          </svg>
-          Repetir vuelo
-        </button>
-      </p>
-    </figure>
-
-    <!-- ================= 2 y 3 · DIRECCIÓN Y REFERENCIAS ===================== -->
-    <div class="ubi-info reveal-secuencia">
-
-      <article class="ubi-tarjeta reveal">
+      <!-- La dirección ya no es una tarjeta: es la placa de la sección. -->
+      <div class="ubi-placa reveal reveal--der">
         <h3 class="titulo-seccion titulo-seccion--xs">La dirección</h3>
         <address class="ubi-direccion">
           Vereda Río Frío, 500&nbsp;m sobre la vía Carabineros.<br />
@@ -133,9 +89,128 @@
             rel="noopener"
           >7.0574425, -73.1144128</a>
         </p>
-      </article>
+      </div>
 
-      <article class="ubi-tarjeta reveal">
+    </div>
+  </div>
+
+  <!-- ================= 2 · MAPA CON VUELO, A SANGRE ======================== -->
+  <figure class="ubi-mapa reveal" data-mapa>
+    <div class="ubi-mapa__medio">
+
+      <!-- Lienzo del mapa interactivo (lo puebla js/mapa.js) -->
+      <div
+        class="ubi-mapa__lienzo"
+        id="mapa-vegas"
+        data-mapa-lienzo
+        role="application"
+        aria-label="Mapa satelital interactivo con la ubicación de Vegas del Verde. La dirección, las referencias cercanas y las distancias también están escritas alrededor del mapa."
+      ></div>
+
+      <!-- Respaldo real: es lo que se ve mientras el mapa carga, lo que queda
+           si Leaflet no está disponible y lo único que se ve sin JavaScript. -->
+      <img
+        class="ubi-mapa__respaldo"
+        src="img/mapa-ubicacion.jpg"
+        width="1200"
+        height="1111"
+        alt="Vista aérea del sector: Vegas del Verde señalado entre los árboles, con las referencias cercanas marcadas — Conjunto Natura, Anillo Vial Floridablanca-Girón, Alkosto, Makro, PriceSmart, Mediterráneo Fútbol Park, Mediterráneo Royal y los centros comerciales Cañaveral, La Florida y Caracolí, con Bucaramanga y la cordillera al fondo."
+        loading="lazy"
+        decoding="async"
+      />
+
+      <!-- Capa HUD (decorativa, no intercepta el puntero) -->
+      <div class="ubi-hud" aria-hidden="true">
+        <span class="ubi-hud__marca">
+          <img
+            class="ubi-hud__simbolo"
+            src="img/logo/simbolo-vegas.png"
+            width="512"
+            height="512"
+            alt=""
+            loading="lazy"
+            decoding="async"
+          />
+          Vegas del Verde
+        </span>
+        <span class="ubi-hud__etiqueta">Vista satelital</span>
+      </div>
+
+      <!-- Sólo en pantallas táctiles: evita que el mapa secuestre el scroll -->
+      <button class="ubi-mapa__activar" type="button" data-mapa-activar hidden>
+        <span class="ubi-mapa__activar-pastilla">Toca para explorar el mapa</span>
+      </button>
+
+    </div>
+
+    <!-- El pie del mapa vuelve a entrar en el contenedor: la foto va a sangre,
+         el texto no. <figcaption> tiene que ser el último hijo de <figure>, así
+         que el .contenedor va DENTRO de él, no al revés. -->
+    <figcaption class="ubi-mapa__pie">
+      <div class="contenedor contenedor--ancho ubi-mapa__pie-fila">
+        <span class="ubi-mapa__leyenda">
+          <span class="ubi-mapa__credito" data-mapa-credito hidden>
+            Vista satelital · Teselas &copy; Esri (World Imagery). El vuelo se ejecuta solo al
+            entrar la sección en pantalla.
+          </span>
+          <span class="ubi-mapa__nota-respaldo" data-mapa-respaldo-nota>
+            Vista aérea del sector con las referencias del entorno.
+          </span>
+          <span class="ubi-mapa__aviso" data-mapa-aviso hidden>
+            El mapa interactivo no está disponible en este momento; esta es la vista aérea del
+            sector. Los botones para llegar siguen funcionando.
+          </span>
+        </span>
+
+        <button
+          class="btn btn-secundario btn-pequeno ubi-mapa__repetir"
+          type="button"
+          data-mapa-repetir
+          hidden
+        >
+          <svg class="icono-traza" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true" focusable="false">
+            <path d="M20 12a8 8 0 1 1-2.6-5.9"  pathLength="1"/>
+            <path d="M20.4 4.2v4.2h-4.2"  pathLength="1"/>
+          </svg>
+          Repetir vuelo
+        </button>
+      </div>
+    </figcaption>
+  </figure>
+
+  <div class="contenedor contenedor--ancho">
+
+    <!-- ================= 3 · CÓMO LLEGAR (pegado al mapa, como pide el BRIEF) -->
+    <div class="ubi-acciones reveal">
+      <a
+        class="btn btn-primario btn-grande"
+        href="https://www.google.com/maps/dir/?api=1&amp;destination=7.0574425,-73.1144128"
+        target="_blank"
+        rel="noopener"
+      >
+        <svg class="icono-traza" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true" focusable="false">
+          <path d="M12 21.5s7-6.1 7-11a7 7 0 1 0-14 0c0 4.9 7 11 7 11Z"  pathLength="1"/>
+          <circle cx="12" cy="10.4" r="2.6"  pathLength="1"/>
+        </svg>
+        Llegar con Google Maps
+      </a>
+
+      <a
+        class="btn btn-secundario btn-grande"
+        href="https://waze.com/ul?ll=7.0574425,-73.1144128&amp;navigate=yes"
+        target="_blank"
+        rel="noopener"
+      >
+        <svg class="icono-traza" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true" focusable="false">
+          <path d="M3.5 12.2 20.4 4.6a.55.55 0 0 1 .74.72l-7.4 16.6a.55.55 0 0 1-1.03-.09l-1.6-6.2a.55.55 0 0 0-.39-.4l-6.2-1.6a.55.55 0 0 1-.02-1.43Z"  pathLength="1"/>
+        </svg>
+        Llegar con Waze
+      </a>
+    </div>
+
+    <!-- ================= 4 · PUNTOS DE REFERENCIA ============================ -->
+    <div class="ubi-bloque reveal">
+      <div class="ubi-bloque__encabezado">
         <h3 class="titulo-seccion titulo-seccion--xs">Puntos de referencia</h3>
         <p class="nota">Si te suena alguno de estos sitios, ya sabes llegar.</p>
         <ul class="ubi-refs">
@@ -148,28 +223,27 @@
           <li class="ubi-ref">C.C. La Florida</li>
           <li class="ubi-ref">C.C. Caracolí</li>
         </ul>
+      </div>
 
-        <figure class="ubi-refs__figura">
-          <img
-            class="ubi-refs__foto"
-            src="img/mapa-ubicacion.jpg"
-            width="1200"
-            height="1111"
-            alt="La misma vista aérea del sector, con cada uno de los puntos de referencia de la lista anterior señalado con un pin sobre la foto."
-            loading="lazy"
-            decoding="async"
-          />
-          <figcaption>
-            El predio, visto desde el aire, con los sitios que ya conoces marcados alrededor.
-          </figcaption>
-        </figure>
-      </article>
-
+      <figure class="ubi-refs__figura">
+        <img
+          class="ubi-refs__foto"
+          src="img/mapa-ubicacion.jpg"
+          width="1200"
+          height="1111"
+          alt="La misma vista aérea del sector, con cada uno de los puntos de referencia de la lista anterior señalado con un pin sobre la foto."
+          loading="lazy"
+          decoding="async"
+        />
+        <figcaption>
+          El predio, visto desde el aire, con los sitios que ya conoces marcados alrededor.
+        </figcaption>
+      </figure>
     </div>
 
-    <!-- ================= 4 · DISTANCIAS ====================================== -->
-    <div class="ubi-dist reveal" role="group" aria-labelledby="ubicacion-distancias-titulo">
-      <div class="ubi-dist__encabezado">
+    <!-- ================= 5 · DISTANCIAS ====================================== -->
+    <div class="ubi-bloque ubi-dist reveal" role="group" aria-labelledby="ubicacion-distancias-titulo">
+      <div class="ubi-bloque__encabezado">
         <h3 class="titulo-seccion titulo-seccion--xs" id="ubicacion-distancias-titulo">
           Distancias desde el predio
         </h3>
@@ -218,34 +292,6 @@
       </ol>
     </div>
 
-    <!-- ================= 5 · BOTONES DE NAVEGACIÓN =========================== -->
-    <div class="ubi-acciones reveal">
-      <a
-        class="btn btn-primario btn-grande"
-        href="https://www.google.com/maps/dir/?api=1&amp;destination=7.0574425,-73.1144128"
-        target="_blank"
-        rel="noopener"
-      >
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true" focusable="false">
-          <path d="M12 21.5s7-6.1 7-11a7 7 0 1 0-14 0c0 4.9 7 11 7 11Z" />
-          <circle cx="12" cy="10.4" r="2.6" />
-        </svg>
-        Llegar con Google Maps
-      </a>
-
-      <a
-        class="btn btn-secundario btn-grande"
-        href="https://waze.com/ul?ll=7.0574425,-73.1144128&amp;navigate=yes"
-        target="_blank"
-        rel="noopener"
-      >
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true" focusable="false">
-          <path d="M3.5 12.2 20.4 4.6a.55.55 0 0 1 .74.72l-7.4 16.6a.55.55 0 0 1-1.03-.09l-1.6-6.2a.55.55 0 0 0-.39-.4l-6.2-1.6a.55.55 0 0 1-.02-1.43Z" />
-        </svg>
-        Llegar con Waze
-      </a>
-    </div>
-
     <!-- ================= 6 y 7 · CANALES, HORARIO Y FORMULARIO =============== -->
     <div class="ubi-hablar">
 
@@ -284,9 +330,9 @@
 
         <div class="ubi-canal ubi-canal--estatico reveal">
           <span class="ubi-canal__icono" aria-hidden="true">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" focusable="false">
-              <circle cx="12" cy="12" r="9" />
-              <path d="M12 7v5.3l3.4 2" />
+            <svg class="icono-traza" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" focusable="false">
+              <circle cx="12" cy="12" r="9"  pathLength="1"/>
+              <path d="M12 7v5.3l3.4 2"  pathLength="1"/>
             </svg>
           </span>
           <span class="ubi-canal__cuerpo">
@@ -300,9 +346,9 @@
 
         <a class="ubi-canal reveal" href="mailto:vegasdelverde.1@gmail.com">
           <span class="ubi-canal__icono" aria-hidden="true">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" focusable="false">
-              <rect x="2.75" y="4.75" width="18.5" height="14.5" rx="2.5" />
-              <path d="m3.5 7 8.5 6 8.5-6" />
+            <svg class="icono-traza" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" focusable="false">
+              <rect x="2.75" y="4.75" width="18.5" height="14.5" rx="2.5"  pathLength="1"/>
+              <path d="m3.5 7 8.5 6 8.5-6"  pathLength="1"/>
             </svg>
           </span>
           <span class="ubi-canal__cuerpo">
@@ -319,10 +365,10 @@
           rel="noopener"
         >
           <span class="ubi-canal__icono" aria-hidden="true">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" focusable="false">
-              <rect x="3" y="3" width="18" height="18" rx="5" />
-              <circle cx="12" cy="12" r="4" />
-              <circle cx="17.3" cy="6.7" r="1.15" fill="currentColor" stroke="none" />
+            <svg class="icono-traza" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" focusable="false">
+              <rect x="3" y="3" width="18" height="18" rx="5"  pathLength="1"/>
+              <circle cx="12" cy="12" r="4"  pathLength="1"/>
+              <circle cx="17.3" cy="6.7" r="1.15" fill="currentColor" stroke="none"  pathLength="1"/>
             </svg>
           </span>
           <span class="ubi-canal__cuerpo">

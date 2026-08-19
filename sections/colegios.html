@@ -39,6 +39,37 @@
      Ni una palabra del texto cambia, y la sección sigue SIN un solo dígito
      que no sea una hora (ARQUITECTURA-V3 §10): los rótulos de parada siguen
      escritos con letras («Primera», «Segunda», «Tercera») y no se numeran.
+
+     COMPOSICIÓN (v3.2) — TRES PARADAS QUE DEJAN DE MEDIR LO MISMO
+     v3.1 arregló el problema de #colegios por fuera —tres FILAS y no tres
+     tarjetas— pero por dentro las tres filas seguían siendo idénticas: mismo
+     carril de 13 rem, misma foto 4/5, mismo lado. Tres rectángulos iguales
+     seguidos se leen como una rejilla aunque no lo sean. En v3.2 cada parada
+     declara su propia caja, y la elección no es caprichosa: sale de la
+     proporción real del archivo, para que ninguna foto se recorte de más.
+
+       parada A · parque-19 (900×1200, 3:4) → carril ancho, foto 3/4, izquierda
+       parada B · parque-34 (675×1200, 9:16) → carril estrecho, foto 9/16,
+                  y la única que se va a la DERECHA
+       parada C · parque-52 (675×1200)       → carril medio, foto cuadrada,
+                  izquierda
+
+     Por eso las tres pierden `marco--retrato`: la proporción ya no es una
+     clase de sistema compartida, es una variable por parada (--col-ratio en
+     colegios.css §2). Y por eso cada una entra desde un lado distinto
+     (reveal--izq / reveal--der / reveal--izq): el movimiento acompaña a la
+     composición en vez de contradecirla.
+
+     LA FORMA DE LAS FOTOS. Las cuatro llevan HOJA: dos esquinas curvas en
+     diagonal y dos vivas, que es el motivo orgánico del sistema (la viñeta de
+     .lista-hojas en base.css §2) y ya la norma del sitio entero. Ninguna foto
+     de #colegios sangra fuera de pantalla —lo que cuelga del carril es el
+     titular, que es texto—, así que a ninguna le toca la excepción de dejar a
+     cero las esquinas del canto. Cada foto va a juego con la hoja del rótulo
+     de su parada y las diagonales se alternan bajando por la sección.
+     El resto de la curva orgánica —el labio de carbón del borde superior, los
+     remates de los filetes de la jornada y el bloque de cierre— vive también
+     en el CSS. Nada de esto necesita ni una etiqueta más aquí.
      ========================================================================== -->
 
 <section id="colegios" class="seccion seccion--alt col" aria-labelledby="colegios-titulo">
@@ -61,9 +92,9 @@
     <!-- ---------- Las tres paradas, en fila india ---------- -->
     <ul class="col-paradas reveal-secuencia">
 
-      <li class="col-parada reveal">
+      <li class="col-parada col-parada--a reveal reveal--izq">
         <figure>
-          <div class="marco marco--retrato">
+          <div class="marco">
             <img
               src="img/parque/parque-19.jpg"
               width="900"
@@ -84,9 +115,9 @@
         </p>
       </li>
 
-      <li class="col-parada reveal">
+      <li class="col-parada col-parada--b reveal reveal--der">
         <figure>
-          <div class="marco marco--retrato">
+          <div class="marco">
             <img
               src="img/parque/parque-34.jpg"
               width="675"
@@ -106,9 +137,9 @@
         </p>
       </li>
 
-      <li class="col-parada reveal">
+      <li class="col-parada col-parada--c reveal reveal--izq">
         <figure>
-          <div class="marco marco--retrato">
+          <div class="marco">
             <img
               src="img/parque/parque-52.jpg"
               width="675"

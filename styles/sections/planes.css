@@ -25,6 +25,28 @@
    generada. A partir de --planes-paso (§1 bis) cada carril declara su propia
    caja y se alternan los bordes: izquierda, derecha, izquierda, derecha,
    izquierda. Ninguno empieza donde acaba el anterior.
+
+   REVISIÓN v4 «ORGÁNICA» — LA FORMA Y EL ANCLA
+   Quedaba lo que ni el reparto interno ni los anchos podían arreglar:
+
+   · LAS TRECE FOTOS COMPARTÍAN SILUETA. Iban todas a esquina viva. Da igual
+     que una sea 16:9 y otra un retrato: trece rectángulos rectos son trece
+     veces la misma forma, y la forma es lo primero que se lee de una
+     fotografía. Ahora el contorno es una VARIABLE por carril (§8) y ninguno
+     repite el del carril de encima: canto blando y sangrado en el 01, arcos
+     en el 02, hojas encontradas en el 03, círculos en el 04.
+   · NO HABÍA DÓNDE PARAR LA VISTA. Los cinco carriles abrían con un rótulo
+     de 13 px. El índice —que ya era «el hilo que enhebra los cinco»— sube a
+     cifra de display y se pone encima de su etiqueta (§2): es el ancla con
+     la que empieza cada carril y lo que hace que se lean como capítulos.
+   · Y CADA UNO ENTRA DE UNA MANERA (los modificadores de .reveal viajan en
+     el HTML): el 01 desde la izquierda, que es por donde su foto se sale; el
+     02 desde la derecha, que es por donde se sale su tira; el 03 con zoom;
+     el 04 con velo; el 05 recto. El motor sigue siendo el de base.css: aquí
+     no se escribe ni una línea de animación de entrada.
+
+   Ni un valor literal nuevo: los contornos salen de la escala de radios de
+   tokens.css y las duraciones, de la de movimiento.
    ========================================================================== */
 
 /* --------------------------------------------------------------------------
@@ -88,6 +110,19 @@
   --planes-paso: calc((100% - var(--gap) * 11) / 12 + var(--gap));
 }
 
+/* EL REVELADO BAJA DE 900 A 550 ms. No se toca ningún token global: se
+   redefine --dur-reveal para esta sección con otro token que ya existe
+   (--dur-lenta), y como --transicion-reveal se resuelve en el elemento que la
+   usa, los cinco carriles heredan la duración corta sin tocar base.css.
+   900 ms es una entrada que se nota; a 550 el contenido ya está ahí cuando el
+   ojo llega. Va dentro de `no-preference` para no pisar el 1 ms que tokens.css
+   pone en `reduce`: si alguien pidió menos movimiento, manda su ajuste.     */
+@media (prefers-reduced-motion: no-preference) {
+  .planes {
+    --dur-reveal: var(--dur-lenta);
+  }
+}
+
 /* --------------------------------------------------------------------------
    2. PIEZAS COMUNES A LOS CINCO
    Lo único que comparten los carriles es la voz: micro-etiqueta con índice,
@@ -101,11 +136,18 @@
 }
 
 /* Micro-etiqueta: uno de los pocos sitios donde el caps sigue permitido
-   (§3 del contrato). Nunca crece de tamaño: es una etiqueta, no un título. */
+   (§3 del contrato). Nunca crece de tamaño: es una etiqueta, no un título.
+   v4: deja de ir en línea con el índice y BAJA debajo de él. La etiqueta
+   conserva exactamente su cuerpo, su peso y su tracking; lo que cambia es que
+   ya no comparte renglón con una cifra que ahora la triplica en altura.
+   El texto de la ocasión es un nodo suelto dentro del <p> —«Bodas y
+   conciertos» al lado del <span> del índice—, así que en columna se coloca
+   solo como segundo ítem flexible y no hizo falta envolverlo en nada.      */
 .planes-carril__ocasion {
   display: flex;
-  align-items: baseline;
-  gap: 0.7em;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--esp-3xs);
   margin: 0;
   font-family: var(--fuente-titulo);
   font-size: var(--fs-micro);
@@ -121,18 +163,33 @@
   color: var(--color-texto-inverso-suave);
 }
 
-/* El índice es el hilo que enhebra los cinco carriles cuando ya no se
-   parecen en nada más. Va en el display, en cálido, y en tamaño de dato. */
+/* EL ÍNDICE, DE HILO A ANCLA.
+   Era el hilo que enhebraba los cinco carriles cuando ya no se parecen en
+   nada más, pero a --fs-pequeno (13 px) ese hilo no se veía: la vista entraba
+   a cada carril por la foto y el orden de lectura se perdía. A --paso-4 es lo
+   primero que se fija, y los cinco números convierten la pila en capítulos.
+
+   POR QUÉ EN --peso-display Y NO EN --peso-fuerte
+   El contrato manda --peso-fuerte en las CIFRAS «para que el dato no se
+   desvanezca», y esto no es un dato: es un ordinal. A 46 px, el 320 de
+   Fraunces da el trazo fino editorial que el contrato pide para el display
+   grande, y el 600 lo convertiría en un número de precio. La legibilidad no
+   sufre: 5.3:1 sobre crema con texto muy por encima del umbral de «grande»,
+   donde AA sólo exige 3:1.
+
+   EL COLOR SE QUEDA EN CÁLIDO. Es la excepción del §4 del contrato —terracota
+   para .cifra sobre claro— y aquí se gasta a conciencia: son cinco piezas en
+   toda la sección, no un color repartido. Sobre el bloque de bienestar
+   invierte a coral claro, que es la pareja ya medida (5.7:1 sobre bosque). */
 .planes-carril__indice {
   font-family: var(--fuente-display);
-  font-size: var(--fs-pequeno);
-  font-weight: var(--peso-fuerte);
+  font-size: var(--paso-4);
+  font-weight: var(--peso-display);
   font-optical-sizing: auto;
   font-variation-settings: var(--ejes-display);
-  /* v3: el índice es display, así que abre con --tracking-display en vez del
-     cierre de titular de v2. Los cinco números son el hilo que enhebra los
-     carriles y van a la par de los índices de #nosotros. */
+  /* El índice es display, así que abre con --tracking-display. */
   letter-spacing: var(--tracking-display);
+  line-height: var(--alto-linea-apretado);
   color: var(--color-acento-texto);
 }
 
@@ -267,12 +324,33 @@
 }
 
 @media (min-width: 48em) {
+  /* v4 · LA TIRA DEJA DE SER UNA REJILLA DE CUATRO IGUALES.
+     Era `repeat(4, 1fr)` con las cuatro fotos en 4:5 y arrancando en la misma
+     línea: cuatro retratos clonados, el ejemplo de manual de lo que el dueño
+     llama genérico. Ahora las columnas son desiguales, cada foto tiene su
+     proporción y las pares bajan un escalón. Sigue siendo una tira —se lee de
+     izquierda a derecha y en el mismo orden— pero con el pulso de una hilera
+     de árboles y no el de una hoja de contactos.
+     Las fracciones no son tokens (no las hay para eso) y están permitidas por
+     el contrato, igual que los porcentajes y los `fr`.                      */
   .planes-tira {
     grid-auto-flow: row;
-    grid-template-columns: repeat(4, 1fr);
+    grid-template-columns: 1fr 1.22fr 0.92fr 1.12fr;
+    align-items: start;
     overflow-x: visible;
     scroll-snap-type: none;
   }
+
+  .planes-tira__foto:nth-child(1) { aspect-ratio: 4 / 5; }
+  .planes-tira__foto:nth-child(2) { aspect-ratio: 3 / 4; }
+  .planes-tira__foto:nth-child(3) { aspect-ratio: 5 / 6; }
+  .planes-tira__foto:nth-child(4) { aspect-ratio: 2 / 3; }
+
+  /* El escalonado: las dos pares bajan, y bajan distinto. Mismo recurso y
+     misma escala de espaciado que los desfases de #espacios, para que las dos
+     secciones se lean como la misma mano. */
+  .planes-tira__foto:nth-child(2) { margin-block-start: var(--esp-lg); }
+  .planes-tira__foto:nth-child(4) { margin-block-start: var(--esp-md); }
 
   /* La caja del carril 02, al revés que la del 01: el texto ENTRA una columna
      por la izquierda y la tira SALE por la derecha. Dos gestos opuestos en
@@ -366,10 +444,26 @@
    claro: la banda oscura no se duplica en el empalme.
    -------------------------------------------------------------------------- */
 .planes-carril--bienestar {
-  /* v3: esquina viva. Con --radio-xl era una pastilla verde de 36 px de radio
-     dentro de una página que ya no redondea ni fotos ni tarjetas ni botones;
-     era, de largo, la forma más blanda que quedaba en el sitio. */
-  border-radius: 0;
+  /* v3 lo dejó a esquina viva con este argumento: con --radio-xl en las cuatro
+     esquinas era «una pastilla verde de 36 px dentro de una página que ya no
+     redondea nada», la forma más blanda del sitio. El argumento era correcto
+     entonces y deja de serlo en v4, cuando las trece fotos de la sección y las
+     cinco de #espacios llevan contorno: ahora el rectángulo recto es lo que se
+     sale del sistema. Vuelve el radio, pero ASIMÉTRICO —dos esquinas abiertas
+     y dos cerradas—, que es la diferencia entre una pastilla y una hoja.
+     La diagonal blanda va de arriba-izquierda a abajo-derecha, la misma por la
+     que el bloque entra en la página desde el margen. */
+  border-radius: var(--radio-xl) var(--radio-md) var(--radio-xl) var(--radio-md);
+  /* Textura: el verde deja de ser plano. base.css pinta el fondo con
+     --color-fondo-oscuro y aquí se le monta encima un degradado a la versión
+     honda del mismo verde, la del pie de sitio. Los dos extremos son tokens y
+     los dos sostienen el texto en crema por encima de 10:1, así que el
+     contraste no depende de por dónde caiga la letra. */
+  background-image: linear-gradient(
+    152deg,
+    var(--verde-bosque) 0%,
+    var(--verde-bosque-hondo) 100%
+  );
   padding: var(--gap);
   gap: var(--gap);
 }
@@ -423,22 +517,65 @@
    7. CARRIL 05 · TALLERES
    Sin galería, a conciencia: no hay en el banco ninguna foto de un taller de
    pintura o de jardinería, y el contrato prohíbe tanto inventar un nombre de
-   archivo como dejar un placeholder gris. Así que este carril es una banda
-   tipográfica entre dos filetes —el mismo recurso que las páginas de guardas
-   de un libro— y su rareza es justamente lo que corta la cadencia al final.
+   archivo como dejar un placeholder gris. Así que este carril se compone con
+   tipografía, y su rareza —ser el único sin fotografía— es lo que corta la
+   cadencia al final.
    -------------------------------------------------------------------------- */
+/* v4 · DE DOS FILETES A UNA TABLILLA.
+   El recurso de las guardas —una banda entre dos rayas de 1 px— era correcto
+   de tipografía y flojo de forma: en una sección donde todo lo demás tiene
+   contorno, dos rayas rectas leen como el hueco donde iba una foto. Pasa a
+   ser una tablilla con lavado de oliva y contorno de hoja, con la punta
+   ARRIBA A LA DERECHA: es la única de la sección que abre por ese lado, así
+   que el colofón sigue siendo la pieza rara que corta la cadencia, pero
+   ahora lo es por su forma y no por su ausencia.
+   El lavado está al 7 %: sobre él, el gris de .planes-talleres__copy conserva
+   6.0:1 y el filete del enlace su contraste de contorno. No lo subas sin
+   volver a medir los dos.                                                    */
 .planes-carril--talleres {
+  position: relative;
+  overflow: hidden;
   justify-items: start;
   gap: var(--esp-sm);
-  padding-block: var(--gap);
-  border-block: 1px solid var(--color-borde-suave);
+  padding: var(--gap) var(--esp-md);
+  border-radius: var(--radio-md) var(--radio-xl) var(--radio-md) var(--radio-xl);
+  background-color: rgb(var(--verde-oliva-rgb) / 0.07);
+}
+
+@media (min-width: 48em) {
+  .planes-carril--talleres {
+    padding: var(--gap-lg) var(--esp-xl);
+  }
+}
+
+/* El brote decorativo ocupa el sitio de la fotografía que este carril no
+   tiene. Va detrás del texto —--z-fondo— y a una opacidad de textura, no de
+   ilustración. `pointer-events: none` para que no se coma el clic del CTA si
+   algún día crece.                                                          */
+.planes-talleres__brote {
+  position: absolute;
+  z-index: var(--z-fondo);
+  inset-block-start: calc(var(--esp-lg) * -1);
+  inset-inline-end: calc(var(--esp-md) * -1);
+  width: clamp(8rem, 22vw, 16rem);
+  height: auto;
+  color: rgb(var(--verde-oliva-rgb) / 0.16);
+  pointer-events: none;
+}
+
+/* Todo lo que es contenido va por delante del brote. Se hace con el hermano
+   general y no elemento a elemento para que un párrafo nuevo no se cuele
+   detrás del adorno el día que alguien lo añada. */
+.planes-carril--talleres > :not(.planes-talleres__brote) {
+  position: relative;
+  z-index: var(--z-base);
 }
 
 /* La caja del 05: vuelve a pegar a la izquierda —la página tiene que
    recuperar su margen antes de que entre #momentos— pero ocupa sólo OCHO de
-   las doce columnas. Los dos filetes se acortan con él, y un filete que no
-   llega al borde es exactamente lo que distingue un colofón de un separador
-   de sección.                                                                */
+   las doce columnas. La tablilla se acorta con ella, y una tablilla que no
+   llega al borde es exactamente lo que distingue un colofón de una banda de
+   sección.                                                                   */
 @media (min-width: 48em) {
   .planes-carril--talleres {
     max-width: calc(var(--planes-paso) * 8 - var(--gap));
@@ -490,19 +627,131 @@
 }
 
 /* --------------------------------------------------------------------------
-   8. RETOQUES FINOS
+   8. LAS SILUETAS DE LAS TRECE FOTOS
+   --------------------------------------------------------------------------
+   HISTORIA DE ESTE BLOQUE, porque va por la tercera vuelta y conviene que la
+   cuarta no repita ninguna de las dos primeras:
+     v2  `border-radius: var(--radio-md)` en los trece .marco. Un redondeo
+         suave, igual en todos: el redondeo de plantilla.
+     v3  `border-radius: 0` en los trece, para alinearse con el .marco a
+         esquina viva de base.css. Trece rectángulos idénticos de recorte.
+     v4  UNA SILUETA POR CARRIL. Ni el mismo radio en todas ni ninguno: cada
+         carril recorta con una forma que dice algo de lo que enseña, y
+         ninguna repite la del carril de encima.
+
+   Reglas que cumplen todas, y que son lo que las separa del redondeo de
+   plantilla de v2:
+     · ninguna lleva los cuatro radios iguales salvo los dos círculos, que
+       son una forma y no un redondeo;
+     · todos los valores salen de la escala de radios de tokens.css;
+     · el `overflow: hidden` de .marco (base.css) recorta la foto contra el
+       contorno, así que el zoom del hover no reaparece por las esquinas.
+
+   El selector (0,2,0) de la base sigue siendo el punto único por el que se
+   revierte todo esto de una vez, igual que en v3.
    -------------------------------------------------------------------------- */
-/* Las fotos de esta sección son documentos, no decoración. En v2 eso se decía
-   con `border-radius: var(--radio-md)` en todos los .marco de la sección: un
-   redondeo suave que ahora contradice a base.css, donde .marco va a esquina
-   viva. El cero se deja ESCRITO —y no simplemente borrado— porque este
-   selector, (0,2,0), es el que hay que pisar para volver a redondear las trece
-   fotografías de #planes de una sola vez: quien lo intente tiene que borrar
-   antes esta línea y leer por qué está aquí.                               */
 .planes .marco {
-  border-radius: 0;
+  border-radius: var(--radio-lg);
 }
 
+/* ---- 01 fiesta · canto blando ---------------------------------------------
+   La foto grande de la carpa se sale del contenedor por la izquierda a partir
+   de 768 px: sus esquinas izquierdas se ponen a cero, porque una esquina
+   redondeada en el borde de la ventana se lee como una foto mal pegada y no
+   como una foto que sangra. Por debajo de 768 no sangra, y las cuatro van
+   redondeadas.
+
+   NOTA DE PESO para todo el §8: varios selectores llevan el modificador del
+   carril delante y no es adorno. La base de arriba es `.planes .marco`
+   (0,2,0), y una clase suelta como `.planes-fiesta__principal` (0,1,0) no la
+   gana: la foto se quedaría con el --radio-lg de reserva. Con el carril
+   delante todos empatan a (0,2,0) y decide el orden del archivo. Si añades
+   una silueta nueva, cópiale la forma del selector a éstas.                */
+.planes-carril--fiesta .planes-fiesta__principal {
+  border-radius: var(--radio-xl) var(--radio-lg) var(--radio-xl) var(--radio-lg);
+}
+
+@media (min-width: 48em) {
+  .planes-carril--fiesta .planes-fiesta__principal {
+    border-radius: 0 var(--radio-xl) var(--radio-xl) 0;
+  }
+}
+
+/* El mosaico de tres: el retrato alto de la ceremonia va en hoja y las dos
+   apaisadas llevan un vértice vivo cada una, en esquinas opuestas, para que
+   no se lean como un par. */
+.planes-fiesta__tira > :nth-child(1) {
+  border-radius: var(--radio-xl) var(--radio-xs) var(--radio-xl) var(--radio-xs);
+}
+
+.planes-fiesta__tira > :nth-child(2) {
+  border-radius: var(--radio-lg) var(--radio-lg) var(--radio-xs) var(--radio-lg);
+}
+
+.planes-fiesta__tira > :nth-child(3) {
+  border-radius: var(--radio-xs) var(--radio-lg) var(--radio-lg) var(--radio-lg);
+}
+
+/* ---- 02 familia · la hilera de arcos --------------------------------------
+   Las dos esquinas de arriba al 50 % dan un medio punto: cuatro arcos en fila.
+   Es un motivo, no una rejilla —una arcada de jardín—, y sostiene la
+   repetición justamente porque las cuatro columnas ya son desiguales, cada
+   foto tiene su proporción y las pares bajan un escalón (§4). Si alguien
+   devuelve la tira a `repeat(4, 1fr)`, hay que quitar los arcos en el mismo
+   movimiento: cuatro arcos idénticos y alineados sí serían una plantilla.
+
+   El 50 % no es un capricho frente a --radio-full: cuando los radios de un
+   lado suman más que ese lado, la norma reduce TODOS los radios de la caja
+   por el mismo factor, y con --radio-full arriba el --radio-md de abajo se
+   desploma a una fracción de píxel. Al 50 % el lado de arriba suma justo el
+   ancho, el factor es 1 y el pie del arco conserva su radio. (Los círculos
+   del carril 04 sí van con --radio-full: allí los cuatro radios son iguales y
+   la reducción uniforme es exactamente lo que se busca.)                    */
+.planes-carril--familia .planes-tira__foto {
+  border-radius: 50% 50% var(--radio-md) var(--radio-md);
+}
+
+/* ---- 03 empresa · dos hojas encontradas -----------------------------------
+   El retrato del grupo abre por la diagonal contraria a la del par apaisado:
+   puestas una al lado de la otra, las puntas se miran. */
+.planes-carril--empresa .planes-dossier__retrato {
+  border-radius: var(--radio-xs) var(--radio-xl) var(--radio-xs) var(--radio-xl);
+}
+
+.planes-dossier__par > :nth-child(1) {
+  border-radius: var(--radio-xl) var(--radio-xs) var(--radio-xl) var(--radio-xs);
+}
+
+.planes-dossier__par > :nth-child(2) {
+  border-radius: var(--radio-md) var(--radio-lg) var(--radio-md) var(--radio-lg);
+}
+
+/* ---- 04 bienestar · la banda y los dos círculos ---------------------------
+   La banda de 16:9 abre por arriba y cierra suave por abajo, siguiendo el
+   contorno del bloque verde que la contiene.
+   Los dos cuadrados pequeños del trío pasan a CÍRCULOS. Es la única forma
+   completamente regular de las dos secciones, y está puesta donde el contenido
+   la pide: las tres fotos son gente sentada en corro sobre el césped, y el
+   círculo es literalmente lo que enseñan. Son también lo único que distingue
+   de un vistazo este carril de la tira de retratos del 02.
+   La foto ancha de arriba NO se redondea del todo: tres círculos serían un
+   trío de iconos, y esto es una colcha.                                     */
+.planes-carril--bienestar > .marco {
+  border-radius: var(--radio-lg) var(--radio-lg) var(--radio-md) var(--radio-md);
+}
+
+.planes-bienestar__trio > :first-child {
+  border-radius: var(--radio-xl);
+}
+
+.planes-bienestar__trio > :nth-child(2),
+.planes-bienestar__trio > :nth-child(3) {
+  border-radius: var(--radio-full);
+}
+
+/* --------------------------------------------------------------------------
+   9. RETOQUES FINOS
+   -------------------------------------------------------------------------- */
 /* El zoom al pasar el ratón sí se conserva, y sólo en las fotos que están
    dentro de una rejilla, para que la foto grande del carril 01 no baile sola. */
 .planes-fiesta__tira .marco:hover > img,

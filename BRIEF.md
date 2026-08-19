@@ -126,6 +126,31 @@ CTA: "Reserve ahora" → WhatsApp.
 - 18 especies de anfibios · 23 de reptiles · 3 de mamíferos
 - Especies valiosas para conservación (CITES III): Cedro, Guayacán Amarillo
 
+### Plan vecino (página propia: `plan-vecino.html`)
+Un pase para entrar al bosque privado **una y otra vez durante el año**, pensado para
+quien vive cerca. Fuente: las seis piezas de `plan vecino/` (carrusel oficial de marca).
+
+| Plan | Precio | Entradas |
+|---|---|---|
+| Plan Semilla | $100.000 | 10 entradas anuales |
+| Plan Raíz | $180.000 | 20 entradas anuales |
+| Plan Bosque | $240.000 | 30 entradas anuales |
+
+- Para compartir con el **grupo familiar o de amigos**. Válidos durante **12 meses**.
+- Qué se hace en cada visita: Sendero Ecovital · Jardín de Polinizadores ·
+  **Ruta de Flora Local (reconocimiento de 20 especies nativas)** ·
+  Espacios de conexión.
+- **Beneficio:** cada recarga entrega un **bono del 10 % del valor del plan**,
+  acumulable, redimible en el **café de paso** (bebidas calientes), en plantas del
+  vivero y en descuentos de alquiler de espacios.
+- No hay compra en línea: se activa por WhatsApp.
+
+**Dos hechos que este documento no tenía antes** y que entran con el Plan vecino,
+porque vienen del material oficial del cliente: el **café de paso** y la **Ruta de
+Flora Local**. Su dueño es `plan-vecino.html`; no se describen en ninguna otra parte.
+No hay foto propia del café: se usa `img/parque/parque-25.jpg`, que es esa misma zona
+al atardecer.
+
 ### Oferta para colegios
 Teatrino · Taller · Observatorio de aves · Observatorio de plantas ·
 Jardín de polinizadores · Sendero Ecovital · Vivero
@@ -134,8 +159,13 @@ Jardín de polinizadores · Sendero Ecovital · Vivero
 
 ## REGLAS DE NEGOCIO PARA EL SITIO
 
-1. **NO se publican precios**, excepto la entrada al Sendero ($15.000). Todo lo demás
-   lleva a WhatsApp para cotizar.
+1. **NO se publican precios**, excepto la entrada al Sendero ($15.000) **y las tres
+   tarifas del Plan vecino** ($100.000 / $180.000 / $240.000). Todo lo demás lleva a
+   WhatsApp para cotizar.
+   > *Cambio autorizado por el cliente.* Hasta esa fecha el Sendero era el único precio
+   > del sitio. El Plan vecino es un producto de catálogo con tres tarifas fijas: sin
+   > verlas no hay nada que comparar y la página no vende. Los precios viven **sólo** en
+   > `plan-vecino.html`; ninguna sección de `index.html` los repite.
 2. **No hay sistema de reservas en línea.** Todos los CTA van a WhatsApp:
    `https://wa.me/573166758362?text=<mensaje contextual url-encoded>`
    Cada sección debe mandar un mensaje distinto (ej. "Hola, quiero cotizar la Alameda para

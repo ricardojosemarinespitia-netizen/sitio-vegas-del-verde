@@ -2,24 +2,48 @@
      FRAGMENTO: INICIO  ·  ancla #inicio
      CSS propio: styles/sections/inicio.css
 
-     v4 «abrir de verdad». Hasta v3 esta sección era una más de la retícula:
-     rótulo, titular, entradilla y una foto dentro del contenedor, igual que
-     las ocho siguientes. Ahora se parte en DOS MOVIMIENTOS de escala distinta,
-     que es lo que separa una portada de un listado:
+     v5 «orgánica». v4 ya había roto el compás de la retícula partiendo la
+     sección en dos escalas. Lo que seguía leyéndose como plantilla era la
+     GEOMETRÍA: rectángulos a escuadra, corte recto entre la foto y la página,
+     y seis miniaturas idénticas en fila. v5 mete el lenguaje orgánico que pide
+     el sitio —es un bosque, no un panel de control—:
+
+       · la portada ya no termina en una línea recta: una orla curva y
+         ASIMÉTRICA (delgada a la izquierda, gruesa a la derecha) disuelve la
+         fotografía en el papel y marca la diagonal por la que sigue el ojo.
+       · el titular deja las mayúsculas (CONTRATO-V2 §3 las prohíbe por encima
+         de 24 px salvo en el logotipo) y pasa a dos renglones de escala
+         distinta: el segundo entra más pequeño y sangrado, como un pie de
+         entrada editorial.
+       · el plano-índice deja de ir a sangre por los dos lados: se alinea con
+         el contenedor por la izquierda, se va de la ventana por la derecha y
+         redondea sólo sus dos esquinas izquierdas.
+       · la tira de aves deja de ser una fila de seis cuadrados iguales: seis
+         tamaños distintos, dos alturas y radios de hoja alternos.
+
+     La composición sigue partida en DOS MOVIMIENTOS de escala distinta, que es
+     lo que separa una portada de un listado:
 
        1. PORTADA A SANGRE — una sola fotografía ocupando la ventana entera
           (menos la altura de la cabecera fija), con el titular encima en
           Fraunces fino y grande. Es lo primero que se ve y no comparte fila
           con nada.
-       2. EL PLANO-ÍNDICE — el aéreo, que ya no va metido en el contenedor:
-          cruza la ventana de borde a borde y llega a los 729 px de alto en un
-          escritorio de 1440. La idea de v3 se conserva entera (cuatro anclas
-          que bajan a cuatro secciones); lo que cambia es el tamaño.
+       2. EL PLANO-ÍNDICE — el aéreo, que sigue sin ir metido en el
+          contenedor, pero desde v5 ya no cruza la ventana por los dos lados:
+          arranca en el margen del contenedor —la misma vertical que su pie y
+          que la tira de aves— y se va de la pantalla por la derecha. La idea
+          de v3 se conserva entera (cuatro anclas que bajan a cuatro
+          secciones); lo que cambia es el tamaño y la mano por la que sangra.
 
      Los dos bloques son hijos DIRECTOS del <section>, no del .contenedor: así
      miden el 100 % del ancho del <body> —que ya descuenta la barra de scroll—
      y se van a sangre sin recurrir a 100vw, que sí desborda 15 px. El texto de
      cada bloque vuelve a la retícula con su propio .contenedor.
+
+     LA SANGRÍA ALTERNA, Y NO ES CAPRICHO. El plano se va por la DERECHA porque
+     la foto grande de #nosotros —la sección de debajo— se va por la IZQUIERDA.
+     Dos bloques seguidos sangrando por la misma mano se leen como el mismo
+     gesto repetido, que es exactamente la queja que se está corrigiendo.
 
      QUÉ POSEE ESTA SECCIÓN (ARQUITECTURA-V3 §9) Y NADIE MÁS
        · el tagline de marca, que va en el .eyebrow
@@ -74,12 +98,46 @@
 
     <div class="inicio__portada-velo" aria-hidden="true"></div>
 
+    <!-- ORLA ORGÁNICA — el borde inferior de la portada.
+         Va pintada del color del papel (`currentColor`, que inicio.css fija en
+         --color-fondo), así que no es una forma encima de la foto: es el papel
+         subiendo a comerse la foto. La curva es ASIMÉTRICA a propósito —16 de
+         120 de alto en el borde izquierdo, 94 en el derecho—: una ola simétrica
+         es el divisor de plantilla que se ve en cualquier sitio; una diagonal
+         curva lleva el ojo desde el titular (abajo a la izquierda) hasta donde
+         arranca el plano-índice. Por eso el texto sólo tiene que despejar la
+         parte fina, aunque el relleno de abajo despeja la orla entera.
+         preserveAspectRatio="none" para que estire con la ventana sin dejar
+         franja: el alto lo manda --alto-orla en el CSS. -->
+    <svg
+      class="inicio__portada-orla"
+      viewBox="0 0 1440 120"
+      preserveAspectRatio="none"
+      aria-hidden="true"
+      focusable="false"
+    >
+      <path
+        d="M0,120 V104 C 260,104 430,88 700,66 C 980,44 1180,20 1440,26 V120 Z"
+        fill="currentColor"
+      />
+    </svg>
+
     <div class="contenedor contenedor--ancho inicio__portada-interior">
       <header class="seccion-encabezado inicio__encabezado reveal">
         <p class="eyebrow">Oasis para la recreación y el bienestar</p>
 
+        <!-- DOS RENGLONES, DOS ESCALAS. El texto no cambia ni una letra: lo que
+             cambia es que la frase deja de ser un bloque de mayúsculas —cinco
+             renglones gritados en un teléfono— y se compone como una entrada
+             editorial. El segundo renglón entra más pequeño y sangrado, y lleva
+             delante una hoja diminuta (::before en el CSS) que es el mismo
+             remate de .lista-hojas de base.css: la forma de la casa.
+             Los dos van en crema; el contraste lo hacen el cuerpo y la sangría,
+             nunca el color, porque debajo hay una fotografía y el coral claro
+             sobre el cielo blanco de este archivo se quedaría en 3,6:1. -->
         <h1 class="titulo-seccion inicio__titulo" id="inicio-titulo">
-          Escápate de la ciudad sin salir de ella
+          <span class="inicio__titulo-linea">Escápate de la ciudad</span>
+          <span class="inicio__titulo-linea inicio__titulo-linea--menor">sin salir de ella</span>
         </h1>
 
         <p class="entradilla">
@@ -130,7 +188,7 @@
        una pantalla de teléfono un punto de 12 px sobre una foto de 190 px de
        alto no se acierta con el dedo (inicio.css lo explica en detalle).
        ====================================================================== -->
-  <figure class="inicio__plano reveal">
+  <figure class="inicio__plano reveal reveal--velo">
 
     <div class="inicio__plano-lienzo">
 
@@ -192,9 +250,18 @@
        La tira ya no va centrada: arranca en el margen izquierdo del
        contenedor, alineada con el pie del plano. Seis cuadrados centrados
        debajo de una imagen a sangre eran otra fila simétrica más.
+
+       v5 — Y TAMPOCO SON SEIS CUADRADOS IGUALES. Seis miniaturas del mismo
+       tamaño, alineadas por arriba y por abajo, son una fila de plantilla por
+       mucho que la fila esté descentrada. Ahora cada una lleva su propio
+       tamaño (del 0,62 al 1,3 del módulo), dos de ellas suben de la línea de
+       base y los radios alternan entre dos formas de hoja. Los seis <li> son
+       hijos .reveal de una .reveal-secuencia: entran escalonados de 90 en 90
+       ms —seis hijos, por debajo del tope de ocho— en vez de aparecer la tira
+       entera de golpe.
        ====================================================================== -->
-  <ul class="inicio__aves reveal" role="list">
-    <li class="inicio__ave">
+  <ul class="inicio__aves reveal-secuencia" role="list">
+    <li class="inicio__ave reveal reveal--zoom">
       <img
         src="img/aves/ave-46-momotus-subrufescens.jpg"
         width="867"
@@ -204,7 +271,7 @@
         decoding="async"
       />
     </li>
-    <li class="inicio__ave">
+    <li class="inicio__ave reveal reveal--zoom">
       <img
         src="img/aves/ave-38-carpintero.jpg"
         width="1300"
@@ -214,7 +281,7 @@
         decoding="async"
       />
     </li>
-    <li class="inicio__ave">
+    <li class="inicio__ave reveal reveal--zoom">
       <img
         src="img/aves/ave-27-colibri.jpg"
         width="867"
@@ -224,7 +291,7 @@
         decoding="async"
       />
     </li>
-    <li class="inicio__ave">
+    <li class="inicio__ave reveal reveal--zoom">
       <img
         src="img/aves/ave-07-thraupis-episcopus.jpg"
         width="1040"
@@ -234,7 +301,7 @@
         decoding="async"
       />
     </li>
-    <li class="inicio__ave">
+    <li class="inicio__ave reveal reveal--zoom">
       <img
         src="img/aves/ave-56-canario.jpg"
         width="1300"
@@ -244,7 +311,7 @@
         decoding="async"
       />
     </li>
-    <li class="inicio__ave">
+    <li class="inicio__ave reveal reveal--zoom">
       <img
         src="img/aves/ave-31-periquito-bronceado.jpg"
         width="867"

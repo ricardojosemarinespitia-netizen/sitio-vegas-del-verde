@@ -1,33 +1,72 @@
 /* ==========================================================================
-   VEGAS DEL VERDE — styles/sections/vivero.css   ·  v3.1 «tres tiempos»
+   VEGAS DEL VERDE — styles/sections/vivero.css   ·  v4 «la sala del vivero»
    Estiliza SÓLO el fragmento sections/vivero.html (#vivero).
 
-   QUÉ CAMBIÓ EN v3.1
-   El contenido no se toca: cambia el ancho de las cajas. Antes la sección era
-   —otra vez— encabezado arriba y una rejilla de dos columnas debajo, con el
-   mismo margen que las otras ocho. Ahora son tres anchos distintos seguidos:
-   encabezado corto · banda de fotos A SANGRE · cuerpo en dos columnas
-   desiguales. Esa alternancia de anchura es lo que hace que la página deje de
-   sonar a plantilla; no hay ningún efecto nuevo.
+   QUÉ CAMBIÓ EN v4 Y POR QUÉ
+   El diagnóstico del dueño era «se sigue viendo muy genérica». Medido en la
+   página real, #vivero tenía tres síntomas de plantilla, y ninguno era el
+   texto:
 
-   El desfase del mosaico se conserva, pero ahora se lee de otra manera: en una
-   banda horizontal de cuatro fotos, descolgar la segunda y la cuarta rompe la
-   línea de arriba y la de abajo a la vez. Es el mismo gesto de v2 —el vivero
-   es un terreno en pendiente— pero por fin se nota.
+   1 · ERA LA CUARTA SECCIÓN CREMA SEGUIDA. #naturaleza termina en una banda
+       salvia y #ubicacion es salvia entera; #vivero quedaba en medio, en
+       crema, sin cambio de material. Ahora la sección es una BANDA OSCURA
+       (.seccion--carbon, de base.css §4). No es decoración: los verdes
+       reales de estas cuatro fotos —caladios rosados, filodendros rojo y
+       limón, cícada azulada, materas de barro— están medidos en tokens.css
+       como «oliva apagado», y contra un carbón cálido se vuelven luminosos.
+       Es el efecto galería que la crema no puede dar.
+
+       SE USA --carbon Y NO --carbon-suave, aunque la variante suave exista
+       justo para no repetir banda: base.css §5 invierte .eyebrow bajo
+       .seccion--oscura y .seccion--carbon y SE DEJÓ FUERA --carbon-suave. Con
+       la suave, el antetítulo se quedaba en el gris calculado contra la crema
+       (2,4:1 sobre el carbón) y corregirlo desde esta hoja sería pisar por
+       especificidad un color de base.css, que el contrato prohíbe. #momentos,
+       la otra banda oscura, está tres secciones más arriba: a esa distancia el
+       mismo negro se lee como sistema y no como descuido.
+
+   2 · LAS CUATRO FOTOS ERAN CUATRO CAJAS IGUALES. Mismo 4/5 en las cuatro:
+       una tira, no una composición. Y 4/5 sobre un original de 9/16 recorta
+       casi un tercio de cada foto. Ahora cada hueco tiene SU proporción
+       (3/4 · 5/8 · 9/16 · 4/5), combinada con las columnas desiguales que ya
+       existían: los cuatro pies de foto caen a alturas distintas y la banda
+       deja de leerse como una rejilla. De paso se recorta bastante menos.
+
+   3 · EL CATÁLOGO ERA UNA LISTA CON VIÑETAS NUMÉRICAS DIMINUTAS. Los cuatro
+       servicios son el producto de la sección —lo único del sitio que el
+       visitante se lleva a casa— y se leían como una nota al pie. Los índices
+       pasan a numeral de display (Fraunces, la misma serifa de los titulares,
+       igual que .cifra en base.css) y el nombre del servicio sube a cuerpo de
+       lectura. Sigue siendo un catálogo de filetes; ahora pesa lo que vale.
+
+   Se conserva de v3.1 el acierto de la composición: tres anchos distintos
+   seguidos —encabezado corto · banda A SANGRE · cuerpo en dos columnas
+   desiguales— y el desfase de las fotos pares.
 
    Reglas de la casa que se respetan aquí:
    · Ni un valor literal de color, tamaño, radio, sombra o duración: todo sale
      de styles/tokens.css. Si falta un token, se pide; no se inventa.
    · Ningún titular declara font-family (heredan Fraunces de base.css).
-   · text-transform: uppercase sólo en micro-etiquetas (índices y el rótulo
-     del sello), nunca en un titular.
+   · text-transform: uppercase sólo en micro-etiquetas (el rótulo del sello),
+     nunca en un titular.
    · Ninguna regla pisa por especificidad un color de base.css.
    · Sin !important.
 
-   Contraste medido sobre crema (#F7F2E7) — sin cambios respecto a v3:
-     índice y sello en --color-texto-suave ...................... 6.10:1
-     detalle del sello en --color-texto-suave sobre salvia ...... 5.22:1
-     emblema del sello en --verde-bosque ....................... 10.66:1
+   CONTRASTE — recalculado entero, porque el fondo cambió.
+   Sobre --carbon (#1c1a17, luminancia 0,0105):
+
+     crema plena (--color-texto-inverso) ........................ 14,1:1
+     crema 78 % (--color-texto-inverso-suave) ................... 9,0:1
+     verde menta (--color-acento) ............................... 8,0:1
+     relleno coral del CTA contra la banda (WCAG 1.4.11) ........ 5,4:1
+     etiqueta tinta sobre el coral del CTA ...................... 4,8:1
+
+   OJO AL DETALLE QUE ROMPE ESTA SECCIÓN SI SE OLVIDA: base.css invierte solo
+   los hN, .eyebrow, .entradilla, .pildora y los enlaces `:not(.btn)`. Todo lo
+   demás sigue heredando el gris de texto claro (--color-texto-suave), que
+   contra el carbón da 2,4:1 y NO PASA. Por eso aquí se redeclara el color de
+   figcaption, del índice, del pie del sello y del párrafo del aula. Si añades
+   un elemento nuevo a esta sección, míralo antes de darlo por bueno.
    ========================================================================== */
 
 /* --------------------------------------------------------------------------
@@ -50,6 +89,27 @@
     var(--padding-contenedor),
     calc((100% - var(--ancho-xl)) / 2)
   );
+
+  /* El papel del panel de confianza y su filete. En negativo no hay «tarjeta
+     blanca»: hay un rectángulo de luz levantado del fondo un 5 %. */
+  --viv-panel: rgb(var(--crema-rgb) / 0.05);
+  --viv-filete: var(--color-borde-inverso);
+
+  /* LA HOJA, en dos tamaños. La norma del sitio fija la FORMA (dos esquinas
+     curvas en diagonal, dos vivas), no el radio; el radio se gradúa con la
+     pieza, porque una curva de 36 px en una foto estrecha se come el encuadre
+     y una de 24 px en una foto ancha no se ve. Las dos fotos de los extremos
+     son las de columna ancha y llevan la grande. */
+  --viv-hoja-ancha: var(--radio-xl);
+  --viv-hoja: var(--radio-lg);
+}
+
+/* base.css da a todo <img> un fondo gris de carga pensado para la crema. Sobre
+   la banda oscura ese gris es un fogonazo mientras la foto llega: se cambia
+   por una veladura clara casi imperceptible. Mismo motivo en .marco. */
+.viv img,
+.viv .marco {
+  background-color: rgb(var(--crema-rgb) / 0.06);
 }
 
 /* --------------------------------------------------------------------------
@@ -80,6 +140,45 @@
   list-style: none;
 }
 
+/* LAS CUATRO PROPORCIONES SON DISTINTAS A PROPÓSITO (v4).
+   Los cuatro originales son 675 × 1200 (9/16). Recortarlos todos al mismo 4/5
+   tiraba un tercio de cada foto y, sobre todo, alineaba los cuatro pies a la
+   misma altura: eso es una tira de catálogo, no una composición. Cada hueco
+   lleva ahora la proporción que mejor le va a SU foto:
+
+     1 · parque-35  3/4    el plano más abierto: la nave y los platanillos
+     2 · parque-40  5/8    los camellones se leen en vertical
+     3 · parque-42  9/16   la cícada es la foto más alta: va sin recortar
+     4 · parque-49  4/5    las materas están en el tercio bajo del encuadre
+
+   La especificidad (0,2,0) le gana a un `.marco--retrato` suelto de base.css
+   por si alguien lo devuelve al marcado. */
+.viv .viv-foto:nth-child(1) .marco { aspect-ratio: 3 / 4; }
+.viv .viv-foto:nth-child(2) .marco { aspect-ratio: 5 / 8; }
+.viv .viv-foto:nth-child(3) .marco { aspect-ratio: 9 / 16; }
+.viv .viv-foto:nth-child(4) .marco { aspect-ratio: 4 / 5; }
+
+/* LA HOJA — norma del sitio, arbitrada por el director de arte.
+   Dos esquinas curvas en diagonal y dos vivas; dos piezas vecinas nunca con la
+   misma diagonal. Es el gesto que base.css §2 ya usaba en las viñetas de
+   .lista-hojas, ahora subido a norma para toda la fotografía que vive DENTRO
+   de la maqueta. Las dos diagonales, en el orden del atajo (TL TR BR BL):
+
+     diagonal A ..... R 0 R 0     curva arriba-izquierda y abajo-derecha
+     diagonal B ..... 0 R 0 R     curva arriba-derecha y abajo-izquierda
+
+   AQUÍ, EN MÓVIL, no bleeds nadie: la banda conserva su relleno lateral
+   (--viv-margen) y las cuatro fotos caen en una rejilla de 2 × 2 dentro de la
+   maqueta, así que las cuatro llevan hoja entera. Se alternan en tablero para
+   que ninguna toque a otra —ni de lado ni por encima— con su misma diagonal:
+
+     P1 B   P2 A
+     P3 A   P4 B                                                            */
+.viv .viv-foto:nth-child(1) .marco { border-radius: 0 var(--viv-hoja-ancha) 0 var(--viv-hoja-ancha); }
+.viv .viv-foto:nth-child(2) .marco { border-radius: var(--viv-hoja) 0 var(--viv-hoja) 0; }
+.viv .viv-foto:nth-child(3) .marco { border-radius: var(--viv-hoja) 0 var(--viv-hoja) 0; }
+.viv .viv-foto:nth-child(4) .marco { border-radius: 0 var(--viv-hoja-ancha) 0 var(--viv-hoja-ancha); }
+
 /* A partir de tableta las cuatro fotos se ponen en fila, la banda pierde los
    márgenes laterales y toca los dos bordes de la pantalla.
 
@@ -106,6 +205,35 @@
   .viv-foto:nth-child(even) > figure {
     transform: translateY(var(--viv-desfase));
   }
+
+  /* LA HOJA CONTRA EL CANTO DE LA VENTANA — la excepción de la norma.
+     A partir de aquí la banda sangra: la primera foto toca el borde izquierdo
+     de la pantalla y la cuarta el derecho. Las esquinas que TOCAN EL BORDE se
+     quedan a cero; una curva contra el canto de la ventana deja una cuña de
+     fondo que se lee como un fallo de recorte, no como una forma. Cada foto de
+     los extremos conserva, por tanto, media hoja: la esquina que le queda del
+     lado de dentro.
+
+     Y como la rejilla pasa de tablero a FILA, hay que rehacer la alternancia:
+     en fila, P2 y P3 quedan vecinas y en móvil comparten la diagonal A. P3 se
+     pasa a B y P4 a A, de modo que la secuencia queda B · A · B · A y ningún
+     par contiguo repite:
+
+       P1  0 R 0 0   media hoja (sólo arriba-derecha; izquierda al borde)
+       P2  R 0 R 0   diagonal A entera
+       P3  0 R 0 R   diagonal B entera
+       P4  R 0 0 0   media hoja (sólo arriba-izquierda; derecha al borde)   */
+  .viv .viv-foto:nth-child(1) .marco {
+    border-radius: 0 var(--viv-hoja-ancha) 0 0;
+  }
+
+  .viv .viv-foto:nth-child(3) .marco {
+    border-radius: 0 var(--viv-hoja) 0 var(--viv-hoja);
+  }
+
+  .viv .viv-foto:nth-child(4) .marco {
+    border-radius: var(--viv-hoja-ancha) 0 0 0;
+  }
 }
 
 .viv-foto > figure {
@@ -124,6 +252,32 @@
   .viv-foto:last-child figcaption {
     padding-inline-end: var(--esp-2xs);
   }
+}
+
+/* EL PIE DE FOTO, EN NEGATIVO. base.css pinta figcaption en
+   --color-texto-suave, que es un gris calculado contra la crema: sobre el
+   carbón da 2,38:1 e incumple. Aquí sube a crema al 78 % (8,5:1). Se le añade
+   el filete corto de arriba: es el mismo gesto de ::before de .eyebrow y
+   convierte el pie en rótulo de pieza de galería en vez de en texto huérfano. */
+.viv-foto figcaption {
+  display: flex;
+  align-items: baseline;
+  gap: 0.7em;
+  margin-top: var(--esp-xs);
+  color: var(--color-texto-inverso-suave);
+}
+
+/* `align-self: center` y no la línea base: una caja vacía de 1 px no tiene
+   línea base propia y con `align-items: baseline` se apoyaría en su borde
+   inferior, quedando por debajo del texto. */
+.viv-foto figcaption::before {
+  content: "";
+  flex: none;
+  align-self: center;
+  width: var(--esp-sm);
+  height: 1px;
+  background-color: currentColor;
+  opacity: 0.6;
 }
 
 /* El zoom al pasar el ratón usa --escala-hover, que vale 1 cuando el visitante
@@ -163,19 +317,33 @@
   max-width: var(--medida);
 }
 
+/* v4: LAS DOS COLUMNAS DEJAN DE SER EL MISMO MATERIAL. La de la izquierda es
+   texto sobre la banda; la de la derecha es un panel de luz con filete. Dos
+   columnas de idéntico tratamiento una al lado de la otra son, literalmente,
+   el bloque uniforme que se venía a quitar; con materiales distintos se lee de
+   un vistazo qué es oferta y qué es respaldo. */
+.viv-respaldo {
+  gap: var(--esp-lg);
+  padding: var(--esp-lg);
+  border: 1px solid var(--viv-filete);
+  border-radius: 0;
+  background-color: var(--viv-panel);
+}
+
 .viv-lead {
   font-size: var(--fs-grande);
-  line-height: var(--alto-linea-base);
-  color: var(--color-texto);
+  font-weight: var(--peso-ligero);
+  line-height: var(--alto-linea-suelto);
+  color: var(--color-texto-inverso);
 }
 
 /* --------------------------------------------------------------------------
    4. LOS CUATRO SERVICIOS
-   Lista numerada con filete: es un catálogo, no una promesa. Corta y densa.
+   Catálogo de filetes: es lo que se vende, no una promesa. Corto y denso.
    -------------------------------------------------------------------------- */
 .viv-servicios {
   display: grid;
-  border-top: 1px solid var(--color-borde-suave);
+  border-top: 1px solid var(--viv-filete);
 }
 
 .viv-servicio {
@@ -183,28 +351,36 @@
   grid-template-columns: auto minmax(0, 1fr);
   gap: var(--esp-sm);
   align-items: baseline;
-  padding-block: var(--esp-xs);
-  border-bottom: 1px solid var(--color-borde-suave);
+  /* El aire vertical sube de --esp-xs a --esp-sm: con cuatro renglones, el
+     interlineado de la lista es lo que decide si se lee como catálogo o como
+     letra pequeña. */
+  padding-block: var(--esp-sm);
+  border-bottom: 1px solid var(--viv-filete);
 }
 
-/* v3: el índice («01», «02»…) pierde el coral y pasa al gris de rótulo de
-   .eyebrow (base.css §5). Es numeración de catálogo —un dato de servicio—, y
-   en terracota competía con el nombre del servicio, que es lo que hay que
-   leer. Sube de 5.3:1 a 6.1:1 sobre crema, de paso. */
+/* v4: EL ÍNDICE PASA A NUMERAL DE DISPLAY. En v3 era una micro-etiqueta en
+   caps de 12,8 px y desaparecía. Ahora es la misma serifa de los titulares
+   (Fraunces, como .cifra en base.css) a cuerpo de h4 y en crema al 78 %:
+   numera el catálogo y da el ritmo de la columna sin gritar. Se queda en gris
+   claro y no en acento cálido, por el motivo de v3 que sigue siendo bueno:
+   en color competía con el nombre del servicio, que es lo que hay que leer.
+   Las cifras tabulares alinean el 01–04 en una columna exacta. */
 .viv-servicio__indice {
-  font-family: var(--fuente-titulo);
-  font-size: var(--fs-micro);
-  font-weight: var(--peso-medio);
-  text-transform: uppercase;
-  letter-spacing: var(--tracking-rotulo);
-  color: var(--color-texto-suave);
+  font-family: var(--fuente-display);
+  font-size: var(--fs-h4);
+  font-weight: var(--peso-display);
+  font-optical-sizing: auto;
+  font-variation-settings: var(--ejes-display);
+  line-height: 1;
+  letter-spacing: var(--tracking-display);
   font-variant-numeric: tabular-nums;
+  color: var(--color-texto-inverso-suave);
 }
 
 .viv-servicio__nombre {
   font-size: var(--fs-cuerpo);
   line-height: var(--alto-linea-base);
-  color: var(--color-texto);
+  color: var(--color-texto-inverso);
 }
 
 /* --------------------------------------------------------------------------
@@ -212,7 +388,7 @@
    -------------------------------------------------------------------------- */
 .viv-aula {
   margin: 0;
-  color: var(--color-texto-suave);
+  color: var(--color-texto-inverso-suave);
 }
 
 .viv-aula .enlace-flecha {
@@ -222,30 +398,40 @@
 /* --------------------------------------------------------------------------
    6. EL SELLO ICA — la prueba de confianza
    -------------------------------------------------------------------------- */
-/* v3: esquina viva. El sello es un documento —un registro del ICA—, y era la
-   última caja redondeada de la sección: con la banda y el marco de las fotos
-   ya a esquina viva, se quedaba sola. El filete de 1 px y el fondo salvia
-   hacen la separación entera. */
+/* Esquina viva: el sello es un documento —un registro del ICA—, y en este
+   sistema un documento va en una caja de filete, no en una tarjeta redondeada.
+   Vive dentro del panel de respaldo, así que su fondo sube otro escalón de luz
+   para separarse de él sin necesidad de sombra. */
 .viv-sello {
   display: flex;
   align-items: flex-start;
   gap: var(--esp-sm);
   margin: 0;
   padding: var(--esp-md);
-  border: 1px solid var(--color-borde-suave);
+  border: 1px solid var(--viv-filete);
   border-radius: 0;
-  background-color: rgb(var(--salvia-rgb) / 0.6);
+  background-color: rgb(var(--crema-rgb) / 0.06);
 }
 
+/* LA ÚNICA CURVA DE LA SECCIÓN, Y ES UNA HOJA. El radio pleno en dos esquinas
+   opuestas es el mismo gesto con el que base.css §2 dibuja las viñetas de
+   .lista-hojas; es el motivo orgánico de la casa. Aquí sirve además para lo
+   que tiene que servir un sello: ser lo único con forma propia en una sección
+   entera de rectángulos, para que el ojo lo encuentre. */
 .viv-sello__emblema {
   flex: none;
-  display: inline-flex;
-  color: var(--verde-bosque);
+  display: grid;
+  place-items: center;
+  width: var(--esp-xl);
+  height: var(--esp-xl);
+  border-radius: 0 var(--radio-full) 0 var(--radio-full);
+  background-color: rgb(var(--verde-menta-rgb) / 0.16);
+  color: var(--color-acento);
 }
 
 .viv-sello__emblema svg {
-  width: var(--esp-lg);
-  height: var(--esp-lg);
+  width: var(--esp-md);
+  height: var(--esp-md);
 }
 
 .viv-sello__texto {
@@ -254,20 +440,33 @@
   gap: var(--esp-3xs);
 }
 
-/* «Registro ICA» es el rótulo del documento, no su titular: mismo gris que el
-   índice de arriba y que .eyebrow. Quien da la nota de confianza es el emblema
-   en verde bosque, que sí conserva su color. */
+/* «Registro ICA» es el rótulo del documento, no su titular: mismo tratamiento
+   de micro-etiqueta que .eyebrow. Quien da la nota de confianza es el emblema
+   en menta, que sí conserva color. */
 .viv-sello__titulo {
   font-family: var(--fuente-titulo);
   font-size: var(--fs-micro);
   font-weight: var(--peso-medio);
   text-transform: uppercase;
   letter-spacing: var(--tracking-rotulo);
-  color: var(--color-texto-suave);
+  color: var(--color-texto-inverso);
 }
 
 .viv-sello__detalle {
   font-size: var(--fs-pequeno);
   line-height: var(--alto-linea-base);
-  color: var(--color-texto-suave);
+  color: var(--color-texto-inverso-suave);
+}
+
+/* --------------------------------------------------------------------------
+   7. MÓVIL
+   -------------------------------------------------------------------------- */
+@media (max-width: 30em) {
+  .viv-respaldo {
+    padding: var(--esp-md);
+  }
+
+  .viv-sello {
+    padding: var(--esp-sm);
+  }
 }

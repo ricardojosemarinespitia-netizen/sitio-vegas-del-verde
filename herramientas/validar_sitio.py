@@ -7,7 +7,7 @@ balance de etiquetas, ids duplicados y las dos prohibiciones duras.
 import io, os, re, json
 
 RAIZ = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-PAGINAS = ["index.html", "condiciones-de-alquiler.html",
+PAGINAS = ["index.html", "plan-vecino.html", "condiciones-de-alquiler.html",
            "politica-de-datos.html", "terminos.html", "404.html"]
 EXCEPCION = {"video/hero.mp4"}
 

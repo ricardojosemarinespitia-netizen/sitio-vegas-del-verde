@@ -1,52 +1,140 @@
 /* ==========================================================================
-   VEGAS DEL VERDE — espacios.css  ·  v3 «Ficha de catálogo»
+   VEGAS DEL VERDE — espacios.css  ·  v4 «Ficha orgánica»
    Sección «Espacios en alquiler» (#espacios).
    Depende de tokens.css + base.css. No declara NINGÚN valor literal de color,
    cuerpo tipográfico, radio, sombra ni duración: todo sale de los tokens.
    Prefijos propios: .espacios / .espacio
 
-   CRITERIO — qué cambia respecto de v2 y por qué
-   · Muere la tarjeta-caja. En v2 cada espacio era un rectángulo con fondo,
-     borde, radio, sombra al hover y un botón de bloque: cinco cajas iguales
-     compitiendo con la foto que llevaban dentro. Ahora la foto va a esquina
-     viva —sin radio, sin sombra, sin marco— y el texto flota debajo, los dos
-     directamente sobre el fondo de la página. Lo único que separa una ficha
-     de la siguiente es el aire.
-   · La figura NO tiene una proporción única. En la primera v3 las cinco eran
-     cuadrados 1:1 —el formato que trata igual a una panorámica de 1500×844 y
-     a un retrato de 675×1200— y esa neutralidad, repetida cinco veces en una
-     rejilla de tres columnas, es exactamente lo que hacía que la sección se
-     leyera como un catálogo generado. La proporción pasa a ser una VARIABLE
-     por ficha (--espacio-ratio) y se elige contra el original: los cuatro
-     retratos verticales admiten 3/4 y 4/5 sin recorte violento, y sólo el
-     Teatrino y la Cancha se cuadran.
-   · La jerarquía se invierte respecto de v2: antes titulaba la experiencia
-     («Un partido con banda sonora de pájaros») y el nombre bajaba a una
-     píldora. Ahora titula el NOMBRE, que es lo que el visitante busca y lo
-     que las demás secciones enlazan; el aforo sube a rótulo de categoría
-     sobre el título, y la experiencia se queda en una sola línea de apoyo.
-   · La Alameda mantiene trato mayor —doble columna y banda panorámica con
-     sus dos fotos propias— porque es el único espacio con dos fotos y el más
-     grande del predio. Trato mayor por tamaño, no por decoración: sigue sin
-     caja, sin borde y sin sombra.
-   · Se van también los cinco botones de bloque: un enlace sobrio
-     (.enlace-flecha de base.css) no le disputa el peso a la fotografía.
-   · Y —revisión de agosto de 2026— se va la RETÍCULA UNIFORME. Ver §1.
+   QUÉ TRAÍA v3 Y SE CONSERVA
+   · La ficha sin caja: la foto y el texto flotan directamente sobre el fondo
+     de la página; lo único que separa una ficha de la siguiente es el aire.
+   · La rejilla de doce columnas con cinco escalas y cinco desfases distintos,
+     medida a 1440 px. No se toca ni una medida de §1: funcionaba.
+   · El nombre del espacio como titular y la experiencia en una sola línea.
+
+   QUÉ CAMBIA EN v4 Y POR QUÉ
+   El encargo era literal: «se sigue viendo genérica». Medido contra la
+   página, lo que quedaba genérico ya no era el tamaño —v3 lo arregló— sino
+   la FORMA y la falta de un punto de fijación:
+
+   1. CINCO RECORTES IGUALES. Las cinco figuras iban a esquina viva. Da igual
+      que midan distinto: cinco rectángulos comparten silueta, y la silueta es
+      lo primero que se lee de una fotografía. Ahora cada espacio tiene su
+      propio contorno y ninguno repite el del vecino (§2 bis):
+        Alameda   banda de extremos redondeados
+        La Vega   hoja: dos vértices opuestos abiertos
+        Teatrino  ARCO de medio punto, que rima con la copa de su árbol
+        Taller    la hoja de La Vega girada 90°
+        Cancha    esquinas blandas con un vértice vivo
+      Los radios salen de --radio-xs/sm/md/lg/xl y --radio-full. Ninguno es
+      un número suelto y ninguna ficha usa los cuatro iguales, que es
+      exactamente el redondeo que se lee como plantilla.
+   2. NO HABÍA ANCLA. La vista saltaba de foto a foto sin punto donde parar.
+      El aforo, que era un renglón de caps diminutas encima del nombre, pasa
+      a ser una CIFRA grande en Fraunces dentro de una pastilla en forma de
+      hoja que monta sobre la esquina inferior izquierda de la foto (§3). Es
+      el elemento que se sale de su caja: la única pieza de la sección que
+      rompe el borde de otra.
+      Sigue siendo dato de apoyo y no titular (CONTRATO-V2 §6): el nombre
+      conserva el <h3>, Fraunces y la tinta plena; la cifra va en verde
+      bosque y su glosa en gris, así que pesa por tamaño, no por color.
+   3. EL CÁLIDO NO SE GASTA AQUÍ. La cifra podría ir en terracota —el
+      contrato lo permite para .cifra sobre claro— y se decide que NO: en
+      cada ficha ya hay un .enlace-flecha en terracota, y cinco cifras más
+      del mismo color dejarían el coral repartido por toda la sección, que es
+      justo lo contrario de la regla de escasez del §4 del contrato. El coral
+      se queda para lo que se pulsa.
+   4. UNA HOJA DE FONDO con desplazamiento del 8 % ligado al scroll (§0).
+      Sólo fondo, sólo si el navegador lo soporta y sólo si el usuario no
+      pidió menos movimiento.
    ========================================================================== */
 
 /* ==========================================================================
-   1. REJILLA — de catálogo a página de revista
+   0. LA SECCIÓN Y SU HOJA DE FONDO
    ==========================================================================
-   EL PROBLEMA QUE SE ARREGLA AQUÍ
+   La hoja sangra por el borde derecho. El recorte se hace AQUÍ y no se deja
+   caer al body: `clip` y no `hidden` a propósito —igual que en planes.css—,
+   porque `hidden` convertiría la sección en un contenedor de scroll y con
+   ello rompería el `scroll-margin-top` del ancla #espacios. Al ir sólo sobre
+   el eje X, la animación de entrada (que desplaza 28 px en vertical) sigue
+   funcionando.
+
+   EL REVELADO BAJA DE 900 A 550 ms. No se toca ningún token global: se
+   redefine --dur-reveal para esta sección con otro token ya existente
+   (--dur-lenta). 900 ms es una entrada que se nota; a 550 el contenido ya
+   está ahí cuando el ojo llega. Va dentro de `no-preference` para no pisar
+   el 1 ms que tokens.css pone en `reduce`.
+   ========================================================================== */
+.espacios {
+  position: relative;
+  overflow-x: clip;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .espacios {
+    --dur-reveal: var(--dur-lenta);
+  }
+}
+
+/* El contenido va por delante de la hoja. --z-base y no un número suelto. */
+.espacios__contenedor {
+  position: relative;
+  z-index: var(--z-base);
+}
+
+/* La hoja: decorativa, sin eventos y a una opacidad en la que se lee como
+   textura del papel y no como ilustración. El color se resuelve con
+   `currentColor` dentro del SVG, así que el trazo y el relleno comparten
+   este único valor y no hay ni un literal en el marcado.                   */
+.espacios__hoja {
+  position: absolute;
+  z-index: var(--z-fondo);
+  top: calc(var(--esp-2xl) * -1);
+  inset-inline-end: calc(var(--esp-3xl) * -1);
+  width: clamp(13rem, 32vw, 28rem);
+  height: auto;
+  color: rgb(var(--verde-oliva-rgb) / 0.11);
+  pointer-events: none;
+  transform: rotate(-14deg);
+}
+
+/* Parallax de fondo: la hoja recorre un 8 % de su alto mientras la sección
+   cruza la ventana. Sin una línea de JS —`animation-timeline` lo resuelve el
+   navegador— y sin tocar el motor de .reveal, que es de base.css.
+   El 8 % está dentro del 5–15 % que admite el sistema, y se aplica SÓLO a
+   este adorno: ni un texto de lectura se mueve con el scroll.              */
+@keyframes espacios-hoja-flotar {
+  from {
+    transform: rotate(-14deg) translate3d(0, 8%, 0);
+  }
+  to {
+    transform: rotate(-14deg) translate3d(0, -8%, 0);
+  }
+}
+
+@supports (animation-timeline: view()) {
+  @media (prefers-reduced-motion: no-preference) {
+    .espacios__hoja {
+      animation: espacios-hoja-flotar linear;
+      animation-timeline: view();
+      animation-range: entry 0% exit 100%;
+    }
+  }
+}
+
+/* ==========================================================================
+   1. REJILLA — de catálogo a página de revista   (v3, intacta)
+   ==========================================================================
+   EL PROBLEMA QUE SE ARREGLÓ AQUÍ
    La rejilla anterior era `repeat(3, 1fr)` con la Alameda a doble columna:
    una fila 2+1 y otra 1+1+1, sin un solo hueco. Medida en pantalla, daba
    cuatro fichas de 376×552 px EXACTAMENTE iguales, empezando las tres de
-   abajo en la misma línea. Esa igualdad métrica —no la falta de efectos— es
-   lo que delata una página armada por una máquina: nadie que maqueta a mano
-   le da el mismo tamaño a cinco cosas de tamaños distintos.
+   abajo en la misma línea. Esa igualdad métrica es lo que delata una página
+   armada por una máquina: nadie que maqueta a mano le da el mismo tamaño a
+   cinco cosas de tamaños distintos.
 
    CÓMO SE ROMPE
-   La rejilla pasa a 12 columnas y cada ficha declara TRES cosas propias:
+   La rejilla es de 12 columnas y cada ficha declara TRES cosas propias:
      · cuántas columnas ocupa      → grid-column
      · con qué proporción recorta  → --espacio-ratio
      · cuánto baja respecto de su vecina → --espacio-desfase
@@ -57,13 +145,6 @@
    Tres escalas y no una: la Alameda ocupa 8 columnas (788 px medidos a
    1440), el Teatrino 5 (479 px) y las otras tres 3 (273 px). Entre la mayor
    y las menores hay factor 2,9 de ancho y factor 2 de proporción.
-
-   POR QUÉ 12 COLUMNAS Y NO 3 CON `span`
-   Con `repeat(3,1fr)` los únicos anchos posibles son 1, 2 o 3 celdas y las
-   fichas vuelven a medir todas lo mismo. Doce columnas dan 5+3+3 y 8+3 en la
-   misma retícula, que es justo lo que hacía falta. El `gap` no cambia: entre
-   dos fichas contiguas sigue habiendo exactamente un --gap, y una columna
-   vacía entre dos tramos vale un --gap + una columna + un --gap.
 
    EL DESFASE
    `margin-block-start` sobre el ítem de rejilla. Se declara SÓLO dentro de
@@ -83,9 +164,9 @@
 
 /* ---- Móvil: una columna, pero NO cinco cajas iguales ----------------------
    A una sola columna el ancho ya no puede variar, así que la variación la
-   lleva entera la proporción de la foto: panorámica, cuadrado y tres
-   verticales de tres alturas distintas. El pulgar recorre alturas distintas,
-   que es lo único que se puede escalonar sin ancho.                        */
+   llevan la proporción de la foto y su silueta: panorámica, arco y tres
+   verticales de tres alturas distintas. El pulgar recorre alturas y contornos
+   distintos, que es lo único que se puede escalonar sin ancho.             */
 .espacio--destacado { --espacio-ratio: 3 / 2; }
 .espacio--alto      { --espacio-ratio: 4 / 5; }
 .espacio--medio     { --espacio-ratio: 1; }
@@ -95,10 +176,7 @@
 /* ---- Tableta (768–1087) ---------------------------------------------------
    Dos tramos por fila, alternando el peso: ancho a la izquierda y estrecho a
    la derecha en la primera, y al revés en la segunda. Así ninguna de las dos
-   filas repite el gesto de la otra.
-   Las alturas están calculadas para que el escalón no abra un hueco feo: a
-   768 px la fila de La Vega/Teatrino cierra con 3 px de diferencia y la de
-   Taller/Cancha con 41 px.                                                  */
+   filas repite el gesto de la otra.                                         */
 @media (min-width: 48em) {
   .espacios__rejilla {
     grid-template-columns: repeat(12, 1fr);
@@ -144,9 +222,6 @@
 
    La columna 9 queda vacía en la primera fila y la 6 en la segunda: son las
    dos calles de aire que impiden que las fichas se lean como una tira.
-   Los pies quedan a 555 / 604 en la primera fila y a 642 / 581 / 522 en la
-   segunda: el borde inferior baja en diagonal, que es el remate de revista
-   que se buscaba, y el hueco mayor no pasa de 120 px.
    La Vega y Cancha comparten las columnas 10–12: hay una columna real de
    fichas pequeñas a la derecha, y no cinco piezas flotando.                 */
 @media (min-width: 68em) {
@@ -187,38 +262,34 @@
 
 /* ==========================================================================
    2. LA FICHA
-   No hereda .tarjeta: no hay superficie, no hay borde, no hay overflow que
-   recortar. Es sólo una columna de foto + texto.
+   No hereda .tarjeta: no hay superficie, no hay borde. Es una columna de
+   foto + pastilla de aforo + texto.
    ========================================================================== */
 .espacio {
   display: flex;
   flex-direction: column;
   /* El escalonado. Cero por defecto: sólo los @media lo levantan. */
   margin-block-start: var(--espacio-desfase, 0px);
-  /* SIN estirar. Antes las fichas se estiraban al alto de su fila y el
-     enlace se pegaba abajo con margin-top:auto para que los cinco quedaran
-     alineados. Ahora la alineación es justo lo que NO se quiere: cada ficha
-     mide lo que mide y el borde inferior de la fila queda dentado a
-     propósito. Si se estirasen, el desfase abriría un vacío entre el texto y
-     el enlace en vez de mover la ficha entera. */
+  /* SIN estirar: cada ficha mide lo que mide y el borde inferior de la fila
+     queda dentado a propósito. Si se estirasen, el desfase abriría un vacío
+     entre el texto y el enlace en vez de mover la ficha entera. */
   align-self: start;
 }
 
 /* ---- Figura --------------------------------------------------------------
-   A esquina viva. El radio se declara en cero de forma explícita —y no por
-   omisión— para que quede escrito que es una decisión y no un olvido:
-   cualquiera que en el futuro añada una utilidad con radio a estas figuras
-   está deshaciendo el rediseño. Sin box-shadow, por lo mismo.
-   La proporción la pone la ficha con --espacio-ratio (§1). El 1 de reserva
-   es el valor de la v3 anterior: si algún día se añade un sexto espacio y
-   se olvida su modificador, cae en cuadrado y no en un alto de cero.        */
+   La proporción la pone la ficha con --espacio-ratio (§1) y la silueta el
+   modificador (§2 bis). El 1 de reserva es la red de seguridad: si algún día
+   se añade un sexto espacio y se olvida su modificador, cae en cuadrado y no
+   en un alto de cero.
+   El `overflow: hidden` es el que recorta la foto contra el contorno, así que
+   el zoom del hover se queda dentro de la hoja o del arco y no reaparece por
+   las esquinas.                                                             */
 .espacio__figura {
   position: relative;
   margin: 0;
   aspect-ratio: var(--espacio-ratio, 1);
   overflow: hidden;
-  border-radius: 0;
-  box-shadow: none;
+  border-radius: var(--espacio-silueta, var(--radio-lg));
   background-color: var(--color-fondo-alt);
 }
 
@@ -227,28 +298,178 @@
   height: 100%;
   object-fit: cover;
   display: block;
-  border-radius: 0;
   transition: transform var(--dur-lenta) var(--ease-suave);
 }
 
-/* El único movimiento de la ficha: la foto respira dentro de su cuadrado.
-   No hay elevación ni sombra, porque no hay caja que elevar. */
+/* La foto respira dentro de su contorno. Junto con el medio píxel que sube la
+   pastilla (§3) son los dos únicos movimientos de la ficha: no hay elevación
+   ni sombra que crezca, porque no hay caja que elevar. */
 .espacio:hover .espacio__img,
 .espacio:focus-within .espacio__img {
   transform: scale(var(--escala-hover));
 }
 
-@media (prefers-reduced-motion: reduce) {
-  .espacio:hover .espacio__img,
-  .espacio:focus-within .espacio__img {
-    transform: none;
-  }
+/* ==========================================================================
+   2 bis. LAS CINCO SILUETAS
+   Una variable por ficha, --espacio-silueta, que consume .espacio__figura.
+   Reglas que se cumplen en las cinco:
+     · ninguna usa los cuatro radios iguales (eso es el redondeo de plantilla);
+     · ninguna repite el patrón de la que tiene al lado en la rejilla;
+     · todos los valores salen de la escala de radios de tokens.css.
+   ========================================================================== */
+
+/* ALAMEDA — banda: los dos extremos redondeados y el eje horizontal limpio.
+   Es una panorámica de 8 columnas; cualquier asimetría fuerte a ese ancho se
+   lee como un error de recorte, así que su gesto es la curva de los cantos. */
+.espacio--destacado {
+  --espacio-silueta: var(--radio-xl) var(--radio-lg) var(--radio-xl) var(--radio-lg);
 }
 
-/* ---- Cuerpo: la caja de frase que va DEBAJO de la foto --------------------
+/* LA VEGA — hoja clásica: dos vértices opuestos abiertos y dos cerrados.
+   La punta cae arriba a la derecha, apuntando al margen de la página. */
+.espacio--alto {
+  --espacio-silueta: var(--radio-xl) var(--radio-xs) var(--radio-xl) var(--radio-xs);
+}
+
+/* TEATRINO — ARCO. Un medio punto exacto: la misma curva que la copa del árbol
+   de su fotografía, que es lo único que esa foto tiene que contar. Es la
+   silueta más rara de las cinco y por eso va en la ficha que abre la segunda
+   fila.
+
+   POR QUÉ 50 % Y NO --radio-full EN LAS DOS DE ARRIBA
+   Porque no darían el mismo resultado. Cuando los radios de un lado suman más
+   que ese lado, la norma (CSS Backgrounds §5.5) reduce TODOS los radios de la
+   caja por el mismo factor, no sólo los que se pasan: con --radio-full arriba,
+   el factor sale del orden de 0,01 y el --radio-md de abajo se desploma a
+   0,2 px. Con 50 % la suma del lado de arriba da exactamente el 100 % del
+   ancho, el factor es 1 y las dos esquinas de abajo conservan su radio.
+   Los porcentajes están permitidos para geometría; los colores, cuerpos,
+   sombras y duraciones siguen saliendo todos de tokens.                     */
+.espacio--medio {
+  --espacio-silueta: 50% 50% var(--radio-md) var(--radio-md);
+}
+
+/* TALLER — la hoja de La Vega girada: la punta cae arriba a la izquierda.
+   Las dos verticales estrechas de la sección no comparten contorno. */
+.espacio--esbelto {
+  --espacio-silueta: var(--radio-xs) var(--radio-xl) var(--radio-xs) var(--radio-xl);
+}
+
+/* CANCHA — tres esquinas blandas y una viva abajo a la derecha: el remate
+   duro con el que cierra la composición por el pie. */
+.espacio--breve {
+  --espacio-silueta: var(--radio-lg) var(--radio-lg) var(--radio-xs) var(--radio-lg);
+}
+
+/* ==========================================================================
+   3. LA PASTILLA DE AFORO — el ancla
+   ==========================================================================
+   Va entre la figura y el cuerpo, con un tirón hacia arriba que la sube sobre
+   la esquina inferior izquierda de la foto. Está en flujo normal (no es
+   `position: absolute`), así que no pelea con el `overflow: hidden` de la
+   figura y el texto de debajo se recoloca solo cuando la glosa parte en dos
+   líneas.
+   Es opaca —superficie sólida, no un velo— justamente porque monta sobre
+   fotografía: sobre un velo semitransparente el contraste dependería del
+   píxel que hubiera detrás, y aquí no puede depender de nada.
+   Contrastes sobre --color-superficie-solida (más clara que la crema, así que
+   los dos mejoran respecto de sus valores de contrato):
+     verde bosque sobre crema  10.7:1   ·  gris de texto sobre crema  6.1:1
+   ========================================================================== */
+.espacio__aforo {
+  position: relative;
+  z-index: var(--z-base);
+  align-self: flex-start;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--esp-xs);
+  /* El tirón hacia arriba deja alrededor del 60 % de la pastilla sobre la
+     foto y el 40 % fuera. Está calibrado contra su alto real: --esp-lg (32 px)
+     sobre una pastilla de unos 53, y --esp-xl (48) en la Alameda, cuya cifra
+     sube dos escalones y la engorda hasta unos 80. */
+  margin: calc(var(--esp-lg) * -1) 0 0 var(--esp-sm);
+  padding: var(--esp-xs) var(--esp-md);
+  /* Contorno de hoja, el mismo lenguaje que las figuras y distinto de todas
+     ellas: aquí la punta va abajo a la izquierda y arriba a la derecha. */
+  border-radius: var(--radio-lg) var(--radio-xs) var(--radio-lg) var(--radio-xs);
+  background-color: var(--color-superficie-solida);
+  box-shadow: var(--sombra-md);
+  transition: transform var(--transicion);
+}
+
+/* Acompaña al zoom de la foto con un gesto mínimo. No es una elevación: la
+   sombra no cambia, sólo sube dos pelos para que la pastilla se lea pegada a
+   la ficha y no a la página. */
+.espacio:hover .espacio__aforo,
+.espacio:focus-within .espacio__aforo {
+  transform: translateY(calc(var(--esp-3xs) * -1));
+}
+
+/* La cifra. Fraunces por familia y --peso-fuerte por peso, igual que .cifra
+   de base.css: es el mismo objeto tipográfico, pero no puede heredar de
+   .cifra porque aquella es `display: block` a --fs-cifra (--paso-5) y aquí va
+   en línea y a tres tamaños distintos según el peso de la ficha. */
+.espacio__cifra {
+  font-family: var(--fuente-display);
+  font-size: var(--paso-2);
+  font-weight: var(--peso-fuerte);
+  font-optical-sizing: auto;
+  font-variation-settings: var(--ejes-display);
+  line-height: var(--alto-linea-apretado);
+  letter-spacing: var(--tracking-display);
+  color: var(--verde-bosque);
+}
+
+/* La glosa: micro-etiqueta en caps, de las permitidas por el §3 del contrato.
+   El `max-width` en ch la parte en dos renglones cortos a propósito: una
+   glosa de una sola línea larga volvería a leerse como el renglón de datos de
+   v3, y lo que se busca es un bloque compacto al lado de la cifra.          */
+.espacio__glosa {
+  display: block;
+  max-width: 12ch;
+  font-family: var(--fuente-titulo);
+  font-size: var(--fs-eyebrow);
+  font-weight: var(--peso-medio);
+  line-height: var(--alto-linea-titulo);
+  text-transform: uppercase;
+  letter-spacing: var(--tracking-rotulo);
+  color: var(--color-texto-suave);
+}
+
+/* CANCHA — el único aforo de dos datos (30 jugadores · 20 espectadores).
+   Los dos se apilan cifra sobre glosa y se ponen a la par: así la pastilla
+   crece a lo ancho y no a lo alto, y de paso es la única de las cinco con
+   dos cifras, que es otra manera de que no todas se lean igual.            */
+.espacio__aforo--doble {
+  gap: var(--esp-md);
+  /* Relleno lateral más corto que el de las otras cuatro: la Cancha vive en
+     una columna de 3 de 12 (273 px medidos a 1440) y con dos datos dentro es
+     la pastilla más ancha de la sección. Con --esp-md a los lados se quedaba
+     a un pelo de salirse de su columna. */
+  padding-inline: var(--esp-sm);
+}
+
+.espacio__dato {
+  display: flex;
+  flex-direction: column;
+  gap: var(--esp-3xs);
+}
+
+.espacio--breve .espacio__cifra {
+  font-size: var(--paso-1);
+}
+
+.espacio--breve .espacio__glosa {
+  max-width: none;
+}
+
+/* ==========================================================================
+   4. CUERPO DE LA FICHA
    Sin padding lateral: el texto arranca a plomo con el borde izquierdo de la
    fotografía. Esa alineación es lo que hace que foto y texto se lean como una
-   sola pieza sin necesidad de encerrarlos en nada.                           */
+   sola pieza sin necesidad de encerrarlos en nada.
+   ========================================================================== */
 .espacio__cuerpo {
   display: flex;
   flex-direction: column;
@@ -258,24 +479,10 @@
   flex: 1 1 auto;
 }
 
-/* Rótulo de categoría: aquí el papel de categoría lo hace el AFORO, que es
-   el dato por el que se elige un espacio. Diminuto y muy espaciado, pero
-   nunca por debajo de --fs-eyebrow: ese suelo es deliberado. */
-.espacio__aforo {
-  font-family: var(--fuente-titulo);
-  font-size: var(--fs-eyebrow);
-  font-weight: var(--peso-medio);
-  text-transform: uppercase;
-  letter-spacing: var(--tracking-rotulo);
-  color: var(--color-texto-suave);
-  margin: 0;
-}
-
 /* El titular hereda Fraunces, su peso fino y su caja de frase de
-   .titulo-seccion--sm (base.css): aquí sólo se abre el tracking al valor de
-   display y se le pone tinta plena. Ni familia ni peso se tocan. */
+   .titulo-seccion--sm (base.css): aquí sólo se le pone tinta plena y una
+   medida corta. Ni familia, ni peso, ni tracking se tocan. */
 .espacio__nombre {
-  letter-spacing: var(--tracking-display);
   color: var(--carbon);
   max-width: var(--medida-corta);
 }
@@ -290,29 +497,29 @@
   margin: 0;
 }
 
-/* El enlace va detrás del texto, sin `margin-top:auto`: ver la nota de
-   `align-self` en .espacio. Alinear los cinco enlaces exigiría estirar las
-   fichas, y estirarlas mata el escalonado. */
 .espacio__enlace {
   padding-top: var(--esp-2xs);
 }
 
 /* ==========================================================================
-   3. LA ALAMEDA — banda panorámica
+   5. LA ALAMEDA — banda panorámica y pie de dos columnas
    Es el único espacio con dos fotografías propias: alameda-2 (panorámica de
-   1500×844) y alameda-1 (vertical de 1125×1500). En vez de meter la vertical
-   de recuadro sobre la panorámica —el truco de v2, que era justo una caja con
-   sombra sobre otra foto—, las dos se ponen a la par formando una banda 2:1,
-   con una junta finísima entre ellas. Leídas seguidas cuentan la anchura del
-   prado, que es lo único que esas dos fotos tienen que contar.
+   1500×844) y alameda-1 (vertical de 1125×1500). Las dos se ponen a la par
+   formando una banda 2:1, con una junta finísima entre ellas. Leídas seguidas
+   cuentan la anchura del prado.
    El reparto 1.6fr / 1fr no es arbitrario: deja a la panorámica cerca de su
    16:9 real y a la vertical un hueco casi cuadrado, así ninguna de las dos
    pierde su encuadre en el recorte.
+   El contorno lo lleva la FIGURA y no cada foto: así la banda tiene una sola
+   silueta —dos fotos, una forma— y el zoom del hover se recorta contra ella.
    ========================================================================== */
 .espacio--destacado .espacio__figura--banda {
   display: grid;
   grid-template-columns: 1.6fr 1fr;
   gap: var(--esp-3xs);
+  /* base.css pinta todo `img` con un gris de carga; la figura de la banda no
+     se ve nunca entre las dos fotos salvo por la junta de 4 px, y ahí tiene
+     que verse el fondo de la página, no el gris. */
   background-color: transparent;
 }
 
@@ -335,9 +542,9 @@
 }
 
 /* Desde el primer breakpoint la Alameda ocupa la fila entera y su figura pasa
-   a 2:1 (lo pone --espacio-ratio en §1). Aquí sólo sube el CUERPO del texto:
-   es la ficha de entrada y su tipografía tiene que pesar más que la de las
-   pequeñas, o el salto de escala se queda a medias en la fotografía. */
+   a 2:1. Aquí sube el CUERPO del texto y la CIFRA: es la ficha de entrada y
+   su tipografía tiene que pesar más que la de las pequeñas, o el salto de
+   escala se queda a medias en la fotografía. */
 @media (min-width: 48em) {
   /* La única ficha con nombre a --paso-3: un escalón por encima del
      --fs-h3 (--paso-2) de las otras cuatro y uno por debajo del --fs-h2 del
@@ -352,19 +559,66 @@
     max-width: var(--medida);
   }
 
-  /* El aforo de la ficha grande sube de --fs-eyebrow a --fs-pequeno (13,4 px
-     de suelo, por encima del suelo de 12,5 del sistema). Sigue siendo el
-     rótulo más pequeño de su ficha; lo que cambia es que su ficha es mayor. */
-  .espacio--destacado .espacio__aforo {
+  /* La cifra de la ficha grande salta dos escalones, hasta --paso-4. A ese
+     cuerpo, sobre una banda de 788 px, es el ancla de la sección entera: lo
+     primero que se fija al entrar en #espacios. */
+  .espacio--destacado .espacio__cifra {
+    font-size: var(--paso-4);
+  }
+
+  .espacio--destacado .espacio__glosa {
     font-size: var(--fs-pequeno);
+  }
+
+  .espacio--destacado .espacio__aforo {
+    margin-block-start: calc(var(--esp-xl) * -1);
+    margin-inline-start: var(--esp-lg);
+    padding: var(--esp-sm) var(--esp-lg);
+  }
+}
+
+/* En escritorio el pie de la Alameda se abre en dos columnas: el nombre solo
+   en la izquierda, a modo de cabecera, y la línea de experiencia con su
+   enlace en la derecha. Es el único de los cinco que no lee en columna
+   única, y es lo que acaba de distinguir a la ficha mayor de las cuatro
+   pequeñas sin darle ni una caja ni un color propios.                       */
+@media (min-width: 68em) {
+  .espacio--destacado .espacio__cuerpo {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    column-gap: var(--gap);
+    row-gap: var(--esp-2xs);
+    align-items: start;
+  }
+
+  .espacio--destacado .espacio__nombre {
+    grid-column: 1;
+    grid-row: 1 / span 2;
+  }
+
+  .espacio--destacado .espacio__texto {
+    grid-column: 2;
+    grid-row: 1;
+  }
+
+  .espacio--destacado .espacio__enlace {
+    grid-column: 2;
+    grid-row: 2;
+    justify-self: start;
   }
 }
 
 /* ==========================================================================
-   4. PIE DE SECCIÓN — el acceso a las condiciones
+   6. PIE DE SECCIÓN — el acceso a las condiciones
    Una línea de contexto y un botón secundario que lleva a
    condiciones-de-alquiler.html. Nada más: el detalle vive en su propia
    página, no en un modal y no dentro de esta sección.
+   v4: era un filete de 1 px a todo lo ancho —el remate más neutro que existe—
+   y pasa a ser una tablilla con contorno de hoja y un lavado de oliva muy
+   bajo. Así el pie cierra la sección con la misma forma con la que la
+   sección se abre, en vez de con una raya.
+   El lavado está al 7 %: el gris del .nota conserva 6.0:1 y el filete del
+   .btn-secundario sus 10.6:1. No lo subas sin volver a medirlos.
    ========================================================================== */
 .espacios__pie {
   display: flex;
@@ -373,17 +627,41 @@
   justify-content: space-between;
   gap: var(--esp-sm) var(--esp-md);
   margin-top: var(--gap-lg);
-  padding-top: var(--esp-lg);
-  border-top: 1px solid var(--color-borde-suave);
+  padding: var(--esp-lg) var(--esp-md);
+  border-radius: var(--radio-xl) var(--radio-md) var(--radio-xl) var(--radio-md);
+  background-color: rgb(var(--verde-oliva-rgb) / 0.07);
 }
 
 .espacios__pie-texto {
   max-width: var(--medida-corta);
 }
 
+@media (min-width: 48em) {
+  .espacios__pie {
+    padding: var(--esp-lg) var(--esp-xl);
+  }
+}
+
 @media (max-width: 33.99em) {
   .espacios__pie-boton {
     display: flex;
     width: 100%;
+  }
+}
+
+/* ==========================================================================
+   7. MOVIMIENTO REDUCIDO
+   tokens.css ya lleva --escala-hover a 1 y las duraciones a 1 ms, y base.css
+   apaga el motor de .reveal. Lo que queda por apagar aquí es lo propio de la
+   sección: el zoom de la foto, el gesto de la pastilla y el parallax de la
+   hoja —este último no llega ni a declararse, porque su @supports vive dentro
+   de `no-preference`—.
+   ========================================================================== */
+@media (prefers-reduced-motion: reduce) {
+  .espacio:hover .espacio__img,
+  .espacio:focus-within .espacio__img,
+  .espacio:hover .espacio__aforo,
+  .espacio:focus-within .espacio__aforo {
+    transform: none;
   }
 }

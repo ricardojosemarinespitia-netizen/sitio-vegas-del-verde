@@ -566,9 +566,15 @@ a:hover {
 }
 
 /* Sobre fondo oscuro (bosque o carbón) el rótulo sigue siendo neutro: crema
-   al 78 %, 7.2:1 sobre bosque y 11.1:1 sobre carbón. */
+   al 78 %, 7.2:1 sobre bosque y 11.1:1 sobre carbón.
+   `.seccion--carbon-suave` FALTABA en esta lista y es la trampa: la sección
+   sí invertía su color de texto, pero el antetítulo se quedaba con el gris
+   de --color-texto-suave, que está calculado contra la crema, y sobre la
+   banda oscura caía a 2.4:1. No se veía porque hasta ahora ninguna sección
+   usaba esa variante; en cuanto una la use, el rótulo desaparece. */
 .seccion--oscura .eyebrow,
-.seccion--carbon .eyebrow {
+.seccion--carbon .eyebrow,
+.seccion--carbon-suave .eyebrow {
   color: var(--color-texto-inverso-suave);
 }
 
@@ -692,6 +698,109 @@ a:hover {
   transform: none;
   clip-path: inset(0 0 0 0);
   will-change: auto;
+}
+
+/* ==========================================================================
+   ICONOS QUE SE DIBUJAN SOLOS
+   Los 35 iconos del sitio comparten firma: viewBox de 24, `fill="none"` y
+   `stroke="currentColor"`. Al ser puro trazo se pueden pintar como los pinta
+   una mano: se oculta el trazo con un guion tan largo como el propio camino
+   y se recoge el desfase hasta cero.
+
+   POR QUÉ LA CLASE LA PONE JAVASCRIPT Y NO EL HTML
+   El truco necesita `pathLength="1"` en cada forma para que todas terminen a
+   la vez, sin importar que una sea un círculo y otra un camino de diez
+   curvas. Ese atributo lo escribe js/app.js. Si el JS no corre, la clase no
+   se añade, estas reglas no aplican y los iconos se ven enteros y quietos:
+   el trazo NUNCA se esconde sin que exista quien lo devuelva.
+
+   `:not([stroke-dasharray])` deja fuera las formas que ya traen su propio
+   guion —la línea de puntos del icono de tiquete—: ahí el patrón punteado ES
+   el dibujo, y sobrescribirlo lo destruiría.
+
+   El disparador es la SECCIÓN, no cada icono, porque el encargo es que al
+   llegar a esa parte se dibujen TODAS A LA VEZ.
+
+   DOS CLASES DE FORMA, Y ES LA DIFERENCIA ENTRE QUE SE VEA BIEN O NO
+   Un camino de trazo continuo se puede recorrer: el guion viaja por él y la
+   forma nace. Pero un camino que contiene VARIOS trazos sueltos —los puntos
+   de un calendario, la perforación de un tiquete, los detalles del árbol—
+   no se puede recorrer, porque el guion tiene que atravesar también los
+   saltos invisibles de un trazo al siguiente: los detalles van saliendo de
+   uno en uno con tiempos muertos en medio y el conjunto se ve entrecortado.
+   Por eso js/app.js los separa y los marca `data-traza="detalle"`: esos no
+   se dibujan, se posan al final, cuando el contorno ya está hecho.
+   ========================================================================== */
+.js .icono-traza > :not([stroke-dasharray]):not([data-traza="detalle"]) {
+  stroke-dasharray: 1;
+  stroke-dashoffset: 1;
+}
+
+.js .traza-lista .icono-traza > :not([stroke-dasharray]):not([data-traza="detalle"]) {
+  stroke-dashoffset: 0;
+  transition: stroke-dashoffset var(--dur-traza) var(--ease-traza);
+}
+
+/* Los detalles sueltos: aparecen enteros, ya cerrado el contorno. */
+.js .icono-traza > [data-traza="detalle"] {
+  opacity: 0;
+}
+
+.js .traza-lista .icono-traza > [data-traza="detalle"] {
+  opacity: 1;
+  transition: opacity var(--dur-traza-detalle) var(--ease);
+  /* Entra cuando al contorno le queda el último tercio: se solapan, así que
+     no hay pausa entre una cosa y otra. */
+  transition-delay: calc(var(--dur-traza) * 0.66);
+}
+
+/* Sin movimiento: el icono aparece dibujado, nunca a medio pintar. */
+@media (prefers-reduced-motion: reduce) {
+  .js .icono-traza > :not([stroke-dasharray]):not([data-traza="detalle"]) {
+    stroke-dashoffset: 0;
+    transition: none;
+  }
+  .js .icono-traza > [data-traza="detalle"] {
+    opacity: 1;
+    transition: none;
+  }
+}
+
+/* ==========================================================================
+   LA MARIPOSA DEL CLIC
+   Un guiño de marca, no una confirmación de acción: al pulsar cualquier
+   enlace o botón del sitio nace una mariposa en el punto exacto del clic y
+   sube hasta perderse. La crea js/app.js con uno de los recortes de
+   img/plan-vecino/ y la destruye sola al terminar; aquí sólo vive el
+   movimiento.
+
+   Dos estados por transform, no @keyframes: nace centrada en el punto del
+   clic, pequeña y opaca; sube, gira un poco y se desvanece. El desfase X lo
+   fija --clic-deriva por instancia, para que dos clics seguidos no dibujen
+   la misma trayectoria.
+
+   Bajo prefers-reduced-motion el propio app.js no llega a crear el
+   elemento: no hace falta un estado estático de repuesto aquí.
+   ========================================================================== */
+.clic-mariposa {
+  position: fixed;
+  z-index: var(--z-menu);
+  inline-size: var(--tam-pin);
+  block-size: auto;
+  pointer-events: none;
+  transform: translate(-50%, -50%) scale(0.5) rotate(0deg);
+  opacity: 0.95;
+  transition:
+    transform var(--dur-mariposa) var(--ease-salida),
+    opacity var(--dur-mariposa) var(--ease);
+}
+
+.clic-mariposa.sube {
+  transform:
+    translate(calc(-50% + var(--clic-deriva, 0px)), calc(-50% - 9rem))
+    scale(0.85)
+    rotate(var(--clic-giro, -10deg));
+  opacity: 0;
 }
 
 /* Escalonado: aplicar a un contenedor para retrasar a sus hijos .reveal */

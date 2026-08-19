@@ -39,6 +39,25 @@
      · CTA: el rótulo «Atrévete a un plan distinto» es el mismo en los cinco
        —es el rótulo de la sección—; lo que cambia es el mensaje de WhatsApp
        y el remate para lector de pantalla.
+
+     REVISIÓN v4 «orgánica» (agosto de 2026) — TRES CAMBIOS, TODOS DE FORMA.
+     Ni un hecho, ni un titular, ni un destino de enlace se mueven.
+     1. EL ÍNDICE SE HACE ANCLA. «01…05» eran cinco cifras de 13 px al lado de
+        su etiqueta; ahora son la cifra grande que abre cada carril, con la
+        ocasión debajo. Es el hilo que ya enhebraba los cinco, subido al
+        tamaño en que de verdad enhebra, y el punto donde para la vista al
+        entrar a cada uno.
+     2. LAS TRECE FOTOS DEJAN LA ESQUINA VIVA. Cada carril recorta con un
+        contorno propio —hoja, arco, canto blando, círculo— y ninguno repite
+        el del carril de arriba. Los valores están en planes.css §8.
+     3. CADA CARRIL ENTRA DE UNA MANERA, y la entrada coincide con su caja:
+        01 llega desde la izquierda, que es por donde su foto se sale;
+        02 desde la derecha, que es por donde se sale su tira;
+        03 con zoom, porque es un dossier y no tiene lado;
+        04 con velo, porque es un bloque de color que sube como un telón;
+        05 recto, sin desvío, porque es el colofón.
+        Cinco hijos con .reveal dentro de .reveal-secuencia: el escalonado no
+        pasa de cinco, muy por debajo del tope de ocho.
      ========================================================================== -->
 <section id="planes" class="seccion planes" aria-labelledby="planes-titulo">
   <div class="contenedor">
@@ -58,7 +77,7 @@
            BODAS Y CONCIERTOS — la imagen manda: una foto grande y una
            columna de tres al lado. Es el carril más ruidoso de los cinco.
            ================================================================ -->
-      <li class="planes-carril planes-carril--fiesta reveal">
+      <li class="planes-carril planes-carril--fiesta reveal reveal--izq">
 
         <figure class="marco marco--3-2 planes-fiesta__principal">
           <img
@@ -146,7 +165,7 @@
            entra una columna por la izquierda y la tira se sale por la
            derecha, al revés que el carril 01.
            ================================================================ -->
-      <li class="planes-carril planes-carril--familia reveal">
+      <li class="planes-carril planes-carril--familia reveal reveal--der">
 
         <div class="planes-carril__texto">
           <p class="planes-carril__ocasion">
@@ -232,7 +251,7 @@
            EMPRESAS — dossier partido: un retrato del grupo y, al lado, el
            par apaisado del montaje. Ni galería ni tira: dos bloques.
            ================================================================ -->
-      <li class="planes-carril planes-carril--empresa reveal">
+      <li class="planes-carril planes-carril--empresa reveal reveal--zoom">
 
         <div class="planes-dossier">
           <figure class="marco planes-dossier__retrato">
@@ -311,7 +330,7 @@
            inversos ya verificados (eyebrow, entradilla, enlaces, viñetas)
            sin declarar ni un valor propio.
            ================================================================ -->
-      <li class="planes-carril planes-carril--bienestar seccion--oscura reveal">
+      <li class="planes-carril planes-carril--bienestar seccion--oscura reveal reveal--velo">
 
         <figure class="marco marco--16-9">
           <img
@@ -415,6 +434,31 @@
            carril se compone con tipografía y no con un hueco gris.
            ================================================================ -->
       <li class="planes-carril planes-carril--talleres reveal">
+
+        <!-- v4 · Los dos filetes de 1 px pasan a ser una tablilla con
+             contorno de hoja, y este brote decorativo es lo único que ocupa
+             el sitio de la fotografía que este carril no tiene. Va
+             aria-hidden y sin texto: no cuenta nada que no esté escrito
+             debajo, y por eso puede faltar sin que se pierda nada.
+             El color se lo pone el CSS con `currentColor`. -->
+        <svg
+          class="planes-talleres__brote"
+          viewBox="0 0 240 200"
+          aria-hidden="true"
+          focusable="false"
+        >
+          <path
+            d="M120 196V96C120 46 76 18 22 12c-6 62 34 96 98 100"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="9"
+            stroke-linecap="round"
+          />
+          <path
+            d="M120 112c0-46 40-74 96-80 8 54-34 82-96 88Z"
+            fill="currentColor"
+          />
+        </svg>
 
         <p class="planes-carril__ocasion">
           <span class="planes-carril__indice">05</span> Talleres

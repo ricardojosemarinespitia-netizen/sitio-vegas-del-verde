@@ -30,6 +30,88 @@
   }
 
   /* ---------------------------------------------------------------------
+     Iconos que se dibujan al llegar a su sección
+
+     AQUÍ SÓLO VIVE EL DISPARADOR. La clase `icono-traza` y los `pathLength`
+     de cada forma están escritos en el propio HTML, no se ponen desde aquí.
+     Es deliberado y arregla un parpadeo real: este archivo va con `defer`,
+     así que corre DESPUÉS del primer pintado. Cuando era él quien marcaba
+     los iconos, el navegador alcanzaba a pintarlos enteros y un instante
+     después desaparecían de golpe para empezar a dibujarse. Escrito en el
+     HTML, el trazo nace oculto y no hay un solo fotograma de más.
+
+     Quien los marca es herramientas/hornear-trazos.js, que reconoce los
+     iconos por su firma —viewBox de 24, sin relleno, trazo heredado— y deja
+     fuera las formas decorativas grandes (la orla, el cauce, la cresta) y
+     los glifos rellenos como el de WhatsApp.
+
+     El observador vigila la SECCIÓN y no el icono: el encargo es que al
+     entrar en esa parte arranquen todas a la vez.
+     --------------------------------------------------------------------- */
+  const contenedoresTraza = new Set();
+  document.querySelectorAll('.icono-traza').forEach(svg => {
+    const caja = svg.closest('section, .pv-pieza, footer, header');
+    if (caja) contenedoresTraza.add(caja);
+  });
+
+  if (reduceMotion || !('IntersectionObserver' in window)) {
+    contenedoresTraza.forEach(caja => caja.classList.add('traza-lista'));
+  } else {
+    // A diferencia del revelado de contenido, este NO se desobserva: el
+    // dibujado se repite cada vez que la sección vuelve a entrar. Al salir
+    // se rearma quitando la clase, así que bajar a la tercera y volver a la
+    // segunda vuelve a dibujar sus figuras. Es un adorno de marca, no una
+    // entrada de contenido: repetirlo no molesta, y verlo una sola vez en
+    // toda la visita desperdicia el gesto.
+    const ioTraza = new IntersectionObserver(entradas => {
+      entradas.forEach(entrada => {
+        entrada.target.classList.toggle('traza-lista', entrada.isIntersecting);
+      });
+    }, { threshold: 0, rootMargin: '0px 0px -15% 0px' });
+    contenedoresTraza.forEach(caja => ioTraza.observe(caja));
+  }
+
+  /* ---------------------------------------------------------------------
+     La mariposa del clic
+
+     Al pulsar cualquier enlace o botón nace una mariposa en el punto del
+     clic y sube hasta perderse. Es un guiño, no una confirmación: por eso
+     no se dispara con teclado ni con Enter en un botón —sólo con el clic
+     de verdad—, para no competir con el foco ni interferir con lectores de
+     pantalla. Bajo prefers-reduced-motion no se crea ningún elemento.
+
+     Las siete siluetas de la lista son un muestreo de las 21 del enjambre
+     de img/plan-vecino/: no todas, porque a este tamaño varias formas casi
+     idénticas no se distinguen entre sí y sólo suman peso a la lista.
+     --------------------------------------------------------------------- */
+  if (!reduceMotion) {
+    const SILUETAS = [1, 3, 6, 8, 10, 14, 16];
+    document.addEventListener('click', evento => {
+      const disparador = evento.target.closest('a, button');
+      if (!disparador) return;
+      const n = SILUETAS[Math.floor(Math.random() * SILUETAS.length)];
+      const num = n < 10 ? '0' + n : String(n);
+      const mariposa = document.createElement('img');
+      mariposa.src = 'img/plan-vecino/mariposa-' + num + '.png';
+      mariposa.alt = '';
+      mariposa.setAttribute('aria-hidden', 'true');
+      mariposa.decoding = 'async';
+      mariposa.className = 'clic-mariposa';
+      mariposa.style.left = evento.clientX + 'px';
+      mariposa.style.top = evento.clientY + 'px';
+      // Deriva y giro propios por instancia, para que dos clics seguidos no
+      // dibujen la misma trayectoria.
+      mariposa.style.setProperty('--clic-deriva', Math.round((Math.random() - 0.5) * 90) + 'px');
+      mariposa.style.setProperty('--clic-giro', Math.round((Math.random() - 0.5) * 50) + 'deg');
+      document.body.appendChild(mariposa);
+      requestAnimationFrame(() => requestAnimationFrame(() => mariposa.classList.add('sube')));
+      const quitar = () => mariposa.remove();
+      mariposa.addEventListener('transitionend', quitar, { once: true });
+      setTimeout(quitar, 1700); // red de seguridad si la transición no dispara
+    });
+  }
+
+  /* ---------------------------------------------------------------------
      Menú móvil
      --------------------------------------------------------------------- */
   const botonMenu = document.querySelector('[data-menu]');

@@ -8,6 +8,19 @@
      no para informar. Desde v3.1 ya no es una rejilla de fotos: es un MURO
      DE VÍDEO en vertical, metraje de móvil grabado en el predio.
 
+     QUÉ CAMBIÓ EN v3.2 — EL MARCADO
+       Sólo dos cosas, y ninguna toca el texto:
+         · La cabecera pierde la clase de tamaño y gana el trato de CARTELA
+           en la hoja (rótulo y titular en la misma línea de base, con filete
+           a todo lo ancho). No cambia el marcado.
+         · Cada pieza añade `reveal--velo` junto a `reveal`. Es la cortina de
+           clip-path que ya estaba escrita en base.css §6 y que no usaba
+           NINGUNA sección del sitio: la pieza se descubre de arriba abajo en
+           vez de aparecer con un fundido. Es el gesto que le corresponde a un
+           muro de vídeo, y al usarse sólo aquí no se gasta el recurso.
+       Todo lo demás de la composición (anchos, desfases, sangría por la
+       derecha, grano y viñeta) vive en momentos.css y no necesita marcado.
+
      POR QUÉ VERTICAL Y POR QUÉ ESCALONADO
        Los seis clips son 720×1280, retrato, sin pista de audio: son de
        teléfono, no de banco de imágenes. Presentarlos en una rejilla regular
@@ -93,7 +106,7 @@
            PROTAGONISTA. Es el plano más abierto del cuarteto y por eso es el
            más ancho: sitúa al espectador (las varas, el verde del fondo, la
            luz) antes de que los otros tres se metan de cerca.               -->
-      <li class="momentos__pieza momentos__pieza--uno reveal">
+      <li class="momentos__pieza momentos__pieza--uno reveal reveal--velo">
         <figure class="momentos__figura">
           <div class="marco momentos__marco">
             <video
@@ -123,7 +136,7 @@
            El clip largo (6,2 s) y el único primer plano: aguanta el bucle
            sin que se note el corte. Va desfasado hacia abajo para romper la
            línea superior.                                                   -->
-      <li class="momentos__pieza momentos__pieza--dos reveal">
+      <li class="momentos__pieza momentos__pieza--dos reveal reveal--velo">
         <figure class="momentos__figura">
           <div class="marco momentos__marco">
             <video
@@ -152,7 +165,7 @@
       <!-- ---------------------------------------------------------- 03/04
            Contraluz: el fondo se va a oscuro y la mariposa entra por el
            borde izquierdo. Se deja a tamaño medio y con poco desfase.       -->
-      <li class="momentos__pieza momentos__pieza--tres reveal">
+      <li class="momentos__pieza momentos__pieza--tres reveal reveal--velo">
         <figure class="momentos__figura">
           <div class="marco momentos__marco">
             <video
@@ -182,7 +195,7 @@
            La pieza pequeña: dura dos segundos y va la más baja de las
            cuatro. Naranja sobre verde, que es lo que aguanta el tamaño
            chico; un plano de detalle sutil aquí no se leería.               -->
-      <li class="momentos__pieza momentos__pieza--cuatro reveal">
+      <li class="momentos__pieza momentos__pieza--cuatro reveal reveal--velo">
         <figure class="momentos__figura">
           <div class="marco momentos__marco">
             <video

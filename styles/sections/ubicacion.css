@@ -1,5 +1,5 @@
 /* ==========================================================================
-   VEGAS DEL VERDE — styles/sections/ubicacion.css
+   VEGAS DEL VERDE — styles/sections/ubicacion.css   ·  v4 «la banda satelital»
    Sección #ubicacion: mapa satelital "Google Earth", dirección, referencias,
    distancias, canales de atención (bloque con id="contacto") y formulario que
    abre WhatsApp. Prefijo propio: .ubi- · Depende de tokens.css y base.css.
@@ -13,95 +13,160 @@
    Leaflet la inyecta js/mapa.js y podría quedar después de esta en el orden
    de cascada; la especificidad del id nos deja ganar sin usar !important.
 
-   v3 «Blackberry» — QUÉ SE BARRIÓ Y QUÉ NO
-   Todo lo que en esta sección es TARJETA, FOTO, CAMPO o CAJA pasa a esquina
-   viva y se queda sin sombra: dirección, referencias, distancias, canales y
-   formulario. Es la misma dieta de base.css (.tarjeta y .marco perdieron radio
-   y sombra) y la que ya llevan #espacios y #momentos.
+   ==========================================================================
+   v4 · POR QUÉ SE REHIZO LA COMPOSICIÓN
 
-   Lo que NO se ha tocado, y no por olvido: la FORMA del visor y el PIN. Es
-   decir .ubi-mapa__marco, .ubi-mapa__medio y su viñeta, .ubi-hud*, .ubi-pin*,
-   la pastilla de activación y los overrides de Leaflet. Ahí la forma es
-   geometría medida (el vértice de la punta cae sobre
-   la coordenada, la viñeta hereda el radio del visor, el objetivo táctil de
-   los controles) y cualquier retoque de estilo se paga en el mapa. Siguen
-   siendo, por tanto, las últimas piezas con radio y sombra de la página: el
-   marco del visor (--radio-xl + --sombra-lg), la cápsula del HUD y la pastilla
-   de activación. Si el director de arte quiere el visor también a esquina
-   viva, es un cambio de tres líneas —.ubi-mapa__marco y .ubi-mapa__medio—,
-   pero se hace mirando el mapa, no a ciegas.
+   El dueño dijo que el sitio «se sigue viendo muy genérico», y esta sección
+   era el caso de libro: SEIS rectángulos con el mismo filete, el mismo relleno
+   y el mismo fondo, apilados uno debajo de otro —dirección, referencias,
+   distancias, tres canales y formulario—. Con todo en la misma caja no hay
+   jerarquía: el visitante no sabe qué mirar primero y la página parece una
+   plantilla rellenada. Cuatro decisiones:
 
-   Se conservan redondas, a propósito y con el mismo criterio que .pildora en
-   base.css («las esquinas vivas mandan en foto, tarjeta y botón; en los chips,
-   no»): la píldora de referencia .ubi-ref, el disco de icono .ubi-canal__icono
-   y la viñeta de error. Son grafismos diminutos cuya lectura depende de la
-   forma, no cajas de contenido.
+   1 · EL MAPA VA A SANGRE Y PIERDE EL MARCO. v3 lo metía en un visor blanco
+       con degradado, --radio-xl, --sombra-lg y dos escuadras decorativas. Era
+       la única pieza del sitio con sombra grande y radio grande, y el marco
+       pesaba más que la foto satelital: exactamente lo contrario de «la foto
+       satelital manda» (CONTRATO-V2 §5.3). Ahora la vista cruza la pantalla de
+       lado a lado, sin marco, sin sombra y a esquina viva, sujeta arriba y
+       abajo por un filete. Es el mismo recurso que .viv-friso en #vivero: el
+       único bloque que se sale del contenedor.
+       Lo que SÍ se conserva del visor: la viñeta interior y el filete claro de
+       dentro (dan profundidad sin ensuciar la imagen) y toda la geometría del
+       PIN, que está medida para que el vértice de la punta caiga sobre
+       7.0574425, -73.1144128. Del pin no se toca nada.
+
+   2 · LA DIRECCIÓN SALE DE SU TARJETA Y SUBE A LA PORTADA. Es el dato que
+       viene a buscar quien llega hasta aquí; no puede ir en una caja idéntica
+       a la de las distancias. Ahora comparte primera línea con el titular, en
+       dos columnas desiguales, colgada de un filete oliva.
+
+   3 · REFERENCIAS Y DISTANCIAS DEJAN DE SER RECUADROS. Pasan al patrón
+       .ubi-bloque: un filete horizontal de apertura, el encabezado en una
+       columna estrecha y el contenido en la ancha. Es el gesto editorial que
+       usa el resto del sitio y rompe la pila de cajas.
+
+   4 · EL ÚNICO RECUADRO QUE QUEDA ES EL FORMULARIO. Y se queda a propósito:
+       es lo único de la sección que es de verdad un objeto —una cosa que se
+       rellena—, así que es lo único que merece un papel debajo. Los canales
+       pasan a filas con regla, con el de WhatsApp como la única fila con
+       cuerpo, porque es el canal real del negocio.
+
+   Se conservan redondas, con el mismo criterio que .pildora en base.css («las
+   esquinas vivas mandan en foto, tarjeta y botón; en los chips, no»): la
+   píldora de referencia .ubi-ref, el disco de icono .ubi-canal__icono, la
+   pastilla de activación táctil, la viñeta de error y el disco del pin.
+
+   CONTRASTE — los pares que cambiaron de fondo al quitar las tarjetas.
+   Sobre salvia (#dde5cd, luminancia 0,758), que es el fondo de .seccion--alt:
+     tinta (--color-texto) ...................................... 11,9:1
+     gris de rótulo (--color-texto-suave) ....................... 5,2:1
+     terracota (--color-acento-texto) ........................... 4,6:1
+   Los campos del formulario siguen midiéndose contra el papel del panel
+   (--color-superficie-solida), que no ha cambiado: su filete oliva sigue
+   dando 5,3:1 y el bosque del foco 11,4:1.
    ========================================================================== */
 
 .ubi {
   /* --- Tokens locales de la sección (valores que la fundación no cubre) ---- */
-  --ubi-alto-mapa: clamp(21rem, 58svh, 34rem);
+  /* La banda satelital crece: a sangre, un visor bajito parece una tira de
+     imagen; a esta altura parece una ventana. */
+  --ubi-alto-mapa: clamp(23rem, 62svh, 40rem);
   --ubi-control: 2.75rem;                       /* objetivo táctil de los +/- */
   --ubi-dur-pulso: calc(var(--dur-reveal) * 3); /* 2,7 s derivados del token  */
-  --ubi-marco: var(--esp-3xs);
   --ubi-alto-control: 3rem;                     /* objetivo táctil del campo  */
   --ubi-icono: 2.75rem;
+
+  /* El margen del .contenedor, reproducido con un porcentaje del ancho del
+     bloque a sangre. Mismo recurso —y mismo motivo— que --viv-margen en
+     vivero.css: 100vw INCLUYE la barra de scroll y metería un desbordamiento
+     real que el overflow-x del body taparía sin arreglar. Lo usa el HUD para
+     alinearse con la columna de texto en vez de con el canto de la pantalla.
+     OJO: #ubicacion usa .contenedor--ancho, así que va contra --ancho-xl. */
+  --ubi-margen: max(
+    var(--padding-contenedor),
+    calc((100% - var(--ancho-xl)) / 2)
+  );
 }
 
 /* ==========================================================================
-   1. MARCO DEL MAPA
+   1. PORTADA — el titular y la dirección, en la misma línea
+   ========================================================================== */
+.ubi-portada {
+  display: grid;
+  gap: var(--gap);
+}
+
+/* Dos columnas desiguales y alineadas por ABAJO: el titular manda en tamaño,
+   la dirección manda en urgencia, y las dos apoyan en la misma línea de suelo.
+   Es lo que convierte el arranque en una portada y no en un encabezado más. */
+@media (min-width: 62em) {
+  .ubi-portada {
+    grid-template-columns: minmax(0, 1.25fr) minmax(0, 0.75fr);
+    gap: var(--gap-lg);
+    align-items: end;
+  }
+}
+
+/* El encabezado ya no se centra: con la placa al lado, centrarlo dejaba la
+   composición coja. Y suelta su margen inferior, que ahora lo pone la rejilla. */
+.ubi-portada__texto {
+  margin-bottom: 0;
+}
+
+/* La placa cuelga de un filete OLIVA —el contorno fuerte del sistema, 3:1 sobre
+   salvia— y no de uno suave: es la única regla de la sección que tiene que
+   verse a distancia. */
+.ubi-placa {
+  display: flex;
+  flex-direction: column;
+  gap: var(--esp-2xs);
+  padding-top: var(--esp-md);
+  border-top: 1px solid var(--color-borde-fuerte);
+}
+
+.ubi-direccion {
+  font-style: normal;
+  font-size: var(--fs-grande);
+  font-weight: var(--peso-ligero);
+  line-height: var(--alto-linea-base);
+  color: var(--color-texto);
+}
+
+.ubi-coordenadas {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: var(--esp-2xs);
+  margin: 0;
+  font-variant-numeric: tabular-nums;
+}
+
+.ubi-coordenadas__etiqueta {
+  font-family: var(--fuente-titulo);
+  font-size: var(--fs-micro);
+  text-transform: uppercase;
+  letter-spacing: var(--tracking-rotulo);
+  color: var(--color-texto-suave);
+}
+
+/* ==========================================================================
+   2. LA BANDA DEL MAPA  (a sangre: hija directa del <section>)
    ========================================================================== */
 .ubi-mapa {
-  margin: 0;
-}
-
-.ubi-mapa__marco {
-  position: relative;
-  padding: var(--ubi-marco);
-  border: 1px solid var(--color-borde-suave);
-  border-radius: var(--radio-xl);
-  background-color: var(--color-superficie-solida);
-  background-image: linear-gradient(
-    160deg,
-    rgb(var(--blanco-rgb) / 0.9),
-    rgb(var(--gris-verde-rgb) / 0.35)
-  );
-  box-shadow: var(--sombra-lg);
-}
-
-/* Escuadras decorativas en dos esquinas opuestas — el guiño "instrumento". */
-.ubi-mapa__marco::before,
-.ubi-mapa__marco::after {
-  content: "";
-  position: absolute;
-  width: var(--esp-md);
-  height: var(--esp-md);
-  border: 1px solid rgb(var(--verde-oliva-rgb) / 0.45);
-  pointer-events: none;
-}
-
-.ubi-mapa__marco::before {
-  top: calc(var(--esp-2xs) * -1);
-  left: calc(var(--esp-2xs) * -1);
-  border-right: 0;
-  border-bottom: 0;
-  border-top-left-radius: var(--radio-md);
-}
-
-.ubi-mapa__marco::after {
-  right: calc(var(--esp-2xs) * -1);
-  bottom: calc(var(--esp-2xs) * -1);
-  border-left: 0;
-  border-top: 0;
-  border-bottom-right-radius: var(--radio-md);
+  margin: var(--gap-lg) 0 0;
 }
 
 .ubi-mapa__medio {
   position: relative;
   /* fallback para navegadores sin unidades svh (Safari iOS ≤ 15) */
-  height: clamp(21rem, 58vh, 34rem);
+  height: clamp(23rem, 62vh, 40rem);
   height: var(--ubi-alto-mapa);
-  border-radius: var(--radio-lg);
+  /* Esquina viva y sin sombra, como toda la fotografía del sitio desde v3.
+     Los dos filetes horizontales son lo único que sujeta la banda: sin ellos,
+     sobre la salvia, el borde superior de la vista satelital flota. */
+  border-radius: 0;
+  border-block: 1px solid var(--color-borde-suave);
   overflow: hidden;
   background-color: var(--tinta);
   isolation: isolate;
@@ -114,8 +179,7 @@
   inset: 0;
   z-index: var(--z-elevado);
   pointer-events: none;
-  border-radius: inherit;
-  box-shadow: inset 0 0 0 1px rgb(var(--crema-rgb) / 0.22);
+  box-shadow: inset 0 0 0 1px rgb(var(--crema-rgb) / 0.18);
   background: radial-gradient(
     120% 90% at 50% 45%,
     rgb(var(--tinta-rgb) / 0) 55%,
@@ -131,7 +195,7 @@
 }
 
 /* ==========================================================================
-   2. RESPALDO (visible por defecto: sin JS, sin red o con el CDN caído)
+   3. RESPALDO (visible por defecto: sin JS, sin red o con el CDN caído)
    ========================================================================== */
 .ubi-mapa__respaldo {
   position: absolute;
@@ -148,25 +212,39 @@
   display: none;
 }
 
+/* El pie del mapa: la foto va a sangre, el texto vuelve al contenedor. La fila
+   lleva las clases .contenedor .contenedor--ancho en el marcado, así que el
+   ancho y el relleno lateral ya vienen de base.css; aquí sólo se reparte. */
 .ubi-mapa__pie {
-  display: flex;
-  flex-wrap: wrap;
-  gap: var(--esp-2xs) var(--esp-sm);
-  margin-top: var(--esp-sm);
+  margin-top: 0;
   font-size: var(--fs-micro);
   color: var(--color-texto-suave);
 }
 
-.ubi-mapa--interactivo .ubi-mapa__nota-respaldo {
+.ubi-mapa__pie-fila {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--esp-2xs) var(--esp-sm);
+  margin-top: var(--esp-sm);
+}
+
+.ubi-mapa__leyenda {
+  display: block;
+  max-width: var(--medida);
+}
+
+/* Un [hidden] dentro de un contenedor flex sigue siendo `display:none` mientras
+   nadie le dé un display propio. Se escribe explícito porque aquí js/mapa.js
+   enciende y apaga tres mensajes distintos, y si el crédito de Esri se colara
+   con el mapa apagado estaríamos atribuyéndole una foto que no es suya. */
+.ubi-mapa__pie [hidden],
+.ubi-mapa__credito[hidden] {
   display: none;
 }
 
-/* El crédito de las teselas lo enciende js/mapa.js quitando el atributo
-   `hidden` cuando el mapa interactivo arranca de verdad. El pie es un
-   contenedor flex, así que la regla se escribe: si alguien le da un `display`
-   propio a este <span>, el `hidden` del navegador deja de valer y el crédito
-   aparece con el mapa apagado, atribuyendo a Esri una foto que no es suya. */
-.ubi-mapa__credito[hidden] {
+.ubi-mapa--interactivo .ubi-mapa__nota-respaldo {
   display: none;
 }
 
@@ -174,36 +252,35 @@
   color: var(--color-acento-texto);
 }
 
-/* «Repetir vuelo» es un mando del mapa, no una ruta: vive pegado al mapa.
-   Los botones de navegación (Google Maps y Waze) van más abajo, en su sitio. */
-.ubi-mapa__controles {
-  max-width: none;
-  margin-top: var(--esp-xs);
-}
-
-.ubi-mapa__controles [hidden] {
-  display: none;
+/* «Repetir vuelo» es un mando del mapa, no una ruta: vive pegado al mapa, al
+   otro extremo de su propia leyenda. Los botones para llegar van debajo. */
+.ubi-mapa__repetir {
+  flex: none;
 }
 
 /* ==========================================================================
-   3. CAPA HUD
+   4. CAPA HUD
    ========================================================================== */
+/* Con el mapa a sangre el HUD no se pega al canto de la pantalla: se alinea con
+   la columna de texto usando el mismo margen que el contenedor. */
 .ubi-hud {
   position: absolute;
   z-index: calc(var(--z-elevado) + 1);
   top: var(--esp-sm);
-  left: var(--esp-sm);
+  left: var(--ubi-margen);
   display: flex;
   flex-direction: column;
   gap: var(--esp-3xs);
   padding: var(--esp-2xs) var(--esp-sm);
   max-width: calc(100% - var(--esp-2xl));
   border: 1px solid rgb(var(--crema-rgb) / 0.22);
-  border-radius: var(--radio-md);
+  /* La hoja: radio pleno en dos esquinas opuestas. Es el mismo gesto con el que
+     base.css §2 dibuja las viñetas de .lista-hojas, y es el motivo orgánico de
+     la casa; aquí firma la vista satelital sin recurrir a un logotipo grande. */
+  border-radius: 0 var(--radio-lg) 0 var(--radio-lg);
   background-color: rgb(var(--tinta-rgb) / 0.55);
   backdrop-filter: var(--blur-vidrio);
   -webkit-backdrop-filter: var(--blur-vidrio);
-  box-shadow: var(--sombra-md);
   color: var(--color-texto-inverso);
   pointer-events: none;
 }
@@ -222,19 +299,21 @@
   font-size: var(--fs-pequeno);
   font-weight: var(--peso-medio);
   text-transform: uppercase;
-  letter-spacing: var(--track-caps);
+  letter-spacing: var(--tracking-rotulo);
   line-height: 1.2;
 }
 
+/* PNG con transparencia: base.css le pone a todo <img> un fondo gris de carga
+   y aquí dejaría un cuadrado sucio detrás del símbolo. */
 .ubi-hud__simbolo {
   width: 1.5em;
   height: 1.5em;
   flex: none;
-  background: none;
+  background-color: transparent;
 }
 
-/* La coordenada NO se repite aquí: se escribe una sola vez, en la tarjeta de
-   la dirección. El HUD sólo identifica la marca y el tipo de vista.        */
+/* La coordenada NO se repite aquí: se escribe una sola vez, en la placa de la
+   dirección. El HUD sólo identifica la marca y el tipo de vista.            */
 .ubi-hud__etiqueta {
   display: inline-flex;
   align-items: center;
@@ -242,7 +321,7 @@
   font-family: var(--fuente-titulo);
   font-size: var(--fs-micro);
   text-transform: uppercase;
-  letter-spacing: var(--track-caps);
+  letter-spacing: var(--tracking-rotulo);
   color: var(--verde-menta);
 }
 
@@ -256,13 +335,14 @@
 }
 
 /* ==========================================================================
-   4. PIN PEQUEÑO (lo inyecta js/mapa.js dentro de un L.divIcon)
+   5. PIN PEQUEÑO (lo inyecta js/mapa.js dentro de un L.divIcon)
 
-   v1 metía el símbolo del logo a 48 px anclado por el centro: tapaba la vista
-   satelital y señalaba mal. v2 lo reduce al disco de --tam-pin (36 px) con una
-   punta de --tam-pin-punta, y js/mapa.js ancla el icono en el VÉRTICE de la
-   punta, que es lo que cae sobre 7.0574425, -73.1144128.
+   NO SE TOCA. v1 metía el símbolo del logo a 48 px anclado por el centro:
+   tapaba la vista satelital y señalaba mal. v2 lo reduce al disco de --tam-pin
+   (36 px) con una punta de --tam-pin-punta, y js/mapa.js ancla el icono en el
+   VÉRTICE de la punta, que es lo que cae sobre 7.0574425, -73.1144128.
    La caja del divIcon mide [--tam-pin] × [--tam-pin + --tam-pin-punta].
+   Cualquier retoque de forma aquí se paga en la precisión del mapa.
    ========================================================================== */
 .ubi-pin {
   position: relative;
@@ -346,7 +426,7 @@
 }
 
 /* ==========================================================================
-   5. BOTÓN DE ACTIVACIÓN TÁCTIL
+   6. BOTÓN DE ACTIVACIÓN TÁCTIL
    En pantallas táctiles el mapa arranca sin arrastre para no secuestrar el
    scroll de la página; este botón lo habilita. js/mapa.js lo muestra.
    ========================================================================== */
@@ -374,12 +454,12 @@
   font-size: var(--fs-micro);
   font-weight: var(--peso-medio);
   text-transform: uppercase;
-  letter-spacing: var(--track-boton);
+  letter-spacing: var(--tracking-rotulo);
   box-shadow: var(--sombra-md);
 }
 
 /* ==========================================================================
-   6. OVERRIDES DE LEAFLET  (scoped por id, sin !important)
+   7. OVERRIDES DE LEAFLET  (scoped por id, sin !important)
    ========================================================================== */
 #ubicacion .leaflet-container {
   background-color: var(--tinta);
@@ -387,11 +467,17 @@
   font-size: var(--fs-micro);
 }
 
+/* Los mandos se alinean con la columna de texto, igual que el HUD: con el mapa
+   a sangre, pegarlos al canto de una pantalla de 2.560 px los deja fuera del
+   alcance de la vista y del pulgar. */
+#ubicacion .leaflet-bottom.leaflet-right {
+  right: var(--ubi-margen);
+}
+
 #ubicacion .leaflet-control-zoom {
   border: 1px solid rgb(var(--verde-oliva-rgb) / 0.2);
-  border-radius: var(--radio-md);
+  border-radius: 0;
   overflow: hidden;
-  box-shadow: var(--sombra-md);
 }
 
 #ubicacion .leaflet-control-zoom a {
@@ -412,7 +498,6 @@
 
 #ubicacion .leaflet-control-attribution {
   padding: 0.25em 0.7em;
-  border-top-left-radius: var(--radio-sm);
   background-color: rgb(var(--tinta-rgb) / 0.66);
   color: var(--color-texto-inverso-suave);
   font-size: var(--fs-micro);
@@ -430,7 +515,7 @@
 }
 
 #ubicacion .leaflet-popup-content-wrapper {
-  border-radius: var(--radio-md);
+  border-radius: 0;
 }
 
 #ubicacion .leaflet-popup-content {
@@ -444,7 +529,7 @@
   font-family: var(--fuente-titulo);
   font-size: var(--fs-cuerpo);
   text-transform: uppercase;
-  letter-spacing: var(--track-caps);
+  letter-spacing: var(--tracking-rotulo);
   color: var(--color-acento-texto);
 }
 
@@ -455,71 +540,48 @@
 }
 
 /* ==========================================================================
-   7. BOTONES BAJO EL MAPA
+   8. CÓMO LLEGAR — los dos botones, pegados al mapa (lo pide el BRIEF)
    ========================================================================== */
+/* A la izquierda y no centrados: la sección entera se lee alineada al margen
+   izquierdo, y un par de botones centrados en medio de una columna alineada es
+   el tic de plantilla que veníamos a quitar. */
 .ubi-acciones {
   display: flex;
   flex-wrap: wrap;
   gap: var(--esp-sm);
   align-items: center;
-  justify-content: center;
-  margin-top: var(--gap-lg);
+  margin-top: var(--esp-lg);
 }
 
 /* ==========================================================================
-   8. DIRECCIÓN Y REFERENCIAS
+   9. EL PATRÓN DE BLOQUE — referencias y distancias
+   Filete de apertura, encabezado en la columna estrecha, contenido en la
+   ancha. Sustituye a los dos recuadros de v3.
    ========================================================================== */
-.ubi-info {
+.ubi-bloque {
   display: grid;
   gap: var(--gap);
-  margin-top: var(--gap-lg);
+  margin-top: var(--esp-seccion-sm);
+  padding-top: var(--esp-lg);
+  border-top: 1px solid var(--color-borde-suave);
 }
 
-@media (min-width: 52em) {
-  .ubi-info {
-    grid-template-columns: minmax(0, 1fr) minmax(0, 1.15fr);
+.ubi-bloque__encabezado {
+  display: flex;
+  flex-direction: column;
+  gap: var(--esp-xs);
+  min-width: 0;
+}
+
+@media (min-width: 62em) {
+  .ubi-bloque {
+    grid-template-columns: minmax(0, 0.85fr) minmax(0, 1.15fr);
+    gap: var(--gap-lg);
     align-items: start;
   }
 }
 
-/* v3: esquina viva y ninguna sombra. La dirección y las referencias son datos
-   de servicio, y en el sistema nuevo un dato de servicio va en una caja de
-   filete, no en una tarjeta redondeada. */
-.ubi-tarjeta {
-  display: flex;
-  flex-direction: column;
-  gap: var(--esp-xs);
-  padding: var(--esp-lg);
-  border: 1px solid var(--color-borde-suave);
-  border-radius: 0;
-  background-color: var(--color-superficie);
-}
-
-.ubi-direccion {
-  font-style: normal;
-  font-size: var(--fs-grande);
-  font-weight: var(--peso-ligero);
-  line-height: var(--alto-linea-base);
-  color: var(--color-texto);
-}
-
-.ubi-coordenadas {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: baseline;
-  gap: var(--esp-2xs);
-  margin: 0;
-  font-variant-numeric: tabular-nums;
-}
-
-.ubi-coordenadas__etiqueta {
-  font-family: var(--fuente-titulo);
-  font-size: var(--fs-micro);
-  text-transform: uppercase;
-  letter-spacing: var(--tracking-rotulo);
-  color: var(--color-texto-suave);
-}
-
+/* --- Referencias ---------------------------------------------------------- */
 .ubi-refs {
   display: flex;
   flex-wrap: wrap;
@@ -542,47 +604,54 @@
 }
 
 /* La foto trae los mismos sitios señalados sobre el terreno: es la prueba de
-   la lista de arriba, no un adorno. Va sin recorte para no perder ningún pin. */
+   la lista de al lado, no un adorno. Va sin recorte para no perder ningún pin. */
 .ubi-refs__figura {
-  margin-top: var(--esp-2xs);
+  margin: 0;
+  min-width: 0;
 }
 
+/* LA HOJA — norma del sitio, arbitrada por el director de arte: la foto que
+   vive DENTRO de la maqueta lleva dos esquinas curvas en diagonal y dos vivas.
+   Ésta es la única foto de la sección que está dentro (el mapa sangra y se
+   queda a esquina viva, que es lo que manda cuando la imagen toca el canto de
+   la ventana).
+
+   LA DIAGONAL NO ES LIBRE, LA ELIGE LA FOTO. Abierta con Read: el archivo
+   tiene la barra amarilla de marca pegada a la esquina de arriba a la
+   izquierda y los distintivos de Google Maps y Waze pegados a la de abajo a la
+   derecha. Curvar esa diagonal recortaría las dos. Va la contraria —arriba a
+   la derecha es cielo, abajo a la izquierda es arbolado— y no se pierde nada.
+
+   El filete se queda: la imagen lleva rótulos sobre fondo claro y sin él se
+   derrama sobre la salvia de la sección. Y sigue el <img> entero, sin recorte,
+   para no perder ningún pin. */
 .ubi-refs__foto {
   width: 100%;
   height: auto;
-  /* Fotografía: esquina viva, como todas las del sitio desde v3. El filete se
-     queda porque esta imagen lleva rótulos sobre fondo claro y sin él se
-     derrama sobre la salvia de la sección. */
-  border-radius: 0;
+  border-radius: 0 var(--radio-xl) 0 var(--radio-xl);
   border: 1px solid var(--color-borde-suave);
 }
 
 /* ==========================================================================
-   9. DISTANCIAS
+   10. DISTANCIAS
    ========================================================================== */
-.ubi-dist {
-  margin-top: var(--gap-lg);
-  padding: var(--esp-lg);
-  border: 1px solid var(--color-borde-suave);
-  border-radius: 0;
-  background-color: var(--color-superficie);
-}
-
-.ubi-dist__encabezado {
-  display: flex;
-  flex-direction: column;
-  gap: var(--esp-3xs);
-  margin-bottom: var(--esp-md);
+/* El encabezado ocupa menos que en el bloque de referencias: son dos líneas de
+   texto contra siete filas de datos, y la tabla necesita todo el ancho que
+   pueda para que las barras cortas (10 km) sigan siendo legibles. */
+@media (min-width: 62em) {
+  .ubi-dist {
+    grid-template-columns: minmax(0, 0.6fr) minmax(0, 1.4fr);
+  }
 }
 
 .ubi-dist__lista {
   display: flex;
   flex-direction: column;
-  gap: var(--esp-xs);
   margin: 0;
   padding: 0;
   list-style: none;
-  counter-reset: none;
+  min-width: 0;
+  border-top: 1px solid var(--color-borde-suave);
 }
 
 .ubi-dist__item {
@@ -590,6 +659,8 @@
   grid-template-columns: minmax(0, 1fr) auto;
   align-items: baseline;
   gap: var(--esp-3xs) var(--esp-sm);
+  padding-block: var(--esp-xs);
+  border-bottom: 1px solid var(--color-borde-suave);
 }
 
 .ubi-dist__lugar {
@@ -640,7 +711,7 @@ html:not(.js) .ubi-dist__relleno {
 
 @media (min-width: 40em) {
   .ubi-dist__item {
-    grid-template-columns: minmax(9rem, 14rem) minmax(0, 1fr) auto;
+    grid-template-columns: minmax(8rem, 13rem) minmax(0, 1fr) auto;
     align-items: center;
   }
 
@@ -651,7 +722,7 @@ html:not(.js) .ubi-dist__relleno {
 }
 
 /* ==========================================================================
-   10. CANALES Y FORMULARIO  (antes sección #contacto, ahora el cierre de ésta)
+   11. CANALES Y FORMULARIO  (antes sección #contacto, ahora el cierre de ésta)
    El bloque de canales conserva id="contacto": es el destino del menú y de los
    enlaces externos que ya circulan.
    ========================================================================== */
@@ -671,21 +742,32 @@ html:not(.js) .ubi-dist__relleno {
 }
 
 /* --- Canales -------------------------------------------------------------- */
+/* v4: dejan de ser cuatro tarjetas iguales y pasan a ser una lista con regla.
+   El hueco de 8 px entre filas no es estético: son objetivos táctiles vecinos
+   y el contrato pide separarlos (WCAG 2.5.8). El relleno lateral entra para
+   que el resalte del hover tenga cuerpo; el titular lleva el mismo, así que
+   todo el bloque sigue alineado por dentro. */
 .ubi-canales {
   display: flex;
   flex-direction: column;
-  gap: var(--esp-sm);
+  gap: var(--esp-2xs);
   scroll-margin-top: calc(var(--alto-header) + var(--esp-md));
+}
+
+.ubi-canales > .titulo-seccion {
+  padding-inline: var(--esp-sm);
+  margin-bottom: var(--esp-2xs);
 }
 
 .ubi-canal {
   display: flex;
   align-items: flex-start;
   gap: var(--esp-sm);
-  padding: var(--esp-md);
-  border: 1px solid var(--color-borde-suave);
+  padding: var(--esp-md) var(--esp-sm);
+  border: 0;
+  border-top: 1px solid var(--color-borde-suave);
   border-radius: 0;
-  background-color: var(--color-superficie);
+  background-color: transparent;
   color: var(--color-texto);
   text-decoration: none;
   transition:
@@ -693,24 +775,30 @@ html:not(.js) .ubi-dist__relleno {
     background-color var(--transicion);
 }
 
-/* v3: el canal ya no se levanta ni proyecta sombra al pasar por encima. Lo que
-   responde es el filete y el fondo, que es lo que puede responder una caja sin
-   elevación. Se quita también `transform` de la transición: sin salto no hay
-   nada que interpolar. */
+/* Lo que responde al puntero es el filete y el papel, no un salto: en este
+   sistema nada flota. */
 a.ubi-canal:hover,
 a.ubi-canal:focus-visible {
   color: var(--color-texto);
-  border-color: var(--color-borde-fuerte);
-  background-color: var(--color-superficie-solida);
+  border-top-color: var(--color-borde-fuerte);
+  background-color: rgb(var(--blanco-rgb) / 0.5);
 }
 
+/* La única fila con cuerpo, porque es el canal real del negocio: por aquí se
+   confirma la disponibilidad y por aquí entran las reservas. */
 .ubi-canal--destacado {
-  border-color: rgb(var(--verde-menta-rgb) / 0.55);
-  background-color: rgb(var(--verde-menta-rgb) / 0.14);
+  border: 1px solid rgb(var(--verde-menta-rgb) / 0.55);
+  background-color: rgb(var(--verde-menta-rgb) / 0.18);
 }
 
-.ubi-canal--estatico {
-  background-color: transparent;
+/* Aquí el hover NO oscurece el fondo, cierra el filete. Subir la veladura de
+   menta al 28 % dejaba el pie de la fila (--color-texto-suave) en 4,51:1, o
+   sea rozando el mínimo de AA por el lado malo; el filete a verde bosque da la
+   misma respuesta visual y no toca ningún contraste de texto. */
+a.ubi-canal--destacado:hover,
+a.ubi-canal--destacado:focus-visible {
+  border-color: var(--verde-bosque);
+  background-color: rgb(var(--verde-menta-rgb) / 0.18);
 }
 
 .ubi-canal__icono {
@@ -720,7 +808,7 @@ a.ubi-canal:focus-visible {
   height: var(--ubi-icono);
   flex: none;
   border-radius: var(--radio-full);
-  background-color: rgb(var(--verde-oliva-rgb) / 0.1);
+  background-color: rgb(var(--verde-oliva-rgb) / 0.14);
   color: var(--color-acento-texto);
 }
 
@@ -732,6 +820,15 @@ a.ubi-canal:focus-visible {
 .ubi-canal--destacado .ubi-canal__icono {
   background-color: var(--verde-menta);
   color: var(--tinta);
+}
+
+/* El horario es la única fila que NO se pulsa: es un <div>, no un enlace. Su
+   disco baja al gris de rótulo para que nadie lo intente. En una lista de
+   cuatro filas idénticas, tres pulsables y una no, el color del icono es lo
+   único que lo dice sin escribirlo. */
+.ubi-canal--estatico .ubi-canal__icono {
+  background-color: rgb(var(--verde-oliva-rgb) / 0.08);
+  color: var(--color-texto-suave);
 }
 
 .ubi-canal__cuerpo {
@@ -763,12 +860,16 @@ a.ubi-canal:focus-visible {
 }
 
 /* --- Formulario ----------------------------------------------------------- */
+/* EL ÚNICO RECUADRO QUE QUEDA EN LA SECCIÓN, y se queda a propósito: es lo
+   único que es de verdad un objeto —una cosa que se rellena—, así que es lo
+   único que merece un papel debajo. Al ser el único, además, se lee como el
+   final del recorrido sin necesidad de ningún adorno. */
 .ubi-form {
   display: flex;
   flex-direction: column;
   gap: var(--esp-sm);
   padding: var(--esp-lg);
-  border: 1px solid var(--color-borde-suave);
+  border: 1px solid var(--color-borde-fuerte);
   border-radius: 0;
   background-color: var(--color-superficie-solida);
 }
@@ -807,6 +908,9 @@ a.ubi-canal:focus-visible {
   margin-top: 0;
 }
 
+/* ETIQUETA VISIBLE SIEMPRE. Nunca un placeholder haciendo de etiqueta: en
+   cuanto el usuario escribe, un placeholder-etiqueta desaparece y deja el
+   campo sin nombre. */
 .ubi-campo__etiqueta {
   display: flex;
   flex-wrap: wrap;
@@ -896,6 +1000,8 @@ a.ubi-canal:focus-visible {
   color: var(--color-texto-suave);
 }
 
+/* EL ERROR VA JUNTO A SU CAMPO, debajo y dentro del mismo <p>, nunca en un
+   resumen lejano: quien lo lee tiene que ver a la vez qué está mal y dónde. */
 .ubi-campo__error {
   display: flex;
   align-items: flex-start;
@@ -962,16 +1068,15 @@ a.ubi-canal:focus-visible {
 }
 
 /* ==========================================================================
-   11. AJUSTES MÓVIL
+   12. AJUSTES MÓVIL
    ========================================================================== */
 @media (max-width: 30em) {
   .ubi {
-    --ubi-alto-mapa: clamp(18rem, 52svh, 24rem);
+    --ubi-alto-mapa: clamp(19rem, 56svh, 26rem);
   }
 
   .ubi-hud {
     top: var(--esp-2xs);
-    left: var(--esp-2xs);
     padding: var(--esp-3xs) var(--esp-2xs);
   }
 
@@ -983,7 +1088,58 @@ a.ubi-canal:focus-visible {
     padding: var(--esp-md);
   }
 
+  /* Sin relleno lateral en las filas: a 375 px cada píxel de ancho cuenta y el
+     resalte del hover no existe en táctil. */
+  .ubi-canales > .titulo-seccion,
   .ubi-canal {
-    padding: var(--esp-sm);
+    padding-inline: 0;
   }
+
+  .ubi-canal--destacado {
+    padding-inline: var(--esp-sm);
+  }
+}
+
+/* ==========================================================================
+   13. COMPATIBILIDAD TEMPORAL CON `en/index.html`
+   BORRAR EN CUANTO SE TRADUZCA LA ARQUITECTURA v3 AL INGLÉS.
+
+   La página inglesa es todavía un corte de v1: conserva #experiencias,
+   #bienestar, #cultura, #aves, #biodiversidad y #contacto como secciones
+   propias, y su ubicación usa el marcado antiguo —.ubi-info, .ubi-tarjeta y
+   .ubi-mapa__marco— que el español ya no tiene. No es un archivo de esta
+   sección y no se toca, pero tampoco se deja caer: estas tres reglas son lo
+   mínimo para que esa página siga leyéndose mientras se rehace.
+
+   No las uses en marcado nuevo. En español, la dirección va en .ubi-placa,
+   las referencias y las distancias en .ubi-bloque, y el mapa no lleva marco.
+   ========================================================================== */
+.ubi-info {
+  display: grid;
+  gap: var(--gap);
+  margin-top: var(--gap-lg);
+}
+
+@media (min-width: 52em) {
+  .ubi-info {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1.15fr);
+    align-items: start;
+  }
+}
+
+.ubi-tarjeta {
+  display: flex;
+  flex-direction: column;
+  gap: var(--esp-xs);
+  padding: var(--esp-lg);
+  border: 1px solid var(--color-borde-suave);
+  border-radius: 0;
+  background-color: var(--color-superficie);
+}
+
+.ubi-mapa__marco {
+  position: relative;
+  border: 1px solid var(--color-borde-suave);
+  border-radius: 0;
+  background-color: var(--color-superficie-solida);
 }

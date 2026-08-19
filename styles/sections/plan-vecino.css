@@ -1,0 +1,775 @@
+/* ==========================================================================
+   VEGAS DEL VERDE — plan-vecino.css  ·  página plan-vecino.html
+   Depende de tokens.css + base.css + shell.css.
+
+   QUÉ ES ESTA PÁGINA
+   El carrusel «Plan vecino» del material de marca, tal cual, pieza por pieza.
+   Cada lámina es la misma imagen 1080 × 1350 del original: no se recorta, no
+   se recompone, no se cambia de foto. Encima se dibujan tarjetas HTML del
+   MISMO color, tamaño, posición y radio que las de la pieza, para que tapen
+   por completo a las originales y el texto pase a ser texto de verdad —
+   seleccionable, traducible, legible por un lector de pantalla y animado.
+
+   LO QUE NO SE TOCA
+   Los titulares quemados sobre la FOTO («Plan vecino», «Elige cómo quieres /
+   Vivir el bosque», «Cada visita puede ser diferente», «Tu plan vecino te da
+   beneficios» y la manuscrita «una y otra vez») se quedan dentro del JPEG.
+   No se tapan ni se repiten en HTML: si se repitieran se verían dos veces.
+   Por eso cada lámina lleva además un titular en `.solo-lectores`, que es
+   quien le da estructura a la página sin duplicar nada a la vista.
+
+   LA UNIDAD DE MAQUETA — `--pv-u`
+   Todo dentro de una lámina está medido en píxeles del arte de 1080 × 1350.
+   `--pv-u` vale 1 de esos píxeles: 100/1080 = 0,09259 del ancho de la lámina,
+   expresado en `cqw` porque la lámina es un contenedor de consulta. Así un
+   texto de 27 px del arte se escribe `calc(27 * var(--pv-u))` y calza igual a
+   360 px de móvil que a 540 px de escritorio. Las posiciones y los tamaños de
+   caja van en tanto por ciento del lienzo, que es lo mismo pero sin calc.
+
+   DE DÓNDE SALEN LOS CUERPOS DE LETRA
+   NO de la altura de las mayúsculas: la fuente del material de marca es más
+   estrecha que DM Sans, y copiar su altura dejaba el texto un 25 % más ancho
+   y desbordaba las tarjetas. Cada cuerpo se despejó del ANCHO: se midió la
+   tinta de cada línea en el JPEG y se buscó el cuerpo con el que DM Sans
+   ocupa lo mismo, con un 8 % de holgura. Por eso el texto rompe donde rompe
+   el original y llena la tarjeta igual. Los cortes que el navegador no haría
+   solo van forzados con <br> en el HTML: la lámina es de proporción fija, así
+   que un salto duro nunca se queda a destiempo.
+
+   POR QUÉ HAY COLORES LITERALES AQUÍ
+   Los cremas y los verdes de las piezas NO son colores de la paleta del
+   sitio: son los del material de marca. Una tarjeta HTML que tape a la
+   original tiene que llevar EXACTAMENTE su color o se nota el parche. Están
+   todos declarados una sola vez, abajo, con el píxel del que salen. Ningún
+   otro valor literal de color, radio, sombra o duración vive en este archivo.
+   ========================================================================== */
+
+.pv {
+  /* ---------------------------------------------------------------------
+     COLORES MUESTREADOS DE LAS PIEZAS
+     Mediana del interior de cada elemento, leída con sharp sobre el JPEG
+     original (ver el informe de medición). No son tokens porque no existen
+     en tokens.css: son la tinta del material de marca.
+     --------------------------------------------------------------------- */
+
+  /* Cremas de tarjeta — una por pieza, porque cada JPEG tiene la suya */
+  --pv-crema-pase: #f7f4eb;   /* 2.jpeg · mediana de [200,480 → 940,720]  */
+  --pv-crema-plan: #f6f1e0;   /* 3.jpeg · borde superior de la tarjeta A  */
+  --pv-crema-plan-pie: #eae5d1; /* 3.jpeg · borde inferior (llevan degradado) */
+  --pv-crema-punto: #f4eeda;  /* 4.jpeg · mediana de [700,380 → 890,420]  */
+  --pv-crema-bono: #faf3e0;   /* 5.jpeg · plano, sin variación medible    */
+
+  /* Verdes de barra y de píldora */
+  --pv-verde-barra: #244010;  /* 3.jpeg · barra «grupo familiar»          */
+  --pv-verde-bono: #1f301d;   /* 5.jpeg · barra del bono y la de WhatsApp */
+  --pv-verde-pildora: #4b5c25;/* 3.jpeg · píldora «10 entradas anuales»   */
+  --pv-whatsapp: #37c42e;     /* 5.jpeg · el disco de la marca WhatsApp   */
+
+  /* Verdes de los discos de icono */
+  --pv-disco-pase: #3c5c18;   /* 2.jpeg */
+  --pv-disco-plan: #274010;   /* 3.jpeg */
+  --pv-disco-punto: #223d12;  /* 4.jpeg */
+  --pv-disco-bono: #16300d;   /* 5.jpeg */
+
+  /* Tintas */
+  --pv-tinta: #1e2b1c;        /* texto corrido oscuro · 13,9:1 sobre crema */
+  --pv-verde-bold: #3a6420;   /* negritas verdes sobre crema ·  6,2:1      */
+  --pv-verde-titulo: #1f3a10; /* titulares de tarjeta (piezas 3 y 4)       */
+  --pv-check: #74ad25;        /* el ✓ de la pieza 4 · adorno, ver abajo    */
+
+  /* Un píxel del arte de 1080 de ancho */
+  --pv-u: 0.09259vw;
+}
+
+/* ==========================================================================
+   1. EL CARRETE
+   ========================================================================== */
+.pv-carrete {
+  --pv-ancho: 100%;
+  display: grid;
+  gap: var(--esp-sm);
+  padding-top: calc(var(--alto-header) + var(--esp-sm));
+  padding-bottom: var(--esp-2xl);
+}
+
+.pv-pieza {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  width: 100%;
+  max-width: var(--pv-ancho);
+  margin-inline: auto;
+  /* El formato del material de marca. En móvil llena la pantalla de lado a
+     lado; en escritorio se encoge, pero la proporción no se toca. */
+  aspect-ratio: 1080 / 1350;
+  background-color: var(--color-fondo-oscuro);
+}
+
+@media (min-width: 46rem) {
+  .pv-pieza {
+    border-radius: var(--radio-lg);
+    box-shadow: var(--sombra-lg);
+  }
+}
+
+/* La lámina sólo puede consultar su propio ancho si es un contenedor de
+   consulta. En un navegador sin `container-type` la unidad cae a `vw` y la
+   lámina se queda a todo el ancho: sigue calzando, sólo que sin el tope de
+   altura de escritorio. Por eso las dos cosas van en el mismo @supports. */
+@supports (container-type: inline-size) {
+  .pv-pieza {
+    container-type: inline-size;
+    --pv-u: 0.09259cqw;
+  }
+
+  /* En escritorio la lámina se centra y se limita para que quepa de un
+     vistazo. NUNCA se deforma: el 4:5 manda, lo que cambia es el ancho. */
+  @media (min-width: 46rem) {
+    .pv-carrete {
+      /* Tres topes: el ancho disponible, el tope de columna estrecha del
+         sistema y la altura de la ventana traducida a ancho por el 4:5. */
+      --pv-ancho: min(
+        100%,
+        var(--ancho-xs),
+        calc((100svh - var(--alto-header) - var(--esp-xl)) * 1080 / 1350)
+      );
+    }
+  }
+}
+
+/* `<picture>` es sólo el envoltorio del WebP: que no ocupe caja propia ni
+   deje una línea vacía dentro de la lámina. */
+.pv-pieza > picture {
+  display: contents;
+}
+
+.pv-pieza__fondo {
+  position: absolute;
+  inset: 0;
+  z-index: var(--z-fondo);
+  width: 100%;
+  height: 100%;
+  /* Misma proporción que la caja: `cover` no recorta nada, sólo asegura que
+     un redondeo de subpíxel no deje una línea de fondo asomando. */
+  object-fit: cover;
+}
+
+/* Capa de las tarjetas. Va por encima de la foto y por debajo de nada más. */
+.pv-capa {
+  position: absolute;
+  inset: 0;
+  z-index: var(--z-base);
+}
+
+/* ==========================================================================
+   2. LA TAPA — la pieza clave
+   Una caja opaca, del color exacto de la tarjeta que hay debajo en el JPEG,
+   colocada en su sitio con las cuatro medidas que se leyeron del píxel. Como
+   es opaca, no hace falta borrar nada de la foto: la original desaparece.
+   ========================================================================== */
+.pv-tapa {
+  position: absolute;
+  left: var(--pv-x);
+  top: var(--pv-y);
+  width: var(--pv-w);
+  height: var(--pv-h);
+  /* Hay tapas que son un <p>: sin esto arrastran el margen y la medida de
+     68ch que base.css le pone a todo párrafo, y la tarjeta manda aquí. */
+  margin: 0;
+  max-width: none;
+  border-radius: calc(var(--pv-r, 14) * var(--pv-u));
+  font-family: var(--fuente-cuerpo);
+  color: var(--pv-tinta);
+  /* El interlineado de las piezas es corto; el del sitio (1,68) reventaría
+     las cajas. Cada bloque de texto declara el suyo. */
+  line-height: 1.2;
+}
+
+/* `:where` no suma especificidad: cualquier clase de abajo puede darle su
+   propio margen a un párrafo sin tener que pelear con este reinicio. */
+.pv-tapa :where(p) {
+  margin: 0;
+  max-width: none;
+}
+
+/* Los titulares de tarjeta NO son titulares del sitio: en las piezas van en
+   la geométrica del cuerpo, no en Fraunces. Hay que deshacer los cuatro
+   rasgos que base.css le pone a todo h1–h4. */
+.pv-plan__nombre,
+.pv-punto__titulo {
+  font-family: var(--fuente-cuerpo);
+  font-variation-settings: normal;
+  letter-spacing: 0;
+  /* `balance` reparte las líneas por su cuenta y aquí el corte ya está
+     decidido por el arte original. */
+  text-wrap: wrap;
+}
+
+/* Discos de icono. base.css no pinta iconos: los dibuja cada tarjeta. */
+.pv-disco {
+  display: grid;
+  place-items: center;
+  border-radius: var(--radio-full);
+  color: var(--blanco);
+}
+
+.pv-disco svg {
+  inline-size: 62%;
+  block-size: 62%;
+}
+
+/* ==========================================================================
+   3. PIEZA 1 · PORTADA
+   Fondo: la portada sin mariposas ni colibrí. Encima, esos dos elementos
+   recortados y animados por js/plan-vecino.js, en la posición y el tamaño
+   que tienen en «animacion portada.jpeg».
+   ========================================================================== */
+.pv-bichos {
+  position: absolute;
+  inset: 0;
+  z-index: var(--z-base);
+  pointer-events: none;
+  overflow: hidden;
+}
+
+/* Caja del enjambre: 300 × 440 px del arte, anclada a la esquina 0,0. */
+.pv-enjambre {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 27.778%;
+  aspect-ratio: 300 / 440;
+}
+
+.pv-bicho {
+  position: absolute;
+  height: auto;
+  /* base.css da a todo `img` un fondo gris de carga. En un recorte con
+     transparencia eso dibuja la caja del PNG alrededor del bicho. */
+  background-color: transparent;
+  opacity: 0;
+  /* Nacimiento: diminuto y más abajo de su sitio final —sube, no converge
+     desde el centro—. --pv-dx y --pv-dy los mide plan-vecino.js sobre el
+     layout ya resuelto, no a ojo. */
+  transform:
+    translate3d(var(--pv-dx, 0px), var(--pv-dy, 0px), 0)
+    scale(0.04);
+  transition:
+    transform calc(var(--dur-reveal) * 1.7) var(--ease-salida),
+    opacity calc(var(--dur-reveal) * 0.8) var(--ease);
+  transition-delay: var(--pv-espera, 0ms);
+}
+
+.pv-bicho.esta-puesto {
+  opacity: 1;
+  transform: translate3d(0, 0, 0) scale(1);
+}
+
+/* Ya posadas siguen vivas: aleteo corto en X y un vaivén lento. El vuelo
+   arranca cuando la pieza ha terminado de llegar, para no pelear con la
+   transición de entrada. */
+.pv-mariposa.esta-puesto {
+  animation:
+    pv-aletear var(--pv-aleteo, 2s) var(--ease-suave) infinite alternate,
+    pv-vaiven var(--pv-vaiven, 4s) var(--ease-suave) infinite alternate;
+  animation-delay:
+    calc(var(--pv-espera, 0ms) + var(--dur-reveal) * 1.7),
+    calc(var(--pv-espera, 0ms) + var(--dur-reveal) * 1.7 + var(--pv-desfase, 0s));
+}
+
+@keyframes pv-aletear {
+  from { transform: translate3d(0, 0, 0) scaleX(1) rotate(var(--pv-giro, 0deg)); }
+  to   { transform: translate3d(0, 0, 0) scaleX(0.62) rotate(var(--pv-giro, 0deg)); }
+}
+
+@keyframes pv-vaiven {
+  from { margin-top: 0; margin-left: 0; }
+  to   { margin-top: -1.1%; margin-left: 1.4%; }
+}
+
+/* Colibrí: 22,31 % × 12,96 % del lienzo, esquina en 74,72 % / 9,56 %. */
+.pv-colibri {
+  position: absolute;
+  top: 9.56%;
+  left: 74.72%;
+  width: 22.31%;
+}
+
+.pv-colibri.esta-puesto {
+  animation: pv-flotar var(--dur-vuelo) var(--ease-suave) infinite alternate;
+  animation-delay: calc(var(--pv-espera, 0ms) + var(--dur-reveal) * 1.7);
+}
+
+/* No aletea: en la foto original las alas ya salen abiertas y desenfocadas.
+   Lo que hace de verdad es sostenerse en el aire. */
+@keyframes pv-flotar {
+  from { transform: translate3d(0, 0, 0) rotate(-1.2deg); }
+  to   { transform: translate3d(-2%, -4%, 0) rotate(1.4deg); }
+}
+
+.pv-bicho.sin-vuelo {
+  animation: none;
+  opacity: 1;
+  transform: none;
+  transition: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .pv-bicho {
+    opacity: 1;
+    transform: none;
+    transition: none;
+    animation: none;
+  }
+}
+
+/* --------------------------------------------------------------------------
+   3.b LOS SALTOS
+   La flecha amarilla y la píldora «CONOCE LOS PLANES» están quemadas en la
+   foto: no se tapan. Lo que se añade es un enlace transparente encima, del
+   tamaño exacto del botón dibujado, para que lo que parece un botón lo sea.
+   No cambia un solo píxel de la lámina.
+   -------------------------------------------------------------------------- */
+.pv-salto {
+  position: absolute;
+  z-index: var(--z-elevado);
+  left: var(--pv-x);
+  top: var(--pv-y);
+  width: var(--pv-w);
+  height: var(--pv-h);
+  border-radius: var(--radio-lg);
+}
+
+.pv-salto--flecha {
+  --pv-x: 81.667%;
+  --pv-y: 84.889%;
+  --pv-w: 13.333%;
+  --pv-h: 10.667%;
+  border-radius: var(--radio-full);
+}
+
+/* En la portada la flecha cae más arriba y más a la izquierda que en el
+   resto del carrusel: es otra foto, con otra composición. */
+.pv-salto--flecha-portada {
+  --pv-x: 76.667%;
+  --pv-y: 81.481%;
+  --pv-w: 13.333%;
+  --pv-h: 10.519%;
+}
+
+.pv-salto--pildora {
+  --pv-x: 67.593%;
+  --pv-y: 69.630%;
+  --pv-w: 23.611%;
+  --pv-h: 10.148%;
+}
+
+/* El foco por defecto es verde bosque: sobre el follaje de la foto se pierde.
+   Amarillo del logo, que sobre estas láminas pasa de sobra el 3:1. */
+.pv-salto:focus-visible {
+  outline: 3px solid var(--color-destacado);
+  outline-offset: calc(var(--pv-u) * -6);
+}
+
+/* ==========================================================================
+   4. PIEZA 2 · QUÉ ES EL PASE
+   Una sola tarjeta crema con dos filas separadas por una línea punteada.
+   Medida:  x 166  y 461  w 801  h 276  ·  radio 28 px  ·  #f7f4eb
+   Dentro:  disco 96 px a 29 px del borde, texto a 154 px, cuerpo 27 con
+            interlínea 41 (la del arte).
+   ========================================================================== */
+.pv-tapa--pase {
+  --pv-x: 15.370%;
+  --pv-y: 34.148%;
+  --pv-w: 74.167%;
+  --pv-h: 20.444%;
+  --pv-r: 28;
+  padding: calc(22 * var(--pv-u)) calc(29 * var(--pv-u)) calc(26 * var(--pv-u));
+  background-color: var(--pv-crema-pase);
+}
+
+.pv-pase__lista {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  align-content: start;
+}
+
+.pv-pase__fila {
+  display: grid;
+  grid-template-columns: calc(96 * var(--pv-u)) 1fr;
+  column-gap: calc(30 * var(--pv-u));
+  align-items: center;
+}
+
+/* La punteada del original no llega al borde derecho: se queda en 876 px,
+   o sea el 91,6 % del ancho útil de la tarjeta. */
+.pv-pase__fila + .pv-pase__fila {
+  position: relative;
+  margin-top: calc(35 * var(--pv-u));
+}
+
+.pv-pase__fila + .pv-pase__fila::before {
+  content: "";
+  position: absolute;
+  top: calc(-17 * var(--pv-u));
+  left: 0;
+  width: 91.6%;
+  border-top: 1px dotted var(--pv-tinta);
+  opacity: 0.4;
+}
+
+.pv-pase__disco {
+  inline-size: calc(96 * var(--pv-u));
+  block-size: calc(96 * var(--pv-u));
+  background-color: var(--pv-disco-pase);
+}
+
+.pv-pase__texto {
+  font-size: calc(27 * var(--pv-u));
+  line-height: calc(41 / 27);
+}
+
+.pv-pase__texto strong {
+  color: var(--pv-verde-bold);
+  font-weight: var(--peso-fuerte);
+}
+
+/* ==========================================================================
+   5. PIEZA 3 · LOS TRES PLANES
+   Tres tarjetas crema iguales, una barra verde y una tarjeta de vigencia.
+   Todas:   x 221  w 656  ·  radio 14 px
+   Alturas: A 356/158 · B 536/158 · C 717/158 · barra 897/98 · vigencia 1009/99
+   ========================================================================== */
+.pv-planes .pv-tapa {
+  --pv-x: 20.463%;
+  --pv-w: 60.741%;
+  --pv-r: 14;
+}
+
+.pv-tapa--plan {
+  /* Las tarjetas del original no son planas: aclaran arriba y cierran abajo.
+     Con un color liso se notaría el parche contra la sombra que queda fuera. */
+  background-image: linear-gradient(
+    to bottom,
+    var(--pv-crema-plan),
+    var(--pv-crema-plan-pie)
+  );
+  display: grid;
+  grid-template-columns: calc(118 * var(--pv-u)) 1fr;
+  align-items: center;
+  column-gap: calc(21 * var(--pv-u));
+  padding-left: calc(36 * var(--pv-u));
+  padding-right: calc(24 * var(--pv-u));
+  --pv-h: 11.704%;
+}
+
+.pv-tapa--plan-1 { --pv-y: 26.370%; }
+.pv-tapa--plan-2 { --pv-y: 39.704%; }
+.pv-tapa--plan-3 { --pv-y: 53.111%; }
+
+.pv-plan__disco {
+  inline-size: calc(118 * var(--pv-u));
+  block-size: calc(118 * var(--pv-u));
+  background-color: var(--pv-disco-plan);
+}
+
+.pv-plan__nombre {
+  margin: 0;
+  font-size: calc(32 * var(--pv-u));
+  font-weight: var(--peso-fuerte);
+  line-height: 1.1;
+  color: var(--pv-verde-titulo);
+  text-transform: uppercase;
+}
+
+/* La píldora del original es una pincelada: los bordes no son un radio
+   uniforme. Cuatro radios distintos la sacan del aire de «pastilla web». */
+.pv-plan__entradas {
+  display: grid;
+  align-items: center;
+  width: fit-content;
+  margin-top: calc(16 * var(--pv-u));
+  min-height: calc(46 * var(--pv-u));
+  padding: calc(4 * var(--pv-u)) calc(26 * var(--pv-u));
+  border-radius:
+    calc(14 * var(--pv-u)) calc(10 * var(--pv-u))
+    calc(16 * var(--pv-u)) calc(11 * var(--pv-u)) /
+    calc(11 * var(--pv-u)) calc(16 * var(--pv-u))
+    calc(10 * var(--pv-u)) calc(14 * var(--pv-u));
+  background-color: var(--pv-verde-pildora);
+  color: var(--blanco);
+  font-size: calc(30 * var(--pv-u));
+  line-height: 1.1;
+}
+
+/* --------------------------------------------------- la barra y la vigencia
+   Las dos comparten reja: icono de línea a 38 px, filete vertical a 142 px y
+   texto a 175 px del borde izquierdo. */
+.pv-tapa--grupo,
+.pv-tapa--vigencia {
+  display: grid;
+  grid-template-columns: calc(104 * var(--pv-u)) 1fr;
+  align-items: center;
+  padding-left: calc(38 * var(--pv-u));
+  padding-right: calc(16 * var(--pv-u));
+  font-size: calc(25 * var(--pv-u));
+  line-height: calc(33 / 25);
+}
+
+/* La barra mide un píxel más que las tarjetas (657 frente a 656). El selector
+   lleva el ancestro delante para ganarle a `.pv-planes .pv-tapa`, que fija
+   el ancho común: con la clase sola perdería por especificidad. */
+.pv-planes .pv-tapa--grupo {
+  --pv-w: 60.833%;
+}
+
+.pv-tapa--grupo {
+  --pv-y: 66.444%;
+  --pv-h: 7.259%;
+  background-color: var(--pv-verde-barra);
+  color: var(--blanco);
+}
+
+.pv-tapa--vigencia {
+  --pv-y: 74.741%;
+  --pv-h: 7.333%;
+  background-color: var(--pv-crema-plan-pie);
+}
+
+.pv-linea__icono {
+  display: grid;
+  place-items: center start;
+}
+
+.pv-linea__icono svg {
+  inline-size: calc(72 * var(--pv-u));
+  block-size: auto;
+}
+
+.pv-linea__texto {
+  padding-left: calc(33 * var(--pv-u));
+  border-left: 1px solid currentColor;
+}
+
+/* El filete es adorno, no texto: a plena opacidad compite con la letra. */
+.pv-tapa--grupo .pv-linea__texto,
+.pv-tapa--vigencia .pv-linea__texto {
+  border-left-color: rgb(var(--crema-rgb) / 0.45);
+}
+
+.pv-tapa--vigencia .pv-linea__texto {
+  border-left-color: rgb(var(--verde-bosque-rgb) / 0.35);
+  color: var(--pv-verde-titulo);
+}
+
+.pv-tapa--grupo strong {
+  color: var(--color-destacado);
+  font-weight: var(--peso-fuerte);
+}
+
+.pv-tapa--vigencia strong {
+  font-weight: var(--peso-fuerte);
+}
+
+/* ==========================================================================
+   6. PIEZA 4 · CADA VISITA
+   Cuatro tarjetas crema.  x 203  w 695  ·  radio 18 px  ·  #f4eeda
+   Alturas: 368/157 · 536/156 · 705/171 · 889/170
+   Dentro:  disco 118 px a 33 px, columna de texto a 193 px, ✓ de 36 px,
+            título 33 y detalle 29 con interlínea 43.
+   ========================================================================== */
+.pv-visita .pv-tapa {
+  --pv-x: 18.796%;
+  --pv-w: 64.352%;
+  --pv-r: 18;
+  display: grid;
+  grid-template-columns: calc(118 * var(--pv-u)) 1fr;
+  align-items: center;
+  column-gap: calc(42 * var(--pv-u));
+  padding-left: calc(33 * var(--pv-u));
+  padding-right: calc(24 * var(--pv-u));
+  background-color: var(--pv-crema-punto);
+}
+
+.pv-tapa--punto-1 { --pv-y: 27.259%; --pv-h: 11.630%; }
+.pv-tapa--punto-2 { --pv-y: 39.704%; --pv-h: 11.556%; }
+.pv-tapa--punto-3 { --pv-y: 52.222%; --pv-h: 12.667%; }
+.pv-tapa--punto-4 { --pv-y: 65.852%; --pv-h: 12.593%; }
+
+.pv-punto__disco {
+  inline-size: calc(118 * var(--pv-u));
+  block-size: calc(118 * var(--pv-u));
+  background-color: var(--pv-disco-punto);
+}
+
+.pv-punto__titulo {
+  display: grid;
+  grid-template-columns: calc(36 * var(--pv-u)) 1fr;
+  align-items: center;
+  column-gap: calc(13 * var(--pv-u));
+  margin: 0;
+  font-size: calc(33 * var(--pv-u));
+  font-weight: var(--peso-fuerte);
+  line-height: 1.2;
+  color: var(--pv-verde-titulo);
+}
+
+/* El ✓ es adorno: repite lo que ya dice la tarjeta («esto está incluido»).
+   Va con aria-hidden y por eso puede conservar el verde claro del arte, que
+   como grafismo informativo no llegaría al 3:1 contra la crema. */
+.pv-punto__check {
+  display: block;
+  inline-size: 100%;
+  block-size: auto;
+  color: var(--pv-check);
+}
+
+.pv-punto__detalle {
+  margin-top: calc(12 * var(--pv-u));
+  font-size: calc(29 * var(--pv-u));
+  line-height: calc(43 / 29);
+}
+
+/* ==========================================================================
+   7. PIEZA 5 · LOS BENEFICIOS
+   Barra verde arriba (x 173 y 377 w 724 h 123, radio 34), tres tarjetas de
+   bono de las que sólo se tapa la MITAD IZQUIERDA —la derecha es una foto
+   dentro del JPEG y no se toca— y la franja de WhatsApp abajo.
+   ========================================================================== */
+/* Medidas tal cual se leyeron del JPEG. Estuvieron un rato falseadas (caja
+   más alta y letra más pequeña) intentando arreglar un desbordamiento cuya
+   causa real era otra: el <strong> se blockificaba por ser hijo directo de
+   esta cuadrícula y partía la frase en cinco renglones. Resuelto eso en el
+   marcado con un <span> envolvente, las tres líneas de la pieza caben en la
+   caja original y no hay que tocar ni el alto ni el cuerpo. */
+.pv-tapa--bono10 {
+  --pv-x: 16.019%;
+  --pv-y: 27.926%;
+  --pv-w: 67.037%;
+  --pv-h: 9.111%;
+  --pv-r: 34;
+  display: grid;
+  align-content: center;
+  padding: 0 calc(52 * var(--pv-u)) 0 calc(39 * var(--pv-u));
+  background-color: var(--pv-verde-bono);
+  color: var(--blanco);
+  font-size: calc(27 * var(--pv-u));
+  line-height: calc(30 / 27);
+}
+
+.pv-tapa--bono10 strong {
+  color: var(--color-destacado);
+  font-weight: var(--peso-fuerte);
+}
+
+/* -------------------------------------------------------- las tres tarjetas
+   El ancho es 412 px y no los 718 de la tarjeta entera: la foto de la derecha
+   es parte de la lámina y se queda como está. */
+.pv-beneficios .pv-tapa--bono {
+  --pv-x: 16.296%;
+  --pv-w: 38.148%;
+  --pv-r: 15;
+  display: grid;
+  grid-template-columns: calc(104 * var(--pv-u)) 1fr;
+  align-items: center;
+  column-gap: calc(26 * var(--pv-u));
+  padding-left: calc(18 * var(--pv-u));
+  padding-right: calc(10 * var(--pv-u));
+  background-color: var(--pv-crema-bono);
+}
+
+.pv-tapa--bono-1 { --pv-y: 38.963%; --pv-h: 12.148%; }
+.pv-tapa--bono-2 { --pv-y: 52.148%; --pv-h: 12.593%; }
+.pv-tapa--bono-3 { --pv-y: 65.852%; --pv-h: 13.185%; }
+
+.pv-bono__disco {
+  inline-size: calc(104 * var(--pv-u));
+  block-size: calc(104 * var(--pv-u));
+  background-color: var(--pv-disco-bono);
+}
+
+.pv-bono__texto {
+  font-size: calc(23 * var(--pv-u));
+  line-height: calc(29 / 23);
+}
+
+.pv-bono__texto strong {
+  display: block;
+  margin-top: calc(6 * var(--pv-u));
+  font-size: calc(34 * var(--pv-u));
+  line-height: calc(42 / 34);
+  font-weight: var(--peso-fuerte);
+  color: var(--pv-verde-bold);
+}
+
+/* ------------------------------------------------------------- el WhatsApp
+   En la lámina esto es un rótulo pintado. Aquí es el enlace de verdad: la
+   franja entera es el área de toque, con el número dentro. */
+.pv-tapa--wa {
+  --pv-x: 24.815%;
+  --pv-y: 79.926%;
+  --pv-w: 47.037%;
+  --pv-h: 9.111%;
+  --pv-r: 34;
+  display: grid;
+  grid-template-columns: calc(76 * var(--pv-u)) 1fr;
+  align-items: center;
+  column-gap: calc(7 * var(--pv-u));
+  padding-left: calc(46 * var(--pv-u));
+  padding-right: calc(24 * var(--pv-u));
+  background-color: var(--pv-verde-bono);
+  color: var(--blanco);
+  text-decoration: none;
+  transition: background-color var(--transicion-rapida);
+}
+
+.pv-tapa--wa:hover,
+.pv-tapa--wa:focus-visible {
+  color: var(--blanco);
+  background-color: var(--verde-bosque);
+}
+
+.pv-tapa--wa:focus-visible {
+  outline-color: var(--color-destacado);
+}
+
+.pv-wa__icono {
+  inline-size: calc(76 * var(--pv-u));
+  block-size: calc(76 * var(--pv-u));
+}
+
+/* La marca de WhatsApp, con su verde tal como sale del píxel de la lámina. */
+.pv-wa__burbuja { fill: var(--pv-whatsapp); }
+.pv-wa__telefono { fill: var(--blanco); }
+
+.pv-wa__rotulo {
+  display: block;
+  font-size: calc(30 * var(--pv-u));
+  line-height: 1.15;
+}
+
+.pv-wa__rotulo strong {
+  color: var(--color-destacado);
+  font-weight: var(--peso-fuerte);
+}
+
+.pv-wa__numero {
+  display: block;
+  font-size: calc(37 * var(--pv-u));
+  line-height: 1.1;
+  white-space: nowrap;
+}
+
+/* ==========================================================================
+   8. ANCLAS
+   La cabecera es fija: sin este margen el salto deja la lámina debajo.
+   ========================================================================== */
+#portada,
+#pase,
+#planes,
+#visita,
+#beneficios {
+  scroll-margin-top: calc(var(--alto-header) + var(--esp-2xs));
+}

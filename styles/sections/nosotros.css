@@ -1,8 +1,32 @@
 /* ==========================================================================
-   VEGAS DEL VERDE — nosotros.css  ·  sección #nosotros  ·  v4 «asimetría»
+   VEGAS DEL VERDE — nosotros.css  ·  sección #nosotros  ·  v5 «orgánica»
    (a) el predio · (b) lo básico resuelto · (c) el compromiso
    Depende de tokens.css + base.css. Sin valores literales de color, tamaño de
    fuente, radio, sombra ni duración. No toca base.css, tokens.css ni shell.css.
+
+   QUÉ CAMBIA RESPECTO A v4, Y POR QUÉ NO BASTABA CON v4
+   v4 arregló la RETÍCULA: columnas desiguales, titular pegado al scroll, foto
+   sangrando por un lado y el panel de aves por el contrario. Todo eso sigue.
+   Lo que no arreglaba —y es literalmente la queja del dueño— es que la
+   sección, mirada de lejos, seguía siendo papel crema con rectángulos a
+   escuadra de arriba abajo: ni una curva, ni un cambio de fondo, ni una pieza
+   que se salga de su caja. Una asimetría de rectángulos sigue leyéndose como
+   plantilla, sólo que como una plantilla descentrada.
+
+   Los cinco movimientos de v5, ninguno de los cuales toca un hecho:
+     1. CAPITULAR en el primer párrafo del discurso, colgando por la izquierda
+        fuera de la columna de texto. Ancla visual + rotura de retícula.
+     2. RADIOS DE HOJA en la foto y en el panel: dos valores distintos por
+        pieza y siempre en el borde que SÍ existe (el que no sangra). Cuatro
+        esquinas iguales es la firma de la caja de plantilla.
+     3. INSIGNIAS DE HOJA para los cuatro iconos de servicio, con la misma
+        figura del remate de .lista-hojas de base.css.
+     4. EL COMPROMISO pasa a BANDA OSCURA de esquinas orgánicas apoyada sobre
+        el papel: el cierre de capítulo de la sección. Se apoya en la utilidad
+        `.seccion--oscura` de base.css; no se reinventa el negativo.
+     5. SOMBRAS bajas y abiertas donde hay una pieza que de verdad se apoya
+        sobre el papel. Ojo con el `clip-path` de base.css: ver la nota junto
+        a .nosotros__foto, porque recorta sombras y ya ha mordido una vez.
 
    QUÉ CAMBIA RESPECTO A v3
    v3 era el patrón más genérico de la página: encabezado con entradilla,
@@ -37,6 +61,14 @@
 
 .nosotros {
   background-color: var(--color-fondo);
+  /* Textura, no color: una sola mancha radial muy abierta al 6 % de alfa,
+     puesta donde la columna del discurso deja el papel más vacío. No se ve
+     como una mancha; se nota como que el fondo no es una plancha plana. */
+  background-image: radial-gradient(
+    55% 40% at 82% 18%,
+    rgb(var(--verde-oliva-rgb) / 0.06),
+    transparent 70%
+  );
 }
 
 /* ==========================================================================
@@ -71,6 +103,37 @@
   margin-top: var(--esp-2xs);
 }
 
+/* ---- LA CAPITULAR --------------------------------------------------------
+   Cuatro párrafos seguidos en una columna sin una sola pieza que mire
+   distinto es lo que hace que un bloque de texto se salte. La capitular da el
+   punto de entrada y, además, es la manera más barata de romper la retícula:
+   la letra CUELGA fuera de la caja de texto (ver el media query), que es el
+   «algo que se sale de su marco» que le faltaba a la composición.
+
+   NO LLEVA font-family declarada por capricho: `::first-letter` no hereda del
+   titular, hereda del párrafo, que va en la fuente de cuerpo. Aquí hay que
+   nombrar el display —Fraunces— explícitamente, y con él sus ejes ópticos y
+   variables, o la letra sale en DM Sans a cuerpo enorme, que es exactamente
+   lo que no se quiere. Esto NO contradice la regla de «ningún font-family en
+   un titular»: esto no es un titular, es un párrafo.
+
+   El interlineado apretado es obligatorio: con el 1,68 del cuerpo, la caja de
+   la capitular mediría casi el doble que la letra y abriría un agujero entre
+   los dos primeros renglones.                                              */
+.nosotros__parrafo--capitular::first-letter {
+  float: left;
+  margin-right: var(--esp-2xs);
+  font-family: var(--fuente-display);
+  font-size: var(--fs-h1);
+  font-weight: var(--peso-display);
+  font-optical-sizing: auto;
+  font-variation-settings: var(--ejes-display);
+  line-height: var(--alto-linea-apretado);
+  /* Terracota sobre crema: 5,3:1. Es el color de acento de texto del sistema,
+     el mismo que llevan los índices de los pilares en su versión clara. */
+  color: var(--color-acento-texto);
+}
+
 @media (min-width: 62em) {
   .nosotros__predio {
     grid-template-columns: repeat(12, minmax(0, 1fr));
@@ -92,6 +155,16 @@
   .nosotros__discurso {
     grid-column: 7 / -1;
   }
+
+  /* La capitular SALE de la columna y se mete en la calle vacía que separa el
+     titular del discurso —la columna 6 de 12, que no lleva contenido—. Sólo a
+     partir de 62em, que es donde esa calle existe: por debajo, el discurso
+     arranca en el relleno de página y colgar la letra la sacaría de la
+     pantalla. Ahí arriba, en cambio, a la izquierda no hay más que aire, así
+     que los 24 px no pueden chocar con nada. */
+  .nosotros__parrafo--capitular::first-letter {
+    margin-left: calc(var(--esp-md) * -1);
+  }
 }
 
 /* ---- La foto grande, a sangre por la izquierda --------------------------
@@ -99,14 +172,60 @@
    que toca el borde de la pantalla. El recorte y la proporción se declaran
    aquí porque el archivo es vertical (675 × 1200) y a una columna, servido en
    retrato, se comía una pantalla entera de foto.                           */
+/* v5 — LOS RADIOS VAN SÓLO EN EL BORDE QUE EXISTE.
+   La figura sangra por la izquierda: ahí no hay esquina que redondear, porque
+   no hay esquina. A la derecha sí, y llevan dos valores DISTINTOS —el grande
+   arriba y el mediano abajo— para que la silueta se lea como una hoja apoyada
+   y no como una caja con las puntas limadas. Cuatro radios iguales es
+   exactamente el gesto de plantilla que se está corrigiendo.
+
+   OJO CON EL clip-path DE base.css: `.js .reveal.visible` pone
+   `clip-path: inset(0 0 0 0)` a todo lo que entra por scroll —lo necesita
+   .reveal--velo y de paso se lo aplica a los demás—, y un clip recorta
+   también la sombra, que vive fuera de la caja. Esta figura es .reveal y
+   lleva sombra, así que abajo se le devuelve el clip a `none` una vez
+   visible. Si algún día se le añade sombra a otra pieza .reveal de esta
+   sección, hay que repetir el mismo desbloqueo o la sombra no aparecerá.  */
 .nosotros__foto {
   position: relative;
   overflow: hidden;
   aspect-ratio: 4 / 3;
   margin-top: var(--gap-lg);
-  border-radius: 0;
-  box-shadow: none;
+  border-radius: 0 var(--radio-xl) var(--radio-lg) 0;
+  /* Baja y muy abierta: la sombra de una copa sobre el suelo, no el halo de
+     una tarjeta despegada del papel. */
+  box-shadow: var(--sombra-lg);
   background-color: rgb(var(--gris-verde-rgb) / 0.3);
+}
+
+/* EL DESBLOQUEO DEL clip-path, EN UN SOLO SITIO.
+   `.js .reveal.visible` de base.css deja `clip-path: inset(0 0 0 0)` en todo
+   elemento que ha entrado por scroll. Lo necesita .reveal--velo; a los demás
+   les llega de rebote y recorta al ras de la caja DOS cosas que en v5 sí
+   existen y antes no: las sombras (viven fuera de la caja) y las piezas que
+   cuelgan por la izquierda (la capitular y los índices de los pilares).
+   Sin esto, la sombra de la foto no se vería y a la capitular le faltaría el
+   trozo que sobresale. Los cuatro selectores miden (0,3,0), lo mismo que la
+   regla de base, y esta hoja se carga después: gana por cascada, sin
+   !important. Antes de .visible no hay nada que romper, porque el clip
+   inicial sólo lo declara .reveal--velo, que aquí no se usa.               */
+.nosotros__foto.reveal.visible,
+.nosotros__mural.reveal.visible,
+.nosotros__discurso.reveal.visible,
+.nosotros__compromiso-texto.reveal.visible {
+  clip-path: none;
+}
+
+/* En móvil y tableta la figura llegaba a los DOS bordes de la pantalla, que
+   es una banda, no una imagen descentrada: sin borde derecho, el radio de
+   hoja no se ve y el gesto no existe por debajo de 62em, justo donde se mira
+   el sitio la mayor parte del tiempo. Con este respiro la foto sigue
+   sangrando por la izquierda —el gesto se conserva— y aparece la esquina.
+   El combinador de hijo protege a en/index.html, que enlaza esta misma hoja
+   con tres <figure> de la misma clase METIDOS dentro de un contenedor: a
+   ésos no les toca ni este margen ni la sangría de abajo. */
+.nosotros > .nosotros__foto {
+  margin-right: var(--esp-lg);
 }
 
 /* El prado se lee a ras de suelo: el encuadre se ancla por debajo del centro
@@ -181,7 +300,7 @@
 .nosotros__servicio {
   display: inline-flex;
   align-items: center;
-  gap: var(--esp-2xs);
+  gap: var(--esp-xs);
   font-family: var(--fuente-titulo);
   font-size: var(--fs-pequeno);
   font-weight: var(--peso-medio);
@@ -194,11 +313,40 @@
   color: var(--color-texto);
 }
 
+/* v5 — INSIGNIA DE HOJA. El icono suelto al lado de la palabra era correcto y
+   completamente anónimo: cuatro pictogramas de trazo fino en fila es lo que
+   lleva cualquier plantilla en su franja de «amenities». Metido en una
+   insignia con la FIGURA DE LA CASA —dos esquinas a --radio-full en diagonal
+   y dos vivas, el mismo remate exacto que .lista-hojas en base.css— la tira
+   pasa a ser un componente reconocible del sistema en vez de un adorno.
+
+   La insignia se dibuja sobre el propio <svg> y no sobre un <span> nuevo: el
+   marcado ya estaba escrito, `box-sizing: border-box` viene del reset y el
+   relleno hace el resto. Un elemento menos en el árbol.
+
+   El aro y el relleno son verdes y el trazo va en oliva (--color-acento-alt,
+   5,0:1 sobre crema): el cálido del sistema se reserva para los CTA, y esto
+   es información de servicio, la voz más baja de la sección.
+   Los iconos van con aria-hidden y duplican una palabra que está escrita al
+   lado, así que no cargan información: no les aplica el mínimo de contraste
+   de texto. Aun así pasan 3:1 de sobra.                                    */
 .nosotros__servicio-icono {
-  width: var(--esp-md);
-  height: var(--esp-md);
+  box-sizing: border-box;
+  width: var(--esp-xl);
+  height: var(--esp-xl);
   flex: none;
-  color: var(--color-acento-texto);
+  padding: var(--esp-2xs);
+  border: 1px solid rgb(var(--verde-oliva-rgb) / 0.35);
+  border-radius: 0 var(--radio-full) 0 var(--radio-full);
+  background-color: rgb(var(--verde-oliva-rgb) / 0.1);
+  color: var(--color-acento-alt);
+}
+
+/* Las cuatro insignias no llevan la hoja en la misma diagonal: dos miran a un
+   lado y dos al otro. Es un detalle de dos líneas y es la diferencia entre
+   «cuatro copias del mismo adorno» y «cuatro hojas». */
+.nosotros__servicio:nth-child(even) .nosotros__servicio-icono {
+  border-radius: var(--radio-full) 0 var(--radio-full) 0;
 }
 
 .nosotros__servicios-extra {
@@ -219,10 +367,45 @@
 /* ==========================================================================
    3. EL COMPROMISO — el texto en la retícula, el panel saliéndose a la derecha
    ========================================================================== */
+/* v5 — DE «MÁS TEXTO» A CIERRE DE CAPÍTULO.
+   Hasta v4 el compromiso era la tercera tanda de párrafos sobre el mismo
+   papel crema. El contenido lo merecía —es el porqué del predio, no un
+   detalle— pero visualmente no se distinguía de lo anterior, y una página que
+   cuenta lo mismo con el mismo compás durante tres pantallas seguidas es
+   exactamente lo que se lee como generada.
+
+   Ahora es una BANDA OSCURA apoyada sobre el papel. El fondo, el texto en
+   crema, los titulares en negativo y el foco en amarillo los pone la utilidad
+   `.seccion--oscura` de base.css, que se añade en el HTML: no se reinventa
+   aquí ni una sola de esas reglas.
+
+   LA FORMA: cuatro radios y sólo dos valores, alternados en diagonal
+   (--radio-xl arriba-izq y abajo-dcha, --radio-lg en las otras dos). Es la
+   misma lógica de la hoja, a escala de banda. `overflow: hidden` es
+   obligatorio: sin él, el panel de aves que sangra por la derecha se saldría
+   por encima de la esquina redondeada y la reventaría.
+
+   EL SITIO EN LA PÁGINA: es el primer negativo del sitio después del hero, y
+   cae justo donde el discurso cambia de registro —de «qué es el predio» a
+   «para qué existe»—. La banda de carbón de #momentos queda cinco secciones
+   más abajo y es de otra familia de color, así que no se pisan.            */
 .nosotros__compromiso {
   display: grid;
   gap: var(--gap-lg);
   margin-top: var(--esp-seccion);
+  padding-block: var(--esp-seccion-sm);
+  overflow: hidden;
+  border-radius: var(--radio-xl) var(--radio-lg) var(--radio-xl) var(--radio-lg);
+  box-shadow: var(--sombra-lg);
+  /* Un claro de luz entre los árboles, al 8 % de alfa. Sobre el bosque casi
+     no cambia la luminancia —los contrastes medidos siguen siendo los que
+     declara base.css para .seccion--oscura— y evita que la banda sea una
+     plancha de color plano de dos metros de alto. */
+  background-image: radial-gradient(
+    50% 55% at 18% 12%,
+    rgb(var(--verde-menta-rgb) / 0.08),
+    transparent 72%
+  );
 }
 
 /* A una columna, el bloque de texto se pone él mismo el margen de página: no
@@ -259,16 +442,26 @@
 
   .nosotros__mural {
     grid-column: 3;
+    /* En dos columnas la pista de la rejilla ya lo coloca: el margen de móvil
+       le comería el ancho por la izquierda sin ganar nada. */
+    margin-left: 0;
   }
 }
 
 /* El panel tampoco lleva .marco, por lo mismo que la foto del prado. El
-   recorte baja para que quepan enteros el colibrí, el ave roja y el loro. */
+   recorte baja para que quepan enteros el colibrí, el ave roja y el loro.
+   v5: sangra por la DERECHA —al revés que la foto del prado— así que los
+   radios van en el borde izquierdo, y también con dos valores distintos. El
+   margen izquierdo lo alinea con el texto de la banda en una columna; en dos
+   columnas lo sustituye la pista de la rejilla.
+   Sin sombra a propósito: aquí el fondo ya es oscuro y una sombra sobre
+   oscuro no dibuja nada; lo que separa el panel de la banda es el recorte. */
 .nosotros__mural {
   position: relative;
   overflow: hidden;
   aspect-ratio: 4 / 3;
-  border-radius: 0;
+  margin-left: var(--padding-contenedor);
+  border-radius: var(--radio-xl) 0 0 var(--radio-lg);
   box-shadow: none;
   background-color: rgb(var(--gris-verde-rgb) / 0.3);
 }
@@ -363,4 +556,72 @@
   margin: 0;
   font-size: var(--fs-pequeno);
   color: var(--color-texto-suave);
+}
+
+/* ==========================================================================
+   4. LOS PILARES DENTRO DE LA BANDA OSCURA
+   Todo lo de arriba está escrito para la versión CLARA de esta lista, que es
+   la que sigue usando en/index.html —enlaza esta misma hoja con el marcado
+   antiguo, sin `.nosotros__compromiso`—. Por eso los colores del negativo no
+   se cambian en la regla base: se añaden aquí, dentro de la banda, y la
+   página en inglés se queda exactamente como estaba.
+
+   Los tres pares medidos sobre --verde-bosque:
+     amarillo del logo (índice) ....... 7,3:1
+     crema (titulares, vía base.css) .. 10,7:1
+     crema al 78 % (párrafos) ......... 7,2:1
+   El terracota de la versión clara se queda en 2,4:1 sobre el bosque: es
+   justo el defecto que ya se corrigió una vez en esta hoja (el índice iba en
+   menta y daba 2,07). No lo reintroduzcas.
+   ========================================================================== */
+.nosotros__compromiso .nosotros__pilar {
+  border-top-color: var(--color-borde-inverso);
+}
+
+.nosotros__compromiso .nosotros__pilar:last-child {
+  border-bottom-color: var(--color-borde-inverso);
+}
+
+/* Sobre oscuro el filete sube a menta —el acento del negativo— en vez de al
+   oliva, que contra el bosque no se distingue. */
+.nosotros__compromiso .nosotros__pilar:hover {
+  border-top-color: var(--color-acento);
+}
+
+.nosotros__compromiso .nosotros__pilar p {
+  color: var(--color-texto-inverso-suave);
+}
+
+/* EL ÍNDICE COMO ANCLA VISUAL. En v4 medía --fs-h3: un número pequeño al lado
+   de un titular del mismo cuerpo, o sea ningún ancla. Sube a --fs-h2 y, en
+   cuanto hay ancho, a --fs-cifra (hasta 3,75 rem): es el mismo tamaño que
+   usan las cifras de biodiversidad en el resto del sitio, así que la lista
+   pasa a leerse como los datos duros de la página y no como tres viñetas.
+   El amarillo es el color que base.css ya da a `.cifra` sobre fondo oscuro:
+   se copia el criterio del sistema, no se inventa uno.                     */
+.nosotros__compromiso .nosotros__pilar-indice {
+  font-size: var(--fs-h2);
+  color: var(--color-destacado);
+}
+
+@media (min-width: 48em) {
+  .nosotros__compromiso .nosotros__pilar-indice {
+    font-size: var(--fs-cifra);
+  }
+}
+
+/* LA PIEZA QUE SE SALE DE SU CAJA. A partir de 62em el renglón entero —cifra
+   y filete— se desplaza a la izquierda fuera de la columna de texto: los
+   números quedan colgando en el margen de la banda y las tres líneas
+   horizontales arrancan antes que el resto del contenido. Es lo que convierte
+   una lista en una composición.
+   El desplazamiento es --esp-md (24 px) contra un margen de página que en el
+   caso más ajustado —justo en 62em— mide casi 35: la cifra sigue cayendo
+   dentro de la banda, nunca fuera de ella.
+   No se aplica por debajo de 62em porque ahí el texto arranca directamente en
+   el relleno de página y colgarlo lo sacaría de la pantalla.               */
+@media (min-width: 62em) {
+  .nosotros__compromiso .nosotros__pilar {
+    margin-left: calc(var(--esp-md) * -1);
+  }
 }

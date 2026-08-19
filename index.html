@@ -30,7 +30,12 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,300..700&family=Fraunces:opsz,wght,SOFT,WONK@9..144,300..700,0..100,0..1&display=swap">
 
-<link rel="preload" as="image" href="img/aereo-predio.jpg" fetchpriority="high">
+<!-- Precarga la imagen del LCP, que es la foto de portada. Antes apuntaba a
+     img/aereo-predio.jpg: ese archivo es el plano-índice y vive más abajo en
+     la misma sección, así que la precarga competía con la portada en vez de
+     acelerarla. El <head> lo conserva el ensamblador, así que este cambio
+     sobrevive a herramientas/ensamblar.py. -->
+<link rel="preload" as="image" href="img/portada-inicio.jpg" fetchpriority="high">
 
 <link rel="stylesheet" href="styles/tokens.css">
 <link rel="stylesheet" href="styles/base.css">
@@ -103,7 +108,9 @@
     <nav class="nav" id="nav-principal" aria-label="Navegación principal">
       <!-- Seis anclas, una por sección visitable. #inicio lo cubre la marca y
            #vivero se alcanza desde el plano-índice y desde #naturaleza: meterlo
-           aquí obligaría a partir el menú en dos filas en pantallas medias. -->
+           aquí obligaría a partir el menú en dos filas en pantallas medias.
+           La séptima entrada NO es un ancla: es la página del Plan vecino, y
+           va la última para no romper el orden del embudo. -->
       <ul class="nav__lista">
         <li class="nav__item--secundario"><a class="nav__enlace" href="#nosotros">Nosotros</a></li>
         <li><a class="nav__enlace" href="#espacios">Espacios</a></li>
@@ -111,6 +118,7 @@
         <li><a class="nav__enlace" href="#colegios">Colegios</a></li>
         <li><a class="nav__enlace" href="#naturaleza">Naturaleza</a></li>
         <li><a class="nav__enlace" href="#ubicacion">Cómo llegar</a></li>
+        <li><a class="nav__enlace" href="plan-vecino.html">Plan vecino</a></li>
       </ul>
 
       <!-- Sólo visible dentro del panel móvil -->
@@ -139,10 +147,10 @@
       <!-- Nunca se oculta: en pantallas angostas o con tipografía grande se
            colapsa al globo + el idioma alterno (ver shell.css). -->
       <div class="idiomas" role="group" aria-label="Idioma del sitio">
-        <svg class="idiomas__globo" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true" focusable="false">
-          <circle cx="12" cy="12" r="9"/>
-          <path d="M3 12h18"/>
-          <path d="M12 3c2.4 2.5 3.6 5.5 3.6 9s-1.2 6.5-3.6 9c-2.4-2.5-3.6-5.5-3.6-9s1.2-6.5 3.6-9Z"/>
+        <svg class="icono-traza idiomas__globo" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true" focusable="false">
+          <circle cx="12" cy="12" r="9" pathLength="1"/>
+          <path d="M3 12h18" pathLength="1"/>
+          <path d="M12 3c2.4 2.5 3.6 5.5 3.6 9s-1.2 6.5-3.6 9c-2.4-2.5-3.6-5.5-3.6-9s1.2-6.5 3.6-9Z" pathLength="1"/>
         </svg>
         <a
           class="idiomas__opcion"
@@ -198,24 +206,48 @@
      FRAGMENTO: INICIO  ·  ancla #inicio
      CSS propio: styles/sections/inicio.css
 
-     v4 «abrir de verdad». Hasta v3 esta sección era una más de la retícula:
-     rótulo, titular, entradilla y una foto dentro del contenedor, igual que
-     las ocho siguientes. Ahora se parte en DOS MOVIMIENTOS de escala distinta,
-     que es lo que separa una portada de un listado:
+     v5 «orgánica». v4 ya había roto el compás de la retícula partiendo la
+     sección en dos escalas. Lo que seguía leyéndose como plantilla era la
+     GEOMETRÍA: rectángulos a escuadra, corte recto entre la foto y la página,
+     y seis miniaturas idénticas en fila. v5 mete el lenguaje orgánico que pide
+     el sitio —es un bosque, no un panel de control—:
+
+       · la portada ya no termina en una línea recta: una orla curva y
+         ASIMÉTRICA (delgada a la izquierda, gruesa a la derecha) disuelve la
+         fotografía en el papel y marca la diagonal por la que sigue el ojo.
+       · el titular deja las mayúsculas (CONTRATO-V2 §3 las prohíbe por encima
+         de 24 px salvo en el logotipo) y pasa a dos renglones de escala
+         distinta: el segundo entra más pequeño y sangrado, como un pie de
+         entrada editorial.
+       · el plano-índice deja de ir a sangre por los dos lados: se alinea con
+         el contenedor por la izquierda, se va de la ventana por la derecha y
+         redondea sólo sus dos esquinas izquierdas.
+       · la tira de aves deja de ser una fila de seis cuadrados iguales: seis
+         tamaños distintos, dos alturas y radios de hoja alternos.
+
+     La composición sigue partida en DOS MOVIMIENTOS de escala distinta, que es
+     lo que separa una portada de un listado:
 
        1. PORTADA A SANGRE — una sola fotografía ocupando la ventana entera
           (menos la altura de la cabecera fija), con el titular encima en
           Fraunces fino y grande. Es lo primero que se ve y no comparte fila
           con nada.
-       2. EL PLANO-ÍNDICE — el aéreo, que ya no va metido en el contenedor:
-          cruza la ventana de borde a borde y llega a los 729 px de alto en un
-          escritorio de 1440. La idea de v3 se conserva entera (cuatro anclas
-          que bajan a cuatro secciones); lo que cambia es el tamaño.
+       2. EL PLANO-ÍNDICE — el aéreo, que sigue sin ir metido en el
+          contenedor, pero desde v5 ya no cruza la ventana por los dos lados:
+          arranca en el margen del contenedor —la misma vertical que su pie y
+          que la tira de aves— y se va de la pantalla por la derecha. La idea
+          de v3 se conserva entera (cuatro anclas que bajan a cuatro
+          secciones); lo que cambia es el tamaño y la mano por la que sangra.
 
      Los dos bloques son hijos DIRECTOS del <section>, no del .contenedor: así
      miden el 100 % del ancho del <body> —que ya descuenta la barra de scroll—
      y se van a sangre sin recurrir a 100vw, que sí desborda 15 px. El texto de
      cada bloque vuelve a la retícula con su propio .contenedor.
+
+     LA SANGRÍA ALTERNA, Y NO ES CAPRICHO. El plano se va por la DERECHA porque
+     la foto grande de #nosotros —la sección de debajo— se va por la IZQUIERDA.
+     Dos bloques seguidos sangrando por la misma mano se leen como el mismo
+     gesto repetido, que es exactamente la queja que se está corrigiendo.
 
      QUÉ POSEE ESTA SECCIÓN (ARQUITECTURA-V3 §9) Y NADIE MÁS
        · el tagline de marca, que va en el .eyebrow
@@ -270,12 +302,46 @@
 
     <div class="inicio__portada-velo" aria-hidden="true"></div>
 
+    <!-- ORLA ORGÁNICA — el borde inferior de la portada.
+         Va pintada del color del papel (`currentColor`, que inicio.css fija en
+         --color-fondo), así que no es una forma encima de la foto: es el papel
+         subiendo a comerse la foto. La curva es ASIMÉTRICA a propósito —16 de
+         120 de alto en el borde izquierdo, 94 en el derecho—: una ola simétrica
+         es el divisor de plantilla que se ve en cualquier sitio; una diagonal
+         curva lleva el ojo desde el titular (abajo a la izquierda) hasta donde
+         arranca el plano-índice. Por eso el texto sólo tiene que despejar la
+         parte fina, aunque el relleno de abajo despeja la orla entera.
+         preserveAspectRatio="none" para que estire con la ventana sin dejar
+         franja: el alto lo manda --alto-orla en el CSS. -->
+    <svg
+      class="inicio__portada-orla"
+      viewBox="0 0 1440 120"
+      preserveAspectRatio="none"
+      aria-hidden="true"
+      focusable="false"
+    >
+      <path
+        d="M0,120 V104 C 260,104 430,88 700,66 C 980,44 1180,20 1440,26 V120 Z"
+        fill="currentColor"
+      />
+    </svg>
+
     <div class="contenedor contenedor--ancho inicio__portada-interior">
       <header class="seccion-encabezado inicio__encabezado reveal">
         <p class="eyebrow">Oasis para la recreación y el bienestar</p>
 
+        <!-- DOS RENGLONES, DOS ESCALAS. El texto no cambia ni una letra: lo que
+             cambia es que la frase deja de ser un bloque de mayúsculas —cinco
+             renglones gritados en un teléfono— y se compone como una entrada
+             editorial. El segundo renglón entra más pequeño y sangrado, y lleva
+             delante una hoja diminuta (::before en el CSS) que es el mismo
+             remate de .lista-hojas de base.css: la forma de la casa.
+             Los dos van en crema; el contraste lo hacen el cuerpo y la sangría,
+             nunca el color, porque debajo hay una fotografía y el coral claro
+             sobre el cielo blanco de este archivo se quedaría en 3,6:1. -->
         <h1 class="titulo-seccion inicio__titulo" id="inicio-titulo">
-          Escápate de la ciudad sin salir de ella
+          <span class="inicio__titulo-linea">Escápate de la ciudad</span>
+          <span class="inicio__titulo-linea inicio__titulo-linea--menor">sin salir de ella</span>
         </h1>
 
         <p class="entradilla">
@@ -326,7 +392,7 @@
        una pantalla de teléfono un punto de 12 px sobre una foto de 190 px de
        alto no se acierta con el dedo (inicio.css lo explica en detalle).
        ====================================================================== -->
-  <figure class="inicio__plano reveal">
+  <figure class="inicio__plano reveal reveal--velo">
 
     <div class="inicio__plano-lienzo">
 
@@ -388,9 +454,18 @@
        La tira ya no va centrada: arranca en el margen izquierdo del
        contenedor, alineada con el pie del plano. Seis cuadrados centrados
        debajo de una imagen a sangre eran otra fila simétrica más.
+
+       v5 — Y TAMPOCO SON SEIS CUADRADOS IGUALES. Seis miniaturas del mismo
+       tamaño, alineadas por arriba y por abajo, son una fila de plantilla por
+       mucho que la fila esté descentrada. Ahora cada una lleva su propio
+       tamaño (del 0,62 al 1,3 del módulo), dos de ellas suben de la línea de
+       base y los radios alternan entre dos formas de hoja. Los seis <li> son
+       hijos .reveal de una .reveal-secuencia: entran escalonados de 90 en 90
+       ms —seis hijos, por debajo del tope de ocho— en vez de aparecer la tira
+       entera de golpe.
        ====================================================================== -->
-  <ul class="inicio__aves reveal" role="list">
-    <li class="inicio__ave">
+  <ul class="inicio__aves reveal-secuencia" role="list">
+    <li class="inicio__ave reveal reveal--zoom">
       <img
         src="img/aves/ave-46-momotus-subrufescens.jpg"
         width="867"
@@ -400,7 +475,7 @@
         decoding="async"
       />
     </li>
-    <li class="inicio__ave">
+    <li class="inicio__ave reveal reveal--zoom">
       <img
         src="img/aves/ave-38-carpintero.jpg"
         width="1300"
@@ -410,7 +485,7 @@
         decoding="async"
       />
     </li>
-    <li class="inicio__ave">
+    <li class="inicio__ave reveal reveal--zoom">
       <img
         src="img/aves/ave-27-colibri.jpg"
         width="867"
@@ -420,7 +495,7 @@
         decoding="async"
       />
     </li>
-    <li class="inicio__ave">
+    <li class="inicio__ave reveal reveal--zoom">
       <img
         src="img/aves/ave-07-thraupis-episcopus.jpg"
         width="1040"
@@ -430,7 +505,7 @@
         decoding="async"
       />
     </li>
-    <li class="inicio__ave">
+    <li class="inicio__ave reveal reveal--zoom">
       <img
         src="img/aves/ave-56-canario.jpg"
         width="1300"
@@ -440,7 +515,7 @@
         decoding="async"
       />
     </li>
-    <li class="inicio__ave">
+    <li class="inicio__ave reveal reveal--zoom">
       <img
         src="img/aves/ave-31-periquito-bronceado.jpg"
         width="867"
@@ -489,6 +564,27 @@
          izquierda, panel de aves saliéndose por la derecha— para que los dos
          bloques de fotografía no repitan el mismo gesto.
 
+     v5 — LO QUE v4 NO ARREGLÓ (el texto sigue sin cambiar ni una coma)
+     v4 recompuso la retícula y estuvo bien: la asimetría se lee. Pero la
+     sección seguía siendo, de arriba abajo, papel crema con rectángulos a
+     escuadra encima. Sin una curva, sin un cambio de fondo y sin una sola
+     pieza que se salga de su caja, la asimetría sola no basta para que la
+     página deje de parecer generada. v5 añade tres cosas y ninguna toca un
+     hecho:
+
+       · CAPITULAR en el primer párrafo del discurso. Es el ancla visual que
+         le faltaba a una columna de cuatro párrafos seguidos, y de paso la
+         letra CUELGA fuera de la caja de texto por la izquierda, que es el
+         gesto que rompe la retícula sin mover nada de sitio.
+       · LA FOTO deja de ser un rectángulo: sangra por la izquierda y remata
+         en dos radios de hoja distintos por la derecha, la mano por la que sí
+         tiene borde.
+       · EL COMPROMISO pasa a ser una BANDA OSCURA de esquinas orgánicas
+         apoyada sobre el papel. Deja de ser «más texto en la misma página» y
+         se convierte en el cierre de capítulo de la sección: es el primer
+         negativo del sitio después del hero, y llega justo donde el discurso
+         cambia de registro (qué es el predio → para qué existe).
+
      Bloques: (a) el predio · (b) lo básico resuelto · (c) el compromiso
      Fotos: parque-05.jpg (arbolado y prado a ras de suelo, verificada) y
             parque-20.jpg (el panel pintado con aves del predio, verificada:
@@ -522,7 +618,11 @@
         Un predio privado con portería y vigilancia, no un parque público.
         Lo básico ya está puesto antes de que llegues.
       </p>
-      <p>
+      <!-- La capitular se marca con una clase y no con `p:nth-of-type(2)`
+           porque la entradilla también es un <p>: un selector posicional se
+           rompería en cuanto alguien añada o quite un párrafo. La letra que
+           agranda el CSS es la «E» de «Entras». -->
+      <p class="nosotros__parrafo--capitular">
         Entras por una portería. A partir de ahí la ciudad se queda afuera:
         un refugio natural que brinda tranquilidad y seguridad en medio del
         bullicio urbano.
@@ -579,45 +679,45 @@
       <ul class="nosotros__servicios-lista">
 
         <li class="nosotros__servicio">
-          <svg class="nosotros__servicio-icono" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+          <svg class="icono-traza nosotros__servicio-icono" viewBox="0 0 24 24" fill="none" stroke="currentColor"
                stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"
                aria-hidden="true" focusable="false">
-            <path d="M2.6 9.1a14.4 14.4 0 0 1 18.8 0" />
-            <path d="M5.9 12.8a9.6 9.6 0 0 1 12.2 0" />
-            <path d="M9.1 16.5a4.7 4.7 0 0 1 5.8 0" />
-            <circle cx="12" cy="19.9" r="1.1" fill="currentColor" stroke="none" />
+            <path d="M2.6 9.1a14.4 14.4 0 0 1 18.8 0"  pathLength="1"/>
+            <path d="M5.9 12.8a9.6 9.6 0 0 1 12.2 0"  pathLength="1"/>
+            <path d="M9.1 16.5a4.7 4.7 0 0 1 5.8 0"  pathLength="1"/>
+            <circle cx="12" cy="19.9" r="1.1" fill="currentColor" stroke="none"  pathLength="1"/>
           </svg>
           Wifi
         </li>
 
         <li class="nosotros__servicio">
-          <svg class="nosotros__servicio-icono" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+          <svg class="icono-traza nosotros__servicio-icono" viewBox="0 0 24 24" fill="none" stroke="currentColor"
                stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"
                aria-hidden="true" focusable="false">
-            <rect x="4.25" y="2.75" width="15.5" height="18.5" rx="2.75" />
-            <circle cx="12" cy="7.9" r="1.5" />
-            <path d="M9.5 16.6 12 10.9l2.5 5.7" />
-            <path d="M10.4 14.5h3.2" />
+            <rect x="4.25" y="2.75" width="15.5" height="18.5" rx="2.75"  pathLength="1"/>
+            <circle cx="12" cy="7.9" r="1.5"  pathLength="1"/>
+            <path d="M9.5 16.6 12 10.9l2.5 5.7"  pathLength="1"/>
+            <path d="M10.4 14.5h3.2"  pathLength="1"/>
           </svg>
           Baños
         </li>
 
         <li class="nosotros__servicio">
-          <svg class="nosotros__servicio-icono" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+          <svg class="icono-traza nosotros__servicio-icono" viewBox="0 0 24 24" fill="none" stroke="currentColor"
                stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"
                aria-hidden="true" focusable="false">
-            <path d="M12 2.8 4.9 5.6v5.7c0 4.4 3 8.4 7.1 9.9 4.1-1.5 7.1-5.5 7.1-9.9V5.6L12 2.8Z" />
-            <path d="m8.9 11.9 2.2 2.2 4-4.3" />
+            <path d="M12 2.8 4.9 5.6v5.7c0 4.4 3 8.4 7.1 9.9 4.1-1.5 7.1-5.5 7.1-9.9V5.6L12 2.8Z"  pathLength="1"/>
+            <path d="m8.9 11.9 2.2 2.2 4-4.3"  pathLength="1"/>
           </svg>
           Vigilancia privada
         </li>
 
         <li class="nosotros__servicio">
-          <svg class="nosotros__servicio-icono" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+          <svg class="icono-traza nosotros__servicio-icono" viewBox="0 0 24 24" fill="none" stroke="currentColor"
                stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"
                aria-hidden="true" focusable="false">
-            <rect x="3.25" y="3.25" width="17.5" height="17.5" rx="4.25" />
-            <path d="M9.8 17.1V7.4h3.2a2.9 2.9 0 0 1 0 5.9H9.8" />
+            <rect x="3.25" y="3.25" width="17.5" height="17.5" rx="4.25"  pathLength="1"/>
+            <path d="M9.8 17.1V7.4h3.2a2.9 2.9 0 0 1 0 5.9H9.8"  pathLength="1"/>
           </svg>
           Parqueadero
         </li>
@@ -637,8 +737,21 @@
        panel de aves se sale por el borde DERECHO. Los pilares ya no son tres
        tarjetas sino tres renglones separados por un hilo, con la cifra grande
        haciendo de índice: una lista que se lee, no un carrusel.
+
+       v5 — LA BANDA OSCURA. Se le añade `seccion--oscura`, que es una utilidad
+       de base.css y no un invento de esta hoja: trae el fondo verde bosque, el
+       texto en crema, los h1–h6 en negativo, el rótulo y la entradilla en
+       crema al 78 % y el foco en amarillo. Lo que NO trae —y por eso está
+       escrito a mano en nosotros.css— es el color del índice de cada pilar
+       (terracota sobre oscuro no llega a 4,5:1; va en amarillo del logo, 7,3),
+       el de sus párrafos y el de los filetes que los separan.
+
+       CUIDADO SI SE TOCA: `.seccion--oscura h1..h6` mide (0,1,1) y le gana a
+       cualquier clase suelta. Si algún día entra aquí una tarjeta CLARA, su
+       titular hay que pintarlo nombrando el ancestro, no con una clase a
+       secas, o se queda en crema sobre claro.
        ---------------------------------------------------------------------- -->
-  <section class="nosotros__compromiso" aria-labelledby="compromiso-titulo">
+  <section class="nosotros__compromiso seccion--oscura" aria-labelledby="compromiso-titulo">
 
     <div class="nosotros__compromiso-texto reveal reveal--izq">
 
@@ -697,9 +810,11 @@
 
     </div>
 
-    <!-- Tampoco aquí: el panel sangra por el borde derecho de la ventana, y
-         un `reveal--der` lo empujaría 28 px fuera de la pantalla. -->
-    <figure class="nosotros__mural reveal">
+    <!-- Tampoco aquí `reveal--der`: el panel sangra por el borde derecho de la
+         ventana y un desplazamiento horizontal lo empujaría 28 px fuera de la
+         pantalla. Entra con `reveal--zoom`, que sólo escala: no desplaza nada
+         y por tanto no puede desbordar. -->
+    <figure class="nosotros__mural reveal reveal--zoom">
       <img
         src="img/parque/parque-20.jpg"
         width="900"
@@ -723,36 +838,42 @@
      espacio. Cualquier otra sección que nombre la Alameda, La Vega, el
      Teatrino, el Taller o la Cancha enlaza aquí; no repite la ficha.
 
-     ESTRUCTURA v3 «tarjeta editorial» (rediseño de agosto de 2026)
-     Se abandona la tarjeta-caja (fondo, borde, radio y sombra) por el patrón
-     de fichas de catálogo: la foto va a esquina viva y el texto flota debajo,
-     los dos sobre el fondo de la página. Cada ficha, en este orden:
-       1. la figura con la foto a cover, sin radio;
-       2. rótulo diminuto en caps espaciadas con el AFORO —el dato, arriba,
-          en el sitio del rótulo de categoría—;
-       3. el NOMBRE del espacio como titular, en Fraunces y en caja de frase
-          (antes titulaba la experiencia; el nombre es lo que se busca);
-       4. UNA línea de texto —la experiencia, podada del copy anterior—;
-       5. un enlace sobrio de cotización, no un botón de bloque.
-     La Alameda conserva trato mayor: ocupa doble columna con sus dos fotos
-     propias montadas en una banda panorámica 2:1.
+     ESTRUCTURA v4 «orgánica» (rediseño de agosto de 2026)
+     Se conserva la ficha editorial de v3 —foto arriba, texto flotando debajo,
+     sin caja— y se conservan las cinco escalas distintas de la rejilla. Lo
+     que cambia es la FORMA y el ANCLA:
 
-     LOS CINCO NO MIDEN LO MISMO (revisión de agosto de 2026)
-     Hasta aquí las cinco figuras eran cuadrados idénticos en una rejilla de
-     tres columnas: la ficha estaba bien resuelta, pero cinco cuadrados del
-     mismo tamaño empezando todos a la misma altura se leen como un catálogo
-     generado, no como una página. Cada <li> lleva ahora un modificador de
-     ESCALA —cuánto ocupa y con qué proporción se recorta su foto— y de
-     DESFASE —cuánto baja respecto de su vecina—. Los cinco modificadores
-     nombran el papel en la composición, no el espacio:
+     1. LA SILUETA DE CADA FOTO ES DISTINTA. Las cinco figuras iban a esquina
+        viva: cinco rectángulos idénticos de recorte, que es la mitad de lo
+        que hacía que la sección se leyera como catálogo aunque midieran
+        distinto. Ahora cada espacio tiene su propio contorno —hoja, arco,
+        banda— y ninguno repite el del vecino. Los valores están en el CSS.
+     2. EL AFORO PASA DE RENGLÓN A ANCLA. Era una línea de caps diminutas
+        encima del nombre; ahora es una cifra grande en Fraunces dentro de una
+        pastilla en forma de hoja que MONTA sobre la esquina inferior
+        izquierda de la foto. Es el elemento que se sale de su caja y el
+        primer punto de fijación de cada ficha.
+        Sigue siendo dato de apoyo y no titular (CONTRATO-V2 §6): el nombre
+        del espacio conserva el <h3> y la voz de Fraunces a plena tinta; la
+        cifra es un rótulo con peso gráfico, no el encabezado de la ficha.
+        Los HECHOS no cambian: «hasta 150 personas» se compone como
+        «150 · personas como máximo», y la Cancha conserva sus dos datos.
+     3. CADA FICHA ENTRA DE UNA MANERA. Cinco modificadores distintos de
+        .reveal (velo, der, izq, zoom, der) sobre el escalonado que ya trae
+        .reveal-secuencia: la sección se descubre en cinco gestos, no en uno
+        repetido cinco veces. Cinco hijos, muy por debajo del tope de ocho.
+     4. UNA HOJA DE FONDO. Un SVG decorativo (aria-hidden) sangra por el borde
+        derecho detrás del encabezado y se mueve con el scroll un 8 %, sólo
+        donde el navegador soporta `animation-timeline` y sólo si el usuario
+        no ha pedido menos movimiento. Es fondo: ni un texto se mueve.
 
+     LAS CINCO ESCALAS (de v3, intactas) — cuánto ocupa y cuánto baja cada una:
        espacio--destacado  Alameda · banda 2:1 sobre 8 de 12 columnas
        espacio--alto       La Vega · columna estrecha, la más alta, desfasada
        espacio--medio      Teatrino · el cuadrado grande que abre la 2.ª fila
        espacio--esbelto    Taller · vertical estrecho, desfase corto
        espacio--breve      Cancha · el más pequeño, desfase largo
-
-     Los valores viven en espacios.css y sólo ahí; el HTML no sabe de medidas.
+     El HTML no sabe de medidas: sólo viajan los modificadores.
 
      LOS CINCO SON LOS DEL BRIEF: Alameda, La Vega, Teatrino, Taller y Cancha.
      No existe ningún «Prado»: ver ARQUITECTURA-V3 §7.1, que manda borrar el
@@ -766,13 +887,37 @@
      · Los tipos de evento y sus galerías son de la sección de planes.
      · El Sendero Ecovital y su precio son de la sección de naturaleza.
 
-     FOTOS — las seis abiertas y comprobadas una a una antes de escribir el alt:
+     FOTOS — las seis abiertas y comprobadas una a una antes de escribir el alt.
+     No se añade ni se cambia ninguna en v4:
        img/espacios/alameda-2.jpg  1500×844   img/espacios/alameda-1.jpg 1125×1500
        img/parque/parque-47.jpg     675×1200  img/parque/parque-56.jpg    675×1200
        img/espacios/taller-1.jpg    849×1500  img/parque/parque-57.jpg    900×1200
      ========================================================================== -->
 <section id="espacios" class="seccion espacios" aria-labelledby="espacios-titulo">
-  <div class="contenedor">
+
+  <!-- Hoja de fondo. Decorativa: sin texto, sin enlace y fuera del árbol de
+       accesibilidad. El color se lo pone el CSS con `currentColor`, así que
+       aquí no viaja ni un valor literal. -->
+  <svg
+    class="espacios__hoja"
+    viewBox="0 0 320 440"
+    aria-hidden="true"
+    focusable="false"
+  >
+    <path
+      d="M160 6C58 96 16 216 160 434 304 216 262 96 160 6Z"
+      fill="currentColor"
+    />
+    <path
+      d="M160 40V404M160 150 62 108M160 150l98-42M160 252 74 206M160 252l86-46"
+      fill="none"
+      stroke="currentColor"
+      stroke-width="7"
+      stroke-linecap="round"
+    />
+  </svg>
+
+  <div class="contenedor espacios__contenedor">
 
     <header class="seccion-encabezado reveal">
       <p class="eyebrow">Espacios en alquiler</p>
@@ -787,8 +932,10 @@
 
       <!-- ------------------------------------------------------------ 1/5
            ALAMEDA · hasta 150 personas · dos fotos propias.
-           Doble columna y banda panorámica: es el espacio más grande.     -->
-      <li class="espacio espacio--destacado reveal">
+           Doble columna y banda panorámica: es el espacio más grande.
+           Entra con velo (la cortina sube): el gesto que corresponde a una
+           banda ancha, que no tiene lado por el que llegar.                -->
+      <li class="espacio espacio--destacado reveal reveal--velo">
         <figure class="espacio__figura espacio__figura--banda">
           <img
             class="espacio__img"
@@ -810,8 +957,12 @@
           />
         </figure>
 
+        <p class="espacio__aforo">
+          <span class="espacio__cifra">150</span>
+          <span class="espacio__glosa">personas como máximo</span>
+        </p>
+
         <div class="espacio__cuerpo">
-          <p class="espacio__aforo">Hasta 150 personas</p>
           <h3 class="titulo-seccion titulo-seccion--sm espacio__nombre">Alameda</h3>
           <p class="espacio__texto">
             El prado más ancho del predio, sin una sola pared y con sombra de sobra en
@@ -831,8 +982,9 @@
       <!-- ------------------------------------------------------------ 2/5
            LA VEGA · hasta 100 personas
            Columna estrecha y alta a la derecha de la Alameda, arrancando por
-           debajo de ella: es el desfase el que rompe la fila.               -->
-      <li class="espacio espacio--alto reveal">
+           debajo de ella: es el desfase el que rompe la fila.
+           Silueta de hoja y entrada desde la derecha, su propio lado.       -->
+      <li class="espacio espacio--alto reveal reveal--der">
         <figure class="espacio__figura">
           <img
             class="espacio__img"
@@ -845,8 +997,12 @@
           />
         </figure>
 
+        <p class="espacio__aforo">
+          <span class="espacio__cifra">100</span>
+          <span class="espacio__glosa">personas como máximo</span>
+        </p>
+
         <div class="espacio__cuerpo">
-          <p class="espacio__aforo">Hasta 100 personas</p>
           <h3 class="titulo-seccion titulo-seccion--sm espacio__nombre">La Vega</h3>
           <p class="espacio__texto">
             Explanada llana y pareja, sin desniveles ni columnas: se monta a tu manera.
@@ -865,8 +1021,10 @@
       <!-- ------------------------------------------------------------ 3/5
            TEATRINO · hasta 70 personas
            El cuadrado grande: abre la segunda fila a plomo con la Alameda y
-           es la única de las cuatro pequeñas que no baja.                   -->
-      <li class="espacio espacio--medio reveal">
+           es la única de las cuatro pequeñas que no baja.
+           Su foto va recortada EN ARCO: la copa del árbol de la fotografía y
+           el medio punto de la silueta son la misma curva.                  -->
+      <li class="espacio espacio--medio reveal reveal--izq">
         <figure class="espacio__figura">
           <img
             class="espacio__img"
@@ -879,8 +1037,12 @@
           />
         </figure>
 
+        <p class="espacio__aforo">
+          <span class="espacio__cifra">70</span>
+          <span class="espacio__glosa">personas como máximo</span>
+        </p>
+
         <div class="espacio__cuerpo">
-          <p class="espacio__aforo">Hasta 70 personas</p>
           <h3 class="titulo-seccion titulo-seccion--sm espacio__nombre">Teatrino</h3>
           <p class="espacio__texto">
             Un claro al pie de un árbol enorme: el césped hace de platea y la copa, de techo.
@@ -898,8 +1060,10 @@
 
       <!-- ------------------------------------------------------------ 4/5
            TALLER · hasta 45 personas · el espacio bajo techo
-           Vertical estrecho, con el primer peldaño del escalonado.          -->
-      <li class="espacio espacio--esbelto reveal">
+           Vertical estrecho, con el primer peldaño del escalonado.
+           Su hoja va al revés que la de La Vega: las dos verticales de la
+           sección no comparten contorno.                                    -->
+      <li class="espacio espacio--esbelto reveal reveal--zoom">
         <figure class="espacio__figura">
           <img
             class="espacio__img"
@@ -912,8 +1076,12 @@
           />
         </figure>
 
+        <p class="espacio__aforo">
+          <span class="espacio__cifra">45</span>
+          <span class="espacio__glosa">personas como máximo</span>
+        </p>
+
         <div class="espacio__cuerpo">
-          <p class="espacio__aforo">Hasta 45 personas</p>
           <h3 class="titulo-seccion titulo-seccion--sm espacio__nombre">Taller</h3>
           <p class="espacio__texto">
             El único bajo techo: cubierta de caña, piso firme y seco, y un aguacero que
@@ -933,8 +1101,10 @@
       <!-- ------------------------------------------------------------ 5/5
            CANCHA · 30 jugadores y 20 espectadores
            La más pequeña de las cinco y la que más baja: cierra el
-           escalonado de la segunda fila.                                    -->
-      <li class="espacio espacio--breve reveal">
+           escalonado de la segunda fila.
+           Único aforo de dos cifras: la pastilla se parte en dos datos y es,
+           por eso, la más ancha de las cinco.                               -->
+      <li class="espacio espacio--breve reveal reveal--der">
         <figure class="espacio__figura">
           <img
             class="espacio__img"
@@ -947,8 +1117,18 @@
           />
         </figure>
 
+        <p class="espacio__aforo espacio__aforo--doble">
+          <span class="espacio__dato">
+            <span class="espacio__cifra">30</span>
+            <span class="espacio__glosa">jugadores</span>
+          </span>
+          <span class="espacio__dato">
+            <span class="espacio__cifra">20</span>
+            <span class="espacio__glosa">espectadores</span>
+          </span>
+        </p>
+
         <div class="espacio__cuerpo">
-          <p class="espacio__aforo">30 jugadores · 20 espectadores</p>
           <h3 class="titulo-seccion titulo-seccion--sm espacio__nombre">Cancha</h3>
           <p class="espacio__texto">
             El campo más plano y despejado, con el guadual cerrando el fondo y borde en
@@ -971,6 +1151,9 @@
          PIE DE SECCIÓN
          Las condiciones no se transcriben aquí: tienen su propia página.
          Es un ENLACE, no un modal.
+         v4: deja de ser un filete de 1 px y pasa a ser una tablilla con
+         contorno de hoja, para que el remate de la sección hable el mismo
+         idioma que las cinco fichas.
          ================================================================== -->
     <div class="espacios__pie reveal">
       <p class="nota sin-margen espacios__pie-texto">
@@ -1029,6 +1212,25 @@
      · CTA: el rótulo «Atrévete a un plan distinto» es el mismo en los cinco
        —es el rótulo de la sección—; lo que cambia es el mensaje de WhatsApp
        y el remate para lector de pantalla.
+
+     REVISIÓN v4 «orgánica» (agosto de 2026) — TRES CAMBIOS, TODOS DE FORMA.
+     Ni un hecho, ni un titular, ni un destino de enlace se mueven.
+     1. EL ÍNDICE SE HACE ANCLA. «01…05» eran cinco cifras de 13 px al lado de
+        su etiqueta; ahora son la cifra grande que abre cada carril, con la
+        ocasión debajo. Es el hilo que ya enhebraba los cinco, subido al
+        tamaño en que de verdad enhebra, y el punto donde para la vista al
+        entrar a cada uno.
+     2. LAS TRECE FOTOS DEJAN LA ESQUINA VIVA. Cada carril recorta con un
+        contorno propio —hoja, arco, canto blando, círculo— y ninguno repite
+        el del carril de arriba. Los valores están en planes.css §8.
+     3. CADA CARRIL ENTRA DE UNA MANERA, y la entrada coincide con su caja:
+        01 llega desde la izquierda, que es por donde su foto se sale;
+        02 desde la derecha, que es por donde se sale su tira;
+        03 con zoom, porque es un dossier y no tiene lado;
+        04 con velo, porque es un bloque de color que sube como un telón;
+        05 recto, sin desvío, porque es el colofón.
+        Cinco hijos con .reveal dentro de .reveal-secuencia: el escalonado no
+        pasa de cinco, muy por debajo del tope de ocho.
      ========================================================================== -->
 <section id="planes" class="seccion planes" aria-labelledby="planes-titulo">
   <div class="contenedor">
@@ -1048,7 +1250,7 @@
            BODAS Y CONCIERTOS — la imagen manda: una foto grande y una
            columna de tres al lado. Es el carril más ruidoso de los cinco.
            ================================================================ -->
-      <li class="planes-carril planes-carril--fiesta reveal">
+      <li class="planes-carril planes-carril--fiesta reveal reveal--izq">
 
         <figure class="marco marco--3-2 planes-fiesta__principal">
           <img
@@ -1136,7 +1338,7 @@
            entra una columna por la izquierda y la tira se sale por la
            derecha, al revés que el carril 01.
            ================================================================ -->
-      <li class="planes-carril planes-carril--familia reveal">
+      <li class="planes-carril planes-carril--familia reveal reveal--der">
 
         <div class="planes-carril__texto">
           <p class="planes-carril__ocasion">
@@ -1222,7 +1424,7 @@
            EMPRESAS — dossier partido: un retrato del grupo y, al lado, el
            par apaisado del montaje. Ni galería ni tira: dos bloques.
            ================================================================ -->
-      <li class="planes-carril planes-carril--empresa reveal">
+      <li class="planes-carril planes-carril--empresa reveal reveal--zoom">
 
         <div class="planes-dossier">
           <figure class="marco planes-dossier__retrato">
@@ -1301,7 +1503,7 @@
            inversos ya verificados (eyebrow, entradilla, enlaces, viñetas)
            sin declarar ni un valor propio.
            ================================================================ -->
-      <li class="planes-carril planes-carril--bienestar seccion--oscura reveal">
+      <li class="planes-carril planes-carril--bienestar seccion--oscura reveal reveal--velo">
 
         <figure class="marco marco--16-9">
           <img
@@ -1406,6 +1608,31 @@
            ================================================================ -->
       <li class="planes-carril planes-carril--talleres reveal">
 
+        <!-- v4 · Los dos filetes de 1 px pasan a ser una tablilla con
+             contorno de hoja, y este brote decorativo es lo único que ocupa
+             el sitio de la fotografía que este carril no tiene. Va
+             aria-hidden y sin texto: no cuenta nada que no esté escrito
+             debajo, y por eso puede faltar sin que se pierda nada.
+             El color se lo pone el CSS con `currentColor`. -->
+        <svg
+          class="planes-talleres__brote"
+          viewBox="0 0 240 200"
+          aria-hidden="true"
+          focusable="false"
+        >
+          <path
+            d="M120 196V96C120 46 76 18 22 12c-6 62 34 96 98 100"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="9"
+            stroke-linecap="round"
+          />
+          <path
+            d="M120 112c0-46 40-74 96-80 8 54-34 82-96 88Z"
+            fill="currentColor"
+          />
+        </svg>
+
         <p class="planes-carril__ocasion">
           <span class="planes-carril__indice">05</span> Talleres
         </p>
@@ -1457,6 +1684,19 @@
      #colegios. Es la única pausa visual del recorrido: sirve para respirar,
      no para informar. Desde v3.1 ya no es una rejilla de fotos: es un MURO
      DE VÍDEO en vertical, metraje de móvil grabado en el predio.
+
+     QUÉ CAMBIÓ EN v3.2 — EL MARCADO
+       Sólo dos cosas, y ninguna toca el texto:
+         · La cabecera pierde la clase de tamaño y gana el trato de CARTELA
+           en la hoja (rótulo y titular en la misma línea de base, con filete
+           a todo lo ancho). No cambia el marcado.
+         · Cada pieza añade `reveal--velo` junto a `reveal`. Es la cortina de
+           clip-path que ya estaba escrita en base.css §6 y que no usaba
+           NINGUNA sección del sitio: la pieza se descubre de arriba abajo en
+           vez de aparecer con un fundido. Es el gesto que le corresponde a un
+           muro de vídeo, y al usarse sólo aquí no se gasta el recurso.
+       Todo lo demás de la composición (anchos, desfases, sangría por la
+       derecha, grano y viñeta) vive en momentos.css y no necesita marcado.
 
      POR QUÉ VERTICAL Y POR QUÉ ESCALONADO
        Los seis clips son 720×1280, retrato, sin pista de audio: son de
@@ -1543,7 +1783,7 @@
            PROTAGONISTA. Es el plano más abierto del cuarteto y por eso es el
            más ancho: sitúa al espectador (las varas, el verde del fondo, la
            luz) antes de que los otros tres se metan de cerca.               -->
-      <li class="momentos__pieza momentos__pieza--uno reveal">
+      <li class="momentos__pieza momentos__pieza--uno reveal reveal--velo">
         <figure class="momentos__figura">
           <div class="marco momentos__marco">
             <video
@@ -1573,7 +1813,7 @@
            El clip largo (6,2 s) y el único primer plano: aguanta el bucle
            sin que se note el corte. Va desfasado hacia abajo para romper la
            línea superior.                                                   -->
-      <li class="momentos__pieza momentos__pieza--dos reveal">
+      <li class="momentos__pieza momentos__pieza--dos reveal reveal--velo">
         <figure class="momentos__figura">
           <div class="marco momentos__marco">
             <video
@@ -1602,7 +1842,7 @@
       <!-- ---------------------------------------------------------- 03/04
            Contraluz: el fondo se va a oscuro y la mariposa entra por el
            borde izquierdo. Se deja a tamaño medio y con poco desfase.       -->
-      <li class="momentos__pieza momentos__pieza--tres reveal">
+      <li class="momentos__pieza momentos__pieza--tres reveal reveal--velo">
         <figure class="momentos__figura">
           <div class="marco momentos__marco">
             <video
@@ -1632,7 +1872,7 @@
            La pieza pequeña: dura dos segundos y va la más baja de las
            cuatro. Naranja sobre verde, que es lo que aguanta el tamaño
            chico; un plano de detalle sutil aquí no se leería.               -->
-      <li class="momentos__pieza momentos__pieza--cuatro reveal">
+      <li class="momentos__pieza momentos__pieza--cuatro reveal reveal--velo">
         <figure class="momentos__figura">
           <div class="marco momentos__marco">
             <video
@@ -1706,6 +1946,37 @@
      Ni una palabra del texto cambia, y la sección sigue SIN un solo dígito
      que no sea una hora (ARQUITECTURA-V3 §10): los rótulos de parada siguen
      escritos con letras («Primera», «Segunda», «Tercera») y no se numeran.
+
+     COMPOSICIÓN (v3.2) — TRES PARADAS QUE DEJAN DE MEDIR LO MISMO
+     v3.1 arregló el problema de #colegios por fuera —tres FILAS y no tres
+     tarjetas— pero por dentro las tres filas seguían siendo idénticas: mismo
+     carril de 13 rem, misma foto 4/5, mismo lado. Tres rectángulos iguales
+     seguidos se leen como una rejilla aunque no lo sean. En v3.2 cada parada
+     declara su propia caja, y la elección no es caprichosa: sale de la
+     proporción real del archivo, para que ninguna foto se recorte de más.
+
+       parada A · parque-19 (900×1200, 3:4) → carril ancho, foto 3/4, izquierda
+       parada B · parque-34 (675×1200, 9:16) → carril estrecho, foto 9/16,
+                  y la única que se va a la DERECHA
+       parada C · parque-52 (675×1200)       → carril medio, foto cuadrada,
+                  izquierda
+
+     Por eso las tres pierden `marco--retrato`: la proporción ya no es una
+     clase de sistema compartida, es una variable por parada (--col-ratio en
+     colegios.css §2). Y por eso cada una entra desde un lado distinto
+     (reveal--izq / reveal--der / reveal--izq): el movimiento acompaña a la
+     composición en vez de contradecirla.
+
+     LA FORMA DE LAS FOTOS. Las cuatro llevan HOJA: dos esquinas curvas en
+     diagonal y dos vivas, que es el motivo orgánico del sistema (la viñeta de
+     .lista-hojas en base.css §2) y ya la norma del sitio entero. Ninguna foto
+     de #colegios sangra fuera de pantalla —lo que cuelga del carril es el
+     titular, que es texto—, así que a ninguna le toca la excepción de dejar a
+     cero las esquinas del canto. Cada foto va a juego con la hoja del rótulo
+     de su parada y las diagonales se alternan bajando por la sección.
+     El resto de la curva orgánica —el labio de carbón del borde superior, los
+     remates de los filetes de la jornada y el bloque de cierre— vive también
+     en el CSS. Nada de esto necesita ni una etiqueta más aquí.
      ========================================================================== -->
 
 <section id="colegios" class="seccion seccion--alt col" aria-labelledby="colegios-titulo">
@@ -1728,9 +1999,9 @@
     <!-- ---------- Las tres paradas, en fila india ---------- -->
     <ul class="col-paradas reveal-secuencia">
 
-      <li class="col-parada reveal">
+      <li class="col-parada col-parada--a reveal reveal--izq">
         <figure>
-          <div class="marco marco--retrato">
+          <div class="marco">
             <img
               src="img/parque/parque-19.jpg"
               width="900"
@@ -1751,9 +2022,9 @@
         </p>
       </li>
 
-      <li class="col-parada reveal">
+      <li class="col-parada col-parada--b reveal reveal--der">
         <figure>
-          <div class="marco marco--retrato">
+          <div class="marco">
             <img
               src="img/parque/parque-34.jpg"
               width="675"
@@ -1773,9 +2044,9 @@
         </p>
       </li>
 
-      <li class="col-parada reveal">
+      <li class="col-parada col-parada--c reveal reveal--izq">
         <figure>
-          <div class="marco marco--retrato">
+          <div class="marco">
             <img
               src="img/parque/parque-52.jpg"
               width="675"
@@ -1907,9 +2178,26 @@
      global (data-lightbox="muro-aves") de js/app.js. Sin JS todo queda
      visible y legible, y el <details> del muro abre igual.
 
-     COMPOSICIÓN (v3.1 «se nota qué manda»)
-     La sección ya no es una pila de bloques iguales. Son cuatro movimientos
-     de peso distinto, y dos de ellos rompen la caja del contenedor:
+     COMPOSICIÓN (v4 «orgánica»: v3.1 + forma)
+     v3.1 arregló la MÉTRICA (pesos distintos, dos sangrados opuestos) y eso
+     se conserva entero. Lo que v4 añade es FORMA, que es lo que seguía
+     faltando: la sección que habla de 347 plantas y 101 aves estaba dibujada
+     entera con rectángulos de esquina viva del mismo radio —cero— y eso es
+     precisamente lo que la hacía parecer una plantilla. Ahora:
+
+       · Toda fotografía lleva un radio ASIMÉTRICO y NINGUNA lleva el mismo:
+         dos esquinas abiertas y dos cerradas, alternando la diagonal. Es la
+         silueta de una hoja, y al repetirse variada se lee como sistema.
+       · El tramo de agua entre la quebrada y el riachuelo deja de ser un
+         filete recto y pasa a ser un cauce SVG que serpentea de verdad.
+       · La banda del muro no entra con un canto recto: la cresta SVG del
+         principio es el borde de un claro, no el de una tabla.
+       · Las cifras grandes (101, 347, 57) se cuentan solas al entrar en
+         pantalla con el contador de js/app.js. No se duplica ningún dato:
+         el valor de destino va en data-contador y el texto ya está escrito.
+       · Capitular en la entrada del cuerpo: registro editorial, no ficha.
+
+     Las cuatro (más una) movimientos siguen siendo los de v3.1:
 
        1 · .nat-apertura — A SANGRE POR LA IZQUIERDA. El encabezado de la
            sección se funde aquí dentro: el Sendero no se presenta después
@@ -1978,12 +2266,18 @@
 
       <header class="nat-apertura__encabezado">
         <p class="eyebrow">Sendero Ecovital y biodiversidad</p>
+        <!-- El «101» va marcado dentro del propio titular: es el dato que
+             distingue a este predio de cualquier finca de eventos y no aparece
+             en ningún otro sitio de la página, así que aquí tiene que verse
+             que es una cifra y no una palabra más. data-contador lo cuenta al
+             entrar en pantalla (js/app.js); si no hay JS, el 101 ya está
+             escrito y no pasa nada. -->
         <h2 id="naturaleza-titulo" class="titulo-seccion nat-apertura__titulo">
-          Camina donde cantan 101 especies
+          Camina donde cantan <span class="nat-titulo-cifra" data-contador="101">101</span> especies
         </h2>
         <p class="entradilla">
           El recorrido guiado que sigue la quebrada, y el censo de lo que vive alrededor.
-          Es la única parte del predio con un precio publicado.
+          Es la única visita suelta con un precio publicado.
         </p>
       </header>
 
@@ -1997,9 +2291,26 @@
           Vas con guía, así que lo que oyes tiene nombre.
         </p>
 
+        <!-- El cauce entre los dos puntos era un filete recto de 1 px. Un
+             filete recto es lo que dibuja una tabla; una quebrada serpentea.
+             El trazo es SVG y es decoración pura (aria-hidden): los dos
+             nombres ya están escritos al lado y el orden lo da el flujo. -->
         <p class="nat-ruta">
           <span class="nat-ruta__punto">Quebrada Aranzoque</span>
-          <span class="nat-ruta__linea" aria-hidden="true"></span>
+          <svg
+            class="nat-ruta__cauce"
+            viewBox="0 0 16 64"
+            preserveAspectRatio="none"
+            aria-hidden="true"
+            focusable="false"
+          >
+            <path
+              d="M1 0 C 13 12, 1 22, 8 34 C 15 46, 3 54, 1 64"
+              stroke-width="1.4"
+              stroke-linecap="round"
+              vector-effect="non-scaling-stroke"
+            />
+          </svg>
           <span class="nat-ruta__punto">Riachuelo La Florida</span>
         </p>
 
@@ -2036,6 +2347,13 @@
               rel="noopener"
             >
               Atrévete al sendero
+            </a>
+            <!-- El contrapunto del precio de al lado: esa entrada es para
+                 venir una vez; el Plan vecino es para volver. Vive en su
+                 propia página porque tiene tarifas, condiciones y beneficios
+                 que aquí obligarían a repetir media sección. -->
+            <a class="btn btn-secundario btn-grande" href="plan-vecino.html">
+              Ven todo el año
             </a>
           </div>
 
@@ -2115,7 +2433,7 @@
           />
           <div class="nat-habitat__cuerpo">
             <p class="nat-habitat__lugar">El jardín</p>
-            <p class="nat-habitat__cifra">347</p>
+            <p class="nat-habitat__cifra" data-contador="347">347</p>
             <p class="nat-habitat__etiqueta">Especies de plantas · 20 familias botánicas</p>
             <p class="nat-habitat__texto">
               Bromelias, bastones del emperador y árboles altos compartiendo el mismo
@@ -2248,6 +2566,25 @@
        Cada crédito sale de img/aves/_creditos.json; ninguno se inventa.
        ========================================================================== -->
   <div class="nat-muro-banda reveal">
+
+    <!-- LA CRESTA. La banda de salvia entraba con un canto recto a todo lo
+         ancho: el borde más «plantilla» que tenía la sección, y justo en el
+         cambio de movimiento más importante. Ahora el canto es una curva
+         irregular —tres senos de amplitud distinta, ninguno repetido— dibujada
+         en crema sobre la salvia: se lee como el borde de un claro y no como
+         el filo de una tabla. Es decoración pura y va oculta al lector de
+         pantalla; si el SVG no pinta, lo que queda es el canto recto de
+         siempre y no se pierde nada. -->
+    <svg
+      class="nat-cresta"
+      viewBox="0 0 1440 96"
+      preserveAspectRatio="none"
+      aria-hidden="true"
+      focusable="false"
+    >
+      <path d="M0 0 H1440 V18 C1268 66, 1146 22, 968 46 C782 71, 660 30, 470 58 C316 81, 178 44, 0 74 Z" />
+    </svg>
+
     <div class="contenedor contenedor--ancho">
 
       <div class="nat-galeria__intro">
@@ -2263,7 +2600,7 @@
           </p>
         </div>
         <p class="nat-galeria__dato">
-          <span class="nat-galeria__cifra">57</span>
+          <span class="nat-galeria__cifra" data-contador="57">57</span>
           <span class="nat-galeria__cifra-pie">Fotografías · 20 autores</span>
         </p>
       </div>
@@ -3529,10 +3866,34 @@
            vende (entradilla larga y el catálogo numerado), a la derecha lo
            que da confianza (el aula, el sello del ICA y el botón).
 
-     Ni una palabra del texto cambia: sólo las cajas.
+     v4 · LA SECCIÓN PASA A BANDA OSCURA (.seccion--carbon)
+     #naturaleza termina en una banda salvia y #ubicacion es salvia entera:
+     #vivero quedaba en medio, en crema, sin cambio de material, y ése era el
+     motivo principal de que la página sonara a plantilla justo aquí. Sobre el
+     carbón cálido los verdes de estas cuatro fotos se vuelven luminosos —está
+     razonado en tokens.css §1— y la sección se lee como una sala de galería.
+
+     Se usa .seccion--carbon Y NO .seccion--carbon-suave, aunque la variante
+     suave existiera justo para «no repetir banda»: base.css §5 invierte el
+     color de .eyebrow sólo bajo .seccion--oscura y .seccion--carbon, y se
+     olvidó de --carbon-suave. Con la variante suave el antetítulo se quedaba
+     en el gris calculado contra la crema —2,4:1 sobre el carbón, ilegible— y
+     arreglarlo desde aquí sería pisar por especificidad un color de base.css,
+     que es justo lo que el contrato prohíbe. #momentos, la otra banda oscura,
+     queda tres secciones más arriba: repetir el mismo negro a esa distancia se
+     lee como sistema, no como descuido. Todo el reajuste de contraste de la
+     sección vive en vivero.css.
+
+     El otro cambio de v4: los cuatro huecos de foto dejan de compartir
+     proporción. Cada uno lleva la suya (3/4 · 5/8 · 9/16 · 4/5), así que los
+     pies caen a alturas distintas y de paso se recorta mucho menos de unos
+     originales que son 9/16. La clase .marco--retrato SALE del marcado por eso:
+     la proporción la fija ahora vivero.css hueco por hueco.
+
+     Ni una palabra del texto cambia: sólo las cajas y el material.
      ========================================================================== -->
 
-<section id="vivero" class="seccion viv" aria-labelledby="vivero-titulo">
+<section id="vivero" class="seccion seccion--carbon viv" aria-labelledby="vivero-titulo">
 
   <div class="contenedor contenedor--ancho">
     <header class="seccion-encabezado viv-encabezado reveal">
@@ -3549,7 +3910,7 @@
   <ul class="viv-friso reveal-secuencia">
     <li class="viv-foto reveal">
       <figure>
-        <div class="marco marco--retrato">
+        <div class="marco">
           <img
             src="img/parque/parque-35.jpg"
             width="675"
@@ -3565,7 +3926,7 @@
 
     <li class="viv-foto reveal">
       <figure>
-        <div class="marco marco--retrato">
+        <div class="marco">
           <img
             src="img/parque/parque-40.jpg"
             width="675"
@@ -3581,7 +3942,7 @@
 
     <li class="viv-foto reveal">
       <figure>
-        <div class="marco marco--retrato">
+        <div class="marco">
           <img
             src="img/parque/parque-42.jpg"
             width="675"
@@ -3597,7 +3958,7 @@
 
     <li class="viv-foto reveal">
       <figure>
-        <div class="marco marco--retrato">
+        <div class="marco">
           <img
             src="img/parque/parque-49.jpg"
             width="675"
@@ -3657,10 +4018,10 @@
         <!-- Sello de confianza. Única aparición del registro ICA en el sitio. -->
         <p class="viv-sello">
           <span class="viv-sello__emblema" aria-hidden="true">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"
+            <svg class="icono-traza" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"
                  stroke-linecap="round" stroke-linejoin="round" focusable="false">
-              <path d="M12 2.5 20 6v6.1c0 4.5-3.2 7.9-8 9.4-4.8-1.5-8-4.9-8-9.4V6l8-3.5Z" />
-              <path d="m8.6 12.1 2.3 2.3 4.5-4.6" />
+              <path d="M12 2.5 20 6v6.1c0 4.5-3.2 7.9-8 9.4-4.8-1.5-8-4.9-8-9.4V6l8-3.5Z"  pathLength="1"/>
+              <path d="m8.6 12.1 2.3 2.3 4.5-4.6"  pathLength="1"/>
             </svg>
           </span>
           <span class="viv-sello__texto">
@@ -3715,106 +4076,62 @@
      mensaje y abre wa.me. El <script> del final es el que hace eso; si los
      fragmentos se inyectan con innerHTML en vez de concatenarse, hay que mover
      ese script a js/contacto.js y cargarlo con defer.
+
+     ======================================================================
+     v4 · QUÉ SE RECOMPUSO Y POR QUÉ  (ni un hecho cambia de sitio: sólo las
+     cajas y el orden de lectura dentro de la propia sección)
+
+     El síntoma medido era el más literal del diagnóstico —«bloques uniformes»—:
+     la sección era una pila de SEIS rectángulos con el mismo filete, el mismo
+     relleno y el mismo fondo, uno debajo de otro (dirección · referencias ·
+     distancias · tres canales · formulario). Cuando todo tiene la misma caja,
+     nada tiene jerarquía y la página parece una plantilla rellenada.
+
+     1 · PORTADA A DOS COLUMNAS. El titular deja de ir centrado y comparte
+         primera línea con la DIRECCIÓN, que sale de su tarjeta y se convierte
+         en la placa de la sección. Es el primer dato que busca quien llega
+         hasta aquí: no puede estar dentro de una caja igual a las demás.
+
+     2 · EL MAPA VA A SANGRE. Era un visor blanco redondeado con sombra y
+         escuadras dentro del contenedor: el marco pesaba más que la foto
+         satelital. Ahora la vista satelital cruza la pantalla de lado a lado y
+         el marco desaparece. El BRIEF pide un efecto «tipo Google Earth»; esto
+         es lo que se parece a eso. Es el único bloque que se sale del
+         contenedor, igual que .viv-friso en #vivero.
+
+     3 · «LLEGAR CON GOOGLE MAPS» Y «LLEGAR CON WAZE» SUBEN. El BRIEF los pide
+         «bajo el mapa» y estaban tres bloques más abajo, después de las
+         distancias. Ahora van pegados al mapa, que es donde se buscan.
+
+     4 · SE ACABAN LAS CAJAS REPETIDAS. Referencias y distancias pasan a
+         bloques de filete horizontal —sin recuadro— con su encabezado a un
+         lado y el contenido al otro. Los canales pasan a filas con regla. El
+         ÚNICO recuadro que queda en toda la sección es el FORMULARIO, porque
+         es lo único que es de verdad un objeto: una cosa que se rellena.
+
+     El ancla #contacto, las coordenadas, el horario, el teléfono, el correo,
+     Instagram, las ocho referencias y las siete distancias siguen aquí y
+     siguen diciendo exactamente lo mismo.
      ========================================================================== -->
 <section id="ubicacion" class="seccion seccion--alt ubi" aria-labelledby="ubicacion-titulo">
+
+  <!-- ================= 1 · PORTADA: TITULAR + DIRECCIÓN ==================== -->
   <div class="contenedor contenedor--ancho">
+    <div class="ubi-portada">
 
-    <header class="seccion-encabezado centrado reveal">
-      <p class="eyebrow">Cómo llegar</p>
-      <h2 id="ubicacion-titulo" class="titulo-seccion">
-        Dónde queda, cuándo abrimos y con quién hablas
-      </h2>
-      <p class="entradilla">
-        Todo lo práctico en un solo sitio: el mapa, las referencias, el horario y el número
-        al que escribir.
-      </p>
-    </header>
+      <header class="seccion-encabezado ubi-portada__texto reveal">
+        <p class="eyebrow">Cómo llegar</p>
+        <h2 id="ubicacion-titulo" class="titulo-seccion">
+          Dónde queda, cuándo abrimos y con quién hablas
+        </h2>
+        <p class="entradilla">
+          Todo lo práctico en un solo sitio: el mapa, las referencias, el horario y el número
+          al que escribir.
+        </p>
+      </header>
 
-    <!-- ================= 1 · MAPA CON VUELO ================================== -->
-    <figure class="ubi-mapa reveal" data-mapa>
-      <div class="ubi-mapa__marco">
-        <div class="ubi-mapa__medio">
-
-          <!-- Lienzo del mapa interactivo (lo puebla js/mapa.js) -->
-          <div
-            class="ubi-mapa__lienzo"
-            id="mapa-vegas"
-            data-mapa-lienzo
-            role="application"
-            aria-label="Mapa satelital interactivo con la ubicación de Vegas del Verde. La dirección, las referencias cercanas y las distancias también están escritas debajo del mapa."
-          ></div>
-
-          <!-- Respaldo real: es lo que se ve mientras el mapa carga, lo que queda
-               si Leaflet no está disponible y lo único que se ve sin JavaScript. -->
-          <img
-            class="ubi-mapa__respaldo"
-            src="img/mapa-ubicacion.jpg"
-            width="1200"
-            height="1111"
-            alt="Vista aérea del sector: Vegas del Verde señalado entre los árboles, con las referencias cercanas marcadas — Conjunto Natura, Anillo Vial Floridablanca-Girón, Alkosto, Makro, PriceSmart, Mediterráneo Fútbol Park, Mediterráneo Royal y los centros comerciales Cañaveral, La Florida y Caracolí, con Bucaramanga y la cordillera al fondo."
-            loading="lazy"
-            decoding="async"
-          />
-
-          <!-- Capa HUD (decorativa, no intercepta el puntero) -->
-          <div class="ubi-hud" aria-hidden="true">
-            <span class="ubi-hud__marca">
-              <img
-                class="ubi-hud__simbolo"
-                src="img/logo/simbolo-vegas.png"
-                width="512"
-                height="512"
-                alt=""
-                loading="lazy"
-                decoding="async"
-              />
-              Vegas del Verde
-            </span>
-            <span class="ubi-hud__etiqueta">Vista satelital</span>
-          </div>
-
-          <!-- Sólo en pantallas táctiles: evita que el mapa secuestre el scroll -->
-          <button class="ubi-mapa__activar" type="button" data-mapa-activar hidden>
-            <span class="ubi-mapa__activar-pastilla">Toca para explorar el mapa</span>
-          </button>
-
-        </div>
-      </div>
-
-      <figcaption class="ubi-mapa__pie">
-        <span class="ubi-mapa__credito" data-mapa-credito hidden>
-          Vista satelital · Teselas &copy; Esri (World Imagery). El vuelo se ejecuta solo al
-          entrar la sección en pantalla.
-        </span>
-        <span class="ubi-mapa__nota-respaldo" data-mapa-respaldo-nota>
-          Vista aérea del sector con las referencias del entorno.
-        </span>
-        <span class="ubi-mapa__aviso" data-mapa-aviso hidden>
-          El mapa interactivo no está disponible en este momento; esta es la vista aérea del
-          sector. Los botones para llegar siguen funcionando.
-        </span>
-      </figcaption>
-
-      <p class="ubi-mapa__controles">
-        <button
-          class="btn btn-secundario btn-pequeno"
-          type="button"
-          data-mapa-repetir
-          hidden
-        >
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true" focusable="false">
-            <path d="M20 12a8 8 0 1 1-2.6-5.9" />
-            <path d="M20.4 4.2v4.2h-4.2" />
-          </svg>
-          Repetir vuelo
-        </button>
-      </p>
-    </figure>
-
-    <!-- ================= 2 y 3 · DIRECCIÓN Y REFERENCIAS ===================== -->
-    <div class="ubi-info reveal-secuencia">
-
-      <article class="ubi-tarjeta reveal">
+      <!-- La dirección ya no es una tarjeta: es la placa de la sección. -->
+      <div class="ubi-placa reveal reveal--der">
         <h3 class="titulo-seccion titulo-seccion--xs">La dirección</h3>
         <address class="ubi-direccion">
           Vereda Río Frío, 500&nbsp;m sobre la vía Carabineros.<br />
@@ -3829,9 +4146,128 @@
             rel="noopener"
           >7.0574425, -73.1144128</a>
         </p>
-      </article>
+      </div>
 
-      <article class="ubi-tarjeta reveal">
+    </div>
+  </div>
+
+  <!-- ================= 2 · MAPA CON VUELO, A SANGRE ======================== -->
+  <figure class="ubi-mapa reveal" data-mapa>
+    <div class="ubi-mapa__medio">
+
+      <!-- Lienzo del mapa interactivo (lo puebla js/mapa.js) -->
+      <div
+        class="ubi-mapa__lienzo"
+        id="mapa-vegas"
+        data-mapa-lienzo
+        role="application"
+        aria-label="Mapa satelital interactivo con la ubicación de Vegas del Verde. La dirección, las referencias cercanas y las distancias también están escritas alrededor del mapa."
+      ></div>
+
+      <!-- Respaldo real: es lo que se ve mientras el mapa carga, lo que queda
+           si Leaflet no está disponible y lo único que se ve sin JavaScript. -->
+      <img
+        class="ubi-mapa__respaldo"
+        src="img/mapa-ubicacion.jpg"
+        width="1200"
+        height="1111"
+        alt="Vista aérea del sector: Vegas del Verde señalado entre los árboles, con las referencias cercanas marcadas — Conjunto Natura, Anillo Vial Floridablanca-Girón, Alkosto, Makro, PriceSmart, Mediterráneo Fútbol Park, Mediterráneo Royal y los centros comerciales Cañaveral, La Florida y Caracolí, con Bucaramanga y la cordillera al fondo."
+        loading="lazy"
+        decoding="async"
+      />
+
+      <!-- Capa HUD (decorativa, no intercepta el puntero) -->
+      <div class="ubi-hud" aria-hidden="true">
+        <span class="ubi-hud__marca">
+          <img
+            class="ubi-hud__simbolo"
+            src="img/logo/simbolo-vegas.png"
+            width="512"
+            height="512"
+            alt=""
+            loading="lazy"
+            decoding="async"
+          />
+          Vegas del Verde
+        </span>
+        <span class="ubi-hud__etiqueta">Vista satelital</span>
+      </div>
+
+      <!-- Sólo en pantallas táctiles: evita que el mapa secuestre el scroll -->
+      <button class="ubi-mapa__activar" type="button" data-mapa-activar hidden>
+        <span class="ubi-mapa__activar-pastilla">Toca para explorar el mapa</span>
+      </button>
+
+    </div>
+
+    <!-- El pie del mapa vuelve a entrar en el contenedor: la foto va a sangre,
+         el texto no. <figcaption> tiene que ser el último hijo de <figure>, así
+         que el .contenedor va DENTRO de él, no al revés. -->
+    <figcaption class="ubi-mapa__pie">
+      <div class="contenedor contenedor--ancho ubi-mapa__pie-fila">
+        <span class="ubi-mapa__leyenda">
+          <span class="ubi-mapa__credito" data-mapa-credito hidden>
+            Vista satelital · Teselas &copy; Esri (World Imagery). El vuelo se ejecuta solo al
+            entrar la sección en pantalla.
+          </span>
+          <span class="ubi-mapa__nota-respaldo" data-mapa-respaldo-nota>
+            Vista aérea del sector con las referencias del entorno.
+          </span>
+          <span class="ubi-mapa__aviso" data-mapa-aviso hidden>
+            El mapa interactivo no está disponible en este momento; esta es la vista aérea del
+            sector. Los botones para llegar siguen funcionando.
+          </span>
+        </span>
+
+        <button
+          class="btn btn-secundario btn-pequeno ubi-mapa__repetir"
+          type="button"
+          data-mapa-repetir
+          hidden
+        >
+          <svg class="icono-traza" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true" focusable="false">
+            <path d="M20 12a8 8 0 1 1-2.6-5.9"  pathLength="1"/>
+            <path d="M20.4 4.2v4.2h-4.2"  pathLength="1"/>
+          </svg>
+          Repetir vuelo
+        </button>
+      </div>
+    </figcaption>
+  </figure>
+
+  <div class="contenedor contenedor--ancho">
+
+    <!-- ================= 3 · CÓMO LLEGAR (pegado al mapa, como pide el BRIEF) -->
+    <div class="ubi-acciones reveal">
+      <a
+        class="btn btn-primario btn-grande"
+        href="https://www.google.com/maps/dir/?api=1&amp;destination=7.0574425,-73.1144128"
+        target="_blank"
+        rel="noopener"
+      >
+        <svg class="icono-traza" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true" focusable="false">
+          <path d="M12 21.5s7-6.1 7-11a7 7 0 1 0-14 0c0 4.9 7 11 7 11Z"  pathLength="1"/>
+          <circle cx="12" cy="10.4" r="2.6"  pathLength="1"/>
+        </svg>
+        Llegar con Google Maps
+      </a>
+
+      <a
+        class="btn btn-secundario btn-grande"
+        href="https://waze.com/ul?ll=7.0574425,-73.1144128&amp;navigate=yes"
+        target="_blank"
+        rel="noopener"
+      >
+        <svg class="icono-traza" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true" focusable="false">
+          <path d="M3.5 12.2 20.4 4.6a.55.55 0 0 1 .74.72l-7.4 16.6a.55.55 0 0 1-1.03-.09l-1.6-6.2a.55.55 0 0 0-.39-.4l-6.2-1.6a.55.55 0 0 1-.02-1.43Z"  pathLength="1"/>
+        </svg>
+        Llegar con Waze
+      </a>
+    </div>
+
+    <!-- ================= 4 · PUNTOS DE REFERENCIA ============================ -->
+    <div class="ubi-bloque reveal">
+      <div class="ubi-bloque__encabezado">
         <h3 class="titulo-seccion titulo-seccion--xs">Puntos de referencia</h3>
         <p class="nota">Si te suena alguno de estos sitios, ya sabes llegar.</p>
         <ul class="ubi-refs">
@@ -3844,28 +4280,27 @@
           <li class="ubi-ref">C.C. La Florida</li>
           <li class="ubi-ref">C.C. Caracolí</li>
         </ul>
+      </div>
 
-        <figure class="ubi-refs__figura">
-          <img
-            class="ubi-refs__foto"
-            src="img/mapa-ubicacion.jpg"
-            width="1200"
-            height="1111"
-            alt="La misma vista aérea del sector, con cada uno de los puntos de referencia de la lista anterior señalado con un pin sobre la foto."
-            loading="lazy"
-            decoding="async"
-          />
-          <figcaption>
-            El predio, visto desde el aire, con los sitios que ya conoces marcados alrededor.
-          </figcaption>
-        </figure>
-      </article>
-
+      <figure class="ubi-refs__figura">
+        <img
+          class="ubi-refs__foto"
+          src="img/mapa-ubicacion.jpg"
+          width="1200"
+          height="1111"
+          alt="La misma vista aérea del sector, con cada uno de los puntos de referencia de la lista anterior señalado con un pin sobre la foto."
+          loading="lazy"
+          decoding="async"
+        />
+        <figcaption>
+          El predio, visto desde el aire, con los sitios que ya conoces marcados alrededor.
+        </figcaption>
+      </figure>
     </div>
 
-    <!-- ================= 4 · DISTANCIAS ====================================== -->
-    <div class="ubi-dist reveal" role="group" aria-labelledby="ubicacion-distancias-titulo">
-      <div class="ubi-dist__encabezado">
+    <!-- ================= 5 · DISTANCIAS ====================================== -->
+    <div class="ubi-bloque ubi-dist reveal" role="group" aria-labelledby="ubicacion-distancias-titulo">
+      <div class="ubi-bloque__encabezado">
         <h3 class="titulo-seccion titulo-seccion--xs" id="ubicacion-distancias-titulo">
           Distancias desde el predio
         </h3>
@@ -3914,34 +4349,6 @@
       </ol>
     </div>
 
-    <!-- ================= 5 · BOTONES DE NAVEGACIÓN =========================== -->
-    <div class="ubi-acciones reveal">
-      <a
-        class="btn btn-primario btn-grande"
-        href="https://www.google.com/maps/dir/?api=1&amp;destination=7.0574425,-73.1144128"
-        target="_blank"
-        rel="noopener"
-      >
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true" focusable="false">
-          <path d="M12 21.5s7-6.1 7-11a7 7 0 1 0-14 0c0 4.9 7 11 7 11Z" />
-          <circle cx="12" cy="10.4" r="2.6" />
-        </svg>
-        Llegar con Google Maps
-      </a>
-
-      <a
-        class="btn btn-secundario btn-grande"
-        href="https://waze.com/ul?ll=7.0574425,-73.1144128&amp;navigate=yes"
-        target="_blank"
-        rel="noopener"
-      >
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true" focusable="false">
-          <path d="M3.5 12.2 20.4 4.6a.55.55 0 0 1 .74.72l-7.4 16.6a.55.55 0 0 1-1.03-.09l-1.6-6.2a.55.55 0 0 0-.39-.4l-6.2-1.6a.55.55 0 0 1-.02-1.43Z" />
-        </svg>
-        Llegar con Waze
-      </a>
-    </div>
-
     <!-- ================= 6 y 7 · CANALES, HORARIO Y FORMULARIO =============== -->
     <div class="ubi-hablar">
 
@@ -3980,9 +4387,9 @@
 
         <div class="ubi-canal ubi-canal--estatico reveal">
           <span class="ubi-canal__icono" aria-hidden="true">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" focusable="false">
-              <circle cx="12" cy="12" r="9" />
-              <path d="M12 7v5.3l3.4 2" />
+            <svg class="icono-traza" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" focusable="false">
+              <circle cx="12" cy="12" r="9"  pathLength="1"/>
+              <path d="M12 7v5.3l3.4 2"  pathLength="1"/>
             </svg>
           </span>
           <span class="ubi-canal__cuerpo">
@@ -3996,9 +4403,9 @@
 
         <a class="ubi-canal reveal" href="mailto:vegasdelverde.1@gmail.com">
           <span class="ubi-canal__icono" aria-hidden="true">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" focusable="false">
-              <rect x="2.75" y="4.75" width="18.5" height="14.5" rx="2.5" />
-              <path d="m3.5 7 8.5 6 8.5-6" />
+            <svg class="icono-traza" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" focusable="false">
+              <rect x="2.75" y="4.75" width="18.5" height="14.5" rx="2.5"  pathLength="1"/>
+              <path d="m3.5 7 8.5 6 8.5-6"  pathLength="1"/>
             </svg>
           </span>
           <span class="ubi-canal__cuerpo">
@@ -4015,10 +4422,10 @@
           rel="noopener"
         >
           <span class="ubi-canal__icono" aria-hidden="true">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" focusable="false">
-              <rect x="3" y="3" width="18" height="18" rx="5" />
-              <circle cx="12" cy="12" r="4" />
-              <circle cx="17.3" cy="6.7" r="1.15" fill="currentColor" stroke="none" />
+            <svg class="icono-traza" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" focusable="false">
+              <rect x="3" y="3" width="18" height="18" rx="5"  pathLength="1"/>
+              <circle cx="12" cy="12" r="4"  pathLength="1"/>
+              <circle cx="17.3" cy="6.7" r="1.15" fill="currentColor" stroke="none"  pathLength="1"/>
             </svg>
           </span>
           <span class="ubi-canal__cuerpo">
@@ -4426,10 +4833,10 @@
           target="_blank"
           rel="noopener"
         >
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true" focusable="false">
-            <rect x="3" y="3" width="18" height="18" rx="5" />
-            <circle cx="12" cy="12" r="4" />
-            <circle cx="17.3" cy="6.7" r="1.15" fill="currentColor" stroke="none" />
+          <svg class="icono-traza" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true" focusable="false">
+            <rect x="3" y="3" width="18" height="18" rx="5"  pathLength="1"/>
+            <circle cx="12" cy="12" r="4"  pathLength="1"/>
+            <circle cx="17.3" cy="6.7" r="1.15" fill="currentColor" stroke="none"  pathLength="1"/>
           </svg>
           @vegasdelverde
         </a>

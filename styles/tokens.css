@@ -327,10 +327,28 @@
   --dur-lenta: 550ms;
   --dur-reveal: 900ms;
   --dur-vuelo: 4500ms;                   /* vuelo cinematográfico del mapa */
+  /* Dibujado de los iconos de trazo. Mucho más lento que un revelado: un
+     trazo que se pinta rápido se lee como un parpadeo, no como una mano
+     dibujando. A 2400 ms el recorrido se sigue con la vista y da tiempo a
+     que la forma se reconozca mientras se hace.
+     --dur-traza-detalle es para los detalles sueltos (los puntos de un
+     calendario, la perforación de un tiquete): esos no se recorren, se
+     posan, y lo hacen al final, cuando el contorno ya está. */
+  --dur-traza: 2400ms;
+  --dur-traza-detalle: 700ms;
+  /* La mariposa que nace al hacer clic. Ni un parpadeo ni una espera: a este
+     tiempo el ojo alcanza a seguirla subir y perderse sin que el clic se
+     sienta lento. */
+  --dur-mariposa: 1200ms;
 
   --ease: cubic-bezier(0.4, 0, 0.2, 1);
   --ease-salida: cubic-bezier(0.16, 1, 0.3, 1);
   --ease-suave: cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  /* El pulso de una mano que dibuja: arranca despacio, coge velocidad en el
+     tramo largo y frena antes de cerrar la forma. Las curvas de salida que
+     usa el resto del sitio empiezan a toda velocidad, y en un trazo eso se
+     ve mecánico —el trazo salta— en vez de dibujado. */
+  --ease-traza: cubic-bezier(0.62, 0.02, 0.28, 1);
 
   --transicion: var(--dur-media) var(--ease);
   --transicion-rapida: var(--dur-rapida) var(--ease);
@@ -364,6 +382,9 @@
     --dur-lenta: 1ms;
     --dur-reveal: 1ms;
     --dur-vuelo: 0ms;
+    --dur-traza: 1ms;
+    --dur-traza-detalle: 1ms;
+    --dur-mariposa: 1ms;
     --desplazamiento-reveal: 0px;
     --escala-hover: 1;
   }

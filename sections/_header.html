@@ -21,7 +21,9 @@
     <nav class="nav" id="nav-principal" aria-label="Navegación principal">
       <!-- Seis anclas, una por sección visitable. #inicio lo cubre la marca y
            #vivero se alcanza desde el plano-índice y desde #naturaleza: meterlo
-           aquí obligaría a partir el menú en dos filas en pantallas medias. -->
+           aquí obligaría a partir el menú en dos filas en pantallas medias.
+           La séptima entrada NO es un ancla: es la página del Plan vecino, y
+           va la última para no romper el orden del embudo. -->
       <ul class="nav__lista">
         <li class="nav__item--secundario"><a class="nav__enlace" href="#nosotros">Nosotros</a></li>
         <li><a class="nav__enlace" href="#espacios">Espacios</a></li>
@@ -29,6 +31,7 @@
         <li><a class="nav__enlace" href="#colegios">Colegios</a></li>
         <li><a class="nav__enlace" href="#naturaleza">Naturaleza</a></li>
         <li><a class="nav__enlace" href="#ubicacion">Cómo llegar</a></li>
+        <li><a class="nav__enlace" href="plan-vecino.html">Plan vecino</a></li>
       </ul>
 
       <!-- Sólo visible dentro del panel móvil -->
@@ -57,10 +60,10 @@
       <!-- Nunca se oculta: en pantallas angostas o con tipografía grande se
            colapsa al globo + el idioma alterno (ver shell.css). -->
       <div class="idiomas" role="group" aria-label="Idioma del sitio">
-        <svg class="idiomas__globo" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true" focusable="false">
-          <circle cx="12" cy="12" r="9"/>
-          <path d="M3 12h18"/>
-          <path d="M12 3c2.4 2.5 3.6 5.5 3.6 9s-1.2 6.5-3.6 9c-2.4-2.5-3.6-5.5-3.6-9s1.2-6.5 3.6-9Z"/>
+        <svg class="icono-traza idiomas__globo" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true" focusable="false">
+          <circle cx="12" cy="12" r="9" pathLength="1"/>
+          <path d="M3 12h18" pathLength="1"/>
+          <path d="M12 3c2.4 2.5 3.6 5.5 3.6 9s-1.2 6.5-3.6 9c-2.4-2.5-3.6-5.5-3.6-9s1.2-6.5 3.6-9Z" pathLength="1"/>
         </svg>
         <a
           class="idiomas__opcion"

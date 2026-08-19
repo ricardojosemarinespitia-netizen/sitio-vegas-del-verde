@@ -1,44 +1,171 @@
 /* ==========================================================================
-   VEGAS DEL VERDE — sections/colegios.css  ·  v3.1 «la sección tipográfica»
+   VEGAS DEL VERDE — sections/colegios.css  ·  v3.2 «la sección orgánica»
    Bloque #colegios · Salidas pedagógicas.
 
    La sección es un ITINERARIO, no un catálogo. Eso ya estaba escrito en v2 y
    en el texto… pero la maquetación decía lo contrario: tres tarjetas iguales
    en fila, con la foto arriba y el texto debajo, exactamente igual que las
-   rejillas de #espacios, #planes y #vivero. Ocho secciones seguidas con la
-   misma métrica es lo que hace que una página se lea como generada.
+   rejillas de #espacios, #planes y #vivero. v3.1 lo arregló por fuera —tres
+   FILAS con filete, y no tres tarjetas— y v3.2 lo arregla por dentro.
 
-   QUÉ CAMBIÓ EN v3.1 — sin tocar una sola palabra del texto
-   · .col-portada: el titular se va a --fs-h1 (el mayor de la página después
-     del hero) y la entradilla se descuelga a un carril estrecho a su derecha,
-     alineada por abajo. Es la sección más corta del sitio: puede permitirse
-     ser la más tipográfica, que es justo lo que la distingue de las demás.
-   · .col-paradas: de rejilla de tres columnas a TRES FILAS apiladas con
-     filete. La foto baja a un carril estrecho a la izquierda y el titular
-     sube de --xs a --sm. Se lee como un índice numerado con palabras.
-   · .col-hitos: de columna de cuatro renglones a escalera de dos por dos.
-   · .col-cierre: intacto.
+   -------------------------------------------------------------------------
+   QUÉ CAMBIÓ EN v3.2 — sin tocar una sola palabra del texto
 
+   EL DIAGNÓSTICO. En v3.1 las tres paradas eran tres filas idénticas: mismo
+   carril de foto (13 rem), misma proporción (4/5), mismo lado, misma entrada.
+   Y los cuatro hitos de la jornada eran cuatro cajas idénticas en un 2×2
+   perfecto. Da igual que el contenedor sea una fila y no una tarjeta: tres
+   rectángulos iguales seguidos y un 2×2 cuadrado son, literalmente, la
+   retícula uniforme que había que romper.
+
+     §1  Nace el LABIO DE CARBÓN: el borde donde acaba la banda de #momentos y
+         empieza esta sección deja de ser una línea recta y pasa a ser un arco
+         asimétrico. Es la única curva grande del sitio.
+     §2  La portada CUELGA por la izquierda: el titular más grande de la
+         página después del hero se sale del bloque de texto y se apoya en el
+         canto del contenedor.
+     §3  Cada parada declara su propia caja —carril, proporción, lado y hoja—,
+         y entra desde el lado que le corresponde. Ninguna mide como la otra.
+     §4  Los cuatro hitos dejan de ser un 2×2 cuadrado: la columna derecha
+         cae, y cada filete arranca en una hoja.
+     §5  El bloque de cierre recupera el radio, pero ASIMÉTRICO: dos esquinas
+         curvas y dos vivas. Es una hoja, no una pastilla.
+     §6  El revelado baja de 900 ms a --dur-lenta (550 ms) con easing de
+         salida, que es el tramo que pide la dirección de arte.
+
+   -------------------------------------------------------------------------
+   DÓNDE ENTRA LA CURVA — la regla de esta hoja
+
+   El gesto orgánico de este sitio no se importa de fuera: estaba escrito en
+   base.css §2. La viñeta de .lista-hojas es
+   `border-radius: 0 var(--radio-full) 0 var(--radio-full)`, es decir una
+   HOJA —dos esquinas redondas y dos vivas, en diagonal—. Ese es el vocabulario
+   propio de esta marca y es el «radio asimétrico tipo hoja» que pedía el
+   encargo. Queda fijado como norma del sitio.
+
+   SOBRE LA FOTOGRAFÍA, CORRECCIÓN. La primera v3.2 de esta hoja dejaba todas
+   las fotos a esquina viva, razonando que era la regla del sistema (base.css
+   §8) y que redondear sólo aquí desafinaría. El razonamiento se dio la vuelta
+   al cerrarse las nueve secciones: las otras siete llevan hoja también en la
+   fotografía, así que la esquina viva pasó de norma a excepción y quien se
+   habría leído como de otro sitio era #colegios. El arbitraje fija:
+
+     · La foto que SANGRA fuera de pantalla conserva a CERO las esquinas que
+       tocan el borde. Nunca se redondea contra el canto de la ventana.
+     · La foto que vive DENTRO de la maqueta lleva hoja, y dos piezas vecinas
+       nunca con la misma diagonal.
+
+   En #colegios NO sangra ninguna foto —lo que cuelga fuera del carril es el
+   titular (§2), que es texto—, así que las cuatro llevan hoja entera: las tres
+   paradas en §3 y la de la jornada en §4. Cada foto va A JUEGO con la hoja del
+   rótulo de su propia parada: misma diagonal, mismo motivo a dos escalas.
+
+   Y el resto del gesto orgánico sigue donde estaba: el labio de carbón (§1),
+   las hojas de los rótulos (§3), los remates de los filetes de la jornada (§4)
+   y las dos esquinas del bloque de cierre (§5).
+
+   En todos los casos los radios se usan VARIADOS y espejados —nunca los cuatro
+   iguales, nunca dos hojas vecinas con la misma orientación, y el tamaño de la
+   curva acompaña al tamaño de la pieza—, que es justo lo que distingue una
+   curva orgánica de un `border-radius: 16px` global.
+
+   -------------------------------------------------------------------------
    Depende de tokens.css y base.css; no declara ningún valor literal de color,
-   tamaño, radio, sombra ni duración (la única excepción es el 1px de filete,
-   igual que en base.css). Sin !important.
+   tamaño de fuente, radio, sombra ni duración (la única excepción es el 1px
+   de filete, igual que en base.css). Los porcentajes de §1 y las fracciones
+   de rejilla no son tokens porque no pueden serlo: son proporciones.
+   Sin !important.
    ========================================================================== */
 
+.col {
+  /* Alto del labio de carbón del §1. Se declara aquí y no en el ::before para
+     que el único sitio donde se ajusta sea éste. SIEMPRE tiene que caber
+     dentro del relleno superior de .seccion (--esp-seccion, mínimo 3,75 rem),
+     o el arco se comería el antetítulo. */
+  --col-lip: var(--esp-lg);
+}
+
+@media (min-width: 62em) {
+  .col {
+    /* A partir de aquí --esp-seccion pasa de 6 rem, así que el arco puede
+       crecer sin acercarse al texto. */
+    --col-lip: var(--esp-2xl);
+  }
+}
+
 /* ==========================================================================
-   0. LA FOTOGRAFÍA DE LA SECCIÓN — v3
+   0. LA FOTOGRAFÍA DE LA SECCIÓN, Y EL APILADO
    Las cinco fotos de #colegios llevaban sombra propia: --sombra-md en las tres
    paradas y --sombra-lg en la de la jornada. En v3 .marco va a esquina viva y
    sin sombra (base.css), así que las dos declaraciones salen y en su lugar
    queda esta, escrita en la raíz de la sección: un `none` explícito que sirve
    de guarda. Si alguien vuelve a colgarle sombra a una foto de aquí, tiene que
    pasar por encima de (0,2,0) y leer esto antes.
+
+   La guarda es SÓLO de la sombra. El `border-radius: 0` que la acompañaba en
+   la primera v3.2 se retira: la fotografía de esta sección sí lleva hoja
+   (ver la nota de la cabecera), y la forma la reparten §3 y §4 pieza a pieza.
+   Que no haya sombra y que sí haya curva no es una contradicción: en este
+   sistema nada flota, pero todo puede tener forma orgánica.
    ========================================================================== */
 .col .marco {
   box-shadow: none;
 }
 
+/* El labio del §1 es un pseudoelemento POSICIONADO. Un elemento posicionado
+   con z-index:0 pinta por encima del contenido en flujo normal, así que sin
+   esto el arco taparía la portada. Se sube el contenido a --z-base. No se usa
+   z-index negativo: .seccion es position:relative SIN z-index, o sea que no
+   crea contexto de apilado, y un -1 se iría detrás del fondo de la sección. */
+.col > .contenedor {
+  position: relative;
+  z-index: var(--z-base);
+}
+
 /* ==========================================================================
-   1. LA PORTADA
+   1. EL LABIO DE CARBÓN — la única curva grande del sitio
+
+   QUÉ ES. #momentos es una banda de carbón a todo lo ancho y #colegios es la
+   franja de salvia que va inmediatamente debajo (ARQUITECTURA-V3 §3: el orden
+   es … planes · momentos · colegios · naturaleza …). Entre las dos había una
+   línea recta de borde a borde. Ahora el carbón baja un poco más y lo hace en
+   un ARCO ASIMÉTRICO: hondo y largo por la izquierda, corto y menos profundo
+   por la derecha.
+
+   POR QUÉ SE PINTA AQUÍ Y NO EN #momentos. Porque el que necesita la firma
+   orgánica es #colegios, y porque momentos.css tiene por contrato no añadirse
+   nada («la banda funciona por sustracción»). El acoplamiento es real y
+   consciente: si algún día #colegios deja de ir detrás de #momentos, este
+   bloque hay que borrarlo. Queda dicho.
+
+   POR QUÉ CON border-radius EN PORCENTAJES Y NO CON UN SVG. Un SVG en un
+   data-URI no puede leer los tokens de color, así que habría que escribir el
+   carbón a mano —prohibido— o cargar un archivo aparte. Y un `clip-path:
+   path()` va en coordenadas fijas y no se estira con el viewport. Dos radios
+   elípticos en porcentaje sí escalan solos, no traen ni un valor literal y
+   dan la asimetría gratis: el radio horizontal del canto izquierdo (64 %) y
+   el del derecho (32 %) no suman 100, así que entre los dos queda un tramo
+   recto y el arco no se lee como una ola de plantilla. El radio vertical
+   también difiere (100 % contra 70 %), que es lo que impide que parezca
+   simétrico volteado.
+
+   Es decoración pura: no lleva texto, no recibe clics y no aporta contraste.
+   ========================================================================== */
+.col::before {
+  content: "";
+  position: absolute;
+  inset-inline: 0;
+  inset-block-start: 0;
+  height: var(--col-lip);
+  z-index: var(--z-fondo);
+  pointer-events: none;
+  background-color: var(--color-fondo-carbon);
+  border-end-start-radius: 64% 100%;
+  border-end-end-radius: 32% 70%;
+}
+
+/* ==========================================================================
+   2. LA PORTADA
    Dos columnas desiguales y nada centrado. La entradilla se alinea por ABAJO
    con el titular (align-items: end) en vez de por arriba: así las dos piezas
    comparten una línea de base visible y el hueco queda arriba, que es donde
@@ -66,6 +193,25 @@
   min-width: 0;
 }
 
+/* v3.2 · EL TITULAR CUELGA. El bloque del titular se sale del carril de texto
+   por la izquierda exactamente lo que mide el margen de página, así que se
+   apoya en el canto del contenedor y el resto de la sección queda alineado un
+   escalón más adentro. Es el recurso editorial de toda la vida —sacar el
+   titular del bloque— y aquí sirve para dos cosas: la sección deja de empezar
+   donde empiezan las otras ocho, y el titular se lee como titular de portada.
+
+   El tiro se mide contra --padding-contenedor y no contra un espaciado fijo a
+   propósito: así el cuelgue nunca se puede salir de la pantalla, porque es
+   justo el hueco que el contenedor ya estaba reservando. Con un --esp-xl (48
+   px) a 992 px de ancho, donde el margen de página son 35, se habría comido
+   13 px del titular por el canto izquierdo, y el overflow-x:hidden del body
+   los habría recortado en silencio, que es la peor manera de fallar. */
+@media (min-width: 62em) {
+  .col-portada__titulo {
+    margin-inline-start: calc(var(--padding-contenedor) * -1);
+  }
+}
+
 /* El único titular de sección que sube de --fs-h2 a --fs-h1. Se lo puede
    permitir porque es la frase más corta de las nueve secciones y porque
    debajo no hay ninguna foto que compita: sólo filetes y texto. */
@@ -82,7 +228,20 @@
 }
 
 /* ==========================================================================
-   2. LAS TRES PARADAS — un itinerario, en fila india
+   3. LAS TRES PARADAS — un itinerario, y tres cajas distintas
+
+   Cada parada trae dos variables propias:
+     --col-rail   ancho del carril de la foto
+     --col-ratio  proporción de la foto, elegida contra el archivo real para
+                  que el recorte no invente nada
+
+     A · parque-19 (900×1200)  carril ancho     foto 3/4    izquierda
+     B · parque-34 (675×1200)  carril estrecho  foto 9/16   DERECHA
+     C · parque-52 (675×1200)  carril medio     foto 1/1    izquierda
+
+   La B es la que hace el trabajo: es la única que cambia de lado, y con eso
+   sola la columna de titulares deja de ser una lista recta. Que además sea la
+   más estrecha y la más alta la separa de las otras dos por partida doble.
    ========================================================================== */
 .col-paradas {
   display: grid;
@@ -95,9 +254,9 @@
 }
 
 /* Cada parada es una FILA, no una tarjeta: filete arriba, aire generoso y la
-   foto en un carril estrecho a la izquierda. El carril no llega a un tercio
-   del ancho a propósito —la foto ilustra la parada, no la encabeza— y eso es
-   lo que deja sitio para que el titular vaya grande. */
+   foto en un carril estrecho. El carril no llega a un tercio del ancho a
+   propósito —la foto ilustra la parada, no la encabeza— y eso es lo que deja
+   sitio para que el titular vaya grande. */
 .col-parada {
   display: grid;
   grid-template-columns: 1fr;
@@ -111,9 +270,49 @@
   border-bottom: 0;
 }
 
+/* Valores por defecto, por si alguien añade una cuarta parada sin modificador:
+   se queda con la caja de la primera en vez de romperse. */
+.col-parada {
+  --col-rail: 13rem;
+  --col-ratio: 3 / 4;
+  --col-hoja: 0 var(--radio-lg) 0 var(--radio-lg);
+}
+
+/* Tres cajas y tres hojas. La diagonal de la foto es la MISMA que la de la
+   hoja del rótulo de esa parada (§3, más abajo): el motivo se repite a dos
+   escalas dentro de la misma fila, y de una fila a la siguiente se voltea.
+   El tamaño de la curva acompaña al carril: cuanto más estrecha la foto, más
+   pequeña la curva, o en la parada B —que mide 10 rem— una curva de 36 px se
+   comería la esquina entera. */
+.col-parada--a {
+  --col-rail: 15rem;
+  --col-ratio: 3 / 4;
+  --col-hoja: 0 var(--radio-xl) 0 var(--radio-xl);
+}
+
+.col-parada--b {
+  --col-rail: 10rem;
+  --col-ratio: 9 / 16;
+  --col-hoja: var(--radio-md) 0 var(--radio-md) 0;
+}
+
+.col-parada--c {
+  --col-rail: 13rem;
+  --col-ratio: 1 / 1;
+  --col-hoja: 0 var(--radio-lg) 0 var(--radio-lg);
+}
+
+/* La proporción y la forma salen de las variables de la parada y ya no de una
+   clase de sistema compartida (`marco--retrato`, que las igualaba a las tres).
+   Mide (0,2,0) y le gana a `.marco { border-radius: 0 }` de base.css. */
+.col-parada .marco {
+  aspect-ratio: var(--col-ratio);
+  border-radius: var(--col-hoja);
+}
+
 @media (min-width: 48em) {
   .col-parada {
-    grid-template-columns: minmax(0, 13rem) minmax(0, 1fr);
+    grid-template-columns: minmax(0, var(--col-rail)) minmax(0, 1fr);
     grid-template-rows: auto auto 1fr;
     column-gap: var(--gap-lg);
     row-gap: var(--esp-2xs);
@@ -122,6 +321,18 @@
       "foto rotulo"
       "foto titulo"
       "foto texto";
+  }
+
+  /* La única que se va al otro lado. Se invierten las pistas y las áreas; el
+     contenido del HTML no se toca, así que el orden de lectura por teclado y
+     por lector de pantalla sigue siendo foto → rótulo → titular → texto en
+     las tres. */
+  .col-parada--b {
+    grid-template-columns: minmax(0, 1fr) minmax(0, var(--col-rail));
+    grid-template-areas:
+      "rotulo foto"
+      "titulo foto"
+      "texto  foto";
   }
 
   .col-parada > figure {
@@ -150,13 +361,23 @@
 @media (min-width: 68em) {
   .col-parada {
     grid-template-columns:
-      minmax(0, 13rem)
+      minmax(0, var(--col-rail))
       minmax(0, 1.05fr)
       minmax(0, 0.95fr);
     grid-template-rows: auto 1fr;
     grid-template-areas:
       "foto rotulo texto"
       "foto titulo texto";
+  }
+
+  .col-parada--b {
+    grid-template-columns:
+      minmax(0, 1.05fr)
+      minmax(0, 0.95fr)
+      minmax(0, var(--col-rail));
+    grid-template-areas:
+      "rotulo texto foto"
+      "titulo texto foto";
   }
 
   .col-parada > p:not(.col-parada__etiqueta) {
@@ -175,6 +396,13 @@
   .col-parada figure {
     margin-bottom: 0;
   }
+
+  /* La parada B baja un escalón dentro de su propia fila. Es el segundo
+     desnivel de la sección —el primero es el cambio de lado— y hace que la
+     columna de fotos no dibuje una línea horizontal con la de al lado. */
+  .col-parada--b figure {
+    margin-block-start: var(--esp-lg);
+  }
 }
 
 .col-parada:hover .marco > img,
@@ -190,9 +418,18 @@
    v3: se retira el coral, igual que en .eyebrow (base.css §5). El rótulo es un
    dato de servicio en gris neutro, no un acento: si cada micro-etiqueta grita
    en terracota, el acento deja de señalar nada. Sobre la banda de salvia de la
-   sección el gris mide 5.3:1 —más que los 4.6:1 que daba el coral—, así que el
-   cambio también gana contraste. */
+   sección el gris mide 5,29:1 —más que los 4,6:1 que daba el coral—, así que
+   el cambio también gana contraste.
+
+   v3.2: delante va la HOJA. Es la viñeta asimétrica de .lista-hojas
+   (base.css §2), que es el gesto orgánico propio de este sistema, y se orienta
+   distinto en cada parada para que no haya dos iguales. En oliva sobre salvia
+   mide 4,30:1: de sobra para una marca decorativa, que no tiene requisito de
+   contraste porque no informa de nada que el texto no diga. */
 .col-parada__etiqueta {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.7em;
   font-family: var(--fuente-titulo);
   font-size: var(--fs-micro);
   font-weight: var(--peso-medio);
@@ -200,6 +437,27 @@
   letter-spacing: var(--tracking-rotulo);
   color: var(--color-texto-suave);
   margin: 0;
+}
+
+.col-parada__etiqueta::before {
+  content: "";
+  flex: none;
+  width: 0.72em;
+  height: 0.72em;
+  border-radius: 0 var(--radio-full) 0 var(--radio-full);
+  background-color: var(--color-acento-alt);
+}
+
+/* Tres hojas, tres orientaciones. La de la B va espejada porque su parada
+   entra por el otro lado; la de la C se queda en la orientación de la A pero
+   girada, así que las tres se leen como hojas de la misma planta y ninguna
+   como una copia. */
+.col-parada--b .col-parada__etiqueta::before {
+  border-radius: var(--radio-full) 0 var(--radio-full) 0;
+}
+
+.col-parada--c .col-parada__etiqueta::before {
+  rotate: -18deg;
 }
 
 .col-parada h3 {
@@ -215,7 +473,7 @@
 }
 
 /* ==========================================================================
-   3. EL FORMATO DE LA JORNADA
+   4. EL FORMATO DE LA JORNADA
    La foto de la charla a un lado, los cuatro hitos al otro en escalera.
    ========================================================================== */
 .col-jornada {
@@ -238,6 +496,16 @@
 
 .col-jornada__foto {
   min-width: 0;
+}
+
+/* La cuarta hoja de la sección, y la más grande: es la foto de mayor
+   superficie de #colegios, así que se lleva --radio-xl. Va en la diagonal
+   contraria a la de la parada C, que es la fotografía que tiene justo encima.
+   Bajando por la sección las diagonales quedan A · B · A · B · A —tres
+   paradas, esta foto y el bloque de cierre—, así que no hay dos piezas
+   consecutivas con la misma. */
+.col-jornada__foto .marco {
+  border-radius: var(--radio-xl) 0 var(--radio-xl) 0;
 }
 
 /* En una sola columna la foto vertical se comía la pantalla entera (695×869
@@ -265,7 +533,12 @@
 /* ---- Los cuatro hitos, en escalera de dos por dos ------------------------
    Cuatro renglones apilados en una columna eran otra lista vertical más, la
    tercera de la sección. En dos por dos el bloque se ensancha, la jornada se
-   lee de un vistazo y el conjunto deja de caer siempre hacia abajo.        */
+   lee de un vistazo y el conjunto deja de caer siempre hacia abajo.
+
+   v3.2: el 2×2 era CUADRADO —cuatro cajas idénticas encajadas en cuatro
+   celdas idénticas—, o sea la misma retícula uniforme que la sección venía a
+   romper. Ahora la columna de la derecha cae un escalón y cada filete arranca
+   en una hoja. Sigue leyéndose de un vistazo y ya no dibuja una cruz.     */
 .col-hitos {
   display: grid;
   gap: var(--esp-md) var(--gap);
@@ -278,9 +551,18 @@
   .col-hitos {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
+
+  /* La columna de la derecha (hitos 2 y 4) baja. El desnivel se paga una sola
+     vez, en el segundo hito: como el hueco de fila ya separa las dos filas, el
+     cuarto hereda el desplazamiento del segundo y la escalera queda con dos
+     peldaños, no con cuatro. */
+  .col-hito:nth-child(even) {
+    margin-block-start: var(--esp-lg);
+  }
 }
 
 .col-hito {
+  position: relative;
   display: flex;
   flex-direction: column;
   gap: var(--esp-3xs);
@@ -290,7 +572,26 @@
   max-width: var(--medida);
 }
 
-/* Gris neutro por el mismo motivo que .col-parada__etiqueta (§2): es un rótulo
+/* El remate del filete: la misma hoja del §3, a caballo sobre la línea. Es lo
+   que convierte cuatro reglas verticales sueltas en cuatro tallos. Decorativo:
+   ni informa ni recibe foco. */
+.col-hito::before {
+  content: "";
+  position: absolute;
+  inset-block-start: 0;
+  inset-inline-start: 0;
+  width: var(--esp-2xs);
+  height: var(--esp-2xs);
+  transform: translateX(-50%);
+  border-radius: 0 var(--radio-full) 0 var(--radio-full);
+  background-color: var(--color-acento-alt);
+}
+
+.col-hito:nth-child(even)::before {
+  border-radius: var(--radio-full) 0 var(--radio-full) 0;
+}
+
+/* Gris neutro por el mismo motivo que .col-parada__etiqueta (§3): es un rótulo
    de servicio, no un acento. Los dos rótulos de la sección van a juego. */
 .col-hito__nombre {
   margin: 0;
@@ -314,18 +615,31 @@
 }
 
 /* ==========================================================================
-   4. CIERRE CON CTA
+   5. CIERRE CON CTA
    Caja en verde bosque dentro de una sección clara: hay que repintar a mano
    el titular y el párrafo, porque las reglas de .seccion--oscura de base.css
    no llegan hasta aquí. Dentro de la caja NO hay enlaces de texto: sólo el
    botón de WhatsApp, que ya trae su propio contraste.
+
+   EL RADIO, Y POR QUÉ VUELVE. En v3 esta caja perdió el radio: era «una
+   pastilla verde de 36 px flotando sobre la salvia» y pasó a bloque de esquina
+   viva, hermano del carril de bienestar de #planes. El diagnóstico era
+   correcto y aquí no se discute: una pastilla —los cuatro radios iguales— sí
+   es un componente de plantilla. Lo que vuelve no es la pastilla, es la HOJA:
+   dos esquinas curvas en diagonal y dos vivas, el mismo motivo que llevan las
+   fotos y las marcas del §3 y del §4. Con dos esquinas vivas el bloque no
+   flota, sigue anclado en la retícula, y la sección cierra con la misma forma
+   con la que ha ido puntuando todo el itinerario.
+
+   La diagonal es la contraria a la de la foto de la jornada, que es la pieza
+   que tiene encima: es el último peldaño de la alternancia A · B · A · B · A
+   que baja por la sección entera.
+
+   El radio VARÍA con el ancho: --radio-lg en móvil y --radio-xl desde 62em.
+   Una curva fija se ve enorme en una caja estrecha y tímida en una ancha; lo
+   que tiene que quedar constante es la proporción entre la curva y el bloque,
+   no el número de píxeles.
    ========================================================================== */
-/* v3: la caja pierde el radio y la sombra. Era una pastilla verde de 36 px de
-   radio flotando sobre la salvia; ahora es un bloque de negativo con la esquina
-   viva, hermano del carril de bienestar de #planes. El registro se mantiene
-   —verde bosque para los bloques de negativo DENTRO de una sección clara,
-   carbón sólo para las bandas de sección a todo lo ancho, como #momentos— y
-   así ninguna de las dos cosas se confunde con la otra. */
 .col-cierre {
   display: flex;
   flex-wrap: wrap;
@@ -334,7 +648,7 @@
   gap: var(--gap);
   margin-top: var(--gap-lg);
   padding: var(--esp-lg);
-  border-radius: 0;
+  border-radius: 0 var(--radio-lg) 0 var(--radio-lg);
   background-color: var(--color-fondo-oscuro);
   color: var(--color-texto-inverso);
 }
@@ -367,5 +681,29 @@
   .col-cierre {
     flex-wrap: nowrap;
     padding: var(--esp-xl);
+    border-radius: 0 var(--radio-xl) 0 var(--radio-xl);
   }
+}
+
+/* ==========================================================================
+   6. ENTRADA
+   base.css mueve todo el sitio con .reveal a --transicion-reveal (900 ms).
+   Aquí baja a --dur-lenta (550 ms) con --ease-salida, que es el tramo que pide
+   la dirección de arte (400–600 ms, easing de salida). El selector
+   .js .col .reveal (0,3,0) le gana a .js .reveal (0,2,0) por especificidad,
+   da igual el orden de carga.
+
+   Bajo `prefers-reduced-motion` esto no hace absolutamente nada: base.css deja
+   `transition: none` en .reveal y, por encima, un transition-duration con
+   !important en el bloque global. El escalonado de las tres paradas lo sigue
+   poniendo .reveal-secuencia: tres hijos, muy por debajo del máximo de ocho.
+
+   La DIRECCIÓN de entrada la pone el marcado (reveal--izq / reveal--der /
+   reveal--izq) y acompaña al lado del que viene cada parada. Los 28 px de
+   --desplazamiento-reveal no provocan barra horizontal: el overflow-x:hidden
+   del body se propaga al viewport y recorta sin dejar scroll.
+   ========================================================================== */
+.js .col .reveal {
+  transition-duration: var(--dur-lenta);
+  transition-timing-function: var(--ease-salida);
 }

@@ -1,5 +1,43 @@
 /* ==========================================================================
-   VEGAS DEL VERDE — inicio.css  ·  sección #inicio  ·  v4 «abrir de verdad»
+   VEGAS DEL VERDE — inicio.css  ·  sección #inicio  ·  v5 «orgánica»
+
+   QUÉ CAMBIA RESPECTO A v4 Y POR QUÉ
+   v4 arregló la ESCALA (portada de ventana entera + plano gigante) y con eso
+   la sección dejó de tener el compás de un listado. Lo que quedaba vivo del
+   problema —«se ve muy genérica»— era la GEOMETRÍA: todo rectángulo a
+   escuadra, corte recto entre la fotografía y el papel, seis miniaturas
+   idénticas en fila y ni una curva en una página que vende un bosque.
+
+   v5 mete el lenguaje ORGÁNICO, sin inventar un solo valor:
+     · ORLA CURVA ASIMÉTRICA al pie de la portada, pintada del color del papel.
+       La foto no termina: se disuelve. Y la curva es una diagonal (fina a la
+       izquierda, gruesa a la derecha), no la ola simétrica de plantilla.
+     · PARALAJE del fondo con `animation-timeline: view()`. Sin una línea de
+       JS nueva y sin tocar js/app.js: es CSS puro, va dentro de @supports y
+       dentro de `prefers-reduced-motion: no-preference`, así que en un
+       navegador viejo o con el movimiento reducido simplemente no existe.
+       Sólo se mueve la FOTOGRAFÍA DE FONDO; el texto nunca.
+     · TITULAR en caja alta y baja. Las mayúsculas de v4 incumplían
+       CONTRATO-V2 §3 («prohibido uppercase por encima de 24 px salvo el
+       logotipo») y son además la razón de que la portada se leyera como
+       cualquier plantilla de viajes. En su lugar, dos renglones de escala
+       distinta con el segundo sangrado y rematado por una hoja.
+     · RADIOS DE HOJA, variados y asimétricos, tomados de la única forma
+       orgánica que ya tenía el sistema: el remate de .lista-hojas en base.css
+       (`border-radius: 0 var(--radio-full) 0 var(--radio-full)`). Nunca los
+       cuatro radios iguales: cuatro esquinas iguales es lo que hace que una
+       tarjeta se vea de plantilla.
+     · SOMBRAS suaves y bajas (--sombra-md / --sombra-lg), que es lo que hace
+       una copa de árbol sobre el suelo. v3 las había retirado del sistema
+       entero; v5 las devuelve sólo donde hay una pieza que de verdad flota
+       sobre el papel.
+     · LA TIRA DE AVES deja de ser una fila de seis cuadrados iguales.
+
+   Lo que NO cambia: los hechos, el reparto de la tabla de propiedad, las
+   coordenadas de las cuatro anclas, los encuadres de cada fotografía y la
+   prohibición de valores literales.
+   --------------------------------------------------------------------------
+   LO QUE YA VENÍA DE v4 «abrir de verdad», y sigue vigente:
    Depende de tokens.css + base.css (cargarlos antes). Ningún valor literal de
    color, de cuerpo de letra, de radio, de sombra ni de duración: todo sale de
    los tokens. Este archivo NO toca tokens.css, base.css ni shell.css.
@@ -29,15 +67,17 @@
    ESTRUCTURA
      .inicio                        la sección (crema, la de serie)
        .inicio__portada             a sangre · alto de ventana
-         .inicio__portada-foto      la fotografía, object-fit: cover
+         .inicio__portada-foto      la fotografía, object-fit: cover (+ paralaje)
          .inicio__portada-velo      degradado de legibilidad
+         .inicio__portada-orla      v5 · la curva de papel que remata el pie
          .inicio__portada-interior  .contenedor con el encabezado
-       .inicio__plano               <figure> a sangre con el render aéreo
-         .inicio__plano-lienzo      sistema de coordenadas de las anclas
-           .inicio__plano-marco     proporción + recorte de la foto
+           .inicio__titulo-linea    v5 · los dos renglones del titular
+       .inicio__plano               <figure> con el render aéreo
+         .inicio__plano-lienzo      coordenadas de las anclas · sangra a la dcha.
+           .inicio__plano-marco     proporción + recorte + radios de hoja
            .inicio__anclas          Vivero · Sendero · Espacios · Cómo llegar
          .inicio__plano-pie         <figcaption>, alineado al contenedor
-       .inicio__aves                seis miniaturas de atmósfera
+       .inicio__aves                seis miniaturas de atmósfera, desiguales
 
    POR QUÉ LAS ANCLAS NO SE SUPERPONEN HASTA 64em
    Sobre el plano, cada ancla es una pastilla de ~2,1 rem de alto colocada en
@@ -61,6 +101,16 @@
   padding-top: var(--alto-header);
   padding-bottom: var(--esp-seccion);
   scroll-margin-top: 0;
+  /* v5 — TEXTURA, NO COLOR. Dos manchas radiales muy abiertas y casi
+     invisibles (7 % y 5 % de alfa) que rompen el plano liso del papel debajo
+     del plano-índice y de la tira de aves. Se declaran como `background-image`
+     y no como pseudoelemento a propósito: un fondo pinta siempre por detrás
+     del contenido, así que no hace falta pelearse con el z-index ni arriesgar
+     que la mancha se coma un texto. Sin `background-color`: el papel sigue
+     siendo el del <body>, y si mañana cambia, esto cambia con él. */
+  background-image:
+    radial-gradient(60% 45% at 12% 78%, rgb(var(--verde-oliva-rgb) / 0.07), transparent 70%),
+    radial-gradient(45% 40% at 92% 46%, rgb(var(--amarillo-rgb) / 0.05), transparent 72%);
 }
 
 /* ==========================================================================
@@ -72,6 +122,12 @@
    La primera declaración es el respaldo para navegadores sin `svh`: si la
    segunda no se entiende, se descarta entera y queda un alto razonable. */
 .inicio__portada {
+  /* Alto de la orla curva del pie. En clamp con rem —permitido para layout—
+     porque es una medida de composición, no un cuerpo de letra ni un radio.
+     De aquí cuelgan dos cosas: el alto del <svg> y el relleno inferior del
+     texto, que tiene que despejarla. Un solo número, dos consumidores. */
+  --alto-orla: clamp(2.25rem, 5vw, 5.5rem);
+
   position: relative;
   display: flex;
   align-items: flex-end;
@@ -102,6 +158,88 @@
   box-shadow: none;
 }
 
+/* ---- PARALAJE DEL FONDO --------------------------------------------------
+   Regla del sistema: el paralaje va SÓLO en fondos, nunca en texto de
+   lectura. Aquí se mueve la fotografía dentro de su propio recorte —el
+   `overflow: hidden` de .inicio__portada— y el titular se queda absolutamente
+   quieto, que es lo que permite leerlo mientras la imagen se desplaza.
+
+   POR QUÉ NO HAY JS. `animation-timeline: view()` ata el progreso de la
+   animación al paso del elemento por la ventana: lo resuelve el compositor,
+   no un listener de scroll. Nada que añadir a js/app.js —que además no es de
+   esta sección— y ni un fotograma robado al hilo principal.
+
+   LAS TRES GUARDAS, por orden:
+     1. `prefers-reduced-motion: no-preference` — quien pide menos movimiento
+        no recibe ninguno. La animación no se declara siquiera.
+     2. `@supports (animation-timeline: view())` — donde no exista, la foto se
+        queda quieta y centrada. No hay respaldo con JS ni falta.
+     3. El recorrido total es del 10 % del alto de la imagen (de -5 % a +5 %),
+        dentro de la horquilla de 5–15 % que admite el sistema, y el
+        `scale(1.1)` está para que ese 10 % nunca descubra el borde.
+   ------------------------------------------------------------------------ */
+@media (prefers-reduced-motion: no-preference) {
+  @supports (animation-timeline: view()) {
+    /* En longhand y con `animation-duration: auto` ESCRITO, no heredado del
+       atajo: en una línea de tiempo de progreso —la de scroll— `auto` quiere
+       decir «el recorrido entero del rango», y es lo único que hace que la
+       animación avance con la rueda en vez de resolverse de golpe. El atajo
+       `animation:` deja la duración en su valor inicial y ese valor cambió de
+       `0s` a `auto` entre dos versiones de la especificación: escribirlo evita
+       depender de cuál de las dos implementa el navegador. */
+    .inicio__portada-foto {
+      animation-name: inicio-paralaje;
+      animation-duration: auto;
+      animation-timing-function: linear;
+      animation-fill-mode: both;
+      animation-timeline: view();
+      animation-range: entry 0% exit 100%;
+    }
+  }
+}
+
+@keyframes inicio-paralaje {
+  from {
+    transform: scale(1.1) translate3d(0, -5%, 0);
+  }
+
+  to {
+    transform: scale(1.1) translate3d(0, 5%, 0);
+  }
+}
+
+/* ---- LA ORLA ORGÁNICA ----------------------------------------------------
+   Es el papel comiéndose la fotografía, no una forma encima de ella: por eso
+   se pinta con `currentColor` y el color es --color-fondo, el mismo de la
+   página. Si algún día la sección cambiara de fondo, basta cambiar aquí el
+   `color` y la curva sigue encajando sola.
+
+   VA DEBAJO DEL TEXTO (--z-base, el mismo que el velo, pero después en el
+   documento) y el interior sube a --z-elevado, así que el titular nunca cae
+   sobre la parte crema: no hay ni un caso en el que el texto en negativo
+   quede sobre el papel claro.
+
+   El alto sale de --alto-orla y se declara aquí porque base.css da a todo svg
+   `height: auto`, que con preserveAspectRatio="none" dejaría la curva a la
+   proporción del viewBox (12:1) y en un móvil se comería media portada.    */
+.inicio__portada-orla {
+  position: absolute;
+  left: 0;
+  right: 0;
+  /* Medio punto porcentual de solape hacia abajo. Con el alto de la orla en
+     clamp, el borde inferior cae casi siempre en una fracción de píxel y ahí
+     el navegador dibuja una costura de un píxel de fotografía entre la curva
+     y el papel. Bajarla un pelo la esconde; lo que se recorta por debajo es
+     relleno macizo, así que no se pierde nada de la forma. En % —no en px—
+     para no meter un literal en la hoja. */
+  bottom: -0.5%;
+  z-index: var(--z-base);
+  width: 100%;
+  height: var(--alto-orla);
+  color: var(--color-fondo);
+  pointer-events: none;
+}
+
 /* VELO DE LEGIBILIDAD, medido y no «a ojo».
    Peor caso posible: que detrás del texto caiga el cielo blanco del archivo.
    Con 0.74 de verde bosque hondo encima, ese blanco baja a un gris verdoso
@@ -113,12 +251,21 @@
   position: absolute;
   inset: 0;
   z-index: var(--z-base);
+/* v5 · LOS TRAMOS DE ABAJO SUBEN UN PUNTO, y hay una razón concreta: el
+   relleno inferior del texto creció lo que mide la orla (hasta 88 px en
+   escritorio), así que el bloque entero se levantó y la entradilla —que es
+   texto PEQUEÑO en crema al 78 %, el par más ajustado de la portada— ya no cae
+   donde el velo estaba más denso. Con los valores de v4 el peor caso teórico
+   (cielo blanco del archivo justo detrás) se quedaba en 4,69:1: pasa, pero sin
+   margen. Con 0.92 / 0.86 sube a 5,9:1. Arriba el velo sigue abriéndose hasta
+   0.28 para que la fotografía siga siendo una fotografía: ahí no hay texto que
+   proteger. */
   background-image: linear-gradient(
     to top,
-    rgb(var(--verde-bosque-hondo-rgb) / 0.9) 0%,
-    rgb(var(--verde-bosque-hondo-rgb) / 0.8) 40%,
-    rgb(var(--verde-bosque-hondo-rgb) / 0.66) 70%,
-    rgb(var(--verde-bosque-hondo-rgb) / 0.3) 100%
+    rgb(var(--verde-bosque-hondo-rgb) / 0.92) 0%,
+    rgb(var(--verde-bosque-hondo-rgb) / 0.86) 42%,
+    rgb(var(--verde-bosque-hondo-rgb) / 0.68) 72%,
+    rgb(var(--verde-bosque-hondo-rgb) / 0.28) 100%
   );
 }
 
@@ -126,7 +273,12 @@
   position: relative;
   z-index: var(--z-elevado);
   width: 100%;
-  padding-block: var(--esp-2xl) var(--esp-xl);
+  /* El relleno de abajo despeja la orla ENTERA, no sólo la parte fina que le
+     cae encima al texto: si el visitante agranda la letra del sistema, el
+     bloque crece hacia abajo y sin este colchón la última línea se metería en
+     el papel claro con el color en negativo. Es la única defensa que hay
+     contra ese caso, y cuesta un `calc`. */
+  padding-block: var(--esp-2xl) calc(var(--esp-xl) + var(--alto-orla));
 }
 
 /* En un teléfono corto (320 × 568) el titular ocupa cinco líneas y el bloque
@@ -136,7 +288,7 @@
    ser una portada. */
 @media (max-width: 47.99em) {
   .inicio__portada-interior {
-    padding-block: var(--esp-xl) var(--esp-lg);
+    padding-block: var(--esp-xl) calc(var(--esp-lg) + var(--alto-orla));
   }
 }
 
@@ -146,36 +298,83 @@
   gap: var(--esp-sm);
 }
 
-/* v3 «Blackberry» — EL ÚNICO TITULAR EN MAYÚSCULAS DE TODA LA PÁGINA, y desde
-   v4 también el único que sube de cuerpo. El referente abre con un display en
-   caja alta, peso finísimo y las letras abiertas; de la segunda sección en
-   adelante todo vuelve a caja de frase. Aquí se hace lo mismo y sólo aquí: los
-   h2 del resto del sitio son frases largas en español y en caps ocuparían tres
-   renglones y gritarían (base.css lo deja escrito).
+/* v5 — SE VAN LAS MAYÚSCULAS, Y NO ES UN CAMBIO DE GUSTO.
+   v4 dejaba este titular en caja alta: era el único de la página y se
+   justificaba imitando al referente. Dos problemas medidos.
+   PRIMERO, incumple el contrato: CONTRATO-V2 §3 prohíbe `text-transform:
+   uppercase` sobre cualquier cosa de 24 px o más que no sea el logotipo, y
+   este arranca en 44,8 px y llega a 84. SEGUNDO, es justo el gesto que hace
+   que la portada se lea como plantilla: una frase larga en español,
+   centrifugada en mayúsculas sobre una foto con velo, es la portada de
+   cualquier sitio de turismo. En caja alta y baja, Fraunces a peso 320
+   recupera la silueta de las palabras y parece escrita para este predio.
+
+   EL CONTRASTE LO HACE LA COMPOSICIÓN, NO EL COLOR: dos renglones de cuerpos
+   distintos, el segundo sangrado y con una hoja delante. Los dos van en crema
+   —ver .inicio__titulo-linea—, porque debajo hay una fotografía.
 
    EL CUERPO: --fs-hero es el único paso de la escala que llega a 5,25 rem en
    1440 y baja solo a 2,8 rem en 320, así que la presencia grande y la
    supervivencia en pantalla estrecha salen del mismo token, sin literales.
 
-   LA MEDIDA EN `ch` Y NO EN `rem`: 15ch se mide contra el propio cuerpo del
+   LA MEDIDA EN `ch` Y NO EN `rem`: se mide contra el propio cuerpo del
    titular, de modo que el número de palabras por línea es el mismo en 1440 que
-   en 768. Con un máximo en rem, el titular se partía en tres líneas arriba y
-   en una sola abajo. `overflow-wrap` es la red de seguridad para el sistema
-   con la letra agrandada: ninguna palabra de esta frase la necesita a tamaño
-   normal, pero si alguna llegara a no caber, parte en vez de desbordar.
+   en 768. Sube de 15ch a 22ch porque ahora los renglones son dos bloques y el
+   primero, «Escápate de la ciudad», mide 21 caracteres: con 15ch se partía en
+   tres. `overflow-wrap` es la red de seguridad para el sistema con la letra
+   agrandada.
 
    Peso y tracking vienen ya de .titulo-seccion (--peso-display /
-   --tracking-display); esta regla añade caja alta, cuerpo, interlineado
-   apretado —a este tamaño el 1,14 de titular abre demasiado— y el color en
-   negativo. Gana a base.css por orden de cascada, no por especificidad: las
-   dos clases miden (0,1,0) y esta hoja se carga después. */
+   --tracking-display); esta regla añade cuerpo, interlineado apretado —a este
+   tamaño el 1,14 de titular abre demasiado— y el color en negativo. Gana a
+   base.css por orden de cascada, no por especificidad: las dos clases miden
+   (0,1,0) y esta hoja se carga después. */
 .inicio__titulo {
-  text-transform: uppercase;
   font-size: var(--fs-hero);
   line-height: var(--alto-linea-apretado);
-  max-width: 15ch;
+  max-width: 22ch;
   overflow-wrap: break-word;
   color: var(--color-texto-inverso);
+}
+
+/* Cada renglón es un bloque para poder darles cuerpos y sangrías distintos.
+   El `balance` que trae .titulo-seccion sigue actuando dentro de cada uno. */
+.inicio__titulo-linea {
+  display: block;
+}
+
+/* EL SEGUNDO RENGLÓN: más pequeño, sangrado y con la hoja delante.
+   · El cuerpo baja a --fs-h2 (hasta 2,9 rem): sigue siendo un titular, pero
+     ya no compite con el primero. La jerarquía dentro de una misma frase es
+     lo que la vuelve una composición y no una masa de letras.
+   · La sangría se mide en `em` del propio renglón, así que escala con él y
+     no hay que corregirla en ningún breakpoint.
+   · El color baja a la crema al 78 %. A este cuerpo el texto es «grande»
+     (> 24 px) y le bastaría 3:1, pero aun midiéndolo como texto pequeño y en
+     el peor caso imaginable —el cielo blanco del archivo justo detrás y el
+     velo en su punto más flojo a esa altura— se queda en 4,9:1. */
+.inicio__titulo-linea--menor {
+  position: relative;
+  margin-top: var(--esp-3xs);
+  padding-left: 1.8em;
+  font-size: var(--fs-h2);
+  color: var(--color-texto-inverso-suave);
+}
+
+/* La hoja. Misma forma exacta que el remate de .lista-hojas en base.css
+   —dos esquinas a --radio-full y dos a cero—, que es la única figura orgánica
+   que ya tenía el sistema. Es decorativa y no lleva información, así que no
+   le aplica el mínimo de contraste de texto; aun así va en coral claro, que
+   sobre el bosque del velo pasa 5,7:1 de sobra. */
+.inicio__titulo-linea--menor::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0.3em;
+  width: 0.62em;
+  height: 0.62em;
+  border-radius: 0 var(--radio-full) 0 var(--radio-full);
+  background-color: var(--color-acento-inverso);
 }
 
 /* Sobre la portada no hay .seccion--oscura de la que heredar el negativo: el
@@ -207,9 +406,30 @@
 
 /* Sólo sistema de coordenadas: ni recorta ni mide. Si llevara `overflow` se
    comería la rejilla de anclas de móvil, que es hija suya y vive fuera de la
-   foto. */
+   foto.
+
+   v5 — LA SANGRÍA CAMBIA DE MANO Y SE QUEDA COJA A PROPÓSITO.
+   Hasta v4 el plano cruzaba la ventana de borde a borde. Una banda simétrica
+   de lado a lado no rompe ninguna retícula: la confirma. Ahora arranca en el
+   margen del contenedor —la misma vertical exacta que su pie y que la tira de
+   aves, porque el margen se calcula con el mismo max()— y se va de la
+   pantalla por la DERECHA. Dos consecuencias buscadas:
+     · queda una columna de papel a la izquierda que ata el bloque a la
+       retícula del resto de la página en lugar de flotar suelto;
+     · la mano por la que sangra es la contraria a la de la foto grande de
+       #nosotros, que se va por la izquierda. Dos sangrías seguidas por el
+       mismo lado son el mismo gesto repetido.
+   El max() es el mismo recurso del pie: mientras la ventana sea más estrecha
+   que --ancho-xl gana el relleno de página; en cuanto es más ancha, gana la
+   mitad de lo que sobra, que es donde empieza .contenedor. Aritmética de
+   porcentajes del <section>, nunca de la ventana.
+
+   OJO AL ORDEN: el desplazamiento va en el LIENZO y no en el marco. Las
+   coordenadas de las cuatro anclas de escritorio son porcentajes del lienzo,
+   así que mover el marco por su cuenta las dejaría señalando al vacío.     */
 .inicio__plano-lienzo {
   position: relative;
+  margin-left: max(var(--padding-contenedor), calc((100% - var(--ancho-xl)) / 2));
 }
 
 /* La proporción y el recorte, aquí. En móvil y en tableta la foto se recorta
@@ -220,10 +440,21 @@
    proporción exacta del archivo (2000 × 1013) y el recorte desaparece, que es
    la condición para que las coordenadas en % sigan cayendo sobre el sitio
    que señalan. */
+/* v5 — LOS RADIOS SON DE HOJA, NO DE TARJETA.
+   Cuatro esquinas iguales es la firma de la plantilla; aquí hay tres valores
+   distintos y el par de la derecha en cero, porque ese borde no existe: se va
+   de la pantalla. Arriba a la izquierda el radio grande (--radio-xl) y abajo
+   el mediano (--radio-lg): la forma queda asimétrica, como una hoja apoyada,
+   y el mordisco que el redondeo le pega al render aéreo se queda en la
+   esquina, lejos del predio.
+   La sombra es baja y muy abierta (--sombra-lg): no es el halo de una tarjeta
+   flotante, es la sombra que echa una copa sobre el suelo. */
 .inicio__plano-marco {
   position: relative;
   aspect-ratio: 4 / 3;
   overflow: hidden;
+  border-radius: var(--radio-xl) 0 0 var(--radio-lg);
+  box-shadow: var(--sombra-lg);
   background-color: var(--color-fondo-alt);
 }
 
@@ -270,16 +501,17 @@
 }
 
 /* ---- LAS CUATRO ANCLAS --------------------------------------------------
-   Móvil y tableta: rejilla de pastillas bajo el plano. Al vivir fuera del
-   .contenedor, el margen lateral se lo pone ella misma con el mismo max() del
-   pie, para que la rejilla no arranque pegada al borde de la pantalla.      */
+   Móvil y tableta: rejilla de pastillas bajo el plano.
+   v5: el margen izquierdo ya se lo pone el lienzo, que es su padre; lo único
+   que tiene que resolver la rejilla es que no llegue pegada al borde DERECHO
+   de la pantalla, que es por donde el lienzo se sale.                       */
 .inicio__anclas {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   gap: var(--gap-sm);
-  max-width: calc(var(--ancho-xl) + var(--padding-contenedor) * 2);
-  margin: var(--esp-md) auto 0;
-  padding-inline: var(--padding-contenedor);
+  max-width: var(--ancho-xl);
+  margin: var(--esp-md) 0 0;
+  padding-inline: 0 var(--padding-contenedor);
 }
 
 /* En tableta las cuatro caben en una fila y dejan de parecer un formulario. */
@@ -303,10 +535,12 @@
      pequeño de la escala fluida. El objetivo táctil sale del sistema.      */
   padding: var(--esp-sm);
   border: 1px solid var(--color-borde-fuerte);
-  /* v3: esquina viva, igual que .btn en base.css. La pastilla redondeada de v2
-     era el último resto del lenguaje anterior en esta sección; el contorno de
-     1 px hace todo el trabajo de separación que hacía la forma. */
-  border-radius: 0;
+  /* v5: vuelve la forma de pastilla, y por el mismo motivo por el que
+     base.css se la deja a .pildora aunque todo lo demás fuera cuadrado: «un
+     chip es un chip». Estas cuatro no son botones de formulario, son las
+     chinchetas de un plano, y sobre una fotografía aérea la forma redonda es
+     lo que las lee como marcas y no como recortes del papel. */
+  border-radius: var(--radio-full);
   background-color: var(--color-superficie-solida);
   /* Etiqueta, no titular: la fuente de etiqueta y las caps que §3 del
      contrato sí permite en micro-rótulos.                                  */
@@ -401,6 +635,10 @@
     background-color: rgb(var(--crema-rgb) / 0.94);
     backdrop-filter: var(--blur-vidrio);
     -webkit-backdrop-filter: var(--blur-vidrio);
+    /* v5: aquí la pastilla SÍ flota sobre la fotografía, así que recupera
+       sombra —pero la corta y cerrada (--sombra-sm), la de un objeto apoyado,
+       no la nube de una tarjeta despegada. */
+    box-shadow: var(--sombra-sm);
     pointer-events: auto;
   }
 
@@ -422,46 +660,103 @@
    `alt`). Tope en píxeles para que no crezcan hasta volverse medallones si la
    letra del sistema está agrandada.
    ========================================================================== */
-/* Rejilla y no `flex-wrap`: con seis miniaturas de ancho fijo, en un teléfono
-   entraban cinco y la sexta caía sola en una segunda fila. En rejilla el ancho
-   sale de la columna, así que la fila siempre queda completa: tres y tres en
-   móvil, las seis seguidas a partir de 48em.
-   v4: la tira deja de ir centrada y arranca en el margen del contenedor, en
-   la misma vertical que el pie del plano. Centrada era la enésima fila
-   simétrica de la página; alineada, cierra el bloque como una nota al pie. */
+/* v4 dejó la tira alineada al margen del contenedor en vez de centrada, y eso
+   estaba bien. Lo que seguía siendo plantilla era el interior: SEIS CUADRADOS
+   IDÉNTICOS, misma medida, misma esquina, todos apoyados en la misma línea.
+   Una retícula perfecta de seis módulos es exactamente lo que el ojo lee como
+   «generado», por muy descentrada que esté la retícula entera.
+
+   v5 la desarma: seis anchos distintos (del 0,66 al 1,3 del módulo), dos que
+   se levantan de la línea de base, cuatro formas de esquina distintas —dos
+   hojas, un canto suave y dos círculos— y una sombra corta que las apoya en
+   el papel. El módulo sigue siendo uno solo (--tam-ave) y todos los tamaños
+   son múltiplos suyos, así que el desorden es aparente: la tira sigue siendo
+   un sistema, sólo que uno que no se puede dibujar con una regla.
+
+   FLEX Y NO GRID, al revés que en v4: ahora que cada pieza mide distinto, la
+   rejilla de columnas iguales ya no sirve de nada. Con `wrap` la fila cede
+   sola en un teléfono —a 375 px se parte en dos grupos— en lugar de sacar
+   nada de la pantalla, y con `flex-end` las que no están levantadas comparten
+   línea de suelo, que es lo que impide que el conjunto se lea como un
+   descuido. */
 .inicio__aves {
   /* Tope en píxeles a propósito: con la letra del sistema agrandada, un valor
      en rem convertiría estas miniaturas en medallones y sacaría la fila de la
      pantalla. Mismo recurso que ya usaba la tira del hero. */
   --tam-ave: min(var(--esp-2xl), 64px);
 
-  display: grid;
-  grid-template-columns: repeat(3, var(--tam-ave));
-  justify-content: start;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  justify-content: flex-start;
   gap: var(--gap-sm);
   margin-block: var(--esp-lg) 0;
-  margin-inline: max(var(--padding-contenedor), calc((100% - var(--ancho-xl)) / 2)) auto;
+  margin-inline: max(var(--padding-contenedor), calc((100% - var(--ancho-xl)) / 2))
+    var(--padding-contenedor);
   padding: 0;
 }
 
-@media (min-width: 48em) {
-  .inicio__aves {
-    grid-template-columns: repeat(6, var(--tam-ave));
-  }
-}
-
-/* v3: los seis medallones pasan a CUADRADOS a esquina viva, como las fichas de
-   #espacios. Eran círculos con filete y --sombra-sm —seis broches— justo
-   debajo de un plano que ahora va a sangre; el contraste de lenguajes se veía
-   de lejos. Sin borde y sin sombra: el propio recorte hace de límite, que es
-   lo que ya hace .marco en base.css. */
 .inicio__ave {
   position: relative;
+  flex: none;
+  width: var(--tam-ave);
   aspect-ratio: 1;
   overflow: hidden;
-  border-radius: 0;
-  box-shadow: none;
+  /* Corta y cerrada: apoya la miniatura en el papel, no la despega de él. */
+  box-shadow: var(--sombra-sm);
   background-color: var(--color-fondo-alt);
+}
+
+/* LOS SEIS TAMAÑOS Y LAS SEIS FORMAS.
+   Las dos hojas (nth 1 y 3) llevan la misma figura que el remate de
+   .lista-hojas en base.css: dos esquinas redondas en diagonal y dos vivas.
+   Las dos levantadas (nth 2 y 5) suben con `margin-bottom`, que en un flex
+   alineado a `flex-end` es lo que separa una pieza de la línea de suelo sin
+   sacarla del flujo ni pedir posición absoluta. */
+.inicio__ave:nth-child(1) {
+  width: calc(var(--tam-ave) * 1.3);
+  border-radius: var(--radio-lg) 0 var(--radio-lg) 0;
+}
+
+.inicio__ave:nth-child(2) {
+  width: calc(var(--tam-ave) * 0.72);
+  margin-bottom: var(--esp-md);
+  border-radius: var(--radio-full);
+}
+
+.inicio__ave:nth-child(3) {
+  width: calc(var(--tam-ave) * 1.1);
+  border-radius: 0 var(--radio-xl) 0 var(--radio-xl);
+}
+
+.inicio__ave:nth-child(4) {
+  width: calc(var(--tam-ave) * 0.86);
+  border-radius: var(--radio-md);
+}
+
+.inicio__ave:nth-child(5) {
+  width: calc(var(--tam-ave) * 1.18);
+  margin-bottom: var(--esp-lg);
+  border-radius: var(--radio-xl) var(--radio-sm) var(--radio-xl) var(--radio-sm);
+}
+
+.inicio__ave:nth-child(6) {
+  width: calc(var(--tam-ave) * 0.66);
+  border-radius: var(--radio-full);
+}
+
+/* TRAMPA DE base.css, ANOTADA PARA QUIEN VENGA DETRÁS.
+   `.js .reveal.visible` pone `clip-path: inset(0 0 0 0)` a TODO elemento que
+   entra —lo necesita .reveal--velo, y de paso se lo come el resto—, y un
+   `clip-path` recorta también la sombra del elemento, que vive fuera de su
+   caja. Como estas seis miniaturas sí llevan sombra y sí son .reveal, sin
+   esto la sombra desaparecía justo al terminar la animación de entrada.
+   Se le devuelve el clip a `none` una vez visible: la regla de base mide
+   (0,3,0) y ésta también, pero esta hoja se carga después, así que gana por
+   cascada y no hace falta ningún !important. Antes de .visible no hay nada
+   que romper, porque el clip inicial sólo lo declara .reveal--velo.        */
+.inicio__ave.reveal.visible {
+  clip-path: none;
 }
 
 /* Absoluta y no `height: 100%`: el alto de la miniatura lo fija `aspect-ratio`,
