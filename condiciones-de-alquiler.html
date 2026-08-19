@@ -9,20 +9,20 @@
   <link rel="alternate" hreflang="es" href="https://vegasdelverde.com/condiciones-de-alquiler.html" />
   <link rel="alternate" hreflang="en" href="https://vegasdelverde.com/en/rental-conditions.html" />
   <link rel="icon" href="img/logo/simbolo-vegas.png" type="image/png" />
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <!-- precarga-fuentes: la hoja de Google va con display=swap, así que sin esto
-       el texto se pinta con la fuente del sistema y SALTA a la real cuando
-       llega — un parpadeo visible en toda la página. Precargados, los dos
-       woff2 del subconjunto latino llegan antes del primer pintado y el
-       cambio no se ve. Si Google versiona los archivos estas URLs darán 404:
-       no rompe nada (la hoja sigue trayendo los suyos), sólo vuelve el
-       parpadeo. Se regeneran con herramientas/precargar-fuentes.js. -->
-  <link rel="preload" as="font" type="font/woff2" crossorigin href="https://fonts.gstatic.com/s/dmsans/v17/rP2Hp2ywxg089UriCZOIHQ.woff2">
-  <link rel="preload" as="font" type="font/woff2" crossorigin href="https://fonts.gstatic.com/s/fraunces/v38/6NUV8FyLNQOQZAnv9ZwIlOk.woff2">
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,300..700&family=Fraunces:opsz,wght,SOFT,WONK@9..144,300..700,0..100,0..1&display=swap" />
+  <!-- fuentes-propias: Fraunces y DM Sans viven en styles/fonts/ y se declaran
+       por @font-face en base.css — no hay <link> a fonts.googleapis.com,
+       ni preconnect a Google. La precarga es lo único que sigue haciendo
+       falta: hace que el navegador pida el woff2 desde el primer instante,
+       en paralelo a parsear el CSS, en vez de esperar a descubrir el
+       @font-face durante el layout. Con display: optional (en base.css) y
+       el archivo del propio dominio, la fuente casi siempre llega dentro de
+       la ventana corta que el navegador le da antes de resignarse a la del
+       sistema — sin swap visible. Se regenera con
+       herramientas/precargar-fuentes.js. -->
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="styles/fonts/dm-sans-latin.woff2?v=89c7ce3a">
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="styles/fonts/fraunces-latin.woff2?v=e75e106b">
   <link rel="stylesheet" href="styles/tokens.css?v=4f5c7c16" />
-  <link rel="stylesheet" href="styles/base.css?v=521302f4" />
+  <link rel="stylesheet" href="styles/base.css?v=749e0890" />
   <link rel="stylesheet" href="styles/shell.css?v=8118b941" />
   <link rel="stylesheet" href="styles/sections/condiciones.css?v=748e25f6" />
   <script>document.documentElement.classList.remove('no-js');document.documentElement.classList.add('js');</script>

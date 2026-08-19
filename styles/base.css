@@ -7,9 +7,56 @@
    mayúsculas · botón primario con el acento cálido (coral) en vez del verde.
    ========================================================================== */
 
-/* Las fuentes se cargan con <link> en el <head> de cada página (Fraunces con
-   los ejes SOFT/WONK que pide --ejes-display, y Jost). Aquí NO va un @import:
-   bloquea el render y duplica la petición.                                 */
+/* ==========================================================================
+   0. LAS DOS FUENTES DE MARCA, ALOJADAS EN EL PROPIO SITIO
+   Antes se cargaban con un <link> a fonts.googleapis.com, con
+   font-display: swap (parpadeo garantizado: pinta con la fuente del
+   sistema y salta a la real cuando llega) y después con display: optional
+   PRECARGADO —que sólo evita el parpadeo si el archivo llega desde el CDN
+   de Google en la ventanita de ~100ms que el navegador da antes de
+   resignarse—. Ese margen depende de una red que no controlamos: en la
+   práctica seguía fallando.
+
+   Alojando el propio woff2 el archivo es del mismo origen que el resto del
+   sitio: nada de negociar con un servidor externo, nada de esperar su
+   round-trip. Con display: optional pedido a un archivo que ya está en el
+   propio dominio, casi nunca llega tarde a esa ventana. Son los DOS únicos
+   archivos que hacen falta —el subconjunto «latin», que cubre el español
+   entero (ñ, tildes, ¿¡, «»)— porque el sitio no tiene texto en otro
+   alfabeto; los otros subconjuntos que trae Google (vietnamese, greek,
+   cyrillic…) sobraban.
+
+   Son fuentes VARIABLES: un solo archivo cubre todo el rango de peso
+   300–700, por eso `font-weight: 300 700` (un rango, no un número) y por
+   eso tokens.css puede pedir cualquier --peso-* sin más archivos.
+   `font-optical-sizing: auto` (ya declarado donde se usa Fraunces) activa
+   el eje óptico del propio archivo sin necesitar un peso aparte.
+
+   Los archivos viven en styles/fonts/ y se precargan desde el <head> de
+   cada página (ver herramientas/precargar-fuentes.js) para que empiecen a
+   bajar en el primer instante, antes incluso de que el navegador termine
+   de parsear este CSS. */
+@font-face {
+  font-family: 'DM Sans';
+  font-style: normal;
+  font-weight: 300 700;
+  font-display: optional;
+  src: url('fonts/dm-sans-latin.woff2') format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC,
+    U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215,
+    U+FEFF, U+FFFD;
+}
+
+@font-face {
+  font-family: 'Fraunces';
+  font-style: normal;
+  font-weight: 300 700;
+  font-display: optional;
+  src: url('fonts/fraunces-latin.woff2') format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC,
+    U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215,
+    U+FEFF, U+FFFD;
+}
 
 /* ==========================================================================
    1. RESET MODERNO

@@ -139,9 +139,28 @@
     });
   }
 
+  /* EL PUNTO DE PARTIDA SE COLOCA SIN ANIMAR. Esto es lo que arregla el
+     «en la primera carga no sale de abajo».
+
+     Al arrancar, --pv-dy todavía no existe, así que la pieza está en su sitio
+     final (dy = 0) y diminuta. Si `medir()` escribe --pv-dy con la transición
+     ACTIVA, cambiar esa variable cambia el transform y la pieza empieza a
+     viajar hacia abajo durante 1,5 s. Dos fotogramas después se le añade
+     `esta-puesto` y se le manda subir — pero apenas ha bajado unos píxeles,
+     así que «sube» desde casi su destino: se ve aparecer, no volar.
+
+     Por eso al bajar y volver sí funcionaba: el rearme ya la había dejado
+     abajo de verdad, y desde ahí el vuelo era el bueno.
+
+     Ahora se apaga la transición, se coloca abajo de golpe, se reactiva en el
+     fotograma siguiente y sólo entonces se lanza el vuelo. Primera carga y
+     reentradas quedan idénticas. */
   function soltar() {
+    piezas.forEach(function (p) { p.classList.add('sin-transicion'); });
     medir();
+    void portada.offsetHeight;          // aplica el salto al punto de partida
     requestAnimationFrame(function () {
+      piezas.forEach(function (p) { p.classList.remove('sin-transicion'); });
       requestAnimationFrame(function () {
         piezas.forEach(function (p) { p.classList.add('esta-puesto'); });
       });
