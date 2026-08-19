@@ -8,6 +8,15 @@
 <link rel="icon" type="image/png" href="/img/logo/simbolo-vegas.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<!-- precarga-fuentes: la hoja de Google va con display=swap, así que sin esto
+     el texto se pinta con la fuente del sistema y SALTA a la real cuando
+     llega — un parpadeo visible en toda la página. Precargados, los dos
+     woff2 del subconjunto latino llegan antes del primer pintado y el
+     cambio no se ve. Si Google versiona los archivos estas URLs darán 404:
+     no rompe nada (la hoja sigue trayendo los suyos), sólo vuelve el
+     parpadeo. Se regeneran con herramientas/precargar-fuentes.js. -->
+<link rel="preload" as="font" type="font/woff2" crossorigin href="https://fonts.gstatic.com/s/dmsans/v17/rP2Hp2ywxg089UriCZOIHQ.woff2">
+<link rel="preload" as="font" type="font/woff2" crossorigin href="https://fonts.gstatic.com/s/fraunces/v38/6NUV8FyLNQOQZAnv9ZwIlOk.woff2">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,300..700&family=Fraunces:opsz,wght,SOFT,WONK@9..144,300..700,0..100,0..1&display=swap">
 <link rel="stylesheet" href="/styles/tokens.css">
 <link rel="stylesheet" href="/styles/base.css">

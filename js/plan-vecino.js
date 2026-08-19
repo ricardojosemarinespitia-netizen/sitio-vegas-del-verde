@@ -107,20 +107,35 @@
      punto fijo bajo la mitad inferior de la escena; el desplazamiento se mide
      de verdad sobre el layout ya resuelto —no a ojo— para que la trayectoria
      termine exactamente en su sitio a cualquier ancho. */
+  /* Posición de reposo de una pieza dentro de la lámina, SIN contar
+     transformaciones. Se suma la cadena de offsetTop hasta la lámina.
+
+     ESTO ES LA CORRECCIÓN DEL BUG «a veces sube y a veces no».
+     Antes se medía con getBoundingClientRect(), que devuelve la caja YA
+     TRANSFORMADA. Al volver a entrar en pantalla, las piezas seguían
+     desplazadas hacia abajo por el rearme —o a medio camino de la
+     transición— así que la resta daba casi cero y el vuelo no ocurría: la
+     pieza «aparecía» en su sitio en vez de subir. Con offsetTop se lee la
+     posición de maqueta, que no cambia nunca, y el trayecto sale idéntico
+     en todas y cada una de las veces. */
+  function topDeMaqueta(el) {
+    var y = 0, n = el;
+    while (n && n !== portada) { y += n.offsetTop; n = n.offsetParent; }
+    return y;
+  }
+
   function medir() {
-    var esc = portada.getBoundingClientRect();
     // Punto de partida: bien abajo en la lámina, no en su centro geométrico.
     // Con 0.82 de la altura, hasta las mariposas que terminan cerca del techo
     // recorren un ascenso claro sin que la más baja del enjambre tenga que
     // nacer fuera de la lámina.
-    var cy = esc.top + esc.height * 0.82;
+    var cy = portada.offsetHeight * 0.82;
     piezas.forEach(function (p) {
-      if (p.classList.contains('esta-puesto')) return;
-      var r = p.getBoundingClientRect();
-      if (!r.width) return;
+      if (!p.offsetHeight) return;
       // Sin arrastre horizontal: sube en línea recta hasta su sitio.
       p.style.setProperty('--pv-dx', '0px');
-      p.style.setProperty('--pv-dy', Math.round(cy - (r.top + r.height / 2)) + 'px');
+      p.style.setProperty('--pv-dy',
+        Math.round(cy - (topDeMaqueta(p) + p.offsetHeight / 2)) + 'px');
     });
   }
 
@@ -135,9 +150,20 @@
 
   /* Rearme: devuelve las piezas abajo y diminutas para que el vuelo se pueda
      volver a ver. Sin esto el efecto ocurre una sola vez en toda la visita y
-     quien baja y vuelve a subir a la portada no ve nada. */
+     quien baja y vuelve a subir a la portada no ve nada.
+
+     Va DE GOLPE, con la transición apagada. Si se deja animar, las piezas
+     tardan segundo y medio en bajar y quien vuelve a subir antes las pilla a
+     medio camino: el vuelo arranca desde donde estén y unas suben y otras
+     casi no. Cortando la transición, el punto de partida es siempre el
+     mismo. */
   function recoger() {
-    piezas.forEach(function (p) { p.classList.remove('esta-puesto'); });
+    piezas.forEach(function (p) {
+      p.classList.add('sin-transicion');
+      p.classList.remove('esta-puesto');
+    });
+    void portada.offsetHeight;            // fuerza el salto antes de re-armar
+    piezas.forEach(function (p) { p.classList.remove('sin-transicion'); });
   }
 
   /* Se espera a que los PNG estén decodificados: si se lanza el vuelo con las

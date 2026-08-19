@@ -754,6 +754,15 @@ a:hover {
   transition-delay: calc(var(--dur-traza) * 0.66);
 }
 
+/* Rearme instantáneo al salir de pantalla. Sin esto el trazo se DES-dibuja
+   durante los 2,4 s de vuelta, y quien baja y sube antes de que termine lo
+   encuentra a medias: la siguiente entrada arranca desde donde quedara y el
+   dibujado sale distinto cada vez —el «a veces sí, a veces no»—. La clase la
+   pone y la quita js/app.js dentro del mismo fotograma. */
+.js .rearmando .icono-traza > * {
+  transition: none;
+}
+
 /* Sin movimiento: el icono aparece dibujado, nunca a medio pintar. */
 @media (prefers-reduced-motion: reduce) {
   .js .icono-traza > :not([stroke-dasharray]):not([data-traza="detalle"]) {

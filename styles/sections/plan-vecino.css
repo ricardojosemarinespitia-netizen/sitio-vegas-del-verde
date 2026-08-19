@@ -314,6 +314,13 @@
   transition: none;
 }
 
+/* Rearme instantáneo: la pieza vuelve abajo de golpe al salir de pantalla,
+   para que el siguiente vuelo empiece siempre desde el mismo sitio. La pone
+   y la quita plan-vecino.js en el mismo fotograma. */
+.pv-bicho.sin-transicion {
+  transition: none;
+}
+
 @media (prefers-reduced-motion: reduce) {
   .pv-bicho {
     opacity: 1;

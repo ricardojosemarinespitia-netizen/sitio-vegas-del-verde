@@ -65,7 +65,19 @@
     // toda la visita desperdicia el gesto.
     const ioTraza = new IntersectionObserver(entradas => {
       entradas.forEach(entrada => {
-        entrada.target.classList.toggle('traza-lista', entrada.isIntersecting);
+        const caja = entrada.target;
+        if (entrada.isIntersecting) {
+          caja.classList.add('traza-lista');
+          return;
+        }
+        // Al salir se rearma DE GOLPE, con la transición apagada: si se deja
+        // des-dibujar durante 2,4 s, quien vuelve antes lo encuentra a medias
+        // y la siguiente entrada sale distinta. Así el punto de partida es
+        // siempre el mismo y el dibujado se repite idéntico.
+        caja.classList.add('rearmando');
+        caja.classList.remove('traza-lista');
+        void caja.offsetHeight;
+        caja.classList.remove('rearmando');
       });
     }, { threshold: 0, rootMargin: '0px 0px -15% 0px' });
     contenedoresTraza.forEach(caja => ioTraza.observe(caja));
