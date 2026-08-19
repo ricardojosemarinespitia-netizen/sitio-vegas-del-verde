@@ -34,6 +34,30 @@ pares .py/.js hay que mantenerlos en paralelo:** si cambias `ORDEN`,
 `validar.py` sale con código 0 si está limpio y 1 si hay hallazgos, así que se
 puede encadenar: `python herramientas/ensamblar.py && python herramientas/validar.py`.
 
+## Antes de cada publicación: versionar los assets
+
+**Obligatorio, o el cliente sigue viendo la versión vieja.** GitHub Pages
+sirve `.js`/`.css` con `Cache-Control: max-age=600`; un recargo normal (sin
+Ctrl+Shift+R) no vuelve a pedirlos aunque el commit ya esté publicado. Pasó
+de verdad: se corrigió un bug del vuelo de las mariposas, se publicó, y el
+cliente siguió viendo el bug 10+ minutos porque su navegador tenía cacheado
+el `.js` viejo.
+
+```sh
+python herramientas/ensamblar.py
+node herramientas/versionar-assets.js --escribir   # SIEMPRE después de ensamblar
+python herramientas/validar.py
+```
+
+`versionar-assets.js` le pone a cada `<script src="js/...">` y
+`<link href="styles/...">` local un `?v=<hash-del-contenido>`. Un archivo
+que no cambió conserva su URL (su caché sigue sirviendo, rápido); el que sí
+cambió fuerza una URL nueva y el navegador queda obligado a pedirlo de
+nuevo sin importar el `max-age`. El orden importa: `ensamblar.py` reescribe
+el bloque de `<link>` de `styles/sections/*.css` en `index.html` SIN
+versión, así que si se versiona antes, ensamblar borra las versiones que
+se acababan de poner.
+
 ## Qué hace cada uno
 
 **`ensamblar.py`** — pega `<head>` + `sections/_header.html` + los ocho
