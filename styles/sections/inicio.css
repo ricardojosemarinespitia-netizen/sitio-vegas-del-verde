@@ -208,6 +208,35 @@
   }
 }
 
+/* ---- EL AIRE DEL BOSQUE (canvas de partículas) ---------------------------
+   El lienzo lo crea js/particulas-hero.js y lo añade al FINAL de
+   .inicio__portada; aquí sólo se fija su sitio en la pila de capas:
+
+     foto (z-fondo, primera) → LIENZO (z-fondo, último: gana por orden de
+     documento) → velo y orla (z-base) → texto (z-elevado)
+
+   Es decir: las partículas vuelan ENCIMA de la fotografía y DEBAJO del velo
+   de legibilidad. No es un accidente — hacia el pie, donde el velo se cierra
+   para proteger el titular, el aire se apaga con él, así que el contrato de
+   contraste del velo (medido arriba) queda intacto sin sumar ni una regla.
+
+   width/height al 100 % y no heredados: base.css le pone a todo canvas
+   `height: auto`, que aquí lo colapsaría al alto de su atributo.
+
+   No lleva media query de movimiento reducido a propósito: con
+   prefers-reduced-motion el módulo NI SE MONTA (lo comprueba el <script> del
+   fragmento antes de importar), así que este selector no encuentra nada que
+   apagar. Sin JS, tampoco: la regla queda inerte.                          */
+.inicio__particulas {
+  position: absolute;
+  inset: 0;
+  z-index: var(--z-fondo);
+  display: block;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+
 /* ---- LA ORLA ORGÁNICA ----------------------------------------------------
    Es el papel comiéndose la fotografía, no una forma encima de ella: por eso
    se pinta con `currentColor` y el color es --color-fondo, el mismo de la
@@ -260,13 +289,37 @@
    margen. Con 0.92 / 0.86 sube a 5,9:1. Arriba el velo sigue abriéndose hasta
    0.28 para que la fotografía siga siendo una fotografía: ahí no hay texto que
    proteger. */
-  background-image: linear-gradient(
-    to top,
-    rgb(var(--verde-bosque-hondo-rgb) / 0.92) 0%,
-    rgb(var(--verde-bosque-hondo-rgb) / 0.86) 42%,
-    rgb(var(--verde-bosque-hondo-rgb) / 0.68) 72%,
-    rgb(var(--verde-bosque-hondo-rgb) / 0.28) 100%
-  );
+/* v6 · SE AÑADE UNA SEGUNDA CAPA EN DIAGONAL, Y NO TOCA NI UN VALOR DE LA
+   PRIMERA. El velo vertical de v5 es un lavado parejo: la fotografía queda
+   igual de apagada en la esquina donde no hay nada que proteger que detrás del
+   titular. El resultado medido en pantalla es una plancha oscura con una foto
+   dentro, no una fotografía.
+   Esta capa SÓLO SUMA OSCURIDAD, y sólo hacia la esquina inferior IZQUIERDA,
+   que es exactamente donde vive el bloque de texto. Consecuencias:
+     · el contraste del texto no puede empeorar —oscurecer un fondo por debajo
+       de un texto crema únicamente lo sube—, así que los 5,9:1 medidos en v5
+       siguen siendo el SUELO y no hay que volver a medir nada;
+     · la mitad derecha se queda como estaba y, por comparación, se lee más
+       clara: ahí es donde vuelven a verse las copas, y donde el aire de
+       partículas tiene por fin un fondo sobre el que distinguirse.
+   El eje va `to top right`: el color se apoya en la esquina de abajo a la
+   izquierda y se ha ido del todo antes de la mitad del recorrido, así que ni
+   asoma por la esquina superior derecha, que es la más abierta de la foto.
+   Va la PRIMERA de la lista —es decir, encima— sobre el lavado vertical.   */
+  background-image:
+    linear-gradient(
+      to top right,
+      rgb(var(--verde-bosque-hondo-rgb) / 0.34) 0%,
+      rgb(var(--verde-bosque-hondo-rgb) / 0.1) 34%,
+      transparent 56%
+    ),
+    linear-gradient(
+      to top,
+      rgb(var(--verde-bosque-hondo-rgb) / 0.92) 0%,
+      rgb(var(--verde-bosque-hondo-rgb) / 0.86) 42%,
+      rgb(var(--verde-bosque-hondo-rgb) / 0.68) 72%,
+      rgb(var(--verde-bosque-hondo-rgb) / 0.28) 100%
+    );
 }
 
 .inicio__portada-interior {
@@ -292,10 +345,25 @@
   }
 }
 
-/* El aire de debajo lo pone el padding del interior. */
+/* El aire de debajo lo pone el padding del interior.
+
+   v6 · EL RITMO DEJA DE SER PAREJO. `.seccion-encabezado` reparte un `gap`
+   único entre sus hijos, y con un solo número los cuatro elementos —rótulo,
+   titular, entradilla y botones— quedan a la misma distancia: medido en la
+   página real eran 16 · 16 · 24 px. Cuatro cosas equidistantes se leen como
+   una lista, no como una composición, y en la primera pantalla del sitio eso
+   es lo que la hacía parecer una plantilla por mucho que el titular fuera
+   bueno.
+   El reparto correcto no es igual: el rótulo y el titular son UNA unidad y
+   van pegados; la entradilla es otra voz y pide respirar; el botón es la
+   consecuencia y pide el salto más grande, que además es lo que lo separa
+   como objetivo táctil. De ahí --esp-sm · --esp-md · --esp-lg, tres pasos
+   consecutivos de la escala, sin un solo número nuevo.
+   El `gap` se pone a cero y el aire pasa a márgenes por hijo: con `gap` no se
+   puede repartir distinto entre parejas distintas. */
 .inicio__encabezado {
   margin-bottom: 0;
-  gap: var(--esp-sm);
+  gap: 0;
 }
 
 /* v5 — SE VAN LAS MAYÚSCULAS, Y NO ES UN CAMBIO DE GUSTO.
@@ -386,15 +454,189 @@
    cuerpo más pequeño de los dos. */
 .inicio__portada .eyebrow {
   color: var(--color-texto-inverso);
+  /* El aire del ritmo de v6. `.eyebrow` de base.css declara el margen en
+     atajo (para comerse el tracking sobrante por la derecha, que descuadra
+     el centrado); esta regla mide (0,2,0) y sólo pisa el lado de abajo, así
+     que la corrección del tracking sigue intacta. */
+  margin-bottom: var(--esp-sm);
 }
 
 .inicio__portada .entradilla {
   color: var(--color-texto-inverso-suave);
   max-width: var(--medida-corta);
+  margin-top: var(--esp-md);
 }
 
 .inicio__acciones {
-  margin-top: var(--esp-2xs);
+  margin-top: var(--esp-lg);
+  /* El fantasma y el coral tienen que compartir línea de base aunque uno de
+     los dos parta su rótulo en dos renglones. `.grupo-botones` ya alinea al
+     centro; lo que falta es que en pantalla estrecha, cuando el fantasma cae
+     debajo, los dos sigan midiendo lo mismo de ancho —si no, el segundo queda
+     como un recorte del primero. Lo resuelve `align-items: stretch` en el
+     tramo en que la fila se parte, más abajo. */
+}
+
+/* EL SEGUNDO BOTÓN NO PUEDE PESAR LO MISMO QUE EL PRIMERO.
+   `.btn-fantasma` ya es contorno sin relleno, pero a `--fs-cuerpo` y con el
+   mismo alto que el coral los dos se leen como una pareja de iguales y la
+   pantalla se queda sin un único punto de entrada. El filete baja a la crema
+   al 55 % y el rótulo se queda en crema PLENA, que es lo que de verdad hay
+   que poder leer.
+   LOS DOS NÚMEROS, calculados en el peor caso posible —el cielo blanco del
+   archivo justo detrás, con sólo el velo de esta altura (0,89) encima y sin
+   contar la capa diagonal, que aquí sólo puede oscurecer más—:
+     · filete: 3,9:1. WCAG 1.4.11 pide 3:1 para el contorno de un control, y
+       éste es el único trazo que dibuja el límite del botón. Pasa, y por eso
+       NO se le puede bajar más el alfa: al 45 % ya cae por debajo de 3.
+     · rótulo: 9,0:1, muy por encima del 4,5:1 de AA para texto pequeño.
+   En el hover recupera el filete entero y el fondo velado que ya trae de
+   base.css: el peso vuelve cuando el visitante lo ha elegido. */
+.inicio__accion-secundaria {
+  border-color: rgb(var(--crema-rgb) / 0.55);
+}
+
+.inicio__accion-secundaria:hover,
+.inicio__accion-secundaria:focus-visible {
+  border-color: var(--color-texto-inverso);
+}
+
+/* Cuando la fila se parte —teléfono y tableta pequeña— los dos botones pasan a
+   bloque y comparten ancho. Dos botones apilados de anchos distintos es el
+   defecto clásico de un grupo con `flex-wrap`: el de abajo se lee como un
+   recorte del de arriba en vez de como una alternativa.
+   EL CORTE ESTÁ MEDIDO, no elegido. Los dos botones piden unos 590 px de fila
+   (los cuerpos son fluidos, así que la cifra se midió en la página, no se
+   dedujo) y el ancho útil del contenedor cruza esa marca alrededor de los
+   640 px de ventana. El corte se pone un pelo por encima, en 40,99em: en la
+   franja de 640 a 656 px la fila todavía cabría por unos pocos píxeles, y
+   entre dos botones apretados hasta rozarse y dos botones apilados del mismo
+   ancho, lo segundo se lee mejor y no depende de qué tan larga sea la palabra
+   más larga en el idioma que se esté sirviendo. */
+@media (max-width: 40.99em) {
+  .inicio__acciones {
+    align-items: stretch;
+  }
+
+  .inicio__acciones > .btn {
+    flex: 1 1 100%;
+  }
+}
+
+/* ---- LA PISTA DE QUE LA PÁGINA SIGUE -------------------------------------
+   EL PROBLEMA, MEDIDO Y NO SUPUESTO. En 1280 × 720 la portada ocupa de 84 a
+   720: la ventana entera menos la cabecera, al píxel. No asoma nada de lo que
+   viene debajo, y una primera pantalla que cierra perfecta se puede confundir
+   con el sitio entero. La cabecera fija tiene menú, sí, pero el menú no dice
+   que ESTA página siga.
+
+   LA SOLUCIÓN, EN UN PÍXEL DE ANCHO. Un filete vertical de crema muy tenue por
+   el que baja una gota amarilla, en la columna derecha, que es la única parte
+   de la composición que estaba vacía. No lleva la palabra «desliza» ni una
+   flecha de plantilla: el movimiento ES el mensaje.
+
+   POR QUÉ NO ES UN ENLACE. Un ancla más aquí sería una parada más de teclado
+   antes del CTA, un rótulo más en la tabla de ARQUITECTURA-V3 §9 y un destino
+   que compite con las cuatro anclas del plano. Es un `<div aria-hidden>`: no
+   existe para el lector de pantalla, que ya tiene el índice del predio a un
+   scroll de distancia.
+
+   LAS DOS GUARDAS
+     1. Sólo a partir de 64em. En un teléfono no hay columna derecha libre —el
+        texto la ocupa entera— y deslizar no hay que enseñarlo.
+     2. La animación se declara DENTRO de `prefers-reduced-motion:
+        no-preference`, no con la duración a 1 ms. Es un bucle infinito: a 1 ms
+        no sería «casi sin movimiento», sería un estroboscopio. Quien reduce el
+        movimiento se queda con el filete quieto y la gota fuera de cuadro, que
+        es el estado inicial ya escrito en CSS estático —no hay un fotograma en
+        el que la gota aparezca de golpe en mitad de la línea.
+   ------------------------------------------------------------------------ */
+.inicio__bajar {
+  /* La línea y la gota, con la proporción escrita una sola vez: el recorrido
+     del keyframe es el alto de la línea medido en gotas (4rem / 1,5rem ≈ 2,7
+     → 270 %). Si algún día cambia uno de los dos, hay que recalcularlo aquí y
+     está anotado al lado. */
+  --alto-bajar: var(--esp-2xl);
+  --alto-gota: var(--esp-md);
+
+  position: absolute;
+  /* La misma vertical exacta por la que el contenedor cierra a la derecha:
+     mismo max() que usan el pie del plano y la tira de aves, sólo que por la
+     otra mano. Aritmética de porcentajes del padre, nunca de la ventana. */
+  right: max(var(--padding-contenedor), calc((100% - var(--ancho-xl)) / 2));
+  /* Despeja la orla ENTERA y deja además un respiro: en el borde derecho la
+     curva es la parte gruesa (94 de 120 del viewBox), así que apoyar la línea
+     justo encima de --alto-orla la dejaría tocando el papel. */
+  bottom: calc(var(--alto-orla) + var(--esp-lg));
+  z-index: var(--z-elevado);
+  display: none;
+  width: 1px;
+  height: var(--alto-bajar);
+  pointer-events: none;
+}
+
+@media (min-width: 64em) {
+  .inicio__bajar {
+    display: block;
+  }
+}
+
+.inicio__bajar-linea {
+  position: relative;
+  display: block;
+  width: 100%;
+  height: 100%;
+  /* El carril recorta la gota en los dos extremos: sin esto la gota se ve
+     entrar y salir por fuera de la línea y el gesto se deshace. */
+  overflow: hidden;
+  background-color: rgb(var(--crema-rgb) / 0.28);
+}
+
+/* ESTADO INICIAL BAKED, que es la regla dura de este sitio: la gota nace
+   FUERA del carril por arriba. Sin JS, con el JS caído o con el movimiento
+   reducido, lo que se ve es el filete y nada más — nunca una gota parada en
+   mitad de la línea. */
+.inicio__bajar-linea::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: var(--alto-gota);
+  background-color: var(--color-destacado);
+  transform: translate3d(0, -100%, 0);
+  opacity: 0;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .inicio__bajar-linea::after {
+    /* --dur-traza (2400 ms) es el tiempo del sitio para «una mano que
+       dibuja», que es justo el registro de esto: un gesto que se sigue con la
+       vista, no un parpadeo. Y --ease-traza arranca despacio, coge velocidad
+       en el tramo largo y frena al final, como cae una gota por un tallo. */
+    animation: inicio-gota var(--dur-traza) var(--ease-traza) infinite;
+  }
+}
+
+@keyframes inicio-gota {
+  from {
+    transform: translate3d(0, -100%, 0);
+    opacity: 0;
+  }
+
+  18% {
+    opacity: 1;
+  }
+
+  72% {
+    opacity: 1;
+  }
+
+  to {
+    /* 270 % = el alto del carril (4rem) medido en gotas (1,5rem). */
+    transform: translate3d(0, 270%, 0);
+    opacity: 0;
+  }
 }
 
 /* ==========================================================================
@@ -602,6 +844,41 @@
 .inicio__ancla:focus-visible .inicio__punto {
   border-color: var(--verde-bosque);
   transform: scale(var(--escala-hover));
+}
+
+/* v6 · UNA DE LAS CUATRO PESA UN PUNTO MÁS, Y ES ESPACIOS.
+   El encargo pedía que la portada insinuara que aquí también se alquila el
+   predio, sin convertirse en una página de ventas. Ésta es la mitad callada
+   de esa respuesta: no hay un banner, no hay una frase nueva y no hay un
+   hecho nuevo —el ancla ya estaba, con el mismo rótulo y el mismo destino—;
+   lo único que cambia es que su chinchete es un punto más grande y su filete
+   es el terracota del sistema en vez del oliva. Entre cuatro pastillas
+   idénticas, ésa es la que el ojo toca primero.
+
+   NO ES UN PROBLEMA DE CONTRASTE, ES UNA MEJORA: el filete pasa de oliva
+   (4,99:1 sobre la superficie clara) a --color-accion-borde (5,3:1). El
+   rótulo no cambia de color, así que sigue en los 13,9:1 de la regla base.
+   El cálido está permitido justo aquí —CONTRATO-V2 §4, «el cálido funciona
+   por escasez»—: es UN elemento en toda la sección, y el coral relleno sigue
+   siendo sólo del CTA. */
+.inicio__ancla-item--espacios .inicio__ancla {
+  border-color: var(--color-accion-borde);
+}
+
+/* Y en el hover vuelve al verde de las otras tres. Sin esto, la regla de
+   arriba —misma especificidad (0,2,0) pero escrita DESPUÉS— le ganaría a
+   `.inicio__ancla:hover` y esta pastilla sería la única que no se pinta
+   entera al pasar por encima. */
+.inicio__ancla-item--espacios .inicio__ancla:hover,
+.inicio__ancla-item--espacios .inicio__ancla:focus-visible {
+  border-color: var(--verde-bosque);
+}
+
+.inicio__ancla-item--espacios .inicio__punto {
+  /* Estático, no animado: crecer un punto en reposo es geometría, y el único
+     `transform` de este elemento sigue reservado al hover. */
+  width: var(--esp-sm);
+  height: var(--esp-sm);
 }
 
 /* ---- ESCRITORIO: las anclas suben al plano ------------------------------ */

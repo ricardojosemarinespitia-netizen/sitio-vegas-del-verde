@@ -84,7 +84,17 @@
        con z-index sobre el mismo elemento y el orden natural del documento ya
        resuelve dos de ellas.
        ====================================================================== -->
-  <div class="inicio__portada">
+  <!-- `sobre-oscuro` NO es decoración: es el interruptor que base.css usa para
+       invertir dos cosas sobre fondo oscuro y que aquí faltaban.
+         · `:focus-visible` pasa del contorno verde bosque (2:1 contra esta
+           fotografía velada: prácticamente invisible al tabular) al amarillo
+           del logo, 7,3:1. Es el arreglo de accesibilidad más grande que tenía
+           pendiente la portada.
+         · `.btn-fantasma` pasa a crema, que es lo que permite poner un segundo
+           botón de contorno sobre la foto sin escribir ni una variante nueva.
+       Va en la PORTADA y no en la sección entera a propósito: de la mitad de
+       abajo para adelante el fondo vuelve a ser el papel crema. -->
+  <div class="inicio__portada sobre-oscuro">
 
     <img
       class="inicio__portada-foto"
@@ -123,8 +133,25 @@
     </svg>
 
     <div class="contenedor contenedor--ancho inicio__portada-interior">
-      <header class="seccion-encabezado inicio__encabezado reveal">
-        <p class="eyebrow">Oasis para la recreación y el bienestar</p>
+      <!-- ENTRADA ESCALONADA, NO UN BLOQUE QUE APARECE ENTERO.
+           Hasta aquí el encabezado era UN solo `.reveal`: los cuatro elementos
+           —rótulo, titular, entradilla y botones— aparecían de golpe, que es
+           exactamente el gesto de una plantilla. Ahora el contenedor es una
+           `.reveal-secuencia` y cada hijo entra por su cuenta con el retardo
+           que ya reparte base.css (0 · 90 · 180 · 270 ms): el ojo recorre la
+           composición en el mismo orden en que hay que leerla.
+
+           NO SE INVENTA NINGÚN MECANISMO: es el sistema de revelado del sitio,
+           con su estado inicial escrito en CSS estático (`.js .reveal`) desde
+           el primer pintado —así que no hay un solo fotograma de parpadeo— y
+           con `prefers-reduced-motion` ya resuelto en base.css, que anula el
+           desplazamiento y los retardos.
+
+           El .reveal del propio <header> SE RETIRA: dejarlo encima haría que
+           el bloque se desvaneciera dos veces, una como grupo y otra por hijo.
+           La clase `.reveal-secuencia` sola no oculta nada. -->
+      <header class="seccion-encabezado inicio__encabezado reveal-secuencia">
+        <p class="eyebrow reveal">Oasis para la recreación y el bienestar</p>
 
         <!-- DOS RENGLONES, DOS ESCALAS. El texto no cambia ni una letra: lo que
              cambia es que la frase deja de ser un bloque de mayúsculas —cinco
@@ -135,17 +162,17 @@
              Los dos van en crema; el contraste lo hacen el cuerpo y la sangría,
              nunca el color, porque debajo hay una fotografía y el coral claro
              sobre el cielo blanco de este archivo se quedaría en 3,6:1. -->
-        <h1 class="titulo-seccion inicio__titulo" id="inicio-titulo">
+        <h1 class="titulo-seccion inicio__titulo reveal" id="inicio-titulo">
           <span class="inicio__titulo-linea">Escápate de la ciudad</span>
           <span class="inicio__titulo-linea inicio__titulo-linea--menor">sin salir de ella</span>
         </h1>
 
-        <p class="entradilla">
+        <p class="entradilla reveal">
           Cuatro hectáreas de bosque a 10&nbsp;minutos del Anillo Vial. Nosotros
           ponemos los árboles; el plan lo pones tú.
         </p>
 
-        <div class="grupo-botones inicio__acciones">
+        <div class="grupo-botones inicio__acciones reveal">
           <a
             class="btn btn-whatsapp btn-grande"
             href="https://wa.me/573166758362?text=Hola%2C%20quiero%20reservar%20mi%20escape%20en%20Vegas%20del%20Verde.%20%C2%BFQu%C3%A9%20fechas%20tienen%20libres%3F"
@@ -158,8 +185,50 @@
             </svg>
             Reserva tu escape
           </a>
+
+          <!-- SEGUNDO CAMINO, EL DE QUIEN TODAVÍA NO SABE QUÉ VA A PEDIR.
+               La portada prometía «escápate» y ofrecía una sola salida:
+               escribir por WhatsApp. Quien llega buscando DÓNDE hacer un
+               evento —que es la mitad del tráfico de este sitio— no tenía en
+               la primera pantalla ni una pista de que aquí se alquilan
+               espacios; el plano-índice lo dice, pero está por debajo del
+               pliegue. Este enlace lo resuelve sin subir el volumen: no es un
+               segundo botón de conversión, es un `.btn-fantasma` —contorno y
+               nada más, cero relleno— al lado del coral, que sigue siendo el
+               único elemento lleno de la pantalla. La jerarquía no cambia; lo
+               que cambia es que ahora hay dos rutas y ninguna es un callejón.
+
+               Es un ancla INTERNA, no un WhatsApp: no dispara la mariposa
+               (js/app.js sólo la lanza en `.btn-whatsapp` y en enlaces
+               `wa.me`) y no pide nada. Sólo enseña.
+
+               El rótulo no repite ninguno de la tabla de ARQUITECTURA-V3 §9
+               —«Ver los cinco espacios» es de #nosotros y lleva la cifra, que
+               es el hecho de esa sección; éste no nombra ningún número, ningún
+               aforo y ningún precio. -->
+          <a class="btn btn-fantasma btn-grande inicio__accion-secundaria" href="#espacios">
+            Ver los espacios
+          </a>
         </div>
       </header>
+    </div>
+
+    <!-- LA PISTA DE QUE LA PÁGINA SIGUE.
+         Medido en la página real: la portada mide EXACTAMENTE la ventana menos
+         la cabecera, así que en 1280 × 720 se come el pliegue completo y no
+         asoma ni un píxel de lo que viene debajo. Una primera pantalla que
+         cierra perfecta es una primera pantalla que parece el sitio entero.
+         Esto es un filete vertical de crema por el que baja una gota: el gesto
+         mínimo que dice «hay más» sin escribir «desliza».
+
+         DECORATIVO DE VERDAD, y por eso `aria-hidden` y ningún enlace: no
+         añade un destino nuevo, no añade un rótulo a la tabla de botones y no
+         mete una parada más en el recorrido de teclado hacia el CTA.
+
+         Sólo a partir de 64em (ver inicio.css): en un teléfono no hay columna
+         derecha libre y el gesto de deslizar no hay que enseñarlo. -->
+    <div class="inicio__bajar" aria-hidden="true">
+      <span class="inicio__bajar-linea"></span>
     </div>
 
   </div>
@@ -204,7 +273,23 @@
         />
       </div>
 
+      <!-- ESPACIOS VA PRIMERO, y es la otra mitad del encargo comercial.
+           En escritorio las cuatro anclas están posicionadas en absoluto sobre
+           sus coordenadas del render, así que el ORDEN DEL DOCUMENTO no mueve
+           nada de sitio: lo único que cambia es qué se lee primero con el
+           lector de pantalla y qué se alcanza primero con el tabulador. En
+           móvil y tableta —donde las cuatro bajan a una rejilla— sí cambia el
+           orden visual, y también ahí Espacios encabeza.
+           Antes el recorrido empezaba por Vivero, que es la venta más pequeña
+           del predio. Empezar por Espacios no le quita presencia a ninguna de
+           las otras tres: sigue habiendo cuatro anclas del mismo tamaño. -->
       <ul class="inicio__anclas" role="list" aria-label="Índice del predio sobre el plano">
+        <li class="inicio__ancla-item inicio__ancla-item--espacios">
+          <a class="inicio__ancla" href="#espacios">
+            <span class="inicio__punto" aria-hidden="true"></span>
+            <span class="inicio__rotulo">Espacios</span>
+          </a>
+        </li>
         <li class="inicio__ancla-item inicio__ancla-item--vivero">
           <a class="inicio__ancla" href="#vivero">
             <span class="inicio__punto" aria-hidden="true"></span>
@@ -215,12 +300,6 @@
           <a class="inicio__ancla" href="#naturaleza">
             <span class="inicio__punto" aria-hidden="true"></span>
             <span class="inicio__rotulo">Sendero</span>
-          </a>
-        </li>
-        <li class="inicio__ancla-item inicio__ancla-item--espacios">
-          <a class="inicio__ancla" href="#espacios">
-            <span class="inicio__punto" aria-hidden="true"></span>
-            <span class="inicio__rotulo">Espacios</span>
           </a>
         </li>
         <li class="inicio__ancla-item inicio__ancla-item--llegar">
@@ -322,5 +401,43 @@
       />
     </li>
   </ul>
+
+  <!-- ======================================================================
+       EL AIRE DEL BOSQUE — canvas de partículas sobre la portada
+       Motas de polen y alguna hoja soltándose de las copas, coordinadas a la
+       zona real de follaje de la fotografía. Módulo: js/particulas-hero.js;
+       su regla de capa (.inicio__particulas) vive en inicio.css.
+
+       POR QUÉ ASÍ Y NO CON <script src> EN EL <head>:
+       · El import es DINÁMICO y espera al decode() de la foto de portada:
+         hasta que el LCP no está decodificado no se pide un solo byte del
+         módulo. La portada carga exactamente igual que sin él.
+       · Con prefers-reduced-motion NO SE MONTA: no es que la animación vaya
+         a cero — es que el módulo ni siquiera se descarga.
+       · Si el import falla (navegador viejo, red), el catch lo deja morir en
+         silencio: la portada queda con su foto y no le falta nada.
+       · Es type="module" (diferido por definición): no bloquea el parser ni
+         necesita estado inicial en el CSS — no toca nada que ya exista en el
+         primer paint, sólo AÑADE un lienzo vacío cuando todo lo demás llegó.
+       El propio módulo se pausa fuera del viewport y con la pestaña en
+       segundo plano, y se desmonta si el visitante reduce el movimiento con
+       la página abierta.
+       ====================================================================== -->
+  <script type="module">
+    const portada = document.querySelector('.inicio__portada');
+    const foto = document.querySelector('.inicio__portada-foto');
+    const reducido = window.matchMedia('(prefers-reduced-motion: reduce)');
+    if (portada && foto && !reducido.matches) {
+      /* Siempre decode(), sin atajo por `complete`: con decoding="async" una
+         foto en caché llega a complete=true con los bytes descargados pero
+         AÚN SIN DECODIFICAR, que es justo la carrera que este cerrojo
+         evita. decode() resuelve en el acto si ya está decodificada y
+         espera también la carga si no ha terminado: cubre los dos casos. */
+      foto.decode().catch(() => {})
+        .then(() => import('./js/particulas-hero.js?v=1d81ff79'))
+        .then((m) => m?.montarParticulas(portada, foto))
+        .catch(() => {});
+    }
+  </script>
 
 </section>

@@ -38,7 +38,15 @@ const ESCRIBIR = process.argv.includes('--escribir');
 const PAGINAS = [
   'index.html', 'plan-vecino.html', 'condiciones-de-alquiler.html',
   'politica-de-datos.html', 'terminos.html', '404.html',
+  // Fragmentos que traen su propia dependencia de js/: el <script src> de
+  // momentos/naturaleza/espacios/nosotros y el import() dinámico de hero.
+  // Van aquí para que la referencia viaje YA versionada hacia index.html.
+  // El cinturón es doble a propósito: al ensamblar, index.html se versiona
+  // otra vez —y ése es el que manda—, pero si alguien corre sólo
+  // ensamblar.js y publica sin el paso de versionar (el orden ya se rompió
+  // una vez, ver arriba), estas rutas llegan igualmente con su ?v=.
   'sections/momentos.html', 'sections/naturaleza.html',
+  'sections/espacios.html', 'sections/nosotros.html', 'sections/hero.html',
 ];
 
 const hashCache = new Map();
@@ -55,6 +63,14 @@ function hashDe(relRuta) {
 // fonts.googleapis.com ni ninguna otra externa.
 const RE_REF = /\b(src|href)="(js\/[^"?]+|styles\/[^"?]+)(\?v=[a-f0-9]+)?"/g;
 
+// import('./js/...') dinámico dentro de un <script> en línea — así se monta
+// el módulo de partículas del hero (sections/hero.html → index.html). No es
+// un atributo src/href, así que RE_REF no lo ve; sin esta cobertura,
+// publicar un arreglo de ese módulo dejaría al navegador del cliente
+// sirviendo la copia vieja hasta 10 minutos — justo el bug que este script
+// existe para impedir. Captura la comilla y el ./ para devolverlos tal cual.
+const RE_IMPORT = /\bimport\((['"])(\.\/)?(js\/[^'"?]+)(\?v=[a-f0-9]+)?\1\)/g;
+
 let totalTocados = 0, totalIntactos = 0, totalSinArchivo = 0;
 
 for (const rel of PAGINAS) {
@@ -67,6 +83,16 @@ for (const rel of PAGINAS) {
     const h = hashDe(ruta);
     if (!h) { sinArchivo++; console.log('  *** no existe:', ruta, '(en ' + rel + ')'); return todo; }
     const nuevo = `${attr}="${ruta}?v=${h}"`;
+    if (nuevo === todo) intactos++; else tocados++;
+    return nuevo;
+  });
+
+  // Misma mecánica exacta que arriba, sobre los import() dinámicos: el hash
+  // sale del mismo hashDe (cacheado) y cuenta en los mismos totales.
+  doc = doc.replace(RE_IMPORT, (todo, comilla, prefijo, ruta) => {
+    const h = hashDe(ruta);
+    if (!h) { sinArchivo++; console.log('  *** no existe:', ruta, '(en ' + rel + ')'); return todo; }
+    const nuevo = `import(${comilla}${prefijo || ''}${ruta}?v=${h}${comilla})`;
     if (nuevo === todo) intactos++; else tocados++;
     return nuevo;
   });

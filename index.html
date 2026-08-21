@@ -49,13 +49,13 @@
 <link rel="stylesheet" href="styles/tokens.css?v=4f5c7c16">
 <link rel="stylesheet" href="styles/base.css?v=749e0890">
 <link rel="stylesheet" href="styles/shell.css?v=8118b941">
-<link rel="stylesheet" href="styles/sections/inicio.css?v=5d950691">
-<link rel="stylesheet" href="styles/sections/nosotros.css?v=28947181">
-<link rel="stylesheet" href="styles/sections/espacios.css?v=5899c69e">
+<link rel="stylesheet" href="styles/sections/inicio.css?v=060ac0b7">
+<link rel="stylesheet" href="styles/sections/nosotros.css?v=cb09db56">
+<link rel="stylesheet" href="styles/sections/espacios.css?v=09f0835e">
 <link rel="stylesheet" href="styles/sections/planes.css?v=7006ab47">
 <link rel="stylesheet" href="styles/sections/momentos.css?v=dd8072e6">
 <link rel="stylesheet" href="styles/sections/colegios.css?v=c71b591d">
-<link rel="stylesheet" href="styles/sections/naturaleza.css?v=291c26c8">
+<link rel="stylesheet" href="styles/sections/naturaleza.css?v=d45573cd">
 <link rel="stylesheet" href="styles/sections/vivero.css?v=1406a28d">
 <link rel="stylesheet" href="styles/sections/ubicacion.css?v=4cf1e699">
 <link rel="stylesheet" href="styles/lightbox.css?v=8bbca7bb">
@@ -297,7 +297,17 @@
        con z-index sobre el mismo elemento y el orden natural del documento ya
        resuelve dos de ellas.
        ====================================================================== -->
-  <div class="inicio__portada">
+  <!-- `sobre-oscuro` NO es decoración: es el interruptor que base.css usa para
+       invertir dos cosas sobre fondo oscuro y que aquí faltaban.
+         · `:focus-visible` pasa del contorno verde bosque (2:1 contra esta
+           fotografía velada: prácticamente invisible al tabular) al amarillo
+           del logo, 7,3:1. Es el arreglo de accesibilidad más grande que tenía
+           pendiente la portada.
+         · `.btn-fantasma` pasa a crema, que es lo que permite poner un segundo
+           botón de contorno sobre la foto sin escribir ni una variante nueva.
+       Va en la PORTADA y no en la sección entera a propósito: de la mitad de
+       abajo para adelante el fondo vuelve a ser el papel crema. -->
+  <div class="inicio__portada sobre-oscuro">
 
     <img
       class="inicio__portada-foto"
@@ -336,8 +346,25 @@
     </svg>
 
     <div class="contenedor contenedor--ancho inicio__portada-interior">
-      <header class="seccion-encabezado inicio__encabezado reveal">
-        <p class="eyebrow">Oasis para la recreación y el bienestar</p>
+      <!-- ENTRADA ESCALONADA, NO UN BLOQUE QUE APARECE ENTERO.
+           Hasta aquí el encabezado era UN solo `.reveal`: los cuatro elementos
+           —rótulo, titular, entradilla y botones— aparecían de golpe, que es
+           exactamente el gesto de una plantilla. Ahora el contenedor es una
+           `.reveal-secuencia` y cada hijo entra por su cuenta con el retardo
+           que ya reparte base.css (0 · 90 · 180 · 270 ms): el ojo recorre la
+           composición en el mismo orden en que hay que leerla.
+
+           NO SE INVENTA NINGÚN MECANISMO: es el sistema de revelado del sitio,
+           con su estado inicial escrito en CSS estático (`.js .reveal`) desde
+           el primer pintado —así que no hay un solo fotograma de parpadeo— y
+           con `prefers-reduced-motion` ya resuelto en base.css, que anula el
+           desplazamiento y los retardos.
+
+           El .reveal del propio <header> SE RETIRA: dejarlo encima haría que
+           el bloque se desvaneciera dos veces, una como grupo y otra por hijo.
+           La clase `.reveal-secuencia` sola no oculta nada. -->
+      <header class="seccion-encabezado inicio__encabezado reveal-secuencia">
+        <p class="eyebrow reveal">Oasis para la recreación y el bienestar</p>
 
         <!-- DOS RENGLONES, DOS ESCALAS. El texto no cambia ni una letra: lo que
              cambia es que la frase deja de ser un bloque de mayúsculas —cinco
@@ -348,17 +375,17 @@
              Los dos van en crema; el contraste lo hacen el cuerpo y la sangría,
              nunca el color, porque debajo hay una fotografía y el coral claro
              sobre el cielo blanco de este archivo se quedaría en 3,6:1. -->
-        <h1 class="titulo-seccion inicio__titulo" id="inicio-titulo">
+        <h1 class="titulo-seccion inicio__titulo reveal" id="inicio-titulo">
           <span class="inicio__titulo-linea">Escápate de la ciudad</span>
           <span class="inicio__titulo-linea inicio__titulo-linea--menor">sin salir de ella</span>
         </h1>
 
-        <p class="entradilla">
+        <p class="entradilla reveal">
           Cuatro hectáreas de bosque a 10&nbsp;minutos del Anillo Vial. Nosotros
           ponemos los árboles; el plan lo pones tú.
         </p>
 
-        <div class="grupo-botones inicio__acciones">
+        <div class="grupo-botones inicio__acciones reveal">
           <a
             class="btn btn-whatsapp btn-grande"
             href="https://wa.me/573166758362?text=Hola%2C%20quiero%20reservar%20mi%20escape%20en%20Vegas%20del%20Verde.%20%C2%BFQu%C3%A9%20fechas%20tienen%20libres%3F"
@@ -371,8 +398,50 @@
             </svg>
             Reserva tu escape
           </a>
+
+          <!-- SEGUNDO CAMINO, EL DE QUIEN TODAVÍA NO SABE QUÉ VA A PEDIR.
+               La portada prometía «escápate» y ofrecía una sola salida:
+               escribir por WhatsApp. Quien llega buscando DÓNDE hacer un
+               evento —que es la mitad del tráfico de este sitio— no tenía en
+               la primera pantalla ni una pista de que aquí se alquilan
+               espacios; el plano-índice lo dice, pero está por debajo del
+               pliegue. Este enlace lo resuelve sin subir el volumen: no es un
+               segundo botón de conversión, es un `.btn-fantasma` —contorno y
+               nada más, cero relleno— al lado del coral, que sigue siendo el
+               único elemento lleno de la pantalla. La jerarquía no cambia; lo
+               que cambia es que ahora hay dos rutas y ninguna es un callejón.
+
+               Es un ancla INTERNA, no un WhatsApp: no dispara la mariposa
+               (js/app.js sólo la lanza en `.btn-whatsapp` y en enlaces
+               `wa.me`) y no pide nada. Sólo enseña.
+
+               El rótulo no repite ninguno de la tabla de ARQUITECTURA-V3 §9
+               —«Ver los cinco espacios» es de #nosotros y lleva la cifra, que
+               es el hecho de esa sección; éste no nombra ningún número, ningún
+               aforo y ningún precio. -->
+          <a class="btn btn-fantasma btn-grande inicio__accion-secundaria" href="#espacios">
+            Ver los espacios
+          </a>
         </div>
       </header>
+    </div>
+
+    <!-- LA PISTA DE QUE LA PÁGINA SIGUE.
+         Medido en la página real: la portada mide EXACTAMENTE la ventana menos
+         la cabecera, así que en 1280 × 720 se come el pliegue completo y no
+         asoma ni un píxel de lo que viene debajo. Una primera pantalla que
+         cierra perfecta es una primera pantalla que parece el sitio entero.
+         Esto es un filete vertical de crema por el que baja una gota: el gesto
+         mínimo que dice «hay más» sin escribir «desliza».
+
+         DECORATIVO DE VERDAD, y por eso `aria-hidden` y ningún enlace: no
+         añade un destino nuevo, no añade un rótulo a la tabla de botones y no
+         mete una parada más en el recorrido de teclado hacia el CTA.
+
+         Sólo a partir de 64em (ver inicio.css): en un teléfono no hay columna
+         derecha libre y el gesto de deslizar no hay que enseñarlo. -->
+    <div class="inicio__bajar" aria-hidden="true">
+      <span class="inicio__bajar-linea"></span>
     </div>
 
   </div>
@@ -417,7 +486,23 @@
         />
       </div>
 
+      <!-- ESPACIOS VA PRIMERO, y es la otra mitad del encargo comercial.
+           En escritorio las cuatro anclas están posicionadas en absoluto sobre
+           sus coordenadas del render, así que el ORDEN DEL DOCUMENTO no mueve
+           nada de sitio: lo único que cambia es qué se lee primero con el
+           lector de pantalla y qué se alcanza primero con el tabulador. En
+           móvil y tableta —donde las cuatro bajan a una rejilla— sí cambia el
+           orden visual, y también ahí Espacios encabeza.
+           Antes el recorrido empezaba por Vivero, que es la venta más pequeña
+           del predio. Empezar por Espacios no le quita presencia a ninguna de
+           las otras tres: sigue habiendo cuatro anclas del mismo tamaño. -->
       <ul class="inicio__anclas" role="list" aria-label="Índice del predio sobre el plano">
+        <li class="inicio__ancla-item inicio__ancla-item--espacios">
+          <a class="inicio__ancla" href="#espacios">
+            <span class="inicio__punto" aria-hidden="true"></span>
+            <span class="inicio__rotulo">Espacios</span>
+          </a>
+        </li>
         <li class="inicio__ancla-item inicio__ancla-item--vivero">
           <a class="inicio__ancla" href="#vivero">
             <span class="inicio__punto" aria-hidden="true"></span>
@@ -428,12 +513,6 @@
           <a class="inicio__ancla" href="#naturaleza">
             <span class="inicio__punto" aria-hidden="true"></span>
             <span class="inicio__rotulo">Sendero</span>
-          </a>
-        </li>
-        <li class="inicio__ancla-item inicio__ancla-item--espacios">
-          <a class="inicio__ancla" href="#espacios">
-            <span class="inicio__punto" aria-hidden="true"></span>
-            <span class="inicio__rotulo">Espacios</span>
           </a>
         </li>
         <li class="inicio__ancla-item inicio__ancla-item--llegar">
@@ -536,11 +615,51 @@
     </li>
   </ul>
 
+  <!-- ======================================================================
+       EL AIRE DEL BOSQUE — canvas de partículas sobre la portada
+       Motas de polen y alguna hoja soltándose de las copas, coordinadas a la
+       zona real de follaje de la fotografía. Módulo: js/particulas-hero.js;
+       su regla de capa (.inicio__particulas) vive en inicio.css.
+
+       POR QUÉ ASÍ Y NO CON <script src> EN EL <head>:
+       · El import es DINÁMICO y espera al decode() de la foto de portada:
+         hasta que el LCP no está decodificado no se pide un solo byte del
+         módulo. La portada carga exactamente igual que sin él.
+       · Con prefers-reduced-motion NO SE MONTA: no es que la animación vaya
+         a cero — es que el módulo ni siquiera se descarga.
+       · Si el import falla (navegador viejo, red), el catch lo deja morir en
+         silencio: la portada queda con su foto y no le falta nada.
+       · Es type="module" (diferido por definición): no bloquea el parser ni
+         necesita estado inicial en el CSS — no toca nada que ya exista en el
+         primer paint, sólo AÑADE un lienzo vacío cuando todo lo demás llegó.
+       El propio módulo se pausa fuera del viewport y con la pestaña en
+       segundo plano, y se desmonta si el visitante reduce el movimiento con
+       la página abierta.
+       ====================================================================== -->
+  <script type="module">
+    const portada = document.querySelector('.inicio__portada');
+    const foto = document.querySelector('.inicio__portada-foto');
+    const reducido = window.matchMedia('(prefers-reduced-motion: reduce)');
+    if (portada && foto && !reducido.matches) {
+      /* Siempre decode(), sin atajo por `complete`: con decoding="async" una
+         foto en caché llega a complete=true con los bytes descargados pero
+         AÚN SIN DECODIFICAR, que es justo la carrera que este cerrojo
+         evita. decode() resuelve en el acto si ya está decodificada y
+         espera también la carga si no ha terminado: cubre los dos casos. */
+      foto.decode().catch(() => {})
+        .then(() => import('./js/particulas-hero.js?v=1d81ff79'))
+        .then((m) => m?.montarParticulas(portada, foto))
+        .catch(() => {});
+    }
+  </script>
+
 </section>
 
 <!-- ==========================================================================
      FRAGMENTO: NOSOTROS  ·  ancla #nosotros
      CSS propio: styles/sections/nosotros.css
+     JS propio: js/foto-focus.js (compartido con #espacios; el <script defer>
+     va al final de este fragmento y lleva cerrojo de doble inclusión)
 
      ÁMBITO ESTRICTO DE ESTA SECCIÓN
      Qué ES el predio (privado, cerrado, vigilado, con los servicios ya
@@ -661,7 +780,14 @@
        que la imagen muerde la columna de texto de arriba en lugar de alinearse
        con ella.
        ---------------------------------------------------------------------- -->
-  <figure class="nosotros__foto reveal">
+  <!-- FOTO-FOCUS (js/foto-focus.js): la pieza grande de la sección recibe el
+       encuadre ligado al scroll. El atributo va en la FIGURA porque es ella
+       quien recorta (overflow hidden + radio de hoja): el zoom nunca asoma
+       fuera del contorno. El encuadre de PARTIDA no se declara: es el
+       object-position del CSS (50% 48%), así el primer cuadro del JS coincide
+       con el primer paint y no hay salto. data-foco baja la mirada hacia el
+       césped —el prado se lee a ras de suelo— cuando la foto centra. -->
+  <figure class="nosotros__foto reveal" data-foto-focus data-foco="50% 62%" data-zoom="0.12">
     <img
       src="img/parque/parque-05.jpg"
       width="675"
@@ -823,7 +949,12 @@
          ventana y un desplazamiento horizontal lo empujaría 28 px fuera de la
          pantalla. Entra con `reveal--zoom`, que sólo escala: no desplaza nada
          y por tanto no puede desbordar. -->
-    <figure class="nosotros__mural reveal reveal--zoom">
+    <!-- FOTO-FOCUS también aquí: es la otra pieza grande de la sección y la
+         que cierra el capítulo. data-foco sube el encuadre desde el 57% del
+         CSS hacia el panel pintado (el colibrí queda a media altura de la
+         foto): al centrar la banda, los pájaros centran con ella. El zoom es
+         un punto mayor que el del prado porque el motivo es más pequeño. -->
+    <figure class="nosotros__mural reveal reveal--zoom" data-foto-focus data-foco="50% 46%" data-zoom="0.14">
       <img
         src="img/parque/parque-20.jpg"
         width="900"
@@ -836,12 +967,25 @@
 
   </section>
 
+  <!-- FOTO-FOCUS — por qué el <script> va aquí dentro y no en la cola de
+       index.html: el ensamblador copia tal cual la cola (donde viven app.js
+       y mapa.js), así que un fragmento no puede añadir nada allí; el
+       precedente es momentos-video.js. Carga con defer —no bloquea el parseo
+       y corre con el DOM completo— y #espacios declara este mismo archivo:
+       el propio script lleva un cerrojo que hace inofensiva la segunda
+       ejecución, y el navegador sólo lo descarga una vez. Bajo
+       prefers-reduced-motion no se monta: la foto queda quieta en el
+       encuadre del CSS. -->
+  <script src="js/foto-focus.js?v=2e41fd79" defer></script>
+
 </section>
 
 <!-- ==========================================================================
      FRAGMENTO: ESPACIOS EN ALQUILER  ·  id="espacios"
      CSS propio: styles/sections/espacios.css
-     JS: ninguno propio. Sólo usa .reveal / .reveal-secuencia del script global.
+     JS propio: js/foto-focus.js (compartido con #nosotros; el <script defer>
+     va al final de este fragmento y lleva cerrojo de doble inclusión).
+     Además usa .reveal / .reveal-secuencia del script global.
 
      ÁMBITO DE ESTA SECCIÓN — es el ÚNICO sitio del sitio donde se DESCRIBE un
      espacio. Cualquier otra sección que nombre la Alameda, La Vega, el
@@ -945,25 +1089,43 @@
            Entra con velo (la cortina sube): el gesto que corresponde a una
            banda ancha, que no tiene lado por el que llegar.                -->
       <li class="espacio espacio--destacado reveal reveal--velo">
-        <figure class="espacio__figura espacio__figura--banda">
-          <img
-            class="espacio__img"
-            src="img/espacios/alameda-2.jpg"
-            width="1500"
-            height="844"
-            loading="lazy"
-            decoding="async"
-            alt="La Alameda vista a lo ancho: una pradera de césped parejo con árboles de tronco delgado repartidos sobre la hierba y un seto vivo cerrando el fondo."
-          />
-          <img
-            class="espacio__img espacio__img--apoyo"
-            src="img/espacios/alameda-1.jpg"
-            width="1125"
-            height="1500"
-            loading="lazy"
-            decoding="async"
-            alt="El mismo prado de la Alameda desde el borde arbolado: sombra moteada sobre el césped en primer término y la hilera de árboles del fondo bajo un cielo con nubes."
-          />
+        <!-- FOTO-FOCUS (js/foto-focus.js): la Alameda es el ancla de la
+             sección y una de las dos piezas grandes que reciben el encuadre
+             ligado al scroll (la otra es el Teatrino; las tres verticales
+             estrechas quedan quietas: el plan pide foco, no ruido). El
+             atributo va en la FIGURA, que es quien recorta con la silueta de
+             banda. data-foco sólo actúa en móvil, donde la banda queda en
+             3:2 y la única holgura del recorte es horizontal: el encuadre
+             viaja del centro hacia los árboles de la izquierda. En
+             escritorio sólo hay zoom, anclado al object-position de cada
+             foto. LAS DOS CELDAS (.espacio__celda) no son decorativas: cada
+             foto zoomea dentro de la suya con overflow hidden propio; sin
+             ellas, la escala invadiría la junta de 4 px que separa las dos
+             fotos y se comería el borde de la vecina. -->
+        <figure class="espacio__figura espacio__figura--banda" data-foto-focus data-foco="38% 50%" data-zoom="0.1">
+          <div class="espacio__celda">
+            <img
+              class="espacio__img"
+              src="img/espacios/alameda-2.jpg"
+              width="1500"
+              height="844"
+              loading="lazy"
+              decoding="async"
+              alt="La Alameda vista a lo ancho: una pradera de césped parejo con árboles de tronco delgado repartidos sobre la hierba y un seto vivo cerrando el fondo."
+            />
+          </div>
+          <div class="espacio__celda espacio__celda--apoyo">
+            <img
+              class="espacio__img espacio__img--apoyo"
+              src="img/espacios/alameda-1-TEMP.jpg"
+              width="1125"
+              height="1500"
+              loading="lazy"
+              decoding="async"
+              data-pendiente-foto="temporal · reemplazar por foto real del predio"
+              alt="Grupo conversando en una celebración a media mañana en la Alameda."
+            />
+          </div>
         </figure>
 
         <p class="espacio__aforo">
@@ -997,12 +1159,13 @@
         <figure class="espacio__figura">
           <img
             class="espacio__img"
-            src="img/parque/parque-47.jpg"
+            src="img/parque/parque-47-TEMP.jpg"
             width="675"
             height="1200"
             loading="lazy"
             decoding="async"
-            alt="La Vega: una explanada llana de césped abierto con un árbol grande dando sombra en el costado izquierdo y un seto recortado cerrando el fondo."
+            data-pendiente-foto="temporal · reemplazar por foto real del predio"
+            alt="Encuentro de grupo sentado en círculo a la sombra en La Vega, al mediodía."
           />
         </figure>
 
@@ -1034,15 +1197,23 @@
            Su foto va recortada EN ARCO: la copa del árbol de la fotografía y
            el medio punto de la silueta son la misma curva.                  -->
       <li class="espacio espacio--medio reveal reveal--izq">
-        <figure class="espacio__figura">
+        <!-- FOTO-FOCUS: el Teatrino es la otra pieza grande (el cuadrado que
+             abre la segunda fila) y el zoom queda recortado por su arco.
+             data-foco sube el encuadre en móvil: el archivo es un vertical
+             675×1200 y el recorte cuadrado deja holgura sólo en vertical.
+             OJO: la foto actual es -TEMP (tarjeta borrador); cuando llegue la
+             foto real del Teatrino hay que reafinar data-foco a su motivo
+             (público abajo, escenario y cielo de atardecer arriba). -->
+        <figure class="espacio__figura" data-foto-focus data-foco="50% 42%" data-zoom="0.12">
           <img
             class="espacio__img"
-            src="img/parque/parque-56.jpg"
+            src="img/parque/parque-56-TEMP.jpg"
             width="675"
             height="1200"
             loading="lazy"
             decoding="async"
-            alt="El Teatrino: un árbol enorme de copa muy abierta en el centro de un claro de césped, con una persona de pie junto al tronco que da la medida de su tamaño."
+            data-pendiente-foto="temporal · reemplazar por foto real del predio"
+            alt="Público sentado frente a una función al atardecer en el Teatrino."
           />
         </figure>
 
@@ -1076,12 +1247,13 @@
         <figure class="espacio__figura">
           <img
             class="espacio__img"
-            src="img/espacios/taller-1.jpg"
+            src="img/espacios/taller-1-TEMP.jpg"
             width="849"
             height="1500"
             loading="lazy"
             decoding="async"
-            alt="El Taller por dentro: cubierta de caña, paredes de estera, dos guirnaldas de bombillos encendidas cruzando el techo, mesas de trabajo, sillas blancas y varios cuadros apoyados sobre las mesas."
+            data-pendiente-foto="temporal · reemplazar por foto real del predio"
+            alt="Clase en marcha dentro del Taller, con manos trabajando sobre las mesas y luz de mañana."
           />
         </figure>
 
@@ -1117,12 +1289,13 @@
         <figure class="espacio__figura">
           <img
             class="espacio__img"
-            src="img/parque/parque-57.jpg"
+            src="img/parque/parque-57-TEMP.jpg"
             width="900"
             height="1200"
             loading="lazy"
             decoding="async"
-            alt="La Cancha: un campo de césped plano y despejado con el guadual cerrando el fondo y árboles altos dando sombra en el borde derecho."
+            data-pendiente-foto="temporal · reemplazar por foto real del predio"
+            alt="Partido recreativo en la Cancha por la tarde, con espectadores al margen."
           />
         </figure>
 
@@ -1178,6 +1351,15 @@
     </div>
 
   </div>
+
+  <!-- FOTO-FOCUS — el <script> va aquí dentro porque el ensamblador copia tal
+       cual la cola de index.html y un fragmento no puede añadir nada allí
+       (precedente: momentos-video.js). #nosotros declara este mismo archivo:
+       el script lleva cerrojo de doble inclusión, así que da igual cuál de
+       los dos fragmentos quede primero o si algún día uno se retira. Con
+       defer no bloquea el parseo y corre con el DOM completo. Bajo
+       prefers-reduced-motion no se monta. -->
+  <script src="js/foto-focus.js?v=2e41fd79" defer></script>
 </section>
 
 <!-- ==========================================================================
@@ -2035,10 +2217,11 @@
         <figure>
           <div class="marco">
             <img
-              src="img/parque/parque-34.jpg"
+              src="img/parque/parque-34-TEMP.jpg"
               width="675"
               height="1200"
-              alt="Hileras de plantas sembradas en bolsa a lado y lado de un camino de tierra, sostenidas por barandas de guadua bajo una malla de sombra."
+              data-pendiente-foto="temporal · reemplazar por foto real del predio"
+              alt="Niños con binoculares mirando hacia el follaje desde el observatorio."
               loading="lazy"
               decoding="async"
             />
@@ -2084,10 +2267,11 @@
       <figure class="col-jornada__foto">
         <div class="marco marco--retrato">
           <img
-            src="img/parque/parque-32.jpg"
+            src="img/parque/parque-32-TEMP.jpg"
             width="900"
             height="1200"
-            alt="Una mujer con micrófono dirige una charla a un grupo sentado en mesas con manteles verdes, bajo la zona techada con cubierta de caña, junto al afiche del concurso de fotografía de aves del predio."
+            data-pendiente-foto="temporal · reemplazar por foto real del predio"
+            alt="Grupo escolar caminando en fila bajo los árboles, con una profesora al frente."
             loading="lazy"
             decoding="async"
           />
@@ -2218,7 +2402,11 @@
            el censo a la izquierda y una COLUMNA DE VÍDEO vertical pegada al
            borde derecho. Ver abajo.
        4 · .nat-conservacion — pie de página de la sección: filete y tipografía.
-       5 · el muro del concurso, intacto.
+       5 · el muro del concurso, CURADO (v5): nueve piezas destacadas en
+           rejilla con jerarquía real —una dominante y ocho de acompañamiento
+           a tres tamaños— y las cuarenta y ocho restantes en el archivo
+           plegado, en mosaico compacto y callado. Las 57 siguen publicadas
+           y ninguna pierde su crédito.
 
      EL VÍDEO (js/naturaleza-video.js, se carga al final de este fragmento)
      Metraje propio, vertical (720×1280) y SIN pista de audio. Va marcado
@@ -2275,14 +2463,24 @@
 
       <header class="nat-apertura__encabezado">
         <p class="eyebrow">Sendero Ecovital y biodiversidad</p>
-        <!-- El «101» va marcado dentro del propio titular: es el dato que
-             distingue a este predio de cualquier finca de eventos y no aparece
-             en ningún otro sitio de la página, así que aquí tiene que verse
-             que es una cifra y no una palabra más. data-contador lo cuenta al
-             entrar en pantalla (js/app.js); si no hay JS, el 101 ya está
-             escrito y no pasa nada. -->
-        <h2 id="naturaleza-titulo" class="titulo-seccion nat-apertura__titulo">
-          Camina donde cantan <span class="nat-titulo-cifra" data-contador="101">101</span> especies
+        <!-- LA PIEZA-CIFRA DOMINANTE. El «101» es el dato que distingue a
+             este predio de cualquier finca de eventos y no aparece en ningún
+             otro sitio de la página. Antes iba dentro de la frase como una
+             palabra más subida de peso; ahora el titular se compone alrededor
+             de él: la frase arriba, la cifra en cuerpo gigante debajo y la
+             unidad colgada de su línea base. La oración no cambia —el lector
+             de pantalla y el validador siguen leyendo «Camina donde cantan
+             101 especies»— y la cifra sigue apareciendo UNA sola vez en la
+             página. data-contador la cuenta al entrar en pantalla con el
+             motor global de js/app.js (el mismo del 347 y el 57); el 101 ya
+             está escrito en el HTML, así que sin JS —o antes de que el motor
+             dispare— no hay hueco ni parpadeo. -->
+        <h2 id="naturaleza-titulo" class="titulo-seccion nat-apertura__titulo nat-cifra-dominante">
+          <span class="nat-cifra-dominante__frase">Camina donde cantan</span>
+          <span class="nat-cifra-dominante__linea">
+            <span class="nat-cifra-dominante__numero" data-contador="101">101</span>
+            <span class="nat-cifra-dominante__unidad">especies</span>
+          </span>
         </h2>
         <p class="entradilla">
           El recorrido guiado que sigue la quebrada, y el censo de lo que vive alrededor.
@@ -2614,8 +2812,17 @@
         </p>
       </div>
 
-      <div class="nat-muro">
-        <figure class="nat-obra">
+      <!-- LA CURADURÍA. Las cincuenta y siete copias llevaban la misma celda,
+           la misma esquina rotada y el mismo tamaño: un archivo plano donde la
+           mejor fotografía del concurso pesaba lo mismo que la más movida. Se
+           miraron las 57 una a una y las nueve de mejor factura —nitidez, pose,
+           luz— cuelgan ahora en grande, con una pieza dominante y dos filas de
+           acompañamiento desiguales; las cuarenta y ocho restantes pasan al
+           archivo plegado de abajo, en celdas pequeñas y calladas. Es lo que
+           hace un curador con una pared buena: no cuelga todo al mismo alto.
+           Ninguna ficha pierde su crédito y el archivo sigue completo. -->
+      <div class="nat-destacadas reveal-secuencia">
+        <figure class="nat-obra reveal">
           <button
             type="button"
             class="nat-obra__disparador"
@@ -2636,196 +2843,7 @@
             <span class="nat-obra__autor">Foto: Leyner Lozano</span>
           </figcaption>
         </figure>
-        <figure class="nat-obra">
-          <button
-            type="button"
-            class="nat-obra__disparador"
-            data-lightbox="muro-aves"
-            data-lightbox-caption="Thamnophilus multistriatus — Foto: José Belisario Cardenas"
-          >
-            <img
-              src="img/aves/ave-43-thamnophilus-multistriatus.jpg"
-              width="1040"
-              height="1300"
-              loading="lazy"
-              decoding="async"
-              alt="Thamnophilus multistriatus en el arbolado de Vegas del Verde, fotografía de José Belisario Cardenas"
-            />
-          </button>
-          <figcaption class="nat-obra__pie">
-            <span class="nat-obra__especie nat-cientifico">Thamnophilus multistriatus</span>
-            <span class="nat-obra__autor">Foto: José Belisario Cardenas</span>
-          </figcaption>
-        </figure>
-        <figure class="nat-obra">
-          <button
-            type="button"
-            class="nat-obra__disparador"
-            data-lightbox="muro-aves"
-            data-lightbox-caption="Barranquero — Foto: Carlos Serrano"
-          >
-            <img
-              src="img/aves/ave-12-barranquero.jpg"
-              width="975"
-              height="1300"
-              loading="lazy"
-              decoding="async"
-              alt="Barranquero en el arbolado de Vegas del Verde, fotografía de Carlos Serrano"
-            />
-          </button>
-          <figcaption class="nat-obra__pie">
-            <span class="nat-obra__especie">Barranquero</span>
-            <span class="nat-obra__autor">Foto: Carlos Serrano</span>
-          </figcaption>
-        </figure>
-        <figure class="nat-obra">
-          <button
-            type="button"
-            class="nat-obra__disparador"
-            data-lightbox="muro-aves"
-            data-lightbox-caption="Cucú ardilla — Foto: Andrea Elizabeth"
-          >
-            <img
-              src="img/aves/ave-10-trepa-troncos.jpg"
-              width="813"
-              height="1300"
-              loading="lazy"
-              decoding="async"
-              alt="Cucú ardilla en el arbolado de Vegas del Verde, fotografía de Andrea Elizabeth"
-            />
-          </button>
-          <figcaption class="nat-obra__pie">
-            <span class="nat-obra__especie">Cucú ardilla</span>
-            <span class="nat-obra__autor">Foto: Andrea Elizabeth</span>
-          </figcaption>
-        </figure>
-        <figure class="nat-obra">
-          <button
-            type="button"
-            class="nat-obra__disparador"
-            data-lightbox="muro-aves"
-            data-lightbox-caption="Trepatroncos — Foto: Andrea Elizabeth"
-          >
-            <img
-              src="img/aves/ave-08-cucu-ardilla.jpg"
-              width="1300"
-              height="1023"
-              loading="lazy"
-              decoding="async"
-              alt="Trepatroncos en el arbolado de Vegas del Verde, fotografía de Andrea Elizabeth"
-            />
-          </button>
-          <figcaption class="nat-obra__pie">
-            <span class="nat-obra__especie">Trepatroncos</span>
-            <span class="nat-obra__autor">Foto: Andrea Elizabeth</span>
-          </figcaption>
-        </figure>
-        <figure class="nat-obra">
-          <button
-            type="button"
-            class="nat-obra__disparador"
-            data-lightbox="muro-aves"
-            data-lightbox-caption="Periquito bronceado — Foto: Fabiola Rueda"
-          >
-            <img
-              src="img/aves/ave-31-periquito-bronceado.jpg"
-              width="867"
-              height="1300"
-              loading="lazy"
-              decoding="async"
-              alt="Periquito bronceado en el arbolado de Vegas del Verde, fotografía de Fabiola Rueda"
-            />
-          </button>
-          <figcaption class="nat-obra__pie">
-            <span class="nat-obra__especie">Periquito bronceado</span>
-            <span class="nat-obra__autor">Foto: Fabiola Rueda</span>
-          </figcaption>
-        </figure>
-        <figure class="nat-obra">
-          <button
-            type="button"
-            class="nat-obra__disparador"
-            data-lightbox="muro-aves"
-            data-lightbox-caption="Sinsonte — Foto: Sergio Barreto"
-          >
-            <img
-              src="img/aves/ave-54-sinsonte.jpg"
-              width="1300"
-              height="867"
-              loading="lazy"
-              decoding="async"
-              alt="Sinsonte en el arbolado de Vegas del Verde, fotografía de Sergio Barreto"
-            />
-          </button>
-          <figcaption class="nat-obra__pie">
-            <span class="nat-obra__especie">Sinsonte</span>
-            <span class="nat-obra__autor">Foto: Sergio Barreto</span>
-          </figcaption>
-        </figure>
-        <figure class="nat-obra">
-          <button
-            type="button"
-            class="nat-obra__disparador"
-            data-lightbox="muro-aves"
-            data-lightbox-caption="Chondrohierax uncinatus — Foto: Leyner Lozano"
-          >
-            <img
-              src="img/aves/ave-45-chondrohierax-uncinatus.jpg"
-              width="867"
-              height="1300"
-              loading="lazy"
-              decoding="async"
-              alt="Chondrohierax uncinatus en el arbolado de Vegas del Verde, fotografía de Leyner Lozano"
-            />
-          </button>
-          <figcaption class="nat-obra__pie">
-            <span class="nat-obra__especie nat-cientifico">Chondrohierax uncinatus</span>
-            <span class="nat-obra__autor">Foto: Leyner Lozano</span>
-          </figcaption>
-        </figure>
-        <figure class="nat-obra">
-          <button
-            type="button"
-            class="nat-obra__disparador"
-            data-lightbox="muro-aves"
-            data-lightbox-caption="Todirostrum cinereum — Foto: Jaime Suarez"
-          >
-            <img
-              src="img/aves/ave-37-todirostrumcinereum-foto-01.jpg"
-              width="1107"
-              height="1300"
-              loading="lazy"
-              decoding="async"
-              alt="Todirostrum cinereum en el arbolado de Vegas del Verde, fotografía de Jaime Suarez"
-            />
-          </button>
-          <figcaption class="nat-obra__pie">
-            <span class="nat-obra__especie nat-cientifico">Todirostrum cinereum</span>
-            <span class="nat-obra__autor">Foto: Jaime Suarez</span>
-          </figcaption>
-        </figure>
-        <figure class="nat-obra">
-          <button
-            type="button"
-            class="nat-obra__disparador"
-            data-lightbox="muro-aves"
-            data-lightbox-caption="Batará carcajada — Foto: Carlos Serrano"
-          >
-            <img
-              src="img/aves/ave-13-batara-carcajad.jpg"
-              width="975"
-              height="1300"
-              loading="lazy"
-              decoding="async"
-              alt="Batará carcajada en el arbolado de Vegas del Verde, fotografía de Carlos Serrano"
-            />
-          </button>
-          <figcaption class="nat-obra__pie">
-            <span class="nat-obra__especie">Batará carcajada</span>
-            <span class="nat-obra__autor">Foto: Carlos Serrano</span>
-          </figcaption>
-        </figure>
-        <figure class="nat-obra">
+        <figure class="nat-obra reveal">
           <button
             type="button"
             class="nat-obra__disparador"
@@ -2846,25 +2864,151 @@
             <span class="nat-obra__autor">Foto: Francheska Salazar</span>
           </figcaption>
         </figure>
-        <figure class="nat-obra">
+        <figure class="nat-obra reveal">
           <button
             type="button"
             class="nat-obra__disparador"
             data-lightbox="muro-aves"
-            data-lightbox-caption="Churica, azulejo y tángara palmarum — Foto: Yeraldilsa Gamboa"
+            data-lightbox-caption="Amazilia tzacatl — Foto: Jaime Suarez"
           >
             <img
-              src="img/aves/ave-57-churica-azulejo-tangara-palmarum.jpg"
-              width="1300"
+              src="img/aves/ave-35-amaziliatzacatl.jpg"
+              width="1040"
               height="1300"
               loading="lazy"
               decoding="async"
-              alt="Churica, azulejo y tángara palmarum en el arbolado de Vegas del Verde, fotografía de Yeraldilsa Gamboa"
+              alt="Amazilia tzacatl en el arbolado de Vegas del Verde, fotografía de Jaime Suarez"
             />
           </button>
           <figcaption class="nat-obra__pie">
-            <span class="nat-obra__especie">Churica, azulejo y tángara palmarum</span>
-            <span class="nat-obra__autor">Foto: Yeraldilsa Gamboa</span>
+            <span class="nat-obra__especie nat-cientifico">Amazilia tzacatl</span>
+            <span class="nat-obra__autor">Foto: Jaime Suarez</span>
+          </figcaption>
+        </figure>
+        <figure class="nat-obra reveal">
+          <button
+            type="button"
+            class="nat-obra__disparador"
+            data-lightbox="muro-aves"
+            data-lightbox-caption="Azulejo palmero — Foto: Francheska Salazar"
+          >
+            <img
+              src="img/aves/ave-04-azulejo-palmero.jpg"
+              width="1300"
+              height="1039"
+              loading="lazy"
+              decoding="async"
+              alt="Azulejo palmero en el arbolado de Vegas del Verde, fotografía de Francheska Salazar"
+            />
+          </button>
+          <figcaption class="nat-obra__pie">
+            <span class="nat-obra__especie">Azulejo palmero</span>
+            <span class="nat-obra__autor">Foto: Francheska Salazar</span>
+          </figcaption>
+        </figure>
+        <figure class="nat-obra reveal">
+          <button
+            type="button"
+            class="nat-obra__disparador"
+            data-lightbox="muro-aves"
+            data-lightbox-caption="Thraupis episcopus — Foto: Fernando Caceres"
+          >
+            <img
+              src="img/aves/ave-03-thraupis-episcopus.jpg"
+              width="1040"
+              height="1300"
+              loading="lazy"
+              decoding="async"
+              alt="Thraupis episcopus en el arbolado de Vegas del Verde, fotografía de Fernando Caceres"
+            />
+          </button>
+          <figcaption class="nat-obra__pie">
+            <span class="nat-obra__especie nat-cientifico">Thraupis episcopus</span>
+            <span class="nat-obra__autor">Foto: Fernando Caceres</span>
+          </figcaption>
+        </figure>
+        <figure class="nat-obra reveal">
+          <button
+            type="button"
+            class="nat-obra__disparador"
+            data-lightbox="muro-aves"
+            data-lightbox-caption="Piaya cayana — Foto: Jonathan Layton Avila"
+          >
+            <img
+              src="img/aves/ave-06-piaya-cayana.jpg"
+              width="1040"
+              height="1300"
+              loading="lazy"
+              decoding="async"
+              alt="Piaya cayana en el arbolado de Vegas del Verde, fotografía de Jonathan Layton Avila"
+            />
+          </button>
+          <figcaption class="nat-obra__pie">
+            <span class="nat-obra__especie nat-cientifico">Piaya cayana</span>
+            <span class="nat-obra__autor">Foto: Jonathan Layton Avila</span>
+          </figcaption>
+        </figure>
+        <figure class="nat-obra reveal">
+          <button
+            type="button"
+            class="nat-obra__disparador"
+            data-lightbox="muro-aves"
+            data-lightbox-caption="Todirostrum cinereum — Foto: Jonathan Layton Avila"
+          >
+            <img
+              src="img/aves/ave-41-todirostrum-cinereum.jpg"
+              width="1040"
+              height="1300"
+              loading="lazy"
+              decoding="async"
+              alt="Todirostrum cinereum en el arbolado de Vegas del Verde, fotografía de Jonathan Layton Avila"
+            />
+          </button>
+          <figcaption class="nat-obra__pie">
+            <span class="nat-obra__especie nat-cientifico">Todirostrum cinereum</span>
+            <span class="nat-obra__autor">Foto: Jonathan Layton Avila</span>
+          </figcaption>
+        </figure>
+        <figure class="nat-obra reveal">
+          <button
+            type="button"
+            class="nat-obra__disparador"
+            data-lightbox="muro-aves"
+            data-lightbox-caption="Tityra inquisitor · macho — Foto: Daniel Arango"
+          >
+            <img
+              src="img/aves/ave-16-tytira-inquisitor-macho.jpg"
+              width="1300"
+              height="867"
+              loading="lazy"
+              decoding="async"
+              alt="Tityra inquisitor · macho en el arbolado de Vegas del Verde, fotografía de Daniel Arango"
+            />
+          </button>
+          <figcaption class="nat-obra__pie">
+            <span class="nat-obra__especie nat-cientifico">Tityra inquisitor · macho</span>
+            <span class="nat-obra__autor">Foto: Daniel Arango</span>
+          </figcaption>
+        </figure>
+        <figure class="nat-obra reveal">
+          <button
+            type="button"
+            class="nat-obra__disparador"
+            data-lightbox="muro-aves"
+            data-lightbox-caption="Chondrohierax uncinatus — Foto: Leyner Lozano"
+          >
+            <img
+              src="img/aves/ave-45-chondrohierax-uncinatus.jpg"
+              width="867"
+              height="1300"
+              loading="lazy"
+              decoding="async"
+              alt="Chondrohierax uncinatus en el arbolado de Vegas del Verde, fotografía de Leyner Lozano"
+            />
+          </button>
+          <figcaption class="nat-obra__pie">
+            <span class="nat-obra__especie nat-cientifico">Chondrohierax uncinatus</span>
+            <span class="nat-obra__autor">Foto: Leyner Lozano</span>
           </figcaption>
         </figure>
       </div>
@@ -2919,48 +3063,6 @@
               type="button"
               class="nat-obra__disparador"
               data-lightbox="muro-aves"
-              data-lightbox-caption="Thraupis episcopus — Foto: Fernando Caceres"
-            >
-              <img
-                src="img/aves/ave-03-thraupis-episcopus.jpg"
-                width="1040"
-                height="1300"
-                loading="lazy"
-                decoding="async"
-                alt="Thraupis episcopus en el arbolado de Vegas del Verde, fotografía de Fernando Caceres"
-              />
-            </button>
-            <figcaption class="nat-obra__pie">
-              <span class="nat-obra__especie nat-cientifico">Thraupis episcopus</span>
-              <span class="nat-obra__autor">Foto: Fernando Caceres</span>
-            </figcaption>
-          </figure>
-          <figure class="nat-obra">
-            <button
-              type="button"
-              class="nat-obra__disparador"
-              data-lightbox="muro-aves"
-              data-lightbox-caption="Azulejo palmero — Foto: Francheska Salazar"
-            >
-              <img
-                src="img/aves/ave-04-azulejo-palmero.jpg"
-                width="1300"
-                height="1039"
-                loading="lazy"
-                decoding="async"
-                alt="Azulejo palmero en el arbolado de Vegas del Verde, fotografía de Francheska Salazar"
-              />
-            </button>
-            <figcaption class="nat-obra__pie">
-              <span class="nat-obra__especie">Azulejo palmero</span>
-              <span class="nat-obra__autor">Foto: Francheska Salazar</span>
-            </figcaption>
-          </figure>
-          <figure class="nat-obra">
-            <button
-              type="button"
-              class="nat-obra__disparador"
-              data-lightbox="muro-aves"
               data-lightbox-caption="Zorzal piquinegro — Foto: Francheska Salazar"
             >
               <img
@@ -2975,27 +3077,6 @@
             <figcaption class="nat-obra__pie">
               <span class="nat-obra__especie">Zorzal piquinegro</span>
               <span class="nat-obra__autor">Foto: Francheska Salazar</span>
-            </figcaption>
-          </figure>
-          <figure class="nat-obra">
-            <button
-              type="button"
-              class="nat-obra__disparador"
-              data-lightbox="muro-aves"
-              data-lightbox-caption="Piaya cayana — Foto: Jonathan Layton Avila"
-            >
-              <img
-                src="img/aves/ave-06-piaya-cayana.jpg"
-                width="1040"
-                height="1300"
-                loading="lazy"
-                decoding="async"
-                alt="Piaya cayana en el arbolado de Vegas del Verde, fotografía de Jonathan Layton Avila"
-              />
-            </button>
-            <figcaption class="nat-obra__pie">
-              <span class="nat-obra__especie nat-cientifico">Piaya cayana</span>
-              <span class="nat-obra__autor">Foto: Jonathan Layton Avila</span>
             </figcaption>
           </figure>
           <figure class="nat-obra">
@@ -3024,6 +3105,27 @@
               type="button"
               class="nat-obra__disparador"
               data-lightbox="muro-aves"
+              data-lightbox-caption="Trepatroncos — Foto: Andrea Elizabeth"
+            >
+              <img
+                src="img/aves/ave-08-cucu-ardilla.jpg"
+                width="1300"
+                height="1023"
+                loading="lazy"
+                decoding="async"
+                alt="Trepatroncos en el arbolado de Vegas del Verde, fotografía de Andrea Elizabeth"
+              />
+            </button>
+            <figcaption class="nat-obra__pie">
+              <span class="nat-obra__especie">Trepatroncos</span>
+              <span class="nat-obra__autor">Foto: Andrea Elizabeth</span>
+            </figcaption>
+          </figure>
+          <figure class="nat-obra">
+            <button
+              type="button"
+              class="nat-obra__disparador"
+              data-lightbox="muro-aves"
               data-lightbox-caption="Eugenia piquigruesa — Foto: Andrea Elizabeth"
             >
               <img
@@ -3037,6 +3139,27 @@
             </button>
             <figcaption class="nat-obra__pie">
               <span class="nat-obra__especie">Eugenia piquigruesa</span>
+              <span class="nat-obra__autor">Foto: Andrea Elizabeth</span>
+            </figcaption>
+          </figure>
+          <figure class="nat-obra">
+            <button
+              type="button"
+              class="nat-obra__disparador"
+              data-lightbox="muro-aves"
+              data-lightbox-caption="Cucú ardilla — Foto: Andrea Elizabeth"
+            >
+              <img
+                src="img/aves/ave-10-trepa-troncos.jpg"
+                width="813"
+                height="1300"
+                loading="lazy"
+                decoding="async"
+                alt="Cucú ardilla en el arbolado de Vegas del Verde, fotografía de Andrea Elizabeth"
+              />
+            </button>
+            <figcaption class="nat-obra__pie">
+              <span class="nat-obra__especie">Cucú ardilla</span>
               <span class="nat-obra__autor">Foto: Andrea Elizabeth</span>
             </figcaption>
           </figure>
@@ -3059,6 +3182,48 @@
             <figcaption class="nat-obra__pie">
               <span class="nat-obra__especie nat-obra__especie--anonima">Ave del predio</span>
               <span class="nat-obra__autor">Foto: Arturo Sepulveda</span>
+            </figcaption>
+          </figure>
+          <figure class="nat-obra">
+            <button
+              type="button"
+              class="nat-obra__disparador"
+              data-lightbox="muro-aves"
+              data-lightbox-caption="Barranquero — Foto: Carlos Serrano"
+            >
+              <img
+                src="img/aves/ave-12-barranquero.jpg"
+                width="975"
+                height="1300"
+                loading="lazy"
+                decoding="async"
+                alt="Barranquero en el arbolado de Vegas del Verde, fotografía de Carlos Serrano"
+              />
+            </button>
+            <figcaption class="nat-obra__pie">
+              <span class="nat-obra__especie">Barranquero</span>
+              <span class="nat-obra__autor">Foto: Carlos Serrano</span>
+            </figcaption>
+          </figure>
+          <figure class="nat-obra">
+            <button
+              type="button"
+              class="nat-obra__disparador"
+              data-lightbox="muro-aves"
+              data-lightbox-caption="Batará carcajada — Foto: Carlos Serrano"
+            >
+              <img
+                src="img/aves/ave-13-batara-carcajad.jpg"
+                width="975"
+                height="1300"
+                loading="lazy"
+                decoding="async"
+                alt="Batará carcajada en el arbolado de Vegas del Verde, fotografía de Carlos Serrano"
+              />
+            </button>
+            <figcaption class="nat-obra__pie">
+              <span class="nat-obra__especie">Batará carcajada</span>
+              <span class="nat-obra__autor">Foto: Carlos Serrano</span>
             </figcaption>
           </figure>
           <figure class="nat-obra">
@@ -3100,27 +3265,6 @@
             </button>
             <figcaption class="nat-obra__pie">
               <span class="nat-obra__especie nat-cientifico">Tityra inquisitor · hembra</span>
-              <span class="nat-obra__autor">Foto: Daniel Arango</span>
-            </figcaption>
-          </figure>
-          <figure class="nat-obra">
-            <button
-              type="button"
-              class="nat-obra__disparador"
-              data-lightbox="muro-aves"
-              data-lightbox-caption="Tityra inquisitor · macho — Foto: Daniel Arango"
-            >
-              <img
-                src="img/aves/ave-16-tytira-inquisitor-macho.jpg"
-                width="1300"
-                height="867"
-                loading="lazy"
-                decoding="async"
-                alt="Tityra inquisitor · macho en el arbolado de Vegas del Verde, fotografía de Daniel Arango"
-              />
-            </button>
-            <figcaption class="nat-obra__pie">
-              <span class="nat-obra__especie nat-cientifico">Tityra inquisitor · macho</span>
               <span class="nat-obra__autor">Foto: Daniel Arango</span>
             </figcaption>
           </figure>
@@ -3423,6 +3567,27 @@
               type="button"
               class="nat-obra__disparador"
               data-lightbox="muro-aves"
+              data-lightbox-caption="Periquito bronceado — Foto: Fabiola Rueda"
+            >
+              <img
+                src="img/aves/ave-31-periquito-bronceado.jpg"
+                width="867"
+                height="1300"
+                loading="lazy"
+                decoding="async"
+                alt="Periquito bronceado en el arbolado de Vegas del Verde, fotografía de Fabiola Rueda"
+              />
+            </button>
+            <figcaption class="nat-obra__pie">
+              <span class="nat-obra__especie">Periquito bronceado</span>
+              <span class="nat-obra__autor">Foto: Fabiola Rueda</span>
+            </figcaption>
+          </figure>
+          <figure class="nat-obra">
+            <button
+              type="button"
+              class="nat-obra__disparador"
+              data-lightbox="muro-aves"
               data-lightbox-caption="Euphonia — Foto: Fabiola Rueda"
             >
               <img
@@ -3465,27 +3630,6 @@
               type="button"
               class="nat-obra__disparador"
               data-lightbox="muro-aves"
-              data-lightbox-caption="Amazilia tzacatl — Foto: Jaime Suarez"
-            >
-              <img
-                src="img/aves/ave-35-amaziliatzacatl.jpg"
-                width="1040"
-                height="1300"
-                loading="lazy"
-                decoding="async"
-                alt="Amazilia tzacatl en el arbolado de Vegas del Verde, fotografía de Jaime Suarez"
-              />
-            </button>
-            <figcaption class="nat-obra__pie">
-              <span class="nat-obra__especie nat-cientifico">Amazilia tzacatl</span>
-              <span class="nat-obra__autor">Foto: Jaime Suarez</span>
-            </figcaption>
-          </figure>
-          <figure class="nat-obra">
-            <button
-              type="button"
-              class="nat-obra__disparador"
-              data-lightbox="muro-aves"
               data-lightbox-caption="Forpus conspicillatus — Foto: Jaime Suarez"
             >
               <img
@@ -3499,6 +3643,27 @@
             </button>
             <figcaption class="nat-obra__pie">
               <span class="nat-obra__especie nat-cientifico">Forpus conspicillatus</span>
+              <span class="nat-obra__autor">Foto: Jaime Suarez</span>
+            </figcaption>
+          </figure>
+          <figure class="nat-obra">
+            <button
+              type="button"
+              class="nat-obra__disparador"
+              data-lightbox="muro-aves"
+              data-lightbox-caption="Todirostrum cinereum — Foto: Jaime Suarez"
+            >
+              <img
+                src="img/aves/ave-37-todirostrumcinereum-foto-01.jpg"
+                width="1107"
+                height="1300"
+                loading="lazy"
+                decoding="async"
+                alt="Todirostrum cinereum en el arbolado de Vegas del Verde, fotografía de Jaime Suarez"
+              />
+            </button>
+            <figcaption class="nat-obra__pie">
+              <span class="nat-obra__especie nat-cientifico">Todirostrum cinereum</span>
               <span class="nat-obra__autor">Foto: Jaime Suarez</span>
             </figcaption>
           </figure>
@@ -3570,27 +3735,6 @@
               type="button"
               class="nat-obra__disparador"
               data-lightbox="muro-aves"
-              data-lightbox-caption="Todirostrum cinereum — Foto: Jonathan Layton Avila"
-            >
-              <img
-                src="img/aves/ave-41-todirostrum-cinereum.jpg"
-                width="1040"
-                height="1300"
-                loading="lazy"
-                decoding="async"
-                alt="Todirostrum cinereum en el arbolado de Vegas del Verde, fotografía de Jonathan Layton Avila"
-              />
-            </button>
-            <figcaption class="nat-obra__pie">
-              <span class="nat-obra__especie nat-cientifico">Todirostrum cinereum</span>
-              <span class="nat-obra__autor">Foto: Jonathan Layton Avila</span>
-            </figcaption>
-          </figure>
-          <figure class="nat-obra">
-            <button
-              type="button"
-              class="nat-obra__disparador"
-              data-lightbox="muro-aves"
               data-lightbox-caption="Machetornis rixosa — Foto: José Belisario Cardenas"
             >
               <img
@@ -3604,6 +3748,27 @@
             </button>
             <figcaption class="nat-obra__pie">
               <span class="nat-obra__especie nat-cientifico">Machetornis rixosa</span>
+              <span class="nat-obra__autor">Foto: José Belisario Cardenas</span>
+            </figcaption>
+          </figure>
+          <figure class="nat-obra">
+            <button
+              type="button"
+              class="nat-obra__disparador"
+              data-lightbox="muro-aves"
+              data-lightbox-caption="Thamnophilus multistriatus — Foto: José Belisario Cardenas"
+            >
+              <img
+                src="img/aves/ave-43-thamnophilus-multistriatus.jpg"
+                width="1040"
+                height="1300"
+                loading="lazy"
+                decoding="async"
+                alt="Thamnophilus multistriatus en el arbolado de Vegas del Verde, fotografía de José Belisario Cardenas"
+              />
+            </button>
+            <figcaption class="nat-obra__pie">
+              <span class="nat-obra__especie nat-cientifico">Thamnophilus multistriatus</span>
               <span class="nat-obra__autor">Foto: José Belisario Cardenas</span>
             </figcaption>
           </figure>
@@ -3780,6 +3945,27 @@
               type="button"
               class="nat-obra__disparador"
               data-lightbox="muro-aves"
+              data-lightbox-caption="Sinsonte — Foto: Sergio Barreto"
+            >
+              <img
+                src="img/aves/ave-54-sinsonte.jpg"
+                width="1300"
+                height="867"
+                loading="lazy"
+                decoding="async"
+                alt="Sinsonte en el arbolado de Vegas del Verde, fotografía de Sergio Barreto"
+              />
+            </button>
+            <figcaption class="nat-obra__pie">
+              <span class="nat-obra__especie">Sinsonte</span>
+              <span class="nat-obra__autor">Foto: Sergio Barreto</span>
+            </figcaption>
+          </figure>
+          <figure class="nat-obra">
+            <button
+              type="button"
+              class="nat-obra__disparador"
+              data-lightbox="muro-aves"
               data-lightbox-caption="Carpintero — Foto: Yeraldilsa Gamboa"
             >
               <img
@@ -3814,6 +4000,27 @@
             </button>
             <figcaption class="nat-obra__pie">
               <span class="nat-obra__especie">Canario</span>
+              <span class="nat-obra__autor">Foto: Yeraldilsa Gamboa</span>
+            </figcaption>
+          </figure>
+          <figure class="nat-obra">
+            <button
+              type="button"
+              class="nat-obra__disparador"
+              data-lightbox="muro-aves"
+              data-lightbox-caption="Churica, azulejo y tángara palmarum — Foto: Yeraldilsa Gamboa"
+            >
+              <img
+                src="img/aves/ave-57-churica-azulejo-tangara-palmarum.jpg"
+                width="1300"
+                height="1300"
+                loading="lazy"
+                decoding="async"
+                alt="Churica, azulejo y tángara palmarum en el arbolado de Vegas del Verde, fotografía de Yeraldilsa Gamboa"
+              />
+            </button>
+            <figcaption class="nat-obra__pie">
+              <span class="nat-obra__especie">Churica, azulejo y tángara palmarum</span>
               <span class="nat-obra__autor">Foto: Yeraldilsa Gamboa</span>
             </figcaption>
           </figure>
@@ -3937,10 +4144,11 @@
       <figure>
         <div class="marco">
           <img
-            src="img/parque/parque-40.jpg"
+            src="img/parque/parque-40-TEMP.jpg"
             width="675"
             height="1200"
-            alt="Filodendros de hoja roja y limón en primer plano y, al fondo, los camellones de plantas ornamentales bajo la malla de sombra del vivero."
+            data-pendiente-foto="temporal · reemplazar por foto real del predio"
+            alt="Una mujer eligiendo una planta entre las hileras del vivero."
             loading="lazy"
             decoding="async"
           />
@@ -4888,7 +5096,7 @@
 
   </div>
 </footer>
-<script src="js/app.js?v=3c2570ce" defer></script>
+<script src="js/app.js?v=c090e9a7" defer></script>
 <script src="js/mapa.js?v=d689bff8" defer></script>
 </body>
 </html>

@@ -1,7 +1,9 @@
 <!-- ==========================================================================
      FRAGMENTO: ESPACIOS EN ALQUILER  ·  id="espacios"
      CSS propio: styles/sections/espacios.css
-     JS: ninguno propio. Sólo usa .reveal / .reveal-secuencia del script global.
+     JS propio: js/foto-focus.js (compartido con #nosotros; el <script defer>
+     va al final de este fragmento y lleva cerrojo de doble inclusión).
+     Además usa .reveal / .reveal-secuencia del script global.
 
      ÁMBITO DE ESTA SECCIÓN — es el ÚNICO sitio del sitio donde se DESCRIBE un
      espacio. Cualquier otra sección que nombre la Alameda, La Vega, el
@@ -105,25 +107,43 @@
            Entra con velo (la cortina sube): el gesto que corresponde a una
            banda ancha, que no tiene lado por el que llegar.                -->
       <li class="espacio espacio--destacado reveal reveal--velo">
-        <figure class="espacio__figura espacio__figura--banda">
-          <img
-            class="espacio__img"
-            src="img/espacios/alameda-2.jpg"
-            width="1500"
-            height="844"
-            loading="lazy"
-            decoding="async"
-            alt="La Alameda vista a lo ancho: una pradera de césped parejo con árboles de tronco delgado repartidos sobre la hierba y un seto vivo cerrando el fondo."
-          />
-          <img
-            class="espacio__img espacio__img--apoyo"
-            src="img/espacios/alameda-1.jpg"
-            width="1125"
-            height="1500"
-            loading="lazy"
-            decoding="async"
-            alt="El mismo prado de la Alameda desde el borde arbolado: sombra moteada sobre el césped en primer término y la hilera de árboles del fondo bajo un cielo con nubes."
-          />
+        <!-- FOTO-FOCUS (js/foto-focus.js): la Alameda es el ancla de la
+             sección y una de las dos piezas grandes que reciben el encuadre
+             ligado al scroll (la otra es el Teatrino; las tres verticales
+             estrechas quedan quietas: el plan pide foco, no ruido). El
+             atributo va en la FIGURA, que es quien recorta con la silueta de
+             banda. data-foco sólo actúa en móvil, donde la banda queda en
+             3:2 y la única holgura del recorte es horizontal: el encuadre
+             viaja del centro hacia los árboles de la izquierda. En
+             escritorio sólo hay zoom, anclado al object-position de cada
+             foto. LAS DOS CELDAS (.espacio__celda) no son decorativas: cada
+             foto zoomea dentro de la suya con overflow hidden propio; sin
+             ellas, la escala invadiría la junta de 4 px que separa las dos
+             fotos y se comería el borde de la vecina. -->
+        <figure class="espacio__figura espacio__figura--banda" data-foto-focus data-foco="38% 50%" data-zoom="0.1">
+          <div class="espacio__celda">
+            <img
+              class="espacio__img"
+              src="img/espacios/alameda-2.jpg"
+              width="1500"
+              height="844"
+              loading="lazy"
+              decoding="async"
+              alt="La Alameda vista a lo ancho: una pradera de césped parejo con árboles de tronco delgado repartidos sobre la hierba y un seto vivo cerrando el fondo."
+            />
+          </div>
+          <div class="espacio__celda espacio__celda--apoyo">
+            <img
+              class="espacio__img espacio__img--apoyo"
+              src="img/espacios/alameda-1-TEMP.jpg"
+              width="1125"
+              height="1500"
+              loading="lazy"
+              decoding="async"
+              data-pendiente-foto="temporal · reemplazar por foto real del predio"
+              alt="Grupo conversando en una celebración a media mañana en la Alameda."
+            />
+          </div>
         </figure>
 
         <p class="espacio__aforo">
@@ -157,12 +177,13 @@
         <figure class="espacio__figura">
           <img
             class="espacio__img"
-            src="img/parque/parque-47.jpg"
+            src="img/parque/parque-47-TEMP.jpg"
             width="675"
             height="1200"
             loading="lazy"
             decoding="async"
-            alt="La Vega: una explanada llana de césped abierto con un árbol grande dando sombra en el costado izquierdo y un seto recortado cerrando el fondo."
+            data-pendiente-foto="temporal · reemplazar por foto real del predio"
+            alt="Encuentro de grupo sentado en círculo a la sombra en La Vega, al mediodía."
           />
         </figure>
 
@@ -194,15 +215,23 @@
            Su foto va recortada EN ARCO: la copa del árbol de la fotografía y
            el medio punto de la silueta son la misma curva.                  -->
       <li class="espacio espacio--medio reveal reveal--izq">
-        <figure class="espacio__figura">
+        <!-- FOTO-FOCUS: el Teatrino es la otra pieza grande (el cuadrado que
+             abre la segunda fila) y el zoom queda recortado por su arco.
+             data-foco sube el encuadre en móvil: el archivo es un vertical
+             675×1200 y el recorte cuadrado deja holgura sólo en vertical.
+             OJO: la foto actual es -TEMP (tarjeta borrador); cuando llegue la
+             foto real del Teatrino hay que reafinar data-foco a su motivo
+             (público abajo, escenario y cielo de atardecer arriba). -->
+        <figure class="espacio__figura" data-foto-focus data-foco="50% 42%" data-zoom="0.12">
           <img
             class="espacio__img"
-            src="img/parque/parque-56.jpg"
+            src="img/parque/parque-56-TEMP.jpg"
             width="675"
             height="1200"
             loading="lazy"
             decoding="async"
-            alt="El Teatrino: un árbol enorme de copa muy abierta en el centro de un claro de césped, con una persona de pie junto al tronco que da la medida de su tamaño."
+            data-pendiente-foto="temporal · reemplazar por foto real del predio"
+            alt="Público sentado frente a una función al atardecer en el Teatrino."
           />
         </figure>
 
@@ -236,12 +265,13 @@
         <figure class="espacio__figura">
           <img
             class="espacio__img"
-            src="img/espacios/taller-1.jpg"
+            src="img/espacios/taller-1-TEMP.jpg"
             width="849"
             height="1500"
             loading="lazy"
             decoding="async"
-            alt="El Taller por dentro: cubierta de caña, paredes de estera, dos guirnaldas de bombillos encendidas cruzando el techo, mesas de trabajo, sillas blancas y varios cuadros apoyados sobre las mesas."
+            data-pendiente-foto="temporal · reemplazar por foto real del predio"
+            alt="Clase en marcha dentro del Taller, con manos trabajando sobre las mesas y luz de mañana."
           />
         </figure>
 
@@ -277,12 +307,13 @@
         <figure class="espacio__figura">
           <img
             class="espacio__img"
-            src="img/parque/parque-57.jpg"
+            src="img/parque/parque-57-TEMP.jpg"
             width="900"
             height="1200"
             loading="lazy"
             decoding="async"
-            alt="La Cancha: un campo de césped plano y despejado con el guadual cerrando el fondo y árboles altos dando sombra en el borde derecho."
+            data-pendiente-foto="temporal · reemplazar por foto real del predio"
+            alt="Partido recreativo en la Cancha por la tarde, con espectadores al margen."
           />
         </figure>
 
@@ -338,4 +369,13 @@
     </div>
 
   </div>
+
+  <!-- FOTO-FOCUS — el <script> va aquí dentro porque el ensamblador copia tal
+       cual la cola de index.html y un fragmento no puede añadir nada allí
+       (precedente: momentos-video.js). #nosotros declara este mismo archivo:
+       el script lleva cerrojo de doble inclusión, así que da igual cuál de
+       los dos fragmentos quede primero o si algún día uno se retira. Con
+       defer no bloquea el parseo y corre con el DOM completo. Bajo
+       prefers-reduced-motion no se monta. -->
+  <script src="js/foto-focus.js?v=2e41fd79" defer></script>
 </section>

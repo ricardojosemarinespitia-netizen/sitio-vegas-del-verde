@@ -86,11 +86,27 @@
   /* ---------------------------------------------------------------------
      La mariposa del clic
 
-     Al pulsar cualquier enlace o botón nace una mariposa en el punto del
-     clic y sube hasta perderse. Es un guiño, no una confirmación: por eso
-     no se dispara con teclado ni con Enter en un botón —sólo con el clic
-     de verdad—, para no competir con el foco ni interferir con lectores de
+     Al pulsar un CTA de conversión nace una mariposa en el punto del clic
+     y sube hasta perderse. SÓLO en los CTA: cuando salía con cualquier
+     enlace o botón —menú, lightbox, flechas del visor, botones del mapa—
+     el gesto se banalizaba a los tres clics. Reservada al momento de
+     decidirse («Reserva tu escape», «Quiero este plan»…), vuelve a
+     significar algo. Es un guiño, no una confirmación: por eso no se
+     dispara con teclado ni con Enter en un botón —sólo con el clic de
+     verdad—, para no competir con el foco ni interferir con lectores de
      pantalla. Bajo prefers-reduced-motion no se crea ningún elemento.
+
+     Qué cuenta como CTA de conversión: en este sitio TODOS convergen en
+     WhatsApp (CONTRATO-V2 §6), así que el reconocimiento es doble y por
+     selector, nunca por el texto del botón:
+       · `.btn-whatsapp` — los botones de WhatsApp, incluido el submit del
+         formulario de Ubicación (que es <button>, sin href).
+       · `a[href^="https://wa.me/"]` — los enlaces directos a WhatsApp que
+         no son botón: los «Quiero este plan» de Espacios van como
+         `.enlace-flecha`, y por el atributo se reconocen sin depender de
+         la clase con que cada sección los vista.
+     Los `.btn-primario`/`.btn-secundario` (Google Maps, Waze, «Volver al
+     inicio», condiciones) quedan fuera a propósito: son navegación.
 
      Las siete siluetas de la lista son un muestreo de las 21 del enjambre
      de img/plan-vecino/: no todas, porque a este tamaño varias formas casi
@@ -98,8 +114,9 @@
      --------------------------------------------------------------------- */
   if (!reduceMotion) {
     const SILUETAS = [1, 3, 6, 8, 10, 14, 16];
+    const SELECTOR_CTA = '.btn-whatsapp, a[href^="https://wa.me/"]';
     document.addEventListener('click', evento => {
-      const disparador = evento.target.closest('a, button');
+      const disparador = evento.target.closest(SELECTOR_CTA);
       if (!disparador) return;
       const n = SILUETAS[Math.floor(Math.random() * SILUETAS.length)];
       const num = n < 10 ? '0' + n : String(n);

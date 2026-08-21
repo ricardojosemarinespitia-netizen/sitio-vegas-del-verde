@@ -625,3 +625,37 @@
     margin-left: calc(var(--esp-md) * -1);
   }
 }
+
+/* ==========================================================================
+   5. FOTO-FOCUS LIGADO AL SCROLL (js/foto-focus.js)
+   Las dos piezas grandes de la sección —la foto del prado y el panel de
+   aves— llevan `data-foto-focus` en su figura y el JS las encuadra según el
+   progreso de scroll: escritorio anima sólo `scale` (compositor), anclado al
+   object-position que estas mismas reglas declaran arriba (50% 48% el prado,
+   50% 57% el panel); móvil viaja además el object-position hasta el
+   data-foco del HTML. Los dos recortes ya los hacen las figuras con su
+   overflow hidden y sus radios de hoja: el zoom nunca asoma del contorno.
+
+   EL ESTADO INICIAL VIVE AQUÍ, EN CSS ESTÁTICO. scale(1) es el reposo del
+   efecto y es lo que pinta el primer paint aunque el defer llegue tarde: el
+   JS parte de este estado y vuelve a él, así que no puede haber parpadeo.
+   La regla va con :where() a propósito: en (0,1,1) queda por debajo del zoom
+   del hover de estas figuras ((0,2,1)), de modo que SIN el script —o antes
+   de que corra— el hover sigue funcionando. Montado el script, su estilo en
+   línea manda sobre los dos.
+
+   Bajo prefers-reduced-motion no hay nada que apagar: el script no se monta
+   y la foto queda quieta en el encuadre de arriba.
+   ========================================================================== */
+:where(.nosotros__foto, .nosotros__mural)[data-foto-focus] img {
+  transform: scale(1);
+}
+
+/* Sólo escritorio (el mismo umbral con el que el JS cambia de modo) y sólo
+   si hay movimiento: dos imágenes promocionadas a capa, no un sitio entero.
+   En móvil el efecto repinta el recorte y will-change no ayudaría. */
+@media (min-width: 64em) and (prefers-reduced-motion: no-preference) {
+  :where(.nosotros__foto, .nosotros__mural)[data-foto-focus] img {
+    will-change: transform;
+  }
+}

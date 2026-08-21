@@ -1,6 +1,8 @@
 <!-- ==========================================================================
      FRAGMENTO: NOSOTROS  ·  ancla #nosotros
      CSS propio: styles/sections/nosotros.css
+     JS propio: js/foto-focus.js (compartido con #espacios; el <script defer>
+     va al final de este fragmento y lleva cerrojo de doble inclusión)
 
      ÁMBITO ESTRICTO DE ESTA SECCIÓN
      Qué ES el predio (privado, cerrado, vigilado, con los servicios ya
@@ -121,7 +123,14 @@
        que la imagen muerde la columna de texto de arriba en lugar de alinearse
        con ella.
        ---------------------------------------------------------------------- -->
-  <figure class="nosotros__foto reveal">
+  <!-- FOTO-FOCUS (js/foto-focus.js): la pieza grande de la sección recibe el
+       encuadre ligado al scroll. El atributo va en la FIGURA porque es ella
+       quien recorta (overflow hidden + radio de hoja): el zoom nunca asoma
+       fuera del contorno. El encuadre de PARTIDA no se declara: es el
+       object-position del CSS (50% 48%), así el primer cuadro del JS coincide
+       con el primer paint y no hay salto. data-foco baja la mirada hacia el
+       césped —el prado se lee a ras de suelo— cuando la foto centra. -->
+  <figure class="nosotros__foto reveal" data-foto-focus data-foco="50% 62%" data-zoom="0.12">
     <img
       src="img/parque/parque-05.jpg"
       width="675"
@@ -283,7 +292,12 @@
          ventana y un desplazamiento horizontal lo empujaría 28 px fuera de la
          pantalla. Entra con `reveal--zoom`, que sólo escala: no desplaza nada
          y por tanto no puede desbordar. -->
-    <figure class="nosotros__mural reveal reveal--zoom">
+    <!-- FOTO-FOCUS también aquí: es la otra pieza grande de la sección y la
+         que cierra el capítulo. data-foco sube el encuadre desde el 57% del
+         CSS hacia el panel pintado (el colibrí queda a media altura de la
+         foto): al centrar la banda, los pájaros centran con ella. El zoom es
+         un punto mayor que el del prado porque el motivo es más pequeño. -->
+    <figure class="nosotros__mural reveal reveal--zoom" data-foto-focus data-foco="50% 46%" data-zoom="0.14">
       <img
         src="img/parque/parque-20.jpg"
         width="900"
@@ -295,5 +309,16 @@
     </figure>
 
   </section>
+
+  <!-- FOTO-FOCUS — por qué el <script> va aquí dentro y no en la cola de
+       index.html: el ensamblador copia tal cual la cola (donde viven app.js
+       y mapa.js), así que un fragmento no puede añadir nada allí; el
+       precedente es momentos-video.js. Carga con defer —no bloquea el parseo
+       y corre con el DOM completo— y #espacios declara este mismo archivo:
+       el propio script lleva un cerrojo que hace inofensiva la segunda
+       ejecución, y el navegador sólo lo descarga una vez. Bajo
+       prefers-reduced-motion no se monta: la foto queda quieta en el
+       encuadre del CSS. -->
+  <script src="js/foto-focus.js?v=2e41fd79" defer></script>
 
 </section>

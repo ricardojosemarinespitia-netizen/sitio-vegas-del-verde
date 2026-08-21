@@ -55,6 +55,27 @@
        créditos: lo único que cambia es que las copias ya no comparten
        esquina, igual que no la comparten las copias de una pared de verdad.
 
+   QUÉ AÑADE v5 — la curaduría del muro
+   v4 varió la esquina de las cincuenta y siete copias, pero todas seguían
+   colgando en la misma celda y al mismo tamaño: la mejor fotografía del
+   concurso pesaba lo mismo que la más movida, y un muro sin jerarquía nivela
+   la sección —y el sitio— hacia abajo. Se miraron las 57 una a una y:
+
+     · Las NUEVE de mejor factura (nitidez, pose, luz) cuelgan en
+       .nat-destacadas: una rejilla de doce carriles con UNA pieza dominante
+       a media pared y dos filas de acompañamiento a tres tamaños distintos,
+       colgadas al principio de su fila —no estiradas— y con dos descuelgues
+       para que el canto inferior no haga regla. Cada pieza recorta su
+       fotografía a un encuadre propio (aspect-ratio + object-fit), como se
+       encuadra una copia para enmarcarla.
+     · Las CUARENTA Y OCHO restantes pasan enteras al archivo plegado
+       (.nat-muro), que se vuelve mosaico compacto: más columnas, celda
+       pequeña, rótulo en cuerpo micro y el mismo sistema de hojas a escala
+       menor (--nat-hoja-mini-*). Es el tratamiento callado de un archivo,
+       no el de una galería.
+     · Ninguna ficha pierde su crédito, el lightbox no cambia y las 57
+       siguen publicadas: la curaduría reparte peso, no recorta el archivo.
+
    CÓMO SE SANGRA AQUÍ, Y POR QUÉ NO CON vw
    Los bloques a sangre son hijos DIRECTOS de <section>, no de .contenedor, así
    que ya nacen con el ancho de la página: no hace falta ningún truco de
@@ -96,6 +117,20 @@
   --nat-alto-habitat: clamp(15rem, 30vw, 19rem);
   --nat-alto-habitat-ancho: clamp(17rem, 32vw, 23rem);
   --nat-col-video: clamp(15rem, 24vw, 21rem);     /* ancho de la columna 9:16 */
+
+  /* LA PIEZA-CIFRA DOMINANTE: el cuerpo del «101» del titular. La fundación
+     no tiene ningún paso por encima de --paso-6, y pedir un token nuevo para
+     un solo uso ensuciaría la escala: se deriva del paso más alto, 1.7 veces.
+     Da ~76 px en un móvil de 375 y ~143 px a ancho completo — más grande que
+     cualquier otro texto de la página menos el hero, que es el encargo. */
+  --nat-fs-cifra-dominante: calc(var(--paso-6) * 1.7);
+  /* El hueco entre el «101» y «especies». Va en `em` y no en un --esp-* del
+     sistema porque tiene que crecer CON la cifra: los pasos de espaciado son
+     absolutos y a 143 px de número dejarían la unidad pegada, mientras que a
+     76 px en móvil la dejarían suelta. Se declara aquí, como token de
+     sección, en vez de escribirlo suelto en la regla: ningún literal vive
+     dentro de una declaración (CONTRATO-V2 §7). */
+  --nat-cifra-hueco: 0.22em;
   /* --nat-filete se retira en v4: los dos únicos sitios que lo usaban —el
      aviso de la Chachalaca y los nombres de los dos árboles— ya no cuelgan de
      un filete recto, sino de una superficie con radio de hoja y de la propia
@@ -118,6 +153,16 @@
   --nat-hoja-b: var(--radio-md) var(--radio-xl) var(--radio-md) var(--radio-xl);
   --nat-hoja-c: var(--radio-lg) var(--radio-md) var(--radio-lg) var(--radio-xl);
   --nat-hoja-d: var(--radio-md) var(--radio-lg) var(--radio-xl) var(--radio-lg);
+
+  /* v5 · LA HOJA EN PEQUEÑO. El mosaico compacto del archivo repite el mismo
+     sistema de radios pero a la escala de su celda: los valores bajan un
+     escalón en la propia escala de tokens (xl→lg, lg→md, md→sm). Mismo
+     gesto, menos voz — que es exactamente la diferencia entre la pieza
+     enmarcada y la copia de archivo. */
+  --nat-hoja-mini-a: var(--radio-lg) var(--radio-sm) var(--radio-lg) var(--radio-sm);
+  --nat-hoja-mini-b: var(--radio-sm) var(--radio-lg) var(--radio-sm) var(--radio-lg);
+  --nat-hoja-mini-c: var(--radio-md) var(--radio-sm) var(--radio-md) var(--radio-lg);
+  --nat-hoja-mini-d: var(--radio-sm) var(--radio-md) var(--radio-lg) var(--radio-md);
 }
 
 /* ==========================================================================
@@ -301,25 +346,81 @@
   max-width: var(--medida);
 }
 
-/* CONTRASTE DE ESCALA. El titular de esta sección es el más grande de la
-   página después del hero, porque esta sección es la más larga y la que
-   vende lo único que tiene precio. Sube un paso entero sobre --fs-h2. */
-@media (min-width: 62em) {
-  .nat-apertura__titulo {
-    font-size: var(--fs-h1);
-  }
+/* LA PIEZA-CIFRA DOMINANTE.
+   El titular de esta sección era el más grande de la página después del hero
+   (subía entero a --fs-h1 en escritorio) y el «101» iba dentro de la frase,
+   marcado con peso y terracota pero al mismo cuerpo que las palabras: como
+   frase funcionaba; como DATO pesaba lo mismo que «cantan». Y es el único
+   dato que ninguna finca de eventos del Anillo Vial puede copiar.
+
+   Ahora el titular se compone alrededor de la cifra, como una portada compone
+   su número: la frase en el cuerpo normal de sección (--fs-h2) y el 101 en
+   cuerpo gigante debajo, con «especies» colgada de su línea base. La
+   jerarquía la da la ESCALA, no una frase inflada — por eso desaparece
+   también la regla que subía todo el h2 a --fs-h1: con la cifra gigante al
+   lado ya no distinguía nada y sólo alargaba los renglones.
+
+   Va en --peso-display (320) y no en el peso de cifra (600) a propósito: a
+   140 px el trazo fino de Fraunces con el eje óptico alto es lo que da el
+   aire editorial —la misma razón por la que los titulares adelgazaron en v3,
+   ver tokens.css §3—; el 600, que en una cifra de estadística evita que el
+   dato se desvanezca, aquí sería un bloque macizo de terracota, y el cálido
+   de este sistema funciona por escasez, no por masa. A este cuerpo el
+   terracota es texto grande de sobra para WCAG: 5.3:1 sobre crema cuando el
+   umbral es 3:1.
+
+   El contador es el MOTOR GLOBAL de js/app.js ([data-contador]): el mismo
+   mecanismo del 347 y el 57, aquí sólo cambia el traje. min-width en `ch` y
+   cifras tabulares hacen que la caja mida de entrada lo que va a medir al
+   final, así que ni «especies» ni el párrafo de abajo se mueven un píxel
+   mientras cuenta. El 101 está escrito en el HTML: sin JS no falta nada, y
+   con prefers-reduced-motion el motor lo escribe de golpe, sin cuenta.      */
+.nat-cifra-dominante {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--esp-3xs);
 }
 
-/* EL «101», DENTRO DEL TITULAR.
-   Es el único sitio de la página donde aparece esa cifra y estaba escrita como
-   una palabra más. Aquí se marca —peso de cifra y terracota, 5.3:1 sobre
-   crema— sin sacarla de la frase, que es lo que la hace legible como promesa
-   («cantan 101 especies») y no como estadística suelta.
+/* La frase presenta; la que manda es la cifra de debajo. */
+.nat-cifra-dominante__frase {
+  font-size: var(--fs-h2);
+}
 
-   El inline-block con min-width en `ch` y cifras tabulares es lo que permite
-   que el contador de js/app.js cuente de 0 a 101 sin que el titular se
-   recomponga en cada fotograma: la caja ya mide de entrada lo que va a medir
-   al final. Sin JS el 101 está escrito en el HTML y no cambia nada.          */
+/* Cifra y unidad comparten línea base: se lee «101 especies», no un número
+   suelto con un pie. En pantallas muy estrechas la unidad puede bajar de
+   renglón sin romper la composición. */
+.nat-cifra-dominante__linea {
+  display: flex;
+  align-items: baseline;
+  flex-wrap: wrap;
+  gap: var(--nat-cifra-hueco);
+}
+
+.nat-cifra-dominante__numero {
+  min-width: 3ch;
+  font-size: var(--nat-fs-cifra-dominante);
+  font-weight: var(--peso-display);
+  font-variant-numeric: tabular-nums;
+  font-optical-sizing: auto;
+  font-variation-settings: var(--ejes-display);
+  line-height: var(--alto-linea-apretado);
+  letter-spacing: var(--tracking-display);
+  color: var(--color-acento-texto);
+}
+
+.nat-cifra-dominante__unidad {
+  font-size: var(--fs-h2);
+}
+
+/* RED PARA EL index.html YA ENSAMBLADO (se retira cuando vuelva a correr
+   herramientas/ensamblar.js). Hasta entonces esta hoja convive con el
+   marcado anterior, donde el 101 no es la pieza-cifra sino un <span
+   class="nat-titulo-cifra" data-contador="101"> DENTRO del titular. Sin esta
+   regla, el contador de js/app.js sube de 0 a 101 con dígitos
+   proporcionales y el renglón del titular se recompone en cada fotograma:
+   exactamente el reflow que la regla existía para impedir. Misma decisión
+   que el puente de .espacio__img--apoyo en espacios.css. */
 .nat-titulo-cifra {
   display: inline-block;
   min-width: 3ch;
@@ -1039,11 +1140,13 @@
 }
 
 /* ==========================================================================
-   5. EL MURO DEL CONCURSO
+   5. EL MURO DEL CONCURSO — curado en v5
    Banda salvia a todo el ancho que llega hasta el borde inferior de la
    sección (de ahí el margen negativo, que compensa el padding de .seccion).
-   NO SE TOCA EN v3.1: ya era la pieza que rompía el ritmo, y los créditos de
-   los fotógrafos no se mueven de donde están.
+   Dos movimientos: .nat-destacadas (nueve piezas en grande, con jerarquía
+   real) y .nat-muro (el archivo completo en mosaico compacto, plegado).
+   Los créditos de los fotógrafos no se mueven de donde están: visibles
+   siempre, debajo de cada copia, en las dos escalas.
    ========================================================================== */
 .nat-muro-banda {
   position: relative;
@@ -1135,22 +1238,225 @@
   color: var(--color-texto-suave);
 }
 
-/* Muro de columnas: cada foto conserva su proporción real, como una copia
-   colgada en pared. Nada de recortes cuadrados de banco de imágenes.       */
-.nat-muro {
-  columns: 2;
-  column-gap: var(--gap-sm);
+/* ---- LA CURADURÍA: las nueve destacadas ----------------------------------
+   Rejilla de doce carriles con UNA pieza dominante (la primera: media pared
+   y dos filas de alto) y ocho piezas de acompañamiento a tres anchos
+   distintos. `align-items: start` es la misma decisión que desmontó la tabla
+   del censo: cada pieza cuelga a su altura en vez de estirarse a la de la
+   más alta, y dos descuelgues (6ª y 9ª) evitan que el canto inferior de
+   cada fila haga regla.
+
+   Aquí cada fotografía SÍ se recorta a un encuadre fijo (aspect-ratio +
+   object-fit: cover): es lo que se hace al enmarcar una copia en grande, y
+   es lo que permite que la rejilla componga en vez de apilarse. La caja
+   queda reservada por el aspect-ratio antes de que baje un byte de imagen,
+   así que no hay salto de maquetación. El archivo de abajo, en cambio,
+   conserva la proporción real de cada copia: allí mandan las fotos.
+   -------------------------------------------------------------------------- */
+.nat-destacadas {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  /* `dense` sólo trabaja en móvil: la 8ª pieza es apaisada y cruza las dos
+     columnas, y sin él la 9ª dejaría un hueco al lado de la 7ª. */
+  grid-auto-flow: row dense;
+  gap: var(--gap-sm);
+  margin-bottom: var(--gap-lg);
 }
 
-@media (min-width: 48em) {
+.nat-destacadas .nat-obra {
+  margin: 0;
+}
+
+/* El encuadre por defecto de la galería es vertical 3:4; las piezas que
+   piden otro (las apaisadas, la dominante) lo declaran más abajo. */
+.nat-destacadas .nat-obra__disparador {
+  aspect-ratio: 3 / 4;
+}
+
+.nat-destacadas .nat-obra__disparador > img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* En móvil, la dominante y las dos apaisadas cruzan el par de columnas;
+   el resto va en parejas. */
+.nat-destacadas .nat-obra:nth-child(1),
+.nat-destacadas .nat-obra:nth-child(4),
+.nat-destacadas .nat-obra:nth-child(8) {
+  grid-column: 1 / -1;
+}
+
+.nat-destacadas .nat-obra:nth-child(4) .nat-obra__disparador,
+.nat-destacadas .nat-obra:nth-child(8) .nat-obra__disparador {
+  aspect-ratio: 3 / 2;
+}
+
+/* El barranquero dominante: el encuadre se apoya abajo para que la raqueta
+   de la cola —lo que hace inconfundible a la especie— no se recorte nunca;
+   lo que cede es el follaje de la parte alta. */
+.nat-destacadas .nat-obra:nth-child(1) .nat-obra__disparador > img {
+  object-position: center 60%;
+}
+
+/* El gavilán va en celda 4:5 sobre un original 2:3: el encuadre sube para
+   que el recorte coma cielo y ramas por abajo, no la cabeza. */
+.nat-destacadas .nat-obra:nth-child(9) .nat-obra__disparador > img {
+  object-position: center 30%;
+}
+
+/* La ficha dominante habla un punto más alto que las demás: sólo el nombre
+   de la especie sube a cuerpo base. El crédito no cambia: el crédito es
+   crédito en todas las escalas. */
+.nat-destacadas .nat-obra:nth-child(1) .nat-obra__especie {
+  font-size: var(--fs-cuerpo);
+}
+
+/* Las hojas de las destacadas se asignan una a una —son nueve y el orden
+   importa— de modo que dos piezas vecinas, en horizontal o en vertical,
+   nunca compartan silueta. La 1ª y la 6ª heredan la hoja A del propio
+   .nat-obra__disparador; la 9ª NO puede heredarla, aunque no toque a la 1ª:
+   en escritorio cae bajo la 6ª (solapan en los carriles 8 y 9) y en móvil
+   queda justo debajo de ella cuando `dense` la sube junto a la 7ª. Se le da
+   la B, que no choca ni con la 7ª (C) ni con la 8ª (D) en ninguno de los
+   dos modos. */
+.nat-destacadas .nat-obra:nth-child(2) .nat-obra__disparador {
+  border-radius: var(--nat-hoja-b);
+}
+
+.nat-destacadas .nat-obra:nth-child(3) .nat-obra__disparador {
+  border-radius: var(--nat-hoja-c);
+}
+
+.nat-destacadas .nat-obra:nth-child(4) .nat-obra__disparador {
+  border-radius: var(--nat-hoja-d);
+}
+
+.nat-destacadas .nat-obra:nth-child(5) .nat-obra__disparador {
+  border-radius: var(--nat-hoja-b);
+}
+
+.nat-destacadas .nat-obra:nth-child(7) .nat-obra__disparador {
+  border-radius: var(--nat-hoja-c);
+}
+
+.nat-destacadas .nat-obra:nth-child(8) .nat-obra__disparador {
+  border-radius: var(--nat-hoja-d);
+}
+
+.nat-destacadas .nat-obra:nth-child(9) .nat-obra__disparador {
+  border-radius: var(--nat-hoja-b);
+}
+
+@media (min-width: 62em) {
+  .nat-destacadas {
+    grid-template-columns: repeat(12, minmax(0, 1fr));
+    grid-auto-flow: row;
+    align-items: start;
+    gap: var(--gap);
+  }
+
+  /* 1 · LA DOMINANTE. Media pared, dos filas de alto. Necesita estirarse
+     ella sola (align-self) porque la rejilla alinea todo al principio, y
+     su botón crece a lo que midan las dos filas de al lado. */
+  .nat-destacadas .nat-obra:nth-child(1) {
+    grid-column: 1 / 7;
+    grid-row: 1 / 3;
+    align-self: stretch;
+  }
+
+  .nat-destacadas .nat-obra:nth-child(1) .nat-obra__disparador {
+    flex: 1;
+    aspect-ratio: auto;
+    min-height: var(--nat-alto-apertura);
+  }
+
+  /* 2 y 3 · las dos escoltas verticales, arriba a la derecha. */
+  .nat-destacadas .nat-obra:nth-child(2) {
+    grid-column: 7 / 10;
+  }
+
+  .nat-destacadas .nat-obra:nth-child(3) {
+    grid-column: 10 / 13;
+  }
+
+  /* 4 · la apaisada bajo las escoltas, casi en su proporción real
+     (1300×1039 ≈ 5:4): aquí no hace falta recortar casi nada. */
+  .nat-destacadas .nat-obra:nth-child(4) {
+    grid-column: 7 / 13;
+    grid-row: 2;
+  }
+
+  .nat-destacadas .nat-obra:nth-child(4) .nat-obra__disparador {
+    aspect-ratio: 5 / 4;
+  }
+
+  /* Segunda fila de acompañamiento: tres anchos distintos (5, 4 y 3
+     carriles), no tres celdas iguales. La mediana se descuelga un paso. */
+  .nat-destacadas .nat-obra:nth-child(5) {
+    grid-column: 1 / 6;
+  }
+
+  .nat-destacadas .nat-obra:nth-child(5) .nat-obra__disparador {
+    aspect-ratio: 4 / 5;
+  }
+
+  .nat-destacadas .nat-obra:nth-child(6) {
+    grid-column: 6 / 10;
+    margin-top: var(--esp-md);
+  }
+
+  .nat-destacadas .nat-obra:nth-child(7) {
+    grid-column: 10 / 13;
+  }
+
+  /* Cierre: la apaisada grande (3:2 es su proporción real exacta) y el
+     gavilán descolgado a su lado. */
+  .nat-destacadas .nat-obra:nth-child(8) {
+    grid-column: 1 / 8;
+  }
+
+  .nat-destacadas .nat-obra:nth-child(8) .nat-obra__disparador {
+    aspect-ratio: 3 / 2;
+  }
+
+  .nat-destacadas .nat-obra:nth-child(9) {
+    grid-column: 8 / 13;
+    margin-top: var(--esp-lg);
+  }
+
+  .nat-destacadas .nat-obra:nth-child(9) .nat-obra__disparador {
+    aspect-ratio: 4 / 5;
+  }
+}
+
+/* ---- EL ARCHIVO: mosaico compacto de columnas ----------------------------
+   Cada copia conserva su proporción real, como en una hoja de contactos —
+   aquí ya no se enmarca: se archiva—. Más columnas y menos aire que en v4:
+   el archivo es secundario a propósito, y su celda pequeña es lo que hace
+   grande a la curaduría de arriba. Los créditos siguen visibles siempre.  */
+.nat-muro {
+  columns: 2;
+  column-gap: var(--esp-xs);
+}
+
+@media (min-width: 40em) {
   .nat-muro {
     columns: 3;
   }
 }
 
-@media (min-width: 72em) {
+@media (min-width: 62em) {
   .nat-muro {
     columns: 4;
+  }
+}
+
+/* Seis columnas de tope, y no cinco: el ciclo de hojas es de longitud
+   cinco, y con cinco columnas cada columna repetiría su silueta. */
+@media (min-width: 78em) {
+  .nat-muro {
+    columns: 6;
   }
 }
 
@@ -1165,16 +1471,11 @@
 }
 
 /* La copia colgada en la pared sigue SIN sombra: son cincuenta y siete
-   fotografías en columnas y cincuenta y siete sombras suaves seguidas no se
-   leen como profundidad, se leen como suciedad. El filete del ::after es lo
-   que da el canto de la copia.
-   Lo que cambia en v4 es la esquina, y aquí es donde más se nota: cincuenta y
-   siete rectángulos con la misma esquina son una hoja de contactos. Cinco
-   siluetas rotando —y CINCO a propósito, no cuatro ni tres— evitan que el
-   patrón se alinee con el número de columnas del muro, que es 2, 3 o 4 según
-   el ancho: con un ciclo de longitud prima ninguna columna repite la misma
-   forma dos veces seguidas y la pared se lee colgada a mano.
-   El ::after hereda el radio, así que el canto sigue cada silueta.          */
+   fotografías y cincuenta y siete sombras suaves seguidas no se leen como
+   profundidad, se leen como suciedad. El filete del ::after es lo que da el
+   canto de la copia, en las dos escalas.
+   La esquina por defecto es la hoja A (la heredan las destacadas 1ª, 6ª y
+   9ª); el archivo compacto la rebaja a su escala mini más abajo.           */
 .nat-obra__disparador {
   position: relative;
   display: block;
@@ -1189,20 +1490,37 @@
   transition: transform var(--transicion);
 }
 
-.nat-obra:nth-child(5n + 2) .nat-obra__disparador {
-  border-radius: var(--nat-hoja-b);
+/* El ciclo de hojas del archivo, en escala mini y acotado a .nat-muro para
+   que no pise la asignación a mano de las destacadas. Sigue siendo de
+   longitud CINCO a propósito: cinco es primo con las 2, 3, 4 o 6 columnas
+   del mosaico, así que ninguna columna repite la misma silueta dos veces
+   seguidas y la pared se lee colgada a mano. El ::after hereda el radio. */
+.nat-muro .nat-obra__disparador {
+  border-radius: var(--nat-hoja-mini-a);
 }
 
-.nat-obra:nth-child(5n + 3) .nat-obra__disparador {
-  border-radius: var(--nat-hoja-c);
+.nat-muro .nat-obra:nth-child(5n + 2) .nat-obra__disparador {
+  border-radius: var(--nat-hoja-mini-b);
 }
 
-.nat-obra:nth-child(5n + 4) .nat-obra__disparador {
-  border-radius: var(--nat-hoja-d);
+.nat-muro .nat-obra:nth-child(5n + 3) .nat-obra__disparador {
+  border-radius: var(--nat-hoja-mini-c);
 }
 
-.nat-obra:nth-child(5n + 5) .nat-obra__disparador {
-  border-radius: var(--radio-lg);
+.nat-muro .nat-obra:nth-child(5n + 4) .nat-obra__disparador {
+  border-radius: var(--nat-hoja-mini-d);
+}
+
+.nat-muro .nat-obra:nth-child(5n + 5) .nat-obra__disparador {
+  border-radius: var(--radio-md);
+}
+
+/* En el archivo, el nombre de la especie baja a cuerpo micro (12,8 px de
+   suelo real: sigue siendo legible, ver la escala de tokens.css). El
+   crédito ya vive en micro y no baja de ahí: es la letra pequeña que
+   nunca se vuelve invisible. */
+.nat-muro .nat-obra__especie {
+  font-size: var(--fs-micro);
 }
 
 .nat-obra__disparador::after {

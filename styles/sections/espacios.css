@@ -523,6 +523,17 @@
   background-color: transparent;
 }
 
+/* CADA FOTO DE LA BANDA EN SU PROPIA CELDA RECORTADORA (llegó con el
+   foto-focus, §8). El zoom —el del hover y el del scroll— escala el <img>, y
+   un img no puede recortar su propio transform: sin celda, la foto ampliada
+   invadía la junta de 4 px y montaba sobre el borde de su vecina. Con el
+   overflow aquí, cada foto respira dentro de su celda y la junta se ve
+   siempre. Las esquinas exteriores las sigue recortando la figura, que
+   conserva su overflow y su silueta de banda. */
+.espacio__celda {
+  overflow: hidden;
+}
+
 .espacio--destacado .espacio__img {
   height: 100%;
 }
@@ -536,6 +547,12 @@
     grid-template-columns: 1fr;
   }
 
+  /* Se oculta la CELDA, no sólo la foto: una celda vacía seguiría siendo un
+     ítem de la rejilla y abriría una segunda fila fantasma con su junta. La
+     regla del <img> se conserva como red para el index.html ya ensamblado,
+     que enlaza esta hoja con el marcado anterior (sin celdas) hasta que el
+     ensamblador vuelva a correr. */
+  .espacio--destacado .espacio__celda--apoyo,
   .espacio--destacado .espacio__img--apoyo {
     display: none;
   }
@@ -650,12 +667,41 @@
 }
 
 /* ==========================================================================
-   7. MOVIMIENTO REDUCIDO
+   7. FOTO-FOCUS LIGADO AL SCROLL (js/foto-focus.js)
+   Las dos piezas grandes —la banda de la Alameda y el arco del Teatrino—
+   llevan `data-foto-focus` en su figura y el JS las encuadra según el
+   progreso de la sección: escritorio anima sólo `scale` (compositor), móvil
+   viaja además el object-position hasta el data-foco del HTML.
+
+   EL ESTADO INICIAL VIVE AQUÍ, EN CSS ESTÁTICO. scale(1) es el reposo del
+   efecto y es lo que pinta el primer paint aunque el defer llegue tarde: el
+   JS parte de este estado y vuelve a él, así que no puede haber parpadeo.
+   La regla va con :where() a propósito: en (0,2,0) queda por debajo del zoom
+   del hover (`.espacio:hover .espacio__img`, (0,3,0)), de modo que SIN el
+   script —o antes de que corra— el hover de la ficha sigue funcionando.
+   Con el script montado, el estilo en línea del JS manda sobre los dos.
+   ========================================================================== */
+:where(.espacio__figura)[data-foto-focus] .espacio__img {
+  transform: scale(1);
+}
+
+/* Sólo escritorio (el mismo umbral que usa el JS para cambiar de modo) y
+   sólo si hay movimiento: son dos figuras promocionadas a capa, no un sitio
+   entero. En móvil el efecto repinta el recorte y will-change no ayudaría. */
+@media (min-width: 64em) and (prefers-reduced-motion: no-preference) {
+  :where(.espacio__figura)[data-foto-focus] .espacio__img {
+    will-change: transform;
+  }
+}
+
+/* ==========================================================================
+   8. MOVIMIENTO REDUCIDO
    tokens.css ya lleva --escala-hover a 1 y las duraciones a 1 ms, y base.css
    apaga el motor de .reveal. Lo que queda por apagar aquí es lo propio de la
    sección: el zoom de la foto, el gesto de la pastilla y el parallax de la
    hoja —este último no llega ni a declararse, porque su @supports vive dentro
-   de `no-preference`—.
+   de `no-preference`—. El foto-focus tampoco necesita nada aquí: su script
+   no se monta bajo esta preferencia y su estado CSS ya es el reposo.
    ========================================================================== */
 @media (prefers-reduced-motion: reduce) {
   .espacio:hover .espacio__img,
