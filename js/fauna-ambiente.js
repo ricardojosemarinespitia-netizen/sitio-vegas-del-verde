@@ -79,11 +79,18 @@
  *   densidad: 'minima' (2 piezas) · 'discreta' (4, por defecto) · 'viva' (7)
  *             En pantalla estrecha SIEMPRE baja un escalón: lo que en un
  *             monitor es abundancia, en 375 px es una plaga.
- *   especies: ['mariposa'] por defecto. ['mariposa', 'colibri'] añade UN
- *             colibrí que cruza una vez. El colibrí pesa 88 kB y es un gesto
- *             fuerte: se reserva para las secciones de naturaleza y no se
- *             pone en más de dos en toda la página. En pantalla estrecha no
- *             se monta nunca.
+ *   especies: ['mariposa'] por defecto. Si la lista trae más de una especie
+ *             de vuelo continuo (hoy: 'mariposa' y 'ave'), las piezas se
+ *             reparten alternadas entre ellas —es lo que pide el cliente con
+ *             «no solo mariposas»—. 'ave' es el mismo vencejo en línea que ya
+ *             dibuja `.icono-traza` en el hero (dos trazos, sin relleno):
+ *             no es una foto de ave real recortada —eso leería como un
+ *             pájaro disecado flotando—, es la misma silueta lineal del
+ *             sistema, coloreada con `currentColor`. ['mariposa', 'colibri']
+ *             añade además UN colibrí que cruza una vez. El colibrí pesa
+ *             88 kB y es un gesto fuerte: se reserva para las secciones de
+ *             naturaleza y no se pone en más de dos en toda la página. En
+ *             pantalla estrecha no se monta nunca.
  *   semilla:  entero. Cambia la composición sin tocar código. Mismo número =
  *             misma escena en cada carga, que es la regla de la casa: con
  *             azar, dos capturas seguidas salen distintas y deja de poderse
@@ -185,35 +192,75 @@ export function montarFaunaAmbiente(contenedor, opciones = {}) {
   }
 
   const cuantas = Math.min(CUANTAS[densidad] || CUANTAS.discreta, POSICIONES.length);
+
+  /* Las especies de vuelo continuo (todo menos 'colibri', que es aparte y
+     una sola vez). Si sólo viene 'mariposa', el reparto es 100% mariposas
+     —idéntico al comportamiento de antes, cero cambio para quien no pidió
+     variedad—. Si además viene 'ave', se alternan índice a índice. */
+  const especiesVuelo = especies.filter((e) => e !== 'colibri');
+  const listaEspecies = especiesVuelo.length ? especiesVuelo : ['mariposa'];
+
+  const NS_SVG = 'http://www.w3.org/2000/svg';
+  const crearAve = () => {
+    const svg = document.createElementNS(NS_SVG, 'svg');
+    svg.setAttribute('viewBox', '0 0 24 24');
+    svg.setAttribute('fill', 'none');
+    svg.setAttribute('stroke', 'currentColor');
+    svg.setAttribute('stroke-width', '1.1');
+    svg.setAttribute('stroke-linecap', 'round');
+    svg.setAttribute('stroke-linejoin', 'round');
+    svg.setAttribute('focusable', 'false');
+    /* El mismo vencejo de sections/hero.html (.inicio__silueta): dos alas en
+       hoz y la cola en horquilla — la silueta que se lee contra el cielo. */
+    const trazo = document.createElementNS(NS_SVG, 'path');
+    trazo.setAttribute(
+      'd',
+      'M2.5 6.5c3.6 1.3 6.6 3.8 9.5 7.4 2.9-3.6 5.9-6.1 9.5-7.4-2.8 3-4.7 6.4-5.7 10.4',
+    );
+    svg.appendChild(trazo);
+    return svg;
+  };
+
   const piezas = [];
 
   POSICIONES.slice(0, cuantas).forEach((p, i) => {
-    const img = document.createElement('img');
-    img.className = 'fauna-ambiente__pieza fauna-ambiente__mariposa';
-    img.src = 'img/plan-vecino/mariposa-' + dos(p.n) + '.png';
-    img.alt = '';
-    img.setAttribute('aria-hidden', 'true');
-    img.decoding = 'async';
-    img.loading = 'lazy';
-    img.style.left = p.x + '%';
-    img.style.top = p.y + '%';
-    img.style.width = p.w + '%';
+    const especie = listaEspecies[i % listaEspecies.length];
+    const esAve = especie === 'ave';
+    const pieza = esAve
+      ? crearAve()
+      : (() => {
+          const img = document.createElement('img');
+          img.src = 'img/plan-vecino/mariposa-' + dos(p.n) + '.png';
+          img.decoding = 'async';
+          img.loading = 'lazy';
+          return img;
+        })();
+
+    pieza.setAttribute('alt', '');
+    pieza.setAttribute('aria-hidden', 'true');
+    pieza.classList.add(
+      'fauna-ambiente__pieza',
+      esAve ? 'fauna-ambiente__ave' : 'fauna-ambiente__mariposa',
+    );
+    pieza.style.left = p.x + '%';
+    pieza.style.top = p.y + '%';
+    pieza.style.width = (esAve ? p.w * 1.15 : p.w) + '%';
 
     /* Los cuatro compases. Todos salen del índice y de la semilla, nunca de
        Math.random(): la escena tiene que salir igual en cada carga para poder
        afinarla mirando una captura. Ninguna cifra es una duración nueva del
        sistema; son desfases, y los desfases sí son números. */
     const k = i + semilla;
-    img.style.setProperty('--espera', 200 + i * 240 + 'ms');
-    img.style.setProperty('--giro', (((k * 11) % 17) - 8) + 'deg');
+    pieza.style.setProperty('--espera', 200 + i * 240 + 'ms');
+    pieza.style.setProperty('--giro', (((k * 11) % 17) - 8) + 'deg');
     /* La deriva es corta a propósito: entre un 4 y un 12 % de la propia
        pieza. Más recorrido y deja de leerse como aire para leerse como un
        elemento que se mueve, que es justo lo que no se quiere fuera de la
        portada. Los signos alternan para que dos vecinas no floten al mismo
        lado. */
-    img.style.setProperty('--deriva-x', (((k * 7) % 9) - 4) + '%');
-    img.style.setProperty('--deriva-y', (((k * 13) % 11) - 6) + '%');
-    piezas.push(img);
+    pieza.style.setProperty('--deriva-x', (((k * 7) % 9) - 4) + '%');
+    pieza.style.setProperty('--deriva-y', (((k * 13) % 11) - 6) + '%');
+    piezas.push(pieza);
   });
 
   /* EL COLIBRÍ. Nunca en pantalla estrecha: 88 kB y un cruce de 38vw sobre

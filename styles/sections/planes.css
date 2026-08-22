@@ -485,18 +485,39 @@
    El `@supports` se queda anidado en el `@media` a propósito: fuera de él,
    el respaldo del renglón (crema al 70 %) sigue siendo el suelo para todo
    navegador y todo ancho, y ese suelo nunca se queda invisible.            */
-/* ARREGLO DE AGOSTO DE 2026 (v2) · el contorno hueco se retira del todo, en
-   cualquier ancho. Quedó demostrado con una foto real de un celular real que
-   el problema no era solo el cuerpo de la letra bajo 48em: sobre un fondo de
-   ramas en movimiento el trazo hueco se ensucia igual a 1160 px físicos que
-   a 360. Un gesto que solo funciona sobre un cielo liso no es un gesto
-   fiable — es una apuesta. Relleno sólido crema, siempre: la marca es lo
-   único que se lee en ese tramo de la foto y tiene que leerse del todo, en
-   cualquier dispositivo. Se conserva la escala descomunal, el cruce sobre la
-   foto y el sangrado por la derecha — el «gesto» no era el hueco, era la
-   marca de agua gigante, y esa sigue intacta. */
-.planes-portada__renglon {
-  color: var(--color-texto-inverso);
+/* ARREGLO DE AGOSTO DE 2026 (v3) · el cliente confirmó que el contorno hueco
+   SÍ le gusta —«el que estaba se veía más lindo»— y que el problema es sólo
+   que en su celular real no cambiaba a sólido. La v2 lo quitó del todo por
+   error de diagnóstico: la foto que mandó el cliente medía ~1160 px de
+   ancho, así que el `min-width: 48em` (768px) SÍ daba por bueno el
+   contorno — el criterio de "ancho de ventana" es el que está mal, no el
+   contorno en sí. Muchos teléfonos grandes, en horizontal, con letra del
+   sistema agrandada o en modo "sitio de escritorio" del navegador reportan
+   más de 768px de ancho aunque sean un dedo tocando cristal, no un mouse.
+
+   EL CRITERIO CORRECTO: `pointer: fine` — hay un puntero de precisión (mouse,
+   trackpad) — en vez de `min-width`. Es exactamente la señal que distingue
+   "hay alguien con mouse mirando esto de cerca en un monitor" de "esto es
+   una pantalla que se toca", sin importar cuántos px de ancho reporte esa
+   pantalla. Un teléfono nunca cumple `pointer: fine`, así que nunca ve el
+   contorno hueco — vea 360px o 1160px. Un computador con mouse sí lo ve.   */
+@media (min-width: 48em) and (pointer: fine) {
+  @supports (-webkit-text-stroke-width: 1px) {
+    .planes-portada__renglon {
+      color: transparent;
+      -webkit-text-stroke: var(--planes-contorno-grosor)
+        var(--color-texto-inverso);
+    }
+  }
+}
+
+/* Todo lo demás —celular, tablet, laptop táctil, o un mouse en una ventana
+   angosta— se queda con el respaldo de arriba (crema al 70%) subido a
+   crema plena: la marca es lo único que se lee en ese tramo de la foto. */
+@media not all and (min-width: 48em) and (pointer: fine) {
+  .planes-portada__renglon {
+    color: var(--color-texto-inverso);
+  }
 }
 
 /* TRES RENGLONES DESIGUALES, y desiguales dos veces: por longitud (17, 19 y

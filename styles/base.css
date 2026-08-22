@@ -1627,6 +1627,30 @@ figcaption {
   .fauna-ambiente.en-vuelo .fauna-ambiente__colibri {
     animation: fauna-cruza var(--dur-cruce) var(--ease-suave) var(--espera) both;
   }
+
+  /* EL VENCEJO AMBIENTE. Mismo trío de animaciones que la mariposa —entra,
+     deriva, aletea— porque es el mismo lenguaje de vuelo; lo único que
+     cambia es qué hay dentro de la caja (el trazo del vencejo en vez del
+     recorte con alfa). No se le da su propio @keyframes: dos vocabularios
+     de vuelo en la misma escena sí se notarían. */
+  .fauna-ambiente.en-vuelo .fauna-ambiente__ave {
+    animation:
+      fauna-entra var(--dur-reveal) var(--ease-salida) var(--espera) both,
+      fauna-deriva var(--dur-deriva) var(--ease-suave)
+        calc(var(--espera) + var(--dur-reveal)) infinite alternate,
+      fauna-aletea var(--dur-aleteo) var(--ease-suave)
+        calc(var(--espera) + var(--dur-reveal)) infinite alternate;
+  }
+}
+
+/* El vencejo es trazo, no recorte con alfa: necesita su propio color y su
+   propio grosor de línea, escalado con el ancho que ya le da el módulo en
+   `style.width`. `--color-borde-fuerte` es el mismo verde oliva que ya
+   dibuja el resto de `.icono-traza` del sitio — rima con el hero en vez de
+   inventar un tono nuevo. */
+.fauna-ambiente__ave {
+  color: var(--color-borde-fuerte);
+  aspect-ratio: 2 / 1;
 }
 
 /* Entrada: se posa. No sube 260 % como en la portada —ahí el gesto es que el

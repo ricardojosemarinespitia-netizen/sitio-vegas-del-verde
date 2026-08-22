@@ -46,12 +46,12 @@
 <link rel="preload" as="font" type="font/woff2" crossorigin href="styles/fonts/dm-sans-latin.woff2?v=89c7ce3a">
 <link rel="preload" as="font" type="font/woff2" crossorigin href="styles/fonts/fraunces-latin.woff2?v=e75e106b">
 <link rel="stylesheet" href="styles/tokens.css?v=5c471e79">
-<link rel="stylesheet" href="styles/base.css?v=f5430b4e">
+<link rel="stylesheet" href="styles/base.css?v=71db93b6">
 <link rel="stylesheet" href="styles/shell.css?v=8118b941">
 <link rel="stylesheet" href="styles/sections/inicio.css?v=76078f20">
 <link rel="stylesheet" href="styles/sections/nosotros.css?v=8040cb90">
 <link rel="stylesheet" href="styles/sections/espacios.css?v=1a2d6fdd">
-<link rel="stylesheet" href="styles/sections/planes.css?v=9a7db2fd">
+<link rel="stylesheet" href="styles/sections/planes.css?v=de03e4d5">
 <link rel="stylesheet" href="styles/sections/momentos.css?v=99038a5b">
 <link rel="stylesheet" href="styles/sections/colegios.css?v=46510d35">
 <link rel="stylesheet" href="styles/sections/naturaleza.css?v=8d9817ef">
@@ -1856,10 +1856,10 @@
        módulo falla, la sección se queda exactamente como está. -->
   <script type="module">
     if (!matchMedia('(prefers-reduced-motion: reduce)').matches) {
-      import('./js/fauna-ambiente.js?v=68b29f69')
+      import('./js/fauna-ambiente.js?v=b8a9a1c8')
         .then((m) => m.montarFaunaAmbiente(
           document.querySelector('#espacios .espacios__aire'),
-          { densidad: 'abundante', especies: ['mariposa'], semilla: 1 },
+          { densidad: 'abundante', especies: ['mariposa', 'ave'], semilla: 1 },
         ))
         .catch(() => {});
     }
@@ -2661,11 +2661,11 @@
        ==================================================================== -->
   <script type="module">
     if (!matchMedia('(prefers-reduced-motion: reduce)').matches) {
-      import('./js/fauna-ambiente.js?v=68b29f69')
+      import('./js/fauna-ambiente.js?v=b8a9a1c8')
         .then((m) =>
           m.montarFaunaAmbiente(
             document.querySelector('#planes .planes__aire'),
-            { densidad: 'abundante', especies: ['mariposa'], semilla: 2 },
+            { densidad: 'abundante', especies: ['mariposa', 'ave'], semilla: 2 },
           ),
         )
         .catch(() => {});
@@ -3387,11 +3387,11 @@
        ==================================================================== -->
   <script type="module">
     if (!matchMedia('(prefers-reduced-motion: reduce)').matches) {
-      import('./js/fauna-ambiente.js?v=68b29f69')
+      import('./js/fauna-ambiente.js?v=b8a9a1c8')
         .then((m) =>
           m.montarFaunaAmbiente(
             document.querySelector('#colegios .col__aire'),
-            { densidad: 'abundante', especies: ['mariposa'], semilla: 3 },
+            { densidad: 'abundante', especies: ['mariposa', 'ave'], semilla: 3 },
           ),
         )
         .catch(() => {});
@@ -5390,10 +5390,10 @@
        quien pide menos movimiento no llega ni a pedir el módulo por red. -->
   <script type="module">
     if (!matchMedia('(prefers-reduced-motion: reduce)').matches) {
-      import('./js/fauna-ambiente.js?v=68b29f69')
+      import('./js/fauna-ambiente.js?v=b8a9a1c8')
         .then((m) => m.montarFaunaAmbiente(
           document.querySelector('#naturaleza .nat-apertura__aire'),
-          { densidad: 'abundante', especies: ['mariposa', 'colibri'], semilla: 4 }
+          { densidad: 'abundante', especies: ['mariposa', 'ave', 'colibri'], semilla: 4 }
         ))
         .catch(() => {});
     }
@@ -5742,10 +5742,10 @@
        ====================================================================== -->
   <script type="module">
     if (!matchMedia('(prefers-reduced-motion: reduce)').matches) {
-      import('./js/fauna-ambiente.js?v=68b29f69')
+      import('./js/fauna-ambiente.js?v=b8a9a1c8')
         .then((m) => m.montarFaunaAmbiente(
           document.querySelector('#vivero .viv-aire'),
-          { densidad: 'abundante', especies: ['mariposa'], semilla: 5 }
+          { densidad: 'abundante', especies: ['mariposa', 'ave'], semilla: 5 }
         ))
         .catch(() => {});
     }
@@ -6610,10 +6610,10 @@
        Con prefers-reduced-motion el módulo ni se descarga. -->
   <script type="module">
     if (!matchMedia('(prefers-reduced-motion: reduce)').matches) {
-      import('./js/fauna-ambiente.js?v=68b29f69')
+      import('./js/fauna-ambiente.js?v=b8a9a1c8')
         .then((m) => m.montarFaunaAmbiente(
           document.querySelector('#ubicacion .ubi-aire'),
-          { densidad: 'abundante', especies: ['mariposa'], semilla: 6 }
+          { densidad: 'abundante', especies: ['mariposa', 'ave'], semilla: 6 }
         ))
         .catch(() => {});
     }
