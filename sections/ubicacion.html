@@ -89,24 +89,6 @@
         </p>
       </header>
 
-      <!-- La dirección ya no es una tarjeta: es la placa de la sección. -->
-      <div class="ubi-placa reveal reveal--der">
-        <h3 class="titulo-seccion titulo-seccion--xs">La dirección</h3>
-        <address class="ubi-direccion">
-          Vereda Río Frío, 500&nbsp;m sobre la vía Carabineros.<br />
-          Floridablanca, Santander, Colombia.
-        </address>
-        <p class="nota">En el corazón del Área Metropolitana de Bucaramanga.</p>
-        <p class="ubi-coordenadas">
-          <span class="ubi-coordenadas__etiqueta">Coordenadas</span>
-          <a
-            href="https://www.google.com/maps/place/Vegas+del+Verde/@7.0574425,-73.1144128,17z"
-            target="_blank"
-            rel="noopener"
-          >7.0574425, -73.1144128</a>
-        </p>
-      </div>
-
     </div>
   </div>
 
@@ -196,7 +178,16 @@
 
   <div class="contenedor contenedor--ancho">
 
-    <!-- ================= 3 · CÓMO LLEGAR (pegado al mapa, como pide el BRIEF) -->
+    <!-- ================= 3 · CÓMO LLEGAR + LA DIRECCIÓN =====================
+         v5 · LA SECCIÓN ABRE CON LO VISUAL. La placa de la dirección baja de
+         la portada a esta fila: primero el mapa, luego los botones para llegar
+         —que son lo que se usa— y al lado la dirección escrita, para quien la
+         quiera leer o copiar. LAS COORDENADAS GPS CRUDAS SALEN DEL TEXTO
+         VISIBLE: eran un dato de depuración a ojos del visitante. Siguen
+         vivas donde trabajan —en los href de Google Maps y Waze— y no se ha
+         borrado ningún hecho: dirección, vereda y municipio siguen enteros.
+         Los botones y el mapa NO SE TOCAN. -->
+    <div class="ubi-tras-mapa">
     <div class="ubi-acciones reveal">
       <a
         class="btn btn-primario btn-grande"
@@ -222,6 +213,17 @@
         </svg>
         Llegar con Waze
       </a>
+    </div>
+
+    <!-- La dirección, al lado de los botones que la resuelven. -->
+    <div class="ubi-placa reveal reveal--der">
+      <h3 class="titulo-seccion titulo-seccion--xs">La dirección</h3>
+      <address class="ubi-direccion">
+        Vereda Río Frío, 500&nbsp;m sobre la vía Carabineros.<br />
+        Floridablanca, Santander, Colombia.
+      </address>
+      <p class="nota">En el corazón del Área Metropolitana de Bucaramanga.</p>
+    </div>
     </div>
 
     <!-- ================= 4 · PUNTOS DE REFERENCIA ============================ -->

@@ -197,7 +197,16 @@
              nunca el color, porque debajo hay una fotografía y el coral claro
              sobre el cielo blanco de este archivo se quedaría en 3,6:1. -->
         <h1 class="titulo-seccion inicio__titulo reveal" id="inicio-titulo">
-          <span class="inicio__titulo-linea">Escápate de la ciudad</span>
+          <!-- EL QUIEBRE VA HORNEADO, Y ES UN ARREGLO MEDIDO, NO UN CAPRICHO.
+             Dejado al ancho disponible, el renglón grande partía distinto según
+             la ventana: en la franja de tableta (≈768–1023 px) quedaba
+             «Escápate de / la ciudad», y la «de» caía EXACTAMENTE sobre el ojo
+             y la cabeza del barranquero (verificado con captura a 800 px). En
+             1280 el mismo texto ya partía solo en «Escápate / de la ciudad» y
+             despejaba al ave. El <br> fija esa composición —la buena— en TODOS
+             los anchos: el texto no cambia ni una letra y el lector de
+             pantalla lo lee seguido igual. -->
+        <span class="inicio__titulo-linea">Escápate<br />de la ciudad</span>
           <span class="inicio__titulo-linea inicio__titulo-linea--menor">sin salir de ella</span>
         </h1>
 

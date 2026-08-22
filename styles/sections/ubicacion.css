@@ -143,16 +143,10 @@
   gap: var(--gap);
 }
 
-/* Dos columnas desiguales y alineadas por ABAJO: el titular manda en tamaño,
-   la dirección manda en urgencia, y las dos apoyan en la misma línea de suelo.
-   Es lo que convierte el arranque en una portada y no en un encabezado más. */
-@media (min-width: 62em) {
-  .ubi-portada {
-    grid-template-columns: minmax(0, 1.25fr) minmax(0, 0.75fr);
-    gap: var(--gap-lg);
-    align-items: end;
-  }
-}
+/* v5 · La portada queda a UNA columna: la placa de la dirección bajó a la
+   fila de después del mapa (.ubi-tras-mapa). El titular abre solo y el mapa
+   satelital —lo visual, lo que el cliente ama— llega una línea después, sin
+   una tarjeta de texto por delante. */
 
 /* El encabezado ya no se centra: con la placa al lado, centrarlo dejaba la
    composición coja. Y suelta su margen inferior, que ahora lo pone la rejilla. */
@@ -596,7 +590,25 @@
   flex-wrap: wrap;
   gap: var(--esp-sm);
   align-items: center;
+}
+
+/* v5 · LA FILA DE DESPUÉS DEL MAPA: los dos botones para llegar y, al lado,
+   la placa de la dirección que antes abría la sección. El orden de lectura
+   queda mapa → botones → dirección: primero lo que se usa, después lo que se
+   lee. En una columna la placa cae debajo de los botones; desde 62em comparte
+   fila, con los botones en la columna ancha. */
+.ubi-tras-mapa {
+  display: grid;
+  gap: var(--gap);
+  align-items: start;
   margin-top: var(--esp-lg);
+}
+
+@media (min-width: 62em) {
+  .ubi-tras-mapa {
+    grid-template-columns: minmax(0, 1.25fr) minmax(0, 0.75fr);
+    gap: var(--gap-lg);
+  }
 }
 
 /* ==========================================================================

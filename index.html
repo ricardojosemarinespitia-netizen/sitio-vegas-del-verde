@@ -49,14 +49,14 @@
 <link rel="stylesheet" href="styles/base.css?v=71db93b6">
 <link rel="stylesheet" href="styles/shell.css?v=8118b941">
 <link rel="stylesheet" href="styles/sections/inicio.css?v=76078f20">
-<link rel="stylesheet" href="styles/sections/nosotros.css?v=8040cb90">
+<link rel="stylesheet" href="styles/sections/nosotros.css?v=6a5147ab">
 <link rel="stylesheet" href="styles/sections/espacios.css?v=1a2d6fdd">
 <link rel="stylesheet" href="styles/sections/planes.css?v=de03e4d5">
 <link rel="stylesheet" href="styles/sections/momentos.css?v=99038a5b">
 <link rel="stylesheet" href="styles/sections/colegios.css?v=46510d35">
 <link rel="stylesheet" href="styles/sections/naturaleza.css?v=8d9817ef">
 <link rel="stylesheet" href="styles/sections/vivero.css?v=49cb5873">
-<link rel="stylesheet" href="styles/sections/ubicacion.css?v=2dbf11b3">
+<link rel="stylesheet" href="styles/sections/ubicacion.css?v=7f477a7a">
 <link rel="stylesheet" href="styles/sections/pie.css?v=0a795192">
 <link rel="stylesheet" href="styles/lightbox.css?v=8bbca7bb">
 
@@ -414,7 +414,16 @@
              nunca el color, porque debajo hay una fotografía y el coral claro
              sobre el cielo blanco de este archivo se quedaría en 3,6:1. -->
         <h1 class="titulo-seccion inicio__titulo reveal" id="inicio-titulo">
-          <span class="inicio__titulo-linea">Escápate de la ciudad</span>
+          <!-- EL QUIEBRE VA HORNEADO, Y ES UN ARREGLO MEDIDO, NO UN CAPRICHO.
+             Dejado al ancho disponible, el renglón grande partía distinto según
+             la ventana: en la franja de tableta (≈768–1023 px) quedaba
+             «Escápate de / la ciudad», y la «de» caía EXACTAMENTE sobre el ojo
+             y la cabeza del barranquero (verificado con captura a 800 px). En
+             1280 el mismo texto ya partía solo en «Escápate / de la ciudad» y
+             despejaba al ave. El <br> fija esa composición —la buena— en TODOS
+             los anchos: el texto no cambia ni una letra y el lector de
+             pantalla lo lee seguido igual. -->
+        <span class="inicio__titulo-linea">Escápate<br />de la ciudad</span>
           <span class="inicio__titulo-linea inicio__titulo-linea--menor">sin salir de ella</span>
         </h1>
 
@@ -948,24 +957,22 @@
          DERECHA, y en una columna que ocupa todo el ancho eso sí genera
          desbordamiento real (a la izquierda el navegador no deja desplazar;
          a la derecha, sí). El bloque entra en vertical, como el resto. -->
+    <!-- v8 · EL DISCURSO SE RECORTA A LA MITAD. El cliente pidió «poco
+         texto... que llame la atención» y aquí había ~90 palabras de prosa
+         antes de la primera foto. Los HECHOS se conservan todos —privado,
+         portería y vigilancia, se alquila a colegios/empresas/particulares—;
+         lo que sale es la descripción alrededor de ellos. Frases cortas. -->
     <div class="nosotros__discurso reveal">
       <p class="entradilla">
         Un predio privado con portería y vigilancia, no un parque público.
-        Lo básico ya está puesto antes de que llegues.
       </p>
       <!-- La capitular se marca con una clase y no con `p:nth-of-type(2)`
            porque la entradilla también es un <p>: un selector posicional se
            rompería en cuanto alguien añada o quite un párrafo. La letra que
            agranda el CSS es la «E» de «Entras». -->
       <p class="nosotros__parrafo--capitular">
-        Entras por una portería. A partir de ahí la ciudad se queda afuera:
-        un refugio natural que brinda tranquilidad y seguridad en medio del
-        bullicio urbano.
-      </p>
-      <p>
-        Eso cambia cómo se siente el día. Puedes traer un curso completo o una
-        celebración con toda la familia y bajar la guardia, porque el predio
-        está cerrado y hay vigilancia privada mientras dure tu plan.
+        Entras y la ciudad se queda afuera. El predio está cerrado y hay
+        vigilancia privada mientras dure tu plan.
       </p>
       <p>
         Se alquila a colegios, empresas y particulares. Tú decides qué pasa
@@ -5843,24 +5850,6 @@
         </p>
       </header>
 
-      <!-- La dirección ya no es una tarjeta: es la placa de la sección. -->
-      <div class="ubi-placa reveal reveal--der">
-        <h3 class="titulo-seccion titulo-seccion--xs">La dirección</h3>
-        <address class="ubi-direccion">
-          Vereda Río Frío, 500&nbsp;m sobre la vía Carabineros.<br />
-          Floridablanca, Santander, Colombia.
-        </address>
-        <p class="nota">En el corazón del Área Metropolitana de Bucaramanga.</p>
-        <p class="ubi-coordenadas">
-          <span class="ubi-coordenadas__etiqueta">Coordenadas</span>
-          <a
-            href="https://www.google.com/maps/place/Vegas+del+Verde/@7.0574425,-73.1144128,17z"
-            target="_blank"
-            rel="noopener"
-          >7.0574425, -73.1144128</a>
-        </p>
-      </div>
-
     </div>
   </div>
 
@@ -5950,7 +5939,16 @@
 
   <div class="contenedor contenedor--ancho">
 
-    <!-- ================= 3 · CÓMO LLEGAR (pegado al mapa, como pide el BRIEF) -->
+    <!-- ================= 3 · CÓMO LLEGAR + LA DIRECCIÓN =====================
+         v5 · LA SECCIÓN ABRE CON LO VISUAL. La placa de la dirección baja de
+         la portada a esta fila: primero el mapa, luego los botones para llegar
+         —que son lo que se usa— y al lado la dirección escrita, para quien la
+         quiera leer o copiar. LAS COORDENADAS GPS CRUDAS SALEN DEL TEXTO
+         VISIBLE: eran un dato de depuración a ojos del visitante. Siguen
+         vivas donde trabajan —en los href de Google Maps y Waze— y no se ha
+         borrado ningún hecho: dirección, vereda y municipio siguen enteros.
+         Los botones y el mapa NO SE TOCAN. -->
+    <div class="ubi-tras-mapa">
     <div class="ubi-acciones reveal">
       <a
         class="btn btn-primario btn-grande"
@@ -5976,6 +5974,17 @@
         </svg>
         Llegar con Waze
       </a>
+    </div>
+
+    <!-- La dirección, al lado de los botones que la resuelven. -->
+    <div class="ubi-placa reveal reveal--der">
+      <h3 class="titulo-seccion titulo-seccion--xs">La dirección</h3>
+      <address class="ubi-direccion">
+        Vereda Río Frío, 500&nbsp;m sobre la vía Carabineros.<br />
+        Floridablanca, Santander, Colombia.
+      </address>
+      <p class="nota">En el corazón del Área Metropolitana de Bucaramanga.</p>
+    </div>
     </div>
 
     <!-- ================= 4 · PUNTOS DE REFERENCIA ============================ -->

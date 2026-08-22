@@ -201,7 +201,10 @@
   position: relative;
   overflow: hidden;
   aspect-ratio: 4 / 3;
-  margin-top: var(--gap-lg);
+  /* v8 · De --gap-lg a --esp-lg: con el discurso recortado a la mitad, la
+     foto es lo siguiente que se ve, y este margen menor la pega al texto en
+     vez de dejarla una pantalla más abajo. */
+  margin-top: var(--esp-lg);
   border-radius: 0 var(--radio-xl) var(--radio-lg) 0;
   /* Baja y muy abierta: la sombra de una copa sobre el suelo, no el halo de
      una tarjeta despegada del papel. */
@@ -246,8 +249,34 @@
   width: 100%;
   height: 100%;
   object-fit: cover;
-  object-position: 50% 48%;
+  /* v8 · Baja del 48 % al 56 %: parque-05 está tomada a mediodía y la mitad
+     alta del archivo es la más quemada. Anclando el encuadre más abajo mandan
+     el césped y la sombra del árbol, que es donde la foto tiene materia. */
+  object-position: 50% 56%;
+  /* v8 · Corrección ESTÁTICA de la sobreexposición, sin tocar el archivo
+     (reprocesarlo es un paso aparte, con GPU): un punto de contraste y
+     saturación y una bajada mínima de brillo. Es un filtro fijo, no una
+     animación: no entra en el presupuesto de transform/opacity. */
+  filter: contrast(1.06) saturate(1.08) brightness(0.96);
   transition: transform var(--dur-lenta) var(--ease-suave);
+}
+
+/* v8 · EL VELO. Un degradado de tinta muy abierto que sube desde el borde
+   inferior: asienta el prado sobreexpuesto sin teñir el cielo ni inventar una
+   hora del día. Vive en un ::after DENTRO de la figura —el overflow hidden y
+   los radios de hoja lo recortan con la imagen— y no intercepta el puntero.
+   Queda por encima del zoom de foto-focus porque el zoom sólo escala el <img>
+   de debajo. */
+.nosotros__foto::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: linear-gradient(
+    to top,
+    rgb(var(--tinta-rgb) / 0.22),
+    rgb(var(--tinta-rgb) / 0) 55%
+  );
 }
 
 /* El borde derecho de la foto cae a dos tercios del ancho del contenedor:
