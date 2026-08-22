@@ -266,6 +266,15 @@
 @media (min-width: 62em) {
   .nosotros > .nosotros__foto {
     aspect-ratio: 3 / 2;
+    /* v7 · LA HOJA A GRAN ESCALA (mockup 14, «nosotros»). En el mockup la foto
+       del predio no es un rectángulo con las puntas limadas: es una hoja — una
+       sola esquina con una curva enorme que da la silueta entera. Aquí la
+       esquina superior derecha —la del lado que SÍ existe, porque la izquierda
+       sangra— sube de --radio-xl a un múltiplo del token. Sólo desde 62em: en
+       móvil la pieza es más baja y la curva gigante se comería el encuadre.
+       El overflow:hidden de la figura ya recorta la imagen a esta forma y el
+       desbloqueo del clip-path de arriba sigue valiendo tal cual. */
+    border-radius: 0 calc(var(--radio-xl) * 3) var(--radio-lg) 0;
     margin-right: max(
       var(--padding-contenedor),
       calc((100% - var(--ancho-xl)) / 2 + var(--ancho-xl) * 0.34)
@@ -573,8 +582,14 @@
 }
 
 @media (min-width: 62em) {
+  /* v7 · El panel de aves responde a la foto del prado con el MISMO gesto de
+     hoja a gran escala pero en la mano contraria: sangra por la derecha, así
+     que la curva grande va arriba a la IZQUIERDA. Un punto menor que la de la
+     foto del prado (×2.2 contra ×3) para que las dos piezas rimen sin ser
+     gemelas. Multiplicador sobre token; nada literal. */
   .nosotros__mural {
     aspect-ratio: 4 / 5;
+    border-radius: calc(var(--radio-xl) * 2.2) 0 0 var(--radio-lg);
   }
 }
 

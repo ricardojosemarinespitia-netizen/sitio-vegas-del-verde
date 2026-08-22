@@ -36,6 +36,7 @@ CSS_SECCIONES = [
     "styles/sections/naturaleza.css",
     "styles/sections/vivero.css",
     "styles/sections/ubicacion.css",
+    "styles/sections/pie.css",
 ]
 
 def leer(p):

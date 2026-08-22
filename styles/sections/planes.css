@@ -159,7 +159,8 @@
      le ABRE en horizontal exactamente lo que mide el sangrado (que ya es un
      valor negativo), y el telón sigue subiendo por abajo.                   */
 .js .planes-carril--fiesta.reveal.visible,
-.js .planes-carril--familia.reveal.visible {
+.js .planes-carril--familia.reveal.visible,
+.js .planes-noche.reveal.visible {
   clip-path: none;
 }
 
@@ -1029,6 +1030,67 @@
 
 .planes-talleres__copy {
   color: var(--color-texto-suave);
+}
+
+/* --------------------------------------------------------------------------
+   7 bis. EL CIERRE NOCTURNO — .planes-noche
+   --------------------------------------------------------------------------
+   La banda que remata la sección con la foto real de un evento de noche.
+   REUSA el sistema completo de la portada del carril 01 (§3): comparte
+   .planes-portada, el velo, la marca contorneada, la tarjeta y todo el
+   movimiento de §10 —incluida la línea de tiempo, porque
+   `view-timeline-name` se declara sobre la CLASE .planes-portada y cada
+   elemento con esa clase publica la suya propia; los descendientes de cada
+   banda resuelven contra su ancestro más cercano, así que las dos portadas
+   no se pisan—. Aquí sólo vive lo que es distinto:
+     · la caja (separación de la pila y ancla para la tarjeta absoluta);
+     · el encuadre de la foto: lo que vende está en la mitad baja —la carpa,
+       la gente, el cincuenta luminoso— y arriba basta una franja de copas y
+       cielo azul para la marca;
+     · la sangría del segundo renglón de la única versión de la marca (las
+       reglas de §3 sangran por nth-child sobre --ancha/--corta y esta marca
+       no las usa);
+     · la tarjeta SEMIOPACA: crema al 90 %. Sobre la zona más oscura de la
+       foto la superficie compuesta queda prácticamente en el crema sólido
+       (mezcla con píxeles casi negros), así que los contrastes medidos de
+       la tarjeta del carril 01 se conservan con margen.
+   -------------------------------------------------------------------------- */
+.planes-noche {
+  display: grid;
+  gap: var(--gap);
+  margin-block-start: var(--esp-3xl);
+}
+
+.planes-portada--noche .planes-portada__foto {
+  object-position: 50% 58%;
+}
+
+.planes-portada__marca--noche .planes-portada__version > :nth-child(2) {
+  margin-inline-start: 0.45em;
+}
+
+.planes-portada__tarjeta--noche {
+  background-color: rgb(var(--crema-rgb) / 0.9);
+}
+
+.planes-noche__linea {
+  margin: 0;
+  max-width: var(--medida);
+}
+
+.planes-noche__linea--remate {
+  font-family: var(--fuente-titulo);
+  font-weight: var(--peso-medio);
+}
+
+/* El ancla de la tarjeta: el mismo gesto que .planes-fiesta__acto1 en §3.
+   De 1024 px para arriba la tarjeta se posa sobre la foto (la regla absoluta
+   de §3 aplica a las dos tarjetas por clase compartida) y necesita que ESTA
+   caja sea su bloque contenedor. */
+@media (min-width: 64em) {
+  .planes-noche {
+    position: relative;
+  }
 }
 
 /* --------------------------------------------------------------------------

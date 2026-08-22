@@ -661,9 +661,24 @@
    lleva --radio-xl. Va en la diagonal contraria a la de la parada C, que es la
    fotografía que tiene justo encima. Bajando por la sección las diagonales
    quedan A · B · A · B · A —tres paradas, esta foto y el bloque de cierre—,
-   así que no hay dos piezas consecutivas con la misma. */
+   así que no hay dos piezas consecutivas con la misma.
+
+   v5 · LA HOJA SUBE DE ESCALA EN LA PIEZA DOMINANTE (mockup 10, díptico
+   colegios+vivero): la curva grande deja de ser un remate de esquina y pasa a
+   ser la FORMA de la foto —el gesto de «hoja a tamaño de cartel» del mockup—.
+   Sólo la esquina superior izquierda crece (multiplicador sobre el token, no
+   un literal), y sólo aquí: en las miniaturas del itinerario la misma curva se
+   comería el encuadre. La diagonal no cambia, así que la alternancia
+   A · B · A · B · A de la sección sigue intacta. Es border-radius estático:
+   ni un fotograma de animación nuevo. */
 .col-jornada__foto .marco {
   border-radius: var(--radio-xl) 0 var(--radio-xl) 0;
+}
+
+@media (min-width: 62em) {
+  .col-jornada__foto .marco {
+    border-radius: calc(var(--radio-xl) * 3.2) 0 var(--radio-xl) 0;
+  }
 }
 
 /* En una sola columna la foto vertical se comía la pantalla entera. Se recorta

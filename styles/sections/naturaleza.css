@@ -1187,7 +1187,10 @@
   /* El relleno superior crece para dejar pasar la cresta: el canto ondulado
      mide hasta 5rem y el contenido no puede meterse debajo. */
   padding-block: calc(var(--esp-seccion) + var(--esp-xl)) var(--esp-seccion);
-  background-color: var(--color-fondo-alt);
+  /* v7: la banda deja la salvia y pasa a NEGRO ABSOLUTO — es la sala oscura
+     donde se proyecta la cinta del concurso. Todo el texto del muro que
+     vivía sobre salvia se recontrasta más abajo, en este mismo bloque. */
+  background-color: #000;
 }
 
 /* LA CRESTA. El canto de la banda era una recta de borde a borde: el gesto
@@ -1516,7 +1519,10 @@
   overflow: hidden;
   border: 0;
   border-radius: var(--nat-hoja-a);
-  background-color: rgb(var(--verde-bosque-rgb) / 0.06);
+  /* v7: el suelo de carga de cada copia era bosque-sobre-salvia; sobre el
+     negro de la banda pasa a un crema tenue, que es lo que se ve mientras
+     baja la imagen. */
+  background-color: rgb(var(--crema-rgb) / 0.06);
   box-shadow: none;
   cursor: pointer;
   transition: transform var(--transicion);
@@ -1560,7 +1566,7 @@
   position: absolute;
   inset: 0;
   border-radius: inherit;
-  border: 1px solid var(--color-borde-suave);
+  border: 1px solid var(--color-borde-inverso);
   pointer-events: none;
 }
 
@@ -1585,13 +1591,15 @@
   line-height: var(--alto-linea-titulo);
 }
 
+/* v7: fichas sobre negro — crema para la especie (10.7:1 sobre bosque, más
+   aún sobre negro), crema rebajado para las anónimas. */
 .nat-obra__especie {
   font-size: var(--fs-pequeno);
-  color: var(--color-texto);
+  color: var(--color-texto-inverso);
 }
 
 .nat-obra__especie--anonima {
-  color: var(--color-texto-suave);
+  color: var(--color-texto-inverso-suave);
 }
 
 /* Nombres científicos en cursiva, como manda la nomenclatura binomial */
@@ -1600,10 +1608,12 @@
 }
 
 /* El crédito del fotógrafo es obligatorio: siempre visible, nunca en hover.
-   Terracota sobre salvia = 4.55:1 (par verificado en CONTRATO-V2 §4).     */
+   v7: sobre el negro, el terracota hondo (5.3:1 sobre crema) se apagaba;
+   sube al coral claro, el mismo acento que ya se usa sobre bosque
+   (--color-acento-inverso, 5.7:1 sobre bosque y más sobre negro).        */
 .nat-obra__autor {
   font-size: var(--fs-micro);
-  color: var(--color-acento-texto);
+  color: var(--color-acento-inverso);
 }
 
 /* ---- Resto del archivo, plegado ------------------------------------------ */
@@ -1639,6 +1649,284 @@
   margin-top: var(--esp-xl);
   margin-bottom: 0;
   text-align: center;
+  color: var(--color-texto-inverso-suave); /* v7: la nota, legible en negro */
+}
+
+/* v7: el botón del archivo plegado hereda de .btn-secundario los colores
+   pensados para crema; sobre negro se redibuja en negativo — contorno y
+   letra crema— sin tocar el componente global. */
+.nat-muro-banda .nat-mas__boton {
+  color: var(--color-texto-inverso);
+  border-color: var(--color-borde-inverso);
+  background-color: transparent;
+}
+
+.nat-muro-banda .nat-mas__boton:hover,
+.nat-muro-banda .nat-mas__boton:focus-visible {
+  color: var(--tinta);
+  background-color: var(--crema);
+  border-color: var(--crema);
+}
+
+/* ==========================================================================
+   LA CINTA (v7) — la sala oscura del concurso
+   Mismo patrón de escena por scroll que «La Prueba» del sitio de Rafael
+   Silva (pista alta + escenario sticky + --entrada/--texto), reconstruido
+   aquí para una banda de tres filas de fotos en loop sobre negro.
+
+   CONTRATO DE ESTADOS — el estado horneado en CSS es el RESUELTO:
+     · Sin JS, o con prefers-reduced-motion: reduce, no existe pista que
+       deslizar: la escena es un bloque normal, la banda se ve entera y
+       quieta y el rótulo está puesto. Cero parpadeo: nada depende de que
+       un script llegue a tiempo.
+     · js/concurso-cinta.js, al arrancar (y solo si el visitante no pidió
+       movimiento reducido), clona los grupos para el loop y añade
+       .cinta-lista a la pista: recién ahí nacen los 300svh, el sticky,
+       el clip de entrada y las dos variables. La clase llega con el
+       defer, muy por debajo del primer pantallazo, así que el salto de
+       altura nunca se ve.
+
+   EL LOOP va por @keyframes de duración fija y NO por animation-timeline:
+   la deriva de las filas debe correr SIEMPRE, también cuando el visitante
+   deja de scrollear — es ambiente, no progreso—; atarla al scroll la
+   congelaría en cada pausa de lectura, que es exactamente cuando más se
+   mira. El scroll gobierna solo la ENTRADA (--entrada) y el TEXTO
+   (--texto), vía JS. Solo se anima transform (filas) y opacity/clip-path
+   (banda, velo, rótulo): todo trabajo del compositor.
+   ========================================================================== */
+.nat-cinta {
+  /* Resueltas por defecto: es el estado sin JS / movimiento reducido. */
+  --entrada: 1;
+  --texto: 1;
+  position: relative;
+  margin-bottom: var(--gap-lg);
+}
+
+.nat-cinta__escena {
+  position: relative;
+  min-height: 100svh;
+  overflow: hidden;
+  isolation: isolate;
+  display: grid;
+  align-items: center;
+  background: #000;
+}
+
+/* La pista solo existe con la clase que pone el JS. */
+.cinta-lista {
+  --entrada: 0;
+  --texto: 0;
+  height: 300svh;
+}
+
+.cinta-lista .nat-cinta__escena {
+  position: sticky;
+  top: 0;
+  height: 100svh;
+  min-height: 0;
+}
+
+/* ---- La banda ------------------------------------------------------------
+   Entra recortada (clip-path) y levemente hundida, y se despliega a pantalla
+   completa con --entrada. El transform de entrada vive AQUÍ y el del loop en
+   las filas: nunca compiten por la misma propiedad. El desvanecido de los
+   bordes hacia el negro es una máscara de gradiente en el eje del viaje.  */
+.nat-cinta__banda {
+  display: flex;
+  gap: var(--gap-sm);
+  height: 100%;
+  min-height: 100svh;
+  clip-path: inset(
+    calc((1 - var(--entrada)) * 28%)
+    calc((1 - var(--entrada)) * 9%)
+    calc((1 - var(--entrada)) * 28%)
+    calc((1 - var(--entrada)) * 9%)
+    round calc((1 - var(--entrada)) * 24px));
+  transform: scale(calc(1 + (1 - var(--entrada)) * 0.04));
+  /* Móvil: dos columnas verticales; el viaje es vertical y la máscara
+     apaga arriba y abajo contra el negro. */
+  flex-direction: row;
+  justify-content: center;
+  mask-image: linear-gradient(180deg,
+    transparent 0%, #000 12%, #000 88%, transparent 100%);
+  -webkit-mask-image: linear-gradient(180deg,
+    transparent 0%, #000 12%, #000 88%, transparent 100%);
+}
+
+.cinta-lista .nat-cinta__banda {
+  will-change: clip-path, transform;
+}
+
+.nat-cinta__fila {
+  display: flex;
+  flex-direction: column;
+  gap: var(--gap-sm);
+  width: calc(50% - var(--gap-sm));
+  height: max-content;
+}
+
+.nat-cinta__grupo {
+  display: flex;
+  flex-direction: column;
+  gap: var(--gap-sm);
+}
+
+.nat-cinta__fila img {
+  display: block;
+  width: 100%;
+  height: auto;
+  border-radius: var(--radio-sm);
+}
+
+/* En móvil la tercera fila no cabe: dos columnas, como el mockup 05. */
+.nat-cinta__fila--tercera {
+  display: none;
+}
+
+/* El loop: cada fila lleva su contenido DUPLICADO (el clon lo pone el JS),
+   así que viajar exactamente el 50% de sí misma y volver a empezar no tiene
+   costura. Direcciones alternadas: la de ida y la de vuelta nunca van al
+   mismo lado. Solo corre con .cinta-lista — sin JS la banda queda quieta. */
+@keyframes cinta-va-y {
+  to { transform: translateY(-50%); }
+}
+
+@keyframes cinta-viene-y {
+  from { transform: translateY(-50%); }
+
+  to { transform: translateY(0); }
+}
+
+.cinta-lista .nat-cinta__fila--ida {
+  animation: cinta-va-y 90s linear infinite;
+}
+
+.cinta-lista .nat-cinta__fila--vuelta {
+  animation: cinta-viene-y 90s linear infinite;
+}
+
+/* ---- Escritorio (≥64em): tres filas horizontales ------------------------- */
+@media (min-width: 64em) {
+  .nat-cinta__banda {
+    flex-direction: column;
+    justify-content: center;
+    mask-image: linear-gradient(90deg,
+      transparent 0%, #000 10%, #000 90%, transparent 100%);
+    -webkit-mask-image: linear-gradient(90deg,
+      transparent 0%, #000 10%, #000 90%, transparent 100%);
+  }
+
+  .nat-cinta__fila {
+    flex-direction: row;
+    width: max-content;
+    height: calc((100svh - var(--gap-sm) * 4) / 3);
+  }
+
+  .nat-cinta__grupo {
+    flex-direction: row;
+  }
+
+  .nat-cinta__fila img {
+    width: auto;
+    height: 100%;
+  }
+
+  .nat-cinta__fila--tercera {
+    display: flex;
+  }
+
+  @keyframes cinta-va-x {
+    to { transform: translateX(-50%); }
+  }
+
+  @keyframes cinta-viene-x {
+    from { transform: translateX(-50%); }
+
+    to { transform: translateX(0); }
+  }
+
+  .cinta-lista .nat-cinta__fila--ida {
+    animation: cinta-va-x 110s linear infinite;
+  }
+
+  .cinta-lista .nat-cinta__fila--vuelta {
+    animation: cinta-viene-x 110s linear infinite;
+  }
+}
+
+/* ---- El velo y el rótulo -------------------------------------------------
+   Nacen con --texto, después de que la banda haya reinado sola un tramo.
+   El velo oscurece el centro para que la cifra respire sobre las fotos.  */
+.nat-cinta__velo {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  opacity: var(--texto);
+  background: radial-gradient(ellipse 70% 60% at 50% 50%,
+    rgb(0 0 0 / 0.82) 0%, rgb(0 0 0 / 0.55) 55%, transparent 100%);
+}
+
+.nat-cinta__rotulo {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  display: grid;
+  place-content: center;
+  justify-items: center;
+  gap: var(--esp-sm);
+  padding: var(--esp-lg);
+  text-align: center;
+  opacity: var(--texto);
+  translate: 0 calc((1 - var(--texto)) * 28px);
+  pointer-events: none;
+}
+
+.nat-cinta__rotulo .eyebrow {
+  color: var(--color-acento-inverso);
+}
+
+.nat-cinta__rotulo h3 {
+  margin: 0;
+  color: var(--color-texto-inverso);
+}
+
+/* La cifra y su pie reutilizan las clases del intro de siempre, pero sobre
+   negro: la cifra en amarillo destacado (7.3:1 sobre bosque, más sobre
+   negro) y el pie en crema rebajado. */
+.nat-cinta__rotulo .nat-galeria__dato {
+  align-items: center;
+  text-align: center;
+}
+
+.nat-cinta__rotulo .nat-galeria__cifra {
+  min-width: 2ch;
+  font-size: var(--fs-cifra);
+  color: var(--color-destacado);
+}
+
+.nat-cinta__rotulo .nat-galeria__cifra-pie {
+  color: var(--color-texto-inverso-suave);
+}
+
+.nat-cinta__rotulo .nat-galeria__nota {
+  max-width: 44ch;
+  color: var(--color-texto-inverso-suave);
+}
+
+/* Con movimiento reducido el JS ni arranca (no hay clase, no hay pista) y,
+   por si la preferencia cambia en caliente, el loop se detiene en seco.
+   Se PAUSA en vez de anular la animación: anularla haría saltar la fila a
+   su origen; pausada, se queda donde está. */
+@media (prefers-reduced-motion: reduce) {
+  .cinta-lista .nat-cinta__fila--ida,
+  .cinta-lista .nat-cinta__fila--vuelta {
+    animation-play-state: paused;
+  }
+
+  .cinta-lista .nat-cinta__banda {
+    will-change: auto;
+  }
 }
 
 /* ==========================================================================

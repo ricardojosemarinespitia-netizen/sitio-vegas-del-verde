@@ -326,11 +326,18 @@
     flex-direction: column;
   }
 
+  /* v6 · LA CURVA DE LA PRINCIPAL SUBE DE ESCALA (mockup 10). La foto de la
+     jardinera es la pieza dominante y sangra por el canto izquierdo: su única
+     esquina viva por dentro —arriba a la derecha— pasa de remate a FORMA, la
+     «hoja a tamaño de cartel» del mockup. Multiplicador sobre el token, nunca
+     un literal; el resto de esquinas siguen a cero porque tocan el canto de la
+     ventana o el suelo de la banda (norma del sitio). Estático: no toca la
+     deriva de scroll del §8.3, que anima la imagen y no el marco. */
   .viv .viv-foto--principal .marco {
     flex: 1 1 auto;
     min-height: 0;
     aspect-ratio: auto;
-    border-radius: 0 var(--viv-hoja-ancha) 0 0;
+    border-radius: 0 calc(var(--viv-hoja-ancha) * 2.6) 0 0;
   }
 
   /* LA IMAGEN SALE DEL FLUJO, y no es un adorno técnico: es lo que rompe la

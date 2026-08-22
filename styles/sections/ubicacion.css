@@ -1315,8 +1315,17 @@ a.ubi-canal--destacado:focus-visible {
 }
 
 @media (min-width: 48em) {
+  /* v6 · La hoja sube de escala en la única foto a la altura de los ojos de
+     la sección (el mismo gesto de «hoja a gran escala» de los mockups 10 y
+     14, ya aplicado a las piezas dominantes de #nosotros, #colegios y
+     #vivero). Crece sólo la esquina superior izquierda —la diagonal no
+     cambia, así que sigue siendo la contraria a la foto de referencias— y
+     sólo desde 48em, donde el panorámico tiene ancho para absorberla.
+     Multiplicador sobre el token, nunca un literal. El mapa a sangre y los
+     botones de Maps/Waze no se tocan. */
   .ubi-llegada__medio {
     aspect-ratio: 16 / 9;
+    border-radius: calc(var(--radio-xl) * 2.4) 0 var(--radio-lg) 0;
   }
 }
 

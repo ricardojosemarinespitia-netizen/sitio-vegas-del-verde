@@ -660,5 +660,68 @@
 
     </ul>
 
+    <!-- ================================================================
+         EL CIERRE NOCTURNO — la banda que remata la sección.
+         Foto REAL de un evento de noche en el predio (derivada de
+         _material-fuente/ESPACIOS/Eventos/Bodas, reescalada 2x por GPU y
+         publicada como noche-evento-1 en AVIF/WebP/JPG). Es el mismo
+         mecanismo de la portada del carril 01 —marca de agua contorneada
+         sobre foto a sangre + tarjeta sólida con el CTA— y por eso REUSA
+         sus clases: velo, marca, renglones, tarjeta y movimiento (paralaje,
+         deriva de la marca y asomo de la tarjeta) le llegan de planes.css
+         §3 y §10 sin declarar casi nada nuevo. Lo propio viaja en los
+         modificadores --noche (encuadre, sangrías de la marca y tarjeta
+         semiopaca) y en .planes-noche (la caja).
+         La marca va en UNA sola versión sin modificador: la frase es corta
+         y cabe entera en todos los anchos, así que no necesita la pareja
+         ancha/corta del carril 01.
+         POCO TEXTO A PROPÓSITO: una frase imperativa en la marca y dos
+         líneas en la tarjeta. El argumento es la foto.
+         ================================================================ -->
+    <div class="planes-noche reveal">
+
+      <div class="planes-portada planes-portada--noche">
+        <picture>
+          <source srcset="img/eventos/noche-evento-1.avif" type="image/avif" />
+          <source srcset="img/eventos/noche-evento-1.webp" type="image/webp" />
+          <img
+            class="planes-portada__foto"
+            src="img/eventos/noche-evento-1.jpg"
+            width="1800"
+            height="1350"
+            loading="lazy"
+            decoding="async"
+            alt="Celebración al caer la noche bajo la carpa: guirnaldas de bombillos encendidas entre los árboles, los invitados conversando en sofás de estibas y pacas de paja, y un cincuenta luminoso encendido sobre el césped."
+          />
+        </picture>
+
+        <span class="planes-portada__velo" aria-hidden="true"></span>
+
+        <h3 class="planes-portada__marca planes-portada__marca--noche">
+          <span class="solo-lectores">Imagina tu fiesta aquí</span>
+
+          <span class="planes-portada__version" aria-hidden="true">
+            <span class="planes-portada__renglon">Imagina</span>
+            <span class="planes-portada__renglon">tu fiesta aquí</span>
+          </span>
+        </h3>
+      </div>
+
+      <div class="planes-portada__tarjeta planes-portada__tarjeta--noche">
+        <p class="planes-noche__linea">Esta foto es de una fiesta real, aquí.</p>
+        <p class="planes-noche__linea planes-noche__linea--remate">La próxima puede ser la tuya.</p>
+
+        <a
+          class="enlace-flecha planes-portada__cta"
+          href="https://wa.me/573166758362?text=Hola%2C%20quiero%20apartar%20una%20fecha%20para%20mi%20evento%20en%20Vegas%20del%20Verde."
+          target="_blank"
+          rel="noopener"
+        >
+          Aparta tu fecha<span class="solo-lectores"> por WhatsApp</span>
+        </a>
+      </div>
+
+    </div>
+
   </div>
 </section>

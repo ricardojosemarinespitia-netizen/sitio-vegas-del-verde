@@ -41,6 +41,7 @@ const CSS_SECCIONES = [
   'styles/sections/naturaleza.css',
   'styles/sections/vivero.css',
   'styles/sections/ubicacion.css',
+  'styles/sections/pie.css',
 ];
 
 const morir = m => { console.error('ERROR: ' + m); process.exit(1); };

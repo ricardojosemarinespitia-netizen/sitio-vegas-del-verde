@@ -2,60 +2,69 @@
      FRAGMENTO: PIE DE PÁGINA  ·  se inserta al final de <body>, tras </main>
      Propiedad del director de arte.
 
-     EL PIE ADELGAZÓ (ARQUITECTURA-V3, «queDesaparece»). Aquí sólo quedan:
+     REDISEÑO «cierre editorial» (referencia: mockup 08-footer-cta):
+       1. Cierre: antetítulo + titular serif grande + CTA final → #ubicacion.
+       2. Filete y fila de marca: logo lineal SVG + nombre serif + tagline,
+          y a la derecha Instagram + idioma.
+       3. Legal y créditos, discretos.
+
+     EL PIE SIGUE DELGADO (ARQUITECTURA-V3, «queDesaparece»). Aquí sólo hay:
        marca y tagline · Instagram · un único enlace a #ubicacion ·
        el cambio de idioma · 4 Family S.A.S. y el NIT · política y términos ·
        el crédito fotográfico.
+     NO le devuelvas horario/dirección/teléfono/servicios «porque un pie
+     siempre los lleva»: cada hecho tiene un dueño arriba. Tampoco le pongas
+     id="contacto": ese id vive en #ubicacion y duplicarlo rompe el menú.
 
-     LO QUE SALIÓ DE AQUÍ Y POR QUÉ — cada uno tiene ya un dueño arriba:
-       · el horario, la dirección y el teléfono escrito  → #ubicacion
-       · Wifi · Baños · Vigilancia privada · Parqueadero → #nosotros
-       · el registro ICA y su resolución                 → #vivero
-       · el menú «Explorar», que reproducía la cabecera entera
-
-     NO le devuelvas ninguno de esos datos «porque un pie siempre los lleva»:
-     el sitio entero está montado sobre la regla de un hecho, un dueño, y este
-     pie era el reincidente. Tampoco le pongas id="contacto": ese id vive en el
-     bloque de canales de #ubicacion y duplicarlo rompería el salto del menú.
+     Estilos: styles/sections/pie.css (clases pie-final__*). El fondo, el
+     padding y el color de enlaces base los sigue dando .pie-sitio (shell.css).
      ========================================================================== -->
-<footer class="pie-sitio">
+<footer class="pie-sitio pie-final">
   <div class="contenedor contenedor--ancho">
 
-    <div class="pie__rejilla">
+    <div class="pie-final__cierre">
+      <p class="pie-final__antetitulo">Oasis para la recreación y el bienestar</p>
+      <p class="pie-final__titular">El verde te está<br />esperando.</p>
+      <a class="pie-final__cta" href="#ubicacion">
+        Dónde queda y cómo llegar
+        <svg class="pie-final__flecha" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+          <path d="M4 12h16"/>
+          <path d="M14 6l6 6-6 6"/>
+        </svg>
+      </a>
+    </div>
 
-      <div class="pie__marca">
-        <img
-          class="pie__logo"
-          src="img/logo/simbolo-vegas.png"
-          width="512"
-          height="512"
-          alt="Símbolo de Vegas del Verde: tres hojas verdes con bayas rojas y círculos amarillos"
-          loading="lazy"
-          decoding="async"
-        />
-        <p class="pie__nombre">Vegas del Verde</p>
-        <p class="pie__tagline">Oasis para la recreación y el bienestar</p>
+    <div class="pie-final__fila">
+
+      <div class="pie-final__marca">
+        <svg class="pie-final__simbolo" viewBox="0 0 64 64" width="64" height="64" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+          <path d="M10 55c4-3 8-3 12 0s8 3 12 0 8-3 12 0 5 2 8 0"/>
+          <path d="M32 48V26"/>
+          <path d="M32 26c-5.5-5-5.5-13 0-18 5.5 5 5.5 13 0 18Z"/>
+          <path d="M32 42c-4-1-8-4-9.5-9"/>
+          <path d="M22.5 33c-6-1.5-9.5-6-10-12 6 .5 10.5 4 12 10-.5 1-1.3 1.7-2 2Z"/>
+          <path d="M32 42c4-1 8-4 9.5-9"/>
+          <path d="M41.5 33c6-1.5 9.5-6 10-12-6 .5-10.5 4-12 10 .5 1 1.3 1.7 2 2Z"/>
+        </svg>
+        <p class="pie-final__nombre">Vegas del Verde</p>
+      </div>
+
+      <div class="pie-final__acciones">
         <a
-          class="pie__social"
+          class="pie-final__social"
           href="https://instagram.com/vegasdelverde"
           target="_blank"
           rel="noopener"
         >
           <svg class="icono-traza" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true" focusable="false">
-            <rect x="3" y="3" width="18" height="18" rx="5"  pathLength="1"/>
-            <circle cx="12" cy="12" r="4"  pathLength="1"/>
-            <circle cx="17.3" cy="6.7" r="1.15" fill="currentColor" stroke="none"  pathLength="1"/>
+            <rect x="3" y="3" width="18" height="18" rx="5" pathLength="1"/>
+            <circle cx="12" cy="12" r="4" pathLength="1"/>
+            <circle cx="17.3" cy="6.7" r="1.15" fill="currentColor" stroke="none" pathLength="1"/>
           </svg>
           @vegasdelverde
         </a>
-      </div>
-
-      <div class="pie__acciones">
-        <a class="enlace-flecha pie__enlace-mapa" href="#ubicacion">
-          Dónde queda y cómo llegar
-        </a>
         <a
-          class="pie__idioma"
+          class="pie-final__idioma"
           href="en/index.html"
           hreflang="en"
           lang="en"
@@ -67,19 +76,19 @@
 
     </div>
 
-    <div class="pie__legal">
+    <div class="pie-final__legal">
       <p>
         <strong>4 Family S.A.S.</strong> · NIT 901.391.144-7 ·
         Floridablanca, Santander, Colombia. ·
         <span>© <span data-anio>2026</span> Vegas del Verde. Todos los derechos reservados.</span>
       </p>
-      <ul class="pie__legal-enlaces">
+      <ul class="pie-final__legal-enlaces">
         <li><a href="politica-de-datos.html">Política de tratamiento de datos</a></li>
         <li><a href="terminos.html">Términos y condiciones</a></li>
       </ul>
     </div>
 
-    <p class="pie__creditos">
+    <p class="pie-final__creditos">
       Fotografías de aves cedidas por los participantes del concurso de fotografía de
       Vegas del Verde; el crédito de cada autor aparece junto a su imagen en la galería.
       Las demás fotografías y el render aéreo del predio son propiedad de Vegas del Verde.

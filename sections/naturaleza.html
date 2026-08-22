@@ -507,7 +507,12 @@
        archivo completo, porque un archivo incompleto no es un archivo.
        Cada crédito sale de img/aves/_creditos.json; ninguno se inventa.
        ========================================================================== -->
-  <div class="nat-muro-banda reveal">
+  <!-- v7: la banda pierde su .reveal, por dos razones medidas en preview:
+       (1) el observer global exige threshold 0.15 y la banda —con la pista
+       de 300svh dentro— nunca llega a ese ratio: se quedaba en opacity 0
+       para siempre; (2) el reveal transiciona transform en el ANCESTRO del
+       sticky de la escena. La entrada de la banda ya la pone la cinta. -->
+  <div class="nat-muro-banda">
 
     <!-- LA CRESTA. La banda de salvia entraba con un canto recto a todo lo
          ancho: el borde más «plantilla» que tenía la sección, y justo en el
@@ -527,25 +532,96 @@
       <path d="M0 0 H1440 V18 C1268 66, 1146 22, 968 46 C782 71, 660 30, 470 58 C316 81, 178 44, 0 74 Z" />
     </svg>
 
-    <div class="contenedor contenedor--ancho">
+    <!-- ==================================================================
+         LA CINTA (v7) — la entrada en negro del concurso
+         El mismo patrón de escena por scroll de «La Prueba» de Rafael Silva
+         (pista alta + escenario sticky + variables --entrada/--texto que
+         escribe el JS), adaptado: en vez de una foto única desplegándose,
+         lo que se despliega sobre NEGRO absoluto es una banda de tres filas
+         de fotos del concurso en loop infinito, direcciones alternadas.
 
-      <div class="nat-galeria__intro">
-        <div class="nat-galeria__titulos">
+         · Cada fila trae UN .nat-cinta__grupo en el HTML; el clon que hace
+           posible el loop sin salto lo añade js/concurso-cinta.js al
+           arrancar. Así el estado sin JS (o con movimiento reducido) queda
+           horneado: escena resuelta, estática, sin pista que deslizar y
+           sin contenido duplicado inútil en el marcado.
+         · Las imágenes de la banda son DUPLICADOS decorativos de fotos que
+           ya cuelgan abajo con su ficha y su crédito completos; por eso la
+           banda entera va aria-hidden y con alt vacío: el lector de
+           pantalla encuentra cada fotografía UNA vez, acreditada, en el
+           muro. Ningún crédito se pierde y ninguna foto es nueva.
+         · El rótulo (cifra 57 · 20 autores y la frase) es el intro de
+           siempre, movido aquí dentro: aparece con --texto, después de que
+           la banda haya sido protagonista sola un tramo del recorrido.
+         ================================================================== -->
+    <div class="nat-cinta">
+      <div class="nat-cinta__escena">
+
+        <div class="nat-cinta__banda" aria-hidden="true">
+
+          <div class="nat-cinta__fila nat-cinta__fila--ida">
+            <div class="nat-cinta__grupo">
+              <img src="img/aves/ave-46-momotus-subrufescens.jpg" width="867" height="1300" loading="lazy" decoding="async" alt="" />
+              <img src="img/aves/ave-04-azulejo-palmero.jpg" width="1300" height="1039" loading="lazy" decoding="async" alt="" />
+              <img src="img/aves/ave-12-barranquero.jpg" width="975" height="1300" loading="lazy" decoding="async" alt="" />
+              <img src="img/aves/ave-27-colibri.jpg" width="867" height="1300" loading="lazy" decoding="async" alt="" />
+              <img src="img/aves/ave-18-brotogeris-jugularis.jpg" width="975" height="1300" loading="lazy" decoding="async" alt="" />
+              <img src="img/aves/ave-49-azulejo.jpg" width="1300" height="900" loading="lazy" decoding="async" alt="" />
+              <img src="img/aves/ave-35-amaziliatzacatl.jpg" width="1040" height="1300" loading="lazy" decoding="async" alt="" />
+              <img src="img/aves/ave-14-saltador-pio.jpg" width="1300" height="975" loading="lazy" decoding="async" alt="" />
+            </div>
+          </div>
+
+          <div class="nat-cinta__fila nat-cinta__fila--vuelta">
+            <div class="nat-cinta__grupo">
+              <img src="img/aves/ave-34-eufonia-piquigruesa.jpg" width="1040" height="1300" loading="lazy" decoding="async" alt="" />
+              <img src="img/aves/ave-16-tytira-inquisitor-macho.jpg" width="1300" height="867" loading="lazy" decoding="async" alt="" />
+              <img src="img/aves/ave-45-chondrohierax-uncinatus.jpg" width="867" height="1300" loading="lazy" decoding="async" alt="" />
+              <img src="img/aves/ave-30-azulejo.jpg" width="867" height="1300" loading="lazy" decoding="async" alt="" />
+              <img src="img/aves/ave-38-carpintero.jpg" width="1300" height="1040" loading="lazy" decoding="async" alt="" />
+              <img src="img/aves/ave-06-piaya-cayana.jpg" width="1040" height="1300" loading="lazy" decoding="async" alt="" />
+              <img src="img/aves/ave-24-vegas.jpg" width="1300" height="1098" loading="lazy" decoding="async" alt="" />
+              <img src="img/aves/ave-53-cucarachero.jpg" width="1300" height="865" loading="lazy" decoding="async" alt="" />
+            </div>
+          </div>
+
+          <div class="nat-cinta__fila nat-cinta__fila--ida nat-cinta__fila--tercera">
+            <div class="nat-cinta__grupo">
+              <img src="img/aves/ave-03-thraupis-episcopus.jpg" width="1040" height="1300" loading="lazy" decoding="async" alt="" />
+              <img src="img/aves/ave-28-loros.jpg" width="1300" height="1017" loading="lazy" decoding="async" alt="" />
+              <img src="img/aves/ave-41-todirostrum-cinereum.jpg" width="1040" height="1300" loading="lazy" decoding="async" alt="" />
+              <img src="img/aves/ave-31-periquito-bronceado.jpg" width="867" height="1300" loading="lazy" decoding="async" alt="" />
+              <img src="img/aves/ave-54-sinsonte.jpg" width="1300" height="867" loading="lazy" decoding="async" alt="" />
+              <img src="img/aves/ave-33-loro-real.jpg" width="867" height="1300" loading="lazy" decoding="async" alt="" />
+              <img src="img/aves/ave-08-cucu-ardilla.jpg" width="1300" height="1023" loading="lazy" decoding="async" alt="" />
+              <img src="img/aves/ave-47-stilpnia-cyanicollis.jpg" width="867" height="1300" loading="lazy" decoding="async" alt="" />
+            </div>
+          </div>
+
+        </div>
+
+        <span class="nat-cinta__velo" aria-hidden="true"></span>
+
+        <div class="nat-cinta__rotulo">
           <p class="eyebrow">Concurso de fotografía</p>
           <h3 class="titulo-seccion titulo-seccion--sm">
             Todas fueron tomadas aquí dentro
           </h3>
+          <p class="nat-galeria__dato">
+            <span class="nat-galeria__cifra" data-contador="57">57</span>
+            <span class="nat-galeria__cifra-pie">Fotografías · 20 autores</span>
+          </p>
           <p class="nat-galeria__nota">
             Las hicieron los participantes del concurso, cámara en mano, dentro del predio.
             Ninguna sale de un banco de imágenes y cada una conserva el nombre de quien
             la tomó.
           </p>
         </div>
-        <p class="nat-galeria__dato">
-          <span class="nat-galeria__cifra" data-contador="57">57</span>
-          <span class="nat-galeria__cifra-pie">Fotografías · 20 autores</span>
-        </p>
+
       </div>
+    </div>
+
+    <div class="contenedor contenedor--ancho">
 
       <!-- LA CURADURÍA. Las cincuenta y siete copias llevaban la misma celda,
            la misma esquina rotada y el mismo tamaño: un archivo plano donde la
@@ -1838,5 +1914,10 @@
        hace sections/ubicacion.html con el formulario. Sin este archivo el
        vídeo se queda en su póster y no se rompe nada. -->
   <script src="js/naturaleza-video.js?v=d9ebe192" defer></script>
+
+  <!-- El motor de la cinta del concurso: mismo criterio que el del vídeo —
+       el fragmento se lleva su comportamiento consigo—. Sin este archivo la
+       escena queda resuelta y estática, y no se rompe nada. -->
+  <script src="js/concurso-cinta.js?v=48bd5c05" defer></script>
 
 </section>

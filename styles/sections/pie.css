@@ -1,0 +1,225 @@
+/* ==========================================================================
+   VEGAS DEL VERDE — pie.css  ·  cierre editorial del sitio + marca de cabecera
+   Referencia de composición: _mockups-chatgpt/08-footer-cta.png.
+
+   PARA EL ORQUESTADOR: este archivo es NUEVO. Hay que añadirlo a
+   CSS_SECCIONES en herramientas/ensamblar.js (y su gemelo ensamblar.py)
+   para que el <link> entre al <head>. Sugerencia: al final de la lista,
+   después de ubicacion.css.
+
+   El fondo carbón, el padding vertical y el color base de los enlaces del
+   pie los sigue dando .pie-sitio en shell.css; aquí sólo viven las clases
+   nuevas pie-final__* y el nombre serif de la marca de la cabecera
+   (.marca__nombre), que no tenía dueño en ningún otro archivo editable.
+
+   Sólo tokens de tokens.css; ninguna variable local hizo falta.
+   Animación: sólo transform/opacity, con duraciones que ya colapsan a 1ms
+   bajo prefers-reduced-motion vía los tokens.
+   ========================================================================== */
+
+/* --------------------------------------------------------------------------
+   0. MARCA DE LA CABECERA — el logo lineal + nombre serif.
+   .marca y .marca__simbolo ya están dimensionados en shell.css; aquí sólo
+   se viste el nombre.
+   -------------------------------------------------------------------------- */
+.marca__nombre {
+  font-family: var(--fuente-display);
+  font-size: var(--fs-h4);
+  font-weight: var(--peso-display);
+  font-variation-settings: var(--ejes-display-sobrio);
+  letter-spacing: var(--tracking-display);
+  line-height: var(--alto-linea-apretado);
+  color: var(--color-texto);
+  white-space: nowrap;
+}
+
+/* En pantallas muy angostas el nombre cede antes de empujar los controles. */
+@media (max-width: 23.5em) {
+  .marca__nombre {
+    display: none;
+  }
+}
+
+/* --------------------------------------------------------------------------
+   1. CIERRE — antetítulo, titular serif grande, CTA final
+   -------------------------------------------------------------------------- */
+.pie-final__cierre {
+  padding-block-end: var(--esp-2xl);
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--esp-md);
+}
+
+.pie-final__antetitulo {
+  font-family: var(--fuente-titulo);
+  font-size: var(--fs-eyebrow);
+  font-weight: var(--peso-medio);
+  text-transform: uppercase;
+  letter-spacing: var(--track-eyebrow);
+  color: var(--verde-menta);
+}
+
+/* Titular editorial: serif fina, sin mayúsculas (regla: nada de uppercase
+   en texto grande). */
+.pie-final__titular {
+  font-family: var(--fuente-display);
+  font-size: var(--fs-h1);
+  font-weight: var(--peso-display);
+  font-variation-settings: var(--ejes-display);
+  letter-spacing: var(--tracking-display);
+  line-height: var(--alto-linea-apretado);
+  color: var(--color-texto-inverso);
+  max-width: var(--medida-corta);
+}
+
+/* CTA final: fantasma coral-claro sobre carbón (5.7:1 con --coral-claro). */
+.pie-final__cta {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--esp-2xs);
+  min-height: 2.75rem; /* 44px táctiles */
+  padding: var(--esp-2xs) var(--esp-md);
+  border: 1px solid var(--color-acento-inverso);
+  font-family: var(--fuente-titulo);
+  font-size: var(--fs-pequeno);
+  font-weight: var(--peso-medio);
+  text-transform: uppercase;
+  letter-spacing: var(--track-boton);
+}
+
+.pie-sitio a.pie-final__cta {
+  color: var(--color-acento-inverso);
+}
+
+.pie-sitio a.pie-final__cta:hover {
+  color: var(--color-acento-inverso);
+}
+
+.pie-final__flecha {
+  width: 1.1em;
+  height: 1.1em;
+  flex: none;
+  transition: transform var(--transicion-rapida);
+}
+
+.pie-final__cta:hover .pie-final__flecha,
+.pie-final__cta:focus-visible .pie-final__flecha {
+  transform: translateX(0.3em);
+}
+
+/* --------------------------------------------------------------------------
+   2. FILA DE MARCA — filete arriba; logo + nombre a un lado, acciones al otro
+   -------------------------------------------------------------------------- */
+.pie-final__fila {
+  border-block-start: 1px solid var(--color-borde-inverso);
+  padding-block: var(--esp-lg);
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--gap);
+}
+
+.pie-final__marca {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--esp-sm);
+}
+
+.pie-final__simbolo {
+  width: clamp(2.4rem, 2rem + 1.6vw, 3.2rem);
+  height: auto;
+  flex: none;
+  color: var(--verde-menta);
+}
+
+.pie-final__nombre {
+  font-family: var(--fuente-display);
+  font-size: var(--fs-h3);
+  font-weight: var(--peso-display);
+  font-variation-settings: var(--ejes-display-sobrio);
+  letter-spacing: var(--tracking-display);
+  line-height: var(--alto-linea-apretado);
+  color: var(--color-texto-inverso);
+}
+
+.pie-final__acciones {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--esp-lg);
+}
+
+.pie-final__social {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--esp-2xs);
+  min-height: 2.75rem;
+  font-family: var(--fuente-titulo);
+  font-size: var(--fs-pequeno);
+}
+
+.pie-final__social .icono-traza {
+  width: 1.25rem;
+  height: 1.25rem;
+  flex: none;
+}
+
+.pie-final__idioma {
+  min-height: 2.75rem;
+  display: inline-flex;
+  align-items: center;
+  font-family: var(--fuente-titulo);
+  font-size: var(--fs-pequeno);
+  text-decoration: underline;
+  text-underline-offset: 0.25em;
+}
+
+.pie-sitio a.pie-final__idioma {
+  color: var(--color-texto-inverso-suave);
+  text-decoration: underline;
+}
+
+/* --------------------------------------------------------------------------
+   3. LEGAL Y CRÉDITOS
+   -------------------------------------------------------------------------- */
+.pie-final__legal {
+  border-block-start: 1px solid var(--color-borde-inverso);
+  padding-block-start: var(--esp-md);
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: var(--esp-sm) var(--gap);
+  font-family: var(--fuente-titulo);
+  font-size: var(--fs-micro);
+  color: var(--color-texto-inverso-suave);
+}
+
+.pie-final__legal-enlaces {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--esp-sm) var(--esp-md);
+}
+
+.pie-sitio .pie-final__legal a {
+  color: var(--color-texto-inverso-suave);
+  text-decoration: underline;
+  text-underline-offset: 0.25em;
+}
+
+.pie-sitio .pie-final__legal a:hover {
+  color: var(--verde-menta);
+}
+
+.pie-final__creditos {
+  margin-block-start: var(--esp-md);
+  font-family: var(--fuente-titulo);
+  font-size: var(--fs-micro);
+  line-height: var(--alto-linea-base);
+  color: var(--color-texto-inverso-suave);
+  max-width: var(--medida);
+}
