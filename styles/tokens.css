@@ -76,6 +76,39 @@
   --carbon: #1c1a17;             /* era #2b2b2b · tinta cálida, más honda    */
   --carbon-suave: #24211d;       /* era #333333 · banda un punto más abierta */
 
+  /* — v8 · LOS DOS EXTREMOS DEL GRADING FOTOGRÁFICO —
+     Las 160 fotos del sitio pasaron por un grading unificado de cine
+     editorial: las SOMBRAS no caen a negro puro sino a un teal-verde hondo,
+     y las LUCES no suben a blanco puro sino a un crema cálido. Estos dos
+     tokens son ese mismo par, pero para la interfaz. Existen para que el
+     CSS no vuelva a introducir un #000 o un #fff que rompa la curva tonal
+     que ya tienen las fotos: al lado de una foto gradeada, un negro puro se
+     ve como un agujero y un blanco puro como un papel de otro trabajo.
+
+     --negro-escena  es --verde-bosque-hondo llevado casi al fondo de la
+                     escala y empujado unos grados hacia el teal (el mismo
+                     desplazamiento de matiz que hicieron las sombras de las
+                     fotos). Sustituye al negro absoluto en fondos de sala
+                     oscura y en velos sobre fotografía.
+                     Crema (#ede6e2) encima: 16,3:1 — antes, sobre negro
+                     puro, 17,6:1. La pérdida es invisible y sigue muy por
+                     encima de AAA.
+     --luz           es el pico de luces del grading: la crema cálida a la
+                     que suben las altas luces. Sustituye al blanco puro en
+                     TODA superficie de tarjeta o realce.
+                     NO sustituye al blanco de un campo de formulario: ahí
+                     el blanco es affordance («esto se escribe»), no luz. */
+  --negro-escena: #0a1714;
+  --luz: #faf6ec;
+
+  /* El tinte de TODAS las sombras. Es --negro-escena un punto más abierto:
+     una sombra tiene que ser sombra DE ALGO, y a este valor todavía se lee
+     como una veladura verde y no como una mancha. Sale aparte de --tinta
+     (que es color de TEXTO) porque son dos oficios distintos aunque los
+     valores se parezcan: si mañana la tinta se aclara para ganar legibilidad,
+     las sombras no tienen por qué seguirla.                              */
+  --sombra-rgb: 12 34 28;
+
   /* — Cálidos: el acento de ACCIÓN — */
   --amarillo: #e4cb3a;           /* = círculos del logo · intacto            */
   --rojo-baya: #e84c40;          /* = bayas del logo · intacto               */
@@ -103,6 +136,8 @@
   --coral-hondo-rgb: 168 69 42;
   --coral-claro-rgb: 240 160 114;
   --blanco-rgb: 255 255 255;
+  --negro-escena-rgb: 10 23 20;
+  --luz-rgb: 250 246 236;
 
   /* ---------------------------------------------------------------------
      2. ROLES SEMÁNTICOS  (usar SIEMPRE estos, no los de marca directamente)
@@ -114,8 +149,18 @@
   --color-fondo-hondo: var(--verde-bosque-hondo); /* pie de sitio           */
   --color-fondo-carbon: var(--carbon);         /* bandas neutras de sección */
   --color-fondo-carbon-suave: var(--carbon-suave);
-  --color-superficie: rgb(var(--blanco-rgb) / 0.62);   /* tarjetas sobre crema */
+  /* v8 · era rgb(--blanco-rgb / 0.62). Sobre la crema greige, el blanco al
+     62 % componía #f7f4f2 — un realce FRÍO al lado de fotos cuyas altas
+     luces ahora van a crema. Con --luz compone #f5efe7 y la tarjeta queda
+     en la misma familia que la foto que tiene al lado. El texto no se
+     resiente: --color-texto sobre ese compuesto da 13,4:1.               */
+  --color-superficie: rgb(var(--luz-rgb) / 0.62);      /* tarjetas sobre crema */
   --color-superficie-solida: #fdfaf1;
+  /* La sala oscura: fondo de banda donde se proyecta fotografía. Es el
+     sustituto único del negro puro como COLOR. El único #000 que queda vivo
+     en las hojas está en los `mask-image` de naturaleza.css, donde no es
+     color sino alfa; está anotado allí mismo.                             */
+  --color-sala: var(--negro-escena);
   --color-superficie-oscura: rgb(var(--crema-rgb) / 0.07); /* sobre bosque  */
 
   --color-texto: var(--tinta);                       /* 13.9:1 sobre crema  */
@@ -306,16 +351,45 @@
 
   /* ---------------------------------------------------------------------
      7. SOMBRAS (suaves, nunca duras)
+
+     v8 · DOS CAMBIOS, Y LOS DOS SON LO QUE SEPARA UNA SOMBRA CARA DE UNA
+     GENÉRICA.
+
+     1. EL TINTE. Todas pasan de --tinta-rgb a --sombra-rgb (teal-verde
+        hondo). Es el mismo desplazamiento que se le hizo a las sombras de
+        las 160 fotos: una sombra neutra debajo de una tarjeta que está al
+        lado de una foto con sombras verdes delata que son dos sistemas.
+        Los valores de opacidad y desenfoque NO se tocan: están medidos.
+
+     2. LA SEGUNDA CAPA. De --sombra-md hacia arriba, cada sombra es ahora
+        DOS: una capa de CONTACTO (1-3 px, corta, opaca, sin desplazamiento
+        de spread) que dice dónde se apoya la pieza, y la capa de DIFUSIÓN
+        que ya existía, que dice a qué altura está. Una sola capa difusa es
+        la sombra por defecto de cualquier framework; el par contacto +
+        difusión es lo que hace que el papel se vea apoyado sobre la mesa.
+        La capa de contacto es deliberadamente barata: 1-3 px de desenfoque
+        no cuestan repintado apreciable.
      --------------------------------------------------------------------- */
-  --sombra-xs: 0 1px 2px rgb(var(--tinta-rgb) / 0.06);
-  --sombra-sm: 0 2px 10px -2px rgb(var(--tinta-rgb) / 0.1);
-  --sombra-md: 0 10px 30px -14px rgb(var(--tinta-rgb) / 0.24);
-  --sombra-lg: 0 24px 60px -28px rgb(var(--tinta-rgb) / 0.32);
-  --sombra-xl: 0 44px 96px -36px rgb(var(--tinta-rgb) / 0.4);
+  --sombra-xs: 0 1px 2px rgb(var(--sombra-rgb) / 0.06);
+  --sombra-sm: 0 1px 1px rgb(var(--sombra-rgb) / 0.05),
+    0 2px 10px -2px rgb(var(--sombra-rgb) / 0.1);
+  --sombra-md: 0 1px 2px rgb(var(--sombra-rgb) / 0.07),
+    0 10px 30px -14px rgb(var(--sombra-rgb) / 0.24);
+  --sombra-lg: 0 2px 3px -1px rgb(var(--sombra-rgb) / 0.08),
+    0 24px 60px -28px rgb(var(--sombra-rgb) / 0.32);
+  --sombra-xl: 0 3px 4px -1px rgb(var(--sombra-rgb) / 0.09),
+    0 44px 96px -36px rgb(var(--sombra-rgb) / 0.4);
   --sombra-header: 0 1px 0 rgb(var(--verde-bosque-rgb) / 0.1),
-    0 12px 32px -24px rgb(var(--tinta-rgb) / 0.4);
-  --sombra-accion: 0 6px 18px -8px rgb(var(--coral-hondo-rgb) / 0.55);
-  --sombra-modal: 0 40px 90px -30px rgb(var(--verde-bosque-hondo-rgb) / 0.5);
+    0 12px 32px -24px rgb(var(--sombra-rgb) / 0.4);
+  /* El CTA conserva su halo coral —es su propio color irradiando— y gana
+     debajo la capa de contacto verde que lo apoya en la página. Sin ella el
+     botón levitaba sobre una nube naranja. */
+  --sombra-accion: 0 1px 2px rgb(var(--sombra-rgb) / 0.16),
+    0 6px 18px -8px rgb(var(--coral-hondo-rgb) / 0.55);
+  /* v8 · pasa a --sombra-rgb como todas las demás: una sola verdad para el
+     tinte de sombra, aunque --verde-bosque-hondo estuviera ya cerca.     */
+  --sombra-modal: 0 4px 6px -2px rgb(var(--sombra-rgb) / 0.1),
+    0 40px 90px -30px rgb(var(--sombra-rgb) / 0.5);
   --anillo-foco: 0 0 0 3px rgb(var(--verde-bosque-rgb) / 0.5);
 
   --blur-vidrio: saturate(140%) blur(14px);

@@ -212,7 +212,13 @@
   isolation: isolate;
 }
 
-/* Viñeta sutil: da profundidad de "visor" sin ensuciar la imagen satelital.  */
+/* Viñeta sutil: da profundidad de "visor" sin ensuciar la imagen satelital.
+   v8 · TODOS los velos de este mapa pasan de --tinta-rgb a
+   --verde-bosque-hondo-rgb. La tinta es color de texto; lo que se posa
+   ENCIMA de una imagen va con el teal-verde de las sombras del grading, que
+   es la regla que ya siguen hero.css, inicio.css y experiencias.css. El
+   cambio es de un par de puntos de matiz y no mueve ningún contraste, pero
+   deja la regla enunciable: --tinta-rgb no aparece nunca en un velo.       */
 .ubi-mapa__medio::after {
   content: "";
   position: absolute;
@@ -222,8 +228,8 @@
   box-shadow: inset 0 0 0 1px rgb(var(--crema-rgb) / 0.18);
   background: radial-gradient(
     120% 90% at 50% 45%,
-    rgb(var(--tinta-rgb) / 0) 55%,
-    rgb(var(--tinta-rgb) / 0.28) 100%
+    rgb(var(--verde-bosque-hondo-rgb) / 0) 55%,
+    rgb(var(--verde-bosque-hondo-rgb) / 0.28) 100%
   );
 }
 
@@ -318,7 +324,7 @@
      base.css §2 dibuja las viñetas de .lista-hojas, y es el motivo orgánico de
      la casa; aquí firma la vista satelital sin recurrir a un logotipo grande. */
   border-radius: 0 var(--radio-lg) 0 var(--radio-lg);
-  background-color: rgb(var(--tinta-rgb) / 0.55);
+  background-color: rgb(var(--verde-bosque-hondo-rgb) / 0.55);
   backdrop-filter: var(--blur-vidrio);
   -webkit-backdrop-filter: var(--blur-vidrio);
   color: var(--color-texto-inverso);
@@ -327,7 +333,7 @@
 
 @supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
   .ubi-hud {
-    background-color: rgb(var(--tinta-rgb) / 0.82);
+    background-color: rgb(var(--verde-bosque-hondo-rgb) / 0.82);
   }
 }
 
@@ -478,7 +484,7 @@
   align-items: flex-end;
   justify-content: center;
   padding-bottom: var(--esp-xl);
-  background-color: rgb(var(--tinta-rgb) / 0.12);
+  background-color: rgb(var(--verde-bosque-hondo-rgb) / 0.12);
 }
 
 .ubi-mapa__activar[hidden] {
@@ -538,7 +544,7 @@
 
 #ubicacion .leaflet-control-attribution {
   padding: 0.25em 0.7em;
-  background-color: rgb(var(--tinta-rgb) / 0.66);
+  background-color: rgb(var(--verde-bosque-hondo-rgb) / 0.66);
   color: var(--color-texto-inverso-suave);
   font-size: var(--fs-micro);
 }
@@ -655,7 +661,11 @@
   padding: 0.45em 0.95em;
   border: 1px solid var(--color-borde-suave);
   border-radius: var(--radio-full);
-  background-color: rgb(var(--blanco-rgb) / 0.55);
+  /* v8 · era blanco al 55 %. El chip es un REALCE sobre la salvia, no un
+     campo de formulario, así que sube a --luz (la crema cálida a la que van
+     las altas luces del grading). Compone #e9e9dd sobre la salvia y el
+     texto en tinta da 12,1:1. */
+  background-color: rgb(var(--luz-rgb) / 0.55);
   font-size: var(--fs-pequeno);
   line-height: 1.35;
   color: var(--color-texto);
@@ -860,7 +870,9 @@ a.ubi-canal:hover,
 a.ubi-canal:focus-visible {
   color: var(--color-texto);
   border-top-color: var(--color-borde-fuerte);
-  background-color: rgb(var(--blanco-rgb) / 0.5);
+  /* v8 · era blanco al 50 %. Realce de hover: --luz, por lo mismo que el
+     chip de arriba. */
+  background-color: rgb(var(--luz-rgb) / 0.5);
 }
 
 /* La única fila con cuerpo, porque es el canal real del negocio: por aquí se

@@ -261,9 +261,12 @@
   transition: transform var(--dur-lenta) var(--ease-suave);
 }
 
-/* v8 · EL VELO. Un degradado de tinta muy abierto que sube desde el borde
+/* v8 · EL VELO. Un degradado muy abierto que sube desde el borde
    inferior: asienta el prado sobreexpuesto sin teñir el cielo ni inventar una
-   hora del día. Vive en un ::after DENTRO de la figura —el overflow hidden y
+   hora del día. Va en --verde-bosque-hondo y no en --tinta: la tinta es color
+   de TEXTO, y un velo sobre fotografía tiene que ser el mismo teal-verde al
+   que el grading llevó las sombras de las 160 fotos, o el velo aplana el
+   verde en vez de hundirlo. Vive en un ::after DENTRO de la figura —el overflow hidden y
    los radios de hoja lo recortan con la imagen— y no intercepta el puntero.
    Queda por encima del zoom de foto-focus porque el zoom sólo escala el <img>
    de debajo. */
@@ -274,8 +277,8 @@
   pointer-events: none;
   background: linear-gradient(
     to top,
-    rgb(var(--tinta-rgb) / 0.22),
-    rgb(var(--tinta-rgb) / 0) 55%
+    rgb(var(--verde-bosque-hondo-rgb) / 0.22),
+    rgb(var(--verde-bosque-hondo-rgb) / 0) 55%
   );
 }
 

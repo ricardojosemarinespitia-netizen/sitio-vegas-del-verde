@@ -12,7 +12,11 @@
 .lightbox__velo {
   position: absolute;
   inset: 0;
-  background: rgb(var(--tinta-rgb) / 0.86);
+  /* v8 · era --tinta-rgb, que es color de TEXTO. El velo del lightbox es la
+     misma sala oscura que la cinta del concurso —se apaga la habitación para
+     mirar una foto—, así que va con --negro-escena y rima con las sombras
+     teal-verde del grading en vez de con la tinta de los párrafos. */
+  background: rgb(var(--negro-escena-rgb) / 0.86);
   backdrop-filter: var(--blur-vidrio);
   -webkit-backdrop-filter: var(--blur-vidrio);
 }

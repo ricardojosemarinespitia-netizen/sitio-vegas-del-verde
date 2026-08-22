@@ -1292,10 +1292,16 @@
   /* El relleno superior crece para dejar pasar la cresta: el canto ondulado
      mide hasta 5rem y el contenido no puede meterse debajo. */
   padding-block: calc(var(--esp-seccion) + var(--esp-xl)) var(--esp-seccion);
-  /* v7: la banda deja la salvia y pasa a NEGRO ABSOLUTO — es la sala oscura
-     donde se proyecta la cinta del concurso. Todo el texto del muro que
-     vivía sobre salvia se recontrasta más abajo, en este mismo bloque. */
-  background-color: #000;
+  /* v7: la banda deja la salvia y pasa a sala oscura — es donde se proyecta
+     la cinta del concurso. Todo el texto del muro que vivía sobre salvia se
+     recontrasta más abajo, en este mismo bloque.
+     v8 · era #000 literal. Ahora --color-sala (--negro-escena, teal-verde
+     casi al fondo de la escala). El motivo es el grading: las 160 fotos
+     tienen las sombras llevadas a teal-verde, y un negro absoluto detrás de
+     ellas se lee como un agujero recortado en vez de como la penumbra de la
+     sala. Crema sobre esta sala da 16,3:1 (antes 17,6:1): sigue AAA de
+     sobra y no se toca ninguno de los números medidos del muro. */
+  background-color: var(--color-sala);
 }
 
 /* LA CRESTA. El canto de la banda era una recta de borde a borde: el gesto
@@ -1814,7 +1820,10 @@
   isolation: isolate;
   display: grid;
   align-items: center;
-  background: #000;
+  /* v8 · era #000. Misma sala que la banda de arriba: las dos son el mismo
+     cuarto oscuro y tienen que ser el mismo color, o el corte entre ellas
+     se ve como una junta. */
+  background: var(--color-sala);
 }
 
 /* La pista solo existe con la clase que pone el JS. */
@@ -1849,9 +1858,16 @@
     round calc((1 - var(--entrada)) * 24px));
   transform: scale(calc(1 + (1 - var(--entrada)) * 0.04));
   /* Móvil: dos columnas verticales; el viaje es vertical y la máscara
-     apaga arriba y abajo contra el negro. */
+     apaga arriba y abajo contra la sala. */
   flex-direction: row;
   justify-content: center;
+  /* OJO — ESTE #000 NO ES COLOR Y NO SE TOKENIZA. `mask-image` va en
+     `mask-mode: alpha`: aquí el negro significa opacidad 1, igual que
+     `transparent` significa 0. No se pinta nunca. Cambiarlo por un token de
+     color no rompería nada visible, pero sería mentir sobre lo que hace, y
+     un token de color en una máscara invita a que alguien lo «ajuste» y
+     descubra que no pasa nada. Las cuatro máscaras de esta sección
+     (dos aquí, dos en el bloque de ≥64em) se quedan literales a propósito. */
   mask-image: linear-gradient(180deg,
     transparent 0%, #000 12%, #000 88%, transparent 100%);
   -webkit-mask-image: linear-gradient(180deg,
@@ -1968,8 +1984,16 @@
   z-index: 1;
   pointer-events: none;
   opacity: var(--texto);
+  /* v8 · era rgb(0 0 0 / …). Este velo cae ENCIMA de fotografías gradeadas,
+     que es el peor sitio posible para un negro puro: apaga el verde en vez
+     de hundirlo. Con --negro-escena la zona velada conserva el matiz de las
+     sombras de las propias fotos y el centro se lee como penumbra, no como
+     un filtro gris. Las opacidades no cambian, así que el contraste del
+     rótulo que va encima queda igual. */
   background: radial-gradient(ellipse 70% 60% at 50% 50%,
-    rgb(0 0 0 / 0.82) 0%, rgb(0 0 0 / 0.55) 55%, transparent 100%);
+    rgb(var(--negro-escena-rgb) / 0.82) 0%,
+    rgb(var(--negro-escena-rgb) / 0.55) 55%,
+    transparent 100%);
 }
 
 .nat-cinta__rotulo {
