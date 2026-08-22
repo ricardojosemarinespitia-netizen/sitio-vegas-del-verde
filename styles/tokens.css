@@ -193,6 +193,18 @@
   --paso-5: clamp(2.3rem, 1.75rem + 2.35vw, 3.75rem);     /* era ..4.4rem  */
   --paso-6: clamp(2.8rem, 1.9rem + 3.85vw, 5.25rem);      /* era ..6rem    */
 
+  /* v6 · EL ÚNICO PASO POR ENCIMA DE LA ESCALA MODULAR, Y EXISTE POR UNA
+     RAZÓN CONCRETA: es el titular de PORTADA, la única pieza de tipografía
+     de todo el sitio que compite con una fotografía a pantalla completa.
+     --paso-6 (hasta 5,25 rem) está calibrado para un titular sobre papel,
+     donde nada le disputa la atención; sobre una foto a sangre ese mismo
+     cuerpo se lee como un pie de foto grande. La pendiente (7,4vw) es la que
+     hace que el titular crezca CON la ventana en vez de quedarse quieto
+     mientras la foto se estira, que es lo que aplanaba la portada.
+     NO se usa en ningún otro sitio: si aparece en una segunda sección, deja
+     de ser la portada y hay que devolverlo a --fs-hero. */
+  --fs-portada: clamp(3.2rem, 1.6rem + 7.4vw, 8.5rem);
+
   /* Alias semánticos */
   --fs-hero: var(--paso-6);
   --fs-h1: var(--paso-5);

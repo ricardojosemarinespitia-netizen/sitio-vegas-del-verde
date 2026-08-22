@@ -1,6 +1,33 @@
 /* ==========================================================================
-   VEGAS DEL VERDE — sections/colegios.css  ·  v3.2 «la sección orgánica»
+   VEGAS DEL VERDE — sections/colegios.css  ·  v4 «una pieza manda»
    Bloque #colegios · Salidas pedagógicas.
+
+   -------------------------------------------------------------------------
+   QUÉ CAMBIÓ EN v4 — sin tocar una sola palabra del texto de la sección
+
+   EL DIAGNÓSTICO DE v3.2. Las tres paradas ya no medían lo mismo, y eso
+   estaba bien resuelto. Pero las CUATRO fotos de la sección seguían jugando
+   en la misma liga de tamaño (15 rem · 10 rem · 13 rem de carril, y la de la
+   jornada en una columna de 0,72 fr), así que ninguna mandaba y el ojo no
+   sabía por dónde entrar. Una sección sin pieza dominante se lee plana por
+   mucho que sus piezas sean desiguales.
+
+     §2  La portada gana su figura: un ave planeando, grande, detrás del
+         texto y con deriva propia por scroll. Decorativa y `aria-hidden`.
+     §3  Las tres paradas BAJAN de carril (12 · 8,5 · 10,5 rem) y cada una
+         arranca a una altura distinta. Pasan a registro de índice.
+         Y el rótulo cambia de viñeta a SILUETA DIBUJADA: binoculares, hoja y
+         mariposa, una por parada, en el orden en que el texto las nombra.
+     §4  La foto de la jornada pasa a PIEZA DOMINANTE: columna ancha,
+         proporción 3/4 y deriva ligada al scroll. El bloque de los cuatro
+         hitos la SOLAPA desde la derecha sobre papel opaco.
+     §7  Nace el sistema de movimiento de la sección: nueve gestos con
+         retardo y duración propios. Nada arranca a la vez, nada va al mismo
+         compás. Todos los tiempos salen de los tokens de movimiento, ninguno
+         es un literal.
+
+   -------------------------------------------------------------------------
+   NOTA HISTÓRICA — v3.2 «la sección orgánica»
 
    La sección es un ITINERARIO, no un catálogo. Eso ya estaba escrito en v2 y
    en el texto… pero la maquetación decía lo contrario: tres tarjetas iguales
@@ -172,9 +199,82 @@
    una portada de revista quiere el aire.
    ========================================================================== */
 .col-portada {
+  position: relative;
   display: grid;
   gap: var(--esp-md);
   margin-bottom: var(--gap-lg);
+}
+
+/* ---- TRAMPA DE base.css, Y EL BUG QUE ARREGLA (v4) -----------------------
+   `.js .reveal.visible` deja `clip-path: inset(0 0 0 0)` en TODO lo que entra
+   —lo necesita .reveal--velo y de paso se lo come el resto—, y un `clip-path`
+   recorta contra la CAJA DE BORDE del elemento, así que se lleva por delante
+   cualquier hijo que sobresalga de ella.
+
+   Aquí sobresalía el titular: desde 62em, `.col-portada__titulo` cuelga por la
+   izquierda exactamente el margen de página (regla de abajo). Con el clip
+   puesto, esos píxeles no se pintaban y el titular de #colegios se quedaba SIN
+   SU PRIMERA LETRA en todas las pantallas grandes: se leía «n día de colegio
+   que / o cabe en un aula». Medido en Chrome a 1280 y a 1440.
+
+   No era un desbordamiento —con `overflow-x: visible` en el <body> el fallo
+   seguía igual—, y por eso no lo cazaba ninguna comprobación de barra
+   horizontal. Era el clip.
+
+   La regla mide (0,4,0) contra los (0,3,0) de base.css, así que gana sin
+   !important y sin depender del orden de carga. Es exactamente el mismo
+   remiendo, y por el mismo motivo, que .inicio__ave en inicio.css. Antes de
+   `.visible` no hay nada que romper: el clip inicial sólo lo declara
+   .reveal--velo, que esta portada no usa.
+   ------------------------------------------------------------------------ */
+.js .col-portada.reveal.visible {
+  clip-path: none;
+}
+
+/* ---- LAS DOS AVES DE LA PORTADA (v4) -------------------------------------
+   La única figura grande de la sección. No lleva texto, no recibe clics, no
+   recibe foco y no aporta contraste: es atmósfera. Va `aria-hidden` en el
+   marcado y aquí se le quitan los eventos de puntero.
+
+   DÓNDE VA, Y ESO SÍ ES UNA DECISIÓN. En la portada de dos columnas queda un
+   hueco de aire real entre el final del titular y el principio de la
+   entradilla —medido a 1280: unos 260 px de ancho—. Las aves vuelan AHÍ,
+   ancladas al canto derecho por un porcentaje para que el hueco se les mueva
+   con el ancho de la ventana. La primera versión iba pegada al borde derecho y
+   se cruzaba con las cinco líneas de la entradilla: legible seguía siendo, pero
+   ensuciaba el único párrafo de la portada. Un adorno que estorba a un texto
+   sobra, aunque pase el contraste.
+
+   POR QUÉ SÓLO DESDE 62em. Es el ancho al que la portada abre su segunda
+   columna, y por tanto el ancho al que existe el hueco. Por debajo, la portada
+   es una sola columna apretada y sólo serían una mancha.
+
+   POR QUÉ NO PUEDE TAPAR NADA. Es un elemento posicionado, así que pintaría
+   por encima del contenido en flujo normal aunque su z-index sea 0; por eso el
+   bloque del titular y la entradilla se suben los dos a --z-base. Y aun en el
+   peor caso —una letra justo encima de un trazo— la tinta sobre el oliva al
+   26 % mezclado con la salvia mide 8,4:1, muy por encima del AA.
+
+   El grosor del trazo se declara AQUÍ y no en el atributo del SVG: el dibujo
+   está en una caja de 24 y se estira a más de 12 rem, así que un `stroke-width`
+   de 1 se vería como una barra de 8 px. A 0,4 el trazo queda fino.        */
+.col-portada__ave {
+  display: none;
+}
+
+@media (min-width: 62em) {
+  .col-portada__ave {
+    display: block;
+    position: absolute;
+    inset-block-start: 0;
+    inset-inline-end: 34%;
+    z-index: var(--z-fondo);
+    width: min(var(--esp-4xl) * 1.5, 17%);
+    height: auto;
+    stroke-width: 0.4;
+    color: rgb(var(--verde-oliva-rgb) / 0.26);
+    pointer-events: none;
+  }
 }
 
 @media (min-width: 62em) {
@@ -186,6 +286,8 @@
 }
 
 .col-portada__titulo {
+  position: relative;
+  z-index: var(--z-base);
   display: flex;
   flex-direction: column;
   align-items: flex-start;
@@ -221,7 +323,11 @@
   }
 }
 
+/* `position: relative` + z-index para quedar POR DELANTE del ave del §2, que
+   es un elemento posicionado y, sin esto, pintaría encima. */
 .col-portada__entradilla {
+  position: relative;
+  z-index: var(--z-base);
   margin: 0;
   min-width: 0;
   max-width: var(--medida-corta);
@@ -284,22 +390,33 @@
    El tamaño de la curva acompaña al carril: cuanto más estrecha la foto, más
    pequeña la curva, o en la parada B —que mide 10 rem— una curva de 36 px se
    comería la esquina entera. */
+/* v4 · LOS TRES CARRILES BAJAN. Eran 15 · 10 · 13 rem; ahora 12 · 8,5 · 10,5.
+   No es una reducción por gusto: la foto de la jornada (§4) pasa a ocupar una
+   columna de más de 600 px, y si estas tres se quedan donde estaban, la
+   sección vuelve a tener cuatro fotografías de la misma liga y ninguna manda.
+   Bajándolas, las tres se leen como lo que son —la miniatura de un índice— y
+   el titular de cada parada, que es el que tiene que llevar la fila, gana el
+   ancho que ellas sueltan.
+
+   Las proporciones no se tocan: siguen saliendo del archivo real de cada foto
+   para que el recorte no invente nada. Y los radios se re-gradúan con el
+   carril nuevo (la parada B, a 8,5 rem, no aguanta más que --radio-sm). */
 .col-parada--a {
-  --col-rail: 15rem;
+  --col-rail: 12rem;
   --col-ratio: 3 / 4;
-  --col-hoja: 0 var(--radio-xl) 0 var(--radio-xl);
+  --col-hoja: 0 var(--radio-lg) 0 var(--radio-lg);
 }
 
 .col-parada--b {
-  --col-rail: 10rem;
+  --col-rail: 8.5rem;
   --col-ratio: 9 / 16;
-  --col-hoja: var(--radio-md) 0 var(--radio-md) 0;
+  --col-hoja: var(--radio-sm) 0 var(--radio-sm) 0;
 }
 
 .col-parada--c {
-  --col-rail: 13rem;
+  --col-rail: 10.5rem;
   --col-ratio: 1 / 1;
-  --col-hoja: 0 var(--radio-lg) 0 var(--radio-lg);
+  --col-hoja: 0 var(--radio-md) 0 var(--radio-md);
 }
 
 /* La proporción y la forma salen de las variables de la parada y ya no de una
@@ -397,11 +514,28 @@
     margin-bottom: 0;
   }
 
-  /* La parada B baja un escalón dentro de su propia fila. Es el segundo
-     desnivel de la sección —el primero es el cambio de lado— y hace que la
-     columna de fotos no dibuje una línea horizontal con la de al lado. */
+  /* TRES ALTURAS DE ARRANQUE, NINGUNA IGUAL (v4). En v3.2 sólo la parada B
+     bajaba un escalón; A y C arrancaban las dos a ras de su fila, así que dos
+     de las tres fotos seguían apoyadas en la misma línea invisible. Ahora cada
+     una entra a una altura distinta, y los tres desniveles son distintos entre
+     sí. Es el mismo recurso de la tira de aves del hero (.inicio__aves, dos
+     alturas de base), llevado a tres.
+
+     Va en `margin-block-start` y NO en `transform`: es composición estática,
+     no animación. Así el transform de cada foto queda libre para el revelado
+     de entrada y para la deriva, sin que dos cosas se peleen por la misma
+     propiedad. Y como es margen y no desplazamiento, la fila crece con él y
+     nadie se sale de su caja. */
+  .col-parada--a figure {
+    margin-block-start: var(--esp-2xs);
+  }
+
   .col-parada--b figure {
-    margin-block-start: var(--esp-lg);
+    margin-block-start: var(--esp-2xl);
+  }
+
+  .col-parada--c figure {
+    margin-block-start: var(--esp-md);
   }
 }
 
@@ -421,11 +555,28 @@
    sección el gris mide 5,29:1 —más que los 4,6:1 que daba el coral—, así que
    el cambio también gana contraste.
 
-   v3.2: delante va la HOJA. Es la viñeta asimétrica de .lista-hojas
-   (base.css §2), que es el gesto orgánico propio de este sistema, y se orienta
-   distinto en cada parada para que no haya dos iguales. En oliva sobre salvia
-   mide 4,30:1: de sobra para una marca decorativa, que no tiene requisito de
-   contraste porque no informa de nada que el texto no diga. */
+   v3.2: delante iba la HOJA, la viñeta asimétrica de .lista-hojas.
+
+   v4: LA VIÑETA PASA A SILUETA DIBUJADA. El cuadradito de color decía sólo
+   «aquí empieza algo»; la silueta dice QUÉ. Cada parada estrena la suya y las
+   tres salen del texto que tienen al lado, no de un juego de iconos genérico:
+
+     A · binoculares — «escuchar antes de mirar»
+     B · hoja con nervadura — «la forma, el borde, la nervadura»
+     C · mariposa — «sentarse a esperar una mariposa»
+
+   Se dibujan solas al entrar la sección, con el motor de .icono-traza de
+   base.css, y arrancan en tres momentos distintos (§7). El `pathLength="1"`
+   de cada trazo está ESCRITO EN EL HTML, no lo pone JavaScript: es la regla
+   dura del sitio contra el parpadeo del primer fotograma.
+
+   La hoja no desaparece del vocabulario: sigue rematando los cuatro filetes
+   de la jornada (§4) y las dos esquinas del bloque de cierre (§5). Lo que se
+   retira es el ::before de este rótulo, que ahora tendría dos marcas seguidas.
+
+   En oliva sobre salvia el trazo mide 4,30:1: de sobra para una marca
+   decorativa, que no tiene requisito de contraste porque no informa de nada
+   que el texto no diga. */
 .col-parada__etiqueta {
   display: inline-flex;
   align-items: center;
@@ -439,25 +590,15 @@
   margin: 0;
 }
 
-.col-parada__etiqueta::before {
-  content: "";
+/* El icono va en `em`, así que crece si el visitante agranda la letra del
+   sistema, y no se deforma nunca: `flex: none` le impide encogerse cuando el
+   rótulo comparte fila con un titular largo. */
+.col-parada__icono {
   flex: none;
-  width: 0.72em;
-  height: 0.72em;
-  border-radius: 0 var(--radio-full) 0 var(--radio-full);
-  background-color: var(--color-acento-alt);
-}
-
-/* Tres hojas, tres orientaciones. La de la B va espejada porque su parada
-   entra por el otro lado; la de la C se queda en la orientación de la A pero
-   girada, así que las tres se leen como hojas de la misma planta y ninguna
-   como una copia. */
-.col-parada--b .col-parada__etiqueta::before {
-  border-radius: var(--radio-full) 0 var(--radio-full) 0;
-}
-
-.col-parada--c .col-parada__etiqueta::before {
-  rotate: -18deg;
+  width: 2.1em;
+  height: 2.1em;
+  stroke-width: 1.35;
+  color: var(--color-acento-alt);
 }
 
 .col-parada h3 {
@@ -473,8 +614,24 @@
 }
 
 /* ==========================================================================
-   4. EL FORMATO DE LA JORNADA
-   La foto de la charla a un lado, los cuatro hitos al otro en escalera.
+   4. EL FORMATO DE LA JORNADA — LA PIEZA DOMINANTE (v4)
+
+   QUÉ CAMBIA. En v3.2 la foto vivía en una columna de 0,72 fr contra 1,28 fr
+   de texto: era la fotografía más grande de #colegios y aun así era la parte
+   estrecha de su propio bloque. Ahora se invierte la proporción, la foto se
+   va a 3/4 —la única de la sección que no es miniatura— y el bloque de los
+   cuatro hitos la SOLAPA desde la derecha.
+
+   EL SOLAPE, Y POR QUÉ NO ES UN RIESGO DE CONTRASTE. El panel de los hitos
+   es papel OPACO (--color-superficie-solida, #fdfaf1): ni una letra de la
+   sección cae sobre un píxel de fotografía, así que el contraste es el de
+   tinta sobre papel —14,8:1 medido— y no depende de lo que haya debajo.
+   El panel además arranca más abajo que la foto, de modo que el bloque no se
+   lee como dos columnas enfrentadas sino como dos planos trabados.
+
+   EL APILADO. `.col > .contenedor` sí crea contexto de apilado (§0), así que
+   basta con subir el panel a --z-base para que quede por delante de la foto,
+   que va en flujo normal. No hace falta tocar la foto.
    ========================================================================== */
 .col-jornada {
   display: grid;
@@ -488,8 +645,10 @@
 
 @media (min-width: 62em) {
   .col-jornada {
-    grid-template-columns: minmax(0, 0.72fr) minmax(0, 1.28fr);
-    gap: var(--gap-lg);
+    /* 1,06 / 0,94 y no 0,72 / 1,28: la foto pasa de ser el acompañamiento a
+       ser la pieza que sostiene el bloque. */
+    grid-template-columns: minmax(0, 1.06fr) minmax(0, 0.94fr);
+    gap: 0;
     align-items: start;
   }
 }
@@ -498,32 +657,96 @@
   min-width: 0;
 }
 
-/* La cuarta hoja de la sección, y la más grande: es la foto de mayor
-   superficie de #colegios, así que se lleva --radio-xl. Va en la diagonal
-   contraria a la de la parada C, que es la fotografía que tiene justo encima.
-   Bajando por la sección las diagonales quedan A · B · A · B · A —tres
-   paradas, esta foto y el bloque de cierre—, así que no hay dos piezas
-   consecutivas con la misma. */
+/* La hoja más grande de la sección: es la foto de mayor superficie, así que se
+   lleva --radio-xl. Va en la diagonal contraria a la de la parada C, que es la
+   fotografía que tiene justo encima. Bajando por la sección las diagonales
+   quedan A · B · A · B · A —tres paradas, esta foto y el bloque de cierre—,
+   así que no hay dos piezas consecutivas con la misma. */
 .col-jornada__foto .marco {
   border-radius: var(--radio-xl) 0 var(--radio-xl) 0;
 }
 
-/* En una sola columna la foto vertical se comía la pantalla entera (695×869
-   a 768 px). Se recorta a cuadrada y se le pone tope de ancho: la charla
-   queda en el centro del encuadre y el bloque de texto sigue a la vista. */
+/* En una sola columna la foto vertical se comía la pantalla entera. Se recorta
+   a cuadrada y se le pone tope de ancho: el círculo queda en el centro del
+   encuadre y el bloque de texto sigue a la vista.
+
+   El `object-position` no es el centro geométrico: en un recorte cuadrado
+   sobre un original de 844×1500, centrar deja el corro de niños tocando el
+   canto de abajo. Al 62 % del alto, el corro cae en el tercio inferior del
+   cuadro y la guirnalda sigue asomando por arriba. */
 @media (max-width: 61.99em) {
+  /* Tope de ancho, pero SIN centrar. El `margin-inline: auto` de v3 dejaba la
+     pieza dominante flotando en mitad de la columna mientras el resto de la
+     sección se apoyaba en el margen izquierdo; y «nada centrado» es la primera
+     regla de la portada (§2). Alineada al canto, la foto y los cuatro hitos
+     comparten la misma línea de arranque. */
   .col-jornada__foto {
     max-width: var(--ancho-xs);
-    margin-inline: auto;
+    margin-inline: 0;
   }
 
+  /* 4/5 y no cuadrada (v4). En una columna, la foto cuadrada quedaba MÁS BAJA
+     que las tres miniaturas de las paradas —que en móvil van a 3/4, 9/16 y
+     1/1—, así que la pieza dominante era la más pequeña de la sección: la
+     jerarquía se invertía justo en la pantalla donde más falta hace. A 4/5
+     vuelve a mandar sin comerse el teléfono entero. */
   .col-jornada__foto .marco {
-    aspect-ratio: 1 / 1;
+    aspect-ratio: 4 / 5;
+  }
+
+  .col-jornada__foto .marco > img {
+    object-position: 50% 62%;
+  }
+}
+
+/* ---- LAS TRES PARADAS EN MÓVIL, EN REGISTRO CALLADO (v4) ------------------
+   Por debajo de 48em la fila de cada parada se apila y la foto se iba a ancho
+   completo: tres fotografías de 340 px de ancho seguidas, todas apoyadas en el
+   mismo margen izquierdo. Otra vez una tira.
+
+   Se les pone tope de ancho —uno distinto a cada una, en la misma proporción
+   que sus carriles de escritorio— y la parada B se va a la derecha, igual que
+   hace arriba de 48em. Así el móvil conserva las dos cosas que definen la
+   sección: que las paradas son un índice y que la B es la que cambia de lado.
+   El pie de foto viaja con la foto porque el tope está en el <figure>.      */
+@media (max-width: 47.99em) {
+  .col-parada--a figure { max-width: 78%; }
+  .col-parada--b figure { max-width: 58%; margin-inline-start: auto; }
+  .col-parada--c figure { max-width: 68%; }
+}
+
+@media (min-width: 62em) {
+  .col-jornada__foto .marco {
+    aspect-ratio: 3 / 4;
+  }
+
+  .col-jornada__foto .marco > img {
+    object-position: 50% 55%;
   }
 }
 
 .col-jornada__texto {
   min-width: 0;
+}
+
+/* EL PANEL QUE SOLAPA. Sólo desde 62em: por debajo, las dos piezas van
+   apiladas y un solape sería un amontonamiento.
+
+   El tiro del solape se mide contra --esp-2xl (64 px) y el descuelgue contra
+   --esp-3xl (96 px): los dos salen de la escala de espaciado, ninguno es un
+   número suelto. Y el margen inferior negativo devuelve al bloque lo que el
+   descuelgue le añadió por arriba, para que el cierre de la sección no quede
+   con un hueco de más. */
+@media (min-width: 62em) {
+  .col-jornada__texto {
+    position: relative;
+    z-index: var(--z-base);
+    margin-block-start: var(--esp-3xl);
+    margin-inline-start: calc(var(--esp-2xl) * -1);
+    padding: var(--esp-xl);
+    border-radius: 0 var(--radio-xl) 0 var(--radio-xl);
+    background-color: var(--color-superficie-solida);
+  }
 }
 
 .col-jornada__texto h3 {
@@ -558,6 +781,27 @@
      peldaños, no con cuatro. */
   .col-hito:nth-child(even) {
     margin-block-start: var(--esp-lg);
+  }
+}
+
+/* v4 · DENTRO DEL PANEL, LOS HITOS VUELVEN A UNA COLUMNA — y no es un paso
+   atrás. El 2×2 se pensó cuando el bloque de texto ocupaba 1,28 fr de la fila
+   entera; dentro del panel del §4 la medida útil cae a unos 250 px por celda,
+   y a 15 px de cuerpo eso son 28 caracteres por línea: ilegible. En una sola
+   columna la medida sube a 45–60 caracteres, que es la horquilla cómoda.
+
+   El desnivel no se pierde, cambia de eje: en vez de bajar la columna par, la
+   escalera se dibuja con SANGRÍA alternada, así que la lista sigue sin caer a
+   plomo. Los cuatro filetes con su remate de hoja se quedan donde estaban. */
+@media (min-width: 62em) {
+  .col-hitos {
+    grid-template-columns: minmax(0, 1fr);
+    gap: var(--esp-lg);
+  }
+
+  .col-hito:nth-child(even) {
+    margin-block-start: 0;
+    margin-inline-start: var(--esp-md);
   }
 }
 
@@ -706,4 +950,169 @@
 .js .col .reveal {
   transition-duration: var(--dur-lenta);
   transition-timing-function: var(--ease-salida);
+}
+
+/* ==========================================================================
+   7. EL SISTEMA DE MOVIMIENTO DE LA SECCIÓN  (v4)
+
+   LA REGLA QUE GOBIERNA TODO ESTE BLOQUE: nada empieza a la vez y nada va al
+   mismo compás. Nueve gestos sincronizados se leen como un GIF; nueve
+   desfasados se leen como una composición.
+
+   El §6 dejaba las siete piezas de #colegios con el MISMO retardo por familia
+   (0 · 90 · 180 ms del escalonado de base.css) y la MISMA duración (550 ms).
+   Aquí cada pieza estrena su par retardo/duración, y ninguno de los dos se
+   repite entre vecinas.
+
+   NI UN VALOR LITERAL DE TIEMPO. Todos los números salen de los tokens de
+   movimiento multiplicados por un factor, que es el mismo recurso que ya usa
+   base.css para el retardo de los detalles de trazo
+   (`calc(var(--dur-traza) * 0.66)`). Así, si mañana el director de arte
+   reafina --dur-lenta, la sección entera se reafina con él y las proporciones
+   entre gestos se conservan.
+
+   Y TODO SE APAGA SOLO. Bajo prefers-reduced-motion, base.css deja
+   `transition: none` en .reveal y pone `--reveal-delay: 0ms` a todo el
+   escalonado; encima, el bloque global de ese mismo archivo fuerza
+   `transition-duration` y `animation-duration` a 0,01 ms con !important. Aun
+   así, los dos trozos de este bloque que declaran movimiento propio —los
+   trazos y las dos derivas— van envueltos EN SU PROPIA media query de
+   `no-preference`, para que no dependan de que otro archivo los desactive.
+   ========================================================================== */
+
+/* ---- 7.1 · LAS SIETE ENTRADAS ------------------------------------------- */
+/* Especificidad, anotada para quien venga detrás:
+   · el retardo lo pone `.reveal-secuencia > .reveal:nth-child(n)` de base.css,
+     que mide (0,3,0); por eso aquí se escribe el prefijo `.col` delante y se
+     empata en (0,3,0). Empatados, gana esta hoja porque carga después.
+   · la duración la pone `.js .col .reveal` del §6, también (0,3,0); mismo
+     razonamiento y por eso estas reglas van DEBAJO de aquélla, nunca encima. */
+.js .col .col-portada {
+  transition-duration: calc(var(--dur-lenta) * 1.4);
+}
+
+.col .col-paradas > .col-parada--a { --reveal-delay: 0ms; }
+.col .col-paradas > .col-parada--b { --reveal-delay: calc(var(--dur-rapida) * 0.9); }
+.col .col-paradas > .col-parada--c { --reveal-delay: calc(var(--dur-media) * 1.15); }
+
+.js .col .col-parada--a { transition-duration: calc(var(--dur-lenta) * 1.5); }
+.js .col .col-parada--b { transition-duration: calc(var(--dur-lenta) * 1.15); }
+.js .col .col-parada--c { transition-duration: var(--dur-lenta); }
+
+.col .col-jornada > .col-jornada__foto { --reveal-delay: 0ms; }
+.col .col-jornada > .col-jornada__texto { --reveal-delay: calc(var(--dur-media) * 0.75); }
+
+.js .col .col-jornada__foto { transition-duration: calc(var(--dur-reveal) * 1.05); }
+.js .col .col-jornada__texto { transition-duration: calc(var(--dur-lenta) * 1.2); }
+
+/* El cierre es el único que entra RÁPIDO, y a propósito: es el CTA. Lo que
+   tarda en llegar a su sitio se lee como decoración; lo que llega pronto, como
+   una respuesta. */
+.js .col .col-cierre {
+  transition-duration: calc(var(--dur-lenta) * 0.85);
+}
+
+/* ---- 7.2 · LOS CUATRO TRAZOS ------------------------------------------- */
+/* El observador de js/app.js vigila la SECCIÓN, no cada figura: al entrar
+   #colegios, las cuatro reciben la orden a la vez. Que no se dibujen a la vez
+   es cosa de estas cuatro reglas, que reparten arranque y velocidad.
+
+   ESPECIFICIDAD. La regla que hay que superar es
+   `.js .traza-lista .icono-traza > :not([stroke-dasharray]):not([data-traza=…])`
+   de base.css, que mide (0,5,0) porque cada `:not()` aporta la de su
+   argumento. Cada selector de aquí abajo suma también cinco clases, así que
+   empatan; empatados, gana esta hoja por orden de carga. Si alguien acorta
+   uno de estos selectores, el trazo vuelve a dibujarse sincronizado y sin
+   error visible en consola: cuidado.
+
+   Sólo se tocan `transition-delay` y `transition-duration`. Nada aquí vuelve
+   a encender un trazo que base.css haya apagado. */
+@media (prefers-reduced-motion: no-preference) {
+  .js .col.traza-lista .col-portada .col-portada__ave > * {
+    transition-delay: calc(var(--dur-media) * 0.5);
+    transition-duration: calc(var(--dur-traza) * 1.35);
+  }
+
+  .js .col.traza-lista .col-parada--a .col-parada__icono > * {
+    transition-delay: 0ms;
+    transition-duration: var(--dur-traza);
+  }
+
+  .js .col.traza-lista .col-parada--b .col-parada__icono > * {
+    transition-delay: calc(var(--dur-media) * 0.9);
+    transition-duration: calc(var(--dur-traza) * 0.8);
+  }
+
+  .js .col.traza-lista .col-parada--c .col-parada__icono > * {
+    transition-delay: calc(var(--dur-lenta) * 0.95);
+    transition-duration: calc(var(--dur-traza) * 1.15);
+  }
+}
+
+/* ---- 7.3 · LAS DOS DERIVAS LIGADAS AL SCROLL ---------------------------- */
+/* Sin JavaScript: `animation-timeline: view()` ata el progreso al paso del
+   elemento por la ventana y lo resuelve el compositor. Ni un listener de
+   scroll, ni una llamada a getBoundingClientRect. Donde la propiedad no
+   exista, el @supports descarta el bloque entero y las dos piezas se quedan
+   quietas y bien encuadradas: no hay respaldo con JS ni hace falta.
+
+   Sólo se animan `transform` y `opacity`. Nada de layout.
+
+   LA FOTO DE LA JORNADA. La imagen se monta al 112 % del alto de su marco y
+   recorre el 10 % de su propio alto (unos 11 puntos del marco), que está
+   dentro de la horquilla de 5–15 % que admite el sistema. Al final del
+   recorrido la foto sigue tapando el marco entero, así que no hay ni un
+   instante con una franja vacía. Sólo desde 62em: en móvil la foto va a
+   cuadrada y el recorrido descubriría el borde.
+
+   OJO AL EFECTO SECUNDARIO, ANOTADO: mientras la deriva corre, es ella quien
+   manda sobre el `transform` de esa imagen, así que el zoom al pasar el ratón
+   NO se aplica a esta foto. Es deliberado y reparte los registros: la pieza
+   dominante se mueve con el scroll, las tres miniaturas con el puntero.
+
+   EL AVE. Deriva más larga y en el otro sentido, con un giro de dos grados
+   para que el recorrido no sea una línea recta. Va desacompasada de la foto a
+   propósito: son los dos únicos elementos de la sección atados al scroll y
+   verlos subir a la par sería exactamente el efecto de GIF que se evita. */
+@keyframes col-jornada-deriva {
+  from {
+    transform: translate3d(0, -10%, 0);
+  }
+
+  to {
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+@keyframes col-ave-deriva {
+  from {
+    transform: translate3d(0, 7%, 0) rotate(-3deg);
+  }
+
+  to {
+    transform: translate3d(0, -9%, 0) rotate(2deg);
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) and (min-width: 62em) {
+  @supports (animation-timeline: view()) {
+    .col-jornada__foto .marco > img {
+      height: 112%;
+      animation-name: col-jornada-deriva;
+      animation-duration: auto;
+      animation-timing-function: linear;
+      animation-fill-mode: both;
+      animation-timeline: view();
+      animation-range: entry 0% exit 100%;
+    }
+
+    .col-portada__ave {
+      animation-name: col-ave-deriva;
+      animation-duration: auto;
+      animation-timing-function: linear;
+      animation-fill-mode: both;
+      animation-timeline: view();
+      animation-range: entry 0% exit 100%;
+    }
+  }
 }

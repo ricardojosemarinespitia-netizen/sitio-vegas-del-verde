@@ -1,14 +1,17 @@
 /**
  * particulas-hero.js — el aire del bosque, animado sobre la portada.
  *
- * La foto de la portada ya enseña el bosque quieto bajo el sol de mediodía.
- * Esto NO la reemplaza ni compite con ella: le suma lo único que una foto no
- * puede tener — el aire. Motas de polen que cruzan la luz y, de cuando en
- * cuando, una hoja que se suelta de una copa y planea hasta el prado.
+ * La portada enseña un barranquero quieto en una rama, con el bosque detrás
+ * fuera de foco. Esto NO la reemplaza ni compite con ella: le suma lo único
+ * que una foto no puede tener — el aire. Motas de polen que cruzan la luz y,
+ * de cuando en cuando, una hoja que se suelta del dosel y planea.
  *
- * ES ATMÓSFERA, NO PROTAGONISTA. Las cifras están elegidas para que el
- * visitante no pueda decir «hay partículas»: pocas piezas, opacidad baja,
- * velocidad de deriva. Si alguna vez «se ve el efecto», está mal calibrado.
+ * ES ATMÓSFERA, NO PROTAGONISTA — pero desde v6 tiene que VERSE. Hasta v5 la
+ * consigna era que el visitante no pudiera decir «hay partículas», y con un
+ * prado a mediodía de fondo eso era lo correcto. Con el retrato del
+ * barranquero el encuadre entero es follaje y el aire tiene sitio: las cifras
+ * suben de «invisible» a «perceptible». El listón sigue estando claro — si
+ * alguna vez el aire le disputa la mirada al pájaro, está mal calibrado.
  *
  * Arquitectura calcada de la lluvia del proyecto Rafael Silva
  * (PROYECTO RAFAEL SILVA/sitio/lluvia.js), que es la referencia de la casa:
@@ -21,36 +24,32 @@
  *     activa con la página abierta, se desmonta solo).
  *
  * ── POR QUÉ EN COORDENADAS DE LA FOTO Y NO DEL CANVAS ──────────────────
- * La portada pinta img/portada-inicio.jpg (1400 × 2489, vertical) con
- * `object-fit: cover`: en pantalla ancha se recorta arriba y abajo, en un
- * teléfono se ve casi entera. Si las copas se marcaran en porcentajes del
+ * La portada pinta img/hero-momotus.jpg (1600 × 2400, vertical) con
+ * `object-fit: cover`: en pantalla ancha se recorta arriba y abajo —en
+ * 1280 × 716 sólo se ve la franja 0,104–0,447 del archivo—, en un teléfono se
+ * ve entera de arriba abajo. Si las copas se marcaran en porcentajes del
  * canvas, el follaje emisor se despegaría de los árboles reales al cambiar
  * el viewport. Todo el sistema vive en 0..1 sobre la imagen original y
  * `aPantalla()` replica el encuadre exacto del CSS — incluido el
- * `object-position: 50% 52%` de .inicio__portada-foto. Si ese encuadre
- * cambia en inicio.css, hay que actualizar POSICION_FOTO aquí.
+ * `object-position: 50% var(--pos-foto-y)` de .inicio__portada-foto. Si ese
+ * encuadre cambia en inicio.css, hay que actualizar POSICION_FOTO aquí.
  *
  * ── DE DÓNDE SALEN LAS CIFRAS DE `COPAS` ───────────────────────────────
- * Medidas mirando la foto original con una cuadrícula superpuesta: la banda
- * de árboles del medio cruza la imagen entera entre y=0.30 y y=0.55, y el
- * árbol grande de la derecha sube desde y=0.33 hasta y=0.06 entre x=0.52 y
- * el borde. Si algún día cambia la foto de la portada, hay que volver a
- * medir estas cajas o las hojas nacerán del cielo.
- *
- * En el encuadre de escritorio (franja visible ≈ y 0.37–0.65) parte del
- * árbol de la derecha queda por ENCIMA del recorte: esas partículas entran
- * en cuadro cayendo desde el borde superior, que es exactamente la lectura
- * correcta — vienen del follaje que sigue ahí arriba aunque no se vea.
+ * Medidas mirando el archivo derivado con una cuadrícula del 5 % superpuesta.
+ * Están abajo, junto a la constante, con el porqué de cada caja. Si algún día
+ * cambia la foto de la portada, hay que volver a medirlas o las hojas nacerán
+ * del aire — y hay que cambiar también POSICION_FOTO, que es el gemelo de
+ * --pos-foto-y en styles/sections/inicio.css.
  *
  * ── EL PARALAJE DE LA FOTO NO SE PERSIGUE, Y ES A PROPÓSITO ────────────
- * inicio.css mueve la fotografía ±5 % con el scroll (animation-timeline).
+ * inicio.css mueve la fotografía ±2vw con el scroll (animation-timeline).
  * El canvas no replica ese desplazamiento: perseguir un transform del
  * compositor desde JS es justo lo que la regla de la casa prohíbe (nada de
  * medir posiciones durante una transición). No hace falta: a diferencia de
  * la regadera de Rafael —un borde duro del que nace un chorro—, aquí la
- * emisión es una banda difusa de follaje; cinco puntos porcentuales de vaivén
- * caen dentro de la propia banda y el ojo no tiene ninguna arista contra la
- * que detectar el desfase.
+ * emisión es una banda difusa de follaje; cuarenta píxeles de vaivén caen
+ * dentro de la propia banda y el ojo no tiene ninguna arista contra la que
+ * detectar el desfase.
  *
  * ── DÓNDE VIVE EL LIENZO EN LA PILA DE CAPAS ───────────────────────────
  * Se añade al final de .inicio__portada con z-index de fondo: queda ENCIMA
@@ -70,19 +69,36 @@
  */
 
 /** Las copas emisoras, en coordenadas normalizadas de la foto (0..1).
- *  `peso` reparte los nacimientos entre las dos. */
+ *  `peso` reparte los nacimientos entre las dos.
+ *
+ *  v6 — RE-MEDIDAS SOBRE img/hero-momotus.jpg, que es lo que la cabecera de
+ *  este archivo lleva pidiendo desde que se escribió. Con la portada anterior
+ *  el follaje era una banda estrecha entre el prado y el cielo; aquí NO HAY
+ *  cielo ni prado: el encuadre entero es dosel a contraluz. Las dos cajas
+ *  cambian de significado en consecuencia —ya no son «los dos árboles» sino
+ *  las dos zonas de las que tiene sentido que caiga algo—:
+ *    · la franja alta, que cruza la imagen entera y en escritorio queda por
+ *      ENCIMA del recorte: sus partículas entran en cuadro cayendo desde el
+ *      borde de arriba, que es la lectura correcta —vienen del follaje que
+ *      sigue ahí aunque no se vea—;
+ *    · la maraña de ramas de la derecha, que sí está dentro del encuadre de
+ *      escritorio y es la única parte del cuadro donde no está ni el pájaro
+ *      ni el bloque de texto. */
 const COPAS = [
-  { x0: 0.02, x1: 0.98, y0: 0.30, y1: 0.55, peso: 0.55 }, // banda de árboles del medio
-  { x0: 0.52, x1: 0.98, y0: 0.06, y1: 0.33, peso: 0.45 }, // árbol grande de la derecha
+  { x0: 0.00, x1: 1.00, y0: 0.00, y1: 0.20, peso: 0.45 }, // dosel alto, cruza entero
+  { x0: 0.56, x1: 1.00, y0: 0.14, y1: 0.48, peso: 0.55 }, // ramaje de la derecha
 ];
 
-/** Donde muere la partícula, en coordenadas de foto: la franja de matas y
- *  materas del pie. Nada baja de aquí — debajo están el murito y el texto. */
-const SUELO = 0.80;
+/** Donde muere la partícula, en coordenadas de foto. Esta fotografía no tiene
+ *  suelo: es bosque de arriba abajo. Así que el número deja de marcar «el
+ *  prado» y pasa a marcar el borde de abajo del archivo, un poco antes para
+ *  que la partícula se apague en vez de desaparecer contra el canto. */
+const SUELO = 0.96;
 
-/** El object-position de .inicio__portada-foto (50% 52%). Tiene que ser el
- *  MISMO del CSS o el encuadre replicado se desfasa un puñado de píxeles. */
-const POSICION_FOTO = { x: 0.5, y: 0.52 };
+/** El object-position de .inicio__portada-foto, que desde v6 sale de
+ *  --pos-foto-y (50% 14%). Tiene que ser el MISMO del CSS o el encuadre
+ *  replicado se desfasa un puñado de píxeles y el polen nace del aire. */
+const POSICION_FOTO = { x: 0.5, y: 0.14 };
 
 const azar = (a, b) => a + Math.random() * (b - a);
 
@@ -127,8 +143,11 @@ class Mota {
     this.pFrec = azar(0.7, 2.1);
     this.pFase = azar(0, Math.PI * 2);
 
-    this.tam = azar(2.6, 6.5) * (0.6 + 0.5 * this.z);
-    this.alfa = azar(0.10, 0.28) * (0.6 + 0.5 * this.z);
+    this.tam = azar(2.8, 7.2) * (0.6 + 0.5 * this.z);
+    // v6 · sube con la densidad, y por el mismo motivo: el velo de la portada
+    // bajó de 0,92 a 0,66, así que el aire ya no se pinta contra una plancha
+    // oscura sino contra un bosque que se ve. A los alfas de v5 se perdía.
+    this.alfa = azar(0.14, 0.34) * (0.6 + 0.5 * this.z);
 
     // Vida limitada además del suelo: a esta velocidad una mota tardaría
     // medio minuto en cruzar; renovarlas antes mantiene el aire cambiando.
@@ -177,8 +196,8 @@ class Hoja {
     this.tFrec = azar(1.1, 2.3);
     this.tFase = azar(0, Math.PI * 2);
 
-    this.tam = azar(6, 11) * (0.7 + 0.35 * this.z);
-    this.alfa = azar(0.26, 0.46);
+    this.tam = azar(7, 13) * (0.7 + 0.35 * this.z);
+    this.alfa = azar(0.30, 0.52);
     this.variante = Math.floor(Math.random() * 3); // verde · clara · seca
 
     this.ang = azar(0, Math.PI * 2);
@@ -319,12 +338,18 @@ export function montarParticulas(contenedor, img) {
   const SPRITE_MOTA = crearSpriteMota();
   const SPRITES_HOJA = COLORES_HOJA.map(crearSpriteHoja);
 
-  // Densidad BAJA a conciencia: la lluvia de Rafael usa cientos de gotas
-  // porque es el sujeto de su foto; aquí el aire es acompañamiento. En
-  // móvil aún menos: pantalla chica y cuadro más caro.
+  // v6 — LA DENSIDAD SUBE, Y ES UN CAMBIO DE ENCARGO, NO DE GUSTO.
+  // El párrafo de arriba decía que si «se ve el efecto» está mal calibrado.
+  // Eso valía para una portada que era un prado a mediodía: el aire era lo
+  // único que se movía y cualquier exceso cantaba. Con el retrato del
+  // barranquero el encuadre entero es follaje a contraluz —el sitio natural
+  // del polen— y a 26 motas sobre 1280 px no se veía nada. Se pide una
+  // portada viva; el aire tiene que llegar a PERCEPTIBLE, que sigue estando
+  // muy por debajo de protagonista: el protagonista es el pájaro.
+  // En móvil siguen siendo menos: pantalla chica y cuadro más caro.
   const movil = window.innerWidth < 640;
-  const motas = Array.from({ length: movil ? 14 : 26 }, () => new Mota(true));
-  const hojas = Array.from({ length: movil ? 4 : 7 }, () => new Hoja(true));
+  const motas = Array.from({ length: movil ? 24 : 48 }, () => new Mota(true));
+  const hojas = Array.from({ length: movil ? 6 : 12 }, () => new Hoja(true));
 
   let anchoCss = 0, altoCss = 0;
   let despX = 0, despY = 0, anchoFoto = 0, altoFoto = 0;
@@ -343,8 +368,8 @@ export function montarParticulas(contenedor, img) {
     lienzo.height = Math.round(altoCss * dpr);
     ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
 
-    const iw = img.naturalWidth || 1400;
-    const ih = img.naturalHeight || 2489;
+    const iw = img.naturalWidth || 1600;
+    const ih = img.naturalHeight || 2400;
     const escala = Math.max(anchoCss / iw, altoCss / ih);
     anchoFoto = iw * escala;
     altoFoto = ih * escala;

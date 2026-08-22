@@ -75,9 +75,53 @@
 
     <header class="seccion-encabezado nosotros__titular reveal reveal--izq">
       <p class="eyebrow">El predio</p>
-      <h2 class="titulo-seccion" id="nosotros-titulo">
-        Lo que hay detrás de la portería
+      <!-- v6 · TITULAR NUEVO, APROBADO POR EL CLIENTE. «Lo que hay detrás de
+           la portería» prometía un misterio que el cuerpo no cumple, y
+           «portería» sonaba a conjunto residencial. Éste conserva el umbral
+           —la reja como frontera— y cambia la promesa a lo que la sección de
+           verdad entrega, que es además lo que dice el párrafo de abajo: «Eso
+           cambia cómo se siente el día».
+           EL id NO SE TOCA: el <section> lo referencia con aria-labelledby.
+           Escrito en caja alta y baja en el propio HTML, nunca en mayúsculas
+           confiando en el CSS (CONTRATO-V2 §3).                             -->
+      <h2 class="titulo-seccion nosotros__titulo" id="nosotros-titulo">
+        Cruzas la reja y cambia el día
       </h2>
+
+      <!-- v6 · LA RAMA QUE SE DIBUJA SOLA -----------------------------------
+           La columna del titular se queda pegada al scroll durante cuatro
+           párrafos de texto: a partir de 62em son unos 300 px de papel vacío
+           debajo del h2 que hasta ahora no hacían nada. Aquí crece una rama.
+
+           NO ES UN SVG DECORATIVO CUALQUIERA: lleva la firma EXACTA que
+           reconoce el motor de dibujado del sitio —`viewBox="0 0 24 24"`,
+           `fill="none"` y `stroke="currentColor"`— y el estado inicial va
+           HORNEADO A MANO en el propio marcado (`class="icono-traza"` en el
+           elemento raíz y `pathLength="1"` en cada forma). Eso es obligatorio
+           y no es
+           un detalle: js/app.js va con `defer`, así que si fuera él quien
+           marcase la silueta, el navegador alcanzaría a pintarla entera y
+           desaparecería un instante después. Con el trazo oculto desde el
+           primer paint no hay un solo fotograma de parpadeo.
+
+           CINCO FORMAS, CINCO TIEMPOS. El tallo sale primero y las cuatro
+           hojas van brotando detrás con retardos desiguales (nosotros.css §6):
+           una rama no se dibuja de golpe, se recorre. Cada <path> lleva UNA
+           sola `M` a propósito: un camino con varios trazos sueltos no se
+           puede recorrer con el guion y saldría entrecortado.
+
+           Se oculta por debajo de 62em: ahí la columna no es pegajosa, no
+           sobra papel y la rama sólo empujaría el discurso hacia abajo.     -->
+      <svg class="icono-traza nosotros__silueta nosotros__silueta--rama"
+           viewBox="0 0 24 24" fill="none" stroke="currentColor"
+           stroke-width="0.85" stroke-linecap="round" stroke-linejoin="round"
+           aria-hidden="true" focusable="false">
+        <path d="M4.4 22.6C6.9 19 8.9 15 10.4 10.8 11.4 7.7 12.1 4.6 12.4 1.5" pathLength="1"/>
+        <path d="M8.6 16.5c-2.7-1.4-5-1.3-6.9.4 2.3 2 4.6 1.9 6.9-.4Z" pathLength="1"/>
+        <path d="M10.4 11.4c1.8-2.7 4.2-4 7.2-3.9-1 3-3.4 4.3-7.2 3.9Z" pathLength="1"/>
+        <path d="M11.6 7.2c-1.6-2.2-3.6-3-5.9-2.3 1 2.4 3 3.2 5.9 2.3Z" pathLength="1"/>
+        <path d="M12.3 3.5c1-1.9 2.6-2.8 4.7-2.7-.5 2.2-2.1 3.1-4.7 2.7Z" pathLength="1"/>
+      </svg>
     </header>
 
     <!-- Sin `reveal--der`: la entrada horizontal desplaza 28 px hacia la
@@ -154,9 +198,24 @@
         Lo básico, resuelto
       </h3>
 
-      <ul class="nosotros__servicios-lista">
+      <!-- v6 · LA TIRA DEJA DE SER UNA FILA DE CUATRO IGUALES.
+           Hasta v5 los cuatro servicios entraban de golpe (el .reveal está en
+           el bloque entero) y las cuatro insignias medían exactamente lo
+           mismo. Cuatro piezas idénticas alineadas por arriba y por abajo es
+           el gesto de plantilla que el resto de la sección ya había
+           corregido en la foto y en los pilares.
 
-        <li class="nosotros__servicio">
+           Ahora cada <li> es su propio .reveal dentro de una .reveal-secuencia
+           y los cuatro tamaños, las cuatro alturas de base y las cuatro
+           formas de hoja los reparte nosotros.css §2 —el mismo criterio y las
+           mismas proporciones que la tira de aves del hero
+           (sections/hero.html:341 y styles/sections/inicio.css:993-1023)—.
+           Los RETARDOS los sobrescribe también la hoja: la escalera regular
+           de 90 en 90 ms de base.css se lee como un barrido; desigualada, se
+           lee como cuatro cosas distintas apareciendo. -->
+      <ul class="nosotros__servicios-lista reveal-secuencia">
+
+        <li class="nosotros__servicio reveal reveal--zoom">
           <svg class="icono-traza nosotros__servicio-icono" viewBox="0 0 24 24" fill="none" stroke="currentColor"
                stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"
                aria-hidden="true" focusable="false">
@@ -168,7 +227,7 @@
           Wifi
         </li>
 
-        <li class="nosotros__servicio">
+        <li class="nosotros__servicio reveal reveal--zoom">
           <svg class="icono-traza nosotros__servicio-icono" viewBox="0 0 24 24" fill="none" stroke="currentColor"
                stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"
                aria-hidden="true" focusable="false">
@@ -180,7 +239,7 @@
           Baños
         </li>
 
-        <li class="nosotros__servicio">
+        <li class="nosotros__servicio reveal reveal--zoom">
           <svg class="icono-traza nosotros__servicio-icono" viewBox="0 0 24 24" fill="none" stroke="currentColor"
                stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"
                aria-hidden="true" focusable="false">
@@ -190,7 +249,7 @@
           Vigilancia privada
         </li>
 
-        <li class="nosotros__servicio">
+        <li class="nosotros__servicio reveal reveal--zoom">
           <svg class="icono-traza nosotros__servicio-icono" viewBox="0 0 24 24" fill="none" stroke="currentColor"
                stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"
                aria-hidden="true" focusable="false">
@@ -285,6 +344,32 @@
         </li>
 
       </ol>
+
+      <!-- v6 · LA BANDADA — el cierre del cierre de capítulo -----------------
+           Tres vuelos de tamaños distintos que se dibujan uno detrás de otro
+           y que además DERIVAN con el scroll (nosotros.css §6). Van aquí, en
+           flujo normal debajo del último pilar, y no en posición absoluta: la
+           banda es una rejilla de tres pistas con `align-items: center` y una
+           pieza flotante sobre ella se colocaría distinto según lo alto que
+           quede el panel de aves de al lado. En flujo el sitio es siempre el
+           mismo y el `transform` de la deriva no mueve nada de la maqueta.
+
+           POR QUÉ DIBUJA EN OTRO MOMENTO QUE LA RAMA DE ARRIBA: el disparador
+           de js/app.js es el ANCESTRO `section` más cercano, y el compromiso
+           es un <section> propio. Así que esta bandada arranca cuando entra la
+           banda oscura, no cuando entra #nosotros: dos relojes distintos sin
+           una línea de JavaScript nueva.
+
+           Estado inicial horneado a mano, igual que la rama. Cada vuelo lleva
+           una sola `M` para que el guion pueda recorrerlo entero.           -->
+      <svg class="icono-traza nosotros__silueta nosotros__silueta--vuelo"
+           viewBox="0 0 24 24" fill="none" stroke="currentColor"
+           stroke-width="0.9" stroke-linecap="round" stroke-linejoin="round"
+           aria-hidden="true" focusable="false">
+        <path d="M1.8 16.3c2.1-.4 3.8-1.5 5.1-3.2 1.3 1.7 3 2.8 5.1 3.2" pathLength="1"/>
+        <path d="M10.4 8.1c1.5-.3 2.7-1.1 3.6-2.3.9 1.2 2.1 2 3.6 2.3" pathLength="1"/>
+        <path d="M17.6 13.4c1-.2 1.9-.8 2.5-1.6.6.8 1.5 1.4 2.5 1.6" pathLength="1"/>
+      </svg>
 
     </div>
 

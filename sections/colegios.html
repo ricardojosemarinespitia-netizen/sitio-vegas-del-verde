@@ -15,10 +15,35 @@
      CSS: styles/sections/colegios.css
      FOTOS (abiertas con Read y verificadas una a una; ninguna se repite en
      otra sección de la página — parque-20 ya es el mural de #nosotros):
-       img/parque/parque-19.jpg  900x1200   mural de aves en la fachada de la caseta
-       img/parque/parque-34.jpg  675x1200   hileras de plantas bajo malla de sombra
-       img/parque/parque-52.jpg  675x1200   franja florecida al borde del prado
-       img/parque/parque-32.jpg  900x1200   charla a un grupo bajo la zona techada
+       img/parque/parque-19.jpg   900x1200   mural de aves en la fachada de la caseta
+       img/parque/parque-34.jpg   675x1200   hileras de plantas bajo malla de sombra
+       img/parque/parque-52.jpg   675x1200   franja florecida al borde del prado
+       img/eventos/infantil-1.jpg 844x1500   grupo sentado en círculo sobre el prado
+
+     v4 · FUERA LAS DOS FOTOS DE BORRADOR
+     Esta sección llevaba dos archivos `-TEMP`: imágenes generadas con IA a baja
+     resolución y estiradas (23 KB y 28 KB de JPEG contra los 240–425 KB de las
+     reales), que en pantalla se veían lavadas y sin grano. Las dos salen:
+
+       parque-34-TEMP  →  img/parque/parque-34.jpg
+         Es la MISMA foto que la cabecera de este fragmento ya declaraba como
+         verificada; el borrador sólo la estaba supliendo. Muestra literalmente
+         lo que dice el pie: dos camellones de plantas en bolsa con el pasillo
+         en medio. Archivo real, 243 KB.
+
+       parque-32-TEMP  →  img/eventos/infantil-1.jpg
+         La pieza dominante de la sección. Es la única fotografía del banco con
+         un grupo de niñas y niños sentados en círculo, y es además la de mayor
+         resolución que entra aquí (844×1500). El pie cambia porque la foto
+         cambia: ya no es «una charla bajo la zona techada» —eso lo mostraba el
+         borrador—, es el curso reunido sobre el prado.
+
+     NOTA DE COORDINACIÓN: `infantil-1.jpg` venía del carril de cumpleaños de
+     #planes y se libera allí. Si por lo que sea siguiera en uso en #planes,
+     el reemplazo directo y sin efectos secundarios es `img/parque/parque-26.jpg`
+     (675×1200): es el mismo momento y el mismo encuadre, un punto más cerrado.
+     Por eso no se usan las dos: puestas en la misma sección se leerían como la
+     misma foto repetida.
 
      COMPOSICIÓN (v3.1) — LA SECCIÓN TIPOGRÁFICA DEL SITIO
      Es la sección más corta, así que es la que puede permitirse ser la más
@@ -70,12 +95,61 @@
      El resto de la curva orgánica —el labio de carbón del borde superior, los
      remates de los filetes de la jornada y el bloque de cierre— vive también
      en el CSS. Nada de esto necesita ni una etiqueta más aquí.
+
+     COMPOSICIÓN (v4) — UNA PIEZA MANDA Y LAS DEMÁS CALLAN
+     v3.2 dejó tres paradas de tamaños distintos, y eso estaba bien resuelto.
+     Lo que no había era JERARQUÍA: las cuatro fotos jugaban en la misma liga
+     de tamaño, así que el ojo no sabía por dónde entrar. En v4:
+
+       · la foto de la jornada pasa a ser la pieza DOMINANTE de la sección
+         (columna ancha, proporción 3/4, deriva ligada al scroll);
+       · los cuatro hitos se montan sobre ella en un panel de papel opaco que
+         la solapa y arranca más abajo —el contraste vive en el panel, nunca
+         sobre la fotografía—;
+       · las tres paradas bajan de carril y se quedan en registro de índice.
+
+     LOS TRES RÓTULOS SE DIBUJAN. La viñeta de hoja que abría cada parada era
+     un cuadradito de color; ahora es una silueta de trazo que se pinta sola al
+     entrar la sección (binoculares · hoja · mariposa), una por parada y en el
+     orden en que el texto las nombra. Usan la firma exacta que reconoce
+     herramientas/hornear-trazos.js —viewBox de 24, `fill="none"`,
+     `stroke="currentColor"`— y traen el `pathLength="1"` ESCRITO A MANO en el
+     propio HTML: el estado inicial nunca lo pone JavaScript, que es de donde
+     salía el parpadeo histórico de este sitio. La hoja no se pierde: sigue
+     rematando los cuatro filetes de la jornada.
+
+     Y el ave de la portada es la única figura grande: decorativa, `aria-hidden`,
+     detrás del texto y con deriva propia por scroll. Ni informa ni recibe foco.
+
+     Cada figura arranca en un momento distinto —los retardos los reparte
+     colegios.css §7—: nada de esta sección se mueve al mismo compás.
      ========================================================================== -->
 
 <section id="colegios" class="seccion seccion--alt col" aria-labelledby="colegios-titulo">
   <div class="contenedor contenedor--ancho">
 
     <header class="col-portada reveal">
+
+      <!-- Dos aves lejos. Decoración pura: sin texto, sin foco, sin contraste que
+           aportar, y colocadas en el hueco que queda entre el titular y la
+           entradilla, no encima de ninguno de los dos. Se dibujan solas al
+           entrar la sección y derivan con el scroll. A partir de 62em, que es
+           donde la portada abre su segunda columna y aparece ese hueco; por
+           debajo no se montan.
+
+           POR QUÉ DOS TRAZOS ABIERTOS Y NO UNA SILUETA CERRADA. Se probaron
+           primero un ave con las alas dibujadas y después una pluma: las dos,
+           ampliadas a doce veces su caja y bajadas al 26 % de opacidad, se leían
+           como una hoja. Un ave a distancia no tiene detalle —son dos arcos— y
+           por eso se reconoce sin ninguna ayuda. Dos, de tamaños distintos y a
+           alturas distintas, son cielo; una sola sería un logotipo. -->
+      <svg class="col-portada__ave icono-traza" viewBox="0 0 24 24" fill="none"
+           stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
+           aria-hidden="true" focusable="false">
+        <path d="M1.6 11.4c3.9.2 7-1.4 9.3-4.7.5-.7.9-1.1 1.2-1.1.3 0 .7.4 1.2 1.1 2.3 3.3 5.4 4.9 9.3 4.7" pathLength="1"/>
+        <path d="M8.4 19.1c2.4.1 4.4-.9 5.8-2.9.3-.5.6-.7.8-.7.2 0 .5.2.8.7 1.4 2 3.4 3 5.8 2.9" pathLength="1"/>
+      </svg>
+
       <div class="col-portada__titulo">
         <p class="eyebrow">Salidas pedagógicas</p>
         <h2 id="colegios-titulo" class="titulo-seccion col-titular">
@@ -90,7 +164,7 @@
     </header>
 
     <!-- ---------- Las tres paradas, en fila india ---------- -->
-    <ul class="col-paradas reveal-secuencia">
+    <ul class="col-paradas reveal-secuencia" role="list">
 
       <li class="col-parada col-parada--a reveal reveal--izq">
         <figure>
@@ -106,7 +180,18 @@
           </div>
           <figcaption>La parada de aves, frente al mural de la caseta</figcaption>
         </figure>
-        <p class="col-parada__etiqueta">Primera parada</p>
+        <p class="col-parada__etiqueta">
+          <svg class="col-parada__icono icono-traza" viewBox="0 0 24 24" fill="none"
+               stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
+               aria-hidden="true" focusable="false">
+            <path d="M6.5 8a3 3 0 0 1 3 3v6a3 3 0 0 1-6 0v-6a3 3 0 0 1 3-3Z" pathLength="1"/>
+            <path d="M17.5 8a3 3 0 0 1 3 3v6a3 3 0 0 1-6 0v-6a3 3 0 0 1 3-3Z" pathLength="1"/>
+            <path d="M9.5 13.4h5" pathLength="1"/>
+            <path d="M5 8.2V5.7A1.7 1.7 0 0 1 6.7 4h1.1a1.7 1.7 0 0 1 1.7 1.7v2.5" pathLength="1"/>
+            <path d="M19 8.2V5.7A1.7 1.7 0 0 0 17.3 4h-1.1a1.7 1.7 0 0 0-1.7 1.7v2.5" pathLength="1"/>
+          </svg>
+          Primera parada
+        </p>
         <h3 class="titulo-seccion titulo-seccion--sm">Bajar la voz y levantar la mirada</h3>
         <p>
           El grupo se reparte, se queda quieto y aprende lo primero del pajareo:
@@ -119,18 +204,27 @@
         <figure>
           <div class="marco">
             <img
-              src="img/parque/parque-34-TEMP.jpg"
+              src="img/parque/parque-34.jpg"
               width="675"
               height="1200"
-              data-pendiente-foto="temporal · reemplazar por foto real del predio"
-              alt="Niños con binoculares mirando hacia el follaje desde el observatorio."
+              alt="Dos camellones de plantas sembradas en bolsa, uno frente al otro, con un pasillo de hierba en medio; encima, la malla de sombra tendida entre postes, y al fondo el follaje de los árboles."
               loading="lazy"
               decoding="async"
             />
           </div>
           <figcaption>Las plantas, en hilera y al alcance de la mano</figcaption>
         </figure>
-        <p class="col-parada__etiqueta">Segunda parada</p>
+        <p class="col-parada__etiqueta">
+          <svg class="col-parada__icono icono-traza" viewBox="0 0 24 24" fill="none"
+               stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
+               aria-hidden="true" focusable="false">
+            <path d="M20.5 3.5C10.6 3.9 4 7.4 4 13.2c0 4 2.6 7.3 6.5 7.3 5.9 0 10-6.5 10-17Z" pathLength="1"/>
+            <path d="M20 4C13.6 8.1 9.3 13.8 7.3 20.3" pathLength="1"/>
+            <path d="M16.4 8.3 12.3 7" pathLength="1"/>
+            <path d="M13 12.4 9.2 11.4" pathLength="1"/>
+          </svg>
+          Segunda parada
+        </p>
         <h3 class="titulo-seccion titulo-seccion--sm">Que una mata deje de ser «una mata»</h3>
         <p>
           Aquí se aprende a mirar una hoja: la forma, el borde, la nervadura, el olor.
@@ -152,7 +246,18 @@
           </div>
           <figcaption>Las floraciones donde se hace el avistamiento</figcaption>
         </figure>
-        <p class="col-parada__etiqueta">Tercera parada</p>
+        <p class="col-parada__etiqueta">
+          <svg class="col-parada__icono icono-traza" viewBox="0 0 24 24" fill="none"
+               stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
+               aria-hidden="true" focusable="false">
+            <path d="M12 7.2C10.2 4.7 6.9 3 4.9 4.2 2.7 5.5 3.3 8.6 5 10.1c-1.9 1-2.5 3.9-.8 5.4 1.9 1.6 5.4.2 7.8-3.2" pathLength="1"/>
+            <path d="M12 7.2c1.8-2.5 5.1-4.2 7.1-3 2.2 1.3 1.6 4.4-.1 5.9 1.9 1 2.5 3.9.8 5.4-1.9 1.6-5.4.2-7.8-3.2" pathLength="1"/>
+            <path d="M12 7.2v9.9" pathLength="1"/>
+            <path d="M12 7.2 9.9 3.9" pathLength="1"/>
+            <path d="M12 7.2 14.1 3.9" pathLength="1"/>
+          </svg>
+          Tercera parada
+        </p>
         <h3 class="titulo-seccion titulo-seccion--sm">Sentarse a esperar una mariposa</h3>
         <p>
           La parada más quieta del día. El grupo se sienta frente a las floraciones del
@@ -163,25 +268,36 @@
 
     </ul>
 
-    <!-- ---------- El formato de la jornada ---------- -->
-    <div class="col-jornada reveal">
+    <!-- ---------- El formato de la jornada ----------------------------------
+         LA PIEZA DOMINANTE. La foto ya no ilustra el bloque: lo sostiene. Y el
+         panel de los hitos la solapa desde la derecha, así que las dos piezas
+         se traban en vez de quedar una al lado de la otra.
 
-      <figure class="col-jornada__foto">
-        <div class="marco marco--retrato">
+         EL TEXTO NUNCA VA SOBRE LA FOTO: el panel es papel opaco
+         (--color-superficie-solida), de modo que el contraste es el de tinta
+         sobre papel y no depende de un píxel de la fotografía.
+
+         Foto y panel entran por separado —dos `.reveal` con dirección, retardo
+         y duración distintos— y por eso el contenedor pasa de `.reveal` a
+         `.reveal-secuencia`: ya no revela, sólo reparte tiempos.
+         --------------------------------------------------------------------- -->
+    <div class="col-jornada reveal-secuencia">
+
+      <figure class="col-jornada__foto reveal reveal--izq">
+        <div class="marco">
           <img
-            src="img/parque/parque-32-TEMP.jpg"
-            width="900"
-            height="1200"
-            data-pendiente-foto="temporal · reemplazar por foto real del predio"
-            alt="Grupo escolar caminando en fila bajo los árboles, con una profesora al frente."
+            src="img/eventos/infantil-1.jpg"
+            width="844"
+            height="1500"
+            alt="Un grupo de niñas y niños sentados en círculo sobre una manta verde en el prado, acompañados por dos monitoras; arriba, entre las ramas de los árboles, cuelga una guirnalda de flecos de papel de colores."
             loading="lazy"
             decoding="async"
           />
         </div>
-        <figcaption>Una charla bajo la zona techada</figcaption>
+        <figcaption>El curso, reunido en círculo sobre el prado</figcaption>
       </figure>
 
-      <div class="col-jornada__texto">
+      <div class="col-jornada__texto reveal reveal--der">
         <h3 class="titulo-seccion titulo-seccion--sm">Así transcurre el día</h3>
 
         <ol class="col-hitos">

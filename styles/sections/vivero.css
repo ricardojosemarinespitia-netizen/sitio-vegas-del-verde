@@ -73,13 +73,13 @@
    0. TOKENS LOCALES DE LA SECCIÓN
    -------------------------------------------------------------------------- */
 .viv {
-  /* El desfase de la banda se usa dos veces (el desplazamiento de las fotos
-     pares y el hueco que hay que recuperar debajo). Con nombre propio no se
-     puede cambiar uno y olvidar el otro, que es exactamente como se descuadra
-     una rejilla. Sale de la escala, como manda la casa. */
-  --viv-desfase: var(--esp-xl);
+  /* v5: --viv-desfase SALE. Existía para el par «desplazar las fotos pares con
+     transform + recuperar abajo el hueco que se llevaban». Ahora los desniveles
+     son márgenes estáticos (§2): la fila crece sola con ellos, no hay hueco que
+     recuperar y cada foto arranca a una altura propia en vez de compartir un
+     único desfase. Un token menos y un acoplamiento menos.
 
-  /* El margen del .contenedor, reproducido con un porcentaje del ancho del
+     El margen del .contenedor, reproducido con un porcentaje del ancho del
      bloque a sangre. Mismo recurso —y mismo motivo— que --nat-margen en
      naturaleza.css: 100vw INCLUYE la barra de scroll y metería 15 px de
      desbordamiento real que el overflow-x del body taparía sin arreglar.
@@ -124,7 +124,28 @@
 }
 
 /* --------------------------------------------------------------------------
-   2. LA BANDA A SANGRE — cuatro fotos reales del invernadero y los camellones
+   2. LA BANDA A SANGRE — v5: UNA PIEZA MANDA Y CUATRO ACOMPAÑAN
+
+   QUÉ CAMBIÓ Y POR QUÉ. v4 dejó cuatro fotos con cuatro proporciones y cuatro
+   anchos distintos, y eso ya no era una rejilla. Pero seguían siendo cuatro
+   piezas de la MISMA LIGA: ninguna mandaba, así que la banda se leía como una
+   tira de archivo y el ojo la recorría sin detenerse. Y encima la única con
+   presencia humana no existía todavía: era un borrador de IA.
+
+   v5 mete la foto que faltaba —`parque-44`, la jardinera trabajando entre los
+   camellones— y la pone a mandar:
+
+     · la PRINCIPAL ocupa una columna propia que sangra por el canto izquierdo
+       de la pantalla y va a doble altura. Es lo primero que se ve;
+     · las CUATRO RESTANTES se agrupan a su derecha en un mosaico de dos por
+       dos, con cuatro proporciones, dos anchos y cuatro alturas de arranque
+       distintas. Registro callado, a propósito.
+
+   LOS PAPELES SE DECLARAN CON MODIFICADOR, NO CON `nth-child`. En v4 la
+   proporción y el radio de cada hueco colgaban de su posición en el <ul>, así
+   que añadir una quinta foto —justo lo que se acaba de hacer— descolocaba a
+   todas. Ahora cada <li> dice quién es (`--principal`, `--a`, `--b`, `--c`,
+   `--d`) y el orden del marcado no gobierna nada más que el orden de entrada.
    -------------------------------------------------------------------------- */
 /* OJO CON EL SELECTOR: la banda es un <ul>, y base.css §1 lleva
    `ul[class] { padding: 0 }`, que con (0,1,1) le gana a un `.viv-friso` de
@@ -140,100 +161,209 @@
   list-style: none;
 }
 
-/* LAS CUATRO PROPORCIONES SON DISTINTAS A PROPÓSITO (v4).
-   Los cuatro originales son 675 × 1200 (9/16). Recortarlos todos al mismo 4/5
-   tiraba un tercio de cada foto y, sobre todo, alineaba los cuatro pies a la
-   misma altura: eso es una tira de catálogo, no una composición. Cada hueco
-   lleva ahora la proporción que mejor le va a SU foto:
+/* RED DE SEGURIDAD. Si alguien añade un <li> sin modificador, se queda con una
+   caja razonable en vez de colapsar a cero de alto (un .marco sin
+   `aspect-ratio` y con la imagen a `height: 100%` no tiene alto propio). */
+.viv .viv-foto .marco {
+  aspect-ratio: 4 / 5;
+}
 
-     1 · parque-35  3/4    el plano más abierto: la nave y los platanillos
-     2 · parque-40  5/8    los camellones se leen en vertical
-     3 · parque-42  9/16   la cícada es la foto más alta: va sin recortar
-     4 · parque-49  4/5    las materas están en el tercio bajo del encuadre
+/* ---- MÓVIL (por debajo de 48rem) ----------------------------------------
+   La principal cruza las dos columnas y, además, se come el relleno lateral de
+   la banda con un margen negativo del mismo tamaño: es la única foto de la
+   sección que toca los dos cantos del teléfono. Por eso va a ESQUINA VIVA —
+   norma del sitio: nada se redondea contra el canto de la ventana— mientras
+   que las cuatro del mosaico, que sí viven dentro de la maqueta, llevan hoja.
 
-   La especificidad (0,2,0) le gana a un `.marco--retrato` suelto de base.css
-   por si alguien lo devuelve al marcado. */
-.viv .viv-foto:nth-child(1) .marco { aspect-ratio: 3 / 4; }
-.viv .viv-foto:nth-child(2) .marco { aspect-ratio: 5 / 8; }
-.viv .viv-foto:nth-child(3) .marco { aspect-ratio: 9 / 16; }
-.viv .viv-foto:nth-child(4) .marco { aspect-ratio: 4 / 5; }
+   Su proporción es 4/5 y no la 9/16 del archivo: a 9/16 la foto medía 667 px
+   de alto en un móvil de 375 y se comía la pantalla entera. Recortada a 4/5
+   se conserva el 70 % central del original, que es donde están el pasillo y la
+   jardinera; lo que se va es cielo por arriba y bolsas por abajo. */
+/* OJO CON --viv-margen: su fórmula lleva un `100%`, y un porcentaje dentro de
+   una variable se resuelve DONDE SE USA, no donde se declara. En la banda
+   (un <ul> a ancho completo de la sección) ese 100% es el ancho útil de la
+   página y la cuenta sale; dentro de un <li>, que es una columna de rejilla,
+   el mismo 100% sería el ancho de la columna y la cuenta saldría mal. Por eso
+   aquí, y en los pies de foto, se usa --padding-contenedor directamente: por
+   debajo de 48rem los dos valen lo mismo —la rama del `max()` que gana es
+   siempre el relleno de página— y éste no depende de dónde se escriba. */
+.viv .viv-foto--principal {
+  grid-column: 1 / -1;
+  margin-inline: calc(var(--padding-contenedor) * -1);
+}
+
+.viv .viv-foto--principal .marco {
+  aspect-ratio: 4 / 5;
+  border-radius: 0;
+}
+
+.viv .viv-foto--principal figcaption {
+  padding-inline: var(--padding-contenedor);
+}
+
+/* Las cuatro del mosaico, con su proporción medida contra el archivo real para
+   que el recorte no invente nada:
+     a · parque-35 (675×1200) 3/4  el plano más abierto: caladios y platanillos
+     b · parque-12 (900×1200) 4/5  la enramada pide aire horizontal
+     c · parque-42 (675×1200) 5/8  la cícada es la más alta de las cuatro
+     d · parque-49 (675×1200) 1/1  las materas están en el tercio bajo         */
+.viv .viv-foto--a .marco { aspect-ratio: 3 / 4; }
+.viv .viv-foto--b .marco { aspect-ratio: 4 / 5; }
+.viv .viv-foto--c .marco { aspect-ratio: 5 / 8; }
+.viv .viv-foto--d .marco { aspect-ratio: 1 / 1; }
 
 /* LA HOJA — norma del sitio, arbitrada por el director de arte.
    Dos esquinas curvas en diagonal y dos vivas; dos piezas vecinas nunca con la
    misma diagonal. Es el gesto que base.css §2 ya usaba en las viñetas de
-   .lista-hojas, ahora subido a norma para toda la fotografía que vive DENTRO
-   de la maqueta. Las dos diagonales, en el orden del atajo (TL TR BR BL):
+   .lista-hojas, subido a norma para toda la fotografía que vive DENTRO de la
+   maqueta. Las dos diagonales, en el orden del atajo (TL TR BR BL):
 
      diagonal A ..... R 0 R 0     curva arriba-izquierda y abajo-derecha
      diagonal B ..... 0 R 0 R     curva arriba-derecha y abajo-izquierda
 
-   AQUÍ, EN MÓVIL, no bleeds nadie: la banda conserva su relleno lateral
-   (--viv-margen) y las cuatro fotos caen en una rejilla de 2 × 2 dentro de la
-   maqueta, así que las cuatro llevan hoja entera. Se alternan en tablero para
-   que ninguna toque a otra —ni de lado ni por encima— con su misma diagonal:
+   En el tablero de móvil —a·b arriba, c·d abajo— la alternancia queda
+   B · A / A · B, así que ninguna toca a otra con su misma diagonal ni de lado
+   ni por encima. */
+.viv .viv-foto--a .marco { border-radius: 0 var(--viv-hoja) 0 var(--viv-hoja); }
+.viv .viv-foto--b .marco { border-radius: var(--viv-hoja) 0 var(--viv-hoja) 0; }
+.viv .viv-foto--c .marco { border-radius: var(--viv-hoja) 0 var(--viv-hoja) 0; }
+.viv .viv-foto--d .marco { border-radius: 0 var(--viv-hoja) 0 var(--viv-hoja); }
 
-     P1 B   P2 A
-     P3 A   P4 B                                                            */
-.viv .viv-foto:nth-child(1) .marco { border-radius: 0 var(--viv-hoja-ancha) 0 var(--viv-hoja-ancha); }
-.viv .viv-foto:nth-child(2) .marco { border-radius: var(--viv-hoja) 0 var(--viv-hoja) 0; }
-.viv .viv-foto:nth-child(3) .marco { border-radius: var(--viv-hoja) 0 var(--viv-hoja) 0; }
-.viv .viv-foto:nth-child(4) .marco { border-radius: 0 var(--viv-hoja-ancha) 0 var(--viv-hoja-ancha); }
+/* ---- TABLETA (48rem – 62rem) --------------------------------------------
+   La banda entera pierde los márgenes y toca los dos bordes de la pantalla.
+   La principal se queda arriba, a lo ancho y en 4/3 —el recorte apaisado que
+   mejor aguanta un original vertical: conserva el 42 % central, que es la
+   banda donde están el pasillo y la jardinera—, y el mosaico baja debajo en
+   una fila de cuatro columnas desiguales.
 
-/* A partir de tableta las cuatro fotos se ponen en fila, la banda pierde los
-   márgenes laterales y toca los dos bordes de la pantalla.
-
-   LOS ANCHOS SON DESIGUALES A PROPÓSITO: 1.12 / 0.88 / 0.88 / 1.12. Cuatro
-   columnas idénticas volverían a ser una rejilla, que es justo lo que se está
-   quitando de la página; con los extremos más anchos la banda tiene principio
-   y final, y no parece una tira cortada al azar.
-
-   El desfase de las pares rompe además la línea superior y la inferior. Es un
-   desplazamiento fijo, no una animación: no depende de prefers-reduced-motion.
-   El padding inferior recupera el espacio que se lleva. */
+   Los anchos 1.1 / 0.86 / 0.78 / 1.06 no son capricho: con cuatro columnas
+   idénticas la fila vuelve a ser una rejilla, y con los extremos algo más
+   anchos la fila tiene principio y final. */
 @media (min-width: 48rem) {
   .viv .viv-friso {
     grid-template-columns:
-      minmax(0, 1.12fr)
-      minmax(0, 0.88fr)
-      minmax(0, 0.88fr)
-      minmax(0, 1.12fr);
+      minmax(0, 1.1fr)
+      minmax(0, 0.86fr)
+      minmax(0, 0.78fr)
+      minmax(0, 1.06fr);
     align-items: start;
     padding-inline: 0;
-    padding-bottom: var(--viv-desfase);
   }
 
-  .viv-foto:nth-child(even) > figure {
-    transform: translateY(var(--viv-desfase));
+  .viv .viv-foto--principal {
+    grid-column: 1 / -1;
+    margin-inline: 0;
+    margin-bottom: var(--gap-sm);
+  }
+
+  .viv .viv-foto--principal .marco {
+    aspect-ratio: 4 / 3;
+  }
+
+  .viv .viv-foto--principal figcaption {
+    padding-inline: var(--esp-2xs) 0;
   }
 
   /* LA HOJA CONTRA EL CANTO DE LA VENTANA — la excepción de la norma.
-     A partir de aquí la banda sangra: la primera foto toca el borde izquierdo
-     de la pantalla y la cuarta el derecho. Las esquinas que TOCAN EL BORDE se
-     quedan a cero; una curva contra el canto de la ventana deja una cuña de
-     fondo que se lee como un fallo de recorte, no como una forma. Cada foto de
-     los extremos conserva, por tanto, media hoja: la esquina que le queda del
-     lado de dentro.
+     La foto `a` toca el borde izquierdo y la `d` el derecho. Las esquinas que
+     TOCAN EL BORDE se quedan a cero: una curva contra el canto de la ventana
+     deja una cuña de fondo que se lee como un fallo de recorte, no como una
+     forma. Cada extrema conserva media hoja, la del lado de dentro.
+     En fila, la secuencia queda B · A · B · A y ningún par contiguo repite. */
+  .viv .viv-foto--a .marco { border-radius: 0 var(--viv-hoja-ancha) 0 0; }
+  .viv .viv-foto--b .marco { border-radius: var(--viv-hoja) 0 var(--viv-hoja) 0; }
+  .viv .viv-foto--c .marco { border-radius: 0 var(--viv-hoja) 0 var(--viv-hoja); }
+  .viv .viv-foto--d .marco { border-radius: var(--viv-hoja-ancha) 0 0 0; }
 
-     Y como la rejilla pasa de tablero a FILA, hay que rehacer la alternancia:
-     en fila, P2 y P3 quedan vecinas y en móvil comparten la diagonal A. P3 se
-     pasa a B y P4 a A, de modo que la secuencia queda B · A · B · A y ningún
-     par contiguo repite:
+  /* Las alturas de arranque: cuatro, y ninguna igual. Va en `margin-block-start`
+     y no en `transform`, que es como estaba en v4: así el desnivel es
+     composición estática —la fila crece con él y nadie desborda— y el
+     `transform` de cada foto queda libre para el revelado de entrada. */
+  .viv .viv-foto--a { margin-block-start: 0; }
+  .viv .viv-foto--b { margin-block-start: var(--esp-xl); }
+  .viv .viv-foto--c { margin-block-start: var(--esp-sm); }
+  .viv .viv-foto--d { margin-block-start: var(--esp-2xl); }
+}
 
-       P1  0 R 0 0   media hoja (sólo arriba-derecha; izquierda al borde)
-       P2  R 0 R 0   diagonal A entera
-       P3  0 R 0 R   diagonal B entera
-       P4  R 0 0 0   media hoja (sólo arriba-izquierda; derecha al borde)   */
-  .viv .viv-foto:nth-child(1) .marco {
+/* ---- ESCRITORIO (desde 62rem) -------------------------------------------
+   EL MOSAICO. Tres columnas: la principal a la izquierda ocupando las dos
+   filas, y las cuatro restantes en un dos por dos a su derecha.
+
+     principal   a   b
+     principal   c   d
+
+   LA PRINCIPAL NO DECLARA PROPORCIÓN AQUÍ, y es la clave del bloque: su alto
+   lo fijan las dos filas del mosaico, así que la fotografía se estira a lo que
+   mida el conjunto y las dos mitades quedan trabadas por arriba y por abajo.
+   Para eso su <figure> pasa a columna flexible y el .marco toma el alto
+   sobrante (`flex: 1`), con el pie de foto debajo. Si en vez de esto se le
+   diera un `aspect-ratio`, o sobraría fondo o el mosaico bailaría.
+
+   `min-height: 0` es obligatorio: sin él, el mínimo automático de un ítem
+   flexible impide que el .marco encoja y la foto desborda la fila.
+
+   RADIOS. La principal toca el borde izquierdo de la pantalla, así que
+   conserva una sola curva —la de arriba a la derecha, la que le queda por
+   dentro—; `b` y `d` tocan el derecho y conservan la suya. `a` y `c` van
+   enteras y en diagonales opuestas. Ningún par contiguo repite diagonal. */
+@media (min-width: 62rem) {
+  .viv .viv-friso {
+    grid-template-columns:
+      minmax(0, 2.05fr)
+      minmax(0, 0.92fr)
+      minmax(0, 0.8fr);
+    align-items: stretch;
+  }
+
+  .viv .viv-foto--principal {
+    grid-column: 1;
+    grid-row: 1 / span 2;
+    margin-bottom: 0;
+  }
+
+  .viv .viv-foto--principal > figure {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .viv .viv-foto--principal .marco {
+    flex: 1 1 auto;
+    min-height: 0;
+    aspect-ratio: auto;
     border-radius: 0 var(--viv-hoja-ancha) 0 0;
   }
 
-  .viv .viv-foto:nth-child(3) .marco {
-    border-radius: 0 var(--viv-hoja) 0 var(--viv-hoja);
+  /* LA IMAGEN SALE DEL FLUJO, y no es un adorno técnico: es lo que rompe la
+     dependencia circular. Sin esto, el alto del marco lo pide el flex, el flex
+     lo pide el <li>, el <li> lo pide la fila de la rejilla… y la fila
+     preguntaría por el alto de la imagen, que es un porcentaje de aquel marco.
+     En absoluto, la imagen no aporta alto: las dos filas las miden las cuatro
+     fotos del mosaico y el marco se queda con lo que sobra. Es el mismo
+     recurso que usa .inicio__ave en inicio.css, y por el mismo motivo. */
+  .viv .viv-foto--principal .marco > img {
+    position: absolute;
+    inset-block-start: 0;
+    inset-inline-start: 0;
+    width: 100%;
+    height: 100%;
   }
 
-  .viv .viv-foto:nth-child(4) .marco {
-    border-radius: var(--viv-hoja-ancha) 0 0 0;
-  }
+  .viv .viv-foto--a { grid-column: 2; grid-row: 1; align-self: start; }
+  .viv .viv-foto--b { grid-column: 3; grid-row: 1; align-self: start; }
+  .viv .viv-foto--c { grid-column: 2; grid-row: 2; align-self: start; }
+  .viv .viv-foto--d { grid-column: 3; grid-row: 2; align-self: start; }
+
+  .viv .viv-foto--a .marco { border-radius: 0 var(--viv-hoja) 0 var(--viv-hoja); }
+  .viv .viv-foto--b .marco { border-radius: var(--viv-hoja) 0 0 0; }
+  .viv .viv-foto--c .marco { border-radius: var(--viv-hoja) 0 var(--viv-hoja) 0; }
+  .viv .viv-foto--d .marco { border-radius: 0 0 0 var(--viv-hoja); }
+
+  /* En el mosaico los desniveles se reparten distinto que en la fila de
+     tableta: aquí lo que hay que romper es la línea superior de cada fila. */
+  .viv .viv-foto--a { margin-block-start: 0; }
+  .viv .viv-foto--b { margin-block-start: var(--esp-2xl); }
+  .viv .viv-foto--c { margin-block-start: var(--esp-lg); }
+  .viv .viv-foto--d { margin-block-start: 0; }
 }
 
 .viv-foto > figure {
@@ -245,11 +375,21 @@
    se lee mal y parece un fallo de maquetación. Se le da la sangría mínima que
    lo despega sin mover la foto. */
 @media (min-width: 48rem) {
-  .viv-foto:first-child figcaption {
+  .viv .viv-foto--a figcaption {
     padding-inline-start: var(--esp-2xs);
   }
 
-  .viv-foto:last-child figcaption {
+  .viv .viv-foto--d figcaption {
+    padding-inline-end: var(--esp-2xs);
+  }
+}
+
+@media (min-width: 62rem) {
+  .viv .viv-foto--a figcaption {
+    padding-inline-start: 0;
+  }
+
+  .viv .viv-foto--b figcaption {
     padding-inline-end: var(--esp-2xs);
   }
 }
@@ -281,9 +421,14 @@
 }
 
 /* El zoom al pasar el ratón usa --escala-hover, que vale 1 cuando el visitante
-   pide menos movimiento: se apaga solo. */
-.viv-foto:hover .marco > img,
-.viv-foto:focus-within .marco > img {
+   pide menos movimiento: se apaga solo.
+
+   LA PRINCIPAL QUEDA FUERA, y es deliberado: esa foto lleva su propia deriva
+   ligada al scroll (§8) y las dos cosas se disputarían el mismo `transform`.
+   Los registros quedan repartidos —la pieza dominante se mueve con el scroll,
+   las cuatro del mosaico con el puntero— en vez de pelearse. */
+.viv-foto:not(.viv-foto--principal):hover .marco > img,
+.viv-foto:not(.viv-foto--principal):focus-within .marco > img {
   transform: scale(var(--escala-hover));
 }
 
@@ -295,9 +440,70 @@
    y a la mitad del ancho se partía en cuatro líneas cada uno.
    -------------------------------------------------------------------------- */
 .viv-cuerpo {
+  position: relative;
   display: grid;
   gap: var(--gap-lg);
   margin-top: var(--gap-lg);
+}
+
+/* ---- LA HOJA DE CARTEL (v5) ----------------------------------------------
+   Una hoja de filodendro de trazo, del tamaño de un cartel, detrás de las dos
+   columnas. Es la única figura grande de la sección y su papel es dar fondo a
+   una banda oscura que, salvo por las fotos, es sólo texto.
+
+   ES DECORACIÓN PURA: `aria-hidden` en el marcado, sin eventos de puntero y
+   sin dato que aportar. Va a menta al 10 %, que es una veladura.
+
+   CONTRASTE, MEDIDO DONDE DE VERDAD IMPORTA. La hoja cruza por detrás del
+   párrafo del aula, dentro del panel de respaldo, así que ahí hay que hacer la
+   cuenta con el trazo incluido y no sin él:
+
+     panel sin hoja  ....... crema 78 % sobre #2a2825 ......... 8,0:1
+     panel CON hoja  ....... crema 78 % sobre #2e3830 ......... 6,6:1
+
+   Sigue muy por encima del 4,5:1 de AA, y ése es el peor caso: el trazo mide
+   menos de dos píxeles y sólo toca unas pocas letras. Si algún día se sube la
+   opacidad de la hoja, hay que rehacer esta cuenta antes.
+
+   NO ES UN ÍTEM DE LA REJILLA. Está posicionada en absoluto, así que no ocupa
+   celda y las dos columnas de --viv-cuerpo siguen siendo dos.
+
+   Sólo desde 62rem: por debajo, el cuerpo va en una columna y la hoja caería
+   justo detrás del catálogo. El grosor del trazo se declara aquí porque el
+   dibujo está en una caja de 24 y se estira a 20 rem: con el 1,4 del atributo
+   se vería como una barra. */
+.viv-hoja {
+  display: none;
+}
+
+@media (min-width: 62rem) {
+  .viv-hoja {
+    display: block;
+    position: absolute;
+    /* El tiro hacia arriba se queda DENTRO del margen que --viv-cuerpo ya
+       reserva (--gap-lg, hasta 64 px), para que la hoja no se meta en los pies
+       de foto de la banda de arriba. */
+    inset-block-start: calc(var(--esp-lg) * -1);
+    /* A CERO, y medido: con un tiro negativo hacia fuera la hoja se salía 19 px
+       del ancho útil a 1280. El `overflow-x: hidden` del <body> lo tapaba, que
+       es la peor manera de fallar —no se ve, pero está—. Anclada al canto del
+       contenedor no se sale en ningún ancho. */
+    inset-inline-end: 0;
+    z-index: var(--z-fondo);
+    width: min(var(--esp-4xl) * 2.5, 32%);
+    height: auto;
+    stroke-width: 0.35;
+    color: rgb(var(--verde-menta-rgb) / 0.1);
+    pointer-events: none;
+  }
+
+  /* Las dos columnas suben por delante de la hoja. Son elementos en flujo
+     normal y la hoja está posicionada, así que sin esto pintaría encima. */
+  .viv-oferta,
+  .viv-respaldo {
+    position: relative;
+    z-index: var(--z-base);
+  }
 }
 
 @media (min-width: 62rem) {
@@ -468,5 +674,150 @@
 
   .viv-sello {
     padding: var(--esp-sm);
+  }
+}
+
+/* --------------------------------------------------------------------------
+   8. EL SISTEMA DE MOVIMIENTO DE LA SECCIÓN  (v5)
+
+   LA REGLA: nada empieza a la vez y nada va al mismo compás. Ocho gestos
+   sincronizados se leen como un GIF; ocho desfasados se leen como una
+   composición. Antes de v5, las cuatro fotos de la banda compartían el
+   escalonado de base.css (0 · 90 · 180 · 270 ms) y la misma duración, y las
+   dos figuras de trazo —el sello del ICA y nada más— arrancaban solas.
+
+   NI UN VALOR LITERAL DE TIEMPO: todos salen de los tokens de movimiento
+   multiplicados por un factor, igual que hace base.css con el retardo de los
+   detalles de trazo. Si el director de arte reafina --dur-lenta, la sección
+   entera se reafina y las proporciones entre gestos se conservan.
+
+   TODO SE APAGA SOLO bajo prefers-reduced-motion: base.css deja
+   `transition: none` en .reveal, pone el escalonado a cero y fuerza duraciones
+   a 0,01 ms con !important. Aun así los dos bloques que declaran movimiento
+   propio van envueltos en su propia media query de `no-preference`, para no
+   depender de que otro archivo los desactive.
+   -------------------------------------------------------------------------- */
+
+/* ---- 8.1 · LAS ENTRADAS -------------------------------------------------
+   El retardo lo reparte `.reveal-secuencia > .reveal:nth-child(n)` de
+   base.css, que mide (0,3,0); estas reglas empatan en (0,3,0) y ganan porque
+   esta hoja carga después. La duración por defecto la pone `.js .reveal`
+   (0,2,0), así que con (0,3,0) sobra.
+
+   La PRINCIPAL entra la primera y despacio —es la que hay que mirar—; las
+   cuatro del mosaico entran detrás, con retardos que no guardan ninguna
+   proporción entre sí y con cuatro duraciones distintas. */
+.viv .viv-friso > .viv-foto--principal { --reveal-delay: 0ms; }
+.viv .viv-friso > .viv-foto--a { --reveal-delay: calc(var(--dur-rapida) * 1.2); }
+.viv .viv-friso > .viv-foto--b { --reveal-delay: calc(var(--dur-media) * 1.45); }
+.viv .viv-friso > .viv-foto--c { --reveal-delay: calc(var(--dur-media) * 0.85); }
+.viv .viv-friso > .viv-foto--d { --reveal-delay: calc(var(--dur-lenta) * 1.05); }
+
+.js .viv .viv-foto--principal { transition-duration: calc(var(--dur-reveal) * 1.15); }
+.js .viv .viv-foto--a { transition-duration: calc(var(--dur-lenta) * 1.35); }
+.js .viv .viv-foto--b { transition-duration: var(--dur-lenta); }
+.js .viv .viv-foto--c { transition-duration: calc(var(--dur-lenta) * 1.6); }
+.js .viv .viv-foto--d { transition-duration: calc(var(--dur-lenta) * 1.15); }
+
+/* El cuerpo entra después de la banda, y sus dos columnas por separado: la
+   oferta primero —es lo que se vende— y el panel de respaldo detrás. */
+.js .viv .viv-oferta {
+  --reveal-delay: 0ms;
+  transition-duration: calc(var(--dur-lenta) * 1.25);
+}
+
+.js .viv .viv-respaldo {
+  --reveal-delay: calc(var(--dur-media) * 0.9);
+  transition-duration: calc(var(--dur-lenta) * 0.9);
+}
+
+/* ---- 8.2 · LOS DOS TRAZOS -----------------------------------------------
+   js/app.js vigila la SECCIÓN, no cada figura: al entrar #vivero, el sello del
+   ICA y la hoja de cartel reciben la orden a la vez. Que no se dibujen a la
+   vez es cosa de estas dos reglas.
+
+   ESPECIFICIDAD, anotada: hay que empatar
+   `.js .traza-lista .icono-traza > :not([stroke-dasharray]):not([data-traza=…])`
+   de base.css, que mide (0,5,0) porque cada `:not()` aporta la de su
+   argumento. Los dos selectores de aquí suman también cinco clases y ganan por
+   orden de carga. Si alguien los acorta, los dos trazos vuelven a
+   sincronizarse y no habrá ningún error en consola que lo delate.
+
+   La hoja es enorme y tarda casi el doble: un trazo largo dibujado deprisa se
+   lee como un parpadeo. El sello es pequeño y va primero, porque es el que
+   informa. */
+@media (prefers-reduced-motion: no-preference) {
+  .js .viv.traza-lista .viv-sello .viv-sello__emblema .icono-traza > * {
+    transition-delay: 0ms;
+    transition-duration: calc(var(--dur-traza) * 0.75);
+  }
+
+  .js .viv.traza-lista .viv-cuerpo .viv-hoja > * {
+    transition-delay: calc(var(--dur-lenta) * 1.1);
+    transition-duration: calc(var(--dur-traza) * 1.6);
+  }
+}
+
+/* ---- 8.3 · LAS DOS DERIVAS LIGADAS AL SCROLL ----------------------------
+   Sin JavaScript: `animation-timeline: view()` ata el progreso al paso del
+   elemento por la ventana y lo resuelve el compositor. Ni un listener de
+   scroll, ni una llamada a getBoundingClientRect. Donde la propiedad no
+   exista, el @supports descarta el bloque y las dos piezas se quedan quietas
+   y bien encuadradas. Sólo se animan `transform` y `opacity`.
+
+   LA FOTO PRINCIPAL. Se monta al 114 % del alto de su marco y recorre el 11 %
+   de su propio alto (unos 12,5 puntos del marco), dentro de la horquilla de
+   5–15 % que admite el sistema. Al final del recorrido la foto sigue tapando
+   el marco entero: no hay ni un instante con una franja de fondo. Sólo desde
+   62rem, que es donde la foto va a doble altura; en móvil el recorte es corto
+   y el recorrido descubriría el borde.
+
+   LA HOJA. Recorrido más largo, en el otro sentido y con un giro de tres
+   grados, para que las dos derivas de la sección no se lean como una sola.
+   `animation-duration: auto` va escrito en longhand y no heredado del atajo:
+   en una línea de tiempo de progreso, `auto` significa «el rango entero», y es
+   lo único que hace que la animación avance con la rueda en vez de resolverse
+   de golpe. El atajo deja la duración en su valor inicial, y ese valor cambió
+   entre dos versiones de la especificación. */
+@keyframes viv-principal-deriva {
+  from {
+    transform: translate3d(0, -11%, 0);
+  }
+
+  to {
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+@keyframes viv-hoja-deriva {
+  from {
+    transform: translate3d(0, 9%, 0) rotate(4deg);
+  }
+
+  to {
+    transform: translate3d(0, -7%, 0) rotate(-3deg);
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) and (min-width: 62rem) {
+  @supports (animation-timeline: view()) {
+    .viv .viv-foto--principal .marco > img {
+      height: 114%;
+      animation-name: viv-principal-deriva;
+      animation-duration: auto;
+      animation-timing-function: linear;
+      animation-fill-mode: both;
+      animation-timeline: view();
+      animation-range: entry 0% exit 100%;
+    }
+
+    .viv-hoja {
+      animation-name: viv-hoja-deriva;
+      animation-duration: auto;
+      animation-timing-function: linear;
+      animation-fill-mode: both;
+      animation-timeline: view();
+      animation-range: entry 0% exit 100%;
+    }
   }
 }

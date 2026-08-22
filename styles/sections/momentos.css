@@ -618,6 +618,98 @@
   transition-timing-function: var(--ease-salida);
 }
 
+/* --------------------------------------------------------------------------
+   v3.3 · CUATRO TELONES, CUATRO TIEMPOS Y CUATRO DIRECCIONES
+
+   EL PROBLEMA QUE ARREGLA. Hasta v3.2 la composición era desigual por arriba
+   (§3 reparte cuatro anchos y cuatro desfases distintos) pero el MOVIMIENTO
+   era perfectamente regular: las cuatro piezas se descubrían con la misma
+   cortina, en la misma dirección, durante los mismos 550 ms y con retardos de
+   90 en 90 ms. Cuatro cosas que se mueven al mismo compás no se leen como
+   cuatro cosas: se leen como un GIF. Todo el trabajo de §3 lo deshacía la
+   animación.
+
+   1 · RETARDOS DESIGUALES. La tercera casi pisa a la primera y la cuarta se
+       hace esperar cinco veces más. Todos los valores cuelgan de
+       --dur-instant (90 ms), que bajo `prefers-reduced-motion` vale 1 ms: la
+       escalera se aplana sola, sin una regla más.
+       Especificidad (0,3,0), la misma que `.reveal-secuencia > .reveal:nth-child(n)`
+       de base.css, y esta hoja se carga después.
+
+   2 · DURACIONES DESIGUALES. La protagonista es la que más tarda —es la
+       pieza más grande, y una cortina larga sobre una superficie grande se
+       lee a la misma velocidad aparente que una corta sobre una pequeña—; la
+       cuarta, que mide la mitad, se descubre en dos tercios de tiempo. Es la
+       misma regla de siempre: la duración depende del recorrido.
+
+   3 · DIRECCIONES DISTINTAS. `.reveal--velo` de base.css descubre siempre de
+       abajo arriba. Aquí cada pieza se descubre por un lado: abajo, izquierda,
+       arriba y derecha. Es el gesto que convierte un muro en cuatro piezas
+       colgadas por manos distintas, y cuesta cuatro reglas.
+
+   LAS DOS TRAMPAS DE ESPECIFICIDAD, ANOTADAS PORQUE MUERDEN:
+     · `.js .reveal.visible { clip-path: inset(0 0 0 0) }` de base.css mide
+       (0,3,0). Estas reglas miden más, así que si se escribieran a secas se
+       quedarían pegadas al estado inicial PARA SIEMPRE y la pieza nunca
+       terminaría de descubrirse. Por eso llevan `:not(.visible)`: en cuanto
+       el observador marca la pieza, la regla deja de existir y manda la de
+       base.
+     · Van dentro de `prefers-reduced-motion: no-preference` por el mismo
+       motivo al revés: quien pide menos movimiento recibe de base.css
+       `clip-path: none` a (0,2,0), y sin esta guarda estas reglas —más
+       específicas— le volverían a poner una cortina encima.
+   -------------------------------------------------------------------------- */
+/* LA TRAMPA QUE HACÍA INÚTIL TODO ESTO, Y SU ARREGLO. Poner `--reveal-delay`
+   no bastaba, y medirlo fue la única manera de verlo: el retardo salía en 0 s
+   en las cuatro piezas. El motivo está en base.css §6, donde `.js .reveal`
+   escribe `transition-delay: var(--reveal-delay, 0ms)` y, DOS REGLAS MÁS
+   ABAJO, `.js .reveal--velo` escribe el ATAJO
+   `transition: opacity …, clip-path …`. Las dos miden (0,2,0), así que gana
+   la última, y un atajo reinicia a su valor inicial todo lo que no nombra:
+   `transition-delay` volvía a 0 s. O sea que NINGÚN elemento con
+   `.reveal--velo` del sitio ha podido escalonarse nunca.
+   Se devuelve aquí, a (0,4,0), que le gana sin tocar base.css ni usar
+   !important. La duración no hacía falta rescatarla: la regla de arriba
+   (`.js .momentos .reveal`) ya mide (0,3,0) y por eso sí se aplicaba.       */
+.js .momentos .momentos__pieza.reveal {
+  transition-delay: var(--reveal-delay, 0ms);
+}
+
+.momentos__muro.reveal-secuencia > .momentos__pieza--uno    { --reveal-delay: 0ms; }
+.momentos__muro.reveal-secuencia > .momentos__pieza--dos    { --reveal-delay: calc(var(--dur-instant) * 2.9); }
+.momentos__muro.reveal-secuencia > .momentos__pieza--tres   { --reveal-delay: calc(var(--dur-instant) * 1.3); }
+.momentos__muro.reveal-secuencia > .momentos__pieza--cuatro { --reveal-delay: calc(var(--dur-instant) * 5.1); }
+
+.js .momentos .momentos__pieza--uno    { transition-duration: calc(var(--dur-lenta) * 1.45); }
+.js .momentos .momentos__pieza--dos    { transition-duration: calc(var(--dur-lenta) * 1.1);  }
+.js .momentos .momentos__pieza--tres   { transition-duration: calc(var(--dur-lenta) * 0.9);  }
+.js .momentos .momentos__pieza--cuatro { transition-duration: calc(var(--dur-lenta) * 0.68); }
+
+@media (prefers-reduced-motion: no-preference) {
+  /* Se descubre de ABAJO arriba: es la de más superficie y la que sitúa. */
+  .js .momentos .momentos__pieza--uno.reveal--velo:not(.visible) {
+    clip-path: inset(0 0 22% 0);
+  }
+
+  /* De IZQUIERDA a derecha: es la que va más baja y entra desde la calle
+     vacía que le deja la protagonista. */
+  .js .momentos .momentos__pieza--dos.reveal--velo:not(.visible) {
+    clip-path: inset(0 26% 0 0);
+  }
+
+  /* De ARRIBA abajo, al revés que la primera. Son las dos que comparten
+     borde en tableta: si se descubrieran igual, se leerían como una sola. */
+  .js .momentos .momentos__pieza--tres.reveal--velo:not(.visible) {
+    clip-path: inset(20% 0 0 0);
+  }
+
+  /* De DERECHA a izquierda: es la que sale de cuadro por el canto de la
+     pantalla, así que se descubre entrando desde fuera. */
+  .js .momentos .momentos__pieza--cuatro.reveal--velo:not(.visible) {
+    clip-path: inset(0 0 0 30%);
+  }
+}
+
 /* ==========================================================================
    8. MENOS MOVIMIENTO
    Quien pide `prefers-reduced-motion: reduce` NO ve el bucle: js/momentos-video.js
@@ -630,3 +722,155 @@
    cuatro huecos de carbón vacío—; esta nota está para que nadie «arregle» el
    olvido añadiendo un display:none.
    ========================================================================== */
+
+/* ==========================================================================
+   9. LA SEGUNDA CAPA DE LUZ SE MUEVE, Y NO AL COMPÁS DE LA PRIMERA   (v3.3)
+   §6 ya movía el GRANO con la línea de tiempo de scroll. Una sola capa
+   derivando sobre un fondo quieto no da profundidad: da un fondo que se
+   mueve. Con la LUZ derivando también —en otra dirección, otra amplitud y
+   otro eje— las dos capas se separan y el carbón deja de ser una plancha.
+
+   Los números, para que se puedan revisar sin medir a ojo:
+     grano  ·  vertical, de -2 rem a +2 rem     (recorrido 4 rem, hacia abajo)
+     luz    ·  diagonal, de (+1,4 / +2,4) rem a (-1,8 / -1,6) rem
+   O sea: la luz recorre más en horizontal que en vertical, va al revés que
+   el grano y ninguna de las dos amplitudes es múltiplo de la otra. Ese es
+   todo el truco.
+
+   Ninguna de las dos capas contiene una letra ni un píxel de fotografía —son
+   un degradado y un ruido—, así que se cumple al pie de la letra la norma del
+   sistema: el paralaje va sólo en fondos.
+
+   Las longhands van escritas una a una y NO con el atajo `animation:`, por lo
+   mismo que se explica en §6: el atajo deja `animation-duration` en su valor
+   inicial, que cambió de `0s` a `auto` entre dos revisiones de la
+   especificación, y con `0s` la deriva se resuelve de golpe y no se ve nada.
+   ========================================================================== */
+@keyframes momentos-luz-deriva {
+  from {
+    transform: translate3d(calc(var(--esp-2xl) * 0.35), calc(var(--esp-2xl) * 0.6), 0);
+  }
+
+  to {
+    transform: translate3d(calc(var(--esp-2xl) * -0.45), calc(var(--esp-2xl) * -0.4), 0);
+  }
+}
+
+@supports (animation-timeline: view()) {
+  @media (prefers-reduced-motion: no-preference) {
+    .momentos::before {
+      animation-name: momentos-luz-deriva;
+      animation-duration: auto;
+      animation-timing-function: linear;
+      animation-fill-mode: both;
+      animation-timeline: view();
+    }
+  }
+}
+
+/* ==========================================================================
+   10. LA MARIPOSA DE LA CARTELA   (v3.3)
+   El único trazo de toda la banda. Vive en el tercio derecho del encabezado,
+   que a partir de 62em está vacío porque el titular va acotado a 20ch.
+
+   POR QUÉ EN POSICIÓN ABSOLUTA. Desde 62em la cartela es una rejilla de dos
+   pistas (rótulo | titular) alineadas por el pie: un tercer hijo en flujo
+   abriría una segunda fila y bajaría el muro entero. Absoluta no ocupa
+   ninguna pista y no mueve un píxel de la maqueta.
+
+   POR QUÉ SÓLO DESDE 62em. Por debajo, la cartela apila rótulo y titular y el
+   titular ocupa el ancho entero: no hay hueco donde poner nada sin taparlo.
+   Es decoración con `aria-hidden`; ocultarla no quita ni una palabra, y la
+   banda conserva en móvil sus otros tres relojes (los cuatro telones, el
+   grano y la luz).
+
+   CONTRASTE, MEDIDO Y ELEGIDO. Menta al 45 % sobre carbón compone #33674d y
+   da 2,64:1. Está POR DEBAJO del 4,5:1 de AA a propósito y no es un descuido:
+   WCAG 1.4.3 y 1.4.11 obligan a texto y a componentes de interfaz, y esto no
+   es ninguna de las dos cosas —va con `aria-hidden`, no lleva texto y la
+   banda se entiende entera sin ella—. A más alfa dejaría de ser atmósfera
+   detrás de la cartela y se convertiría en un logotipo compitiendo con el
+   titular. Si algún día se le mete texto dentro, hay que rehacer la cuenta.
+   ========================================================================== */
+.momentos__encabezado {
+  position: relative;
+}
+
+.momentos__mariposa {
+  display: none;
+  position: absolute;
+  inset-block-start: var(--esp-md);
+  inset-inline-end: 0;
+  width: calc(var(--esp-4xl) * 0.95);
+  height: auto;
+  aspect-ratio: 1;
+  pointer-events: none;
+  color: rgb(var(--verde-menta-rgb) / 0.45);
+}
+
+@media (min-width: 62em) {
+  .momentos__mariposa {
+    display: block;
+  }
+}
+
+/* ---- LOS SIETE TIEMPOS DEL DIBUJO ----------------------------------------
+   Ala superior izquierda primero y sola; la superior derecha entra cuando a
+   la primera le queda un tercio; después las dos inferiores, también
+   desfasadas entre sí; luego el cuerpo, y al final las dos antenas, una
+   detrás de otra. Una mariposa no se dibuja simétrica: si las dos alas de un
+   par salieran a la vez, el trazo se leería como un logotipo desplegándose.
+
+   ESPECIFICIDAD. base.css escribe el ATAJO `transition: stroke-dashoffset …`
+   en `.js .traza-lista .icono-traza > :not([stroke-dasharray]):not([data-traza="detalle"])`,
+   que mide (0,5,0), y un atajo reinicia `transition-delay` a 0s. Esta regla
+   repite los dos `:not()` para subir a (0,6,0) y ganarle sin !important.
+
+   Bajo `prefers-reduced-motion` no hay nada que apagar: base.css deja el
+   trazo dibujado con `transition: none`, y sin propiedad que transicionar la
+   duración y la espera no hacen nada. Además --dur-traza y --dur-lenta valen
+   1 ms en ese modo.                                                        */
+.js .traza-lista .momentos__mariposa.icono-traza
+  > :not([stroke-dasharray]):not([data-traza="detalle"]) {
+  transition-duration: calc(var(--dur-traza) * var(--traza-ritmo, 1));
+  transition-delay: var(--traza-espera, 0ms);
+}
+
+/* 1-2 alas de arriba · 3-4 alas de abajo · 5 cuerpo · 6-7 antenas */
+.momentos__mariposa > :nth-child(1) { --traza-espera: 0ms;                           --traza-ritmo: 1;    }
+.momentos__mariposa > :nth-child(2) { --traza-espera: calc(var(--dur-lenta) * 1.45); --traza-ritmo: 0.92; }
+.momentos__mariposa > :nth-child(3) { --traza-espera: calc(var(--dur-lenta) * 2.6);  --traza-ritmo: 0.78; }
+.momentos__mariposa > :nth-child(4) { --traza-espera: calc(var(--dur-lenta) * 3.5);  --traza-ritmo: 0.72; }
+.momentos__mariposa > :nth-child(5) { --traza-espera: calc(var(--dur-lenta) * 4.6);  --traza-ritmo: 0.2;  }
+.momentos__mariposa > :nth-child(6) { --traza-espera: calc(var(--dur-lenta) * 5.3);  --traza-ritmo: 0.14; }
+.momentos__mariposa > :nth-child(7) { --traza-espera: calc(var(--dur-lenta) * 5.9);  --traza-ritmo: 0.14; }
+
+/* ---- Y ADEMÁS SE MUEVE, EN UN TERCER COMPÁS ------------------------------
+   Ni el del grano ni el de la luz: recorrido más corto, en diagonal contraria
+   y consumido en la primera mitad del paso de la cartela por la ventana
+   (`animation-range: entry 0% cover 55%`), así que ha terminado de moverse
+   cuando el muro todavía está entrando. Tres capas, tres finales distintos.
+   Sólo `transform`, sobre un elemento decorativo, con las dos guardas de
+   siempre.                                                                 */
+@keyframes momentos-mariposa-deriva {
+  from {
+    transform: translate3d(18%, 26%, 0);
+  }
+
+  to {
+    transform: translate3d(-6%, -14%, 0);
+  }
+}
+
+@supports (animation-timeline: view()) {
+  @media (prefers-reduced-motion: no-preference) {
+    .momentos__mariposa {
+      animation-name: momentos-mariposa-deriva;
+      animation-duration: auto;
+      animation-timing-function: linear;
+      animation-fill-mode: both;
+      animation-timeline: view();
+      animation-range: entry 0% cover 55%;
+    }
+  }
+}

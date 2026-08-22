@@ -150,6 +150,18 @@
     top: calc(var(--alto-header) + var(--esp-lg));
   }
 
+  /* v6 · EL SALTO DE LÍNEA DEL TITULAR, DECIDIDO Y NO SORTEADO.
+     «Cruzas la reja y cambia el día» son dos oraciones de 14 y 15 caracteres.
+     Sin tope, en una columna de cinco doceavos el balance las parte donde
+     quepa y a veces deja «día» solo en un tercer renglón. Con la medida
+     acotada a 16ch el corte cae siempre en la conjunción, que es la junta
+     natural de la frase: «Cruzas la reja / y cambia el día».
+     Va en ch y no en rem porque lo que hay que acotar son caracteres, no
+     píxeles: así el corte aguanta si alguien agranda la letra del sistema. */
+  .nosotros__titulo {
+    max-width: 16ch;
+  }
+
   /* Empieza en la 7 y no en la 6: la columna vacía en medio es la calle que
      hace legible la asimetría. */
   .nosotros__discurso {
@@ -288,13 +300,55 @@
   color: var(--color-texto-suave);
 }
 
+/* v6 — `align-items: flex-end` NO es decorativo: es lo que permite que las
+   cuatro insignias midan distinto y aun así compartan línea de suelo. Las que
+   se levantan lo hacen con `margin-bottom` (abajo), que en un flex alineado
+   al pie separa la pieza de esa línea sin sacarla del flujo ni pedir posición
+   absoluta. Es literalmente el mismo recurso de .inicio__aves
+   (styles/sections/inicio.css:959-1023). */
 .nosotros__servicios-lista {
+  /* Módulo del que cuelgan los cuatro tamaños. Igual que --tam-ave del hero,
+     lleva tope en píxeles: con la letra del sistema agrandada un valor en rem
+     puro convertiría la insignia mayor en un medallón y partiría la tira. */
+  --tam-insignia: min(var(--esp-xl), 52px);
+
   display: flex;
   flex-wrap: wrap;
+  align-items: flex-end;
   gap: var(--esp-xs) var(--esp-lg);
   list-style: none;
   padding: 0;
   margin: 0;
+}
+
+/* ---- LOS CUATRO RETARDOS DESIGUALES --------------------------------------
+   base.css reparte .reveal-secuencia en escalera regular (0, 90, 180, 270).
+   Cuatro piezas que entran cada 90 ms exactos se leen como un barrido —una
+   sola cosa moviéndose— y no como cuatro. Aquí los tiempos se desordenan a
+   conciencia: sale la tercera casi con la primera, y la cuarta se hace
+   esperar el triple.
+
+   TODOS LOS VALORES SALEN DE --dur-instant (90 ms). No es sólo higiene de
+   tokens: bajo `prefers-reduced-motion` ese token vale 1 ms, así que la
+   escalera entera se aplana sola y no hace falta escribir ni una regla más
+   para apagarla.
+
+   Especificidad: (0,3,0), la misma que `.reveal-secuencia > .reveal:nth-child(n)`
+   de base.css, y esta hoja se carga después. Sin !important.               */
+.nosotros__servicios-lista > .nosotros__servicio:nth-child(1) {
+  --reveal-delay: 0ms;
+}
+
+.nosotros__servicios-lista > .nosotros__servicio:nth-child(2) {
+  --reveal-delay: calc(var(--dur-instant) * 1.8);
+}
+
+.nosotros__servicios-lista > .nosotros__servicio:nth-child(3) {
+  --reveal-delay: calc(var(--dur-instant) * 0.7);
+}
+
+.nosotros__servicios-lista > .nosotros__servicio:nth-child(4) {
+  --reveal-delay: calc(var(--dur-instant) * 3.4);
 }
 
 .nosotros__servicio {
@@ -332,8 +386,8 @@
    de texto. Aun así pasan 3:1 de sobra.                                    */
 .nosotros__servicio-icono {
   box-sizing: border-box;
-  width: var(--esp-xl);
-  height: var(--esp-xl);
+  width: var(--tam-insignia);
+  height: var(--tam-insignia);
   flex: none;
   padding: var(--esp-2xs);
   border: 1px solid rgb(var(--verde-oliva-rgb) / 0.35);
@@ -342,11 +396,54 @@
   color: var(--color-acento-alt);
 }
 
-/* Las cuatro insignias no llevan la hoja en la misma diagonal: dos miran a un
-   lado y dos al otro. Es un detalle de dos líneas y es la diferencia entre
-   «cuatro copias del mismo adorno» y «cuatro hojas». */
-.nosotros__servicio:nth-child(even) .nosotros__servicio-icono {
+/* ---- v6 · CUATRO TAMAÑOS, CUATRO FORMAS, DOS LÍNEAS DE SUELO -------------
+   Hasta v5 la diagonal de la hoja alternaba (par / impar) y con eso ya no
+   había dos vecinas iguales, pero las cuatro insignias medían EXACTAMENTE lo
+   mismo y arrancaban todas en la misma línea. Cuatro cuadrados idénticos en
+   fila son una fila de plantilla por muy alternada que esté la curva.
+
+   Se corrige con el criterio que ya está resuelto en la tira de aves del hero
+   (styles/sections/inicio.css:993-1023) y con las mismas proporciones:
+     · TAMAÑOS  1,22 / 0,82 / 1,0 / 0,9 del módulo. Ninguno es múltiplo de
+       otro, así que el desorden no se puede dibujar con una regla.
+     · ALTURAS  la segunda y la cuarta se levantan de la línea de suelo, con
+       recorridos distintos (--esp-xs y --esp-sm). Las otras dos apoyan.
+     · FORMAS   cuatro hojas distintas. La diagonal alterna (dos miran a un
+       lado, dos al otro) y ADEMÁS las dos últimas mezclan un radio pleno con
+       uno grande: ni siquiera las que comparten diagonal son la misma pieza.
+   El trazo, el aro y el relleno no se tocan: siguen en oliva, que es la voz
+   baja que le corresponde a la información de servicio.                    */
+.nosotros__servicio:nth-child(1) .nosotros__servicio-icono {
+  width: calc(var(--tam-insignia) * 1.22);
+  height: calc(var(--tam-insignia) * 1.22);
+  border-radius: 0 var(--radio-full) 0 var(--radio-full);
+}
+
+.nosotros__servicio:nth-child(2) .nosotros__servicio-icono {
+  width: calc(var(--tam-insignia) * 0.82);
+  height: calc(var(--tam-insignia) * 0.82);
   border-radius: var(--radio-full) 0 var(--radio-full) 0;
+}
+
+.nosotros__servicio:nth-child(3) .nosotros__servicio-icono {
+  border-radius: 0 var(--radio-lg) 0 var(--radio-full);
+}
+
+.nosotros__servicio:nth-child(4) .nosotros__servicio-icono {
+  width: calc(var(--tam-insignia) * 0.9);
+  height: calc(var(--tam-insignia) * 0.9);
+  border-radius: var(--radio-full) 0 var(--radio-lg) 0;
+}
+
+/* Las dos que se levantan. `margin-bottom` y no `transform`: la tira envuelve
+   en pantallas estrechas y un desplazamiento por transform no reservaría el
+   hueco, así que la fila de abajo se le montaría encima. */
+.nosotros__servicio:nth-child(2) {
+  margin-bottom: var(--esp-xs);
+}
+
+.nosotros__servicio:nth-child(4) {
+  margin-bottom: var(--esp-sm);
 }
 
 .nosotros__servicios-extra {
@@ -485,6 +582,27 @@
   .nosotros__mural:hover img {
     transform: scale(var(--escala-hover));
   }
+}
+
+/* ---- v6 · LOS TRES PILARES TAMPOCO ENTRAN EN ESCALERA --------------------
+   Mismo motivo y mismo recurso que en la tira de servicios: la escalera
+   regular de base.css (0 / 90 / 180) hace que tres renglones se lean como
+   uno solo bajando. Aquí el segundo casi pisa al primero y el tercero se
+   retrasa. Los valores salen de --dur-instant, así que bajo
+   `prefers-reduced-motion` se aplanan solos.
+
+   SIN `.nosotros__compromiso` DELANTE a propósito: en/index.html usa esta
+   misma lista sin la banda oscura y también le toca el desorden.           */
+.nosotros__pilares > .nosotros__pilar:nth-child(1) {
+  --reveal-delay: 0ms;
+}
+
+.nosotros__pilares > .nosotros__pilar:nth-child(2) {
+  --reveal-delay: calc(var(--dur-instant) * 0.8);
+}
+
+.nosotros__pilares > .nosotros__pilar:nth-child(3) {
+  --reveal-delay: calc(var(--dur-instant) * 2.7);
 }
 
 /* ---- Los tres pilares ----------------------------------------------------
@@ -657,5 +775,169 @@
 @media (min-width: 64em) and (prefers-reduced-motion: no-preference) {
   :where(.nosotros__foto, .nosotros__mural)[data-foto-focus] img {
     will-change: transform;
+  }
+}
+
+/* ==========================================================================
+   6. LAS SILUETAS QUE SE DIBUJAN SOLAS   (v6)
+   Dos piezas de trazo, cada una con su reloj:
+
+     · .nosotros__silueta--rama   una rama con cuatro hojas, en la columna
+       pegajosa del titular. Sale sola cuando entra #nosotros.
+     · .nosotros__silueta--vuelo  tres vuelos, al pie del compromiso. Sale
+       cuando entra la BANDA OSCURA, que es un <section> propio y por tanto
+       su propio disparador en js/app.js. Dos entradas, dos momentos, cero
+       JavaScript nuevo.
+
+   POR QUÉ FUNCIONA SIN TOCAR NADA
+   El motor de dibujado vive en base.css («ICONOS QUE SE DIBUJAN SOLOS») y
+   sólo pide tres cosas al marcado: `viewBox="0 0 24 24"`, `fill="none"` y
+   `stroke="currentColor"`. Las dos siluetas las llevan, más la clase
+   `icono-traza` y el `pathLength="1"` de cada forma escritos A MANO en el
+   HTML. Escritos a mano y no puestos por JS: es la regla dura de este
+   proyecto —todo estado inicial de animación horneado en el primer paint—
+   y aquí es lo que impide que la silueta se vea entera un fotograma antes
+   de empezar a dibujarse.
+
+   NINGUNA DE LAS DOS ES INFORMACIÓN, Y EL CONTRASTE ESTÁ ELEGIDO ASÍ.
+   Van con `aria-hidden`, no llevan texto y no afirman nada: son atmósfera.
+   Medidos sobre su fondo real, el trazo de la rama da 1,80:1 sobre la crema y
+   el de la bandada 3,09:1 sobre el bosque. Los dos están POR DEBAJO del 4,5:1
+   de AA y eso es correcto, no un descuido: WCAG 1.4.3 y 1.4.11 sólo obligan a
+   texto y a componentes de interfaz, y esto no es ninguna de las dos cosas.
+   Subirlos hasta AA convertiría un trazo de fondo en un dibujo que compite
+   con el titular y con los datos que tiene al lado, que es justo lo que no se
+   quiere. Si algún día alguien mete texto o un enlace dentro de una de estas
+   siluetas, hay que rehacer la cuenta desde cero.
+   ========================================================================== */
+.nosotros__silueta {
+  display: block;
+  height: auto;
+  aspect-ratio: 1;
+  flex: none;
+  align-self: flex-start;
+  pointer-events: none;
+}
+
+/* ---- LOS TIEMPOS DE CADA TRAZO -------------------------------------------
+   Una rama no se dibuja de golpe: sale el tallo y las hojas van brotando
+   detrás. Cada forma lleva su espera (--traza-espera) y su ritmo
+   (--traza-ritmo, un multiplicador de --dur-traza), y los dos se reparten
+   con las reglas de abajo.
+
+   ESPECIFICIDAD, PORQUE AQUÍ SÍ IMPORTA. base.css escribe el ATAJO
+   `transition: stroke-dashoffset var(--dur-traza) var(--ease-traza)`, y un
+   atajo reinicia `transition-delay` a 0s. Ese selector mide (0,5,0)
+   —`.js .traza-lista .icono-traza` más dos `:not()` de atributo—, así que
+   este de aquí lleva los dos `:not()` puestos otra vez para subir a (0,6,0)
+   y ganarle sin depender del orden de carga ni de ningún !important.
+
+   Bajo `prefers-reduced-motion` no hay nada que apagar: base.css deja el
+   trazo dibujado y con `transition: none`, y este bloque sólo toca duración
+   y espera, que sin propiedad que transicionar no hacen nada. Además todos
+   los valores cuelgan de tokens que ese modo pone en 1 ms.                 */
+.js .traza-lista .nosotros__silueta.icono-traza
+  > :not([stroke-dasharray]):not([data-traza="detalle"]) {
+  transition-duration: calc(var(--dur-traza) * var(--traza-ritmo, 1));
+  transition-delay: var(--traza-espera, 0ms);
+}
+
+/* ---- La rama de la columna pegajosa -------------------------------------- */
+/* Su segundo movimiento no es una deriva: es el propio `position: sticky` de
+   .nosotros__titular. La rama se queda quieta mientras cuatro párrafos le
+   pasan por al lado, que es un desplazamiento relativo mucho más largo que
+   cualquier paralaje y no cuesta ni un fotograma. Añadirle además una
+   deriva ligada al scroll sería el error que la dirección de arte prohíbe:
+   dos movimientos peleándose por el mismo píxel. */
+.nosotros__silueta--rama {
+  width: calc(var(--esp-4xl) * 1.65);
+  margin-top: var(--esp-xl);
+  /* Oliva al 45 % sobre la crema (compuesto #adb097, 1,80:1): el trazo tiene
+     que insinuarse, no dibujar un cartel. Ver la nota de contraste de arriba:
+     es decoración con aria-hidden, no le aplica el mínimo de AA. */
+  color: rgb(var(--verde-oliva-rgb) / 0.45);
+  /* Por debajo de 62em la columna del titular no es pegajosa, no sobra papel
+     y la rama sólo separaría el titular del discurso. Es decoración pura:
+     ocultarla no quita ni una palabra. */
+  display: none;
+}
+
+@media (min-width: 62em) {
+  .nosotros__silueta--rama {
+    display: block;
+  }
+}
+
+/* Tallo primero, hojas después y en desorden. La primera hoja tarda casi el
+   doble que la última: brotan, no aparecen. */
+.nosotros__silueta--rama > :nth-child(1) { --traza-espera: 0ms;                              --traza-ritmo: 1.15; }
+.nosotros__silueta--rama > :nth-child(2) { --traza-espera: calc(var(--dur-lenta) * 1.5);     --traza-ritmo: 0.42; }
+.nosotros__silueta--rama > :nth-child(3) { --traza-espera: calc(var(--dur-lenta) * 2.4);     --traza-ritmo: 0.3;  }
+.nosotros__silueta--rama > :nth-child(4) { --traza-espera: calc(var(--dur-lenta) * 1.95);    --traza-ritmo: 0.34; }
+.nosotros__silueta--rama > :nth-child(5) { --traza-espera: calc(var(--dur-lenta) * 3.05);    --traza-ritmo: 0.26; }
+
+/* ---- La bandada del compromiso ------------------------------------------- */
+.nosotros__silueta--vuelo {
+  /* Un punto más grande que en la primera prueba: a 134 px los tres vuelos se
+     leían como tres acentos sueltos en un rincón. A 173 px se leen como lo que
+     son, tres aves lejanas, y siguen sin competir con el panel de al lado. */
+  width: calc(var(--esp-4xl) * 1.35);
+  margin-top: var(--esp-xl);
+  /* Menta al 62 % sobre el bosque (compuesto #3d916a, 3,09:1). Es el acento
+     del negativo, el mismo que ya usan los filetes de los pilares al pasar el
+     ratón. Decoración con aria-hidden: no le aplica el mínimo de AA. */
+  color: rgb(var(--verde-menta-rgb) / 0.62);
+}
+
+/* Los tres vuelos salen de derecha a izquierda y NO a la misma velocidad: el
+   grande primero y despacio, los dos pequeños detrás y más rápidos. */
+.nosotros__silueta--vuelo > :nth-child(1) { --traza-espera: calc(var(--dur-lenta) * 0.55); --traza-ritmo: 0.5;  }
+.nosotros__silueta--vuelo > :nth-child(2) { --traza-espera: calc(var(--dur-lenta) * 1.7);  --traza-ritmo: 0.34; }
+.nosotros__silueta--vuelo > :nth-child(3) { --traza-espera: calc(var(--dur-lenta) * 2.6);  --traza-ritmo: 0.28; }
+
+/* ---- LA DERIVA DE LA BANDADA --------------------------------------------
+   El tercer reloj de la banda oscura, y el único paralaje de la sección.
+   Va ligado al scroll con `animation-timeline: view()`: sin listeners, sin
+   getBoundingClientRect y resuelto por el compositor. La bandada cruza en
+   HORIZONTAL —los otros dos movimientos de la sección (el sticky del titular
+   y el zoom de foto-focus) son vertical y escala—, así que ninguno de los
+   tres se pisa con otro.
+
+   El recorrido es del 34 % del ancho de una pieza de 134 px, o sea unos
+   45 px sobre una banda de varios cientos: muy por debajo del techo que
+   admite el sistema, y sobre un elemento decorativo, nunca sobre texto de
+   lectura. El `overflow: hidden` de .nosotros__compromiso lo recorta si en
+   alguna pantalla llegara al canto.
+
+   Las longhands van escritas una a una y NO con el atajo `animation:`: el
+   atajo deja `animation-duration` en su valor inicial, y ese valor cambió de
+   `0s` a `auto` entre dos revisiones de la especificación. Con `auto`
+   escrito, la animación se reparte a lo largo del recorrido de scroll en
+   los dos casos. Mismo criterio que .inicio__portada-foto y .momentos::after.
+
+   Las dos guardas son obligatorias: quien pide menos movimiento no recibe
+   ninguno —las animaciones de línea de tiempo de scroll no tienen duración
+   en tiempo, así que el bloque global de base.css no las frena—, y donde no
+   exista `view()` la bandada se queda quieta y no se pierde nada.          */
+@keyframes nosotros-vuelo-deriva {
+  from {
+    transform: translate3d(16%, 6%, 0);
+  }
+
+  to {
+    transform: translate3d(-18%, -4%, 0);
+  }
+}
+
+@supports (animation-timeline: view()) {
+  @media (prefers-reduced-motion: no-preference) {
+    .nosotros__silueta--vuelo {
+      animation-name: nosotros-vuelo-deriva;
+      animation-duration: auto;
+      animation-timing-function: linear;
+      animation-fill-mode: both;
+      animation-timeline: view();
+      animation-range: entry 0% exit 100%;
+    }
   }
 }

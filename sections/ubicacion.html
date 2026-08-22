@@ -213,15 +213,22 @@
       <div class="ubi-bloque__encabezado">
         <h3 class="titulo-seccion titulo-seccion--xs">Puntos de referencia</h3>
         <p class="nota">Si te suena alguno de estos sitios, ya sabes llegar.</p>
-        <ul class="ubi-refs">
-          <li class="ubi-ref">Anillo Vial Floridablanca&ndash;Girón</li>
-          <li class="ubi-ref">Conjunto Natura</li>
-          <li class="ubi-ref">Alkosto · Makro · PriceSmart</li>
-          <li class="ubi-ref">Mediterráneo Fútbol Park</li>
-          <li class="ubi-ref">Mediterráneo Royal</li>
-          <li class="ubi-ref">C.C. Cañaveral</li>
-          <li class="ubi-ref">C.C. La Florida</li>
-          <li class="ubi-ref">C.C. Caracolí</li>
+        <!-- v5 · LOS OCHO CHIPS ENTRAN DE UNO EN UNO, NO EN BLOQUE.
+             Ocho pastillas idénticas apareciendo a la vez son una mancha; una
+             detrás de otra son una lista de sitios que alguien va nombrando.
+             Cada <li> es su propio .reveal dentro de una .reveal-secuencia, y
+             los ocho retardos los reparte ubicacion.css §9 —desiguales, no en
+             escalera de 90 en 90—. base.css sólo trae seis escalones
+             distintos y a partir del séptimo repite: aquí hacen falta ocho. -->
+        <ul class="ubi-refs reveal-secuencia">
+          <li class="ubi-ref reveal reveal--zoom">Anillo Vial Floridablanca&ndash;Girón</li>
+          <li class="ubi-ref reveal reveal--zoom">Conjunto Natura</li>
+          <li class="ubi-ref reveal reveal--zoom">Alkosto · Makro · PriceSmart</li>
+          <li class="ubi-ref reveal reveal--zoom">Mediterráneo Fútbol Park</li>
+          <li class="ubi-ref reveal reveal--zoom">Mediterráneo Royal</li>
+          <li class="ubi-ref reveal reveal--zoom">C.C. Cañaveral</li>
+          <li class="ubi-ref reveal reveal--zoom">C.C. La Florida</li>
+          <li class="ubi-ref reveal reveal--zoom">C.C. Caracolí</li>
         </ul>
       </div>
 
@@ -243,7 +250,19 @@
 
     <!-- ================= 5 · DISTANCIAS ====================================== -->
     <div class="ubi-bloque ubi-dist reveal" role="group" aria-labelledby="ubicacion-distancias-titulo">
-      <div class="ubi-bloque__encabezado">
+      <!-- <header> Y NO <div>, Y NO ES COSMÉTICO ------------------------------
+           js/app.js dispara el dibujado de los iconos por el ANCESTRO más
+           cercano que sea `section`, `footer` o `header`. #ubicacion es una
+           sección larguísima: si la cordillera de aquí abajo colgara de un
+           <div>, su disparador sería la sección entera y se habría dibujado
+           sola una pantalla y media antes de que nadie la vea. Colgando de un
+           <header> propio, se dibuja cuando entra el bloque de distancias, que
+           es cuando se mira. Un elemento, un reloj.
+
+           No ensucia el árbol de accesibilidad: un <header> sólo es landmark
+           de tipo «banner» cuando su ancestro más cercano es <body>, y éste
+           vive dentro de <section id="ubicacion">. Aquí es genérico.       -->
+      <header class="ubi-bloque__encabezado">
         <h3 class="titulo-seccion titulo-seccion--xs" id="ubicacion-distancias-titulo">
           Distancias desde el predio
         </h3>
@@ -251,46 +270,116 @@
           Pegados a la ciudad y en la puerta del Santander que se visita. Distancias
           aproximadas por carretera.
         </p>
-      </div>
+
+        <!-- v5 · LA CORDILLERA ---------------------------------------------
+             Debajo de estas dos líneas quedan, a partir de 62em, unos 150 px
+             de columna vacía frente a siete filas de datos. Ahí se dibujan
+             dos crestas de montaña.
+
+             NO ES ADORNO SUELTO: la lista de al lado va del Chicamocha a
+             Barichara, o sea que lo que mide son las montañas de Santander.
+             La silueta dice lo mismo que la tabla, sin escribir un dato que
+             la tabla ya tiene.
+
+             Firma del motor de dibujado horneada a mano —viewBox de 24,
+             `fill="none"`, `stroke="currentColor"`, clase `icono-traza` y
+             `pathLength="1"` por forma—, escrita aquí y no puesta por JS: el
+             trazo nace oculto en el primer paint y no parpadea.
+             Una sola `M` por cresta, para que el guion pueda recorrerlas.
+             `aria-hidden`: no dice nada, no afirma nada.                   -->
+        <svg class="icono-traza ubi-cordillera" viewBox="0 0 24 24"
+             fill="none" stroke="currentColor" stroke-width="0.8"
+             stroke-linecap="round" stroke-linejoin="round"
+             aria-hidden="true" focusable="false">
+          <path d="M0.6 15.9 5.6 8.4l3.7 4.5L15.4 4l8 11.9" pathLength="1"/>
+          <path d="M0.6 21.2 7 13.6l4.3 4 5.5-6.3 6.6 9.9" pathLength="1"/>
+        </svg>
+      </header>
 
       <ol class="ubi-dist__lista">
-        <li class="ubi-dist__item" style="--ubi-pct: 8.5%">
+        <li class="ubi-dist__item" style="--ubi-pct: 8.5%; --ubi-turno: 0; --ubi-ritmo: 0.5">
           <span class="ubi-dist__lugar">Bucaramanga</span>
           <span class="ubi-dist__barra" aria-hidden="true"><span class="ubi-dist__relleno"></span></span>
           <span class="ubi-dist__km">10,2 km</span>
         </li>
-        <li class="ubi-dist__item" style="--ubi-pct: 8.5%">
+        <li class="ubi-dist__item" style="--ubi-pct: 8.5%; --ubi-turno: 0.7; --ubi-ritmo: 0.54">
           <span class="ubi-dist__lugar">Girón</span>
           <span class="ubi-dist__barra" aria-hidden="true"><span class="ubi-dist__relleno"></span></span>
           <span class="ubi-dist__km">10,3 km</span>
         </li>
-        <li class="ubi-dist__item" style="--ubi-pct: 40.5%">
+        <li class="ubi-dist__item" style="--ubi-pct: 40.5%; --ubi-turno: 1.9; --ubi-ritmo: 0.82">
           <span class="ubi-dist__lugar">Cañón del Chicamocha</span>
           <span class="ubi-dist__barra" aria-hidden="true"><span class="ubi-dist__relleno"></span></span>
           <span class="ubi-dist__km">48,8 km</span>
         </li>
-        <li class="ubi-dist__item" style="--ubi-pct: 51.9%">
+        <li class="ubi-dist__item" style="--ubi-pct: 51.9%; --ubi-turno: 2.6; --ubi-ritmo: 0.95">
           <span class="ubi-dist__lugar">Zapatoca</span>
           <span class="ubi-dist__barra" aria-hidden="true"><span class="ubi-dist__relleno"></span></span>
           <span class="ubi-dist__km">62,6 km</span>
         </li>
-        <li class="ubi-dist__item" style="--ubi-pct: 81.8%">
+        <li class="ubi-dist__item" style="--ubi-pct: 81.8%; --ubi-turno: 4; --ubi-ritmo: 1.25">
           <span class="ubi-dist__lugar">San Gil</span>
           <span class="ubi-dist__barra" aria-hidden="true"><span class="ubi-dist__relleno"></span></span>
           <span class="ubi-dist__km">98,7 km</span>
         </li>
-        <li class="ubi-dist__item" style="--ubi-pct: 98.3%">
+        <li class="ubi-dist__item" style="--ubi-pct: 98.3%; --ubi-turno: 4.9; --ubi-ritmo: 1.42">
           <span class="ubi-dist__lugar">Socorro</span>
           <span class="ubi-dist__barra" aria-hidden="true"><span class="ubi-dist__relleno"></span></span>
           <span class="ubi-dist__km">118,5 km</span>
         </li>
-        <li class="ubi-dist__item" style="--ubi-pct: 100%">
+        <li class="ubi-dist__item" style="--ubi-pct: 100%; --ubi-turno: 6.4; --ubi-ritmo: 1.5">
           <span class="ubi-dist__lugar">Barichara</span>
           <span class="ubi-dist__barra" aria-hidden="true"><span class="ubi-dist__relleno"></span></span>
           <span class="ubi-dist__km">120,6 km</span>
         </li>
       </ol>
     </div>
+
+    <!-- ================= 5b · EL FINAL DEL CAMINO ===========================
+         v5 · POR QUÉ ENTRA UNA FOTO EN LA SECCIÓN MÁS SECA DEL SITIO
+         Hasta aquí #ubicacion sólo enseña el terreno DESDE ARRIBA: la vista
+         satelital a sangre y la misma vista aérea con los pines. Dos imágenes
+         cartográficas, ninguna a la altura de los ojos. La sección explicaba
+         cómo llegar y no enseñaba nunca a qué se llega, y justo debajo empieza
+         el bloque en el que se pide escribir por WhatsApp. Esta foto es la
+         bisagra: cierra el mapa y abre la conversación.
+
+         POR QUÉ ESTA Y NO OTRA. `img/parque/parque-25.jpg` (1200×800) es la
+         única del banco que está TOMADA DESDE EL CAMINO, con la gravilla
+         entrando en cuadro y llevando la mirada al fondo. Es literalmente la
+         imagen de llegar. Estaba en `img/` y no la usaba ninguna sección.
+
+         NO REPITE NINGÚN GESTO DE LA SECCIÓN. El mapa sangra y va a esquina
+         viva; ésta vive DENTRO de la maqueta y por tanto lleva hoja: dos
+         radios distintos en la diagonal CONTRARIA a la de la foto de
+         referencias de arriba (que curva arriba-derecha y abajo-izquierda),
+         así que dos piezas vecinas no repiten la misma diagonal.
+
+         FOTO-FOCUS. Es la única pieza grande y recortada de la sección, así
+         que es la que se gana el encuadre ligado al scroll (js/foto-focus.js).
+         El atributo va en el DIV que recorta —el que tiene overflow hidden y
+         la hoja—, nunca en el <img> y nunca en la <figure>, que también
+         contiene el pie y lo dejaría fuera del recorte.
+         El encuadre de PARTIDA no se declara aquí: es el object-position del
+         CSS (50% 58%), para que el primer cuadro del JS coincida con el primer
+         paint y no haya salto. `data-foco` baja la mirada hacia la gravilla en
+         móvil, donde el recorte se come el camino.
+         ====================================================================== -->
+    <figure class="ubi-llegada reveal">
+      <div class="ubi-llegada__medio" data-foto-focus data-foco="50% 72%" data-zoom="0.1">
+        <img
+          src="img/parque/parque-25.jpg"
+          width="1200"
+          height="800"
+          alt="Camino de gravilla que entra al predio al caer la tarde, entre jardineras con flores y árboles altos; al fondo, un grupo de personas bajo una carpa con guirnaldas encendidas y una furgoneta clásica al lado."
+          loading="lazy"
+          decoding="async"
+        />
+      </div>
+      <figcaption class="ubi-llegada__pie">
+        Lo que hay al final del camino, cuando cae la tarde.
+      </figcaption>
+    </figure>
 
     <!-- ================= 6 y 7 · CANALES, HORARIO Y FORMULARIO =============== -->
     <div class="ubi-hablar">
@@ -731,4 +820,16 @@
       });
     })();
   </script>
+
+  <!-- FOTO-FOCUS — el mismo archivo que ya declaran #nosotros y #espacios.
+       Se repite aquí, y no es un descuido: la norma de este proyecto es que
+       cada fragmento viaje con sus dependencias (el precedente es
+       momentos-video.js), porque el ensamblador copia tal cual la cola de
+       index.html y un fragmento no puede añadir nada allí. El propio script
+       lleva un cerrojo (`window.__fotoFocusMontado`) que hace inofensiva la
+       segunda —y la tercera— ejecución, y el navegador sólo descarga el
+       archivo una vez.
+       Bajo prefers-reduced-motion no se monta: la foto de llegada se queda
+       quieta en el encuadre que declara ubicacion.css. -->
+  <script src="js/foto-focus.js?v=2e41fd79" defer></script>
 </section>

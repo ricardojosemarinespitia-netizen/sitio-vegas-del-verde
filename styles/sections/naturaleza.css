@@ -163,6 +163,32 @@
   --nat-hoja-mini-b: var(--radio-sm) var(--radio-lg) var(--radio-sm) var(--radio-lg);
   --nat-hoja-mini-c: var(--radio-md) var(--radio-sm) var(--radio-md) var(--radio-lg);
   --nat-hoja-mini-d: var(--radio-sm) var(--radio-md) var(--radio-lg) var(--radio-md);
+
+  /* --- v6 · LAS DOS PLANCHAS A SANGRE (portada y mural) -------------------
+     Ninguna de las dos lleva radio: son las únicas piezas de la sección que
+     tocan los cuatro cantos del navegador, y ahí una esquina redonda se lee
+     como un recorte fallido, no como forma. El sistema de hojas de arriba
+     sigue gobernando todo lo que vive DENTRO de la maqueta.               */
+
+  /* El cuerpo del contorno «Pajareo». La fundación topa en --paso-6 (84 px) y
+     esto tiene que ir muy por encima: el gesto del referente es la ESCALA.
+     Se declara como token local con su propia clamp —igual que --nat-alto-
+     apertura o --nat-col-video— porque no hay ningún paso de la escala que
+     sirva y ensuciarla por un solo uso sería peor. El suelo de 4,2rem está
+     medido en el propio navegador: «Pajareo» en Fraunces a peso 320 ocupa
+     3,05 em de ancho, o sea 224 px en un móvil de 375 contra 338 px de ancho
+     útil. Cabe con holgura y NUNCA desborda: a 1280 son 674 px de palabra
+     (el 53 % de la pantalla) y a 1920, con el techo de 17rem, 829 px.     */
+  --nat-fs-contorno: clamp(4.6rem, 0.6rem + 16.5vw, 17rem);
+  /* El grosor del trazo del contorno va en `em` para que crezca CON la letra:
+     un grosor absoluto se vería grueso en móvil y filiforme a 240 px.     */
+  --nat-contorno-trazo: 0.016em;
+  /* El pie de la plancha donde se apoya el contorno. En porcentaje del alto
+     de la propia plancha, con topes de la escala: así el contorno cae
+     siempre dentro de la banda del velo, sea cual sea la proporción del
+     encuadre en ese ancho de pantalla. */
+  --nat-portada-base: clamp(var(--esp-md), 7%, var(--esp-3xl));
+  --nat-ave-icono: clamp(1.75rem, 3.4vw, 2.75rem);
 }
 
 /* ==========================================================================
@@ -1151,7 +1177,13 @@
 .nat-muro-banda {
   position: relative;
   margin-top: var(--esp-seccion);
-  margin-bottom: calc(var(--esp-seccion) * -1);
+  /* v6: la banda YA NO es lo último de la sección y por eso pierde el margen
+     inferior negativo que la pegaba contra el borde. Ahora cierra la plancha
+     del mural, que arranca justo donde muere el canto de la salvia —sin aire
+     entre medias, corte duro y a propósito—. Si la banda conservara el
+     margen negativo, la fotografía del mural se le montaría encima al pie
+     del muro. */
+  margin-bottom: 0;
   /* El relleno superior crece para dejar pasar la cresta: el canto ondulado
      mide hasta 5rem y el contenido no puede meterse debajo. */
   padding-block: calc(var(--esp-seccion) + var(--esp-xl)) var(--esp-seccion);
@@ -1616,5 +1648,415 @@
   .nat-galeria__dato {
     align-items: flex-start;
     text-align: start;
+  }
+}
+
+/* ==========================================================================
+   0. LA PORTADA — el milano picogarfio  (v6)
+   La única plancha de la página que sangra por los CUATRO cantos. Por eso no
+   repite ninguno de los dos sangrados laterales que ya tenía la sección
+   (.nat-apertura por la izquierda, .nat-vida por la derecha): es otra cosa,
+   una portada, y se lee como tal desde el primer vistazo.
+
+   ESQUINA VIVA, SIN EXCEPCIÓN. El sistema de hojas (--nat-hoja-a..d) gobierna
+   lo que vive DENTRO de la maqueta; una foto que toca el canto del navegador
+   con la esquina redondeada se lee como un recorte fallido. Radio cero.
+
+   EL VELO, Y POR QUÉ TIENE LA FORMA QUE TIENE. Todo lo que sigue está MEDIDO
+   píxel a píxel sobre el archivo real, recortado como lo recorta el navegador
+   en cada punto de ruptura (object-fit: cover con 52 % / 32 %), y sobre el
+   RECTÁNGULO EXACTO que ocupa cada texto — no sobre «la parte de abajo».
+
+     Rectángulo del contorno, 1280×853 (la palabra cae en 40..714 × 600..793)
+       sin velo, crema #ede6e2    mediana 5,10:1 · p95 2,31 · p99 1,58 · peor 1,06
+       sin velo, tinta #16281f    mediana 2,46:1 · p95 5,42 · p99 7,92 · peor 1,36
+       capa ancha + base corta    mediana 9,92:1 · p95 7,08 · p99 6,40 · peor 4,82
+     El mismo rectángulo a 768    sin velo 3,56:1 · con velo 9,35:1 · peor 4,71
+     El mismo rectángulo a 375    sin velo 4,72:1 · con velo 10,23:1 · peor 7,16
+     Rectángulo de la cartela, 1280×853
+       sin velo, crema            mediana 3,08:1 · peor 2,49
+       capa + base, crema         mediana 9,10:1 · peor 8,02
+       capa + base, crema al 78 % mediana 6,25:1 · peor 5,61
+
+   Lo que dicen esos números: el cielo NO es un azul plano, es un azul medio
+   cruzado por ramas al sol, y crema y tinta fallan en extremos OPUESTOS —el
+   crema se pierde contra las ramas iluminadas (1,30:1), la tinta contra los
+   tramos en sombra (1,36:1)—. Ninguno de los dos sirve solo. Con el velo, el
+   crema no baja de 4,71:1 en ningún punto de ruptura ni en el píxel más claro
+   que haya debajo de una letra: AA en el peor píxel, no en la media.
+
+   Y por qué DOS degradados y no uno solo repetido: un velo doble a lo ancho
+   de toda la banda (alfa 0,7975 uniforme) daba números aún mejores, pero
+   apagaba media fotografía — se montó, se miró en pantalla y se descartó.
+   Lo que hay ahora son dos capas de distinto alcance:
+     · la ANCHA (opaca hasta el 26 % del alto, apagada al 58 %) asienta el pie
+       de la plancha sin llegar a tocar la cabeza del ave;
+     · la CORTA (opaca hasta el 10 %, apagada al 38 %) sólo refuerza la franja
+       donde de verdad hay letras.
+   Del 38 % del alto para arriba la fotografía ve exactamente el mismo velo
+   que vería con una sola capa. Eso es lo que quiere decir «velo acotado».
+   El único valor de color que aparece aquí sigue siendo el token --color-velo.
+   ========================================================================== */
+.nat-portada {
+  position: relative;
+  /* Come el relleno superior de .seccion para que la plancha empiece pegada
+     a lo que hay antes. Es el mismo recurso, en espejo, que usaba
+     .nat-muro-banda por abajo. */
+  margin-block-start: calc(var(--esp-seccion) * -1);
+  margin-block-end: var(--esp-seccion);
+}
+
+.nat-portada__plancha {
+  position: relative;
+  overflow: hidden;
+  /* Móvil: vertical. La foto es casi cuadrada (2000×1815), así que aquí el
+     recorte es HORIZONTAL y el ave queda entera, ocupando el 62 % del alto. */
+  aspect-ratio: 4 / 5;
+  border-radius: 0;
+  /* Suelo mientras la imagen perezosa no ha bajado: nunca un rectángulo
+     blanco contra el que después aparece una foto oscura. */
+  background-color: var(--color-fondo-hondo);
+}
+
+@media (min-width: 40em) {
+  .nat-portada__plancha {
+    /* A partir de aquí manda el ancho y el recorte pasa a ser vertical.
+       4/3 deja ver el 82,6 % del alto de la foto: el ave ocupa el 75 % de la
+       plancha, con aire arriba y abajo. */
+    aspect-ratio: 4 / 3;
+  }
+}
+
+@media (min-width: 62em) {
+  .nat-portada__plancha {
+    /* 3/2 es el límite: enseña el 73,5 % del alto y el ave llega al 84 % de
+       la plancha. Más apaisado que esto y la cola se sale por abajo. */
+    aspect-ratio: 3 / 2;
+  }
+}
+
+.nat-portada__foto {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  /* Encuadre medido sobre el archivo: el ave ocupa el 40–62,5 % del ancho y
+     el 18–80 % del alto. Con 52 % / 32 % la cabeza conserva aire arriba en
+     las tres proporciones y la cola no se corta en ninguna. */
+  object-position: 52% 32%;
+}
+
+.nat-portada__velo {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  /* Capa ANCHA + capa CORTA, en ese orden. Alfa efectiva: 0,80 al ras del
+     canto, 0,72 a la altura de la línea de texto, 0,55 en el borde superior
+     de las mayúsculas, y ya sólo la capa ancha del 38 % del alto en adelante. Los números medidos están en la cabecera de este bloque. */
+  background-image:
+    linear-gradient(
+      to top,
+      var(--color-velo) 0%,
+      var(--color-velo) 26%,
+      transparent 58%
+    ),
+    linear-gradient(
+      to top,
+      var(--color-velo) 0%,
+      var(--color-velo) 10%,
+      transparent 38%
+    );
+}
+
+/* ---- EL CONTORNO --------------------------------------------------------
+   Caja alta y baja, nunca mayúsculas: el §3 del CONTRATO-V2 lo prohíbe por
+   encima de 24 px y aquí se está a 179 px en un portátil. El gesto del
+   referente no es el caps de todos modos —es la escala, el hueco y el cruce
+   sobre la foto—, y en Fraunces a peso 320 la caja baja sale ganando: la «j»
+   de «Pajareo» le da al contorno un descendente que las mayúsculas no tienen.
+   -------------------------------------------------------------------------- */
+.nat-portada__contorno {
+  position: absolute;
+  inset-inline-start: var(--nat-margen);
+  inset-block-end: var(--nat-portada-base);
+  margin: 0;
+  font-family: var(--fuente-display);
+  font-size: var(--nat-fs-contorno);
+  font-weight: var(--peso-display);
+  font-optical-sizing: auto;
+  font-variation-settings: var(--ejes-display);
+  line-height: var(--alto-linea-apretado);
+  letter-spacing: var(--tracking-display);
+  /* Suelo si -webkit-text-stroke no existe: la palabra queda MACIZA en crema,
+     que sobre este velo da 4,82:1 en el peor píxel de su rectángulo a 1280 y
+     4,71:1 a 768: AA en los dos. Nunca invisible. */
+  color: var(--color-texto-inverso);
+  pointer-events: none;
+  user-select: none;
+}
+
+@supports (-webkit-text-stroke: 1px currentColor) {
+  .nat-portada__contorno {
+    -webkit-text-stroke: var(--nat-contorno-trazo) var(--color-texto-inverso);
+    color: transparent;
+  }
+}
+
+/* Deriva del contorno atada al scroll. No es la misma que la de la apertura
+   —aquélla es vertical pura y mueve la FOTO; ésta mueve la LETRA y va en
+   diagonal, a contramarcha— porque la regla de la sección es que nada se
+   mueva al mismo compás. Sólo transform, o sea compositor puro.
+   El estado inicial lo pone el propio @keyframes con fill-mode `both` desde
+   la hoja de estilo: queda resuelto en el primer cálculo de estilo, antes
+   del primer pintado, así que no hay un fotograma con la palabra en su sitio
+   antes de saltar al de partida. Ningún JS toca esto. */
+@keyframes nat-portada-deriva {
+  from {
+    transform: translate3d(-3%, 9%, 0);
+  }
+
+  to {
+    transform: translate3d(3%, -5%, 0);
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  @supports (animation-timeline: view()) {
+    .nat-portada__contorno {
+      animation: nat-portada-deriva linear both;
+      animation-timeline: view();
+      animation-range: entry 0% exit 100%;
+    }
+  }
+}
+
+/* ---- LA CARTELA DE LA PORTADA -------------------------------------------
+   Dos modos, y el corte está donde deja de haber sitio: por debajo de 62em
+   la cartela cuelga DEBAJO de la plancha, sobre la crema, porque a 375 px el
+   contorno ya ocupa de lado a lado y encimarle un rótulo sería ilegible; de
+   62em para arriba se mete dentro, abajo a la derecha, donde el velo está a
+   plena fuerza y sobra ancho. El crédito al fotógrafo va SIEMPRE visible: es
+   obligación del CONTRATO-V2 §5.4, no un adorno.
+   -------------------------------------------------------------------------- */
+.nat-portada__rotulo {
+  /* Entra en vertical, no en horizontal: un .reveal--der desplaza 28 px hacia
+     fuera y esa cartela vive pegada al canto derecho, así que sería 28 px de
+     desbordamiento horizontal real durante la entrada. El desfase lo da el
+     retardo, no la dirección. */
+  --reveal-delay: var(--dur-rapida);
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--esp-3xs);
+  margin-top: var(--gap-sm);
+  padding-inline: var(--nat-margen);
+  color: var(--color-texto);
+}
+
+.nat-portada__ave {
+  inline-size: var(--nat-ave-icono);
+  block-size: auto;
+  flex: none;
+  margin-bottom: var(--esp-3xs);
+  color: var(--color-borde-fuerte);
+}
+
+.nat-portada__especie {
+  font-family: var(--fuente-titulo);
+  font-size: var(--fs-pequeno);
+  font-weight: var(--peso-medio);
+  color: var(--color-texto);
+}
+
+.nat-portada__cientifico {
+  font-size: var(--fs-micro);
+  color: var(--color-texto-suave);
+}
+
+.nat-portada__autor {
+  font-size: var(--fs-micro);
+  color: var(--color-acento-texto);
+}
+
+@media (min-width: 62em) {
+  .nat-portada__rotulo {
+    position: absolute;
+    inset-block-end: var(--nat-portada-base);
+    inset-inline-end: var(--nat-margen);
+    align-items: flex-end;
+    text-align: end;
+    margin-top: 0;
+    padding-inline: 0;
+    /* Medido en el rectángulo exacto de la cartela: crema 9,10:1 de mediana y
+       8,02:1 en el peor píxel; crema al 78 % —la científica y el crédito—,
+       6,25:1 de mediana y 5,61:1 en el peor. Los dos por encima de AA.
+       El coral claro NO sirve aquí (4,15:1 contra este fondo) y por eso el
+       crédito cambia de color al pasar sobre la fotografía en vez de
+       conservar el terracota que lleva sobre la crema. */
+    color: var(--color-texto-inverso);
+  }
+
+  .nat-portada__ave,
+  .nat-portada__especie {
+    color: var(--color-texto-inverso);
+  }
+
+  .nat-portada__cientifico,
+  .nat-portada__autor {
+    color: var(--color-texto-inverso-suave);
+  }
+}
+
+/* ==========================================================================
+   6. EL CIERRE — el mural del barranquero  (v6)
+   La rima: arriba entra el ave viva; aquí sale la misma ave pintada en la
+   pared del predio. Plancha a sangre, esquina viva, y debajo una cartela con
+   el aire de una ficha de museo. No lleva contorno gigante: ese gesto es de
+   la portada y repetirlo a cuatro pantallas de distancia lo gastaría.
+
+   No lleva margen inferior negativo: la cartela es lo último que se lee y
+   necesita el relleno de .seccion para no chocar con la sección siguiente.
+   ========================================================================== */
+.nat-mural {
+  position: relative;
+}
+
+.nat-mural__plancha {
+  position: relative;
+  overflow: hidden;
+  /* La fotografía es vertical (900×1200) y el mural pintado ocupa sólo el
+     11 % de su ancho, así que en móvil publicarla entera lo dejaría en 37 px
+     y sería exactamente la miniatura que hay que evitar. Con 9/16 el recorte
+     es HORIZONTAL —se ve el 75 % del ancho— y el mural gana un tercio de
+     tamaño sin ampliar ni un píxel: el archivo se sigue reduciendo (500 px
+     de ancho renderizado contra 900 de original), así que no pierde nitidez.
+     Y la plancha pasa a 667 px de alto en un móvil de 375: una pieza. */
+  aspect-ratio: 9 / 16;
+  border-radius: 0;
+  background-color: var(--color-fondo-hondo);
+}
+
+@media (min-width: 40em) {
+  .nat-mural__plancha {
+    aspect-ratio: 4 / 3;
+  }
+}
+
+@media (min-width: 62em) {
+  .nat-mural__plancha {
+    aspect-ratio: 3 / 2;
+  }
+}
+
+.nat-mural__foto {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  /* El eje X sólo manda en móvil, que es donde el recorte es horizontal:
+     45 % deja el mural (35–46 % del ancho) dentro de la ventana con aire y
+     conserva casi todas las heliconias del primer plano. */
+  object-position: 45% 50%;
+}
+
+@media (min-width: 40em) {
+  .nat-mural__foto {
+    /* Con el recorte apaisado la ventana cae en la franja central: el mural
+       pintado, el techo de la enramada y el primer plano de heliconias. */
+    object-position: 44% 55%;
+  }
+}
+
+/* Deriva de fondo del mural. Va al REVÉS que la de .nat-apertura —allí la
+   foto baja (de -12 % a 0), aquí sube (de 0 a -10 %)— porque son las dos
+   únicas fotografías con paralaje de la sección y con la misma dirección
+   parecerían la misma pieza repetida. Sólo transform. Y va envuelta en
+   prefers-reduced-motion: no-preference porque una animación de línea de
+   tiempo de scroll IGNORA animation-duration, así que la anulación global de
+   base.css no la alcanzaría. */
+@keyframes nat-mural-deriva {
+  from {
+    transform: translate3d(0, 0, 0);
+  }
+
+  to {
+    transform: translate3d(0, -10%, 0);
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  @supports (animation-timeline: view()) {
+    .nat-mural__foto {
+      /* 111 % de alto: el 11 % sobrante es justo el recorrido, así que en
+         ningún instante queda una franja vacía por abajo. */
+      height: 111%;
+      animation: nat-mural-deriva linear both;
+      animation-timeline: view();
+      animation-range: entry 0% exit 100%;
+    }
+  }
+}
+
+/* ---- La cartela del mural ------------------------------------------------ */
+.nat-mural__pie {
+  /* Mismo motivo que en la cartela de la portada: entrada vertical, y el
+     desfase por retardo. Éste es más largo que aquél —300 ms contra 180— para
+     que las dos cartelas de la sección no compartan compás. */
+  --reveal-delay: var(--dur-media);
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--esp-2xs);
+  margin-top: var(--gap);
+  padding-inline: var(--nat-margen);
+  color: var(--color-texto);
+}
+
+.nat-mural__titulo,
+.nat-mural__texto {
+  margin: 0;
+  max-inline-size: var(--medida-corta);
+}
+
+.nat-mural__titulo {
+  color: var(--color-texto);
+}
+
+.nat-mural__ave {
+  inline-size: var(--nat-ave-icono);
+  block-size: auto;
+  flex: none;
+  margin-bottom: var(--esp-3xs);
+  color: var(--color-borde-fuerte);
+}
+
+/* La silueta se dibuja atada al scroll y NO con el motor de app.js, que
+   observa la SECCIÓN entera: colgada al final, con aquel disparador se habría
+   dibujado sola mientras seguía fuera de pantalla. Aquí el trazo nace y
+   termina donde llega quien lee.
+   Estado inicial (stroke-dasharray) y animación viven en el MISMO bloque
+   condicional: o se aplican los dos o no se aplica ninguno. Si el navegador
+   no entiende animation-timeline, o si se pide menos movimiento, el pájaro
+   sale dibujado entero desde el primer pintado. Nunca a medias. */
+@keyframes nat-mural-traza {
+  from {
+    stroke-dashoffset: 1;
+  }
+
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  @supports (animation-timeline: view()) {
+    .nat-mural__ave > path {
+      stroke-dasharray: 1;
+      animation: nat-mural-traza linear both;
+      animation-timeline: view();
+      animation-range: entry 25% cover 45%;
+    }
   }
 }

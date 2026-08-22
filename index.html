@@ -32,7 +32,6 @@
      la misma sección, así que la precarga competía con la portada en vez de
      acelerarla. El <head> lo conserva el ensamblador, así que este cambio
      sobrevive a herramientas/ensamblar.py. -->
-<link rel="preload" as="image" href="img/portada-inicio.jpg" fetchpriority="high">
 
 <!-- fuentes-propias: Fraunces y DM Sans viven en styles/fonts/ y se declaran
      por @font-face en base.css — no hay <link> a fonts.googleapis.com,
@@ -46,18 +45,18 @@
      herramientas/precargar-fuentes.js. -->
 <link rel="preload" as="font" type="font/woff2" crossorigin href="styles/fonts/dm-sans-latin.woff2?v=89c7ce3a">
 <link rel="preload" as="font" type="font/woff2" crossorigin href="styles/fonts/fraunces-latin.woff2?v=e75e106b">
-<link rel="stylesheet" href="styles/tokens.css?v=4f5c7c16">
-<link rel="stylesheet" href="styles/base.css?v=749e0890">
+<link rel="stylesheet" href="styles/tokens.css?v=f81a04f9">
+<link rel="stylesheet" href="styles/base.css?v=be417620">
 <link rel="stylesheet" href="styles/shell.css?v=8118b941">
-<link rel="stylesheet" href="styles/sections/inicio.css?v=060ac0b7">
-<link rel="stylesheet" href="styles/sections/nosotros.css?v=cb09db56">
-<link rel="stylesheet" href="styles/sections/espacios.css?v=09f0835e">
-<link rel="stylesheet" href="styles/sections/planes.css?v=7006ab47">
-<link rel="stylesheet" href="styles/sections/momentos.css?v=dd8072e6">
-<link rel="stylesheet" href="styles/sections/colegios.css?v=c71b591d">
-<link rel="stylesheet" href="styles/sections/naturaleza.css?v=d45573cd">
-<link rel="stylesheet" href="styles/sections/vivero.css?v=1406a28d">
-<link rel="stylesheet" href="styles/sections/ubicacion.css?v=4cf1e699">
+<link rel="stylesheet" href="styles/sections/inicio.css?v=76078f20">
+<link rel="stylesheet" href="styles/sections/nosotros.css?v=3918e1e5">
+<link rel="stylesheet" href="styles/sections/espacios.css?v=60528286">
+<link rel="stylesheet" href="styles/sections/planes.css?v=0b465147">
+<link rel="stylesheet" href="styles/sections/momentos.css?v=33b653e5">
+<link rel="stylesheet" href="styles/sections/colegios.css?v=7fdf16e9">
+<link rel="stylesheet" href="styles/sections/naturaleza.css?v=acb9cb73">
+<link rel="stylesheet" href="styles/sections/vivero.css?v=3b1bb38a">
+<link rel="stylesheet" href="styles/sections/ubicacion.css?v=eec385c6">
 <link rel="stylesheet" href="styles/lightbox.css?v=8bbca7bb">
 
 <script type="application/ld+json">
@@ -309,15 +308,38 @@
        abajo para adelante el fondo vuelve a ser el papel crema. -->
   <div class="inicio__portada sobre-oscuro">
 
-    <img
-      class="inicio__portada-foto"
-      src="img/portada-inicio.jpg"
-      width="1400"
-      height="2489"
-      alt="Prado del predio en un mediodía despejado: dos árboles grandes de copa abierta dan sombra sobre el césped, una hilera de arbustos cierra el fondo y tres materas de barro con flores se alinean en primer plano sobre un murito de piedra."
-      fetchpriority="high"
-      decoding="async"
-    />
+    <!-- v6 · LA PORTADA DEJA DE SER PAISAJE Y PASA A SER RETRATO.
+         La foto anterior (img/portada-inicio.jpg) era un prado a mediodía sin
+         sujeto: sin persona, sin animal, sin acontecimiento. Su propio texto
+         alternativo lo delataba —cuarenta palabras describiendo césped—, y de
+         ahí colgaba todo lo demás: el velo tenía que ser espeso porque el
+         cielo blanco no aguantaba texto crema encima, y no había ni una capa
+         que interpenetrar porque no había nada que estuviera delante de nada.
+
+         Ahora la ventana entera la ocupa el barranquero de Leyner Lozano, del
+         concurso de fotografía del predio. Es el ave que ya encabeza la tira
+         de esta misma sección y la que está pintada como mural en el predio,
+         así que la metáfora no se importa de fuera: ya estaba aquí.
+
+         EL <picture> Y EL ORDEN DE LOS FORMATOS. AVIF primero, WebP después,
+         JPG como respaldo del <img>: el navegador se queda con el primero que
+         entienda y no descarga los otros. Pesos reales de la derivación:
+         AVIF 104 KB · WebP 143 KB · JPG 221 KB. El <img> conserva
+         fetchpriority alto, width/height para reservar la caja antes de que
+         llegue un byte, y NADA de loading perezoso: es el LCP.  -->
+    <picture>
+      <source srcset="img/hero-momotus.avif" type="image/avif" />
+      <source srcset="img/hero-momotus.webp" type="image/webp" />
+      <img
+        class="inicio__portada-foto"
+        src="img/hero-momotus.jpg"
+        width="1600"
+        height="2400"
+        alt="Barranquero (Momotus subrufescens) posado en una rama del bosque, con una baya en el pico y la cola de raqueta colgando. Fotografía de Leyner Lozano."
+        fetchpriority="high"
+        decoding="async"
+      />
+    </picture>
 
     <div class="inicio__portada-velo" aria-hidden="true"></div>
 
@@ -344,6 +366,17 @@
         fill="currentColor"
       />
     </svg>
+
+    <!-- EL ENJAMBRE — la caja vacía donde js/enjambre-hero.js suelta nueve
+         mariposas y un colibrí. Va VACÍA en el HTML a propósito: las piezas se
+         crean después del decode() de la portada, así que no hay ni un byte
+         de PNG compitiendo con el LCP, y como no existen al primer pintado no
+         hay ningún estado inicial que pueda parpadear.
+         Vive en la mitad derecha —el tercio limpio de la fotografía, el único
+         sitio donde no está ni el pájaro ni el texto— y por debajo del
+         encabezado en la pila de capas: si un día una mariposa se cruzara con
+         el titular, pasaría por detrás. -->
+    <div class="inicio__enjambre" aria-hidden="true"></div>
 
     <div class="contenedor contenedor--ancho inicio__portada-interior">
       <!-- ENTRADA ESCALONADA, NO UN BLOQUE QUE APARECE ENTERO.
@@ -424,6 +457,95 @@
           </a>
         </div>
       </header>
+    </div>
+
+    <!-- ======================================================================
+         LA CAPA DE RECORTE — la profundidad, sin un solo byte de red
+
+         Es la MISMA fotografía pintada por segunda vez, encima del titular, y
+         recortada con un `clip-path` que sigue el contorno del pájaro. El
+         resultado es que la cola de raqueta cuelga POR DELANTE de las letras
+         mientras el resto del titular sigue leyéndose sobre el bosque: tres
+         capas interpenetradas en vez de tres capas apiladas.
+
+         POR QUÉ NO CUESTA NADA. La URL es idéntica a la del LCP —mismo
+         `<picture>`, mismas fuentes AVIF/WebP/JPG—, así que el navegador la
+         sirve de la imagen que ya descargó y decodificó: una sola petición de
+         red para las dos capas. `clip-path` con un polígono es trabajo del
+         compositor, no del hilo principal.
+
+         POR QUÉ EL POLÍGONO VA POR DENTRO DEL PÁJARO Y NO HOLGADO. Debajo de
+         esta capa hay un velo de legibilidad; lo que esta capa recorta se
+         pinta SIN ese velo. Si el polígono se saliera del pájaro, ese sobrante
+         sería una mancha de bosque sin velar —más clara que su alrededor— con
+         un borde poligonal perfectamente visible. Al revés no pasa nada: si el
+         polígono muerde unos píxeles del pájaro, esos píxeles siguen ahí
+         debajo, idénticos, en la capa de la foto. Se pierde nada y se gana el
+         no tener franja. Los 35 puntos están medidos sobre la imagen derivada
+         con una cuadrícula superpuesta y van en % de la caja del elemento, que
+         por construcción es exactamente la caja de la imagen (ver inicio.css).
+
+         `aria-hidden` y `alt` vacío: es la misma fotografía que ya está
+         descrita treinta líneas más arriba. Nadie tiene que oírla dos veces.
+
+         En móvil NO SE MONTA (inicio.css la apaga por debajo de 64em): a 375
+         px el `cover` deja la cola fuera de cuadro y el recorte no recortaría
+         nada que valga la pena.
+         ====================================================================== -->
+    <div class="inicio__portada-recorte" aria-hidden="true">
+      <picture>
+        <source srcset="img/hero-momotus.avif" type="image/avif" />
+        <source srcset="img/hero-momotus.webp" type="image/webp" />
+        <img src="img/hero-momotus.jpg" width="1600" height="2400" alt="" decoding="async" />
+      </picture>
+    </div>
+
+    <!-- ======================================================================
+         LAS TRES SILUETAS QUE SE DIBUJAN
+         Vencejo en vuelo · hoja de caracolí · pluma de raqueta. Tres marcas de
+         trazo en la columna derecha de la portada, la única que no ocupan ni
+         el pájaro ni el texto.
+
+         NO LLEVAN JAVASCRIPT NUEVO. Están escritas con la firma exacta que
+         reconoce herramientas/hornear-trazos.js —`viewBox="0 0 24 24"`,
+         `fill="none"` y `stroke="currentColor"`—, así que esa herramienta les
+         añade la clase `icono-traza` y el `pathLength` de cada forma EN EL
+         PROPIO HTML. Consecuencia: el trazo nace oculto en el primer pintado y
+         no existe el fotograma en el que la figura se ve entera antes de
+         empezar a dibujarse. El disparador ya está en js/app.js y vigila la
+         sección, no el icono.
+
+         Decorativas de verdad: `aria-hidden` y sin rótulo. No añaden ningún
+         hecho a la tabla de propiedad de ARQUITECTURA-V3 §9.
+         ====================================================================== -->
+    <div class="inicio__siluetas" aria-hidden="true">
+
+      <!-- VENCEJO EN VUELO. Dos alas en hoz y la cola en horquilla: la
+           silueta que de verdad se ve contra el cielo, no un pájaro de perfil
+           con pico y ojo, que a 24 px es una mancha. -->
+      <svg class="icono-traza inicio__silueta" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.1" stroke-linecap="round" stroke-linejoin="round" focusable="false">
+        <path d="M2.5 6.5c3.6 1.3 6.6 3.8 9.5 7.4 2.9-3.6 5.9-6.1 9.5-7.4-2.8 3-4.7 6.4-5.7 10.4"  pathLength="1"/>
+        <path d="M12 13.9c-1 1.3-1.6 2.9-1.9 4.9-1-2.2-2.1-3.8-3.4-4.9"  pathLength="1"/>
+      </svg>
+
+      <!-- HOJA DE CARACOLÍ. La misma figura orgánica del sistema —dos esquinas
+           a radio pleno en diagonal y dos vivas, el remate de .lista-hojas de
+           base.css—, dibujada como contorno en vez de como relleno. La
+           nervadura va en su propio `path` para que se dibuje a la vez que el
+           contorno y no se pose después como un detalle suelto. -->
+      <svg class="icono-traza inicio__silueta" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.1" stroke-linecap="round" stroke-linejoin="round" focusable="false">
+        <path d="M3.5 20.5C3.5 11.1 11.1 3.5 20.5 3.5c0 9.4-7.6 17-17 17z"  pathLength="1"/>
+        <path d="M6.5 17.5 17.5 6.5"  pathLength="1"/>
+      </svg>
+
+      <!-- PLUMA DE RAQUETA. El rasgo por el que se reconoce al barranquero:
+           el raquis desnudo y la paleta al final. Es la firma del ave de la
+           portada, reducida a un trazo. -->
+      <svg class="icono-traza inicio__silueta" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.1" stroke-linecap="round" stroke-linejoin="round" focusable="false">
+        <path d="M12 2.5v12.2"  pathLength="1"/>
+        <path d="M12 14.7c1.9 0 3.1 1.6 3.1 3.5s-1.4 3.3-3.1 3.3-3.1-1.4-3.1-3.3 1.2-3.5 3.1-3.5z"  pathLength="1"/>
+      </svg>
+
     </div>
 
     <!-- LA PISTA DE QUE LA PÁGINA SIGUE.
@@ -538,7 +660,7 @@
        es el muro de #naturaleza y duplicarlas era justo el defecto medido.
        El crédito al fotógrafo no se pierde: va en el `alt`, y sale literal de
        img/aves/_creditos.json. Nunca se inventa un autor.
-       Orden: ave-46 · ave-38 · ave-27 · ave-07 · ave-56 · ave-31.
+       Orden: ave-14 · ave-38 · ave-27 · ave-07 · ave-56 · ave-31.
        La tira ya no va centrada: arranca en el margen izquierdo del
        contenedor, alineada con el pie del plano. Seis cuadrados centrados
        debajo de una imagen a sangre eran otra fila simétrica más.
@@ -555,10 +677,10 @@
   <ul class="inicio__aves reveal-secuencia" role="list">
     <li class="inicio__ave reveal reveal--zoom">
       <img
-        src="img/aves/ave-46-momotus-subrufescens.jpg"
-        width="867"
-        height="1300"
-        alt="Ave de corona turquesa y cola larga (Momotus subrufescens) posada en una rama del predio, con una baya en el pico. Fotografía de Leyner Lozano."
+        src="img/aves/ave-14-saltador-pio.jpg"
+        width="1300"
+        height="975"
+        alt="Saltador pío de plumaje oliva y pecho claro, posado en una rama cubierta de musgo. Fotografía de Carlos Serrano."
         loading="lazy"
         decoding="async"
       />
@@ -647,8 +769,18 @@
          evita. decode() resuelve en el acto si ya está decodificada y
          espera también la carga si no ha terminado: cubre los dos casos. */
       foto.decode().catch(() => {})
-        .then(() => import('./js/particulas-hero.js?v=1d81ff79'))
-        .then((m) => m?.montarParticulas(portada, foto))
+        .then(() => Promise.all([
+          import('./js/particulas-hero.js?v=0fef6596')
+            .then((m) => m?.montarParticulas(portada, foto))
+            .catch(() => {}),
+          /* El enjambre va DESPUÉS del mismo cerrojo y en su propia rama: si
+             uno de los dos módulos falla, el otro sigue vivo. Los PNG de las
+             mariposas no se piden hasta aquí, así que no compiten con el LCP
+             ni por red ni por decodificación. */
+          import('./js/enjambre-hero.js?v=b8fb2f94')
+            .then((m) => m?.montarEnjambre(document.querySelector('.inicio__enjambre')))
+            .catch(() => {}),
+        ]))
         .catch(() => {});
     }
   </script>
@@ -732,9 +864,53 @@
 
     <header class="seccion-encabezado nosotros__titular reveal reveal--izq">
       <p class="eyebrow">El predio</p>
-      <h2 class="titulo-seccion" id="nosotros-titulo">
-        Lo que hay detrás de la portería
+      <!-- v6 · TITULAR NUEVO, APROBADO POR EL CLIENTE. «Lo que hay detrás de
+           la portería» prometía un misterio que el cuerpo no cumple, y
+           «portería» sonaba a conjunto residencial. Éste conserva el umbral
+           —la reja como frontera— y cambia la promesa a lo que la sección de
+           verdad entrega, que es además lo que dice el párrafo de abajo: «Eso
+           cambia cómo se siente el día».
+           EL id NO SE TOCA: el <section> lo referencia con aria-labelledby.
+           Escrito en caja alta y baja en el propio HTML, nunca en mayúsculas
+           confiando en el CSS (CONTRATO-V2 §3).                             -->
+      <h2 class="titulo-seccion nosotros__titulo" id="nosotros-titulo">
+        Cruzas la reja y cambia el día
       </h2>
+
+      <!-- v6 · LA RAMA QUE SE DIBUJA SOLA -----------------------------------
+           La columna del titular se queda pegada al scroll durante cuatro
+           párrafos de texto: a partir de 62em son unos 300 px de papel vacío
+           debajo del h2 que hasta ahora no hacían nada. Aquí crece una rama.
+
+           NO ES UN SVG DECORATIVO CUALQUIERA: lleva la firma EXACTA que
+           reconoce el motor de dibujado del sitio —`viewBox="0 0 24 24"`,
+           `fill="none"` y `stroke="currentColor"`— y el estado inicial va
+           HORNEADO A MANO en el propio marcado (`class="icono-traza"` en el
+           elemento raíz y `pathLength="1"` en cada forma). Eso es obligatorio
+           y no es
+           un detalle: js/app.js va con `defer`, así que si fuera él quien
+           marcase la silueta, el navegador alcanzaría a pintarla entera y
+           desaparecería un instante después. Con el trazo oculto desde el
+           primer paint no hay un solo fotograma de parpadeo.
+
+           CINCO FORMAS, CINCO TIEMPOS. El tallo sale primero y las cuatro
+           hojas van brotando detrás con retardos desiguales (nosotros.css §6):
+           una rama no se dibuja de golpe, se recorre. Cada <path> lleva UNA
+           sola `M` a propósito: un camino con varios trazos sueltos no se
+           puede recorrer con el guion y saldría entrecortado.
+
+           Se oculta por debajo de 62em: ahí la columna no es pegajosa, no
+           sobra papel y la rama sólo empujaría el discurso hacia abajo.     -->
+      <svg class="icono-traza nosotros__silueta nosotros__silueta--rama"
+           viewBox="0 0 24 24" fill="none" stroke="currentColor"
+           stroke-width="0.85" stroke-linecap="round" stroke-linejoin="round"
+           aria-hidden="true" focusable="false">
+        <path d="M4.4 22.6C6.9 19 8.9 15 10.4 10.8 11.4 7.7 12.1 4.6 12.4 1.5" pathLength="1"/>
+        <path d="M8.6 16.5c-2.7-1.4-5-1.3-6.9.4 2.3 2 4.6 1.9 6.9-.4Z" pathLength="1"/>
+        <path d="M10.4 11.4c1.8-2.7 4.2-4 7.2-3.9-1 3-3.4 4.3-7.2 3.9Z" pathLength="1"/>
+        <path d="M11.6 7.2c-1.6-2.2-3.6-3-5.9-2.3 1 2.4 3 3.2 5.9 2.3Z" pathLength="1"/>
+        <path d="M12.3 3.5c1-1.9 2.6-2.8 4.7-2.7-.5 2.2-2.1 3.1-4.7 2.7Z" pathLength="1"/>
+      </svg>
     </header>
 
     <!-- Sin `reveal--der`: la entrada horizontal desplaza 28 px hacia la
@@ -811,9 +987,24 @@
         Lo básico, resuelto
       </h3>
 
-      <ul class="nosotros__servicios-lista">
+      <!-- v6 · LA TIRA DEJA DE SER UNA FILA DE CUATRO IGUALES.
+           Hasta v5 los cuatro servicios entraban de golpe (el .reveal está en
+           el bloque entero) y las cuatro insignias medían exactamente lo
+           mismo. Cuatro piezas idénticas alineadas por arriba y por abajo es
+           el gesto de plantilla que el resto de la sección ya había
+           corregido en la foto y en los pilares.
 
-        <li class="nosotros__servicio">
+           Ahora cada <li> es su propio .reveal dentro de una .reveal-secuencia
+           y los cuatro tamaños, las cuatro alturas de base y las cuatro
+           formas de hoja los reparte nosotros.css §2 —el mismo criterio y las
+           mismas proporciones que la tira de aves del hero
+           (sections/hero.html:341 y styles/sections/inicio.css:993-1023)—.
+           Los RETARDOS los sobrescribe también la hoja: la escalera regular
+           de 90 en 90 ms de base.css se lee como un barrido; desigualada, se
+           lee como cuatro cosas distintas apareciendo. -->
+      <ul class="nosotros__servicios-lista reveal-secuencia">
+
+        <li class="nosotros__servicio reveal reveal--zoom">
           <svg class="icono-traza nosotros__servicio-icono" viewBox="0 0 24 24" fill="none" stroke="currentColor"
                stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"
                aria-hidden="true" focusable="false">
@@ -825,7 +1016,7 @@
           Wifi
         </li>
 
-        <li class="nosotros__servicio">
+        <li class="nosotros__servicio reveal reveal--zoom">
           <svg class="icono-traza nosotros__servicio-icono" viewBox="0 0 24 24" fill="none" stroke="currentColor"
                stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"
                aria-hidden="true" focusable="false">
@@ -837,7 +1028,7 @@
           Baños
         </li>
 
-        <li class="nosotros__servicio">
+        <li class="nosotros__servicio reveal reveal--zoom">
           <svg class="icono-traza nosotros__servicio-icono" viewBox="0 0 24 24" fill="none" stroke="currentColor"
                stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"
                aria-hidden="true" focusable="false">
@@ -847,7 +1038,7 @@
           Vigilancia privada
         </li>
 
-        <li class="nosotros__servicio">
+        <li class="nosotros__servicio reveal reveal--zoom">
           <svg class="icono-traza nosotros__servicio-icono" viewBox="0 0 24 24" fill="none" stroke="currentColor"
                stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"
                aria-hidden="true" focusable="false">
@@ -943,6 +1134,32 @@
 
       </ol>
 
+      <!-- v6 · LA BANDADA — el cierre del cierre de capítulo -----------------
+           Tres vuelos de tamaños distintos que se dibujan uno detrás de otro
+           y que además DERIVAN con el scroll (nosotros.css §6). Van aquí, en
+           flujo normal debajo del último pilar, y no en posición absoluta: la
+           banda es una rejilla de tres pistas con `align-items: center` y una
+           pieza flotante sobre ella se colocaría distinto según lo alto que
+           quede el panel de aves de al lado. En flujo el sitio es siempre el
+           mismo y el `transform` de la deriva no mueve nada de la maqueta.
+
+           POR QUÉ DIBUJA EN OTRO MOMENTO QUE LA RAMA DE ARRIBA: el disparador
+           de js/app.js es el ANCESTRO `section` más cercano, y el compromiso
+           es un <section> propio. Así que esta bandada arranca cuando entra la
+           banda oscura, no cuando entra #nosotros: dos relojes distintos sin
+           una línea de JavaScript nueva.
+
+           Estado inicial horneado a mano, igual que la rama. Cada vuelo lleva
+           una sola `M` para que el guion pueda recorrerlo entero.           -->
+      <svg class="icono-traza nosotros__silueta nosotros__silueta--vuelo"
+           viewBox="0 0 24 24" fill="none" stroke="currentColor"
+           stroke-width="0.9" stroke-linecap="round" stroke-linejoin="round"
+           aria-hidden="true" focusable="false">
+        <path d="M1.8 16.3c2.1-.4 3.8-1.5 5.1-3.2 1.3 1.7 3 2.8 5.1 3.2" pathLength="1"/>
+        <path d="M10.4 8.1c1.5-.3 2.7-1.1 3.6-2.3.9 1.2 2.1 2 3.6 2.3" pathLength="1"/>
+        <path d="M17.6 13.4c1-.2 1.9-.8 2.5-1.6.6.8 1.5 1.4 2.5 1.6" pathLength="1"/>
+      </svg>
+
     </div>
 
     <!-- Tampoco aquí `reveal--der`: el panel sangra por el borde derecho de la
@@ -985,53 +1202,108 @@
      CSS propio: styles/sections/espacios.css
      JS propio: js/foto-focus.js (compartido con #nosotros; el <script defer>
      va al final de este fragmento y lleva cerrojo de doble inclusión).
-     Además usa .reveal / .reveal-secuencia del script global.
+     Además usa .reveal / .reveal-secuencia y el motor de .icono-traza del
+     script global (js/app.js).
 
      ÁMBITO DE ESTA SECCIÓN — es el ÚNICO sitio del sitio donde se DESCRIBE un
      espacio. Cualquier otra sección que nombre la Alameda, La Vega, el
      Teatrino, el Taller o la Cancha enlaza aquí; no repite la ficha.
 
-     ESTRUCTURA v4 «orgánica» (rediseño de agosto de 2026)
-     Se conserva la ficha editorial de v3 —foto arriba, texto flotando debajo,
-     sin caja— y se conservan las cinco escalas distintas de la rejilla. Lo
-     que cambia es la FORMA y el ANCLA:
+     ======================================================================
+     ESTRUCTURA v5 «UNA INSIGNIA Y CUATRO QUE LA ACOMPAÑAN» (agosto de 2026)
+     ======================================================================
+     v4 dio a las cinco fichas cinco tamaños y cinco siluetas distintas, y eso
+     se conserva. Lo que v4 NO tenía —y era el encargo de v5— es JERARQUÍA:
+     cinco piezas desiguales pero equivalentes siguen leyéndose como catálogo,
+     porque el ojo no sabe cuál mirar primero. Ahora hay tres escalones y se
+     ven sin leer una palabra:
 
-     1. LA SILUETA DE CADA FOTO ES DISTINTA. Las cinco figuras iban a esquina
-        viva: cinco rectángulos idénticos de recorte, que es la mitad de lo
-        que hacía que la sección se leyera como catálogo aunque midieran
-        distinto. Ahora cada espacio tiene su propio contorno —hoja, arco,
-        banda— y ninguno repite el del vecino. Los valores están en el CSS.
-     2. EL AFORO PASA DE RENGLÓN A ANCLA. Era una línea de caps diminutas
-        encima del nombre; ahora es una cifra grande en Fraunces dentro de una
-        pastilla en forma de hoja que MONTA sobre la esquina inferior
-        izquierda de la foto. Es el elemento que se sale de su caja y el
-        primer punto de fijación de cada ficha.
-        Sigue siendo dato de apoyo y no titular (CONTRATO-V2 §6): el nombre
-        del espacio conserva el <h3> y la voz de Fraunces a plena tinta; la
-        cifra es un rótulo con peso gráfico, no el encabezado de la ficha.
-        Los HECHOS no cambian: «hasta 150 personas» se compone como
-        «150 · personas como máximo», y la Cancha conserva sus dos datos.
-     3. CADA FICHA ENTRA DE UNA MANERA. Cinco modificadores distintos de
-        .reveal (velo, der, izq, zoom, der) sobre el escalonado que ya trae
-        .reveal-secuencia: la sección se descubre en cinco gestos, no en uno
-        repetido cinco veces. Cinco hijos, muy por debajo del tope de ocho.
-     4. UNA HOJA DE FONDO. Un SVG decorativo (aria-hidden) sangra por el borde
-        derecho detrás del encabezado y se mueve con el scroll un 8 %, sólo
-        donde el navegador soporta `animation-timeline` y sólo si el usuario
-        no ha pedido menos movimiento. Es fondo: ni un texto se mueve.
+       ESCALÓN 1 · LA INSIGNIA         Alameda
+         Ocupa la primera fila ENTERA (12 de 12), banda 12:5 con sus dos
+         fotografías propias, nombre a --paso-3, cifra a --paso-4 y el ÚNICO
+         botón relleno de la sección. Es la que se alquila más y la que más
+         gente admite: que pese el triple no es capricho, es el dato.
+       ESCALÓN 2 · LAS DOS QUE SOSTIENEN   La Vega · Teatrino
+         La Vega es la única con una fotografía del espacio MONTADO —la
+         prueba de que aquí se hacen cosas— y se lleva 7 de 12 columnas.
+         El Teatrino es la pieza vertical alta a su derecha, arrancando
+         mucho más abajo.
+       ESCALÓN 3 · LAS DOS QUE CIERRAN     Taller · Cancha
+         Las más pequeñas de la composición, en la tercera fila, con el
+         nombre y la cifra un escalón por debajo.
 
-     LAS CINCO ESCALAS (de v3, intactas) — cuánto ocupa y cuánto baja cada una:
-       espacio--destacado  Alameda · banda 2:1 sobre 8 de 12 columnas
-       espacio--alto       La Vega · columna estrecha, la más alta, desfasada
-       espacio--medio      Teatrino · el cuadrado grande que abre la 2.ª fila
-       espacio--esbelto    Taller · vertical estrecho, desfase corto
-       espacio--breve      Cancha · el más pequeño, desfase largo
-     El HTML no sabe de medidas: sólo viajan los modificadores.
+     Ninguna se esconde: las cinco se alquilan, las cinco conservan foto
+     propia, aforo, descripción y su enlace de WhatsApp.
 
-     LOS CINCO SON LOS DEL BRIEF: Alameda, La Vega, Teatrino, Taller y Cancha.
-     No existe ningún «Prado»: ver ARQUITECTURA-V3 §7.1, que manda borrar el
-     «Prado Japonés» de condiciones-de-alquiler.html por ser un espacio
-     inventado. El quinto espacio es el Taller y el otro es la Cancha.
+     QUÉ SE CONSERVA DE v4, INTACTO
+     · La ficha sin caja: foto, pastilla de aforo y texto flotando sobre el
+       papel. Ni superficie, ni borde, ni sombra de tarjeta.
+     · Las cinco siluetas distintas (banda, hoja, ARCO, hoja invertida y
+       esquina viva), sin que dos vecinas repitan diagonal.
+     · La pastilla de aforo montando sobre la esquina inferior izquierda de
+       la foto: sigue siendo el ancla y el elemento que se sale de su caja.
+       Sigue siendo dato de apoyo y no titular (CONTRATO-V2 §6): el nombre
+       conserva el <h3> y la cifra nunca pasa de --paso-4, que es el cuerpo
+       del <h2> de la sección; el titular sigue mandando.
+     · Los HECHOS no cambian: «150 personas como máximo», «100», «70», «45»
+       y los dos datos de la Cancha, palabra por palabra.
+     · La hoja de fondo con desplazamiento ligado al scroll.
+
+     QUÉ ES NUEVO EN v5
+     1. LAS FOTOS SON TODAS REALES. Las CINCO tarjetas de borrador -TEMP
+        (que no eran fotografías sino placas de texto sobre verde) están
+        fuera. Ver el bloque FOTOS de más abajo.
+     2. LA VEGA ESTRENA FOTOGRAFÍA. `img/eventos/boda-4.jpg` —la única del
+        banco que enseña un montaje de tarde con la carpa encendida— sale del
+        carril de #planes y viene aquí. Era el hueco más caro de la sección:
+        el espacio que se alquila para reunir gente no tenía ni una foto con
+        gente.
+     3. UNA SILUETA DE TRAZO POR ESPACIO. Cinco glifos de 24×24 en la firma
+        que reconoce herramientas/hornear-trazos.js (`fill="none"` +
+        `stroke="currentColor"` + `viewBox="0 0 24 24"`) que se DIBUJAN al
+        entrar la sección. Van ya horneados a mano —clase `icono-traza` y
+        `pathLength="1"` escritos aquí— para que nazcan ocultos y no haya un
+        solo fotograma con el glifo entero antes de tiempo.
+     4. NADA ARRANCA A LA VEZ. Ver el bloque ANIMACIÓN.
+     5. UN SOLO BOTÓN RELLENO, en la Alameda. Los otros cuatro conservan el
+        .enlace-flecha. El coral sigue siendo escaso y sigue estando sólo en
+        lo que se pulsa.
+
+     ======================================================================
+     ANIMACIÓN — «nada se mueve al mismo compás y nada empieza a la vez»
+     ======================================================================
+     Cuatro relojes distintos, ninguno sincronizado con otro, y los cuatro
+     apagados bajo prefers-reduced-motion:
+
+       a) ENTRADA DE CADA FICHA — .reveal-secuencia (0/90/180/270/360 ms) con
+          CINCO gestos distintos: velo (la cortina sube) para la banda de la
+          Alameda, que no tiene lado por el que llegar; izq y der para las
+          que sí lo tienen, cada una por el borde al que está pegada; zoom
+          para el Taller.
+       b) ESCALONADO DENTRO DE CADA FICHA — la pastilla, el nombre, la línea
+          y el botón entran uno detrás de otro, y CADA FICHA lleva su propio
+          compás (un multiplicador distinto por espacio), así que la tercera
+          no repite el ritmo interno de la primera. Todo el estado inicial
+          está en CSS estático: nunca lo pone el JS.
+       c) LOS CINCO GLIFOS SE DIBUJAN CON RETARDOS DISTINTOS. El observador
+          de app.js vigila la SECCIÓN y los dispararía a la vez; el CSS los
+          separa de 300 en 300 ms.
+       d) SCROLL — dos hojas de fondo a velocidades y recorridos distintos
+          (`animation-timeline: view()`, sin una línea de JS) y el encuadre
+          ligado al scroll de foto-focus en las TRES piezas grandes.
+
+     LO QUE NO SE HACE Y POR QUÉ
+     · Nada de `data-contador` en las cifras, aunque el motor exista en
+       js/app.js. Ese motor arranca en `textContent = 0` cuando la pieza
+       llega al 60 % de la ventana, y .reveal ya la ha hecho visible al 15 %:
+       el visitante vería «150», luego «0», y luego la cuenta. Eso es el
+       parpadeo de contenido que este sitio tiene prohibido. Las cifras ganan
+       presencia por escala (cuatro cuerpos distintos, de --paso-4 a
+       --paso-1) y por su propio tiempo de entrada, no por un contador.
+     · Nada de Ken Burns: foto-focus ya mueve el encuadre y dos movimientos
+       sobre el mismo píxel se pelean.
+     · Nada de scroll-jacking, cursor propio, vídeo de fondo ni texto letra a
+       letra.
 
      LO QUE AQUÍ NO SE ESCRIBE (y por qué):
      · Las condiciones de alquiler (horas, mobiliario, sonido, catering) viven
@@ -1040,19 +1312,61 @@
      · Los tipos de evento y sus galerías son de la sección de planes.
      · El Sendero Ecovital y su precio son de la sección de naturaleza.
 
-     FOTOS — las seis abiertas y comprobadas una a una antes de escribir el alt.
-     No se añade ni se cambia ninguna en v4:
-       img/espacios/alameda-2.jpg  1500×844   img/espacios/alameda-1.jpg 1125×1500
-       img/parque/parque-47.jpg     675×1200  img/parque/parque-56.jpg    675×1200
-       img/espacios/taller-1.jpg    849×1500  img/parque/parque-57.jpg    900×1200
+     ======================================================================
+     FOTOS — las seis abiertas y comprobadas una a una antes de escribir el
+     alt. Ninguna ruta apunta a un archivo que no exista en disco.
+     ======================================================================
+       Alameda   img/espacios/alameda-2.jpg      1500×844   panorámica
+                 img/espacios/alameda-1-real.jpg 1125×1500  vertical
+       La Vega   img/eventos/boda-4.jpg          1500×1000  NUEVA aquí
+       Teatrino  img/parque/parque-56.jpg         675×1200
+       Taller    img/espacios/taller-1.jpg        849×1500
+       Cancha    img/parque/parque-57.jpg         900×1200
+
+     LAS CINCO -TEMP RETIRADAS EN v5 (eran placas de borrador, no fotos):
+       alameda-1-TEMP → alameda-1-real.jpg (derivada del original de 4220×5626)
+       parque-47-TEMP → boda-4.jpg          (La Vega, ver punto 2 de arriba)
+       parque-56-TEMP → parque-56.jpg
+       taller-1-TEMP  → taller-1.jpg
+       parque-57-TEMP → parque-57.jpg
+     `img/parque/parque-47.jpg` queda SIN USAR a propósito: es el mismo prado
+     y casi el mismo encuadre que parque-56.jpg (misma luz, mismo día, cuadro
+     contiguo). Poner las dos en la misma sección era repetir una foto con
+     dos nombres. boda-4 cuenta algo que ninguna otra cuenta.
+
+     LOS CINCO SON LOS DEL BRIEF: Alameda, La Vega, Teatrino, Taller y Cancha.
+     No existe ningún «Prado»: ver ARQUITECTURA-V3 §7.1.
      ========================================================================== -->
 <section id="espacios" class="seccion espacios" aria-labelledby="espacios-titulo">
 
-  <!-- Hoja de fondo. Decorativa: sin texto, sin enlace y fuera del árbol de
-       accesibilidad. El color se lo pone el CSS con `currentColor`, así que
+  <!-- Hoja de fondo ALTA. Decorativa: sin texto, sin enlace y fuera del árbol
+       de accesibilidad. El color se lo pone el CSS con `currentColor`, así que
        aquí no viaja ni un valor literal. -->
   <svg
-    class="espacios__hoja"
+    class="espacios__hoja espacios__hoja--alta"
+    viewBox="0 0 320 440"
+    aria-hidden="true"
+    focusable="false"
+  >
+    <path
+      d="M160 6C58 96 16 216 160 434 304 216 262 96 160 6Z"
+      fill="currentColor"
+    />
+    <path
+      d="M160 40V404M160 150 62 108M160 150l98-42M160 252 74 206M160 252l86-46"
+      fill="none"
+      stroke="currentColor"
+      stroke-width="7"
+      stroke-linecap="round"
+    />
+  </svg>
+
+  <!-- Hoja de fondo BAJA. La misma figura, sangrando por el borde contrario,
+       más pequeña, girada al revés y —lo que importa— con OTRO recorrido y
+       OTRA velocidad de scroll. Dos adornos a distinto compás leen como
+       atmósfera; dos al mismo compás leen como un fondo animado. -->
+  <svg
+    class="espacios__hoja espacios__hoja--baja"
     viewBox="0 0 320 440"
     aria-hidden="true"
     focusable="false"
@@ -1084,24 +1398,26 @@
     <ul class="espacios__rejilla reveal-secuencia">
 
       <!-- ------------------------------------------------------------ 1/5
-           ALAMEDA · hasta 150 personas · dos fotos propias.
-           Doble columna y banda panorámica: es el espacio más grande.
+           ALAMEDA · hasta 150 personas · LA INSIGNIA.
+           Fila entera y banda 12:5 con sus dos fotos propias. Es la única
+           ficha con botón relleno y la única con el pie en dos columnas.
            Entra con velo (la cortina sube): el gesto que corresponde a una
            banda ancha, que no tiene lado por el que llegar.                -->
       <li class="espacio espacio--destacado reveal reveal--velo">
         <!-- FOTO-FOCUS (js/foto-focus.js): la Alameda es el ancla de la
-             sección y una de las dos piezas grandes que reciben el encuadre
-             ligado al scroll (la otra es el Teatrino; las tres verticales
-             estrechas quedan quietas: el plan pide foco, no ruido). El
-             atributo va en la FIGURA, que es quien recorta con la silueta de
-             banda. data-foco sólo actúa en móvil, donde la banda queda en
-             3:2 y la única holgura del recorte es horizontal: el encuadre
-             viaja del centro hacia los árboles de la izquierda. En
-             escritorio sólo hay zoom, anclado al object-position de cada
-             foto. LAS DOS CELDAS (.espacio__celda) no son decorativas: cada
-             foto zoomea dentro de la suya con overflow hidden propio; sin
-             ellas, la escala invadiría la junta de 4 px que separa las dos
-             fotos y se comería el borde de la vecina. -->
+             sección y una de las TRES piezas grandes que reciben el encuadre
+             ligado al scroll (las otras son La Vega y el Teatrino; las dos
+             pequeñas del último escalón quedan quietas — el efecto es una
+             señal de jerarquía, no un adorno repartido). El atributo va en la
+             FIGURA, que es quien recorta con la silueta de banda. data-foco
+             sólo actúa en móvil, donde la banda queda apaisada y la única
+             holgura del recorte es horizontal: el encuadre viaja del centro
+             hacia los árboles de la izquierda. En escritorio sólo hay zoom,
+             anclado al object-position de cada foto. LAS DOS CELDAS
+             (.espacio__celda) no son decorativas: cada foto zoomea dentro de
+             la suya con overflow hidden propio; sin ellas, la escala
+             invadiría la junta de 4 px que separa las dos fotos y se comería
+             el borde de la vecina. -->
         <figure class="espacio__figura espacio__figura--banda" data-foto-focus data-foco="38% 50%" data-zoom="0.1">
           <div class="espacio__celda">
             <img
@@ -1117,213 +1433,306 @@
           <div class="espacio__celda espacio__celda--apoyo">
             <img
               class="espacio__img espacio__img--apoyo"
-              src="img/espacios/alameda-1-TEMP.jpg"
+              src="img/espacios/alameda-1-real.jpg"
               width="1125"
               height="1500"
               loading="lazy"
               decoding="async"
-              data-pendiente-foto="temporal · reemplazar por foto real del predio"
-              alt="Grupo conversando en una celebración a media mañana en la Alameda."
+              alt="La misma Alameda en vertical: la sombra de un árbol grande tendida sobre el césped, la fila de arbolitos y el seto cerrando al fondo, y cielo abierto con nubes por encima."
             />
           </div>
         </figure>
 
+        <!-- La pastilla va envuelta: el <p> lleva la ENTRADA (transform con
+             retardo) y el <span> interior lleva el gesto de hover. Dos
+             transformaciones sobre el mismo elemento se pisan; separadas en
+             dos capas, cada una es dueña de su transform. -->
         <p class="espacio__aforo">
-          <span class="espacio__cifra">150</span>
-          <span class="espacio__glosa">personas como máximo</span>
+          <span class="espacio__pastilla">
+            <span class="espacio__cifra">150</span>
+            <span class="espacio__glosa">personas como máximo</span>
+          </span>
         </p>
 
         <div class="espacio__cuerpo">
-          <h3 class="titulo-seccion titulo-seccion--sm espacio__nombre">Alameda</h3>
+          <h3 class="titulo-seccion titulo-seccion--sm espacio__nombre">
+            <!-- Glifo horneado a mano: clase y pathLength ya escritos, así el
+                 trazo nace oculto y no hay parpadeo. Hilera de árboles sobre
+                 el prado: es lo que la palabra «alameda» significa. -->
+            <svg class="icono-traza espacio__glifo" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                 stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"
+                 aria-hidden="true" focusable="false">
+              <path d="M2.5 21h19" pathLength="1"/>
+              <circle cx="8" cy="8.5" r="4" pathLength="1"/>
+              <path d="M8 12.5V21" pathLength="1"/>
+              <circle cx="16.8" cy="11.4" r="2.9" pathLength="1"/>
+              <path d="M16.8 14.3V21" pathLength="1"/>
+            </svg>
+            Alameda
+          </h3>
           <p class="espacio__texto">
             El prado más ancho del predio, sin una sola pared y con sombra de sobra en
             los bordes.
           </p>
-          <a
-            class="enlace-flecha espacio__enlace"
-            href="https://wa.me/573166758362?text=Hola%2C%20quiero%20este%20plan%20en%20la%20Alameda.%20%C2%BFQu%C3%A9%20disponibilidad%20tienen%3F"
-            target="_blank"
-            rel="noopener"
-          >
-            Quiero este plan<span class="solo-lectores"> en la Alameda</span>
-          </a>
+          <!-- El envoltorio existe para animar: el <a> es un .btn y ya tiene
+               su propio transform en :hover. Se anima la caja, nunca el
+               control. -->
+          <span class="espacio__accion">
+            <a
+              class="btn btn-primario espacio__enlace espacio__enlace--fuerte"
+              href="https://wa.me/573166758362?text=Hola%2C%20quiero%20este%20plan%20en%20la%20Alameda.%20%C2%BFQu%C3%A9%20disponibilidad%20tienen%3F"
+              target="_blank"
+              rel="noopener"
+            >
+              Quiero este plan<span class="solo-lectores"> en la Alameda</span>
+            </a>
+          </span>
         </div>
       </li>
 
       <!-- ------------------------------------------------------------ 2/5
-           LA VEGA · hasta 100 personas
-           Columna estrecha y alta a la derecha de la Alameda, arrancando por
-           debajo de ella: es el desfase el que rompe la fila.
-           Silueta de hoja y entrada desde la derecha, su propio lado.       -->
-      <li class="espacio espacio--alto reveal reveal--der">
-        <figure class="espacio__figura">
+           LA VEGA · hasta 100 personas · SEGUNDO ESCALÓN.
+           Siete de doce columnas en la segunda fila, pegada al margen
+           izquierdo: entra por ese mismo lado.
+           Es la única ficha con el espacio MONTADO en la fotografía, y por
+           eso es la segunda en peso: enseña lo que se compra, no sólo dónde.
+           Silueta de hoja con las puntas arriba a la derecha y abajo a la
+           izquierda.                                                       -->
+      <li class="espacio espacio--alto reveal reveal--izq">
+        <!-- FOTO-FOCUS: tercera pieza grande. El data-foco mueve los DOS ejes
+             a propósito, porque el eje con holgura cambia con el ancho: en
+             recorte 16:10 y 8:5 el archivo (3:2) sobra por arriba y por abajo,
+             y en el 4:3 de móvil sobra por los lados. El script sólo aplica el
+             eje que de verdad tiene desborde, así que un foco de dos
+             coordenadas sirve para los tres recortes: el encuadre viaja hacia
+             la barra y las materas, que es la esquina cálida de la foto. -->
+        <figure class="espacio__figura" data-foto-focus data-foco="60% 68%" data-zoom="0.09">
           <img
             class="espacio__img"
-            src="img/parque/parque-47-TEMP.jpg"
-            width="675"
-            height="1200"
+            src="img/eventos/boda-4.jpg"
+            width="1500"
+            height="1000"
             loading="lazy"
             decoding="async"
-            data-pendiente-foto="temporal · reemplazar por foto real del predio"
-            alt="Encuentro de grupo sentado en círculo a la sombra en La Vega, al mediodía."
+            alt="Una celebración montada al atardecer sobre la explanada: una carpa transparente con guirnaldas de bombillos encendidos, invitados de pie alrededor de las mesas, una furgoneta roja convertida en barra y materas con flores en primer plano."
           />
         </figure>
 
         <p class="espacio__aforo">
-          <span class="espacio__cifra">100</span>
-          <span class="espacio__glosa">personas como máximo</span>
+          <span class="espacio__pastilla">
+            <span class="espacio__cifra">100</span>
+            <span class="espacio__glosa">personas como máximo</span>
+          </span>
         </p>
 
         <div class="espacio__cuerpo">
-          <h3 class="titulo-seccion titulo-seccion--sm espacio__nombre">La Vega</h3>
+          <h3 class="titulo-seccion titulo-seccion--sm espacio__nombre">
+            <!-- Toldo de dos aguas sobre una línea de suelo perfectamente
+                 recta: la explanada llana y lo que se le monta encima. -->
+            <svg class="icono-traza espacio__glifo" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                 stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"
+                 aria-hidden="true" focusable="false">
+              <path d="M2.5 20.5h19" pathLength="1"/>
+              <path d="M4 12.5 12 7l8 5.5" pathLength="1"/>
+              <path d="M4.6 12.5v8" pathLength="1"/>
+              <path d="M19.4 12.5v8" pathLength="1"/>
+            </svg>
+            La Vega
+          </h3>
           <p class="espacio__texto">
             Explanada llana y pareja, sin desniveles ni columnas: se monta a tu manera.
           </p>
-          <a
-            class="enlace-flecha espacio__enlace"
-            href="https://wa.me/573166758362?text=Hola%2C%20quiero%20este%20plan%20en%20La%20Vega.%20%C2%BFQu%C3%A9%20disponibilidad%20tienen%3F"
-            target="_blank"
-            rel="noopener"
-          >
-            Quiero este plan<span class="solo-lectores"> en La Vega</span>
-          </a>
+          <span class="espacio__accion">
+            <a
+              class="enlace-flecha espacio__enlace"
+              href="https://wa.me/573166758362?text=Hola%2C%20quiero%20este%20plan%20en%20La%20Vega.%20%C2%BFQu%C3%A9%20disponibilidad%20tienen%3F"
+              target="_blank"
+              rel="noopener"
+            >
+              Quiero este plan<span class="solo-lectores"> en La Vega</span>
+            </a>
+          </span>
         </div>
       </li>
 
       <!-- ------------------------------------------------------------ 3/5
-           TEATRINO · hasta 70 personas
-           El cuadrado grande: abre la segunda fila a plomo con la Alameda y
-           es la única de las cuatro pequeñas que no baja.
+           TEATRINO · hasta 70 personas · SEGUNDO ESCALÓN.
+           La vertical alta pegada al margen derecho de la segunda fila, con
+           el desfase más largo de su fila: entra por la derecha.
            Su foto va recortada EN ARCO: la copa del árbol de la fotografía y
            el medio punto de la silueta son la misma curva.                  -->
-      <li class="espacio espacio--medio reveal reveal--izq">
-        <!-- FOTO-FOCUS: el Teatrino es la otra pieza grande (el cuadrado que
-             abre la segunda fila) y el zoom queda recortado por su arco.
-             data-foco sube el encuadre en móvil: el archivo es un vertical
-             675×1200 y el recorte cuadrado deja holgura sólo en vertical.
-             OJO: la foto actual es -TEMP (tarjeta borrador); cuando llegue la
-             foto real del Teatrino hay que reafinar data-foco a su motivo
-             (público abajo, escenario y cielo de atardecer arriba). -->
+      <li class="espacio espacio--medio reveal reveal--der">
+        <!-- FOTO-FOCUS: el archivo es un vertical de 675×1200 dentro de un
+             recorte 3:4, así que la holgura queda en vertical. data-foco
+             sube el encuadre hasta la copa, que es lo que esa foto cuenta y
+             lo que el arco de la silueta remata. -->
         <figure class="espacio__figura" data-foto-focus data-foco="50% 42%" data-zoom="0.12">
           <img
             class="espacio__img"
-            src="img/parque/parque-56-TEMP.jpg"
+            src="img/parque/parque-56.jpg"
             width="675"
             height="1200"
             loading="lazy"
             decoding="async"
-            data-pendiente-foto="temporal · reemplazar por foto real del predio"
-            alt="Público sentado frente a una función al atardecer en el Teatrino."
+            alt="El claro del Teatrino: un árbol enorme de copa muy abierta plantado en mitad del césped, con una persona de pie a su lado que da la escala, y el follaje de otros árboles enmarcando la escena por arriba."
           />
         </figure>
 
         <p class="espacio__aforo">
-          <span class="espacio__cifra">70</span>
-          <span class="espacio__glosa">personas como máximo</span>
+          <span class="espacio__pastilla">
+            <span class="espacio__cifra">70</span>
+            <span class="espacio__glosa">personas como máximo</span>
+          </span>
         </p>
 
         <div class="espacio__cuerpo">
-          <h3 class="titulo-seccion titulo-seccion--sm espacio__nombre">Teatrino</h3>
+          <h3 class="titulo-seccion titulo-seccion--sm espacio__nombre">
+            <!-- Copa en medio punto sobre un tronco y dos filas de platea:
+                 el mismo arco que recorta la fotografía. -->
+            <svg class="icono-traza espacio__glifo" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                 stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"
+                 aria-hidden="true" focusable="false">
+              <path d="M3.6 12.4a8.4 8.4 0 0 1 16.8 0" pathLength="1"/>
+              <path d="M12 12.4v4.4" pathLength="1"/>
+              <path d="M5.4 18h13.2" pathLength="1"/>
+              <path d="M7.6 21h8.8" pathLength="1"/>
+            </svg>
+            Teatrino
+          </h3>
           <p class="espacio__texto">
             Un claro al pie de un árbol enorme: el césped hace de platea y la copa, de techo.
           </p>
-          <a
-            class="enlace-flecha espacio__enlace"
-            href="https://wa.me/573166758362?text=Hola%2C%20quiero%20este%20plan%20en%20el%20Teatrino.%20%C2%BFQu%C3%A9%20disponibilidad%20tienen%3F"
-            target="_blank"
-            rel="noopener"
-          >
-            Quiero este plan<span class="solo-lectores"> en el Teatrino</span>
-          </a>
+          <span class="espacio__accion">
+            <a
+              class="enlace-flecha espacio__enlace"
+              href="https://wa.me/573166758362?text=Hola%2C%20quiero%20este%20plan%20en%20el%20Teatrino.%20%C2%BFQu%C3%A9%20disponibilidad%20tienen%3F"
+              target="_blank"
+              rel="noopener"
+            >
+              Quiero este plan<span class="solo-lectores"> en el Teatrino</span>
+            </a>
+          </span>
         </div>
       </li>
 
       <!-- ------------------------------------------------------------ 4/5
-           TALLER · hasta 45 personas · el espacio bajo techo
-           Vertical estrecho, con el primer peldaño del escalonado.
+           TALLER · hasta 45 personas · el espacio bajo techo · TERCER ESCALÓN.
+           Vertical estrecho que abre la última fila. Entra con zoom: es la
+           única de las cinco que no llega desde un borde ni con cortina.
            Su hoja va al revés que la de La Vega: las dos verticales de la
            sección no comparten contorno.                                    -->
       <li class="espacio espacio--esbelto reveal reveal--zoom">
         <figure class="espacio__figura">
           <img
             class="espacio__img"
-            src="img/espacios/taller-1-TEMP.jpg"
+            src="img/espacios/taller-1.jpg"
             width="849"
             height="1500"
             loading="lazy"
             decoding="async"
-            data-pendiente-foto="temporal · reemplazar por foto real del predio"
-            alt="Clase en marcha dentro del Taller, con manos trabajando sobre las mesas y luz de mañana."
+            alt="El interior del Taller: cubierta de caña sostenida por vigas, guirnaldas de bombillos encendidos cruzando el techo, paredes de esterilla, un caballete y mesas con cuadros apoyados, y sillas al costado sobre el piso firme."
           />
         </figure>
 
         <p class="espacio__aforo">
-          <span class="espacio__cifra">45</span>
-          <span class="espacio__glosa">personas como máximo</span>
+          <span class="espacio__pastilla">
+            <span class="espacio__cifra">45</span>
+            <span class="espacio__glosa">personas como máximo</span>
+          </span>
         </p>
 
         <div class="espacio__cuerpo">
-          <h3 class="titulo-seccion titulo-seccion--sm espacio__nombre">Taller</h3>
+          <h3 class="titulo-seccion titulo-seccion--sm espacio__nombre">
+            <!-- Cubierta a dos aguas, dos postes y la guirnalda colgando:
+                 los tres rasgos que se ven en la fotografía. -->
+            <svg class="icono-traza espacio__glifo" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                 stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"
+                 aria-hidden="true" focusable="false">
+              <path d="M2.5 10.2 12 4.4l9.5 5.8" pathLength="1"/>
+              <path d="M5.4 10.6V21" pathLength="1"/>
+              <path d="M18.6 10.6V21" pathLength="1"/>
+              <path d="M5.4 13.4c4.4 4.2 8.8 4.2 13.2 0" pathLength="1"/>
+            </svg>
+            Taller
+          </h3>
           <p class="espacio__texto">
             El único bajo techo: cubierta de caña, piso firme y seco, y un aguacero que
             aquí sólo se oye.
           </p>
-          <a
-            class="enlace-flecha espacio__enlace"
-            href="https://wa.me/573166758362?text=Hola%2C%20quiero%20este%20plan%20en%20el%20Taller.%20%C2%BFQu%C3%A9%20disponibilidad%20tienen%3F"
-            target="_blank"
-            rel="noopener"
-          >
-            Quiero este plan<span class="solo-lectores"> en el Taller</span>
-          </a>
+          <span class="espacio__accion">
+            <a
+              class="enlace-flecha espacio__enlace"
+              href="https://wa.me/573166758362?text=Hola%2C%20quiero%20este%20plan%20en%20el%20Taller.%20%C2%BFQu%C3%A9%20disponibilidad%20tienen%3F"
+              target="_blank"
+              rel="noopener"
+            >
+              Quiero este plan<span class="solo-lectores"> en el Taller</span>
+            </a>
+          </span>
         </div>
       </li>
 
       <!-- ------------------------------------------------------------ 5/5
-           CANCHA · 30 jugadores y 20 espectadores
-           La más pequeña de las cinco y la que más baja: cierra el
-           escalonado de la segunda fila.
+           CANCHA · 30 jugadores y 20 espectadores · TERCER ESCALÓN.
+           Cierra la composición abajo a la derecha, con el desfase más largo
+           de la sección: es la última nota y la más baja. Entra por la
+           derecha, que es el margen al que está pegada.
            Único aforo de dos cifras: la pastilla se parte en dos datos y es,
            por eso, la más ancha de las cinco.                               -->
       <li class="espacio espacio--breve reveal reveal--der">
         <figure class="espacio__figura">
           <img
             class="espacio__img"
-            src="img/parque/parque-57-TEMP.jpg"
+            src="img/parque/parque-57.jpg"
             width="900"
             height="1200"
             loading="lazy"
             decoding="async"
-            data-pendiente-foto="temporal · reemplazar por foto real del predio"
-            alt="Partido recreativo en la Cancha por la tarde, con espectadores al margen."
+            alt="La Cancha a media tarde: un campo de césped amplio y plano, con el guadual cerrando el fondo, árboles altos por la derecha y hojas grandes asomando en primer plano."
           />
         </figure>
 
         <p class="espacio__aforo espacio__aforo--doble">
-          <span class="espacio__dato">
-            <span class="espacio__cifra">30</span>
-            <span class="espacio__glosa">jugadores</span>
-          </span>
-          <span class="espacio__dato">
-            <span class="espacio__cifra">20</span>
-            <span class="espacio__glosa">espectadores</span>
+          <span class="espacio__pastilla">
+            <span class="espacio__dato">
+              <span class="espacio__cifra">30</span>
+              <span class="espacio__glosa">jugadores</span>
+            </span>
+            <span class="espacio__dato">
+              <span class="espacio__cifra">20</span>
+              <span class="espacio__glosa">espectadores</span>
+            </span>
           </span>
         </p>
 
         <div class="espacio__cuerpo">
-          <h3 class="titulo-seccion titulo-seccion--sm espacio__nombre">Cancha</h3>
+          <h3 class="titulo-seccion titulo-seccion--sm espacio__nombre">
+            <!-- Campo, línea central y círculo: la única figura geométrica
+                 de los cinco glifos, porque es el único espacio con marcas
+                 en el suelo. -->
+            <svg class="icono-traza espacio__glifo" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                 stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"
+                 aria-hidden="true" focusable="false">
+              <path d="M3 5.6h18v12.8H3z" pathLength="1"/>
+              <path d="M12 5.6v12.8" pathLength="1"/>
+              <circle cx="12" cy="12" r="2.6" pathLength="1"/>
+            </svg>
+            Cancha
+          </h3>
           <p class="espacio__texto">
             El campo más plano y despejado, con el guadual cerrando el fondo y borde en
             sombra para mirar.
           </p>
-          <a
-            class="enlace-flecha espacio__enlace"
-            href="https://wa.me/573166758362?text=Hola%2C%20quiero%20este%20plan%20en%20la%20Cancha.%20%C2%BFQu%C3%A9%20disponibilidad%20tienen%3F"
-            target="_blank"
-            rel="noopener"
-          >
-            Quiero este plan<span class="solo-lectores"> en la Cancha</span>
-          </a>
+          <span class="espacio__accion">
+            <a
+              class="enlace-flecha espacio__enlace"
+              href="https://wa.me/573166758362?text=Hola%2C%20quiero%20este%20plan%20en%20la%20Cancha.%20%C2%BFQu%C3%A9%20disponibilidad%20tienen%3F"
+              target="_blank"
+              rel="noopener"
+            >
+              Quiero este plan<span class="solo-lectores"> en la Cancha</span>
+            </a>
+          </span>
         </div>
       </li>
 
@@ -1333,9 +1742,8 @@
          PIE DE SECCIÓN
          Las condiciones no se transcriben aquí: tienen su propia página.
          Es un ENLACE, no un modal.
-         v4: deja de ser un filete de 1 px y pasa a ser una tablilla con
-         contorno de hoja, para que el remate de la sección hable el mismo
-         idioma que las cinco fichas.
+         Sigue siendo una tablilla con contorno de hoja, para que el remate
+         hable el mismo idioma que las cinco fichas.
          ================================================================== -->
     <div class="espacios__pie reveal">
       <p class="nota sin-margen espacios__pie-texto">
@@ -1365,7 +1773,8 @@
 <!-- ==========================================================================
      FRAGMENTO: PLANES POR OCASIÓN  ·  id="planes"
      CSS propio: styles/sections/planes.css
-     JS: ninguno propio. Sólo .reveal / .reveal-secuencia del script global.
+     JS: ninguno propio. Sólo .reveal / .reveal-secuencia del script global y
+     el disparador de .icono-traza, los dos de js/app.js.
 
      QUÉ VENDE: los USOS del predio, no los contenedores. Cinco carriles por
      tipo de cliente, probados con fotos de eventos que de verdad pasaron aquí.
@@ -1377,21 +1786,21 @@
        anuncian los lectores de pantalla, así que es publicar el aforo por la
        puerta de atrás. Los aforos son de #espacios y de nadie más.
      · Los cinco carriles NO se maquetan igual, a propósito:
-         01 fiesta    → foto grande + columna de tres        (imagen manda)
-         02 familia   → tira horizontal de cuatro retratos   (texto primero)
-         03 empresa   → dossier: retrato + par apaisado      (partido 50/50)
-         04 bienestar → banda ancha + trío + lista de siete  (fondo bosque)
-         05 talleres  → banda tipográfica, sin galería       (silencio)
+         01 fiesta    → portada a sangre + díptico asimétrico   (la foto manda)
+         02 familia   → texto + mosaico 55/45 + banda ancha     (texto primero)
+         03 empresa   → dossier: retrato + par apaisado         (partido 50/50)
+         04 bienestar → banda a sangre + bloque verde           (único negativo)
+         05 talleres  → banda tipográfica, sin galería          (silencio)
        Si los cinco fueran galería + lista + botón, la repetición que sacamos
        de la página se colaría otra vez dentro de una sola sección.
      · Y NO OCUPAN EL MISMO ANCHO (revisión de agosto de 2026). Aunque por
        dentro cada carril era distinto, los cinco medían 1200 px clavados y
        empezaban en la misma x: cinco losas apiladas. Ahora cada uno tiene su
        propia caja y se alternan izquierda y derecha:
-         01 la foto grande SALE del contenedor por la izquierda (a sangre)
-         02 el texto entra una columna y la tira SALE por la derecha
+         01 la portada y el díptico SALEN del contenedor (a sangre completa)
+         02 el texto entra una columna y el mosaico SALE por la derecha
          03 pega a la izquierda y se queda a dos columnas del borde derecho
-         04 entra dos columnas por la izquierda y pega a la derecha
+         04 la banda sale a sangre y el bloque verde entra dos columnas
          05 pega a la izquierda y ocupa sólo ocho de las doce columnas
        Las medidas están en planes.css; aquí sólo viajan los modificadores.
      · El 04 conserva .seccion--oscura y el 05 sigue en CLARO: justo después
@@ -1402,26 +1811,49 @@
        nombre de archivo o dejar un hueco gris, se compone con tipografía.
      · CTA: el rótulo «Atrévete a un plan distinto» es el mismo en los cinco
        —es el rótulo de la sección—; lo que cambia es el mensaje de WhatsApp
-       y el remate para lector de pantalla.
+       y el remate para lector de pantalla. En el 01 ese mismo rótulo va como
+       enlace con flecha dentro de la tarjeta flotante, no como botón: la
+       tarjeta es lo único sólido que hay sobre una foto a sangre y meterle un
+       botón coral encima la convertía en un banner.
 
      REVISIÓN v4 «orgánica» (agosto de 2026) — TRES CAMBIOS, TODOS DE FORMA.
      Ni un hecho, ni un titular, ni un destino de enlace se mueven.
      1. EL ÍNDICE SE HACE ANCLA. «01…05» eran cinco cifras de 13 px al lado de
         su etiqueta; ahora son la cifra grande que abre cada carril, con la
-        ocasión debajo. Es el hilo que ya enhebraba los cinco, subido al
-        tamaño en que de verdad enhebra, y el punto donde para la vista al
-        entrar a cada uno.
-     2. LAS TRECE FOTOS DEJAN LA ESQUINA VIVA. Cada carril recorta con un
-        contorno propio —hoja, arco, canto blando, círculo— y ninguno repite
-        el del carril de arriba. Los valores están en planes.css §8.
+        ocasión debajo.
+     2. LAS FOTOS DEJAN LA ESQUINA VIVA cuando están DENTRO de la maqueta.
+        Cada carril recorta con un contorno propio y ninguno repite el del
+        carril de arriba. Los valores están en planes.css §8.
      3. CADA CARRIL ENTRA DE UNA MANERA, y la entrada coincide con su caja:
-        01 llega desde la izquierda, que es por donde su foto se sale;
-        02 desde la derecha, que es por donde se sale su tira;
+        01 llega desde la izquierda, que es por donde sangra;
+        02 desde la derecha, que es por donde se sale su mosaico;
         03 con zoom, porque es un dossier y no tiene lado;
         04 con velo, porque es un bloque de color que sube como un telón;
         05 recto, sin desvío, porque es el colofón.
         Cinco hijos con .reveal dentro de .reveal-secuencia: el escalonado no
         pasa de cinco, muy por debajo del tope de ocho.
+
+     REVISIÓN v6 (fases 3 y 4 de PLAN-HERO-V6.md) — TRES REDIAGRAMACIONES.
+     Ni un hecho nuevo, ni un titular reescrito, ni un enlace movido.
+     A. CARRIL 01, EN DOS ACTOS. El h3 «La fiesta empieza cuando se encienden
+        los bombillos» se PROMUEVE a marca de agua tipográfica gigante sobre
+        `boda-3.jpg` a sangre completa, y por tanto DESAPARECE de abajo: un
+        hecho, un dueño (ARQUITECTURA-V3). El contorno es atmósfera; la
+        información y el CTA viven en la tarjeta sólida que flota encima.
+        Debajo, `boda-2` y `boda-1` en díptico desfasado. `boda-4` sale de
+        este carril: se va a #espacios, que no tiene foto de La Vega.
+     B. CARRIL 02, DE CUATRO CLONES A UN MOSAICO. Eran cuatro retratos en
+        fila, el defecto de plantilla que v5 ya había corregido en la tira de
+        aves de #inicio. Ahora `infantil-4` —el niño saltando a atrapar
+        pompas, la mejor foto emocional del banco— manda al 55 % del ancho,
+        `infantil-2` y `cumpleanos-1` la acompañan a dos alturas distintas, e
+        `infantil-3` (cuadrada, hasta hoy sin publicar) entra recortada en
+        banda ancha como foto de contexto. `infantil-1` sale a #colegios.
+     C. CARRIL 04, LA BANDA QUE FALTABA. `yoga-2` estaba en 16:9 dentro del
+        bloque verde. Sale del bloque y pasa a banda a sangre completa con el
+        índice y el titular en negativo sobre el césped en sombra del tercio
+        izquierdo. Es el único carril en negativo del sitio y hasta hoy no lo
+        aprovechaba.
      ========================================================================== -->
 <section id="planes" class="seccion planes" aria-labelledby="planes-titulo">
   <div class="contenedor">
@@ -1438,56 +1870,132 @@
     <ul class="planes__carriles reveal-secuencia">
 
       <!-- ============================================================ 01/05
-           BODAS Y CONCIERTOS — la imagen manda: una foto grande y una
-           columna de tres al lado. Es el carril más ruidoso de los cinco.
+           BODAS Y CONCIERTOS — dos actos.
+
+           ACTO 1 · LA PIEZA DE CONTORNO.
+           `boda-3.jpg` a sangre completa (100vw × --alto-hero) y ESQUINA
+           VIVA: una foto que llega al borde de la ventana no se redondea.
+           Encima, la frase del carril en Fraunces a peso 320, relleno
+           transparente y contorno crema. CAJA ALTA Y BAJA: el referente de
+           esta pieza va en mayúsculas y CONTRATO-V2 §3 las prohíbe a partir
+           de 24 px. El gesto del referente no es el caps —es la escala, el
+           hueco del contorno y el cruce sobre la foto—, y los tres se
+           conservan. Con una serif de ascendentes y descendentes el contorno
+           dibuja además mejor que en versalitas.
+
+           LAS TRES MEDIDAS DE CONTRASTE, porque una sola no basta sobre una
+           fotografía:
+             1. El contorno va `aria-hidden` y la frase entera viaja en un
+                `.solo-lectores` dentro del mismo h3. Para el lector de
+                pantalla el titular se anuncia una vez y entero; para el ojo
+                es una marca de agua. Nadie oye tres renglones sueltos.
+             2. Un velo acotado a la banda alta —donde está el cielo de hora
+                azul— sube el contraste medido de la crema contra la foto de
+                9,1:1 a 11,0:1 y baja del 14,4 % al 0,17 % los píxeles por
+                debajo de 3:1.
+             3. La tarjeta sólida. Ahí viven el índice, el texto y el CTA, con
+                contraste real de 14,8:1 (texto) y 5,7:1 (enlace) sobre
+                --color-superficie-solida. El contorno es atmósfera; la
+                tarjeta es la información.
+
+           Dos versiones de la marca, las dos decorativas: tres renglones
+           desiguales de tableta para arriba y dos en móvil, donde tres
+           renglones a esa escala no caben en la ventana. Sólo una está
+           visible a la vez (planes.css §3).
+
+           ACTO 2 · EL DÍPTICO. `boda-2` (5 de 12 columnas, desbordando por
+           arriba) y `boda-1` (7 columnas, alineada abajo). El remate del
+           texto cae en el aire que deja el desfase, no debajo de las fotos.
            ================================================================ -->
       <li class="planes-carril planes-carril--fiesta reveal reveal--izq">
 
-        <figure class="marco marco--3-2 planes-fiesta__principal">
-          <img
-            src="img/eventos/boda-1.jpg"
-            width="1500"
-            height="1125"
-            loading="lazy"
-            decoding="async"
-            alt="Carpa blanca iluminada con guirnaldas de bombillos al anochecer: los invitados charlan sentados en sofás de estibas y pacas de paja repartidas sobre el césped."
-          />
-        </figure>
+        <div class="planes-fiesta__acto1">
 
-        <div class="planes-carril__texto planes-fiesta__texto">
-          <p class="planes-carril__ocasion">
-            <span class="planes-carril__indice">01</span> Bodas y conciertos
-          </p>
+          <div class="planes-portada">
+            <img
+              class="planes-portada__foto"
+              src="img/eventos/boda-3.jpg"
+              width="1500"
+              height="1125"
+              loading="lazy"
+              decoding="async"
+              alt="La carpa llena de gente ya de noche, con una banda tocando en un extremo y bombillos colgados entre las ramas de los árboles."
+            />
 
-          <h3 class="titulo-seccion titulo-seccion--sm">
-            La fiesta empieza cuando se encienden los bombillos
-          </h3>
+            <span class="planes-portada__velo" aria-hidden="true"></span>
 
-          <p class="planes-carril__copy">
-            Matrimonios y conciertos. La ceremonia bajo un árbol de copa ancha, la carpa
-            iluminada con bombillos y la música puesta hasta que el cielo se ponga azul
-            oscuro. Ese momento no se decora: ya viene con el sitio.
-          </p>
+            <h3 class="planes-portada__marca">
+              <span class="solo-lectores">La fiesta empieza cuando se encienden los bombillos</span>
 
-          <p class="nota planes-carril__donde">
-            Se monta en la
-            <a href="#espacios">Alameda</a>
-            o en
-            <a href="#espacios">La Vega</a>.
-          </p>
+              <span class="planes-portada__version planes-portada__version--ancha" aria-hidden="true">
+                <span class="planes-portada__renglon">La fiesta empieza</span>
+                <span class="planes-portada__renglon">cuando se encienden</span>
+                <span class="planes-portada__renglon">los bombillos</span>
+              </span>
 
-          <a
-            class="btn btn-whatsapp planes-carril__cta"
-            href="https://wa.me/573166758362?text=Hola%2C%20quiero%20cotizar%20Vegas%20del%20Verde%20para%20un%20matrimonio%20o%20un%20concierto."
-            target="_blank"
-            rel="noopener"
-          >
-            Atrévete a un plan distinto<span class="solo-lectores">: matrimonio o concierto</span>
-          </a>
+              <span class="planes-portada__version planes-portada__version--corta" aria-hidden="true">
+                <span class="planes-portada__renglon">La fiesta empieza cuando</span>
+                <span class="planes-portada__renglon">se encienden los bombillos</span>
+              </span>
+            </h3>
+          </div>
+
+          <!-- La tarjeta es HERMANA de la portada, no hija: en móvil baja a
+               bloque debajo de la foto y en pantalla ancha se posa encima con
+               `position: absolute`. Si viviera dentro de la portada —que
+               tiene alto fijo y `overflow: hidden`— no podría hacer lo
+               primero. El estado de las dos cosas está en el CSS estático:
+               aquí no hay ni un atributo de estilo. -->
+          <div class="planes-portada__tarjeta">
+
+            <!-- El bombillo que enciende la frase de arriba. Firma de icono
+                 que reconoce herramientas/hornear-trazos.js (viewBox de 24,
+                 sin relleno, trazo heredado) y con el `pathLength` YA
+                 HORNEADO en el HTML: el trazo nace oculto en el primer
+                 pintado y no hay un solo fotograma con el icono entero antes
+                 de dibujarse.
+                 Se probó primero una guirnalda de tres bombillos y a 32 px
+                 era una mancha; uno solo se reconoce al instante. -->
+            <svg
+              class="icono-traza planes-portada__icono"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="1.5"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              aria-hidden="true"
+              focusable="false"
+            >
+              <path pathLength="1" d="M12 2.6a6.4 6.4 0 0 0-3.7 11.6v2.3h7.4v-2.3A6.4 6.4 0 0 0 12 2.6Z" />
+              <path pathLength="1" d="M9.2 19h5.6" />
+              <path pathLength="1" d="M10.1 21.4h3.8" />
+            </svg>
+
+            <p class="planes-carril__ocasion">
+              <span class="planes-carril__indice">01</span> Bodas y conciertos
+            </p>
+
+            <p class="planes-carril__copy">
+              Matrimonios y conciertos. La ceremonia bajo un árbol de copa ancha, la carpa
+              iluminada con bombillos y la música puesta hasta que el cielo se ponga azul
+              oscuro.
+            </p>
+
+            <a
+              class="enlace-flecha planes-portada__cta"
+              href="https://wa.me/573166758362?text=Hola%2C%20quiero%20cotizar%20Vegas%20del%20Verde%20para%20un%20matrimonio%20o%20un%20concierto."
+              target="_blank"
+              rel="noopener"
+            >
+              Atrévete a un plan distinto<span class="solo-lectores">: matrimonio o concierto</span>
+            </a>
+          </div>
         </div>
 
-        <div class="planes-fiesta__tira">
-          <figure class="marco marco--retrato">
+        <div class="planes-fiesta__diptico">
+
+          <figure class="marco planes-fiesta__vertical">
             <img
               src="img/eventos/boda-2.jpg"
               width="844"
@@ -1498,36 +2006,52 @@
             />
           </figure>
 
-          <figure class="marco marco--4-3">
-            <img
-              src="img/eventos/boda-3.jpg"
-              width="1500"
-              height="1125"
-              loading="lazy"
-              decoding="async"
-              alt="La carpa llena de gente ya de noche, con una banda tocando en un extremo y bombillos colgados entre las ramas de los árboles."
-            />
-          </figure>
+          <div class="planes-fiesta__aire">
+            <div class="planes-carril__texto planes-fiesta__remate">
+              <p class="planes-carril__copy">
+                Ese momento no se decora: ya viene con el sitio.
+              </p>
 
-          <figure class="marco marco--3-2">
-            <img
-              src="img/eventos/boda-4.jpg"
-              width="1500"
-              height="1000"
-              loading="lazy"
-              decoding="async"
-              alt="Carpa transparente con bombillos al atardecer, con las mesas montadas y una furgoneta clásica roja haciendo de barra junto a las materas floreadas."
-            />
-          </figure>
+              <p class="nota planes-carril__donde">
+                Se monta en la
+                <a href="#espacios">Alameda</a>
+                o en
+                <a href="#espacios">La Vega</a>.
+              </p>
+            </div>
+
+            <figure class="marco planes-fiesta__apaisada">
+              <img
+                src="img/eventos/boda-1.jpg"
+                width="1500"
+                height="1125"
+                loading="lazy"
+                decoding="async"
+                alt="Carpa blanca iluminada con guirnaldas de bombillos al anochecer: los invitados charlan sentados en sofás de estibas y pacas de paja repartidas sobre el césped."
+              />
+            </figure>
+          </div>
+
         </div>
 
       </li>
 
       <!-- ============================================================ 02/05
-           CUMPLEAÑOS Y FAMILIA — aquí el texto va delante y las fotos se
-           leen como una tira: en móvil se arrastra con el dedo. El texto
-           entra una columna por la izquierda y la tira se sale por la
-           derecha, al revés que el carril 01.
+           CUMPLEAÑOS Y FAMILIA — aquí el texto va delante y las fotos van
+           detrás, en mosaico. El texto entra una columna por la izquierda y
+           el mosaico se sale por la derecha, al revés que el carril 01.
+
+           v6 · SE ACABARON LOS CUATRO RETRATOS EN FILA. Eran cuatro verticales
+           del mismo tipo alineadas de izquierda a derecha; por muy desiguales
+           que fueran las columnas seguían leyéndose como una hoja de
+           contactos. Ahora hay una protagonista al 55 % —el niño saltando a
+           atrapar pompas, que es la única foto del banco con un gesto y no
+           con un montaje— y a su lado dos verticales que arrancan a alturas
+           distintas. Debajo, `infantil-3` recortada en banda: es la única
+           cuadrada del banco y la única que enseña el círculo de césped
+           entero con el grupo completo, así que hace de plano general de
+           todas las de arriba.
+           Mismo criterio de tamaños y alturas que la tira de aves de #inicio.
            ================================================================ -->
       <li class="planes-carril planes-carril--familia reveal reveal--der">
 
@@ -1563,30 +2087,9 @@
           </a>
         </div>
 
-        <div class="planes-tira">
-          <figure class="marco marco--retrato planes-tira__foto">
-            <img
-              src="img/eventos/infantil-1.jpg"
-              width="844"
-              height="1500"
-              loading="lazy"
-              decoding="async"
-              alt="Niñas y niños sentados en círculo sobre una alfombra de césped, bajo una guirnalda de flecos rosados, azules y verdes tendida entre los árboles."
-            />
-          </figure>
+        <div class="planes-familia__mosaico">
 
-          <figure class="marco marco--retrato planes-tira__foto">
-            <img
-              src="img/eventos/infantil-2.jpg"
-              width="1125"
-              height="1500"
-              loading="lazy"
-              decoding="async"
-              alt="Seis niños alrededor de una mesa de picnic de madera con una torta de velas encendidas, mientras una animadora aplaude de pie junto a un macizo de heliconias rojas."
-            />
-          </figure>
-
-          <figure class="marco marco--retrato planes-tira__foto">
+          <figure class="marco planes-familia__protagonista">
             <img
               src="img/eventos/infantil-4.jpg"
               width="1125"
@@ -1597,17 +2100,42 @@
             />
           </figure>
 
-          <figure class="marco marco--retrato planes-tira__foto">
-            <img
-              src="img/eventos/cumpleanos-1.jpg"
-              width="844"
-              height="1500"
-              loading="lazy"
-              decoding="async"
-              alt="Picnic decorado sobre el césped: mesas bajas de huacal con manteles de cuadros, cojines en el suelo, guirnaldas de flecos rosados y un cartel de feliz cumpleaños colgado entre dos árboles."
-            />
-          </figure>
+          <div class="planes-familia__par">
+            <figure class="marco planes-familia__alta">
+              <img
+                src="img/eventos/infantil-2.jpg"
+                width="1125"
+                height="1500"
+                loading="lazy"
+                decoding="async"
+                alt="Seis niños alrededor de una mesa de picnic de madera con una torta de velas encendidas, mientras una animadora aplaude de pie junto a un macizo de heliconias rojas."
+              />
+            </figure>
+
+            <figure class="marco planes-familia__baja">
+              <img
+                src="img/eventos/cumpleanos-1.jpg"
+                width="844"
+                height="1500"
+                loading="lazy"
+                decoding="async"
+                alt="Picnic decorado sobre el césped: mesas bajas de huacal con manteles de cuadros, cojines en el suelo, guirnaldas de flecos rosados y un cartel de feliz cumpleaños colgado entre dos árboles."
+              />
+            </figure>
+          </div>
+
         </div>
+
+        <figure class="marco planes-familia__contexto">
+          <img
+            src="img/eventos/infantil-3.jpg"
+            width="1500"
+            height="1500"
+            loading="lazy"
+            decoding="async"
+            alt="Vista abierta del círculo de césped: nueve niños sentados en corro sobre la alfombra verde escuchan a una monitora que les enseña las páginas de un cuento, con dos acompañantes a los lados y aros de colores repartidos en la hierba."
+          />
+        </figure>
 
       </li>
 
@@ -1690,14 +2218,25 @@
 
       <!-- ============================================================ 04/05
            BIENESTAR — el único carril en negativo. La clase .seccion--oscura
-           va aquí, sobre el <li>, para heredar de base.css los colores
-           inversos ya verificados (eyebrow, entradilla, enlaces, viñetas)
-           sin declarar ni un valor propio.
+           sigue en el <li>, para heredar de base.css los colores inversos ya
+           verificados (eyebrow, entradilla, enlaces, viñetas) sin declarar ni
+           un valor propio. Lo que cambia en v6 es dónde vive el VERDE: ya no
+           en el <li> —que ahora contiene una banda a sangre y no podría
+           pintarse por debajo de ella— sino en .planes-bienestar__bloque.
+           El <li> se queda sólo con el rol de color.
+
+           LA BANDA. `yoga-2` es la única apaisada del carril y estaba metida
+           en un 16:9 dentro del bloque verde, que es exactamente donde una
+           foto de un grupo en círculo sobre el césped no se ve. Sale a
+           sangre completa, esquina viva, y el índice y el titular van en
+           negativo sobre el tercio izquierdo, que es césped en sombra. El
+           velo direccional que lo sostiene está medido en planes.css §6.
            ================================================================ -->
       <li class="planes-carril planes-carril--bienestar seccion--oscura reveal reveal--velo">
 
-        <figure class="marco marco--16-9">
+        <div class="planes-bienestar__banda">
           <img
+            class="planes-bienestar__foto"
             src="img/eventos/yoga-2.jpg"
             width="1500"
             height="844"
@@ -1705,11 +2244,34 @@
             decoding="async"
             alt="Una decena de personas sentadas en sillas puestas en círculo sobre el césped, abriendo los brazos en cruz a la vez, con la instructora al frente."
           />
-        </figure>
 
-        <div class="planes-bienestar__cuerpo">
+          <span class="planes-bienestar__velo" aria-hidden="true"></span>
 
-          <div class="planes-carril__texto">
+          <div class="planes-bienestar__rotulo">
+            <!-- Ondas concéntricas: el gesto de respirar hondo, que es lo que
+                 dice el titular de al lado. Va con el `pathLength` horneado,
+                 igual que el bombillo del carril 01.
+                 Cuatro arcos y no dos: con un solo par a cada lado el dibujo se
+                 leía como un paréntesis alrededor de un punto. Con dos radios
+                 se reconoce la expansión. -->
+            <svg
+              class="icono-traza planes-bienestar__icono"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="1.4"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              aria-hidden="true"
+              focusable="false"
+            >
+              <circle pathLength="1" cx="12" cy="12" r="2.4" />
+              <path pathLength="1" d="M7.76 7.76a6 6 0 0 0 0 8.49" />
+              <path pathLength="1" d="M16.24 16.24a6 6 0 0 0 0-8.49" />
+              <path pathLength="1" d="M5.35 5.35a9.4 9.4 0 0 0 0 13.3" />
+              <path pathLength="1" d="M18.65 18.65a9.4 9.4 0 0 0 0-13.3" />
+            </svg>
+
             <p class="planes-carril__ocasion">
               <span class="planes-carril__indice">04</span> Bienestar
             </p>
@@ -1717,78 +2279,85 @@
             <h3 class="titulo-seccion titulo-seccion--sm">
               Respira hondo, que aquí sobra aire
             </h3>
-
-            <p class="planes-carril__copy">
-              Clases y sesiones al aire libre, con las esterillas puestas en círculo sobre
-              el césped y el sonido de fondo que ya sabes.
-            </p>
-
-            <ul class="lista-hojas planes-bienestar__lista">
-              <li>Caminatas terapéuticas</li>
-              <li>Entrenamiento funcional</li>
-              <li>Sesiones de acondicionamiento físico</li>
-              <li>Pilates</li>
-              <li>Yoga</li>
-              <li>Mindfulness</li>
-              <li>Taller para el manejo de las emociones</li>
-            </ul>
-
-            <p class="planes-carril__copy">
-              Y un gimnasio al aire libre, para quien prefiere sudar.
-            </p>
-
-            <p class="nota planes-carril__donde">
-              Se hace en el
-              <a href="#espacios">Teatrino</a>
-              o en la
-              <a href="#espacios">Cancha</a>.
-            </p>
-
-            <a
-              class="btn btn-whatsapp planes-carril__cta"
-              href="https://wa.me/573166758362?text=Hola%2C%20quiero%20cotizar%20Vegas%20del%20Verde%20para%20una%20actividad%20de%20bienestar%3A%20yoga%2C%20pilates%20o%20mindfulness."
-              target="_blank"
-              rel="noopener"
-            >
-              Atrévete a un plan distinto<span class="solo-lectores">: actividad de bienestar</span>
-            </a>
           </div>
+        </div>
 
-          <div class="planes-bienestar__trio">
-            <figure class="marco marco--1-1">
-              <img
-                src="img/eventos/yoga-1.jpg"
-                width="1125"
-                height="1500"
-                loading="lazy"
-                decoding="async"
-                alt="Seis personas mayores sentadas en sillas repartidas sobre el césped, descalzas y con las esterillas a los pies, frente a una hilera de árboles jóvenes."
-              />
-            </figure>
+        <div class="planes-bienestar__bloque">
+          <div class="planes-bienestar__cuerpo">
 
-            <figure class="marco marco--1-1">
-              <img
-                src="img/parque/parque-33.jpg"
-                width="900"
-                height="1200"
-                loading="lazy"
-                decoding="async"
-                alt="Otra sesión, con la instructora sentada de espaldas guiando al grupo: cinco personas repartidas en sillas sobre el césped, cada una con su esterilla, frente a un macizo de flores naranjas."
-              />
-            </figure>
+            <div class="planes-carril__texto">
+              <p class="planes-carril__copy">
+                Clases y sesiones al aire libre, con las esterillas puestas en círculo sobre
+                el césped y el sonido de fondo que ya sabes.
+              </p>
 
-            <figure class="marco marco--1-1">
-              <img
-                src="img/parque/parque-02.jpg"
-                width="675"
-                height="1200"
-                loading="lazy"
-                decoding="async"
-                alt="Doce esterillas de colores dispuestas en círculo, como los pétalos de una flor, alrededor de un pequeño centro con plantas, a la sombra de un árbol grande."
-              />
-            </figure>
+              <ul class="lista-hojas planes-bienestar__lista">
+                <li>Caminatas terapéuticas</li>
+                <li>Entrenamiento funcional</li>
+                <li>Sesiones de acondicionamiento físico</li>
+                <li>Pilates</li>
+                <li>Yoga</li>
+                <li>Mindfulness</li>
+                <li>Taller para el manejo de las emociones</li>
+              </ul>
+
+              <p class="planes-carril__copy">
+                Y un gimnasio al aire libre, para quien prefiere sudar.
+              </p>
+
+              <p class="nota planes-carril__donde">
+                Se hace en el
+                <a href="#espacios">Teatrino</a>
+                o en la
+                <a href="#espacios">Cancha</a>.
+              </p>
+
+              <a
+                class="btn btn-whatsapp planes-carril__cta"
+                href="https://wa.me/573166758362?text=Hola%2C%20quiero%20cotizar%20Vegas%20del%20Verde%20para%20una%20actividad%20de%20bienestar%3A%20yoga%2C%20pilates%20o%20mindfulness."
+                target="_blank"
+                rel="noopener"
+              >
+                Atrévete a un plan distinto<span class="solo-lectores">: actividad de bienestar</span>
+              </a>
+            </div>
+
+            <div class="planes-bienestar__trio">
+              <figure class="marco marco--1-1">
+                <img
+                  src="img/eventos/yoga-1.jpg"
+                  width="1125"
+                  height="1500"
+                  loading="lazy"
+                  decoding="async"
+                  alt="Seis personas mayores sentadas en sillas repartidas sobre el césped, descalzas y con las esterillas a los pies, frente a una hilera de árboles jóvenes."
+                />
+              </figure>
+
+              <figure class="marco marco--1-1">
+                <img
+                  src="img/parque/parque-33.jpg"
+                  width="900"
+                  height="1200"
+                  loading="lazy"
+                  decoding="async"
+                  alt="Otra sesión, con la instructora sentada de espaldas guiando al grupo: cinco personas repartidas en sillas sobre el césped, cada una con su esterilla, frente a un macizo de flores naranjas."
+                />
+              </figure>
+
+              <figure class="marco marco--1-1">
+                <img
+                  src="img/parque/parque-02.jpg"
+                  width="675"
+                  height="1200"
+                  loading="lazy"
+                  decoding="async"
+                  alt="Doce esterillas de colores dispuestas en círculo, como los pétalos de una flor, alrededor de un pequeño centro con plantas, a la sombra de un árbol grande."
+                />
+              </figure>
+            </div>
+
           </div>
-
         </div>
       </li>
 
@@ -1966,6 +2535,48 @@
       <h2 id="momentos-titulo" class="titulo-seccion momentos__titulo">
         Aquí el día se toma su tiempo
       </h2>
+
+      <!-- v3.3 · LA MARIPOSA QUE SE DIBUJA -----------------------------------
+           La cartela deja a partir de 62em un tercio de ancho vacío a la
+           derecha del titular (el titular va acotado a 20ch). Ahí entra el
+           único trazo de toda la banda, y es el motivo que ya está en los
+           cuatro clips: una mariposa.
+
+           NO AÑADE NI UN HECHO. Va con `aria-hidden`, no lleva texto y no
+           afirma nada: esta sección es atmósfera pura y sigue sin poseer un
+           solo dato. Tampoco nombra el jardín de polinizadores, que es de
+           #colegios (ver el contrato al principio de este archivo).
+
+           FIRMA DEL MOTOR DE DIBUJADO, HORNEADA A MANO: `viewBox="0 0 24 24"`,
+           `fill="none"`, `stroke="currentColor"`, la clase `icono-traza` en el
+           elemento raíz y `pathLength="1"` en cada forma. Escrito en el HTML y no
+           puesto por js/app.js —que va con defer— para que el trazo nazca
+           oculto en el primer paint y no haya un fotograma de parpadeo.
+           Es el primer .icono-traza de esta sección, así que también es lo que
+           convierte #momentos en su propio disparador de dibujado.
+
+           SIETE FORMAS Y SIETE TIEMPOS (momentos.css §10). El orden importa y no
+           es simétrico: sale el ala superior izquierda, entra la superior
+           derecha cuando a la primera le queda un tercio, después las dos
+           inferiores, luego el cuerpo y al final las antenas, una detrás de
+           otra. Si las dos alas de un par salieran a la vez, el trazo se
+           leería como un logotipo desplegándose, no como algo dibujado.
+           Cada <path> lleva una sola `M` para que el guion pueda recorrerlo
+           de un tirón: un camino con varios trazos sueltos se ve
+           entrecortado porque el guion tiene que atravesar también los
+           saltos invisibles de un trazo al siguiente.                     -->
+      <svg class="icono-traza momentos__mariposa" viewBox="0 0 24 24"
+           fill="none" stroke="currentColor" stroke-width="0.9"
+           stroke-linecap="round" stroke-linejoin="round"
+           aria-hidden="true" focusable="false">
+        <path d="M11.6 8.6C10 5.4 7.4 3.3 4.9 3.6 2.6 3.9 1.9 6 3 8.6c1.1 2.6 3.3 3.9 8.6 3.4Z" pathLength="1"/>
+        <path d="M12.4 8.6c1.6-3.2 4.2-5.3 6.7-5 2.3.3 3 2.4 1.9 5-1.1 2.6-3.3 3.9-8.6 3.4Z" pathLength="1"/>
+        <path d="M11.6 12.6c-4.3-.9-7-.1-8 2.2-1 2.3.4 4.2 3.2 4.4 2.5.2 4.3-2 4.8-6.6Z" pathLength="1"/>
+        <path d="M12.4 12.6c4.3-.9 7-.1 8 2.2 1 2.3-.4 4.2-3.2 4.4-2.5.2-4.3-2-4.8-6.6Z" pathLength="1"/>
+        <path d="M12 7.8v9.4" pathLength="1"/>
+        <path d="M11.2 7.4 8.9 4.2" pathLength="1"/>
+        <path d="M12.8 7.4 15.1 4.2" pathLength="1"/>
+      </svg>
     </header>
 
     <ul class="momentos__muro reveal-secuencia" role="list">
@@ -2113,10 +2724,35 @@
      CSS: styles/sections/colegios.css
      FOTOS (abiertas con Read y verificadas una a una; ninguna se repite en
      otra sección de la página — parque-20 ya es el mural de #nosotros):
-       img/parque/parque-19.jpg  900x1200   mural de aves en la fachada de la caseta
-       img/parque/parque-34.jpg  675x1200   hileras de plantas bajo malla de sombra
-       img/parque/parque-52.jpg  675x1200   franja florecida al borde del prado
-       img/parque/parque-32.jpg  900x1200   charla a un grupo bajo la zona techada
+       img/parque/parque-19.jpg   900x1200   mural de aves en la fachada de la caseta
+       img/parque/parque-34.jpg   675x1200   hileras de plantas bajo malla de sombra
+       img/parque/parque-52.jpg   675x1200   franja florecida al borde del prado
+       img/eventos/infantil-1.jpg 844x1500   grupo sentado en círculo sobre el prado
+
+     v4 · FUERA LAS DOS FOTOS DE BORRADOR
+     Esta sección llevaba dos archivos `-TEMP`: imágenes generadas con IA a baja
+     resolución y estiradas (23 KB y 28 KB de JPEG contra los 240–425 KB de las
+     reales), que en pantalla se veían lavadas y sin grano. Las dos salen:
+
+       parque-34-TEMP  →  img/parque/parque-34.jpg
+         Es la MISMA foto que la cabecera de este fragmento ya declaraba como
+         verificada; el borrador sólo la estaba supliendo. Muestra literalmente
+         lo que dice el pie: dos camellones de plantas en bolsa con el pasillo
+         en medio. Archivo real, 243 KB.
+
+       parque-32-TEMP  →  img/eventos/infantil-1.jpg
+         La pieza dominante de la sección. Es la única fotografía del banco con
+         un grupo de niñas y niños sentados en círculo, y es además la de mayor
+         resolución que entra aquí (844×1500). El pie cambia porque la foto
+         cambia: ya no es «una charla bajo la zona techada» —eso lo mostraba el
+         borrador—, es el curso reunido sobre el prado.
+
+     NOTA DE COORDINACIÓN: `infantil-1.jpg` venía del carril de cumpleaños de
+     #planes y se libera allí. Si por lo que sea siguiera en uso en #planes,
+     el reemplazo directo y sin efectos secundarios es `img/parque/parque-26.jpg`
+     (675×1200): es el mismo momento y el mismo encuadre, un punto más cerrado.
+     Por eso no se usan las dos: puestas en la misma sección se leerían como la
+     misma foto repetida.
 
      COMPOSICIÓN (v3.1) — LA SECCIÓN TIPOGRÁFICA DEL SITIO
      Es la sección más corta, así que es la que puede permitirse ser la más
@@ -2168,12 +2804,61 @@
      El resto de la curva orgánica —el labio de carbón del borde superior, los
      remates de los filetes de la jornada y el bloque de cierre— vive también
      en el CSS. Nada de esto necesita ni una etiqueta más aquí.
+
+     COMPOSICIÓN (v4) — UNA PIEZA MANDA Y LAS DEMÁS CALLAN
+     v3.2 dejó tres paradas de tamaños distintos, y eso estaba bien resuelto.
+     Lo que no había era JERARQUÍA: las cuatro fotos jugaban en la misma liga
+     de tamaño, así que el ojo no sabía por dónde entrar. En v4:
+
+       · la foto de la jornada pasa a ser la pieza DOMINANTE de la sección
+         (columna ancha, proporción 3/4, deriva ligada al scroll);
+       · los cuatro hitos se montan sobre ella en un panel de papel opaco que
+         la solapa y arranca más abajo —el contraste vive en el panel, nunca
+         sobre la fotografía—;
+       · las tres paradas bajan de carril y se quedan en registro de índice.
+
+     LOS TRES RÓTULOS SE DIBUJAN. La viñeta de hoja que abría cada parada era
+     un cuadradito de color; ahora es una silueta de trazo que se pinta sola al
+     entrar la sección (binoculares · hoja · mariposa), una por parada y en el
+     orden en que el texto las nombra. Usan la firma exacta que reconoce
+     herramientas/hornear-trazos.js —viewBox de 24, `fill="none"`,
+     `stroke="currentColor"`— y traen el `pathLength="1"` ESCRITO A MANO en el
+     propio HTML: el estado inicial nunca lo pone JavaScript, que es de donde
+     salía el parpadeo histórico de este sitio. La hoja no se pierde: sigue
+     rematando los cuatro filetes de la jornada.
+
+     Y el ave de la portada es la única figura grande: decorativa, `aria-hidden`,
+     detrás del texto y con deriva propia por scroll. Ni informa ni recibe foco.
+
+     Cada figura arranca en un momento distinto —los retardos los reparte
+     colegios.css §7—: nada de esta sección se mueve al mismo compás.
      ========================================================================== -->
 
 <section id="colegios" class="seccion seccion--alt col" aria-labelledby="colegios-titulo">
   <div class="contenedor contenedor--ancho">
 
     <header class="col-portada reveal">
+
+      <!-- Dos aves lejos. Decoración pura: sin texto, sin foco, sin contraste que
+           aportar, y colocadas en el hueco que queda entre el titular y la
+           entradilla, no encima de ninguno de los dos. Se dibujan solas al
+           entrar la sección y derivan con el scroll. A partir de 62em, que es
+           donde la portada abre su segunda columna y aparece ese hueco; por
+           debajo no se montan.
+
+           POR QUÉ DOS TRAZOS ABIERTOS Y NO UNA SILUETA CERRADA. Se probaron
+           primero un ave con las alas dibujadas y después una pluma: las dos,
+           ampliadas a doce veces su caja y bajadas al 26 % de opacidad, se leían
+           como una hoja. Un ave a distancia no tiene detalle —son dos arcos— y
+           por eso se reconoce sin ninguna ayuda. Dos, de tamaños distintos y a
+           alturas distintas, son cielo; una sola sería un logotipo. -->
+      <svg class="col-portada__ave icono-traza" viewBox="0 0 24 24" fill="none"
+           stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
+           aria-hidden="true" focusable="false">
+        <path d="M1.6 11.4c3.9.2 7-1.4 9.3-4.7.5-.7.9-1.1 1.2-1.1.3 0 .7.4 1.2 1.1 2.3 3.3 5.4 4.9 9.3 4.7" pathLength="1"/>
+        <path d="M8.4 19.1c2.4.1 4.4-.9 5.8-2.9.3-.5.6-.7.8-.7.2 0 .5.2.8.7 1.4 2 3.4 3 5.8 2.9" pathLength="1"/>
+      </svg>
+
       <div class="col-portada__titulo">
         <p class="eyebrow">Salidas pedagógicas</p>
         <h2 id="colegios-titulo" class="titulo-seccion col-titular">
@@ -2188,7 +2873,7 @@
     </header>
 
     <!-- ---------- Las tres paradas, en fila india ---------- -->
-    <ul class="col-paradas reveal-secuencia">
+    <ul class="col-paradas reveal-secuencia" role="list">
 
       <li class="col-parada col-parada--a reveal reveal--izq">
         <figure>
@@ -2204,7 +2889,18 @@
           </div>
           <figcaption>La parada de aves, frente al mural de la caseta</figcaption>
         </figure>
-        <p class="col-parada__etiqueta">Primera parada</p>
+        <p class="col-parada__etiqueta">
+          <svg class="col-parada__icono icono-traza" viewBox="0 0 24 24" fill="none"
+               stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
+               aria-hidden="true" focusable="false">
+            <path d="M6.5 8a3 3 0 0 1 3 3v6a3 3 0 0 1-6 0v-6a3 3 0 0 1 3-3Z" pathLength="1"/>
+            <path d="M17.5 8a3 3 0 0 1 3 3v6a3 3 0 0 1-6 0v-6a3 3 0 0 1 3-3Z" pathLength="1"/>
+            <path d="M9.5 13.4h5" pathLength="1"/>
+            <path d="M5 8.2V5.7A1.7 1.7 0 0 1 6.7 4h1.1a1.7 1.7 0 0 1 1.7 1.7v2.5" pathLength="1"/>
+            <path d="M19 8.2V5.7A1.7 1.7 0 0 0 17.3 4h-1.1a1.7 1.7 0 0 0-1.7 1.7v2.5" pathLength="1"/>
+          </svg>
+          Primera parada
+        </p>
         <h3 class="titulo-seccion titulo-seccion--sm">Bajar la voz y levantar la mirada</h3>
         <p>
           El grupo se reparte, se queda quieto y aprende lo primero del pajareo:
@@ -2217,18 +2913,27 @@
         <figure>
           <div class="marco">
             <img
-              src="img/parque/parque-34-TEMP.jpg"
+              src="img/parque/parque-34.jpg"
               width="675"
               height="1200"
-              data-pendiente-foto="temporal · reemplazar por foto real del predio"
-              alt="Niños con binoculares mirando hacia el follaje desde el observatorio."
+              alt="Dos camellones de plantas sembradas en bolsa, uno frente al otro, con un pasillo de hierba en medio; encima, la malla de sombra tendida entre postes, y al fondo el follaje de los árboles."
               loading="lazy"
               decoding="async"
             />
           </div>
           <figcaption>Las plantas, en hilera y al alcance de la mano</figcaption>
         </figure>
-        <p class="col-parada__etiqueta">Segunda parada</p>
+        <p class="col-parada__etiqueta">
+          <svg class="col-parada__icono icono-traza" viewBox="0 0 24 24" fill="none"
+               stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
+               aria-hidden="true" focusable="false">
+            <path d="M20.5 3.5C10.6 3.9 4 7.4 4 13.2c0 4 2.6 7.3 6.5 7.3 5.9 0 10-6.5 10-17Z" pathLength="1"/>
+            <path d="M20 4C13.6 8.1 9.3 13.8 7.3 20.3" pathLength="1"/>
+            <path d="M16.4 8.3 12.3 7" pathLength="1"/>
+            <path d="M13 12.4 9.2 11.4" pathLength="1"/>
+          </svg>
+          Segunda parada
+        </p>
         <h3 class="titulo-seccion titulo-seccion--sm">Que una mata deje de ser «una mata»</h3>
         <p>
           Aquí se aprende a mirar una hoja: la forma, el borde, la nervadura, el olor.
@@ -2250,7 +2955,18 @@
           </div>
           <figcaption>Las floraciones donde se hace el avistamiento</figcaption>
         </figure>
-        <p class="col-parada__etiqueta">Tercera parada</p>
+        <p class="col-parada__etiqueta">
+          <svg class="col-parada__icono icono-traza" viewBox="0 0 24 24" fill="none"
+               stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
+               aria-hidden="true" focusable="false">
+            <path d="M12 7.2C10.2 4.7 6.9 3 4.9 4.2 2.7 5.5 3.3 8.6 5 10.1c-1.9 1-2.5 3.9-.8 5.4 1.9 1.6 5.4.2 7.8-3.2" pathLength="1"/>
+            <path d="M12 7.2c1.8-2.5 5.1-4.2 7.1-3 2.2 1.3 1.6 4.4-.1 5.9 1.9 1 2.5 3.9.8 5.4-1.9 1.6-5.4.2-7.8-3.2" pathLength="1"/>
+            <path d="M12 7.2v9.9" pathLength="1"/>
+            <path d="M12 7.2 9.9 3.9" pathLength="1"/>
+            <path d="M12 7.2 14.1 3.9" pathLength="1"/>
+          </svg>
+          Tercera parada
+        </p>
         <h3 class="titulo-seccion titulo-seccion--sm">Sentarse a esperar una mariposa</h3>
         <p>
           La parada más quieta del día. El grupo se sienta frente a las floraciones del
@@ -2261,25 +2977,36 @@
 
     </ul>
 
-    <!-- ---------- El formato de la jornada ---------- -->
-    <div class="col-jornada reveal">
+    <!-- ---------- El formato de la jornada ----------------------------------
+         LA PIEZA DOMINANTE. La foto ya no ilustra el bloque: lo sostiene. Y el
+         panel de los hitos la solapa desde la derecha, así que las dos piezas
+         se traban en vez de quedar una al lado de la otra.
 
-      <figure class="col-jornada__foto">
-        <div class="marco marco--retrato">
+         EL TEXTO NUNCA VA SOBRE LA FOTO: el panel es papel opaco
+         (--color-superficie-solida), de modo que el contraste es el de tinta
+         sobre papel y no depende de un píxel de la fotografía.
+
+         Foto y panel entran por separado —dos `.reveal` con dirección, retardo
+         y duración distintos— y por eso el contenedor pasa de `.reveal` a
+         `.reveal-secuencia`: ya no revela, sólo reparte tiempos.
+         --------------------------------------------------------------------- -->
+    <div class="col-jornada reveal-secuencia">
+
+      <figure class="col-jornada__foto reveal reveal--izq">
+        <div class="marco">
           <img
-            src="img/parque/parque-32-TEMP.jpg"
-            width="900"
-            height="1200"
-            data-pendiente-foto="temporal · reemplazar por foto real del predio"
-            alt="Grupo escolar caminando en fila bajo los árboles, con una profesora al frente."
+            src="img/eventos/infantil-1.jpg"
+            width="844"
+            height="1500"
+            alt="Un grupo de niñas y niños sentados en círculo sobre una manta verde en el prado, acompañados por dos monitoras; arriba, entre las ramas de los árboles, cuelga una guirnalda de flecos de papel de colores."
             loading="lazy"
             decoding="async"
           />
         </div>
-        <figcaption>Una charla bajo la zona techada</figcaption>
+        <figcaption>El curso, reunido en círculo sobre el prado</figcaption>
       </figure>
 
-      <div class="col-jornada__texto">
+      <div class="col-jornada__texto reveal reveal--der">
         <h3 class="titulo-seccion titulo-seccion--sm">Así transcurre el día</h3>
 
         <ol class="col-hitos">
@@ -2422,6 +3149,92 @@
      ========================================================================== -->
 
 <section id="naturaleza" class="seccion nat" aria-labelledby="naturaleza-titulo">
+
+  <!-- ======================================================================
+       0 · LA PORTADA — el milano picogarfio (v6)
+       La sección más larga del sitio entraba sin puerta: el titular y la foto
+       del camino empezaban directamente contra el aire de la sección anterior.
+       Ahora abre con una PLANCHA A SANGRE POR LOS CUATRO LADOS —la única de la
+       página que toca los cuatro cantos, y por eso no repite ninguno de los dos
+       sangrados laterales que ya tiene la sección (apertura por la izquierda,
+       vida por la derecha)—. El margen negativo de arriba come el relleno de
+       .seccion para que la plancha empiece pegada a lo anterior; es el mismo
+       recurso, en espejo, que usa .nat-muro-banda por abajo.
+
+       LA FOTOGRAFÍA es de Leyner Lozano, del mismo concurso que cuelga en el
+       muro de más abajo, y está derivada del original de 2975×4463 que nunca
+       se había publicado: recortada a 2000×1815 para que el ave DEJE de ser un
+       punto en el encuadre y pase a ocupar el 85 % del alto de la plancha.
+       La copia pequeña de la misma especie sigue en el muro con su ficha: allí
+       es archivo, aquí es portada.
+
+       EL CONTORNO. «Pajareo» no es una frase nueva: es la palabra que la propia
+       sección ya usa dos veces más abajo («Es pajareo y observación de plantas
+       a la vez», «Recorrido guiado de pajareo»). Va en caja alta y baja —el
+       §3 del CONTRATO prohíbe las mayúsculas por encima de 24 px— y en hueco,
+       porque el gesto del referente no es el caps: es la escala descomunal, el
+       relleno vacío y el cruce sobre la foto. Los tres se conservan.
+       Es decoración pura: lleva aria-hidden y la palabra está escrita como
+       texto de verdad en el cuerpo de la sección, así que no se pierde nada.
+
+       EL CONTRASTE, MEDIDO Y NO SUPUESTO. Sobre la foto desnuda el crema da
+       3,41:1 en la mediana de la banda del texto y baja a 1,06:1 contra las
+       ramas al sol; la tinta es todavía peor sobre los tramos oscuros (1,30:1).
+       Ninguno de los dos sirve solo. Con el velo doble acotado al pie de la
+       plancha el crema sube a 9,79:1 en la mediana y no baja de 6,87:1 ni en el
+       píxel más claro de esa banda. El detalle está en el bloque 0 del CSS.
+       ====================================================================== -->
+  <figure class="nat-portada">
+
+    <div class="nat-portada__plancha">
+      <picture>
+        <source type="image/avif" srcset="img/naturaleza-milano.avif" />
+        <source type="image/webp" srcset="img/naturaleza-milano.webp" />
+        <img
+          class="nat-portada__foto"
+          src="img/naturaleza-milano.jpg"
+          width="2000"
+          height="1815"
+          loading="lazy"
+          decoding="async"
+          alt="Un milano picogarfio posado en una rama alta del predio, de perfil y con la cabeza vuelta, el pecho barrado en pardo y crema y la cola larga colgando entre ramas desnudas y hojas contra el cielo"
+        />
+      </picture>
+
+      <!-- El velo. Va en su propio elemento y no como background de la plancha
+           porque tiene que quedar ENCIMA de la foto y DEBAJO del texto, y
+           porque así se apaga solo si algún día se cambia la fotografía. -->
+      <span class="nat-portada__velo" aria-hidden="true"></span>
+
+      <p class="nat-portada__contorno" aria-hidden="true">Pajareo</p>
+    </div>
+
+    <figcaption class="nat-portada__rotulo reveal">
+      <!-- La silueta se dibuja sola al entrar la sección: firma exacta que
+           reconoce herramientas/hornear-trazos.js (viewBox de 24, fill="none",
+           stroke="currentColor"), con la clase y el pathLength ya escritos
+           aquí. Horneado en el HTML A PROPÓSITO: si lo pusiera el JS —que va
+           con defer— el navegador alcanzaría a pintar el trazo entero y lo
+           borraría un instante después. Eso es el parpadeo. -->
+      <svg
+        class="icono-traza nat-portada__ave"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="0.6"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        aria-hidden="true"
+        focusable="false"
+      >
+        <path pathLength="1" d="M1.6 9.1 C5.4 7.6 8.8 8.9 10.3 10.6 C10.8 9.5 11.3 9 12 9 C12.7 9 13.2 9.5 13.7 10.6 C15.2 8.9 18.6 7.6 22.4 9.1 C20.6 11 17.6 12.4 14.5 13 L13.6 13.2 L13.4 17.6 L10.6 17.6 L10.4 13.2 L9.5 13 C6.4 12.4 3.4 11 1.6 9.1 Z" />
+      </svg>
+      <span class="nat-portada__especie">Milano picogarfio</span>
+      <span class="nat-portada__cientifico nat-cientifico">Chondrohierax uncinatus</span>
+      <span class="nat-portada__autor">Foto: Leyner Lozano</span>
+    </figcaption>
+
+  </figure>
 
   <!-- ======================================================================
        1 · APERTURA A SANGRE POR LA IZQUIERDA
@@ -4034,6 +4847,68 @@
     </div>
   </div>
 
+  <!-- ======================================================================
+       6 · EL CIERRE — el mural del barranquero (v6)
+       La rima que cierra la sección: arriba entra el ave viva, fotografiada
+       en la rama; aquí sale la misma ave pintada sobre la pared del predio.
+       Se cuelga entera, no como miniatura: plancha a sangre por los cuatro
+       lados, esquinas rectas, y el pie debajo, en la línea del contenedor,
+       con el aire y la letra de una cartela de museo. No lleva contorno
+       gigante: ese gesto es de la portada y repetirlo lo gastaría.
+
+       LA FOTOGRAFÍA ya estaba en el repositorio y no se usaba en ninguna
+       parte (img/parque/parque-62.jpg). Es vertical, así que en móvil se
+       publica entera —proporción 3:4, sin recorte— y en pantallas anchas se
+       encuadra por el centro, donde caen el mural, la enramada y las
+       heliconias del primer plano.
+       ====================================================================== -->
+  <figure class="nat-mural">
+
+    <div class="nat-mural__plancha">
+      <img
+        class="nat-mural__foto"
+        src="img/parque/parque-62.jpg"
+        width="900"
+        height="1200"
+        loading="lazy"
+        decoding="async"
+        alt="Mural de un barranquero de cola larga pintado sobre la pared lateral del predio, junto al techo de la enramada, con heliconias y hojas grandes en primer plano y el prado con su círculo de gravilla delante"
+      />
+    </div>
+
+    <figcaption class="nat-mural__pie reveal">
+      <!-- Esta silueta NO entra en el sistema de hornear-trazos —su viewBox no
+           es el de 24— y es deliberado: el disparador de aquel observa la
+           SECCIÓN entera, así que un icono colgado al final se dibujaría solo
+           mientras todavía está fuera de pantalla. Éste se dibuja atado al
+           scroll con animation-timeline: view(), o sea justo cuando la cartela
+           llega. Dos siluetas, dos relojes distintos. -->
+      <svg
+        class="nat-mural__ave"
+        viewBox="0 0 48 48"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="1.5"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        aria-hidden="true"
+        focusable="false"
+      >
+        <path pathLength="1" d="M10.8 19.6 C13.6 18 16 17.2 18.4 16.6 C20 13.8 23 12 26.4 12 C30.8 12 34.4 14.8 35.8 18.8 C37.6 22.8 38.8 26 40 28.8 C41.8 30.8 43.4 32.8 44.8 35.2 C42 35.2 39.4 34.4 37.2 32.8 C35.2 35.2 31.8 36.8 28 36.8 C21.2 36.8 15.8 31.8 15.8 25.6 C15.8 24.2 16 23 16.4 21.8 C14.4 21.4 12.4 20.6 10.8 19.6 Z" />
+      </svg>
+
+      <p class="eyebrow">El mural del predio</p>
+      <h3 class="titulo-seccion titulo-seccion--sm nat-mural__titulo">
+        El mismo pájaro, pintado en la pared
+      </h3>
+      <p class="nota nat-mural__texto">
+        Es un barranquero, la misma ave que abre el muro de aquí arriba.
+        Está pintado sobre la pared, con las heliconias delante.
+      </p>
+    </figcaption>
+
+  </figure>
+
   <!-- El vídeo de arriba necesita su propio script. Va DENTRO del fragmento a
        propósito: index.html se ensambla con herramientas/ensamblar.py, que
        copia las secciones tal cual pero NO toca los <script> del <head> ni los
@@ -4063,9 +4938,37 @@
      (sections/_footer.html) y el bloque que lo repetía —la ficha 07 de
      sections/experiencias.html— ya no se ensambla. Comprobado con el validador.
 
-     Fotos verificadas en disco (img/parque/, 675 × 1200 cada una):
-       parque-35 caladios en producción · parque-40 filodendros y camellones
-       parque-42 cícada y lantana       · parque-49 materas de barro
+     Fotos verificadas en disco, abiertas una a una con Read:
+       parque-44 (675×1200) EL PASILLO DEL VIVERO CON LA JARDINERA — la pieza
+                            dominante de la sección: persona real trabajando y
+                            producto real en el mismo encuadre
+       parque-35 (675×1200) caladios de hoja rosada en producción
+       parque-12 (900×1200) la enramada de esterilla y las materas de barro
+       parque-42 (675×1200) cícada y lantana al borde del camellón
+       parque-49 (675×1200) materas de barro listas para llevar
+
+     v5 · SALE LA ÚLTIMA FOTO DE BORRADOR, Y NACE LA JERARQUÍA
+     `parque-40-TEMP.jpg` era una imagen generada con IA a baja resolución y
+     estirada (19 KB de JPEG contra los 200–260 KB de las reales): en pantalla
+     se veía lavada, y encima prometía «una mujer eligiendo una planta» que la
+     foto no llegaba a mostrar. La sustituye `img/parque/parque-44.jpg`, que sí
+     tiene lo que a la sección le faltaba para vender: una jardinera con
+     delantal, sombrero y botas caminando por el pasillo, entre camellones de
+     filodendros y crotones sembrados en bolsa. Es una foto REAL del predio.
+
+     Y con ella cambia el reparto. Las cuatro fotos de v4 eran cuatro piezas de
+     tamaño parecido —desiguales, sí, pero de la misma liga—, así que la banda
+     se leía como una tira. Ahora son CINCO y no juegan en la misma liga:
+
+       · `parque-44` ocupa una columna que sangra por el canto izquierdo de la
+         pantalla y va a doble altura. Es la pieza dominante;
+       · las otras cuatro se agrupan a su derecha en un mosaico de dos por dos
+         con cuatro proporciones, cuatro anchos y cuatro alturas de arranque
+         distintas. Registro callado, a propósito.
+
+     Entra además `parque-12`, que estaba en disco sin usar: la enramada de
+     esterilla con las materas de barro es lo único del banco que enseña el
+     vivero como sitio al que se entra, y no sólo como producción.
 
      COMPOSICIÓN (v3.1)
      El mosaico de dos por dos y la columna de texto al lado eran, medidos, la
@@ -4122,9 +5025,32 @@
     </header>
   </div>
 
-  <!-- ---------- La banda a sangre: las cuatro fotos del vivero ---------- -->
-  <ul class="viv-friso reveal-secuencia">
-    <li class="viv-foto reveal">
+  <!-- ---------- La banda a sangre: la jardinera y las cuatro piezas ---------
+       El orden del marcado es el orden de lectura y el orden de entrada: la
+       pieza dominante primero, y detrás el mosaico. La rejilla del §2 de
+       vivero.css las coloca, pero nadie depende de `nth-child` para saber
+       cuál es cuál: cada <li> declara su papel con un modificador, así que
+       añadir o quitar una foto no descoloca a las demás.
+       --------------------------------------------------------------------- -->
+  <ul class="viv-friso reveal-secuencia" role="list">
+
+    <li class="viv-foto viv-foto--principal reveal">
+      <figure>
+        <div class="marco">
+          <img
+            src="img/parque/parque-44.jpg"
+            width="675"
+            height="1200"
+            alt="Pasillo del vivero entre dos camellones bajo la malla de sombra: filodendros de hoja recortada y crotones rojos sembrados en bolsa negra a lado y lado y, al fondo del pasillo, una jardinera con sombrero, delantal y botas caminando entre las plantas."
+            loading="lazy"
+            decoding="async"
+          />
+        </div>
+        <figcaption>El vivero, por dentro</figcaption>
+      </figure>
+    </li>
+
+    <li class="viv-foto viv-foto--a reveal">
       <figure>
         <div class="marco">
           <img
@@ -4136,28 +5062,27 @@
             decoding="async"
           />
         </div>
-        <figcaption>El vivero, por dentro</figcaption>
+        <figcaption>Caladios en producción</figcaption>
       </figure>
     </li>
 
-    <li class="viv-foto reveal">
+    <li class="viv-foto viv-foto--b reveal">
       <figure>
         <div class="marco">
           <img
-            src="img/parque/parque-40-TEMP.jpg"
-            width="675"
+            src="img/parque/parque-12.jpg"
+            width="900"
             height="1200"
-            data-pendiente-foto="temporal · reemplazar por foto real del predio"
-            alt="Una mujer eligiendo una planta entre las hileras del vivero."
+            alt="Enramada de esterilla sobre estructura de madera, con materas de barro sembradas de crotones y cactus repartidas por el piso de losas; al fondo, una construcción con un mural pintado y una hilera de materas contra la pared."
             loading="lazy"
             decoding="async"
           />
         </div>
-        <figcaption>Camellones bajo malla</figcaption>
+        <figcaption>La enramada, con el mural al fondo</figcaption>
       </figure>
     </li>
 
-    <li class="viv-foto reveal">
+    <li class="viv-foto viv-foto--c reveal">
       <figure>
         <div class="marco">
           <img
@@ -4173,7 +5098,7 @@
       </figure>
     </li>
 
-    <li class="viv-foto reveal">
+    <li class="viv-foto viv-foto--d reveal">
       <figure>
         <div class="marco">
           <img
@@ -4192,6 +5117,23 @@
 
   <div class="contenedor contenedor--ancho">
     <div class="viv-cuerpo">
+
+      <!-- Hoja de filodendro, a tamaño de cartel. Decoración pura: `aria-hidden`,
+           sin foco, sin texto encima y por detrás de las dos columnas. Se dibuja
+           sola al entrar la sección —firma de hornear-trazos.js, con el
+           `pathLength` escrito aquí y no puesto por JavaScript— y deriva con el
+           scroll. Arranca más tarde que el sello del ICA, que es la otra figura
+           de trazo de la sección: las dos nunca se dibujan a la vez. -->
+      <svg class="viv-hoja icono-traza" viewBox="0 0 24 24" fill="none"
+           stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
+           aria-hidden="true" focusable="false">
+        <path d="M12 22.4C6.1 20.1 2.3 15 2.3 9.4c0-4.3 3.6-7.3 9.7-7.3s9.7 3 9.7 7.3c0 5.6-3.8 10.7-9.7 13Z" pathLength="1"/>
+        <path d="M12 22.4V6.2" pathLength="1"/>
+        <path d="M11.1 12.6 3.6 15.4" pathLength="1"/>
+        <path d="M11.1 8.6 3.8 9.8" pathLength="1"/>
+        <path d="M12.9 12.6 20.4 15.4" pathLength="1"/>
+        <path d="M12.9 8.6 20.2 9.8" pathLength="1"/>
+      </svg>
 
       <!-- ---------- Lo que sale del vivero: el catálogo ---------- -->
       <div class="viv-oferta reveal">
@@ -4487,15 +5429,22 @@
       <div class="ubi-bloque__encabezado">
         <h3 class="titulo-seccion titulo-seccion--xs">Puntos de referencia</h3>
         <p class="nota">Si te suena alguno de estos sitios, ya sabes llegar.</p>
-        <ul class="ubi-refs">
-          <li class="ubi-ref">Anillo Vial Floridablanca&ndash;Girón</li>
-          <li class="ubi-ref">Conjunto Natura</li>
-          <li class="ubi-ref">Alkosto · Makro · PriceSmart</li>
-          <li class="ubi-ref">Mediterráneo Fútbol Park</li>
-          <li class="ubi-ref">Mediterráneo Royal</li>
-          <li class="ubi-ref">C.C. Cañaveral</li>
-          <li class="ubi-ref">C.C. La Florida</li>
-          <li class="ubi-ref">C.C. Caracolí</li>
+        <!-- v5 · LOS OCHO CHIPS ENTRAN DE UNO EN UNO, NO EN BLOQUE.
+             Ocho pastillas idénticas apareciendo a la vez son una mancha; una
+             detrás de otra son una lista de sitios que alguien va nombrando.
+             Cada <li> es su propio .reveal dentro de una .reveal-secuencia, y
+             los ocho retardos los reparte ubicacion.css §9 —desiguales, no en
+             escalera de 90 en 90—. base.css sólo trae seis escalones
+             distintos y a partir del séptimo repite: aquí hacen falta ocho. -->
+        <ul class="ubi-refs reveal-secuencia">
+          <li class="ubi-ref reveal reveal--zoom">Anillo Vial Floridablanca&ndash;Girón</li>
+          <li class="ubi-ref reveal reveal--zoom">Conjunto Natura</li>
+          <li class="ubi-ref reveal reveal--zoom">Alkosto · Makro · PriceSmart</li>
+          <li class="ubi-ref reveal reveal--zoom">Mediterráneo Fútbol Park</li>
+          <li class="ubi-ref reveal reveal--zoom">Mediterráneo Royal</li>
+          <li class="ubi-ref reveal reveal--zoom">C.C. Cañaveral</li>
+          <li class="ubi-ref reveal reveal--zoom">C.C. La Florida</li>
+          <li class="ubi-ref reveal reveal--zoom">C.C. Caracolí</li>
         </ul>
       </div>
 
@@ -4517,7 +5466,19 @@
 
     <!-- ================= 5 · DISTANCIAS ====================================== -->
     <div class="ubi-bloque ubi-dist reveal" role="group" aria-labelledby="ubicacion-distancias-titulo">
-      <div class="ubi-bloque__encabezado">
+      <!-- <header> Y NO <div>, Y NO ES COSMÉTICO ------------------------------
+           js/app.js dispara el dibujado de los iconos por el ANCESTRO más
+           cercano que sea `section`, `footer` o `header`. #ubicacion es una
+           sección larguísima: si la cordillera de aquí abajo colgara de un
+           <div>, su disparador sería la sección entera y se habría dibujado
+           sola una pantalla y media antes de que nadie la vea. Colgando de un
+           <header> propio, se dibuja cuando entra el bloque de distancias, que
+           es cuando se mira. Un elemento, un reloj.
+
+           No ensucia el árbol de accesibilidad: un <header> sólo es landmark
+           de tipo «banner» cuando su ancestro más cercano es <body>, y éste
+           vive dentro de <section id="ubicacion">. Aquí es genérico.       -->
+      <header class="ubi-bloque__encabezado">
         <h3 class="titulo-seccion titulo-seccion--xs" id="ubicacion-distancias-titulo">
           Distancias desde el predio
         </h3>
@@ -4525,46 +5486,116 @@
           Pegados a la ciudad y en la puerta del Santander que se visita. Distancias
           aproximadas por carretera.
         </p>
-      </div>
+
+        <!-- v5 · LA CORDILLERA ---------------------------------------------
+             Debajo de estas dos líneas quedan, a partir de 62em, unos 150 px
+             de columna vacía frente a siete filas de datos. Ahí se dibujan
+             dos crestas de montaña.
+
+             NO ES ADORNO SUELTO: la lista de al lado va del Chicamocha a
+             Barichara, o sea que lo que mide son las montañas de Santander.
+             La silueta dice lo mismo que la tabla, sin escribir un dato que
+             la tabla ya tiene.
+
+             Firma del motor de dibujado horneada a mano —viewBox de 24,
+             `fill="none"`, `stroke="currentColor"`, clase `icono-traza` y
+             `pathLength="1"` por forma—, escrita aquí y no puesta por JS: el
+             trazo nace oculto en el primer paint y no parpadea.
+             Una sola `M` por cresta, para que el guion pueda recorrerlas.
+             `aria-hidden`: no dice nada, no afirma nada.                   -->
+        <svg class="icono-traza ubi-cordillera" viewBox="0 0 24 24"
+             fill="none" stroke="currentColor" stroke-width="0.8"
+             stroke-linecap="round" stroke-linejoin="round"
+             aria-hidden="true" focusable="false">
+          <path d="M0.6 15.9 5.6 8.4l3.7 4.5L15.4 4l8 11.9" pathLength="1"/>
+          <path d="M0.6 21.2 7 13.6l4.3 4 5.5-6.3 6.6 9.9" pathLength="1"/>
+        </svg>
+      </header>
 
       <ol class="ubi-dist__lista">
-        <li class="ubi-dist__item" style="--ubi-pct: 8.5%">
+        <li class="ubi-dist__item" style="--ubi-pct: 8.5%; --ubi-turno: 0; --ubi-ritmo: 0.5">
           <span class="ubi-dist__lugar">Bucaramanga</span>
           <span class="ubi-dist__barra" aria-hidden="true"><span class="ubi-dist__relleno"></span></span>
           <span class="ubi-dist__km">10,2 km</span>
         </li>
-        <li class="ubi-dist__item" style="--ubi-pct: 8.5%">
+        <li class="ubi-dist__item" style="--ubi-pct: 8.5%; --ubi-turno: 0.7; --ubi-ritmo: 0.54">
           <span class="ubi-dist__lugar">Girón</span>
           <span class="ubi-dist__barra" aria-hidden="true"><span class="ubi-dist__relleno"></span></span>
           <span class="ubi-dist__km">10,3 km</span>
         </li>
-        <li class="ubi-dist__item" style="--ubi-pct: 40.5%">
+        <li class="ubi-dist__item" style="--ubi-pct: 40.5%; --ubi-turno: 1.9; --ubi-ritmo: 0.82">
           <span class="ubi-dist__lugar">Cañón del Chicamocha</span>
           <span class="ubi-dist__barra" aria-hidden="true"><span class="ubi-dist__relleno"></span></span>
           <span class="ubi-dist__km">48,8 km</span>
         </li>
-        <li class="ubi-dist__item" style="--ubi-pct: 51.9%">
+        <li class="ubi-dist__item" style="--ubi-pct: 51.9%; --ubi-turno: 2.6; --ubi-ritmo: 0.95">
           <span class="ubi-dist__lugar">Zapatoca</span>
           <span class="ubi-dist__barra" aria-hidden="true"><span class="ubi-dist__relleno"></span></span>
           <span class="ubi-dist__km">62,6 km</span>
         </li>
-        <li class="ubi-dist__item" style="--ubi-pct: 81.8%">
+        <li class="ubi-dist__item" style="--ubi-pct: 81.8%; --ubi-turno: 4; --ubi-ritmo: 1.25">
           <span class="ubi-dist__lugar">San Gil</span>
           <span class="ubi-dist__barra" aria-hidden="true"><span class="ubi-dist__relleno"></span></span>
           <span class="ubi-dist__km">98,7 km</span>
         </li>
-        <li class="ubi-dist__item" style="--ubi-pct: 98.3%">
+        <li class="ubi-dist__item" style="--ubi-pct: 98.3%; --ubi-turno: 4.9; --ubi-ritmo: 1.42">
           <span class="ubi-dist__lugar">Socorro</span>
           <span class="ubi-dist__barra" aria-hidden="true"><span class="ubi-dist__relleno"></span></span>
           <span class="ubi-dist__km">118,5 km</span>
         </li>
-        <li class="ubi-dist__item" style="--ubi-pct: 100%">
+        <li class="ubi-dist__item" style="--ubi-pct: 100%; --ubi-turno: 6.4; --ubi-ritmo: 1.5">
           <span class="ubi-dist__lugar">Barichara</span>
           <span class="ubi-dist__barra" aria-hidden="true"><span class="ubi-dist__relleno"></span></span>
           <span class="ubi-dist__km">120,6 km</span>
         </li>
       </ol>
     </div>
+
+    <!-- ================= 5b · EL FINAL DEL CAMINO ===========================
+         v5 · POR QUÉ ENTRA UNA FOTO EN LA SECCIÓN MÁS SECA DEL SITIO
+         Hasta aquí #ubicacion sólo enseña el terreno DESDE ARRIBA: la vista
+         satelital a sangre y la misma vista aérea con los pines. Dos imágenes
+         cartográficas, ninguna a la altura de los ojos. La sección explicaba
+         cómo llegar y no enseñaba nunca a qué se llega, y justo debajo empieza
+         el bloque en el que se pide escribir por WhatsApp. Esta foto es la
+         bisagra: cierra el mapa y abre la conversación.
+
+         POR QUÉ ESTA Y NO OTRA. `img/parque/parque-25.jpg` (1200×800) es la
+         única del banco que está TOMADA DESDE EL CAMINO, con la gravilla
+         entrando en cuadro y llevando la mirada al fondo. Es literalmente la
+         imagen de llegar. Estaba en `img/` y no la usaba ninguna sección.
+
+         NO REPITE NINGÚN GESTO DE LA SECCIÓN. El mapa sangra y va a esquina
+         viva; ésta vive DENTRO de la maqueta y por tanto lleva hoja: dos
+         radios distintos en la diagonal CONTRARIA a la de la foto de
+         referencias de arriba (que curva arriba-derecha y abajo-izquierda),
+         así que dos piezas vecinas no repiten la misma diagonal.
+
+         FOTO-FOCUS. Es la única pieza grande y recortada de la sección, así
+         que es la que se gana el encuadre ligado al scroll (js/foto-focus.js).
+         El atributo va en el DIV que recorta —el que tiene overflow hidden y
+         la hoja—, nunca en el <img> y nunca en la <figure>, que también
+         contiene el pie y lo dejaría fuera del recorte.
+         El encuadre de PARTIDA no se declara aquí: es el object-position del
+         CSS (50% 58%), para que el primer cuadro del JS coincida con el primer
+         paint y no haya salto. `data-foco` baja la mirada hacia la gravilla en
+         móvil, donde el recorte se come el camino.
+         ====================================================================== -->
+    <figure class="ubi-llegada reveal">
+      <div class="ubi-llegada__medio" data-foto-focus data-foco="50% 72%" data-zoom="0.1">
+        <img
+          src="img/parque/parque-25.jpg"
+          width="1200"
+          height="800"
+          alt="Camino de gravilla que entra al predio al caer la tarde, entre jardineras con flores y árboles altos; al fondo, un grupo de personas bajo una carpa con guirnaldas encendidas y una furgoneta clásica al lado."
+          loading="lazy"
+          decoding="async"
+        />
+      </div>
+      <figcaption class="ubi-llegada__pie">
+        Lo que hay al final del camino, cuando cae la tarde.
+      </figcaption>
+    </figure>
 
     <!-- ================= 6 y 7 · CANALES, HORARIO Y FORMULARIO =============== -->
     <div class="ubi-hablar">
@@ -5005,6 +6036,18 @@
       });
     })();
   </script>
+
+  <!-- FOTO-FOCUS — el mismo archivo que ya declaran #nosotros y #espacios.
+       Se repite aquí, y no es un descuido: la norma de este proyecto es que
+       cada fragmento viaje con sus dependencias (el precedente es
+       momentos-video.js), porque el ensamblador copia tal cual la cola de
+       index.html y un fragmento no puede añadir nada allí. El propio script
+       lleva un cerrojo (`window.__fotoFocusMontado`) que hace inofensiva la
+       segunda —y la tercera— ejecución, y el navegador sólo descarga el
+       archivo una vez.
+       Bajo prefers-reduced-motion no se monta: la foto de llegada se queda
+       quieta en el encuadre que declara ubicacion.css. -->
+  <script src="js/foto-focus.js?v=2e41fd79" defer></script>
 </section>
 </main>
 <!-- ==========================================================================

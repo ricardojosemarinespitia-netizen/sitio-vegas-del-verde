@@ -73,6 +73,92 @@
 <section id="naturaleza" class="seccion nat" aria-labelledby="naturaleza-titulo">
 
   <!-- ======================================================================
+       0 · LA PORTADA — el milano picogarfio (v6)
+       La sección más larga del sitio entraba sin puerta: el titular y la foto
+       del camino empezaban directamente contra el aire de la sección anterior.
+       Ahora abre con una PLANCHA A SANGRE POR LOS CUATRO LADOS —la única de la
+       página que toca los cuatro cantos, y por eso no repite ninguno de los dos
+       sangrados laterales que ya tiene la sección (apertura por la izquierda,
+       vida por la derecha)—. El margen negativo de arriba come el relleno de
+       .seccion para que la plancha empiece pegada a lo anterior; es el mismo
+       recurso, en espejo, que usa .nat-muro-banda por abajo.
+
+       LA FOTOGRAFÍA es de Leyner Lozano, del mismo concurso que cuelga en el
+       muro de más abajo, y está derivada del original de 2975×4463 que nunca
+       se había publicado: recortada a 2000×1815 para que el ave DEJE de ser un
+       punto en el encuadre y pase a ocupar el 85 % del alto de la plancha.
+       La copia pequeña de la misma especie sigue en el muro con su ficha: allí
+       es archivo, aquí es portada.
+
+       EL CONTORNO. «Pajareo» no es una frase nueva: es la palabra que la propia
+       sección ya usa dos veces más abajo («Es pajareo y observación de plantas
+       a la vez», «Recorrido guiado de pajareo»). Va en caja alta y baja —el
+       §3 del CONTRATO prohíbe las mayúsculas por encima de 24 px— y en hueco,
+       porque el gesto del referente no es el caps: es la escala descomunal, el
+       relleno vacío y el cruce sobre la foto. Los tres se conservan.
+       Es decoración pura: lleva aria-hidden y la palabra está escrita como
+       texto de verdad en el cuerpo de la sección, así que no se pierde nada.
+
+       EL CONTRASTE, MEDIDO Y NO SUPUESTO. Sobre la foto desnuda el crema da
+       3,41:1 en la mediana de la banda del texto y baja a 1,06:1 contra las
+       ramas al sol; la tinta es todavía peor sobre los tramos oscuros (1,30:1).
+       Ninguno de los dos sirve solo. Con el velo doble acotado al pie de la
+       plancha el crema sube a 9,79:1 en la mediana y no baja de 6,87:1 ni en el
+       píxel más claro de esa banda. El detalle está en el bloque 0 del CSS.
+       ====================================================================== -->
+  <figure class="nat-portada">
+
+    <div class="nat-portada__plancha">
+      <picture>
+        <source type="image/avif" srcset="img/naturaleza-milano.avif" />
+        <source type="image/webp" srcset="img/naturaleza-milano.webp" />
+        <img
+          class="nat-portada__foto"
+          src="img/naturaleza-milano.jpg"
+          width="2000"
+          height="1815"
+          loading="lazy"
+          decoding="async"
+          alt="Un milano picogarfio posado en una rama alta del predio, de perfil y con la cabeza vuelta, el pecho barrado en pardo y crema y la cola larga colgando entre ramas desnudas y hojas contra el cielo"
+        />
+      </picture>
+
+      <!-- El velo. Va en su propio elemento y no como background de la plancha
+           porque tiene que quedar ENCIMA de la foto y DEBAJO del texto, y
+           porque así se apaga solo si algún día se cambia la fotografía. -->
+      <span class="nat-portada__velo" aria-hidden="true"></span>
+
+      <p class="nat-portada__contorno" aria-hidden="true">Pajareo</p>
+    </div>
+
+    <figcaption class="nat-portada__rotulo reveal">
+      <!-- La silueta se dibuja sola al entrar la sección: firma exacta que
+           reconoce herramientas/hornear-trazos.js (viewBox de 24, fill="none",
+           stroke="currentColor"), con la clase y el pathLength ya escritos
+           aquí. Horneado en el HTML A PROPÓSITO: si lo pusiera el JS —que va
+           con defer— el navegador alcanzaría a pintar el trazo entero y lo
+           borraría un instante después. Eso es el parpadeo. -->
+      <svg
+        class="icono-traza nat-portada__ave"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="0.6"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        aria-hidden="true"
+        focusable="false"
+      >
+        <path pathLength="1" d="M1.6 9.1 C5.4 7.6 8.8 8.9 10.3 10.6 C10.8 9.5 11.3 9 12 9 C12.7 9 13.2 9.5 13.7 10.6 C15.2 8.9 18.6 7.6 22.4 9.1 C20.6 11 17.6 12.4 14.5 13 L13.6 13.2 L13.4 17.6 L10.6 17.6 L10.4 13.2 L9.5 13 C6.4 12.4 3.4 11 1.6 9.1 Z" />
+      </svg>
+      <span class="nat-portada__especie">Milano picogarfio</span>
+      <span class="nat-portada__cientifico nat-cientifico">Chondrohierax uncinatus</span>
+      <span class="nat-portada__autor">Foto: Leyner Lozano</span>
+    </figcaption>
+
+  </figure>
+
+  <!-- ======================================================================
        1 · APERTURA A SANGRE POR LA IZQUIERDA
        El encabezado de sección vive DENTRO de esta composición: la foto del
        camino toca el borde de la pantalla y el titular arranca a su derecha.
@@ -1682,6 +1768,68 @@
 
     </div>
   </div>
+
+  <!-- ======================================================================
+       6 · EL CIERRE — el mural del barranquero (v6)
+       La rima que cierra la sección: arriba entra el ave viva, fotografiada
+       en la rama; aquí sale la misma ave pintada sobre la pared del predio.
+       Se cuelga entera, no como miniatura: plancha a sangre por los cuatro
+       lados, esquinas rectas, y el pie debajo, en la línea del contenedor,
+       con el aire y la letra de una cartela de museo. No lleva contorno
+       gigante: ese gesto es de la portada y repetirlo lo gastaría.
+
+       LA FOTOGRAFÍA ya estaba en el repositorio y no se usaba en ninguna
+       parte (img/parque/parque-62.jpg). Es vertical, así que en móvil se
+       publica entera —proporción 3:4, sin recorte— y en pantallas anchas se
+       encuadra por el centro, donde caen el mural, la enramada y las
+       heliconias del primer plano.
+       ====================================================================== -->
+  <figure class="nat-mural">
+
+    <div class="nat-mural__plancha">
+      <img
+        class="nat-mural__foto"
+        src="img/parque/parque-62.jpg"
+        width="900"
+        height="1200"
+        loading="lazy"
+        decoding="async"
+        alt="Mural de un barranquero de cola larga pintado sobre la pared lateral del predio, junto al techo de la enramada, con heliconias y hojas grandes en primer plano y el prado con su círculo de gravilla delante"
+      />
+    </div>
+
+    <figcaption class="nat-mural__pie reveal">
+      <!-- Esta silueta NO entra en el sistema de hornear-trazos —su viewBox no
+           es el de 24— y es deliberado: el disparador de aquel observa la
+           SECCIÓN entera, así que un icono colgado al final se dibujaría solo
+           mientras todavía está fuera de pantalla. Éste se dibuja atado al
+           scroll con animation-timeline: view(), o sea justo cuando la cartela
+           llega. Dos siluetas, dos relojes distintos. -->
+      <svg
+        class="nat-mural__ave"
+        viewBox="0 0 48 48"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="1.5"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        aria-hidden="true"
+        focusable="false"
+      >
+        <path pathLength="1" d="M10.8 19.6 C13.6 18 16 17.2 18.4 16.6 C20 13.8 23 12 26.4 12 C30.8 12 34.4 14.8 35.8 18.8 C37.6 22.8 38.8 26 40 28.8 C41.8 30.8 43.4 32.8 44.8 35.2 C42 35.2 39.4 34.4 37.2 32.8 C35.2 35.2 31.8 36.8 28 36.8 C21.2 36.8 15.8 31.8 15.8 25.6 C15.8 24.2 16 23 16.4 21.8 C14.4 21.4 12.4 20.6 10.8 19.6 Z" />
+      </svg>
+
+      <p class="eyebrow">El mural del predio</p>
+      <h3 class="titulo-seccion titulo-seccion--sm nat-mural__titulo">
+        El mismo pájaro, pintado en la pared
+      </h3>
+      <p class="nota nat-mural__texto">
+        Es un barranquero, la misma ave que abre el muro de aquí arriba.
+        Está pintado sobre la pared, con las heliconias delante.
+      </p>
+    </figcaption>
+
+  </figure>
 
   <!-- El vídeo de arriba necesita su propio script. Va DENTRO del fragmento a
        propósito: index.html se ensambla con herramientas/ensamblar.py, que

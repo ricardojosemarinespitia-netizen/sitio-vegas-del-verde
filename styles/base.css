@@ -738,6 +738,11 @@ a:hover {
   transition:
     opacity var(--transicion-reveal),
     clip-path var(--transicion-reveal);
+  /* El atajo `transition` de arriba REINICIA transition-delay a 0s y se comia
+     el escalonado que .js .reveal deja puesto (linea ~719): cualquier velo
+     dentro de una .reveal-secuencia entraba de golpe con sus hermanos en vez
+     de esperar su turno. Se vuelve a declarar aqui, despues del atajo. */
+  transition-delay: var(--reveal-delay, 0ms);
 }
 
 .js .reveal.visible {

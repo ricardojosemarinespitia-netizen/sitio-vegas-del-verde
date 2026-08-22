@@ -698,8 +698,29 @@
   background-image: linear-gradient(90deg, var(--verde-menta), var(--verde-oliva));
   transform-origin: left center;
   transform: scaleX(0);
-  transition: transform var(--dur-lenta) var(--ease-salida);
-  transition-delay: var(--reveal-delay, 0ms);
+  /* v5 · CADA BARRA TARDA LO QUE MIDE, Y NINGUNA ARRANCA CON OTRA.
+     Hasta v4 las siete barras crecían A LA VEZ y en los mismos 550 ms: siete
+     objetos moviéndose al unísono no se leen como siete datos, se leen como
+     una sola animación. Y además era mentira, porque las siete no dicen lo
+     mismo: Bucaramanga está a 10,2 km y Barichara a 120,6.
+
+     Ahora la fila trae dos números en su atributo `style` —el HTML es quien
+     sabe a qué distancia está cada sitio— y aquí sólo se multiplican tokens:
+       --ubi-ritmo  multiplica --dur-lenta   → la barra larga tarda tres veces
+                                               más que la corta en llenarse.
+       --ubi-turno  multiplica --dur-instant → la cascada, con pasos
+                                               desiguales (0 · 0,7 · 1,9 · 2,6
+                                               · 4 · 4,9 · 6,4) para que no se
+                                               oiga un metrónomo.
+     La duración deja de ser un ajuste estético y pasa a decir algo cierto:
+     lo lejos que está cada sitio se ve antes de leer la cifra.
+
+     Bajo `prefers-reduced-motion` los dos tokens de origen valen 1 ms, así
+     que el multiplicador da un número igual de despreciable y las barras
+     aparecen ya dibujadas. No hace falta ninguna regla extra.
+     Sigue animándose sólo `transform`: cero layout, cero repintado. */
+  transition: transform calc(var(--dur-lenta) * var(--ubi-ritmo, 1)) var(--ease-salida);
+  transition-delay: calc(var(--dur-instant) * var(--ubi-turno, 0));
 }
 
 /* Las barras crecen cuando el bloque entra en pantalla (clase .visible del
@@ -1097,6 +1118,247 @@ a.ubi-canal--destacado:focus-visible {
 
   .ubi-canal--destacado {
     padding-inline: var(--esp-sm);
+  }
+}
+
+/* ==========================================================================
+   12b. LOS RELOJES DE LA SECCIÓN   (v5)
+   Regla que gobierna todo lo que sigue: NADA SE MUEVE AL MISMO COMPÁS Y NADA
+   EMPIEZA AL MISMO TIEMPO. Esta era, con diferencia, la sección donde peor se
+   cumplía: los ocho chips de referencia aparecían de golpe, las siete barras
+   de distancia crecían todas a la vez y en el mismo tiempo, y las cuatro filas
+   de canal entraban en escalera regular de 90 en 90 ms. Tres grupos, tres
+   metrónomos.
+
+   Después de v5 la sección tiene SEIS tiempos distintos y ninguno comparte
+   mecanismo con el de al lado:
+     1. el vuelo del mapa (js/mapa.js, --dur-vuelo, ya existía)
+     2. los ocho chips, en desorden                          (§12b.1)
+     3. las siete barras, cada una a su velocidad            (§10, arriba)
+     4. las dos crestas de la cordillera, dibujándose        (§12b.3)
+     5. la foto de llegada, con el encuadre atado al scroll  (§12b.4)
+     6. las cuatro filas de canal, en desorden               (§12b.2)
+   ========================================================================== */
+
+/* ---- 12b.1 · LOS OCHO CHIPS ---------------------------------------------
+   Aquí el desorden NO es una cascada: es una nube. Una lista se lee de arriba
+   abajo y su entrada debe respetar ese orden; ocho pastillas envueltas en dos
+   o tres filas no tienen orden de lectura fuerte, así que sus tiempos van
+   deliberadamente cruzados —la cuarta entra antes que la tercera, la sexta
+   antes que la quinta— y el conjunto se lee como sitios que van cayendo, no
+   como un barrido.
+
+   base.css sólo trae seis escalones distintos (a partir del séptimo hijo
+   repite 540 ms), así que los ocho hay que escribirlos igualmente.
+   Especificidad (0,3,0), la misma que la regla de base, y esta hoja se carga
+   después. Todo cuelga de --dur-instant, que bajo `prefers-reduced-motion`
+   vale 1 ms: la nube se aplana sola.                                       */
+.ubi-refs.reveal-secuencia > .ubi-ref:nth-child(1) { --reveal-delay: 0ms; }
+.ubi-refs.reveal-secuencia > .ubi-ref:nth-child(2) { --reveal-delay: calc(var(--dur-instant) * 0.6); }
+.ubi-refs.reveal-secuencia > .ubi-ref:nth-child(3) { --reveal-delay: calc(var(--dur-instant) * 1.5); }
+.ubi-refs.reveal-secuencia > .ubi-ref:nth-child(4) { --reveal-delay: calc(var(--dur-instant) * 1.1); }
+.ubi-refs.reveal-secuencia > .ubi-ref:nth-child(5) { --reveal-delay: calc(var(--dur-instant) * 2.4); }
+.ubi-refs.reveal-secuencia > .ubi-ref:nth-child(6) { --reveal-delay: calc(var(--dur-instant) * 1.9); }
+.ubi-refs.reveal-secuencia > .ubi-ref:nth-child(7) { --reveal-delay: calc(var(--dur-instant) * 3.2); }
+.ubi-refs.reveal-secuencia > .ubi-ref:nth-child(8) { --reveal-delay: calc(var(--dur-instant) * 2.7); }
+
+/* El chip entra con `reveal--zoom` (sólo escala, no desplaza): la lista va en
+   flex con envolvimiento y un desplazamiento horizontal de 28 px en la última
+   pastilla de una fila puede empujar el borde de la pantalla. Escalar no
+   desborda nunca. La duración baja de los 900 ms del sistema a --dur-lenta:
+   una pastilla es una pieza pequeña y a 900 ms se arrastra.                */
+.js .ubi-refs .ubi-ref.reveal {
+  transition-duration: var(--dur-lenta);
+}
+
+/* ---- 12b.2 · LAS CUATRO FILAS DE CANAL -----------------------------------
+   Mismo problema, misma corrección. El orden de entrada no es el del marcado:
+   detrás del titular entra WhatsApp —que es el canal real del negocio y la
+   única fila con cuerpo—, luego el correo, luego el horario y al final
+   Instagram. Que el ojo llegue primero a la fila que importa es lo único que
+   esta escalera tiene de intencionado; lo demás es que no se oiga el compás.
+   Especificidad (0,4,0): gana a `.reveal-secuencia > .reveal:nth-child(n)`. */
+.ubi-canales.reveal-secuencia > .reveal:nth-child(1) { --reveal-delay: 0ms; }
+.ubi-canales.reveal-secuencia > .reveal:nth-child(2) { --reveal-delay: calc(var(--dur-instant) * 0.5); }
+.ubi-canales.reveal-secuencia > .reveal:nth-child(3) { --reveal-delay: calc(var(--dur-instant) * 2.3); }
+.ubi-canales.reveal-secuencia > .reveal:nth-child(4) { --reveal-delay: calc(var(--dur-instant) * 1.4); }
+.ubi-canales.reveal-secuencia > .reveal:nth-child(5) { --reveal-delay: calc(var(--dur-instant) * 3.4); }
+
+/* ---- 12b.3 · LA CORDILLERA ----------------------------------------------
+   Dos crestas de trazo en la columna que el bloque de distancias deja vacía a
+   partir de 62em. Dice lo mismo que la tabla de al lado —el Chicamocha,
+   Zapatoca, San Gil, Barichara: la lista mide montañas— sin escribir un dato
+   que la tabla ya tiene.
+
+   SU DISPARADOR ES PROPIO. Cuelga del <header> del bloque (ver la nota en
+   sections/ubicacion.html), y js/app.js busca el ancestro
+   `section|footer|header` más cercano: así se dibuja al entrar el bloque de
+   distancias y no una pantalla y media antes, que es lo que pasaría colgando
+   de la sección entera.
+
+   Se oculta por debajo de 62em: ahí la columna del encabezado ocupa el ancho
+   completo y la silueta sólo separaría el rótulo de sus datos. Es decoración
+   con `aria-hidden`; ocultarla no quita ni una palabra.                     */
+.ubi-cordillera {
+  display: none;
+  width: calc(var(--esp-4xl) * 1.5);
+  height: auto;
+  aspect-ratio: 1;
+  margin-top: var(--esp-lg);
+  pointer-events: none;
+  /* Oliva al 38 % sobre la salvia de la sección: compone #adb896 y da 1,60:1.
+     Por debajo del 4,5:1 de AA a propósito. WCAG 1.4.3 y 1.4.11 obligan a
+     texto y a componentes de interfaz, y esto no es ninguna de las dos cosas:
+     va con `aria-hidden`, no lleva texto y el bloque de distancias se entiende
+     entero sin ella. A más alfa competiría con las siete barras que tiene al
+     lado, que sí son información. Si algún día se le mete texto dentro, hay
+     que rehacer la cuenta desde cero. */
+  color: rgb(var(--verde-oliva-rgb) / 0.38);
+}
+
+@media (min-width: 62em) {
+  .ubi-cordillera {
+    display: block;
+  }
+}
+
+/* La cresta de atrás sale primero y despacio; la de delante entra cuando a la
+   primera le queda un tercio y va más rápida, que es como se leen dos planos
+   de profundidad. Especificidad (0,6,0) —los dos `:not()` repetidos— para
+   ganarle al ATAJO `transition:` de base.css, que mide (0,5,0) y reinicia
+   `transition-delay` a 0s. Sin !important.
+   Bajo `prefers-reduced-motion` base.css deja el trazo dibujado y con
+   `transition: none`: sin propiedad que transicionar, duración y espera no
+   hacen nada. Y los tokens de los que cuelgan valen 1 ms en ese modo.      */
+.js .traza-lista .ubi-cordillera.icono-traza
+  > :not([stroke-dasharray]):not([data-traza="detalle"]) {
+  transition-duration: calc(var(--dur-traza) * var(--traza-ritmo, 1));
+  transition-delay: var(--traza-espera, 0ms);
+}
+
+.ubi-cordillera > :nth-child(1) { --traza-espera: 0ms;                          --traza-ritmo: 1.2;  }
+.ubi-cordillera > :nth-child(2) { --traza-espera: calc(var(--dur-lenta) * 1.4); --traza-ritmo: 0.75; }
+
+/* Y deriva mientras el bloque cruza la ventana, en un cuarto compás: recorrido
+   corto, casi horizontal y en sentido contrario al de las barras, que se
+   llenan hacia la derecha. Sólo `transform`, sobre un elemento decorativo, con
+   las dos guardas de rigor —la de movimiento reducido es obligatoria porque
+   las animaciones con línea de tiempo de scroll NO tienen duración en tiempo
+   y el bloque global de base.css, que sólo acorta duraciones, no las frena—.
+   Longhands y `animation-duration: auto` escrito: el atajo `animation:` deja
+   la duración en su valor inicial, que cambió de `0s` a `auto` entre dos
+   revisiones de la especificación, y con `0s` la deriva se resuelve de golpe. */
+@keyframes ubi-cordillera-deriva {
+  from {
+    transform: translate3d(7%, 3%, 0);
+  }
+
+  to {
+    transform: translate3d(-5%, -2%, 0);
+  }
+}
+
+@supports (animation-timeline: view()) {
+  @media (prefers-reduced-motion: no-preference) {
+    .ubi-cordillera {
+      animation-name: ubi-cordillera-deriva;
+      animation-duration: auto;
+      animation-timing-function: linear;
+      animation-fill-mode: both;
+      animation-timeline: view();
+      animation-range: entry 0% exit 100%;
+    }
+  }
+}
+
+/* ---- 12b.4 · LA FOTO DE LLEGADA -----------------------------------------
+   La única pieza de fotografía a la altura de los ojos en toda la sección, y
+   la bisagra entre el mapa y la conversación (ver la nota en el HTML).
+
+   LA HOJA, Y POR QUÉ ESTA DIAGONAL. La foto de referencias que queda un
+   bloque más arriba curva arriba-derecha y abajo-izquierda; ésta curva la
+   diagonal CONTRARIA y con dos tamaños distintos (--radio-xl arriba,
+   --radio-lg abajo), así que dos piezas vecinas no repiten forma. El mapa, que
+   sangra hasta el canto de la ventana, sigue a esquina viva: en este sistema
+   la foto que toca el borde no se redondea nunca.
+
+   16/9 desde 48em y 4/3 por debajo: el archivo es 3/2, así que el recorte de
+   escritorio se come una franja de cielo —que es lo que sobra— y en móvil se
+   queda casi entero, porque a 375 px un panorámico de 200 px de alto no
+   enseña nada.                                                             */
+.ubi-llegada {
+  display: flex;
+  flex-direction: column;
+  gap: var(--esp-2xs);
+  margin-top: var(--esp-seccion-sm);
+}
+
+/* EL DESBLOQUEO DEL clip-path. `.js .reveal.visible` de base.css deja
+   `clip-path: inset(0 0 0 0)` en todo lo que entra por scroll —lo necesita
+   .reveal--velo— y un clip recorta también la sombra, que vive fuera de la
+   caja. Esta figura es .reveal y su medio lleva sombra. Mide (0,3,0), lo
+   mismo que la regla de base, y esta hoja se carga después: gana por cascada.
+   Es la misma trampa anotada en nosotros.css e inicio.css; si algún día se le
+   pone sombra a otra pieza .reveal de esta sección, hay que repetirlo.     */
+.ubi-llegada.reveal.visible {
+  clip-path: none;
+}
+
+.ubi-llegada__medio {
+  position: relative;
+  overflow: hidden;
+  aspect-ratio: 4 / 3;
+  border-radius: var(--radio-xl) 0 var(--radio-lg) 0;
+  /* Baja y muy abierta: la pieza se apoya en el papel, no flota sobre él. */
+  box-shadow: var(--sombra-md);
+  background-color: rgb(var(--gris-verde-rgb) / 0.3);
+}
+
+@media (min-width: 48em) {
+  .ubi-llegada__medio {
+    aspect-ratio: 16 / 9;
+  }
+}
+
+/* El encuadre se ancla por debajo del centro: manda la gravilla del camino y
+   lo que hay al fondo, no el cielo. Es también el punto de PARTIDA del efecto
+   de foto-focus, y por eso vive aquí en CSS estático y no en el HTML: así el
+   primer cuadro del JS coincide con el primer paint y no hay salto. */
+.ubi-llegada__medio img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: 50% 58%;
+  transition: transform var(--dur-lenta) var(--ease-suave);
+}
+
+.ubi-llegada__pie {
+  max-width: 46ch;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .ubi-llegada__medio:hover img {
+    transform: scale(var(--escala-hover));
+  }
+}
+
+/* EL ESTADO INICIAL DE FOTO-FOCUS, EN CSS ESTÁTICO. scale(1) es el reposo del
+   efecto y es lo que pinta el primer paint aunque el `defer` llegue tarde: el
+   JS parte de este estado y vuelve a él, así que no puede haber parpadeo.
+   Va con `:where()` a propósito —queda en (0,1,1)—, de modo que se sitúa por
+   debajo del zoom del hover de aquí arriba y, sin el script o antes de que
+   corra, el hover sigue funcionando. Montado el script, su estilo en línea
+   manda sobre los dos. Mismo criterio que nosotros.css §5.                 */
+:where(.ubi-llegada__medio)[data-foto-focus] img {
+  transform: scale(1);
+}
+
+/* Sólo escritorio —el mismo umbral con el que el JS cambia de modo— y sólo si
+   hay movimiento: una imagen promocionada a capa, no un sitio entero. */
+@media (min-width: 64em) and (prefers-reduced-motion: no-preference) {
+  :where(.ubi-llegada__medio)[data-foto-focus] img {
+    will-change: transform;
   }
 }
 

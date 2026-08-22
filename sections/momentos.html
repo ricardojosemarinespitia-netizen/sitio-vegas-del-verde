@@ -98,6 +98,48 @@
       <h2 id="momentos-titulo" class="titulo-seccion momentos__titulo">
         Aquí el día se toma su tiempo
       </h2>
+
+      <!-- v3.3 · LA MARIPOSA QUE SE DIBUJA -----------------------------------
+           La cartela deja a partir de 62em un tercio de ancho vacío a la
+           derecha del titular (el titular va acotado a 20ch). Ahí entra el
+           único trazo de toda la banda, y es el motivo que ya está en los
+           cuatro clips: una mariposa.
+
+           NO AÑADE NI UN HECHO. Va con `aria-hidden`, no lleva texto y no
+           afirma nada: esta sección es atmósfera pura y sigue sin poseer un
+           solo dato. Tampoco nombra el jardín de polinizadores, que es de
+           #colegios (ver el contrato al principio de este archivo).
+
+           FIRMA DEL MOTOR DE DIBUJADO, HORNEADA A MANO: `viewBox="0 0 24 24"`,
+           `fill="none"`, `stroke="currentColor"`, la clase `icono-traza` en el
+           elemento raíz y `pathLength="1"` en cada forma. Escrito en el HTML y no
+           puesto por js/app.js —que va con defer— para que el trazo nazca
+           oculto en el primer paint y no haya un fotograma de parpadeo.
+           Es el primer .icono-traza de esta sección, así que también es lo que
+           convierte #momentos en su propio disparador de dibujado.
+
+           SIETE FORMAS Y SIETE TIEMPOS (momentos.css §10). El orden importa y no
+           es simétrico: sale el ala superior izquierda, entra la superior
+           derecha cuando a la primera le queda un tercio, después las dos
+           inferiores, luego el cuerpo y al final las antenas, una detrás de
+           otra. Si las dos alas de un par salieran a la vez, el trazo se
+           leería como un logotipo desplegándose, no como algo dibujado.
+           Cada <path> lleva una sola `M` para que el guion pueda recorrerlo
+           de un tirón: un camino con varios trazos sueltos se ve
+           entrecortado porque el guion tiene que atravesar también los
+           saltos invisibles de un trazo al siguiente.                     -->
+      <svg class="icono-traza momentos__mariposa" viewBox="0 0 24 24"
+           fill="none" stroke="currentColor" stroke-width="0.9"
+           stroke-linecap="round" stroke-linejoin="round"
+           aria-hidden="true" focusable="false">
+        <path d="M11.6 8.6C10 5.4 7.4 3.3 4.9 3.6 2.6 3.9 1.9 6 3 8.6c1.1 2.6 3.3 3.9 8.6 3.4Z" pathLength="1"/>
+        <path d="M12.4 8.6c1.6-3.2 4.2-5.3 6.7-5 2.3.3 3 2.4 1.9 5-1.1 2.6-3.3 3.9-8.6 3.4Z" pathLength="1"/>
+        <path d="M11.6 12.6c-4.3-.9-7-.1-8 2.2-1 2.3.4 4.2 3.2 4.4 2.5.2 4.3-2 4.8-6.6Z" pathLength="1"/>
+        <path d="M12.4 12.6c4.3-.9 7-.1 8 2.2 1 2.3-.4 4.2-3.2 4.4-2.5.2-4.3-2-4.8-6.6Z" pathLength="1"/>
+        <path d="M12 7.8v9.4" pathLength="1"/>
+        <path d="M11.2 7.4 8.9 4.2" pathLength="1"/>
+        <path d="M12.8 7.4 15.1 4.2" pathLength="1"/>
+      </svg>
     </header>
 
     <ul class="momentos__muro reveal-secuencia" role="list">

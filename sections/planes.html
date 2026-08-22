@@ -1,7 +1,8 @@
 <!-- ==========================================================================
      FRAGMENTO: PLANES POR OCASIÓN  ·  id="planes"
      CSS propio: styles/sections/planes.css
-     JS: ninguno propio. Sólo .reveal / .reveal-secuencia del script global.
+     JS: ninguno propio. Sólo .reveal / .reveal-secuencia del script global y
+     el disparador de .icono-traza, los dos de js/app.js.
 
      QUÉ VENDE: los USOS del predio, no los contenedores. Cinco carriles por
      tipo de cliente, probados con fotos de eventos que de verdad pasaron aquí.
@@ -13,21 +14,21 @@
        anuncian los lectores de pantalla, así que es publicar el aforo por la
        puerta de atrás. Los aforos son de #espacios y de nadie más.
      · Los cinco carriles NO se maquetan igual, a propósito:
-         01 fiesta    → foto grande + columna de tres        (imagen manda)
-         02 familia   → tira horizontal de cuatro retratos   (texto primero)
-         03 empresa   → dossier: retrato + par apaisado      (partido 50/50)
-         04 bienestar → banda ancha + trío + lista de siete  (fondo bosque)
-         05 talleres  → banda tipográfica, sin galería       (silencio)
+         01 fiesta    → portada a sangre + díptico asimétrico   (la foto manda)
+         02 familia   → texto + mosaico 55/45 + banda ancha     (texto primero)
+         03 empresa   → dossier: retrato + par apaisado         (partido 50/50)
+         04 bienestar → banda a sangre + bloque verde           (único negativo)
+         05 talleres  → banda tipográfica, sin galería          (silencio)
        Si los cinco fueran galería + lista + botón, la repetición que sacamos
        de la página se colaría otra vez dentro de una sola sección.
      · Y NO OCUPAN EL MISMO ANCHO (revisión de agosto de 2026). Aunque por
        dentro cada carril era distinto, los cinco medían 1200 px clavados y
        empezaban en la misma x: cinco losas apiladas. Ahora cada uno tiene su
        propia caja y se alternan izquierda y derecha:
-         01 la foto grande SALE del contenedor por la izquierda (a sangre)
-         02 el texto entra una columna y la tira SALE por la derecha
+         01 la portada y el díptico SALEN del contenedor (a sangre completa)
+         02 el texto entra una columna y el mosaico SALE por la derecha
          03 pega a la izquierda y se queda a dos columnas del borde derecho
-         04 entra dos columnas por la izquierda y pega a la derecha
+         04 la banda sale a sangre y el bloque verde entra dos columnas
          05 pega a la izquierda y ocupa sólo ocho de las doce columnas
        Las medidas están en planes.css; aquí sólo viajan los modificadores.
      · El 04 conserva .seccion--oscura y el 05 sigue en CLARO: justo después
@@ -38,26 +39,49 @@
        nombre de archivo o dejar un hueco gris, se compone con tipografía.
      · CTA: el rótulo «Atrévete a un plan distinto» es el mismo en los cinco
        —es el rótulo de la sección—; lo que cambia es el mensaje de WhatsApp
-       y el remate para lector de pantalla.
+       y el remate para lector de pantalla. En el 01 ese mismo rótulo va como
+       enlace con flecha dentro de la tarjeta flotante, no como botón: la
+       tarjeta es lo único sólido que hay sobre una foto a sangre y meterle un
+       botón coral encima la convertía en un banner.
 
      REVISIÓN v4 «orgánica» (agosto de 2026) — TRES CAMBIOS, TODOS DE FORMA.
      Ni un hecho, ni un titular, ni un destino de enlace se mueven.
      1. EL ÍNDICE SE HACE ANCLA. «01…05» eran cinco cifras de 13 px al lado de
         su etiqueta; ahora son la cifra grande que abre cada carril, con la
-        ocasión debajo. Es el hilo que ya enhebraba los cinco, subido al
-        tamaño en que de verdad enhebra, y el punto donde para la vista al
-        entrar a cada uno.
-     2. LAS TRECE FOTOS DEJAN LA ESQUINA VIVA. Cada carril recorta con un
-        contorno propio —hoja, arco, canto blando, círculo— y ninguno repite
-        el del carril de arriba. Los valores están en planes.css §8.
+        ocasión debajo.
+     2. LAS FOTOS DEJAN LA ESQUINA VIVA cuando están DENTRO de la maqueta.
+        Cada carril recorta con un contorno propio y ninguno repite el del
+        carril de arriba. Los valores están en planes.css §8.
      3. CADA CARRIL ENTRA DE UNA MANERA, y la entrada coincide con su caja:
-        01 llega desde la izquierda, que es por donde su foto se sale;
-        02 desde la derecha, que es por donde se sale su tira;
+        01 llega desde la izquierda, que es por donde sangra;
+        02 desde la derecha, que es por donde se sale su mosaico;
         03 con zoom, porque es un dossier y no tiene lado;
         04 con velo, porque es un bloque de color que sube como un telón;
         05 recto, sin desvío, porque es el colofón.
         Cinco hijos con .reveal dentro de .reveal-secuencia: el escalonado no
         pasa de cinco, muy por debajo del tope de ocho.
+
+     REVISIÓN v6 (fases 3 y 4 de PLAN-HERO-V6.md) — TRES REDIAGRAMACIONES.
+     Ni un hecho nuevo, ni un titular reescrito, ni un enlace movido.
+     A. CARRIL 01, EN DOS ACTOS. El h3 «La fiesta empieza cuando se encienden
+        los bombillos» se PROMUEVE a marca de agua tipográfica gigante sobre
+        `boda-3.jpg` a sangre completa, y por tanto DESAPARECE de abajo: un
+        hecho, un dueño (ARQUITECTURA-V3). El contorno es atmósfera; la
+        información y el CTA viven en la tarjeta sólida que flota encima.
+        Debajo, `boda-2` y `boda-1` en díptico desfasado. `boda-4` sale de
+        este carril: se va a #espacios, que no tiene foto de La Vega.
+     B. CARRIL 02, DE CUATRO CLONES A UN MOSAICO. Eran cuatro retratos en
+        fila, el defecto de plantilla que v5 ya había corregido en la tira de
+        aves de #inicio. Ahora `infantil-4` —el niño saltando a atrapar
+        pompas, la mejor foto emocional del banco— manda al 55 % del ancho,
+        `infantil-2` y `cumpleanos-1` la acompañan a dos alturas distintas, e
+        `infantil-3` (cuadrada, hasta hoy sin publicar) entra recortada en
+        banda ancha como foto de contexto. `infantil-1` sale a #colegios.
+     C. CARRIL 04, LA BANDA QUE FALTABA. `yoga-2` estaba en 16:9 dentro del
+        bloque verde. Sale del bloque y pasa a banda a sangre completa con el
+        índice y el titular en negativo sobre el césped en sombra del tercio
+        izquierdo. Es el único carril en negativo del sitio y hasta hoy no lo
+        aprovechaba.
      ========================================================================== -->
 <section id="planes" class="seccion planes" aria-labelledby="planes-titulo">
   <div class="contenedor">
@@ -74,56 +98,132 @@
     <ul class="planes__carriles reveal-secuencia">
 
       <!-- ============================================================ 01/05
-           BODAS Y CONCIERTOS — la imagen manda: una foto grande y una
-           columna de tres al lado. Es el carril más ruidoso de los cinco.
+           BODAS Y CONCIERTOS — dos actos.
+
+           ACTO 1 · LA PIEZA DE CONTORNO.
+           `boda-3.jpg` a sangre completa (100vw × --alto-hero) y ESQUINA
+           VIVA: una foto que llega al borde de la ventana no se redondea.
+           Encima, la frase del carril en Fraunces a peso 320, relleno
+           transparente y contorno crema. CAJA ALTA Y BAJA: el referente de
+           esta pieza va en mayúsculas y CONTRATO-V2 §3 las prohíbe a partir
+           de 24 px. El gesto del referente no es el caps —es la escala, el
+           hueco del contorno y el cruce sobre la foto—, y los tres se
+           conservan. Con una serif de ascendentes y descendentes el contorno
+           dibuja además mejor que en versalitas.
+
+           LAS TRES MEDIDAS DE CONTRASTE, porque una sola no basta sobre una
+           fotografía:
+             1. El contorno va `aria-hidden` y la frase entera viaja en un
+                `.solo-lectores` dentro del mismo h3. Para el lector de
+                pantalla el titular se anuncia una vez y entero; para el ojo
+                es una marca de agua. Nadie oye tres renglones sueltos.
+             2. Un velo acotado a la banda alta —donde está el cielo de hora
+                azul— sube el contraste medido de la crema contra la foto de
+                9,1:1 a 11,0:1 y baja del 14,4 % al 0,17 % los píxeles por
+                debajo de 3:1.
+             3. La tarjeta sólida. Ahí viven el índice, el texto y el CTA, con
+                contraste real de 14,8:1 (texto) y 5,7:1 (enlace) sobre
+                --color-superficie-solida. El contorno es atmósfera; la
+                tarjeta es la información.
+
+           Dos versiones de la marca, las dos decorativas: tres renglones
+           desiguales de tableta para arriba y dos en móvil, donde tres
+           renglones a esa escala no caben en la ventana. Sólo una está
+           visible a la vez (planes.css §3).
+
+           ACTO 2 · EL DÍPTICO. `boda-2` (5 de 12 columnas, desbordando por
+           arriba) y `boda-1` (7 columnas, alineada abajo). El remate del
+           texto cae en el aire que deja el desfase, no debajo de las fotos.
            ================================================================ -->
       <li class="planes-carril planes-carril--fiesta reveal reveal--izq">
 
-        <figure class="marco marco--3-2 planes-fiesta__principal">
-          <img
-            src="img/eventos/boda-1.jpg"
-            width="1500"
-            height="1125"
-            loading="lazy"
-            decoding="async"
-            alt="Carpa blanca iluminada con guirnaldas de bombillos al anochecer: los invitados charlan sentados en sofás de estibas y pacas de paja repartidas sobre el césped."
-          />
-        </figure>
+        <div class="planes-fiesta__acto1">
 
-        <div class="planes-carril__texto planes-fiesta__texto">
-          <p class="planes-carril__ocasion">
-            <span class="planes-carril__indice">01</span> Bodas y conciertos
-          </p>
+          <div class="planes-portada">
+            <img
+              class="planes-portada__foto"
+              src="img/eventos/boda-3.jpg"
+              width="1500"
+              height="1125"
+              loading="lazy"
+              decoding="async"
+              alt="La carpa llena de gente ya de noche, con una banda tocando en un extremo y bombillos colgados entre las ramas de los árboles."
+            />
 
-          <h3 class="titulo-seccion titulo-seccion--sm">
-            La fiesta empieza cuando se encienden los bombillos
-          </h3>
+            <span class="planes-portada__velo" aria-hidden="true"></span>
 
-          <p class="planes-carril__copy">
-            Matrimonios y conciertos. La ceremonia bajo un árbol de copa ancha, la carpa
-            iluminada con bombillos y la música puesta hasta que el cielo se ponga azul
-            oscuro. Ese momento no se decora: ya viene con el sitio.
-          </p>
+            <h3 class="planes-portada__marca">
+              <span class="solo-lectores">La fiesta empieza cuando se encienden los bombillos</span>
 
-          <p class="nota planes-carril__donde">
-            Se monta en la
-            <a href="#espacios">Alameda</a>
-            o en
-            <a href="#espacios">La Vega</a>.
-          </p>
+              <span class="planes-portada__version planes-portada__version--ancha" aria-hidden="true">
+                <span class="planes-portada__renglon">La fiesta empieza</span>
+                <span class="planes-portada__renglon">cuando se encienden</span>
+                <span class="planes-portada__renglon">los bombillos</span>
+              </span>
 
-          <a
-            class="btn btn-whatsapp planes-carril__cta"
-            href="https://wa.me/573166758362?text=Hola%2C%20quiero%20cotizar%20Vegas%20del%20Verde%20para%20un%20matrimonio%20o%20un%20concierto."
-            target="_blank"
-            rel="noopener"
-          >
-            Atrévete a un plan distinto<span class="solo-lectores">: matrimonio o concierto</span>
-          </a>
+              <span class="planes-portada__version planes-portada__version--corta" aria-hidden="true">
+                <span class="planes-portada__renglon">La fiesta empieza cuando</span>
+                <span class="planes-portada__renglon">se encienden los bombillos</span>
+              </span>
+            </h3>
+          </div>
+
+          <!-- La tarjeta es HERMANA de la portada, no hija: en móvil baja a
+               bloque debajo de la foto y en pantalla ancha se posa encima con
+               `position: absolute`. Si viviera dentro de la portada —que
+               tiene alto fijo y `overflow: hidden`— no podría hacer lo
+               primero. El estado de las dos cosas está en el CSS estático:
+               aquí no hay ni un atributo de estilo. -->
+          <div class="planes-portada__tarjeta">
+
+            <!-- El bombillo que enciende la frase de arriba. Firma de icono
+                 que reconoce herramientas/hornear-trazos.js (viewBox de 24,
+                 sin relleno, trazo heredado) y con el `pathLength` YA
+                 HORNEADO en el HTML: el trazo nace oculto en el primer
+                 pintado y no hay un solo fotograma con el icono entero antes
+                 de dibujarse.
+                 Se probó primero una guirnalda de tres bombillos y a 32 px
+                 era una mancha; uno solo se reconoce al instante. -->
+            <svg
+              class="icono-traza planes-portada__icono"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="1.5"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              aria-hidden="true"
+              focusable="false"
+            >
+              <path pathLength="1" d="M12 2.6a6.4 6.4 0 0 0-3.7 11.6v2.3h7.4v-2.3A6.4 6.4 0 0 0 12 2.6Z" />
+              <path pathLength="1" d="M9.2 19h5.6" />
+              <path pathLength="1" d="M10.1 21.4h3.8" />
+            </svg>
+
+            <p class="planes-carril__ocasion">
+              <span class="planes-carril__indice">01</span> Bodas y conciertos
+            </p>
+
+            <p class="planes-carril__copy">
+              Matrimonios y conciertos. La ceremonia bajo un árbol de copa ancha, la carpa
+              iluminada con bombillos y la música puesta hasta que el cielo se ponga azul
+              oscuro.
+            </p>
+
+            <a
+              class="enlace-flecha planes-portada__cta"
+              href="https://wa.me/573166758362?text=Hola%2C%20quiero%20cotizar%20Vegas%20del%20Verde%20para%20un%20matrimonio%20o%20un%20concierto."
+              target="_blank"
+              rel="noopener"
+            >
+              Atrévete a un plan distinto<span class="solo-lectores">: matrimonio o concierto</span>
+            </a>
+          </div>
         </div>
 
-        <div class="planes-fiesta__tira">
-          <figure class="marco marco--retrato">
+        <div class="planes-fiesta__diptico">
+
+          <figure class="marco planes-fiesta__vertical">
             <img
               src="img/eventos/boda-2.jpg"
               width="844"
@@ -134,36 +234,52 @@
             />
           </figure>
 
-          <figure class="marco marco--4-3">
-            <img
-              src="img/eventos/boda-3.jpg"
-              width="1500"
-              height="1125"
-              loading="lazy"
-              decoding="async"
-              alt="La carpa llena de gente ya de noche, con una banda tocando en un extremo y bombillos colgados entre las ramas de los árboles."
-            />
-          </figure>
+          <div class="planes-fiesta__aire">
+            <div class="planes-carril__texto planes-fiesta__remate">
+              <p class="planes-carril__copy">
+                Ese momento no se decora: ya viene con el sitio.
+              </p>
 
-          <figure class="marco marco--3-2">
-            <img
-              src="img/eventos/boda-4.jpg"
-              width="1500"
-              height="1000"
-              loading="lazy"
-              decoding="async"
-              alt="Carpa transparente con bombillos al atardecer, con las mesas montadas y una furgoneta clásica roja haciendo de barra junto a las materas floreadas."
-            />
-          </figure>
+              <p class="nota planes-carril__donde">
+                Se monta en la
+                <a href="#espacios">Alameda</a>
+                o en
+                <a href="#espacios">La Vega</a>.
+              </p>
+            </div>
+
+            <figure class="marco planes-fiesta__apaisada">
+              <img
+                src="img/eventos/boda-1.jpg"
+                width="1500"
+                height="1125"
+                loading="lazy"
+                decoding="async"
+                alt="Carpa blanca iluminada con guirnaldas de bombillos al anochecer: los invitados charlan sentados en sofás de estibas y pacas de paja repartidas sobre el césped."
+              />
+            </figure>
+          </div>
+
         </div>
 
       </li>
 
       <!-- ============================================================ 02/05
-           CUMPLEAÑOS Y FAMILIA — aquí el texto va delante y las fotos se
-           leen como una tira: en móvil se arrastra con el dedo. El texto
-           entra una columna por la izquierda y la tira se sale por la
-           derecha, al revés que el carril 01.
+           CUMPLEAÑOS Y FAMILIA — aquí el texto va delante y las fotos van
+           detrás, en mosaico. El texto entra una columna por la izquierda y
+           el mosaico se sale por la derecha, al revés que el carril 01.
+
+           v6 · SE ACABARON LOS CUATRO RETRATOS EN FILA. Eran cuatro verticales
+           del mismo tipo alineadas de izquierda a derecha; por muy desiguales
+           que fueran las columnas seguían leyéndose como una hoja de
+           contactos. Ahora hay una protagonista al 55 % —el niño saltando a
+           atrapar pompas, que es la única foto del banco con un gesto y no
+           con un montaje— y a su lado dos verticales que arrancan a alturas
+           distintas. Debajo, `infantil-3` recortada en banda: es la única
+           cuadrada del banco y la única que enseña el círculo de césped
+           entero con el grupo completo, así que hace de plano general de
+           todas las de arriba.
+           Mismo criterio de tamaños y alturas que la tira de aves de #inicio.
            ================================================================ -->
       <li class="planes-carril planes-carril--familia reveal reveal--der">
 
@@ -199,30 +315,9 @@
           </a>
         </div>
 
-        <div class="planes-tira">
-          <figure class="marco marco--retrato planes-tira__foto">
-            <img
-              src="img/eventos/infantil-1.jpg"
-              width="844"
-              height="1500"
-              loading="lazy"
-              decoding="async"
-              alt="Niñas y niños sentados en círculo sobre una alfombra de césped, bajo una guirnalda de flecos rosados, azules y verdes tendida entre los árboles."
-            />
-          </figure>
+        <div class="planes-familia__mosaico">
 
-          <figure class="marco marco--retrato planes-tira__foto">
-            <img
-              src="img/eventos/infantil-2.jpg"
-              width="1125"
-              height="1500"
-              loading="lazy"
-              decoding="async"
-              alt="Seis niños alrededor de una mesa de picnic de madera con una torta de velas encendidas, mientras una animadora aplaude de pie junto a un macizo de heliconias rojas."
-            />
-          </figure>
-
-          <figure class="marco marco--retrato planes-tira__foto">
+          <figure class="marco planes-familia__protagonista">
             <img
               src="img/eventos/infantil-4.jpg"
               width="1125"
@@ -233,17 +328,42 @@
             />
           </figure>
 
-          <figure class="marco marco--retrato planes-tira__foto">
-            <img
-              src="img/eventos/cumpleanos-1.jpg"
-              width="844"
-              height="1500"
-              loading="lazy"
-              decoding="async"
-              alt="Picnic decorado sobre el césped: mesas bajas de huacal con manteles de cuadros, cojines en el suelo, guirnaldas de flecos rosados y un cartel de feliz cumpleaños colgado entre dos árboles."
-            />
-          </figure>
+          <div class="planes-familia__par">
+            <figure class="marco planes-familia__alta">
+              <img
+                src="img/eventos/infantil-2.jpg"
+                width="1125"
+                height="1500"
+                loading="lazy"
+                decoding="async"
+                alt="Seis niños alrededor de una mesa de picnic de madera con una torta de velas encendidas, mientras una animadora aplaude de pie junto a un macizo de heliconias rojas."
+              />
+            </figure>
+
+            <figure class="marco planes-familia__baja">
+              <img
+                src="img/eventos/cumpleanos-1.jpg"
+                width="844"
+                height="1500"
+                loading="lazy"
+                decoding="async"
+                alt="Picnic decorado sobre el césped: mesas bajas de huacal con manteles de cuadros, cojines en el suelo, guirnaldas de flecos rosados y un cartel de feliz cumpleaños colgado entre dos árboles."
+              />
+            </figure>
+          </div>
+
         </div>
+
+        <figure class="marco planes-familia__contexto">
+          <img
+            src="img/eventos/infantil-3.jpg"
+            width="1500"
+            height="1500"
+            loading="lazy"
+            decoding="async"
+            alt="Vista abierta del círculo de césped: nueve niños sentados en corro sobre la alfombra verde escuchan a una monitora que les enseña las páginas de un cuento, con dos acompañantes a los lados y aros de colores repartidos en la hierba."
+          />
+        </figure>
 
       </li>
 
@@ -326,14 +446,25 @@
 
       <!-- ============================================================ 04/05
            BIENESTAR — el único carril en negativo. La clase .seccion--oscura
-           va aquí, sobre el <li>, para heredar de base.css los colores
-           inversos ya verificados (eyebrow, entradilla, enlaces, viñetas)
-           sin declarar ni un valor propio.
+           sigue en el <li>, para heredar de base.css los colores inversos ya
+           verificados (eyebrow, entradilla, enlaces, viñetas) sin declarar ni
+           un valor propio. Lo que cambia en v6 es dónde vive el VERDE: ya no
+           en el <li> —que ahora contiene una banda a sangre y no podría
+           pintarse por debajo de ella— sino en .planes-bienestar__bloque.
+           El <li> se queda sólo con el rol de color.
+
+           LA BANDA. `yoga-2` es la única apaisada del carril y estaba metida
+           en un 16:9 dentro del bloque verde, que es exactamente donde una
+           foto de un grupo en círculo sobre el césped no se ve. Sale a
+           sangre completa, esquina viva, y el índice y el titular van en
+           negativo sobre el tercio izquierdo, que es césped en sombra. El
+           velo direccional que lo sostiene está medido en planes.css §6.
            ================================================================ -->
       <li class="planes-carril planes-carril--bienestar seccion--oscura reveal reveal--velo">
 
-        <figure class="marco marco--16-9">
+        <div class="planes-bienestar__banda">
           <img
+            class="planes-bienestar__foto"
             src="img/eventos/yoga-2.jpg"
             width="1500"
             height="844"
@@ -341,11 +472,34 @@
             decoding="async"
             alt="Una decena de personas sentadas en sillas puestas en círculo sobre el césped, abriendo los brazos en cruz a la vez, con la instructora al frente."
           />
-        </figure>
 
-        <div class="planes-bienestar__cuerpo">
+          <span class="planes-bienestar__velo" aria-hidden="true"></span>
 
-          <div class="planes-carril__texto">
+          <div class="planes-bienestar__rotulo">
+            <!-- Ondas concéntricas: el gesto de respirar hondo, que es lo que
+                 dice el titular de al lado. Va con el `pathLength` horneado,
+                 igual que el bombillo del carril 01.
+                 Cuatro arcos y no dos: con un solo par a cada lado el dibujo se
+                 leía como un paréntesis alrededor de un punto. Con dos radios
+                 se reconoce la expansión. -->
+            <svg
+              class="icono-traza planes-bienestar__icono"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="1.4"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              aria-hidden="true"
+              focusable="false"
+            >
+              <circle pathLength="1" cx="12" cy="12" r="2.4" />
+              <path pathLength="1" d="M7.76 7.76a6 6 0 0 0 0 8.49" />
+              <path pathLength="1" d="M16.24 16.24a6 6 0 0 0 0-8.49" />
+              <path pathLength="1" d="M5.35 5.35a9.4 9.4 0 0 0 0 13.3" />
+              <path pathLength="1" d="M18.65 18.65a9.4 9.4 0 0 0 0-13.3" />
+            </svg>
+
             <p class="planes-carril__ocasion">
               <span class="planes-carril__indice">04</span> Bienestar
             </p>
@@ -353,78 +507,85 @@
             <h3 class="titulo-seccion titulo-seccion--sm">
               Respira hondo, que aquí sobra aire
             </h3>
-
-            <p class="planes-carril__copy">
-              Clases y sesiones al aire libre, con las esterillas puestas en círculo sobre
-              el césped y el sonido de fondo que ya sabes.
-            </p>
-
-            <ul class="lista-hojas planes-bienestar__lista">
-              <li>Caminatas terapéuticas</li>
-              <li>Entrenamiento funcional</li>
-              <li>Sesiones de acondicionamiento físico</li>
-              <li>Pilates</li>
-              <li>Yoga</li>
-              <li>Mindfulness</li>
-              <li>Taller para el manejo de las emociones</li>
-            </ul>
-
-            <p class="planes-carril__copy">
-              Y un gimnasio al aire libre, para quien prefiere sudar.
-            </p>
-
-            <p class="nota planes-carril__donde">
-              Se hace en el
-              <a href="#espacios">Teatrino</a>
-              o en la
-              <a href="#espacios">Cancha</a>.
-            </p>
-
-            <a
-              class="btn btn-whatsapp planes-carril__cta"
-              href="https://wa.me/573166758362?text=Hola%2C%20quiero%20cotizar%20Vegas%20del%20Verde%20para%20una%20actividad%20de%20bienestar%3A%20yoga%2C%20pilates%20o%20mindfulness."
-              target="_blank"
-              rel="noopener"
-            >
-              Atrévete a un plan distinto<span class="solo-lectores">: actividad de bienestar</span>
-            </a>
           </div>
+        </div>
 
-          <div class="planes-bienestar__trio">
-            <figure class="marco marco--1-1">
-              <img
-                src="img/eventos/yoga-1.jpg"
-                width="1125"
-                height="1500"
-                loading="lazy"
-                decoding="async"
-                alt="Seis personas mayores sentadas en sillas repartidas sobre el césped, descalzas y con las esterillas a los pies, frente a una hilera de árboles jóvenes."
-              />
-            </figure>
+        <div class="planes-bienestar__bloque">
+          <div class="planes-bienestar__cuerpo">
 
-            <figure class="marco marco--1-1">
-              <img
-                src="img/parque/parque-33.jpg"
-                width="900"
-                height="1200"
-                loading="lazy"
-                decoding="async"
-                alt="Otra sesión, con la instructora sentada de espaldas guiando al grupo: cinco personas repartidas en sillas sobre el césped, cada una con su esterilla, frente a un macizo de flores naranjas."
-              />
-            </figure>
+            <div class="planes-carril__texto">
+              <p class="planes-carril__copy">
+                Clases y sesiones al aire libre, con las esterillas puestas en círculo sobre
+                el césped y el sonido de fondo que ya sabes.
+              </p>
 
-            <figure class="marco marco--1-1">
-              <img
-                src="img/parque/parque-02.jpg"
-                width="675"
-                height="1200"
-                loading="lazy"
-                decoding="async"
-                alt="Doce esterillas de colores dispuestas en círculo, como los pétalos de una flor, alrededor de un pequeño centro con plantas, a la sombra de un árbol grande."
-              />
-            </figure>
+              <ul class="lista-hojas planes-bienestar__lista">
+                <li>Caminatas terapéuticas</li>
+                <li>Entrenamiento funcional</li>
+                <li>Sesiones de acondicionamiento físico</li>
+                <li>Pilates</li>
+                <li>Yoga</li>
+                <li>Mindfulness</li>
+                <li>Taller para el manejo de las emociones</li>
+              </ul>
+
+              <p class="planes-carril__copy">
+                Y un gimnasio al aire libre, para quien prefiere sudar.
+              </p>
+
+              <p class="nota planes-carril__donde">
+                Se hace en el
+                <a href="#espacios">Teatrino</a>
+                o en la
+                <a href="#espacios">Cancha</a>.
+              </p>
+
+              <a
+                class="btn btn-whatsapp planes-carril__cta"
+                href="https://wa.me/573166758362?text=Hola%2C%20quiero%20cotizar%20Vegas%20del%20Verde%20para%20una%20actividad%20de%20bienestar%3A%20yoga%2C%20pilates%20o%20mindfulness."
+                target="_blank"
+                rel="noopener"
+              >
+                Atrévete a un plan distinto<span class="solo-lectores">: actividad de bienestar</span>
+              </a>
+            </div>
+
+            <div class="planes-bienestar__trio">
+              <figure class="marco marco--1-1">
+                <img
+                  src="img/eventos/yoga-1.jpg"
+                  width="1125"
+                  height="1500"
+                  loading="lazy"
+                  decoding="async"
+                  alt="Seis personas mayores sentadas en sillas repartidas sobre el césped, descalzas y con las esterillas a los pies, frente a una hilera de árboles jóvenes."
+                />
+              </figure>
+
+              <figure class="marco marco--1-1">
+                <img
+                  src="img/parque/parque-33.jpg"
+                  width="900"
+                  height="1200"
+                  loading="lazy"
+                  decoding="async"
+                  alt="Otra sesión, con la instructora sentada de espaldas guiando al grupo: cinco personas repartidas en sillas sobre el césped, cada una con su esterilla, frente a un macizo de flores naranjas."
+                />
+              </figure>
+
+              <figure class="marco marco--1-1">
+                <img
+                  src="img/parque/parque-02.jpg"
+                  width="675"
+                  height="1200"
+                  loading="lazy"
+                  decoding="async"
+                  alt="Doce esterillas de colores dispuestas en círculo, como los pétalos de una flor, alrededor de un pequeño centro con plantas, a la sombra de un árbol grande."
+                />
+              </figure>
+            </div>
+
           </div>
-
         </div>
       </li>
 

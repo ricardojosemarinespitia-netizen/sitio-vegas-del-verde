@@ -17,9 +17,37 @@
      (sections/_footer.html) y el bloque que lo repetía —la ficha 07 de
      sections/experiencias.html— ya no se ensambla. Comprobado con el validador.
 
-     Fotos verificadas en disco (img/parque/, 675 × 1200 cada una):
-       parque-35 caladios en producción · parque-40 filodendros y camellones
-       parque-42 cícada y lantana       · parque-49 materas de barro
+     Fotos verificadas en disco, abiertas una a una con Read:
+       parque-44 (675×1200) EL PASILLO DEL VIVERO CON LA JARDINERA — la pieza
+                            dominante de la sección: persona real trabajando y
+                            producto real en el mismo encuadre
+       parque-35 (675×1200) caladios de hoja rosada en producción
+       parque-12 (900×1200) la enramada de esterilla y las materas de barro
+       parque-42 (675×1200) cícada y lantana al borde del camellón
+       parque-49 (675×1200) materas de barro listas para llevar
+
+     v5 · SALE LA ÚLTIMA FOTO DE BORRADOR, Y NACE LA JERARQUÍA
+     `parque-40-TEMP.jpg` era una imagen generada con IA a baja resolución y
+     estirada (19 KB de JPEG contra los 200–260 KB de las reales): en pantalla
+     se veía lavada, y encima prometía «una mujer eligiendo una planta» que la
+     foto no llegaba a mostrar. La sustituye `img/parque/parque-44.jpg`, que sí
+     tiene lo que a la sección le faltaba para vender: una jardinera con
+     delantal, sombrero y botas caminando por el pasillo, entre camellones de
+     filodendros y crotones sembrados en bolsa. Es una foto REAL del predio.
+
+     Y con ella cambia el reparto. Las cuatro fotos de v4 eran cuatro piezas de
+     tamaño parecido —desiguales, sí, pero de la misma liga—, así que la banda
+     se leía como una tira. Ahora son CINCO y no juegan en la misma liga:
+
+       · `parque-44` ocupa una columna que sangra por el canto izquierdo de la
+         pantalla y va a doble altura. Es la pieza dominante;
+       · las otras cuatro se agrupan a su derecha en un mosaico de dos por dos
+         con cuatro proporciones, cuatro anchos y cuatro alturas de arranque
+         distintas. Registro callado, a propósito.
+
+     Entra además `parque-12`, que estaba en disco sin usar: la enramada de
+     esterilla con las materas de barro es lo único del banco que enseña el
+     vivero como sitio al que se entra, y no sólo como producción.
 
      COMPOSICIÓN (v3.1)
      El mosaico de dos por dos y la columna de texto al lado eran, medidos, la
@@ -76,9 +104,32 @@
     </header>
   </div>
 
-  <!-- ---------- La banda a sangre: las cuatro fotos del vivero ---------- -->
-  <ul class="viv-friso reveal-secuencia">
-    <li class="viv-foto reveal">
+  <!-- ---------- La banda a sangre: la jardinera y las cuatro piezas ---------
+       El orden del marcado es el orden de lectura y el orden de entrada: la
+       pieza dominante primero, y detrás el mosaico. La rejilla del §2 de
+       vivero.css las coloca, pero nadie depende de `nth-child` para saber
+       cuál es cuál: cada <li> declara su papel con un modificador, así que
+       añadir o quitar una foto no descoloca a las demás.
+       --------------------------------------------------------------------- -->
+  <ul class="viv-friso reveal-secuencia" role="list">
+
+    <li class="viv-foto viv-foto--principal reveal">
+      <figure>
+        <div class="marco">
+          <img
+            src="img/parque/parque-44.jpg"
+            width="675"
+            height="1200"
+            alt="Pasillo del vivero entre dos camellones bajo la malla de sombra: filodendros de hoja recortada y crotones rojos sembrados en bolsa negra a lado y lado y, al fondo del pasillo, una jardinera con sombrero, delantal y botas caminando entre las plantas."
+            loading="lazy"
+            decoding="async"
+          />
+        </div>
+        <figcaption>El vivero, por dentro</figcaption>
+      </figure>
+    </li>
+
+    <li class="viv-foto viv-foto--a reveal">
       <figure>
         <div class="marco">
           <img
@@ -90,28 +141,27 @@
             decoding="async"
           />
         </div>
-        <figcaption>El vivero, por dentro</figcaption>
+        <figcaption>Caladios en producción</figcaption>
       </figure>
     </li>
 
-    <li class="viv-foto reveal">
+    <li class="viv-foto viv-foto--b reveal">
       <figure>
         <div class="marco">
           <img
-            src="img/parque/parque-40-TEMP.jpg"
-            width="675"
+            src="img/parque/parque-12.jpg"
+            width="900"
             height="1200"
-            data-pendiente-foto="temporal · reemplazar por foto real del predio"
-            alt="Una mujer eligiendo una planta entre las hileras del vivero."
+            alt="Enramada de esterilla sobre estructura de madera, con materas de barro sembradas de crotones y cactus repartidas por el piso de losas; al fondo, una construcción con un mural pintado y una hilera de materas contra la pared."
             loading="lazy"
             decoding="async"
           />
         </div>
-        <figcaption>Camellones bajo malla</figcaption>
+        <figcaption>La enramada, con el mural al fondo</figcaption>
       </figure>
     </li>
 
-    <li class="viv-foto reveal">
+    <li class="viv-foto viv-foto--c reveal">
       <figure>
         <div class="marco">
           <img
@@ -127,7 +177,7 @@
       </figure>
     </li>
 
-    <li class="viv-foto reveal">
+    <li class="viv-foto viv-foto--d reveal">
       <figure>
         <div class="marco">
           <img
@@ -146,6 +196,23 @@
 
   <div class="contenedor contenedor--ancho">
     <div class="viv-cuerpo">
+
+      <!-- Hoja de filodendro, a tamaño de cartel. Decoración pura: `aria-hidden`,
+           sin foco, sin texto encima y por detrás de las dos columnas. Se dibuja
+           sola al entrar la sección —firma de hornear-trazos.js, con el
+           `pathLength` escrito aquí y no puesto por JavaScript— y deriva con el
+           scroll. Arranca más tarde que el sello del ICA, que es la otra figura
+           de trazo de la sección: las dos nunca se dibujan a la vez. -->
+      <svg class="viv-hoja icono-traza" viewBox="0 0 24 24" fill="none"
+           stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
+           aria-hidden="true" focusable="false">
+        <path d="M12 22.4C6.1 20.1 2.3 15 2.3 9.4c0-4.3 3.6-7.3 9.7-7.3s9.7 3 9.7 7.3c0 5.6-3.8 10.7-9.7 13Z" pathLength="1"/>
+        <path d="M12 22.4V6.2" pathLength="1"/>
+        <path d="M11.1 12.6 3.6 15.4" pathLength="1"/>
+        <path d="M11.1 8.6 3.8 9.8" pathLength="1"/>
+        <path d="M12.9 12.6 20.4 15.4" pathLength="1"/>
+        <path d="M12.9 8.6 20.2 9.8" pathLength="1"/>
+      </svg>
 
       <!-- ---------- Lo que sale del vivero: el catálogo ---------- -->
       <div class="viv-oferta reveal">
