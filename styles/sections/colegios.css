@@ -725,12 +725,22 @@
    del `.marco` en el marcado, así que pinta sobre la foto y por debajo del
    panel, que sube a --z-base.
    ------------------------------------------------------------------------ */
+/* v6 · LA CAJA CRECE (auditoría de agosto de 2026). Con el 34 % × 34 % las
+   piezas —que se miden en % del ancho de la CAJA, no de la foto— salían de
+   10-14 px en móvil y 19-27 px en escritorio: la mitad que en las demás
+   secciones y, a 0,55 de opacidad sobre los banderines de la foto, invisibles
+   en captura. Es exactamente la queja del cliente («sólo se ven en el hero»).
+   Se sube a 48 % × 45 %: las piezas alcanzan la franja de césped tranquilo del
+   centro-izquierda y quedan al tamaño de las de #espacios. Los dos límites
+   documentados arriba se respetan: 4 % + 45 % = 49 % de alto, por encima del
+   corro (mitad baja del encuadre), y 48 % de ancho no toca el panel que
+   solapa por la derecha desde 62em. */
 .col__aire {
   position: absolute;
   inset-block-start: 4%;
   inset-inline-start: 0;
-  inline-size: 34%;
-  block-size: 34%;
+  inline-size: 48%;
+  block-size: 45%;
   pointer-events: none;
 }
 
