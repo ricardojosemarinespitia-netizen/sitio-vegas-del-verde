@@ -485,24 +485,18 @@
    El `@supports` se queda anidado en el `@media` a propósito: fuera de él,
    el respaldo del renglón (crema al 70 %) sigue siendo el suelo para todo
    navegador y todo ancho, y ese suelo nunca se queda invisible.            */
-@media (min-width: 48em) {
-  @supports (-webkit-text-stroke-width: 1px) {
-    .planes-portada__renglon {
-      color: transparent;
-      -webkit-text-stroke: var(--planes-contorno-grosor)
-        var(--color-texto-inverso);
-    }
-  }
-}
-
-/* MÓVIL: relleno sólido, sin contorno. El respaldo de arriba deja la crema
-   al 70 % —pensada para acompañar a un contorno que aquí ya no existe—, así
-   que se sube a crema plena: la marca es lo único que se lee en ese tramo de
-   la foto y tiene que leerse del todo. */
-@media (max-width: 47.99em) {
-  .planes-portada__renglon {
-    color: var(--color-texto-inverso);
-  }
+/* ARREGLO DE AGOSTO DE 2026 (v2) · el contorno hueco se retira del todo, en
+   cualquier ancho. Quedó demostrado con una foto real de un celular real que
+   el problema no era solo el cuerpo de la letra bajo 48em: sobre un fondo de
+   ramas en movimiento el trazo hueco se ensucia igual a 1160 px físicos que
+   a 360. Un gesto que solo funciona sobre un cielo liso no es un gesto
+   fiable — es una apuesta. Relleno sólido crema, siempre: la marca es lo
+   único que se lee en ese tramo de la foto y tiene que leerse del todo, en
+   cualquier dispositivo. Se conserva la escala descomunal, el cruce sobre la
+   foto y el sangrado por la derecha — el «gesto» no era el hueco, era la
+   marca de agua gigante, y esa sigue intacta. */
+.planes-portada__renglon {
+  color: var(--color-texto-inverso);
 }
 
 /* TRES RENGLONES DESIGUALES, y desiguales dos veces: por longitud (17, 19 y

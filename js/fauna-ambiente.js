@@ -117,9 +117,23 @@ const POSICIONES = [
   { n: 5, x: 20, y: 40, w: 10 },
   { n: 16, x: 58, y: 10, w: 9 },
   { n: 11, x: 4, y: 78, w: 8 },
+  { n: 1, x: 46, y: 22, w: 9 },
+  { n: 21, x: 92, y: 12, w: 8 },
+  { n: 9, x: 62, y: 86, w: 10 },
+  { n: 7, x: 14, y: 52, w: 9 },
+  { n: 12, x: 80, y: 58, w: 8 },
+  { n: 18, x: 38, y: 90, w: 9 },
+  { n: 4, x: 2, y: 32, w: 8 },
 ];
 
-const CUANTAS = { minima: 2, discreta: 4, viva: 7 };
+/* ARREGLO DE AGOSTO 2026 (v2) · queja literal del cliente: «no se ven las
+   animaciones de aves y mariposas, solo en el hero, quiero en todo lado,
+   excesivo». Los cuatro agentes de zona, cada uno por su cuenta, habían
+   elegido 'minima' o 'discreta' para no competir con sus fotos — un criterio
+   razonable sección por sección, pero que sumado dejó el sitio entero
+   sintiéndose vacío frente al hero. Se sube el techo real (7→14) y todas las
+   secciones pasan a pedir 'abundante'. */
+const CUANTAS = { minima: 2, discreta: 4, viva: 7, abundante: 14 };
 
 /** El colibrí entra tarde: cuando las mariposas ya están puestas. Es el mismo
  *  criterio y el mismo número que la portada (enjambre-hero.js). */
@@ -129,7 +143,13 @@ const dos = (n) => (n < 10 ? '0' + n : String(n));
 
 /** Un escalón menos de densidad, sin bajar nunca de una pieza. */
 const bajarUnEscalon = (nombre) =>
-  nombre === 'viva' ? 'discreta' : nombre === 'discreta' ? 'minima' : 'minima';
+  nombre === 'abundante'
+    ? 'viva'
+    : nombre === 'viva'
+      ? 'discreta'
+      : nombre === 'discreta'
+        ? 'minima'
+        : 'minima';
 
 export function montarFaunaAmbiente(contenedor, opciones = {}) {
   if (!contenedor) return () => {};

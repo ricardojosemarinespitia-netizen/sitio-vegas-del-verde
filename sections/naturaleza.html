@@ -1989,10 +1989,10 @@
        quien pide menos movimiento no llega ni a pedir el módulo por red. -->
   <script type="module">
     if (!matchMedia('(prefers-reduced-motion: reduce)').matches) {
-      import('./js/fauna-ambiente.js?v=dfc40bad')
+      import('./js/fauna-ambiente.js?v=68b29f69')
         .then((m) => m.montarFaunaAmbiente(
           document.querySelector('#naturaleza .nat-apertura__aire'),
-          { densidad: 'viva', especies: ['mariposa', 'colibri'], semilla: 4 }
+          { densidad: 'abundante', especies: ['mariposa', 'colibri'], semilla: 4 }
         ))
         .catch(() => {});
     }

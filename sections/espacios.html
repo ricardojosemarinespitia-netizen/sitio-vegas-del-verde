@@ -626,10 +626,10 @@
        módulo falla, la sección se queda exactamente como está. -->
   <script type="module">
     if (!matchMedia('(prefers-reduced-motion: reduce)').matches) {
-      import('./js/fauna-ambiente.js?v=dfc40bad')
+      import('./js/fauna-ambiente.js?v=68b29f69')
         .then((m) => m.montarFaunaAmbiente(
           document.querySelector('#espacios .espacios__aire'),
-          { densidad: 'discreta', especies: ['mariposa'], semilla: 1 },
+          { densidad: 'abundante', especies: ['mariposa'], semilla: 1 },
         ))
         .catch(() => {});
     }
