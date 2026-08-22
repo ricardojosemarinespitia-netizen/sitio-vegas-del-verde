@@ -21,8 +21,8 @@ const IDX = path.join(RAIZ, 'index.html');
 
 const ORDEN = [
   ['inicio',     'hero.html'],
-  ['nosotros',   'nosotros.html'],
   ['espacios',   'espacios.html'],
+  ['nosotros',   'nosotros.html'],
   ['planes',     'planes.html'],
   ['momentos',   'momentos.html'],
   ['colegios',   'colegios.html'],
@@ -33,8 +33,8 @@ const ORDEN = [
 
 const CSS_SECCIONES = [
   'styles/sections/inicio.css',
-  'styles/sections/nosotros.css',
   'styles/sections/espacios.css',
+  'styles/sections/nosotros.css',
   'styles/sections/planes.css',
   'styles/sections/momentos.css',
   'styles/sections/colegios.css',

@@ -54,7 +54,7 @@ for (const t of trozos) {
   regiones[m[1]] = t.slice(m.index);
 }
 
-const ESPERADO = ['inicio', 'nosotros', 'espacios', 'planes', 'momentos',
+const ESPERADO = ['inicio', 'espacios', 'nosotros', 'planes', 'momentos',
                   'colegios', 'naturaleza', 'vivero', 'ubicacion'];
 
 const raya = '='.repeat(74);

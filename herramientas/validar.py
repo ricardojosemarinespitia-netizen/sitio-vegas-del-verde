@@ -56,7 +56,7 @@ for t in trozos:
     orden_real.append(sid)
     regiones[sid] = t[m.start():]
 
-ESPERADO = ["inicio", "nosotros", "espacios", "planes", "momentos", "colegios",
+ESPERADO = ["inicio", "espacios", "nosotros", "planes", "momentos", "colegios",
             "naturaleza", "vivero", "ubicacion"]
 
 print("=" * 74)

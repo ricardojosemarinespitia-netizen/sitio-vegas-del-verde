@@ -49,8 +49,8 @@
 <link rel="stylesheet" href="styles/base.css?v=71db93b6">
 <link rel="stylesheet" href="styles/shell.css?v=8118b941">
 <link rel="stylesheet" href="styles/sections/inicio.css?v=76078f20">
-<link rel="stylesheet" href="styles/sections/nosotros.css?v=6a5147ab">
 <link rel="stylesheet" href="styles/sections/espacios.css?v=1a2d6fdd">
+<link rel="stylesheet" href="styles/sections/nosotros.css?v=6a5147ab">
 <link rel="stylesheet" href="styles/sections/planes.css?v=de03e4d5">
 <link rel="stylesheet" href="styles/sections/momentos.css?v=99038a5b">
 <link rel="stylesheet" href="styles/sections/colegios.css?v=0bb8e5c4">
@@ -802,440 +802,6 @@
 </section>
 
 <!-- ==========================================================================
-     FRAGMENTO: NOSOTROS  ·  ancla #nosotros
-     CSS propio: styles/sections/nosotros.css
-     JS propio: js/foto-focus.js (compartido con #espacios; el <script defer>
-     va al final de este fragmento y lleva cerrojo de doble inclusión)
-
-     ÁMBITO ESTRICTO DE ESTA SECCIÓN
-     Qué ES el predio (privado, cerrado, vigilado, con los servicios ya
-     montados) y PARA QUÉ existe (el compromiso y sus tres pilares, una
-     única vez en todo el sitio).
-
-     Lo que aquí NO se toca, porque es de otras secciones:
-     · cuatro hectáreas · Anillo Vial · Área Metropolitana · la dirección
-     · quebrada Aranzoque · riachuelo La Florida · las cifras de fauna y
-       flora · el horario · la lista de actividades y talleres
-     · el aforo o el precio de cualquier espacio
-     Se ENLAZA a #espacios; no se describe ninguno.
-
-     v4 — POR QUÉ SE REORDENARON LAS CAJAS (el texto no cambió ni una coma)
-     v3 servía esto en el compás común: encabezado con entradilla, rejilla de
-     dos columnas, caja de servicios centrada, tres pilares en tarjeta. Nueve
-     secciones seguidas con ese mismo compás son lo que hace que una página se
-     lea como generada. Aquí se rompe con una composición ASIMÉTRICA:
-
-       · el TITULAR se queda solo en una columna estrecha a la izquierda y se
-         pega al scroll; el DISCURSO entero —entradilla incluida— pasa a la
-         columna ancha de la derecha. Titular a un lado, contenido al otro.
-       · la FOTO del prado sale del contenedor y sangra por el borde
-         izquierdo de la ventana hasta dos tercios del ancho de la retícula.
-         Ya no es media rejilla dentro de un marco: es una imagen grande y
-         descentrada.
-       · «Lo básico, resuelto» deja de ser una caja con filete y centrada, y
-         pasa a una tira alineada a la izquierda bajo un hilo.
-       · el COMPROMISO invierte el sentido de la sangría —texto a la
-         izquierda, panel de aves saliéndose por la derecha— para que los dos
-         bloques de fotografía no repitan el mismo gesto.
-
-     v5 — LO QUE v4 NO ARREGLÓ (el texto sigue sin cambiar ni una coma)
-     v4 recompuso la retícula y estuvo bien: la asimetría se lee. Pero la
-     sección seguía siendo, de arriba abajo, papel crema con rectángulos a
-     escuadra encima. Sin una curva, sin un cambio de fondo y sin una sola
-     pieza que se salga de su caja, la asimetría sola no basta para que la
-     página deje de parecer generada. v5 añade tres cosas y ninguna toca un
-     hecho:
-
-       · CAPITULAR en el primer párrafo del discurso. Es el ancla visual que
-         le faltaba a una columna de cuatro párrafos seguidos, y de paso la
-         letra CUELGA fuera de la caja de texto por la izquierda, que es el
-         gesto que rompe la retícula sin mover nada de sitio.
-       · LA FOTO deja de ser un rectángulo: sangra por la izquierda y remata
-         en dos radios de hoja distintos por la derecha, la mano por la que sí
-         tiene borde.
-       · EL COMPROMISO pasa a ser una BANDA OSCURA de esquinas orgánicas
-         apoyada sobre el papel. Deja de ser «más texto en la misma página» y
-         se convierte en el cierre de capítulo de la sección: es el primer
-         negativo del sitio después del hero, y llega justo donde el discurso
-         cambia de registro (qué es el predio → para qué existe).
-
-     Bloques: (a) el predio · (b) lo básico resuelto · (c) el compromiso
-     Fotos: parque-05.jpg (arbolado y prado a ras de suelo, verificada) y
-            parque-20.jpg (el panel pintado con aves del predio, verificada:
-            es un panel apoyado, no un mural sobre un muro).
-     Única sección sin CTA a WhatsApp: aquí todavía no se cotiza nada.
-     ========================================================================== -->
-<section class="seccion nosotros" id="nosotros" aria-labelledby="nosotros-titulo">
-
-  <!-- (a) EL PREDIO ---------------------------------------------------------
-       Dos columnas de anchos distintos y alturas distintas: 5 de 12 para el
-       titular y 6 de 12 para el discurso, con una calle vacía en medio. La
-       columna del titular se queda pegada al scroll mientras se lee el texto
-       de al lado, que es lo que hace que la asimetría se lea como decisión y
-       no como descuadre.
-       ---------------------------------------------------------------------- -->
-  <div class="contenedor contenedor--ancho nosotros__predio">
-
-    <header class="seccion-encabezado nosotros__titular reveal reveal--izq">
-      <!-- v7 · SALE EL ANTETÍTULO «El predio», Y ES UNA DECISIÓN DE ORDEN,
-           NO UN RECORTE DE TEXTO.
-           DIRECTRICES-ANIMACION §1 resuelve la única desviación del orden que
-           pedía el cliente —#nosotros colándose entre la portada y los
-           espacios— tratando esta sección como CODA DE LA PORTADA y no como
-           capítulo propio: «sin banda propia, sin eyebrow de capítulo, sin
-           filete de apertura». Un antetítulo en versalitas es, en este
-           sistema, la marca que abre un capítulo; con él puesto, la vista
-           cuenta #nosotros como sección independiente y el primer capítulo
-           percibido deja de ser «Los espacios», que es lo que el cliente
-           pide. Sin él, esto se lee como el último párrafo de la portada.
-           No se pierde ni un dato: «El predio» no era información, era
-           rotulación, y el <h2> de abajo ya dice de qué se habla. -->
-      <!-- v6 · TITULAR NUEVO, APROBADO POR EL CLIENTE. «Lo que hay detrás de
-           la portería» prometía un misterio que el cuerpo no cumple, y
-           «portería» sonaba a conjunto residencial. Éste conserva el umbral
-           —la reja como frontera— y cambia la promesa a lo que la sección de
-           verdad entrega, que es además lo que dice el párrafo de abajo: «Eso
-           cambia cómo se siente el día».
-           EL id NO SE TOCA: el <section> lo referencia con aria-labelledby.
-           Escrito en caja alta y baja en el propio HTML, nunca en mayúsculas
-           confiando en el CSS (CONTRATO-V2 §3).                             -->
-      <!-- v7 · EL TITULAR SE DESCUBRE RENGLÓN A RENGLÓN (.reveal-texto de
-           base.css §v7). LA FRASE NO CAMBIA NI UNA LETRA: está aprobada por
-           el cliente y sigue siendo exactamente «Cruzas la reja y cambia el
-           día». Lo único que cambia es que los dos renglones existen en el
-           marcado en vez de dejárselos al balanceo del navegador.
-           Y CON ESO SOBRA EL max-width DE 16ch que nosotros.css §1 usaba para
-           forzar el corte en la conjunción: ahora el corte está escrito, así
-           que la regla se ha quitado de la hoja en vez de dejarla peleando
-           con los <span>.
-           SIN `--persiana`: esta sección es la coda de la portada, no la
-           apertura de un capítulo, y el gesto caro se gasta una vez por
-           capítulo. Aquí basta el revelado limpio.
-           EL id NO SE TOCA: el <section> lo referencia con aria-labelledby. -->
-      <h2 class="titulo-seccion nosotros__titulo reveal reveal-texto" id="nosotros-titulo">
-        <span class="reveal-texto__linea">Cruzas la reja</span>
-        <span class="reveal-texto__linea">y cambia el día</span>
-      </h2>
-
-      <!-- v6 · LA RAMA QUE SE DIBUJA SOLA -----------------------------------
-           La columna del titular se queda pegada al scroll durante cuatro
-           párrafos de texto: a partir de 62em son unos 300 px de papel vacío
-           debajo del h2 que hasta ahora no hacían nada. Aquí crece una rama.
-
-           NO ES UN SVG DECORATIVO CUALQUIERA: lleva la firma EXACTA que
-           reconoce el motor de dibujado del sitio —`viewBox="0 0 24 24"`,
-           `fill="none"` y `stroke="currentColor"`— y el estado inicial va
-           HORNEADO A MANO en el propio marcado (`class="icono-traza"` en el
-           elemento raíz y `pathLength="1"` en cada forma). Eso es obligatorio
-           y no es
-           un detalle: js/app.js va con `defer`, así que si fuera él quien
-           marcase la silueta, el navegador alcanzaría a pintarla entera y
-           desaparecería un instante después. Con el trazo oculto desde el
-           primer paint no hay un solo fotograma de parpadeo.
-
-           CINCO FORMAS, CINCO TIEMPOS. El tallo sale primero y las cuatro
-           hojas van brotando detrás con retardos desiguales (nosotros.css §6):
-           una rama no se dibuja de golpe, se recorre. Cada <path> lleva UNA
-           sola `M` a propósito: un camino con varios trazos sueltos no se
-           puede recorrer con el guion y saldría entrecortado.
-
-           Se oculta por debajo de 62em: ahí la columna no es pegajosa, no
-           sobra papel y la rama sólo empujaría el discurso hacia abajo.     -->
-      <svg class="icono-traza nosotros__silueta nosotros__silueta--rama"
-           viewBox="0 0 24 24" fill="none" stroke="currentColor"
-           stroke-width="0.85" stroke-linecap="round" stroke-linejoin="round"
-           aria-hidden="true" focusable="false">
-        <path d="M4.4 22.6C6.9 19 8.9 15 10.4 10.8 11.4 7.7 12.1 4.6 12.4 1.5" pathLength="1"/>
-        <path d="M8.6 16.5c-2.7-1.4-5-1.3-6.9.4 2.3 2 4.6 1.9 6.9-.4Z" pathLength="1"/>
-        <path d="M10.4 11.4c1.8-2.7 4.2-4 7.2-3.9-1 3-3.4 4.3-7.2 3.9Z" pathLength="1"/>
-        <path d="M11.6 7.2c-1.6-2.2-3.6-3-5.9-2.3 1 2.4 3 3.2 5.9 2.3Z" pathLength="1"/>
-        <path d="M12.3 3.5c1-1.9 2.6-2.8 4.7-2.7-.5 2.2-2.1 3.1-4.7 2.7Z" pathLength="1"/>
-      </svg>
-    </header>
-
-    <!-- Sin `reveal--der`: la entrada horizontal desplaza 28 px hacia la
-         DERECHA, y en una columna que ocupa todo el ancho eso sí genera
-         desbordamiento real (a la izquierda el navegador no deja desplazar;
-         a la derecha, sí). El bloque entra en vertical, como el resto. -->
-    <!-- v8 · EL DISCURSO SE RECORTA A LA MITAD. El cliente pidió «poco
-         texto... que llame la atención» y aquí había ~90 palabras de prosa
-         antes de la primera foto. Los HECHOS se conservan todos —privado,
-         portería y vigilancia, se alquila a colegios/empresas/particulares—;
-         lo que sale es la descripción alrededor de ellos. Frases cortas. -->
-    <div class="nosotros__discurso reveal">
-      <p class="entradilla">
-        Un predio privado con portería y vigilancia, no un parque público.
-      </p>
-      <!-- La capitular se marca con una clase y no con `p:nth-of-type(2)`
-           porque la entradilla también es un <p>: un selector posicional se
-           rompería en cuanto alguien añada o quite un párrafo. La letra que
-           agranda el CSS es la «E» de «Entras». -->
-      <p class="nosotros__parrafo--capitular">
-        Entras y la ciudad se queda afuera. El predio está cerrado y hay
-        vigilancia privada mientras dure tu plan.
-      </p>
-      <p>
-        Se alquila a colegios, empresas y particulares. Tú decides qué pasa
-        adentro.
-      </p>
-
-      <p class="grupo-botones">
-        <a class="btn btn-secundario" href="#espacios">Ver los cinco espacios</a>
-      </p>
-    </div>
-
-  </div>
-
-  <!-- LA FOTO GRANDE, A SANGRE POR LA IZQUIERDA -----------------------------
-       Hija DIRECTA del <section> y no del .contenedor: así su 100 % es el
-       ancho del <body> —que ya descuenta la barra de scroll— y puede tocar el
-       borde de la ventana sin 100vw, que desbordaría 15 px. El borde derecho
-       no queda al azar: cae a dos tercios del ancho del contenedor, de modo
-       que la imagen muerde la columna de texto de arriba en lugar de alinearse
-       con ella.
-       ---------------------------------------------------------------------- -->
-  <!-- FOTO-FOCUS (js/foto-focus.js): la pieza grande de la sección recibe el
-       encuadre ligado al scroll. El atributo va en la FIGURA porque es ella
-       quien recorta (overflow hidden + radio de hoja): el zoom nunca asoma
-       fuera del contorno. El encuadre de PARTIDA no se declara: es el
-       object-position del CSS (50% 48%), así el primer cuadro del JS coincide
-       con el primer paint y no hay salto. data-foco baja la mirada hacia el
-       césped —el prado se lee a ras de suelo— cuando la foto centra. -->
-  <figure class="nosotros__foto reveal" data-foto-focus data-foco="50% 62%" data-zoom="0.12">
-    <img
-      src="img/parque/parque-05.jpg"
-      width="675"
-      height="1200"
-      alt="Prado abierto del predio a ras de suelo, con la sombra de un árbol grande cayendo sobre el césped recién cortado y una hilera de árboles cerrando el fondo."
-      loading="lazy"
-      decoding="async"
-    />
-  </figure>
-
-  <!-- (b) LO BÁSICO, RESUELTO ----------------------------------------------
-       Los iconos son legítimos aquí: wifi, baños, vigilancia y parqueadero
-       son conceptos de servicio, no cosas que se vendan por su fotografía.
-       Ya no van dentro de una caja con filete: un hilo arriba y todo alineado
-       a la izquierda. Es el «ya está puesto», no el argumento de venta.
-       ---------------------------------------------------------------------- -->
-  <div class="contenedor contenedor--ancho">
-    <div class="nosotros__servicios reveal">
-
-      <h3 class="titulo-seccion titulo-seccion--xs nosotros__servicios-titulo">
-        Lo básico, resuelto
-      </h3>
-
-      <!-- v6 · LA TIRA DEJA DE SER UNA FILA DE CUATRO IGUALES.
-           Hasta v5 los cuatro servicios entraban de golpe (el .reveal está en
-           el bloque entero) y las cuatro insignias medían exactamente lo
-           mismo. Cuatro piezas idénticas alineadas por arriba y por abajo es
-           el gesto de plantilla que el resto de la sección ya había
-           corregido en la foto y en los pilares.
-
-           Ahora cada <li> es su propio .reveal dentro de una .reveal-secuencia
-           y los cuatro tamaños, las cuatro alturas de base y las cuatro
-           formas de hoja los reparte nosotros.css §2 —el mismo criterio y las
-           mismas proporciones que la tira de aves del hero
-           (sections/hero.html:341 y styles/sections/inicio.css:993-1023)—.
-           Los RETARDOS los sobrescribe también la hoja: la escalera regular
-           de 90 en 90 ms de base.css se lee como un barrido; desigualada, se
-           lee como cuatro cosas distintas apareciendo. -->
-      <ul class="nosotros__servicios-lista reveal-secuencia">
-
-        <li class="nosotros__servicio reveal reveal--zoom">
-          <svg class="icono-traza nosotros__servicio-icono" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-               stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"
-               aria-hidden="true" focusable="false">
-            <path d="M2.6 9.1a14.4 14.4 0 0 1 18.8 0"  pathLength="1"/>
-            <path d="M5.9 12.8a9.6 9.6 0 0 1 12.2 0"  pathLength="1"/>
-            <path d="M9.1 16.5a4.7 4.7 0 0 1 5.8 0"  pathLength="1"/>
-            <circle cx="12" cy="19.9" r="1.1" fill="currentColor" stroke="none"  pathLength="1"/>
-          </svg>
-          Wifi
-        </li>
-
-        <li class="nosotros__servicio reveal reveal--zoom">
-          <svg class="icono-traza nosotros__servicio-icono" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-               stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"
-               aria-hidden="true" focusable="false">
-            <rect x="4.25" y="2.75" width="15.5" height="18.5" rx="2.75"  pathLength="1"/>
-            <circle cx="12" cy="7.9" r="1.5"  pathLength="1"/>
-            <path d="M9.5 16.6 12 10.9l2.5 5.7"  pathLength="1"/>
-            <path d="M10.4 14.5h3.2"  pathLength="1"/>
-          </svg>
-          Baños
-        </li>
-
-        <li class="nosotros__servicio reveal reveal--zoom">
-          <svg class="icono-traza nosotros__servicio-icono" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-               stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"
-               aria-hidden="true" focusable="false">
-            <path d="M12 2.8 4.9 5.6v5.7c0 4.4 3 8.4 7.1 9.9 4.1-1.5 7.1-5.5 7.1-9.9V5.6L12 2.8Z"  pathLength="1"/>
-            <path d="m8.9 11.9 2.2 2.2 4-4.3"  pathLength="1"/>
-          </svg>
-          Vigilancia privada
-        </li>
-
-        <li class="nosotros__servicio reveal reveal--zoom">
-          <svg class="icono-traza nosotros__servicio-icono" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-               stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"
-               aria-hidden="true" focusable="false">
-            <rect x="3.25" y="3.25" width="17.5" height="17.5" rx="4.25"  pathLength="1"/>
-            <path d="M9.8 17.1V7.4h3.2a2.9 2.9 0 0 1 0 5.9H9.8"  pathLength="1"/>
-          </svg>
-          Parqueadero
-        </li>
-
-      </ul>
-
-      <p class="nosotros__servicios-extra">
-        <span class="pildora">Próximamente · Arenero</span>
-      </p>
-
-    </div>
-  </div>
-
-  <!-- (c) EL COMPROMISO ----------------------------------------------------
-       Los tres pilares del BRIEF, enteros y una sola vez en todo el sitio.
-       Aquí la sangría cambia de mano: el texto se queda en la retícula y el
-       panel de aves se sale por el borde DERECHO. Los pilares ya no son tres
-       tarjetas sino tres renglones separados por un hilo, con la cifra grande
-       haciendo de índice: una lista que se lee, no un carrusel.
-
-       v5 — LA BANDA OSCURA. Se le añade `seccion--oscura`, que es una utilidad
-       de base.css y no un invento de esta hoja: trae el fondo verde bosque, el
-       texto en crema, los h1–h6 en negativo, el rótulo y la entradilla en
-       crema al 78 % y el foco en amarillo. Lo que NO trae —y por eso está
-       escrito a mano en nosotros.css— es el color del índice de cada pilar
-       (terracota sobre oscuro no llega a 4,5:1; va en amarillo del logo, 7,3),
-       el de sus párrafos y el de los filetes que los separan.
-
-       CUIDADO SI SE TOCA: `.seccion--oscura h1..h6` mide (0,1,1) y le gana a
-       cualquier clase suelta. Si algún día entra aquí una tarjeta CLARA, su
-       titular hay que pintarlo nombrando el ancestro, no con una clase a
-       secas, o se queda en crema sobre claro.
-       ---------------------------------------------------------------------- -->
-  <section class="nosotros__compromiso seccion--oscura" aria-labelledby="compromiso-titulo">
-
-    <div class="nosotros__compromiso-texto reveal reveal--izq">
-
-      <header class="seccion-encabezado">
-        <p class="eyebrow">Nuestro compromiso</p>
-        <h3 class="titulo-seccion titulo-seccion--sm" id="compromiso-titulo">
-          Aquí se viene a estar bien
-        </h3>
-        <p class="entradilla">
-          Creemos en el poder de la conexión y el aprendizaje conjunto. Por
-          eso abrimos el predio a actividades que promueven el bienestar
-          físico, mental y emocional.
-        </p>
-      </header>
-
-      <ol class="nosotros__pilares reveal-secuencia">
-
-        <li class="nosotros__pilar reveal">
-          <span class="nosotros__pilar-indice" aria-hidden="true">01</span>
-          <div class="nosotros__pilar-cuerpo">
-            <h4 class="nosotros__pilar-titulo">
-              Educación ambiental y conciencia social
-            </h4>
-            <p>
-              Que te vuelvas a casa con algo aprendido, no sólo con fotos.
-            </p>
-          </div>
-        </li>
-
-        <li class="nosotros__pilar reveal">
-          <span class="nosotros__pilar-indice" aria-hidden="true">02</span>
-          <div class="nosotros__pilar-cuerpo">
-            <h4 class="nosotros__pilar-titulo">
-              Desarrollo de relaciones sanas y respetuosas
-            </h4>
-            <p>
-              Sitio de sobra para sentarse en círculo y hablarse de frente,
-              sin prisa.
-            </p>
-          </div>
-        </li>
-
-        <li class="nosotros__pilar reveal">
-          <span class="nosotros__pilar-indice" aria-hidden="true">03</span>
-          <div class="nosotros__pilar-cuerpo">
-            <h4 class="nosotros__pilar-titulo">
-              Respeto por la naturaleza y por los demás
-            </h4>
-            <p>
-              Lo dejas como lo encontraste. Tu plan pasa; el bosque se queda.
-            </p>
-          </div>
-        </li>
-
-      </ol>
-
-      <!-- v6 · LA BANDADA — el cierre del cierre de capítulo -----------------
-           Tres vuelos de tamaños distintos que se dibujan uno detrás de otro
-           y que además DERIVAN con el scroll (nosotros.css §6). Van aquí, en
-           flujo normal debajo del último pilar, y no en posición absoluta: la
-           banda es una rejilla de tres pistas con `align-items: center` y una
-           pieza flotante sobre ella se colocaría distinto según lo alto que
-           quede el panel de aves de al lado. En flujo el sitio es siempre el
-           mismo y el `transform` de la deriva no mueve nada de la maqueta.
-
-           POR QUÉ DIBUJA EN OTRO MOMENTO QUE LA RAMA DE ARRIBA: el disparador
-           de js/app.js es el ANCESTRO `section` más cercano, y el compromiso
-           es un <section> propio. Así que esta bandada arranca cuando entra la
-           banda oscura, no cuando entra #nosotros: dos relojes distintos sin
-           una línea de JavaScript nueva.
-
-           Estado inicial horneado a mano, igual que la rama. Cada vuelo lleva
-           una sola `M` para que el guion pueda recorrerlo entero.           -->
-      <svg class="icono-traza nosotros__silueta nosotros__silueta--vuelo"
-           viewBox="0 0 24 24" fill="none" stroke="currentColor"
-           stroke-width="0.9" stroke-linecap="round" stroke-linejoin="round"
-           aria-hidden="true" focusable="false">
-        <path d="M1.8 16.3c2.1-.4 3.8-1.5 5.1-3.2 1.3 1.7 3 2.8 5.1 3.2" pathLength="1"/>
-        <path d="M10.4 8.1c1.5-.3 2.7-1.1 3.6-2.3.9 1.2 2.1 2 3.6 2.3" pathLength="1"/>
-        <path d="M17.6 13.4c1-.2 1.9-.8 2.5-1.6.6.8 1.5 1.4 2.5 1.6" pathLength="1"/>
-      </svg>
-
-    </div>
-
-    <!-- Tampoco aquí `reveal--der`: el panel sangra por el borde derecho de la
-         ventana y un desplazamiento horizontal lo empujaría 28 px fuera de la
-         pantalla. Entra con `reveal--zoom`, que sólo escala: no desplaza nada
-         y por tanto no puede desbordar. -->
-    <!-- FOTO-FOCUS también aquí: es la otra pieza grande de la sección y la
-         que cierra el capítulo. data-foco sube el encuadre desde el 57% del
-         CSS hacia el panel pintado (el colibrí queda a media altura de la
-         foto): al centrar la banda, los pájaros centran con ella. El zoom es
-         un punto mayor que el del prado porque el motivo es más pequeño. -->
-    <figure class="nosotros__mural reveal reveal--zoom" data-foto-focus data-foco="50% 46%" data-zoom="0.14">
-      <img
-        src="img/parque/parque-20.jpg"
-        width="900"
-        height="1200"
-        alt="Panel pintado con aves del predio, apoyado sobre el césped junto a una construcción de caña: un colibrí en vuelo, una tángara roja posada en una rama y un perico verde entre hojas, sobre fondo turquesa, entre platanillos y heliconias."
-        loading="lazy"
-        decoding="async"
-      />
-    </figure>
-
-  </section>
-
-  <!-- FOTO-FOCUS — por qué el <script> va aquí dentro y no en la cola de
-       index.html: el ensamblador copia tal cual la cola (donde viven app.js
-       y mapa.js), así que un fragmento no puede añadir nada allí; el
-       precedente es momentos-video.js. Carga con defer —no bloquea el parseo
-       y corre con el DOM completo— y #espacios declara este mismo archivo:
-       el propio script lleva un cerrojo que hace inofensiva la segunda
-       ejecución, y el navegador sólo lo descarga una vez. Bajo
-       prefers-reduced-motion no se monta: la foto queda quieta en el
-       encuadre del CSS. -->
-  <script src="js/foto-focus.js?v=2e41fd79" defer></script>
-
-</section>
-
-<!-- ==========================================================================
      FRAGMENTO: ESPACIOS EN ALQUILER  ·  id="espacios"
      CSS propio: styles/sections/espacios.css
      JS propio: js/foto-focus.js (compartido con #nosotros; el <script defer>
@@ -1871,6 +1437,440 @@
         .catch(() => {});
     }
   </script>
+</section>
+
+<!-- ==========================================================================
+     FRAGMENTO: NOSOTROS  ·  ancla #nosotros
+     CSS propio: styles/sections/nosotros.css
+     JS propio: js/foto-focus.js (compartido con #espacios; el <script defer>
+     va al final de este fragmento y lleva cerrojo de doble inclusión)
+
+     ÁMBITO ESTRICTO DE ESTA SECCIÓN
+     Qué ES el predio (privado, cerrado, vigilado, con los servicios ya
+     montados) y PARA QUÉ existe (el compromiso y sus tres pilares, una
+     única vez en todo el sitio).
+
+     Lo que aquí NO se toca, porque es de otras secciones:
+     · cuatro hectáreas · Anillo Vial · Área Metropolitana · la dirección
+     · quebrada Aranzoque · riachuelo La Florida · las cifras de fauna y
+       flora · el horario · la lista de actividades y talleres
+     · el aforo o el precio de cualquier espacio
+     Se ENLAZA a #espacios; no se describe ninguno.
+
+     v4 — POR QUÉ SE REORDENARON LAS CAJAS (el texto no cambió ni una coma)
+     v3 servía esto en el compás común: encabezado con entradilla, rejilla de
+     dos columnas, caja de servicios centrada, tres pilares en tarjeta. Nueve
+     secciones seguidas con ese mismo compás son lo que hace que una página se
+     lea como generada. Aquí se rompe con una composición ASIMÉTRICA:
+
+       · el TITULAR se queda solo en una columna estrecha a la izquierda y se
+         pega al scroll; el DISCURSO entero —entradilla incluida— pasa a la
+         columna ancha de la derecha. Titular a un lado, contenido al otro.
+       · la FOTO del prado sale del contenedor y sangra por el borde
+         izquierdo de la ventana hasta dos tercios del ancho de la retícula.
+         Ya no es media rejilla dentro de un marco: es una imagen grande y
+         descentrada.
+       · «Lo básico, resuelto» deja de ser una caja con filete y centrada, y
+         pasa a una tira alineada a la izquierda bajo un hilo.
+       · el COMPROMISO invierte el sentido de la sangría —texto a la
+         izquierda, panel de aves saliéndose por la derecha— para que los dos
+         bloques de fotografía no repitan el mismo gesto.
+
+     v5 — LO QUE v4 NO ARREGLÓ (el texto sigue sin cambiar ni una coma)
+     v4 recompuso la retícula y estuvo bien: la asimetría se lee. Pero la
+     sección seguía siendo, de arriba abajo, papel crema con rectángulos a
+     escuadra encima. Sin una curva, sin un cambio de fondo y sin una sola
+     pieza que se salga de su caja, la asimetría sola no basta para que la
+     página deje de parecer generada. v5 añade tres cosas y ninguna toca un
+     hecho:
+
+       · CAPITULAR en el primer párrafo del discurso. Es el ancla visual que
+         le faltaba a una columna de cuatro párrafos seguidos, y de paso la
+         letra CUELGA fuera de la caja de texto por la izquierda, que es el
+         gesto que rompe la retícula sin mover nada de sitio.
+       · LA FOTO deja de ser un rectángulo: sangra por la izquierda y remata
+         en dos radios de hoja distintos por la derecha, la mano por la que sí
+         tiene borde.
+       · EL COMPROMISO pasa a ser una BANDA OSCURA de esquinas orgánicas
+         apoyada sobre el papel. Deja de ser «más texto en la misma página» y
+         se convierte en el cierre de capítulo de la sección: es el primer
+         negativo del sitio después del hero, y llega justo donde el discurso
+         cambia de registro (qué es el predio → para qué existe).
+
+     Bloques: (a) el predio · (b) lo básico resuelto · (c) el compromiso
+     Fotos: parque-05.jpg (arbolado y prado a ras de suelo, verificada) y
+            parque-20.jpg (el panel pintado con aves del predio, verificada:
+            es un panel apoyado, no un mural sobre un muro).
+     Única sección sin CTA a WhatsApp: aquí todavía no se cotiza nada.
+     ========================================================================== -->
+<section class="seccion nosotros" id="nosotros" aria-labelledby="nosotros-titulo">
+
+  <!-- (a) EL PREDIO ---------------------------------------------------------
+       Dos columnas de anchos distintos y alturas distintas: 5 de 12 para el
+       titular y 6 de 12 para el discurso, con una calle vacía en medio. La
+       columna del titular se queda pegada al scroll mientras se lee el texto
+       de al lado, que es lo que hace que la asimetría se lea como decisión y
+       no como descuadre.
+       ---------------------------------------------------------------------- -->
+  <div class="contenedor contenedor--ancho nosotros__predio">
+
+    <header class="seccion-encabezado nosotros__titular reveal reveal--izq">
+      <!-- v7 · SALE EL ANTETÍTULO «El predio», Y ES UNA DECISIÓN DE ORDEN,
+           NO UN RECORTE DE TEXTO.
+           DIRECTRICES-ANIMACION §1 resuelve la única desviación del orden que
+           pedía el cliente —#nosotros colándose entre la portada y los
+           espacios— tratando esta sección como CODA DE LA PORTADA y no como
+           capítulo propio: «sin banda propia, sin eyebrow de capítulo, sin
+           filete de apertura». Un antetítulo en versalitas es, en este
+           sistema, la marca que abre un capítulo; con él puesto, la vista
+           cuenta #nosotros como sección independiente y el primer capítulo
+           percibido deja de ser «Los espacios», que es lo que el cliente
+           pide. Sin él, esto se lee como el último párrafo de la portada.
+           No se pierde ni un dato: «El predio» no era información, era
+           rotulación, y el <h2> de abajo ya dice de qué se habla. -->
+      <!-- v6 · TITULAR NUEVO, APROBADO POR EL CLIENTE. «Lo que hay detrás de
+           la portería» prometía un misterio que el cuerpo no cumple, y
+           «portería» sonaba a conjunto residencial. Éste conserva el umbral
+           —la reja como frontera— y cambia la promesa a lo que la sección de
+           verdad entrega, que es además lo que dice el párrafo de abajo: «Eso
+           cambia cómo se siente el día».
+           EL id NO SE TOCA: el <section> lo referencia con aria-labelledby.
+           Escrito en caja alta y baja en el propio HTML, nunca en mayúsculas
+           confiando en el CSS (CONTRATO-V2 §3).                             -->
+      <!-- v7 · EL TITULAR SE DESCUBRE RENGLÓN A RENGLÓN (.reveal-texto de
+           base.css §v7). LA FRASE NO CAMBIA NI UNA LETRA: está aprobada por
+           el cliente y sigue siendo exactamente «Cruzas la reja y cambia el
+           día». Lo único que cambia es que los dos renglones existen en el
+           marcado en vez de dejárselos al balanceo del navegador.
+           Y CON ESO SOBRA EL max-width DE 16ch que nosotros.css §1 usaba para
+           forzar el corte en la conjunción: ahora el corte está escrito, así
+           que la regla se ha quitado de la hoja en vez de dejarla peleando
+           con los <span>.
+           SIN `--persiana`: esta sección es la coda de la portada, no la
+           apertura de un capítulo, y el gesto caro se gasta una vez por
+           capítulo. Aquí basta el revelado limpio.
+           EL id NO SE TOCA: el <section> lo referencia con aria-labelledby. -->
+      <h2 class="titulo-seccion nosotros__titulo reveal reveal-texto" id="nosotros-titulo">
+        <span class="reveal-texto__linea">Cruzas la reja</span>
+        <span class="reveal-texto__linea">y cambia el día</span>
+      </h2>
+
+      <!-- v6 · LA RAMA QUE SE DIBUJA SOLA -----------------------------------
+           La columna del titular se queda pegada al scroll durante cuatro
+           párrafos de texto: a partir de 62em son unos 300 px de papel vacío
+           debajo del h2 que hasta ahora no hacían nada. Aquí crece una rama.
+
+           NO ES UN SVG DECORATIVO CUALQUIERA: lleva la firma EXACTA que
+           reconoce el motor de dibujado del sitio —`viewBox="0 0 24 24"`,
+           `fill="none"` y `stroke="currentColor"`— y el estado inicial va
+           HORNEADO A MANO en el propio marcado (`class="icono-traza"` en el
+           elemento raíz y `pathLength="1"` en cada forma). Eso es obligatorio
+           y no es
+           un detalle: js/app.js va con `defer`, así que si fuera él quien
+           marcase la silueta, el navegador alcanzaría a pintarla entera y
+           desaparecería un instante después. Con el trazo oculto desde el
+           primer paint no hay un solo fotograma de parpadeo.
+
+           CINCO FORMAS, CINCO TIEMPOS. El tallo sale primero y las cuatro
+           hojas van brotando detrás con retardos desiguales (nosotros.css §6):
+           una rama no se dibuja de golpe, se recorre. Cada <path> lleva UNA
+           sola `M` a propósito: un camino con varios trazos sueltos no se
+           puede recorrer con el guion y saldría entrecortado.
+
+           Se oculta por debajo de 62em: ahí la columna no es pegajosa, no
+           sobra papel y la rama sólo empujaría el discurso hacia abajo.     -->
+      <svg class="icono-traza nosotros__silueta nosotros__silueta--rama"
+           viewBox="0 0 24 24" fill="none" stroke="currentColor"
+           stroke-width="0.85" stroke-linecap="round" stroke-linejoin="round"
+           aria-hidden="true" focusable="false">
+        <path d="M4.4 22.6C6.9 19 8.9 15 10.4 10.8 11.4 7.7 12.1 4.6 12.4 1.5" pathLength="1"/>
+        <path d="M8.6 16.5c-2.7-1.4-5-1.3-6.9.4 2.3 2 4.6 1.9 6.9-.4Z" pathLength="1"/>
+        <path d="M10.4 11.4c1.8-2.7 4.2-4 7.2-3.9-1 3-3.4 4.3-7.2 3.9Z" pathLength="1"/>
+        <path d="M11.6 7.2c-1.6-2.2-3.6-3-5.9-2.3 1 2.4 3 3.2 5.9 2.3Z" pathLength="1"/>
+        <path d="M12.3 3.5c1-1.9 2.6-2.8 4.7-2.7-.5 2.2-2.1 3.1-4.7 2.7Z" pathLength="1"/>
+      </svg>
+    </header>
+
+    <!-- Sin `reveal--der`: la entrada horizontal desplaza 28 px hacia la
+         DERECHA, y en una columna que ocupa todo el ancho eso sí genera
+         desbordamiento real (a la izquierda el navegador no deja desplazar;
+         a la derecha, sí). El bloque entra en vertical, como el resto. -->
+    <!-- v8 · EL DISCURSO SE RECORTA A LA MITAD. El cliente pidió «poco
+         texto... que llame la atención» y aquí había ~90 palabras de prosa
+         antes de la primera foto. Los HECHOS se conservan todos —privado,
+         portería y vigilancia, se alquila a colegios/empresas/particulares—;
+         lo que sale es la descripción alrededor de ellos. Frases cortas. -->
+    <div class="nosotros__discurso reveal">
+      <p class="entradilla">
+        Un predio privado con portería y vigilancia, no un parque público.
+      </p>
+      <!-- La capitular se marca con una clase y no con `p:nth-of-type(2)`
+           porque la entradilla también es un <p>: un selector posicional se
+           rompería en cuanto alguien añada o quite un párrafo. La letra que
+           agranda el CSS es la «E» de «Entras». -->
+      <p class="nosotros__parrafo--capitular">
+        Entras y la ciudad se queda afuera. El predio está cerrado y hay
+        vigilancia privada mientras dure tu plan.
+      </p>
+      <p>
+        Se alquila a colegios, empresas y particulares. Tú decides qué pasa
+        adentro.
+      </p>
+
+      <p class="grupo-botones">
+        <a class="btn btn-secundario" href="#espacios">Ver los cinco espacios</a>
+      </p>
+    </div>
+
+  </div>
+
+  <!-- LA FOTO GRANDE, A SANGRE POR LA IZQUIERDA -----------------------------
+       Hija DIRECTA del <section> y no del .contenedor: así su 100 % es el
+       ancho del <body> —que ya descuenta la barra de scroll— y puede tocar el
+       borde de la ventana sin 100vw, que desbordaría 15 px. El borde derecho
+       no queda al azar: cae a dos tercios del ancho del contenedor, de modo
+       que la imagen muerde la columna de texto de arriba en lugar de alinearse
+       con ella.
+       ---------------------------------------------------------------------- -->
+  <!-- FOTO-FOCUS (js/foto-focus.js): la pieza grande de la sección recibe el
+       encuadre ligado al scroll. El atributo va en la FIGURA porque es ella
+       quien recorta (overflow hidden + radio de hoja): el zoom nunca asoma
+       fuera del contorno. El encuadre de PARTIDA no se declara: es el
+       object-position del CSS (50% 48%), así el primer cuadro del JS coincide
+       con el primer paint y no hay salto. data-foco baja la mirada hacia el
+       césped —el prado se lee a ras de suelo— cuando la foto centra. -->
+  <figure class="nosotros__foto reveal" data-foto-focus data-foco="50% 62%" data-zoom="0.12">
+    <img
+      src="img/parque/parque-05.jpg"
+      width="675"
+      height="1200"
+      alt="Prado abierto del predio a ras de suelo, con la sombra de un árbol grande cayendo sobre el césped recién cortado y una hilera de árboles cerrando el fondo."
+      loading="lazy"
+      decoding="async"
+    />
+  </figure>
+
+  <!-- (b) LO BÁSICO, RESUELTO ----------------------------------------------
+       Los iconos son legítimos aquí: wifi, baños, vigilancia y parqueadero
+       son conceptos de servicio, no cosas que se vendan por su fotografía.
+       Ya no van dentro de una caja con filete: un hilo arriba y todo alineado
+       a la izquierda. Es el «ya está puesto», no el argumento de venta.
+       ---------------------------------------------------------------------- -->
+  <div class="contenedor contenedor--ancho">
+    <div class="nosotros__servicios reveal">
+
+      <h3 class="titulo-seccion titulo-seccion--xs nosotros__servicios-titulo">
+        Lo básico, resuelto
+      </h3>
+
+      <!-- v6 · LA TIRA DEJA DE SER UNA FILA DE CUATRO IGUALES.
+           Hasta v5 los cuatro servicios entraban de golpe (el .reveal está en
+           el bloque entero) y las cuatro insignias medían exactamente lo
+           mismo. Cuatro piezas idénticas alineadas por arriba y por abajo es
+           el gesto de plantilla que el resto de la sección ya había
+           corregido en la foto y en los pilares.
+
+           Ahora cada <li> es su propio .reveal dentro de una .reveal-secuencia
+           y los cuatro tamaños, las cuatro alturas de base y las cuatro
+           formas de hoja los reparte nosotros.css §2 —el mismo criterio y las
+           mismas proporciones que la tira de aves del hero
+           (sections/hero.html:341 y styles/sections/inicio.css:993-1023)—.
+           Los RETARDOS los sobrescribe también la hoja: la escalera regular
+           de 90 en 90 ms de base.css se lee como un barrido; desigualada, se
+           lee como cuatro cosas distintas apareciendo. -->
+      <ul class="nosotros__servicios-lista reveal-secuencia">
+
+        <li class="nosotros__servicio reveal reveal--zoom">
+          <svg class="icono-traza nosotros__servicio-icono" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+               stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"
+               aria-hidden="true" focusable="false">
+            <path d="M2.6 9.1a14.4 14.4 0 0 1 18.8 0"  pathLength="1"/>
+            <path d="M5.9 12.8a9.6 9.6 0 0 1 12.2 0"  pathLength="1"/>
+            <path d="M9.1 16.5a4.7 4.7 0 0 1 5.8 0"  pathLength="1"/>
+            <circle cx="12" cy="19.9" r="1.1" fill="currentColor" stroke="none"  pathLength="1"/>
+          </svg>
+          Wifi
+        </li>
+
+        <li class="nosotros__servicio reveal reveal--zoom">
+          <svg class="icono-traza nosotros__servicio-icono" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+               stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"
+               aria-hidden="true" focusable="false">
+            <rect x="4.25" y="2.75" width="15.5" height="18.5" rx="2.75"  pathLength="1"/>
+            <circle cx="12" cy="7.9" r="1.5"  pathLength="1"/>
+            <path d="M9.5 16.6 12 10.9l2.5 5.7"  pathLength="1"/>
+            <path d="M10.4 14.5h3.2"  pathLength="1"/>
+          </svg>
+          Baños
+        </li>
+
+        <li class="nosotros__servicio reveal reveal--zoom">
+          <svg class="icono-traza nosotros__servicio-icono" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+               stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"
+               aria-hidden="true" focusable="false">
+            <path d="M12 2.8 4.9 5.6v5.7c0 4.4 3 8.4 7.1 9.9 4.1-1.5 7.1-5.5 7.1-9.9V5.6L12 2.8Z"  pathLength="1"/>
+            <path d="m8.9 11.9 2.2 2.2 4-4.3"  pathLength="1"/>
+          </svg>
+          Vigilancia privada
+        </li>
+
+        <li class="nosotros__servicio reveal reveal--zoom">
+          <svg class="icono-traza nosotros__servicio-icono" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+               stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"
+               aria-hidden="true" focusable="false">
+            <rect x="3.25" y="3.25" width="17.5" height="17.5" rx="4.25"  pathLength="1"/>
+            <path d="M9.8 17.1V7.4h3.2a2.9 2.9 0 0 1 0 5.9H9.8"  pathLength="1"/>
+          </svg>
+          Parqueadero
+        </li>
+
+      </ul>
+
+      <p class="nosotros__servicios-extra">
+        <span class="pildora">Próximamente · Arenero</span>
+      </p>
+
+    </div>
+  </div>
+
+  <!-- (c) EL COMPROMISO ----------------------------------------------------
+       Los tres pilares del BRIEF, enteros y una sola vez en todo el sitio.
+       Aquí la sangría cambia de mano: el texto se queda en la retícula y el
+       panel de aves se sale por el borde DERECHO. Los pilares ya no son tres
+       tarjetas sino tres renglones separados por un hilo, con la cifra grande
+       haciendo de índice: una lista que se lee, no un carrusel.
+
+       v5 — LA BANDA OSCURA. Se le añade `seccion--oscura`, que es una utilidad
+       de base.css y no un invento de esta hoja: trae el fondo verde bosque, el
+       texto en crema, los h1–h6 en negativo, el rótulo y la entradilla en
+       crema al 78 % y el foco en amarillo. Lo que NO trae —y por eso está
+       escrito a mano en nosotros.css— es el color del índice de cada pilar
+       (terracota sobre oscuro no llega a 4,5:1; va en amarillo del logo, 7,3),
+       el de sus párrafos y el de los filetes que los separan.
+
+       CUIDADO SI SE TOCA: `.seccion--oscura h1..h6` mide (0,1,1) y le gana a
+       cualquier clase suelta. Si algún día entra aquí una tarjeta CLARA, su
+       titular hay que pintarlo nombrando el ancestro, no con una clase a
+       secas, o se queda en crema sobre claro.
+       ---------------------------------------------------------------------- -->
+  <section class="nosotros__compromiso seccion--oscura" aria-labelledby="compromiso-titulo">
+
+    <div class="nosotros__compromiso-texto reveal reveal--izq">
+
+      <header class="seccion-encabezado">
+        <p class="eyebrow">Nuestro compromiso</p>
+        <h3 class="titulo-seccion titulo-seccion--sm" id="compromiso-titulo">
+          Aquí se viene a estar bien
+        </h3>
+        <p class="entradilla">
+          Creemos en el poder de la conexión y el aprendizaje conjunto. Por
+          eso abrimos el predio a actividades que promueven el bienestar
+          físico, mental y emocional.
+        </p>
+      </header>
+
+      <ol class="nosotros__pilares reveal-secuencia">
+
+        <li class="nosotros__pilar reveal">
+          <span class="nosotros__pilar-indice" aria-hidden="true">01</span>
+          <div class="nosotros__pilar-cuerpo">
+            <h4 class="nosotros__pilar-titulo">
+              Educación ambiental y conciencia social
+            </h4>
+            <p>
+              Que te vuelvas a casa con algo aprendido, no sólo con fotos.
+            </p>
+          </div>
+        </li>
+
+        <li class="nosotros__pilar reveal">
+          <span class="nosotros__pilar-indice" aria-hidden="true">02</span>
+          <div class="nosotros__pilar-cuerpo">
+            <h4 class="nosotros__pilar-titulo">
+              Desarrollo de relaciones sanas y respetuosas
+            </h4>
+            <p>
+              Sitio de sobra para sentarse en círculo y hablarse de frente,
+              sin prisa.
+            </p>
+          </div>
+        </li>
+
+        <li class="nosotros__pilar reveal">
+          <span class="nosotros__pilar-indice" aria-hidden="true">03</span>
+          <div class="nosotros__pilar-cuerpo">
+            <h4 class="nosotros__pilar-titulo">
+              Respeto por la naturaleza y por los demás
+            </h4>
+            <p>
+              Lo dejas como lo encontraste. Tu plan pasa; el bosque se queda.
+            </p>
+          </div>
+        </li>
+
+      </ol>
+
+      <!-- v6 · LA BANDADA — el cierre del cierre de capítulo -----------------
+           Tres vuelos de tamaños distintos que se dibujan uno detrás de otro
+           y que además DERIVAN con el scroll (nosotros.css §6). Van aquí, en
+           flujo normal debajo del último pilar, y no en posición absoluta: la
+           banda es una rejilla de tres pistas con `align-items: center` y una
+           pieza flotante sobre ella se colocaría distinto según lo alto que
+           quede el panel de aves de al lado. En flujo el sitio es siempre el
+           mismo y el `transform` de la deriva no mueve nada de la maqueta.
+
+           POR QUÉ DIBUJA EN OTRO MOMENTO QUE LA RAMA DE ARRIBA: el disparador
+           de js/app.js es el ANCESTRO `section` más cercano, y el compromiso
+           es un <section> propio. Así que esta bandada arranca cuando entra la
+           banda oscura, no cuando entra #nosotros: dos relojes distintos sin
+           una línea de JavaScript nueva.
+
+           Estado inicial horneado a mano, igual que la rama. Cada vuelo lleva
+           una sola `M` para que el guion pueda recorrerlo entero.           -->
+      <svg class="icono-traza nosotros__silueta nosotros__silueta--vuelo"
+           viewBox="0 0 24 24" fill="none" stroke="currentColor"
+           stroke-width="0.9" stroke-linecap="round" stroke-linejoin="round"
+           aria-hidden="true" focusable="false">
+        <path d="M1.8 16.3c2.1-.4 3.8-1.5 5.1-3.2 1.3 1.7 3 2.8 5.1 3.2" pathLength="1"/>
+        <path d="M10.4 8.1c1.5-.3 2.7-1.1 3.6-2.3.9 1.2 2.1 2 3.6 2.3" pathLength="1"/>
+        <path d="M17.6 13.4c1-.2 1.9-.8 2.5-1.6.6.8 1.5 1.4 2.5 1.6" pathLength="1"/>
+      </svg>
+
+    </div>
+
+    <!-- Tampoco aquí `reveal--der`: el panel sangra por el borde derecho de la
+         ventana y un desplazamiento horizontal lo empujaría 28 px fuera de la
+         pantalla. Entra con `reveal--zoom`, que sólo escala: no desplaza nada
+         y por tanto no puede desbordar. -->
+    <!-- FOTO-FOCUS también aquí: es la otra pieza grande de la sección y la
+         que cierra el capítulo. data-foco sube el encuadre desde el 57% del
+         CSS hacia el panel pintado (el colibrí queda a media altura de la
+         foto): al centrar la banda, los pájaros centran con ella. El zoom es
+         un punto mayor que el del prado porque el motivo es más pequeño. -->
+    <figure class="nosotros__mural reveal reveal--zoom" data-foto-focus data-foco="50% 46%" data-zoom="0.14">
+      <img
+        src="img/parque/parque-20.jpg"
+        width="900"
+        height="1200"
+        alt="Panel pintado con aves del predio, apoyado sobre el césped junto a una construcción de caña: un colibrí en vuelo, una tángara roja posada en una rama y un perico verde entre hojas, sobre fondo turquesa, entre platanillos y heliconias."
+        loading="lazy"
+        decoding="async"
+      />
+    </figure>
+
+  </section>
+
+  <!-- FOTO-FOCUS — por qué el <script> va aquí dentro y no en la cola de
+       index.html: el ensamblador copia tal cual la cola (donde viven app.js
+       y mapa.js), así que un fragmento no puede añadir nada allí; el
+       precedente es momentos-video.js. Carga con defer —no bloquea el parseo
+       y corre con el DOM completo— y #espacios declara este mismo archivo:
+       el propio script lleva un cerrojo que hace inofensiva la segunda
+       ejecución, y el navegador sólo lo descarga una vez. Bajo
+       prefers-reduced-motion no se monta: la foto queda quieta en el
+       encuadre del CSS. -->
+  <script src="js/foto-focus.js?v=2e41fd79" defer></script>
+
 </section>
 
 <!-- ==========================================================================
