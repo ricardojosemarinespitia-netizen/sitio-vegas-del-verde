@@ -104,6 +104,37 @@
    Sin !important.
    ========================================================================== */
 
+/* ==========================================================================
+   0 bis. #colegios ES EL TERCER MOVIMIENTO DE UN CAPÍTULO, NO UNA SECCIÓN
+   (DIRECTRICES-ANIMACION.md §1, agosto de 2026)
+
+   EL TESTIGO. #planes, #momentos y #colegios forman un solo capítulo
+   —«Eventos y actividades»— y entre ellos no puede haber el aire que separa
+   capítulos. El relleno SUPERIOR de esta sección baja al 62 %, el mismo factor
+   que usan planes.css §0 bis por abajo y momentos.css §1 bis por los dos
+   lados: las tres piezas se pasan el testigo con la misma medida y la vista
+   deja de contarlas como tres secciones sueltas.
+
+   EL FACTOR NO ES UN NÚMERO SUELTO. El labio de carbón del §1 tiene que caber
+   entero dentro de este relleno o el arco se comería el antetítulo: a 320 px
+   --esp-seccion vale 3,75 rem y --col-lip vale --esp-lg (2 rem), así que el
+   factor mínimo seguro es 0,54. Al 0,62 quedan 2,32 rem y el arco entra con
+   holgura; de 62em para arriba el margen es todavía mayor (4,65 rem de relleno
+   contra 4 rem de labio). Si alguien sube --col-lip, hay que rehacer esta
+   cuenta.
+
+   EL RELLENO INFERIOR NO SE TOCA: ése sí separa este capítulo del siguiente,
+   «El bosque» (#naturaleza + #vivero).
+
+   NI FILETE DE APERTURA NI NÚMERO DE CAPÍTULO. Los dos son del primero de los
+   tres. Aquí no había filete de apertura y no se añade; el filete de
+   .col-paradas es otra cosa —abre el itinerario dentro de la sección— y se
+   queda.
+   ========================================================================== */
+.col {
+  padding-block-start: calc(var(--esp-seccion) * 0.62);
+}
+
 .col {
   /* Alto del labio de carbón del §1. Se declara aquí y no en el ::before para
      que el único sitio donde se ajusta sea éste. SIEMPRE tiene que caber
@@ -228,6 +259,19 @@
    .reveal--velo, que esta portada no usa.
    ------------------------------------------------------------------------ */
 .js .col-portada.reveal.visible {
+  clip-path: none;
+}
+
+/* v5 · LA MISMA GUARDA, AHORA PARA LOS HIJOS. La portada dejó de ser un
+   `.reveal` y pasó a `.reveal-secuencia` (ver el marcado): quienes entran
+   ahora son el antetítulo, el titular y la entradilla, cada uno por su cuenta.
+   El titular es el que cuelga por la izquierda desde 62em, así que es el que
+   volvería a perder su primera letra si `clip-path: inset(0 0 0 0)` le cayera
+   encima. Con .reveal-texto no le cae —base.css §v7 ya le pone `clip-path:
+   none`—, pero esta regla lo deja garantizado aunque mañana el titular cambie
+   de tratamiento, que es exactamente el fallo silencioso que documenta el
+   bloque de arriba. Mide (0,4,0) contra los (0,3,0) de base.css. */
+.js .col-portada .reveal.visible {
   clip-path: none;
 }
 
@@ -654,7 +698,40 @@
 }
 
 .col-jornada__foto {
+  position: relative;
   min-width: 0;
+}
+
+/* ---- LA CAJA DE LA FAUNA AMBIENTE (v5) -----------------------------------
+   Sólo la CAJA. Las piezas las crea js/fauna-ambiente.js y todo el movimiento
+   vive en base.css §v7: aquí no hay ni un keyframe, ni una opacidad, ni una
+   duración propios. Es el módulo compartido del director de arte y no se
+   duplica ni se reescribe.
+
+   `position: absolute` es obligatorio —el módulo lo comprueba y avisa por
+   consola si falta—, y por eso el <figure> de arriba estrena `position:
+   relative`: es su bloque contenedor.
+
+   DÓNDE CAE, Y CONTRA QUÉ SE MIDIÓ. Ocupa el 34 % izquierdo y el tercio alto
+   de la pieza dominante. Por la izquierda porque desde 62em el panel de los
+   hitos entra solapando por la derecha (§4) y ése es el lado que no puede
+   ocuparse; por arriba porque el corro de niñas y niños está en la mitad baja
+   del encuadre en los dos recortes de la foto (4/5 en móvil con
+   `object-position: 50% 62%`, 3/4 desde 62em al 55 %) y una mariposa no se
+   cruza por delante de lo que hay que mirar. El pie de foto va debajo del
+   marco, así que la caja no toca una sola letra en ningún ancho.
+
+   Sin z-index propio: las piezas ya nacen en --z-fondo y la caja va después
+   del `.marco` en el marcado, así que pinta sobre la foto y por debajo del
+   panel, que sube a --z-base.
+   ------------------------------------------------------------------------ */
+.col__aire {
+  position: absolute;
+  inset-block-start: 4%;
+  inset-inline-start: 0;
+  inline-size: 34%;
+  block-size: 34%;
+  pointer-events: none;
 }
 
 /* La hoja más grande de la sección: es la foto de mayor superficie, así que se

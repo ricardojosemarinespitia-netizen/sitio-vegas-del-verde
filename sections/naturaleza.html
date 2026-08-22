@@ -192,12 +192,27 @@
         </div>
         <figcaption class="credito nat-apertura__pie">Guadua del predio</figcaption>
       </figure>
+
+      <!-- v8 · LA CAJA DE FAUNA AMBIENTE. Vacía, decorativa y con `position`
+           propia, como exige §2 del documento del director. Va AQUÍ, sobre la
+           fotografía del camino —el movimiento del sendero—, y no en la parte
+           de aves: allí ya vuelan pájaros de verdad, fotografiados en el
+           predio, y superponerles recortes genéricos sería competir con el
+           material bueno. Cae sobre foto, nunca sobre párrafo. -->
+      <div class="nat-apertura__aire" aria-hidden="true"></div>
     </div>
 
     <div class="nat-apertura__texto reveal reveal--der">
 
       <header class="nat-apertura__encabezado">
-        <p class="eyebrow">Sendero Ecovital y biodiversidad</p>
+        <!-- v8 · EL RÓTULO DE CAPÍTULO. Decía «Sendero Ecovital y
+             biodiversidad»: dos temas en un mismo renglón, que es justo lo
+             que el cliente lee como «está mezclado todo». Ahora el rótulo
+             trae el capítulo compartido con #vivero —«El bosque», §1 del
+             documento del director— y a continuación el nombre del PRIMER
+             movimiento, que es el sendero y sólo el sendero. Las aves tienen
+             su propio rótulo más abajo, en .nat-giro. -->
+        <p class="eyebrow">El bosque · El Sendero Ecovital</p>
         <!-- LA PIEZA-CIFRA DOMINANTE. El «101» es el dato que distingue a
              este predio de cualquier finca de eventos y no aparece en ningún
              otro sitio de la página. Antes iba dentro de la frase como una
@@ -210,9 +225,19 @@
              motor global de js/app.js (el mismo del 347 y el 57); el 101 ya
              está escrito en el HTML, así que sin JS —o antes de que el motor
              dispare— no hay hueco ni parpadeo. -->
-        <h2 id="naturaleza-titulo" class="titulo-seccion nat-apertura__titulo nat-cifra-dominante">
-          <span class="nat-cifra-dominante__frase">Camina donde cantan</span>
-          <span class="nat-cifra-dominante__linea">
+        <!-- v8 · .reveal-texto sobre el titular de apertura del capítulo. Los
+             dos renglones ya existían como spans (la frase y la línea de la
+             cifra), así que sólo hay que marcarlos: cero marcado nuevo y cero
+             JS nuevo — lo dispara el mismo observador de js/app.js.
+             NO se usa la variante persiana: su `overflow: clip` por renglón
+             recortaría el «101» a 143 px, que es la pieza más grande de la
+             sección. El gesto caro se queda sin gastar aquí a propósito.
+             `display: block` de .reveal-texto__linea no pisa el `flex` de
+             .nat-cifra-dominante__linea: esta hoja se carga DESPUÉS de
+             base.css y las dos reglas tienen la misma especificidad. -->
+        <h2 id="naturaleza-titulo" class="titulo-seccion nat-apertura__titulo nat-cifra-dominante reveal reveal-texto">
+          <span class="nat-cifra-dominante__frase reveal-texto__linea">Camina donde cantan</span>
+          <span class="nat-cifra-dominante__linea reveal-texto__linea">
             <span class="nat-cifra-dominante__numero" data-contador="101">101</span>
             <span class="nat-cifra-dominante__unidad">especies</span>
           </span>
@@ -308,6 +333,39 @@
 
     </div>
 
+  </div>
+
+  <!-- ======================================================================
+       1 bis · EL GIRO — la bisagra entre el sendero y los pájaros (v8)
+       El cliente lee esta sección como una sola masa: «por sección de pájaros
+       en un lado, sendero en otro, está mezclado todo». No lo está en el
+       contenido —el sendero se cuenta entero arriba y las aves enteras
+       abajo—, pero NADA lo señalaba: los dos movimientos comparten fondo
+       crema, ancho de contenedor y tamaño de rótulo, así que la vista los
+       cuenta como un mismo bloque largo.
+
+       Esta banda es el letrero que faltaba. Es lo mínimo que hace evidente el
+       cambio de tema sin fracturar el capítulo «El bosque» (que sigue con
+       #vivero): una franja de salvia a todo el ancho —el mismo recurso de
+       franja alterna que ya usa el sitio, no un recurso nuevo—, con el rótulo
+       del segundo movimiento y dos renglones que dicen en voz alta dónde
+       termina una cosa y empieza la otra.
+
+       Deliberadamente NO lleva cresta SVG ni fauna: la cresta es el gesto de
+       entrada del muro del concurso, cien líneas más abajo, y gastarla dos
+       veces en la misma sección la anula. Aquí basta el cambio de suelo.
+       ====================================================================== -->
+  <div class="nat-giro">
+    <div class="contenedor nat-giro__cuerpo">
+      <p class="eyebrow nat-giro__eyebrow">Las aves y el censo</p>
+      <h3 class="titulo-seccion titulo-seccion--sm nat-giro__titulo reveal reveal-texto">
+        <span class="reveal-texto__linea">Hasta aquí, el camino.</span>
+        <span class="reveal-texto__linea">Ahora, lo que vive en él.</span>
+      </h3>
+      <p class="nat-giro__texto">
+        El registro de aves, los ambientes del predio y el muro del concurso.
+      </p>
+    </div>
   </div>
 
   <!-- ======================================================================
@@ -1919,5 +1977,25 @@
        el fragmento se lleva su comportamiento consigo—. Sin este archivo la
        escena queda resuelta y estática, y no se rompe nada. -->
   <script src="js/concurso-cinta.js?v=48bd5c05" defer></script>
+
+  <!-- v8 · FAUNA AMBIENTE. Un solo montaje en toda la sección, con las cifras
+       que fija la tabla de reparto de §2 del documento del director:
+       densidad `viva`, mariposas Y colibrí, semilla 4. Es la única sección de
+       la página que monta el colibrí —pesa 88 kB y el gesto se gasta una vez
+       sola—, y le toca a ésta. El módulo baja solo un escalón de densidad en
+       pantalla estrecha y ahí no monta el colibrí nunca, así que en móvil no
+       se descarga.
+       El cerrojo de prefers-reduced-motion es el mismo de sections/hero.html:
+       quien pide menos movimiento no llega ni a pedir el módulo por red. -->
+  <script type="module">
+    if (!matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      import('./js/fauna-ambiente.js?v=dfc40bad')
+        .then((m) => m.montarFaunaAmbiente(
+          document.querySelector('#naturaleza .nat-apertura__aire'),
+          { densidad: 'viva', especies: ['mariposa', 'colibri'], semilla: 4 }
+        ))
+        .catch(() => {});
+    }
+  </script>
 
 </section>

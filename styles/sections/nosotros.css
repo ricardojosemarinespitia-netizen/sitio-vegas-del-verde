@@ -150,17 +150,16 @@
     top: calc(var(--alto-header) + var(--esp-lg));
   }
 
-  /* v6 · EL SALTO DE LÍNEA DEL TITULAR, DECIDIDO Y NO SORTEADO.
-     «Cruzas la reja y cambia el día» son dos oraciones de 14 y 15 caracteres.
-     Sin tope, en una columna de cinco doceavos el balance las parte donde
-     quepa y a veces deja «día» solo en un tercer renglón. Con la medida
-     acotada a 16ch el corte cae siempre en la conjunción, que es la junta
-     natural de la frase: «Cruzas la reja / y cambia el día».
-     Va en ch y no en rem porque lo que hay que acotar son caracteres, no
-     píxeles: así el corte aguanta si alguien agranda la letra del sistema. */
-  .nosotros__titulo {
-    max-width: 16ch;
-  }
+  /* v7 · EL `max-width: 16ch` DEL TITULAR SALE DE AQUÍ.
+     v6 lo puso para forzar el corte en la conjunción —«Cruzas la reja / y
+     cambia el día»— dejándoselo al balanceo del navegador con la medida
+     acotada. Desde v7 los dos renglones son dos `.reveal-texto__linea`
+     escritos a mano en sections/nosotros.html, o sea que el corte ya no se
+     sortea: está en el marcado. Con los spans a `display: block`, un tope de
+     16ch sólo puede hacer daño —partiría un renglón que ya es una línea— y
+     además reventaría el revelado por renglones, que cuenta con que cada
+     span sea exactamente una línea. La regla se quita en vez de dejarla
+     peleando con el marcado. */
 
   /* Empieza en la 7 y no en la 6: la columna vacía en medio es la calle que
      hace legible la asimetría. */

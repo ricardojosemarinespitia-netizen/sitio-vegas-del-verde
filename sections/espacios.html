@@ -92,6 +92,15 @@
        d) SCROLL — dos hojas de fondo a velocidades y recorridos distintos
           (`animation-timeline: view()`, sin una línea de JS) y el encuadre
           ligado al scroll de foto-focus en las TRES piezas grandes.
+       e) EL ENCABEZADO EN TRES TIEMPOS (v5.1) — rótulo, titular y entradilla
+          dejan de entrar como un bloque: cada uno es su propio .reveal y el
+          titular se descubre renglón a renglón con .reveal-texto--persiana.
+          Es el único sitio de la sección donde se gasta la persiana.
+       f) FAUNA AMBIENTE (v5.1) — cuatro mariposas (dos en pantalla estrecha)
+          derivando en la banda de aire de la cabecera, montadas por el módulo
+          compartido js/fauna-ambiente.js. Densidad `discreta` y semilla 1: es
+          el reparto que fija DIRECTRICES-ANIMACION §2 para esta sección, y su
+          compás no coincide con ninguno de los otros cinco relojes de aquí.
 
      LO QUE NO SE HACE Y POR QUÉ
      · Nada de `data-contador` en las cifras, aunque el motor exista en
@@ -185,12 +194,47 @@
     />
   </svg>
 
+  <!-- EL AIRE DE LA SECCIÓN — caja vacía donde vuela la fauna ambiente.
+       Decorativa, sin texto y fuera del árbol de accesibilidad, igual que las
+       dos hojas de arriba y que `.inicio__enjambre` en la portada. Las piezas
+       las cuelga aquí js/fauna-ambiente.js (módulo del director de arte, ver
+       DIRECTRICES-ANIMACION §2); este fragmento no crea ni una mariposa.
+       Va FUERA de .espacios__contenedor a propósito: el contenedor está en
+       --z-base y todo lo que se lee vive dentro de él, así que ninguna pieza
+       puede cruzarse por delante de un nombre, de una cifra ni de un botón.
+       Su geometría —y por qué cambia con el ancho— está en espacios.css §0 ter. -->
+  <div class="espacios__aire" aria-hidden="true"></div>
+
   <div class="contenedor espacios__contenedor">
 
-    <header class="seccion-encabezado reveal">
-      <p class="eyebrow">Espacios en alquiler</p>
-      <h2 id="espacios-titulo" class="titulo-seccion">Cinco escenarios y ningún salón</h2>
-      <p class="entradilla">
+    <!-- EL ENCABEZADO ENTRA EN TRES TIEMPOS Y NO EN UNO (v5.1)
+         Antes el <header> entero era el .reveal: el bloque subía de una pieza
+         y el titular no tenía voz propia. Ahora el .reveal está en cada una de
+         las tres piezas, por dos razones:
+           a) el <h2> necesita ser ÉL el .reveal para que .reveal-texto tenga
+              dónde agarrarse (base.css §v7 exige las dos clases en el mismo
+              elemento y usa el observador de app.js, sin JS nuevo);
+           b) si el bloque siguiera moviéndose además de sus renglones, habría
+              DOS movimientos sobre el mismo texto — exactamente lo que §v7
+              apaga con `transform: none` en el contenedor.
+         Los tres desfases van en espacios.css §0 bis: rótulo, titular y
+         entradilla no arrancan a la vez.
+
+         PERSIANA, UNA VEZ Y AQUÍ. «Los espacios» es el primer capítulo que se
+         percibe después de la portada, y el gesto caro se gasta en el titular
+         que lo abre. Ninguna otra pieza de esta sección lo lleva.
+         Los cortes de renglón los decide quien escribe: dos líneas, sujeto y
+         remate. -->
+    <header class="seccion-encabezado">
+      <p class="eyebrow espacios__rotulo reveal">Espacios en alquiler</p>
+      <h2
+        id="espacios-titulo"
+        class="titulo-seccion reveal reveal-texto reveal-texto--persiana"
+      >
+        <span class="reveal-texto__linea">Cinco escenarios</span>
+        <span class="reveal-texto__linea">y ningún salón</span>
+      </h2>
+      <p class="entradilla espacios__entradilla reveal">
         Cinco lugares con nombre propio, del prado que traga 150 personas al taller con
         techo de caña. Aquí están todos, con su aforo y su foto.
       </p>
@@ -569,4 +613,25 @@
        defer no bloquea el parseo y corre con el DOM completo. Bajo
        prefers-reduced-motion no se monta. -->
   <script src="js/foto-focus.js?v=2e41fd79" defer></script>
+
+  <!-- FAUNA AMBIENTE — el lenguaje del hero, en voz baja.
+       Densidad `discreta` (4 piezas, 2 en pantalla estrecha porque el módulo
+       baja un escalón solo), sólo mariposas y semilla 1: es el reparto que fija
+       la tabla del director de arte para #espacios, no una elección de esta
+       sección. El colibrí NO sale aquí — se gasta una única vez en toda la
+       página, en #naturaleza.
+       El cerrojo de `prefers-reduced-motion` va fuera del import para no
+       descargar ni un byte del módulo cuando no se va a usar; el módulo lo
+       vuelve a comprobar por su cuenta. El `catch` vacío es deliberado: si el
+       módulo falla, la sección se queda exactamente como está. -->
+  <script type="module">
+    if (!matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      import('./js/fauna-ambiente.js?v=dfc40bad')
+        .then((m) => m.montarFaunaAmbiente(
+          document.querySelector('#espacios .espacios__aire'),
+          { densidad: 'discreta', especies: ['mariposa'], semilla: 1 },
+        ))
+        .catch(() => {});
+    }
+  </script>
 </section>

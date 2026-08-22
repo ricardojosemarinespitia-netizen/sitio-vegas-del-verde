@@ -1406,6 +1406,314 @@ figcaption {
    regla, 8 después. `:where()` no suma especificidad, así que cualquier regla
    de sección la sigue pisando si de verdad necesita un mínimo.
    ========================================================================== */
+
+/* ==========================================================================
+   v7 · REVELADO DE TEXTO POR LÍNEAS  ·  .reveal-texto
+   Lo añade el director de arte como BACKEND COMPARTIDO. Ninguna sección
+   escribe su propia versión de esto.
+
+   POR QUÉ EXISTE Y POR QUÉ NO ES UN .reveal MÁS
+   El sitio entero entra con .reveal §6: el bloque sube 28 px y se funde. Es
+   correcto y es lo mismo cuarenta veces seguidas, y eso —repetido a lo largo
+   de nueve secciones— es lo que se lee como página generada. .reveal-texto
+   NO sustituye a .reveal: lo MODIFICA. El bloque deja de moverse como pieza
+   y pasa a descubrirse renglón a renglón. Se reserva para el titular o la
+   entradilla que ABRE un capítulo; si se pone en todos los párrafos de una
+   sección vuelve a ser un tic.
+
+   CÓMO SE USA (marcado, y hay que escribirlo a mano en el HTML)
+     <h2 class="titulo-seccion reveal reveal-texto">
+       <span class="reveal-texto__linea">Aquí el día</span>
+       <span class="reveal-texto__linea">se toma su tiempo</span>
+     </h2>
+   Las dos clases juntas. .reveal es lo que hace que el IntersectionObserver
+   de js/app.js lo vea y le ponga .visible: NO hace falta ni una línea de JS
+   nueva. Los cortes de línea los decide quien escribe, no el navegador: son
+   parte del dibujo, igual que los renglones de la marca de agua de #planes.
+   Con `display: block` cada renglón es una línea real, así que si el texto
+   no cabe parte dentro de su propio span y sigue funcionando.
+
+   ESTADO INICIAL HORNEADO, CERO PARPADEO
+   El estado de reposo (opacidad 0, bajado) lo escribe esta hoja bajo `.js`,
+   igual que §6: sin JS la clase `.js` no está, la regla no aplica y el texto
+   se ve entero desde el primer fotograma. Nunca hay un cuadro con el texto
+   invisible esperando a un script.
+
+   SÓLO transform Y opacity. El escalonado va en `transition-delay` y por eso
+   se declara DESPUÉS del atajo `transition` — es exactamente la trampa que
+   ya documenta §6 en .reveal--velo y que aquí se evita desde el principio.
+   ========================================================================== */
+.js .reveal.reveal-texto {
+  /* El contenedor deja de ser la pieza que entra: se queda quieto y visible,
+     y quien entra son sus renglones. Se apaga la transición del bloque para
+     que no haya dos movimientos superpuestos sobre el mismo texto. */
+  opacity: 1;
+  transform: none;
+  clip-path: none;
+  transition: none;
+  will-change: auto;
+}
+
+.reveal-texto__linea {
+  display: block;
+}
+
+.js .reveal.reveal-texto .reveal-texto__linea {
+  opacity: 0;
+  transform: translate3d(0, var(--desplazamiento-linea), 0);
+  transition:
+    opacity var(--transicion-reveal),
+    transform var(--transicion-reveal);
+  transition-delay: var(--retardo-linea-propio, 0ms);
+  will-change: opacity, transform;
+}
+
+.js .reveal.reveal-texto.visible .reveal-texto__linea {
+  opacity: 1;
+  transform: none;
+  will-change: auto;
+}
+
+/* El escalonado. Ocho renglones es el techo: un titular de nueve líneas no
+   es un titular. A partir del noveno todos comparten el último retardo, que
+   es la misma salvaguarda que usa .reveal-secuencia en §6. */
+.js .reveal.reveal-texto .reveal-texto__linea:nth-child(1) { --retardo-linea-propio: 0ms; }
+.js .reveal.reveal-texto .reveal-texto__linea:nth-child(2) { --retardo-linea-propio: var(--retardo-linea); }
+.js .reveal.reveal-texto .reveal-texto__linea:nth-child(3) { --retardo-linea-propio: calc(var(--retardo-linea) * 2); }
+.js .reveal.reveal-texto .reveal-texto__linea:nth-child(4) { --retardo-linea-propio: calc(var(--retardo-linea) * 3); }
+.js .reveal.reveal-texto .reveal-texto__linea:nth-child(5) { --retardo-linea-propio: calc(var(--retardo-linea) * 4); }
+.js .reveal.reveal-texto .reveal-texto__linea:nth-child(6) { --retardo-linea-propio: calc(var(--retardo-linea) * 5); }
+.js .reveal.reveal-texto .reveal-texto__linea:nth-child(7) { --retardo-linea-propio: calc(var(--retardo-linea) * 6); }
+.js .reveal.reveal-texto .reveal-texto__linea:nth-child(n + 8) { --retardo-linea-propio: calc(var(--retardo-linea) * 7); }
+
+/* VARIANTE PERSIANA — el renglón sube DESDE DETRÁS de una máscara, no desde
+   el aire. Es el gesto caro y por eso está separado: se gasta UNA VEZ por
+   capítulo, en el titular de apertura, no en cada párrafo.
+
+   LA TRAMPA DE LAS DESCENDENTES, Y SU ARREGLO. `overflow: clip` sobre la
+   caja de una línea corta la cola de la «g», la «j» y la «p», porque la caja
+   de línea termina en la línea de base más el descenso mínimo del renglón, y
+   con `line-height` apretado eso cae por encima de la cola. Se compensa con
+   un colchón inferior y el mismo colchón en negativo como margen: la caja
+   crece hacia abajo lo justo para que quepa la cola, y el hueco que abriría
+   se devuelve, así que el ritmo vertical del titular no cambia ni un píxel.
+   `clip` y no `hidden`: `hidden` convertiría cada renglón en un contenedor
+   de scroll, que es la regla dura de esta casa. */
+.reveal-texto--persiana .reveal-texto__linea {
+  overflow: clip;
+  padding-block-end: 0.18em;
+  margin-block-end: -0.18em;
+}
+
+.js .reveal.reveal-texto--persiana .reveal-texto__linea {
+  /* Desde fuera de su propia caja, no desde media línea más abajo: es lo que
+     convierte el fundido en una persiana que se levanta. La opacidad se
+     queda a 1 porque la máscara ya hace todo el trabajo; un fundido encima
+     de una máscara ensucia el borde del recorte. */
+  opacity: 1;
+  transform: translate3d(0, 110%, 0);
+}
+
+.js .reveal.reveal-texto--persiana.visible .reveal-texto__linea {
+  transform: none;
+}
+
+/* Sin movimiento: los renglones están puestos, quietos y legibles. Nunca a
+   opacidad 0 y nunca escondidos detrás de la máscara. */
+@media (prefers-reduced-motion: reduce) {
+  .js .reveal.reveal-texto .reveal-texto__linea,
+  .js .reveal.reveal-texto--persiana .reveal-texto__linea {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+
+  .reveal-texto--persiana .reveal-texto__linea {
+    overflow: visible;
+  }
+}
+
+/* ==========================================================================
+   v7 · FAUNA AMBIENTE  ·  el lenguaje del hero, en voz baja
+   Las piezas las crea js/fauna-ambiente.js; aquí viven la caja, la pila y
+   TODO el movimiento — el mismo reparto de responsabilidades que ya tiene el
+   enjambre de la portada en inicio.css §1.c, y a propósito: quien sepa leer
+   uno sabe leer el otro.
+
+   QUÉ CAMBIA RESPECTO AL ENJAMBRE DE LA PORTADA, Y POR QUÉ
+   En #inicio el enjambre ES el gesto de la página: nueve piezas, opacidad
+   0,9, un colibrí que cruza la ventana entera. Aquí es ATMÓSFERA: dos a
+   siete piezas, opacidad --opacidad-fauna (0,55) y una deriva lenta en vez
+   de una entrada coreografiada. Si una sección de contenido tuviera el
+   enjambre de la portada, el sitio tendría nueve portadas y ninguna.
+
+   POR DEBAJO DE TODO LO QUE SE LEE. La caja va a --z-fondo y sin puntero: ni
+   una mariposa se cruza por delante de un titular, de un precio ni de un
+   botón. La legibilidad no depende de dónde esté volando nada. Es la misma
+   regla de inicio.css, escrita otra vez porque es la que más se rompe.
+   ========================================================================== */
+.fauna-ambiente {
+  /* La caja es la SECCIÓN o el bloque que la invoca: el módulo sólo le añade
+     esta clase y le cuelga las piezas dentro. Necesita `position` propia —el
+     módulo la comprueba en tiempo de ejecución y avisa por consola si falta—
+     porque las piezas se posicionan contra ella en porcentajes. */
+  position: relative;
+}
+
+.fauna-ambiente__pieza {
+  /* Los cuatro valores que reparte el módulo, con respaldo escrito aquí para
+     que la hoja se lea sola y para que, si un día el módulo deja de escribir
+     uno, la animación siga siendo válida en vez de caerse entera. */
+  --espera: 0ms;
+  --giro: 0deg;
+  --deriva-x: 0%;
+  --deriva-y: 0%;
+
+  position: absolute;
+  height: auto;
+  /* base.css le da a todo `img` un fondo gris de carga: en un recorte con
+     transparencia eso dibujaría la caja del PNG alrededor del bicho. */
+  background-color: transparent;
+  pointer-events: none;
+  z-index: var(--z-fondo);
+  /* El giro es FIJO por pieza y por eso vive aquí y no dentro de ningún
+     @keyframes: así ninguna de las tres animaciones tiene que arrastrarlo
+     para no perderlo. */
+  rotate: var(--giro);
+  /* Estado de reposo VISIBLE Y QUIETO. Lo que apaga la pieza hasta que le
+     toca es el bloque @supports de abajo, que sólo se aplica donde de verdad
+     hay animación que la vuelva a encender. Un navegador sin `translate`
+     como propiedad independiente ve la escena puesta y quieta; nunca ve un
+     hueco donde debería haber una mariposa. */
+  opacity: var(--opacidad-fauna-suave);
+}
+
+/* LAS TRES ANIMACIONES VAN CADA UNA A SU PROPIEDAD, Y ES LA DECISIÓN
+   TÉCNICA CENTRAL DE ESTE MÓDULO.
+   Tres animaciones simultáneas sobre `transform` no se suman: la última
+   declarada gana la propiedad entera y las otras dos dejan de existir —es la
+   razón por la que el enjambre de la portada tuvo que encadenar entrada y
+   aleteo por retardo en lugar de solaparlos (inicio.css §1.c)—. Aquí sí se
+   quieren SIMULTÁNEAS y con compases distintos, así que cada una toma una
+   propiedad independiente: la deriva mueve `translate`, el aleteo mueve
+   `scale` y la entrada, que termina antes de que las otras arranquen, toca
+   las dos más `opacity`. El resultado se compone en el navegador sin que
+   ninguna pise a otra.
+
+   Todo dentro de `@supports (translate: 0px)`: donde no existan las
+   propiedades independientes no se declara ni la opacidad 0 ni la animación,
+   y la escena se queda puesta. Cero parpadeo por diseño, no por suerte. */
+@supports (translate: 0px) {
+  .fauna-ambiente__pieza {
+    opacity: 0;
+  }
+
+  /* El vuelo vive en una clase de la CAJA y no de cada pieza: quitarla y
+     ponerla reinicia todas las animaciones a la vez con sus retardos
+     intactos, que es el rearme que se quiere. La pone y la quita el
+     IntersectionObserver del módulo, que NUNCA hace unobserve: bajar y
+     volver a subir vuelve a levantar la escena. */
+  .fauna-ambiente.en-vuelo .fauna-ambiente__mariposa {
+    animation:
+      fauna-entra var(--dur-reveal) var(--ease-salida) var(--espera) both,
+      fauna-deriva var(--dur-deriva) var(--ease-suave)
+        calc(var(--espera) + var(--dur-reveal)) infinite alternate,
+      fauna-aletea var(--dur-aleteo) var(--ease-suave)
+        calc(var(--espera) + var(--dur-reveal)) infinite alternate;
+  }
+
+  /* EL COLIBRÍ AMBIENTE. Cruza UNA vez por entrada en pantalla y se va: un
+     colibrí en bucle es un banner. */
+  .fauna-ambiente.en-vuelo .fauna-ambiente__colibri {
+    animation: fauna-cruza var(--dur-cruce) var(--ease-suave) var(--espera) both;
+  }
+}
+
+/* Entrada: se posa. No sube 260 % como en la portada —ahí el gesto es que el
+   enjambre LLEGA—; aquí ya estaban y la página las alcanza. */
+@keyframes fauna-entra {
+  from {
+    opacity: 0;
+    translate: 0 12%;
+    scale: 0.72;
+  }
+
+  to {
+    opacity: var(--opacidad-fauna);
+    translate: 0 0;
+    scale: 1;
+  }
+}
+
+/* La deriva: flotar. Recorrido corto y muy lento —el doble del vuelo del
+   mapa— para que se perciba como aire y no como un elemento que se mueve.
+   Va en % de la propia pieza, así que no hace falta medir nada del layout.
+   NO se anima `left`/`top`: propiedad de compositor, igual que transform. */
+@keyframes fauna-deriva {
+  from {
+    translate: 0 0;
+  }
+
+  to {
+    translate: var(--deriva-x) var(--deriva-y);
+  }
+}
+
+/* El aleteo es un cierre de alas en X, no un giro: una mariposa vista de
+   frente no rota, se cierra. Es el mismo criterio de inicio.css §1.c; el
+   recorrido es más corto porque a media opacidad un aleteo amplio llama la
+   atención sobre el fondo en vez de acompañarlo. */
+@keyframes fauna-aletea {
+  from {
+    scale: 1 1;
+  }
+
+  to {
+    scale: 0.7 1;
+  }
+}
+
+/* El cruce del colibrí sí puede usar `transform`: es la única animación que
+   corre sobre esa pieza, así que no tiene con quién competir. El recorrido
+   va en vw para que mida la ventana y no el tamaño al que se pinte el ave. */
+@keyframes fauna-cruza {
+  from {
+    opacity: 0;
+    transform: translate3d(16vw, 6vw, 0) scale(0.8);
+  }
+
+  18% {
+    opacity: var(--opacidad-fauna-suave);
+  }
+
+  74% {
+    opacity: var(--opacidad-fauna-suave);
+  }
+
+  to {
+    opacity: 0;
+    transform: translate3d(-38vw, -5vw, 0) scale(1);
+  }
+}
+
+/* Con movimiento reducido el módulo NI SE MONTA. La regla se deja escrita
+   igualmente por si alguien lo monta por otra vía: las piezas se quedan
+   puestas y quietas en vez de invisibles, y el colibrí —que sólo tiene
+   sentido cruzando— desaparece. */
+@media (prefers-reduced-motion: reduce) {
+  .fauna-ambiente__pieza {
+    opacity: var(--opacidad-fauna-suave);
+    translate: none;
+    scale: none;
+    transform: none;
+    animation: none;
+  }
+
+  .fauna-ambiente__colibri {
+    display: none;
+  }
+}
+
 @media (max-width: 63.99em) {
   /* `span` entra en la lista porque varios componentes lo usan como columna
      de un flex (el sello de Naturaleza, sin ir más lejos). En un span de

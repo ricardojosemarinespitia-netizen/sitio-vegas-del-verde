@@ -93,15 +93,47 @@
 
 <section id="vivero" class="seccion seccion--carbon viv" aria-labelledby="vivero-titulo">
 
-  <div class="contenedor contenedor--ancho">
+  <!-- v7 · CABECERA DE CAPÍTULO «EL BOSQUE» ---------------------------------
+       El rótulo pasa de «Vivero» a «El bosque»: es el MISMO capítulo que
+       #naturaleza (DIRECTRICES-ANIMACION §1), y la ocasión concreta la dice
+       el <h2>, no el antetítulo. Es exactamente el mismo reparto que llevan
+       los tres de «Eventos y actividades». El número de capítulo lo lleva
+       #naturaleza, que es la que abre; ésta no.
+
+       El wrapper deja de ser un `.contenedor` a secas y toma `.viv-cabecera`
+       sólo para tener `position` propia: es el bloque contenedor de la caja
+       de aire de abajo. No cambia ni una medida de la maqueta.
+       ------------------------------------------------------------------- -->
+  <div class="contenedor contenedor--ancho viv-cabecera">
     <header class="seccion-encabezado viv-encabezado reveal">
-      <p class="eyebrow">Vivero</p>
-      <h2 id="vivero-titulo" class="titulo-seccion">Te llevas a casa lo que crece aquí</h2>
+      <p class="eyebrow">El bosque</p>
+      <!-- v7 · El titular se descubre renglón a renglón (.reveal-texto de
+           base.css §v7). Los dos cortes están escritos a mano porque son
+           parte del dibujo: «Te llevas a casa» es la promesa y «lo que crece
+           aquí» es la prueba, y cada una entra por su lado.
+           SIN `--persiana`: el gesto caro se gasta UNA vez por capítulo y le
+           corresponde a #naturaleza, que es quien abre «El bosque».
+           Ni una palabra cambia; sólo se parte en dos <span>. -->
+      <h2 id="vivero-titulo" class="titulo-seccion reveal reveal-texto">
+        <span class="reveal-texto__linea">Te llevas a casa</span>
+        <span class="reveal-texto__linea">lo que crece aquí</span>
+      </h2>
       <p class="entradilla">
         Sale de aquí lo que ves plantado afuera. También sale lo que puedes plantar
         en tu casa, en tu oficina o en tu evento.
       </p>
     </header>
+
+    <!-- LA CAJA DE AIRE. Vacía, decorativa y `aria-hidden`: la puebla
+         js/fauna-ambiente.js con cuatro mariposas (tres en pantalla
+         estrecha, que el módulo baja solo un escalón).
+         DÓNDE CAE, Y POR QUÉ AHÍ: sobre carbón plano y NUNCA sobre un
+         párrafo (regla dura 3 del §2). En móvil ocupa la franja de relleno
+         superior de la sección, que es carbón vacío de borde a borde; desde
+         62rem se muda a la columna de la derecha del encabezado, que el
+         titular no alcanza porque está acotado a --medida. Las medidas
+         están en vivero.css §1 bis. -->
+    <div class="viv-aire" aria-hidden="true"></div>
   </div>
 
   <!-- ---------- La banda a sangre: la jardinera y las cuatro piezas ---------
@@ -291,4 +323,28 @@
 
     </div>
   </div>
+
+  <!-- ======================================================================
+       FAUNA AMBIENTE — el lenguaje del hero, en voz baja.
+       Módulo COMPARTIDO (js/fauna-ambiente.js): esta sección no escribe ni
+       una línea de animación propia, sólo declara cuántas piezas y de qué
+       especie. El reparto lo fija DIRECTRICES-ANIMACION §2.4 y no es a
+       gusto de nadie: #vivero va `discreta` (4 piezas), sólo mariposas y
+       semilla 5. El colibrí NO entra aquí: sale una única vez en toda la
+       página, en #naturaleza, que es la otra mitad de este capítulo.
+
+       Con prefers-reduced-motion el módulo ni se descarga —el cerrojo es el
+       mismo que usa sections/hero.html— y la sección queda idéntica pero
+       quieta. Si el import falla, muere en silencio y no falta nada.
+       ====================================================================== -->
+  <script type="module">
+    if (!matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      import('./js/fauna-ambiente.js')
+        .then((m) => m.montarFaunaAmbiente(
+          document.querySelector('#vivero .viv-aire'),
+          { densidad: 'discreta', especies: ['mariposa'], semilla: 5 }
+        ))
+        .catch(() => {});
+    }
+  </script>
 </section>

@@ -128,7 +128,24 @@
 <section id="colegios" class="seccion seccion--alt col" aria-labelledby="colegios-titulo">
   <div class="contenedor contenedor--ancho">
 
-    <header class="col-portada reveal">
+    <!-- v5 · ESTA SECCIÓN DEJA DE SER UNA ISLA
+         (DIRECTRICES-ANIMACION.md §1). «Un día de colegio que no cabe en un
+         aula» venía leyéndose como el titular de una sección aparte, y no lo
+         es: es el TERCER movimiento del capítulo «Eventos y actividades»,
+         detrás de #planes y del respiro de #momentos.
+           · El eyebrow deja de ser «Salidas pedagógicas» y pasa al rótulo
+             compartido de los tres. La ocasión concreta —el día de colegio—
+             ya la dice el titular, que es donde el tratamiento de capítulo
+             manda que viva.
+           · Sin filete de apertura y sin número de capítulo: los dos son del
+             primero de los tres, #planes.
+           · El titular estrena .reveal-texto (base.css §v7) SIN persiana: esa
+             variante se gasta una vez por capítulo y ya la lleva #planes.
+         La portada pasa de .reveal a .reveal-secuencia —ya no revela, sólo
+         reparte tiempos— porque el titular necesita su propio .reveal para
+         poder llevar .reveal-texto y en este sitio los .reveal no se anidan.
+         Es el mismo cambio que .col-jornada hizo en v4, por el mismo motivo. -->
+    <header class="col-portada reveal-secuencia">
 
       <!-- Dos aves lejos. Decoración pura: sin texto, sin foco, sin contraste que
            aportar, y colocadas en el hueco que queda entre el titular y la
@@ -151,15 +168,23 @@
       </svg>
 
       <div class="col-portada__titulo">
-        <p class="eyebrow">Salidas pedagógicas</p>
-        <h2 id="colegios-titulo" class="titulo-seccion col-titular">
-          Un día de colegio que no cabe en un aula
+        <p class="eyebrow reveal">Eventos y actividades</p>
+        <h2
+          id="colegios-titulo"
+          class="titulo-seccion col-titular reveal reveal-texto"
+        >
+          <span class="reveal-texto__linea">Un día de colegio</span>
+          <span class="reveal-texto__linea">que no cabe en un aula</span>
         </h2>
       </div>
-      <p class="entradilla col-portada__entradilla">
-        Una jornada fuera del aula, de la llegada al regreso del bus. Con tres paradas
-        pensadas para un curso: el observatorio de aves, el de plantas y el jardín
-        de polinizadores.
+      <!-- RECORTE (queja del cliente: «orden y poco texto»). Se va «Una
+           jornada fuera del aula», que decía otra vez lo que acaba de decir el
+           titular. NO se toca ni uno de los tres hechos: las tres paradas
+           siguen nombradas una a una, porque son de esta sección y de ninguna
+           otra. -->
+      <p class="entradilla col-portada__entradilla reveal">
+        De la llegada al regreso del bus, con tres paradas pensadas para un curso: el
+        observatorio de aves, el de plantas y el jardín de polinizadores.
       </p>
     </header>
 
@@ -194,9 +219,8 @@
         </p>
         <h3 class="titulo-seccion titulo-seccion--sm">Bajar la voz y levantar la mirada</h3>
         <p>
-          El grupo se reparte, se queda quieto y aprende lo primero del pajareo:
-          escuchar antes de mirar. Cada quien anota lo que oye, busca de dónde viene
-          y lo compara con las aves pintadas en el mural.
+          Lo primero del pajareo: escuchar antes de mirar. Cada quien anota lo que oye,
+          busca de dónde viene y lo compara con las aves del mural.
         </p>
       </li>
 
@@ -227,8 +251,8 @@
         </p>
         <h3 class="titulo-seccion titulo-seccion--sm">Que una mata deje de ser «una mata»</h3>
         <p>
-          Aquí se aprende a mirar una hoja: la forma, el borde, la nervadura, el olor.
-          Los estudiantes se van con nombres propios donde antes sólo veían verde.
+          Se aprende a mirar una hoja: la forma, el borde, la nervadura, el olor. Se van
+          con nombres propios donde antes sólo veían verde.
         </p>
       </li>
 
@@ -260,9 +284,8 @@
         </p>
         <h3 class="titulo-seccion titulo-seccion--sm">Sentarse a esperar una mariposa</h3>
         <p>
-          La parada más quieta del día. El grupo se sienta frente a las floraciones del
-          jardín de polinizadores y espera: mariposas, abejas y quien más venga a
-          trabajar. Se anota quién visita cada flor.
+          La parada más quieta del día: sentarse frente a las floraciones del jardín de
+          polinizadores y esperar. Se anota quién visita cada flor.
         </p>
       </li>
 
@@ -294,6 +317,23 @@
             decoding="async"
           />
         </div>
+
+        <!-- LA CAJA DONDE VUELA LA FAUNA AMBIENTE (DIRECTRICES §2). Vacía,
+             decorativa y `aria-hidden`: las piezas las crea el módulo
+             compartido js/fauna-ambiente.js y el movimiento vive en base.css
+             §v7. Esta sección no escribe una sola mariposa propia.
+
+             POR QUÉ SOBRE LA PIEZA DOMINANTE Y POR QUÉ POR LA IZQUIERDA.
+             La regla del módulo es que la caja caiga sobre foto o color plano
+             y nunca sobre un párrafo. La foto de la jornada es la única
+             superficie de #colegios que es fotografía grande en TODOS los
+             anchos —las tres paradas son miniaturas de índice— y su mitad
+             izquierda queda siempre libre: desde 62em es el panel de los
+             hitos el que entra por la derecha, así que ése es justo el lado
+             que no se puede ocupar. Va en el tercio alto, por encima del
+             corro de niñas y niños, que es lo que hay que ver de esa foto. -->
+        <div class="col__aire" aria-hidden="true"></div>
+
         <figcaption>El curso, reunido en círculo sobre el prado</figcaption>
       </figure>
 
@@ -304,8 +344,8 @@
           <li class="col-hito">
             <p class="col-hito__nombre">La llegada</p>
             <p>
-              Baja el bus y el grupo se acomoda a la sombra. Se abre con una charla
-              corta: dónde están, qué van a ver y qué no se toca.
+              Baja el bus y el grupo se acomoda a la sombra. Charla corta: dónde están,
+              qué van a ver y qué no se toca.
             </p>
           </li>
           <li class="col-hito">
@@ -325,8 +365,8 @@
           <li class="col-hito">
             <p class="col-hito__nombre">El cierre</p>
             <p>
-              Antes de volver al bus todos se juntan otra vez y cada grupo cuenta lo
-              que vio. Nadie se sube con la mitad del día.
+              Antes del bus se juntan otra vez y cada grupo cuenta lo que vio. Nadie se
+              sube con la mitad del día.
             </p>
           </li>
         </ol>
@@ -365,4 +405,29 @@
     </div>
 
   </div>
+
+  <!-- ====================================================================
+       EL MONTAJE DE LA FAUNA AMBIENTE
+       Densidad `minima` (2 piezas) y semilla 3: reparto acordado en la tabla
+       del §2 del documento del director de arte, no una decisión de esta
+       zona. La semilla cambia la composición respecto a la de #planes, que
+       usa la 2, para que las dos secciones del capítulo no repitan la misma
+       escena. Sin colibrí: ese gesto sale una sola vez en toda la página, en
+       #naturaleza.
+       El cerrojo de `prefers-reduced-motion` va aquí además de dentro del
+       módulo, para no descargar ni el archivo. El `.catch()` vacío deja la
+       sección exactamente como está si el módulo falta o falla.
+       ==================================================================== -->
+  <script type="module">
+    if (!matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      import('./js/fauna-ambiente.js')
+        .then((m) =>
+          m.montarFaunaAmbiente(
+            document.querySelector('#colegios .col__aire'),
+            { densidad: 'minima', especies: ['mariposa'], semilla: 3 },
+          ),
+        )
+        .catch(() => {});
+    }
+  </script>
 </section>

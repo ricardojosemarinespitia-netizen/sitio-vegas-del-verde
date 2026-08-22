@@ -369,6 +369,31 @@
   --desplazamiento-reveal: 28px;         /* recorrido de la animación de entrada */
   --escala-hover: 1.04;
 
+  /* --- v7 · FAUNA AMBIENTE Y REVELADO DE TEXTO -------------------------
+     Los añade el director de arte para que las secciones que NO son la
+     portada puedan hablar el mismo idioma que el hero sin inventarse
+     cifras propias. Ninguno es un número nuevo suelto: todos salen de las
+     duraciones que ya existen arriba, sólo que con nombre de rol.
+
+     LA REGLA DE LA FAUNA AMBIENTE: en la portada el enjambre es EL GESTO;
+     fuera de la portada es AIRE. Por eso la opacidad de ambiente vive aquí
+     y es notablemente más baja que la de #inicio (0,9): una mariposa a
+     tope sobre una sección de contenido se lee como una calcomanía, y eso
+     es exactamente lo que el cliente llama «genérico».                   */
+  --dur-aleteo: calc(var(--dur-reveal) * 2.1);   /* cierre de alas          */
+  --dur-deriva: calc(var(--dur-vuelo) * 2.2);    /* flotar lento en el aire */
+  --dur-cruce: calc(var(--dur-vuelo) * 1.2);     /* el colibrí atraviesa    */
+  --opacidad-fauna: 0.55;      /* AMBIENTE. La portada NO usa este token.  */
+  --opacidad-fauna-suave: 0.34; /* sobre foto clara o sobre texto cercano  */
+
+  /* Revelado de texto por líneas. 90 ms es el mismo escalón que ya usa
+     .reveal-secuencia en base.css: el ritmo del sitio no cambia, sólo baja
+     de bloque a renglón. El recorrido va en `em` y no en px a propósito —
+     una línea sube una fracción de su propio cuerpo, así que el gesto se
+     ve igual en un titular de 56 px que en una entradilla de 18. */
+  --retardo-linea: 90ms;
+  --desplazamiento-linea: 0.62em;
+
   /* ---------------------------------------------------------------------
      10. CAPAS
      --------------------------------------------------------------------- */
@@ -399,5 +424,10 @@
     --dur-mariposa: 1ms;
     --desplazamiento-reveal: 0px;
     --escala-hover: 1;
+    /* Se anula el RECORRIDO y el ESCALONADO, no la visibilidad: las líneas
+       tienen que quedar puestas y legibles, no invisibles. Las duraciones de
+       fauna heredan el 1 ms de --dur-reveal/--dur-vuelo de aquí arriba. */
+    --retardo-linea: 0ms;
+    --desplazamiento-linea: 0em;
   }
 }

@@ -127,9 +127,34 @@
      entero y en escritorio no apila. Misma especificidad (0,1,0) que la
      clase de sistema, y esta hoja carga después, así que gana por orden. */
   max-width: none;
-  border-top: 1px solid var(--color-borde-inverso);
-  padding-top: var(--esp-md);
   margin-bottom: var(--esp-2xl);
+}
+
+/* ==========================================================================
+   1 bis. LA BANDA ES EL RESPIRO DE UN CAPÍTULO, NO UN CAPÍTULO
+   (DIRECTRICES-ANIMACION.md §1, agosto de 2026)
+
+   EL FILETE SE VA, Y ES LO PRINCIPAL DE ESTA REVISIÓN. Hasta v3.3 la cartela
+   abría con un filete de crema al 20 % a todo lo ancho. Estaba bien dibujado y
+   estaba mal puesto: el filete a todo lo ancho es, en este sistema, la marca de
+   que EMPIEZA UN CAPÍTULO. #planes, #momentos y #colegios son un solo capítulo
+   —«Eventos y actividades»—, así que el filete lo lleva el primero de los tres
+   y nadie más. Con tres aperturas seguidas la página tenía nueve secciones
+   sueltas en vez de cinco capítulos, que es literalmente la queja del cliente.
+   La cartela no pierde nada: sigue siendo la única del sitio con el rótulo y el
+   titular en la misma línea de base (regla de abajo), y ésa es la diferencia
+   que de verdad la identifica.
+
+   Y EL AIRE SE ACORTA POR LOS DOS LADOS. Un --esp-seccion entero por arriba y
+   por abajo separa esta banda de sus dos vecinas tanto como separaría dos
+   capítulos distintos. Al 62 % —el mismo factor que usan planes.css §0 bis y
+   colegios.css §0 bis, para que las tres piezas se pasen el testigo con la
+   misma medida— el carbón se lee como una pausa DENTRO de algo, no como el
+   principio de otra cosa. El fondo carbón no cambia: la alternancia
+   claro → carbón → claro es correcta y es la que puntúa el capítulo por dentro.
+   ========================================================================== */
+.momentos {
+  padding-block: calc(var(--esp-seccion) * 0.62);
 }
 
 /* Rótulo y titular EN LA MISMA LÍNEA, uno al lado del otro. Ninguna otra
@@ -421,6 +446,97 @@
   height: 100%;
   object-fit: cover;
   border-radius: inherit;
+}
+
+/* ==========================================================================
+   4 bis. «ESTOS VÍDEOS SE VEN QUIETOS» — el arreglo, agosto de 2026
+   Queja literal del cliente sobre esta banda. El diagnóstico tiene dos
+   partes y sólo una es de esta hoja.
+
+   PARTE 1 (la gorda, y es de js/momentos-video.js): el clip no arrancaba a
+   tiempo. Con `preload="none"` el navegador no ha pedido ni un byte del vídeo
+   hasta que el observador lo ve entrar, y sólo entonces empieza la descarga
+   de un archivo de varios megas. En un móvil con datos, el visitante se cruza
+   la banda entera mirando cuatro FOTOGRAFÍAS FIJAS —los pósters— y sale de la
+   sección antes del primer fotograma. Lo que ve no es un vídeo quieto: es un
+   vídeo que nunca llegó a empezar. Se arregla allí, adelantando la descarga.
+
+   PARTE 2 (ésta): aunque el clip corra, el metraje es lo que es —una vara que
+   se mece, una mariposa que se posa— y el encuadre está clavado. Un plano fijo
+   de tres segundos sobre un motivo pequeño, dentro de un recuadro de bordes
+   quietos, se lee como una foto con ruido. Lo que le falta no es más metraje:
+   es que la CÁMARA respire. Un ken-burns lentísimo sobre el clip —14 % de
+   escala repartidos en un ciclo largo, con un empuje horizontal mínimo— es
+   suficiente para que el ojo registre movimiento continuo aunque en ese
+   segundo la mariposa no haga nada.
+
+   POR QUÉ NO ROMPE NADA
+   · Sólo `transform`. Compositor puro, cero relayout, cero repaint.
+   · Se aplica al <video> DENTRO de `.momentos__marco`, que ya lleva
+     `overflow: hidden` y `aspect-ratio`: la escala no puede desbordar ni
+     mover un píxel de la maqueta.
+   · Sólo corre con la clase `.en-marcha`, que pone js/momentos-video.js
+     cuando `play()` ha resuelto de verdad. Sobre un póster fijo NO se aplica:
+     un póster que hace zoom es un carrusel de banco de imágenes, y esa es
+     precisamente la estética que se está huyendo.
+   · Cada pieza con su propio compás y su propio retardo negativo, así que las
+     cuatro no respiran a la vez. Cuatro zooms sincronizados se leen como un
+     GIF; desfasados se leen como cuatro cámaras. Es la misma regla única que
+     gobierna §10 de planes.css y §6 de esta hoja.
+   · Fuera de pantalla el clip está pausado y esta animación se para con él
+     (`animation-play-state`): una animación corriendo invisible es batería
+     quemada.
+   ========================================================================== */
+@media (prefers-reduced-motion: no-preference) {
+  @keyframes momentos-respira {
+    from {
+      transform: scale(1) translate3d(-1.5%, 0, 0);
+    }
+
+    to {
+      transform: scale(1.14) translate3d(1.5%, 0, 0);
+    }
+  }
+
+  .momentos__video.en-marcha {
+    /* Longhands y no el atajo, por lo mismo que §6 y §7: el atajo reinicia
+       propiedades que aquí se quieren repartir pieza a pieza. */
+    animation-name: momentos-respira;
+    animation-timing-function: var(--ease-suave);
+    animation-iteration-count: infinite;
+    animation-direction: alternate;
+    animation-duration: var(--momentos-respiro, calc(var(--dur-vuelo) * 4));
+    /* El retardo NEGATIVO es lo que desincroniza las cuatro sin hacerlas
+       esperar: la animación arranca ya empezada, en un punto distinto de su
+       propio ciclo. Con un retardo positivo las cuatro se quedarían quietas
+       al principio, que es el defecto que se está corrigiendo. */
+    animation-delay: var(--momentos-desfase, 0ms);
+    will-change: transform;
+  }
+
+  .momentos__video.en-marcha:not(.en-pantalla) {
+    animation-play-state: paused;
+  }
+
+  .momentos__pieza--uno .momentos__video {
+    --momentos-respiro: calc(var(--dur-vuelo) * 5.2);
+    --momentos-desfase: 0ms;
+  }
+
+  .momentos__pieza--dos .momentos__video {
+    --momentos-respiro: calc(var(--dur-vuelo) * 3.7);
+    --momentos-desfase: calc(var(--dur-vuelo) * -1.6);
+  }
+
+  .momentos__pieza--tres .momentos__video {
+    --momentos-respiro: calc(var(--dur-vuelo) * 4.4);
+    --momentos-desfase: calc(var(--dur-vuelo) * -0.9);
+  }
+
+  .momentos__pieza--cuatro .momentos__video {
+    --momentos-respiro: calc(var(--dur-vuelo) * 2.9);
+    --momentos-desfase: calc(var(--dur-vuelo) * -2.3);
+  }
 }
 
 /* ==========================================================================

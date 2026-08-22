@@ -93,10 +93,30 @@
 <section id="momentos" class="seccion seccion--carbon momentos" aria-labelledby="momentos-titulo">
   <div class="contenedor">
 
-    <header class="seccion-encabezado momentos__encabezado reveal">
-      <p class="eyebrow">Momentos</p>
-      <h2 id="momentos-titulo" class="titulo-seccion momentos__titulo">
-        Aquí el día se toma su tiempo
+    <!-- v3.4 · ESTA BANDA DEJA DE SER UNA SECCIÓN SUELTA
+         (DIRECTRICES-ANIMACION.md §1). #planes, #momentos y #colegios son un
+         solo capítulo, «Eventos y actividades», y esta banda es el RESPIRO
+         que va en medio: no es un corte entre capítulos.
+           · El eyebrow deja de ser «Momentos» y pasa al rótulo compartido de
+             los tres. La ocasión concreta la sigue diciendo el h2.
+           · El filete de apertura a todo lo ancho SALE de aquí (momentos.css
+             §1): lo lleva #planes y sólo #planes, porque es el que abre el
+             capítulo. Que esta cartela empiece sin línea es justamente lo que
+             dice «esto sigue siendo lo mismo».
+           · El h2 estrena .reveal-texto —la clase compartida de base.css
+             §v7—, SIN la variante persiana: ésa se gasta una vez por capítulo
+             y ya la lleva el titular de #planes.
+         El header pasa de .reveal a .reveal-secuencia por el mismo motivo que
+         en #planes: el titular necesita su propio .reveal y aquí los .reveal
+         no se anidan. El header ya no revela, sólo reparte tiempos. -->
+    <header class="seccion-encabezado momentos__encabezado reveal-secuencia">
+      <p class="eyebrow reveal">Eventos y actividades</p>
+      <h2
+        id="momentos-titulo"
+        class="titulo-seccion momentos__titulo reveal reveal-texto"
+      >
+        <span class="reveal-texto__linea">Aquí el día</span>
+        <span class="reveal-texto__linea">se toma su tiempo</span>
       </h2>
 
       <!-- v3.3 · LA MARIPOSA QUE SE DIBUJA -----------------------------------
@@ -267,5 +287,5 @@
 
   </div>
 
-  <script src="js/momentos-video.js?v=b8002017" defer></script>
+  <script src="js/momentos-video.js?v=29f86f95" defer></script>
 </section>

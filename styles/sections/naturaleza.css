@@ -231,6 +231,25 @@
   padding-block-end: var(--nat-solape);
 }
 
+/* v8 · LA CAJA DE FAUNA AMBIENTE (js/fauna-ambiente.js).
+   Cuelga del tercio superior de la fotografía del camino, que es donde el
+   encuadre tiene copa y cielo: las piezas derivan sobre follaje y no sobre el
+   suelo de hojarasca, donde se confundirían con la propia hojarasca.
+   `position: absolute` es OBLIGATORIO —el módulo avisa por consola si falta— y
+   el ancestro que la ancla es .nat-apertura__media, que ya es `relative`.
+   No se solapa con .nat-apertura__inset: aquel se descuelga por el pie y esta
+   caja termina en el 72 % del alto.
+   Sin z-index propio: las piezas van a --z-fondo desde base.css §v7 y pasan
+   POR DETRÁS del inserto de guadua, que es lo que se quiere.               */
+.nat-apertura__aire {
+  position: absolute;
+  inset-block: 6% auto;
+  inset-inline-end: 0;
+  inline-size: 52%;
+  block-size: 66%;
+  pointer-events: none;
+}
+
 /* v3 dejó las dos fotografías a esquina viva porque llevaban el MISMO radio y
    la MISMA sombra: dos tarjetas apiladas, el rincón más genérico de la página.
    v4 no vuelve a aquello. Le da a cada una un radio distinto y asimétrico —la
@@ -661,6 +680,81 @@
 }
 
 /* ==========================================================================
+   1 bis. EL GIRO — la bisagra entre el sendero y los pájaros (v8)
+
+   POR QUÉ EXISTE. El cliente lee esta sección como una masa sola («por
+   sección de pájaros en un lado, sendero en otro, está mezclado todo»). El
+   contenido no está mezclado —el sendero se cuenta entero arriba, las aves
+   enteras abajo— pero nada lo señalaba: los dos movimientos comparten fondo
+   crema, ancho de contenedor y tamaño de rótulo. Dos cosas distintas dibujadas
+   igual se leen como una cosa larga.
+
+   QUÉ HACE, Y QUÉ NO. Cambia el SUELO, que es la señal más barata y más
+   legible que existe: una franja de salvia a todo el ancho, el mismo recurso
+   de franja alterna que ya usa el sitio. No inventa un recurso nuevo, no
+   repite la cresta SVG —ese es el gesto de entrada del muro, cien líneas más
+   abajo, y gastarlo dos veces en la misma sección lo anula— y no rompe el
+   capítulo: después de la franja se vuelve a la crema y el capítulo «El
+   bosque» sigue hasta #vivero.
+
+   CONTRASTE, sobre salvia y no sobre crema:
+     · el titular va con --color-texto, que es el par de máximo contraste del
+       sistema y no cambia de valor entre los dos fondos;
+     · el rótulo y la línea de pie van con --color-texto-suave, que da 5.2:1
+       sobre salvia (AA) — la misma cifra que ya documenta .nat-ficha__aviso
+       en el bloque 2. NO se usa --color-acento-alt (oliva): sobre salvia se
+       queda en 4.29:1 y no pasa.
+   ========================================================================== */
+.nat-giro {
+  /* El aire de ANTES es de capítulo —separa dos movimientos— y el de después
+     lo pone la propia franja con su relleno; por eso el margen inferior es
+     cero y .nat-registro conserva el suyo. */
+  margin-top: var(--esp-seccion);
+  padding-block: var(--esp-seccion-sm);
+  background-color: var(--color-fondo-alt);
+}
+
+.nat-giro__cuerpo {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--esp-2xs);
+  /* OJO: aquí NO se pone `max-width`. Este elemento ES el .contenedor —lleva
+     su max-width y su `margin-inline: auto`—, así que estrecharlo lo
+     centraría en la página y el letrero se despegaría de la línea vertical
+     del resto del texto. La medida corta se aplica a los hijos, que es donde
+     hace falta. */
+}
+
+.nat-giro__eyebrow {
+  color: var(--color-texto-suave);
+}
+
+/* Ni centrado ni a todo lo ancho: es un letrero de tránsito, no un titular de
+   portada. La medida corta lo mantiene en los DOS renglones que el marcado
+   declara para .reveal-texto, sin que el navegador invente un tercero. */
+.nat-giro__titulo {
+  margin: 0;
+  max-width: var(--medida-corta);
+  color: var(--color-texto);
+}
+
+/* El segundo renglón es la mitad que empuja hacia adelante: se separa del
+   primero bajando de peso, no cambiando de cuerpo, para que los dos sigan
+   siendo el mismo titular y no un titular con subtítulo pegado. */
+.nat-giro__titulo .reveal-texto__linea:nth-child(2) {
+  font-weight: var(--peso-ligero);
+}
+
+.nat-giro__texto {
+  margin: var(--esp-2xs) 0 0;
+  max-width: var(--medida-corta);
+  font-size: var(--fs-pequeno);
+  line-height: var(--alto-linea-base);
+  color: var(--color-texto-suave);
+}
+
+/* ==========================================================================
    2. LA NOTA AL MARGEN — endémica + migratorias
    Sin foto a propósito: no existe fotografía propia de la Chachalaca, y
    ponerle al lado el retrato de otro pájaro sería mentir con una imagen.
@@ -678,6 +772,17 @@
   margin-top: var(--gap-lg);
   padding-top: var(--esp-md);
   border-top: 1px solid var(--color-borde-fuerte);
+}
+
+/* v8: cuando el registro viene JUSTO detrás de la franja del giro, su filete
+   sobra. El canto de la salvia ya es la línea que separa, y dos separadores a
+   dos centímetros uno de otro se leen como un error de maqueta, no como
+   ritmo. Selector de vecindad y no una clase nueva en el marcado: si algún
+   día se quita la franja, el filete vuelve solo. */
+.nat-giro + .contenedor .nat-registro {
+  margin-top: var(--esp-md);
+  padding-top: 0;
+  border-top: 0;
 }
 
 @media (min-width: 62em) {

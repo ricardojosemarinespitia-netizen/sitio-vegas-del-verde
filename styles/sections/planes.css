@@ -131,6 +131,68 @@
   --planes-contorno-grosor: 1.5px;
 }
 
+/* --------------------------------------------------------------------------
+   0 bis. EL CAPÍTULO «EVENTOS Y ACTIVIDADES» — LA APERTURA Y EL TESTIGO
+   (DIRECTRICES-ANIMACION.md §1, agosto de 2026)
+   --------------------------------------------------------------------------
+   EL DIAGNÓSTICO DEL DIRECTOR DE ARTE, Y NO ERA EL ORDEN DE LOS ARCHIVOS.
+   #planes, #momentos y #colegios ya iban seguidos y en el orden correcto; lo
+   que fallaba es que se LEÍAN como tres secciones sueltas, porque cada una
+   abría con su propio rótulo, su propio filete y su propio aire de sección
+   completa. Nueve secciones sueltas es, exactamente, lo que el cliente llama
+   «está mezclado todo» y «se ve genérica».
+
+   LO QUE HACE ESTE BLOQUE, Y LO QUE NO HACE:
+
+   1 · EL FILETE DE APERTURA, SÓLO AQUÍ. El filete a todo lo ancho es la marca
+       de que empieza un CAPÍTULO, no una sección. Lo lleva #planes y nadie
+       más: #momentos pierde el suyo (momentos.css §1) y #colegios nunca lo
+       tuvo. Va en un pseudoelemento y no en un `border-top` del encabezado
+       porque tiene que llegar al borde de la VENTANA, y el encabezado vive
+       dentro del contenedor. El sobrante lo recorta el `overflow-x: clip` de
+       la sección, así que no abre scroll horizontal.
+
+   2 · EL TESTIGO. Entre los tres NO puede haber un --esp-seccion entero: ese
+       aire es lo que separa capítulos, y aquí sólo hay uno. El cierre de
+       #planes baja al 62 % del espaciado de sección; #momentos recorta por
+       sus dos lados y #colegios por arriba, de modo que las tres piezas se
+       pasan el testigo. El 0,62 no es un número al azar: es el factor más
+       bajo que deja el labio de carbón de #colegios (--col-lip) cabiendo
+       dentro del relleno superior de esa sección a 320 px, que es la
+       condición que su propia hoja documenta.
+       El relleno SUPERIOR de #planes no se toca: ése sí separa este capítulo
+       del anterior.
+
+   3 · EL ENCABEZADO SUELTA SU max-width. .seccion-encabezado (base.css §5)
+       lo acota a --medida, y con eso el filete no llegaría ni al borde
+       derecho del contenedor. La medida de lectura se devuelve pieza a
+       pieza, que es donde de verdad hace falta.
+   -------------------------------------------------------------------------- */
+.planes {
+  padding-block-end: calc(var(--esp-seccion) * 0.62);
+}
+
+.planes .seccion-encabezado {
+  position: relative;
+  max-width: none;
+  padding-block-start: var(--esp-md);
+}
+
+.planes .seccion-encabezado > .titulo-seccion,
+.planes .seccion-encabezado > .entradilla {
+  max-width: var(--medida);
+}
+
+.planes .seccion-encabezado::before {
+  content: "";
+  position: absolute;
+  inset-block-start: 0;
+  inset-inline: var(--planes-sangrado);
+  block-size: 1px;
+  background-color: var(--color-borde-fuerte);
+  pointer-events: none;
+}
+
 /* EL REVELADO BAJA DE 900 A 550 ms. No se toca ningún token global: se
    redefine --dur-reveal para esta sección con otro token que ya existe
    (--dur-lenta), y como --transicion-reveal se resuelve en el elemento que la
@@ -389,11 +451,57 @@
   color: rgb(var(--crema-rgb) / 0.7);
 }
 
-@supports (-webkit-text-stroke-width: 1px) {
+/* EL CONTORNO ES UN GESTO DE ESCRITORIO, Y SÓLO DE ESCRITORIO.
+   ARREGLO DE AGOSTO DE 2026 · queja literal del cliente: «las letras en
+   blanco de las fotos de eventos bonitas en celular se ven horribles, en PC
+   sí».
+
+   EL DIAGNÓSTICO, Y NO ERA EL VELO. El velo estaba bien: la marca va pegada
+   arriba y cae dentro del tramo pleno del degradado en los dos anchos, así
+   que la banda que hay DETRÁS de la letra es la misma en móvil y en
+   escritorio. Lo que falla es el propio tratamiento tipográfico.
+   El comentario de --planes-contorno-grosor daba por bueno el trazo «desde
+   los 21 px de móvil», y ese es el error: el problema no es que el trazo
+   desaparezca, es que el relleno es TRANSPARENTE. A 128 px un contorno de
+   1,5 px encierra contraformas de 20-30 px, la fotografía se ve por dentro
+   de la letra y eso ES el gesto: una marca de agua. A los 21,6 px que da
+   `clamp(1.35rem, …)` en un móvil de 375, la misma letra en Fraunces a peso
+   320 deja contraformas de 2 a 3 px llenas de follaje en movimiento: el ojo
+   no cierra la forma, no lee la palabra y lo que ve es una letra sucia. Y
+   encima el trazo pasa de ser el 1,2 % del cuerpo a ser el 7 %, así que en
+   los remates finos de la serif los dos lados del trazo se tocan y la letra
+   se empasta.
+   No es opinión: es que por debajo de cierto cuerpo el texto contorneado
+   deja de ser texto.
+
+   LA REGLA GENERAL, PARA QUE NO SE REPITA EN OTRAS SECCIONES
+   Texto con relleno transparente sobre fotografía SÓLO por encima de unos
+   48 px de cuerpo. Por debajo, relleno sólido. El gesto de la sección se
+   conserva —escala descomunal, cruce sobre la foto, sangrado por la
+   derecha—; lo único que cambia es que en móvil la letra está llena.
+   Sobre el tramo pleno del velo, la crema sólida mide 10,7:1: es el mismo
+   par ya medido que usa todo el negativo del sitio.
+
+   El `@supports` se queda anidado en el `@media` a propósito: fuera de él,
+   el respaldo del renglón (crema al 70 %) sigue siendo el suelo para todo
+   navegador y todo ancho, y ese suelo nunca se queda invisible.            */
+@media (min-width: 48em) {
+  @supports (-webkit-text-stroke-width: 1px) {
+    .planes-portada__renglon {
+      color: transparent;
+      -webkit-text-stroke: var(--planes-contorno-grosor)
+        var(--color-texto-inverso);
+    }
+  }
+}
+
+/* MÓVIL: relleno sólido, sin contorno. El respaldo de arriba deja la crema
+   al 70 % —pensada para acompañar a un contorno que aquí ya no existe—, así
+   que se sube a crema plena: la marca es lo único que se lee en ese tramo de
+   la foto y tiene que leerse del todo. */
+@media (max-width: 47.99em) {
   .planes-portada__renglon {
-    color: transparent;
-    -webkit-text-stroke: var(--planes-contorno-grosor)
-      var(--color-texto-inverso);
+    color: var(--color-texto-inverso);
   }
 }
 
@@ -858,6 +966,39 @@
     padding-block: var(--gap-lg);
     padding-inline: calc(var(--planes-sangrado) * -1) var(--gap);
   }
+}
+
+/* --------------------------------------------------------------------------
+   6 bis. LA CAJA DE LA FAUNA AMBIENTE
+   --------------------------------------------------------------------------
+   Sólo la CAJA. Las piezas las crea js/fauna-ambiente.js y todo el movimiento
+   vive en base.css §v7: aquí no se declara ni un keyframe, ni una opacidad, ni
+   una duración. Es el módulo compartido del director de arte y no se duplica.
+
+   `position: absolute` es OBLIGATORIO —el módulo lo comprueba en tiempo de
+   ejecución y avisa por consola si falta—, porque las piezas se colocan contra
+   esta caja en porcentajes. Su bloque contenedor es .planes-bienestar__banda,
+   que ya es `position: relative`.
+
+   DÓNDE CAE, MEDIDO CONTRA EL TEXTO QUE HAY DEBAJO. El rótulo de la banda
+   (.planes-bienestar__rotulo) está acotado a --medida-corta y anclado abajo a
+   la izquierda; esta caja ocupa el 30 % derecho y el 60 % alto, así que no
+   comparte un solo píxel con él en ningún ancho. En móvil la banda es 4:3 y el
+   velo entra pleno desde el 26 % del alto por abajo: la caja se queda por
+   encima de ese tramo, sobre la parte limpia de la foto.
+
+   NO LLEVA z-index PROPIO. Las piezas ya van a --z-fondo desde base.css, y la
+   caja se coloca después de la foto en el marcado, así que pinta sobre ella y
+   por debajo del rótulo, que sube a --z-base. Ni una mariposa se cruza por
+   delante de algo que se lea.
+   -------------------------------------------------------------------------- */
+.planes__aire {
+  position: absolute;
+  inset-block-start: 0;
+  inset-inline-end: 0;
+  inline-size: 30%;
+  block-size: 60%;
+  pointer-events: none;
 }
 
 /* La caja del 04: espejo de la del 03. El bloque ENTRA dos columnas por la

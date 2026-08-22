@@ -87,6 +87,52 @@
     var(--padding-contenedor),
     calc((100% - var(--ancho-xl)) / 2)
   );
+
+  /* v6 · La franja de salvia vacía con la que abre la sección: es el relleno
+     superior de .seccion y es también el alto de la caja de aire. Se declara
+     una vez y se usa dos, para que no se puedan desincronizar. */
+  --ubi-aire-banda: var(--esp-seccion);
+
+  /* La caja de aire se posiciona contra la sección, así que la sección
+     necesita `position` propia. Ninguna otra pieza de #ubicacion depende de
+     esto: el mapa a sangre es hija directa y va en flujo normal. */
+  position: relative;
+}
+
+/* ==========================================================================
+   0 bis. LA CAJA DE AIRE  (v6)
+   La caja donde js/fauna-ambiente.js suelta sus dos mariposas. Aquí sólo vive
+   la CAJA: ni una animación, ni un tamaño de pieza, ni una opacidad — todo eso
+   es de base.css §v7 y del módulo, y esta hoja no lo duplica.
+
+   POR QUÉ CAE EXACTAMENTE AQUÍ. Las piezas van a --z-fondo, que vale 0 y NO es
+   negativo: una caja posicionada pinta por encima del texto en flujo aunque el
+   token se llame «fondo». Así que la regla dura 3 del §2 —nunca sobre un
+   párrafo— hay que cumplirla con la MAQUETA y no con la pila. La franja de
+   relleno superior de la sección es salvia plana de borde a borde y no
+   contiene una sola letra a ninguna altura: es el único sitio de #ubicacion
+   que lo garantiza en todos los anchos, porque debajo empieza la portada a dos
+   columnas y a la derecha de ella vive la placa de la dirección.
+
+   Fuera del flujo y sin puntero: no aporta alto, no empuja nada y no puede
+   robarle un toque a ningún control. #ubicacion es la sección de los botones
+   de navegación y del formulario; aquí eso no se negocia.
+   ========================================================================== */
+.ubi-aire {
+  position: absolute;
+  inset-block-start: 0;
+  inset-inline-start: 0;
+  /* EL ANCHO SE ACOTA, Y ESTÁ MEDIDO CONTRA PANTALLA. El módulo dimensiona
+     cada pieza en % del ANCHO DE LA CAJA (8–12 %), no de su alto: con la caja
+     a todo lo ancho, a 800 px de ventana el 11 % son 88 px y la mariposa se
+     salía por debajo de la franja, encima del rótulo del capítulo —
+     comprobado en pantalla, no deducido. Con el tope en 26rem la pieza más
+     grande se queda en unos 46 px y cabe entera dentro de la franja en
+     cualquier ancho; por debajo de 416 px de ventana el `min()` devuelve el
+     100 % y la caja vuelve a cruzar el teléfono de lado a lado. */
+  inline-size: min(100%, 26rem);
+  block-size: var(--ubi-aire-banda);
+  pointer-events: none;
 }
 
 /* ==========================================================================

@@ -48,14 +48,78 @@
      de movimiento reducido sin haber movido el scroll. */
   const enPantalla = new Set();
 
+  /* ------------------------------------------------------------------------
+     ARREGLO DE AGOSTO DE 2026 — «esto de los vídeos se ven quietos»
+
+     EL DIAGNÓSTICO. No era la animación: era el CALENDARIO. El observador
+     original arrancaba la reproducción con el clip ya un 20 % dentro de la
+     pantalla, y ése es TAMBIÉN el instante en el que `preload="none"` deja de
+     valer y el navegador pide el archivo por primera vez. O sea: la descarga
+     de un vídeo de varios megas empezaba cuando el clip ya estaba a la vista.
+     En una conexión de móvil eso son segundos enseñando el póster —una foto
+     fija— y, con lo alta que es esta banda, hay muchas probabilidades de que
+     el visitante la haya pasado entera antes del primer fotograma. Lo que el
+     cliente ve como «vídeos quietos» son cuatro vídeos que no llegaron a
+     empezar.
+
+     EL ARREGLO. Se parten en dos los dos trabajos que antes hacía un solo
+     observador, porque tienen momentos distintos:
+
+       1. OBSERVADOR DE PRECARGA, con `rootMargin` de una pantalla y media por
+          arriba y por abajo. No reproduce: sólo sube `preload` a 'auto' para
+          que el navegador empiece a llenar el búfer MIENTRAS el visitante
+          todavía está leyendo #planes. Cuando la banda llega, el clip ya
+          tiene fotogramas.
+       2. OBSERVADOR DE REPRODUCCIÓN, con `threshold: 0.01` en vez de 0,2. Con
+          piezas de más de 500 px de alto, esperar a un quinto significaba
+          esperar a más de 100 px de recorrido después de asomar. Ahora el
+          clip está corriendo desde que asoma el primer píxel, que es lo que
+          hace que la banda se sienta viva al entrar en ella y no un cuarto de
+          pantalla después.
+
+     LO QUE NO CAMBIA: el trato con el usuario del encabezado sigue intacto.
+     Nada se descarga al abrir la página; lo que se adelanta es el momento de
+     la descarga DENTRO del recorrido, no el hecho de descargar. Quien nunca
+     baje hasta cerca de esta banda no paga un solo byte de vídeo.
+
+     LAS DOS CLASES QUE ESTE ARCHIVO PONE EN EL <video>, y para qué las quiere
+     momentos.css §4 bis:
+       · `en-marcha`   — la reproducción arrancó DE VERDAD (la promesa de
+                         play() resolvió). Es la que enciende el ken-burns.
+                         No se pone al pedir play, sino al conseguirlo: sobre
+                         un póster fijo el zoom sería un carrusel de banco de
+                         imágenes.
+       · `en-pantalla` — el clip está a la vista. Al quitarla, la hoja pausa
+                         la animación (`animation-play-state`), porque una
+                         animación corriendo invisible es batería quemada.
+     Ninguna de las dos crea, borra ni reordena elementos: este archivo sigue
+     sin tocar la estructura del DOM.
+     ------------------------------------------------------------------------ */
+
+  function precargar(clip) {
+    if (clip.preload !== 'auto') clip.preload = 'auto';
+  }
+
   function arrancar(clip) {
     if (menosMovimiento.matches || document.hidden) return;
     /* preload="none" ya cumplió su función; a partir de aquí el navegador
        puede seguir llenando el búfer del bucle. */
-    if (clip.preload !== 'auto') clip.preload = 'auto';
+    precargar(clip);
     const promesa = clip.play();
-    if (promesa && typeof promesa.catch === 'function') {
-      promesa.catch(() => {});
+    if (promesa && typeof promesa.then === 'function') {
+      /* La clase de movimiento se pone SÓLO si la promesa resuelve. iOS en
+         bajo consumo la rechaza y ahí lo correcto es quedarse con el póster
+         quieto: un póster que hace zoom miente sobre lo que está pasando. */
+      promesa.then(() => clip.classList.add('en-marcha')).catch(() => {});
+    } else {
+      /* Navegador viejo sin promesa en play(): no hay forma de confirmar, así
+         que se confía en el evento propio del medio, que es más honesto que
+         suponerlo. */
+      clip.addEventListener(
+        'playing',
+        () => clip.classList.add('en-marcha'),
+        { once: true }
+      );
     }
   }
 
@@ -63,9 +127,23 @@
     if (!clip.paused) clip.pause();
   }
 
+  /* 1. PRECARGA. `rootMargin` en px y no en %: el % de rootMargin se mide
+     contra la raíz, y aquí se quiere una distancia de recorrido estable, no
+     una que dependa del alto de la ventana del visitante. 1200 px son, en
+     cualquier móvil, más de una pantalla de aviso. */
+  const observadorPrecarga = new IntersectionObserver((entradas) => {
+    entradas.forEach((entrada) => {
+      if (entrada.isIntersecting && !menosMovimiento.matches) {
+        precargar(entrada.target);
+      }
+    });
+  }, { rootMargin: '1200px 0px' });
+
+  /* 2. REPRODUCCIÓN. Con que asome se considera en pantalla. */
   const observador = new IntersectionObserver((entradas) => {
     entradas.forEach((entrada) => {
       const clip = entrada.target;
+      clip.classList.toggle('en-pantalla', entrada.isIntersecting);
       if (entrada.isIntersecting) {
         enPantalla.add(clip);
         arrancar(clip);
@@ -75,13 +153,13 @@
       }
     });
   }, {
-    /* Un quinto del clip visible basta para considerarlo «en pantalla»: con
-       piezas de más de 500 px de alto, esperar a la mitad haría que el clip
-       arrancase cuando ya lleva rato a la vista. */
-    threshold: 0.2
+    threshold: 0.01
   });
 
-  clips.forEach((clip) => observador.observe(clip));
+  clips.forEach((clip) => {
+    observadorPrecarga.observe(clip);
+    observador.observe(clip);
+  });
 
   /* La pestaña deja de estar visible: se pausa todo. Al volver, se reanuda
      sólo lo que sigue en pantalla. */
@@ -103,6 +181,13 @@
       clips.forEach((clip) => {
         pausar(clip);
         clip.currentTime = 0;
+        /* Se retira también la clase de movimiento: el ken-burns de
+           momentos.css §4 bis ya está dentro de `no-preference`, pero si el
+           clip se queda marcado como «en marcha» estando parado, la próxima
+           vez que el visitante desactive la preferencia el zoom aparecería
+           encima de un póster quieto durante el instante en que play() está
+           resolviendo. */
+        clip.classList.remove('en-marcha');
       });
     } else {
       enPantalla.forEach(arrancar);

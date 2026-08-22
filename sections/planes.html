@@ -86,12 +86,42 @@
 <section id="planes" class="seccion planes" aria-labelledby="planes-titulo">
   <div class="contenedor">
 
-    <header class="seccion-encabezado reveal">
-      <p class="eyebrow">Planes por ocasión</p>
-      <h2 id="planes-titulo" class="titulo-seccion">Dime a quién traes y te digo dónde</h2>
-      <p class="entradilla">
-        Bodas, cumpleaños, reuniones de empresa, clases de yoga y talleres.
-        Cinco maneras distintas de usar el mismo bosque.
+    <!-- ================================================================
+         LA APERTURA DEL CAPÍTULO «EVENTOS Y ACTIVIDADES»
+         (DIRECTRICES-ANIMACION.md §1). #planes, #momentos y #colegios son
+         UN SOLO capítulo, y esta cabecera es la única de las tres que lo
+         abre. Por eso, y sólo aquí:
+           · el eyebrow lleva el NÚMERO de capítulo además del rótulo
+             compartido «Eventos y actividades»;
+           · la sección lleva el filete de apertura a todo lo ancho
+             (planes.css §0 bis). #momentos y #colegios abren sin filete: es
+             lo que dice visualmente «esto sigue siendo lo mismo».
+         El h2 conserva la ocasión concreta de esta sección, como manda el
+         tratamiento de capítulo.
+
+         EL HEADER PASA DE .reveal A .reveal-secuencia. Ya no revela: sólo
+         reparte tiempos entre sus tres hijos, que ahora entran por separado.
+         Es el mismo cambio, y por el mismo motivo, que hizo .col-jornada en
+         #colegios: el titular necesita su propio .reveal para poder llevar
+         .reveal-texto, y en este sitio los .reveal no se anidan.
+
+         LA PERSIANA SE GASTA AQUÍ Y EN NINGÚN OTRO SITIO DEL CAPÍTULO
+         (§3 del documento): es el gesto caro y va una vez por capítulo, en
+         el titular que lo abre. #momentos y #colegios llevan .reveal-texto
+         a secas. Los cortes de renglón están escritos a mano porque son
+         parte del dibujo, no del navegador.
+         ================================================================ -->
+    <header class="seccion-encabezado reveal-secuencia">
+      <p class="eyebrow reveal">Eventos y actividades</p>
+      <h2
+        id="planes-titulo"
+        class="titulo-seccion reveal reveal-texto reveal-texto--persiana"
+      >
+        <span class="reveal-texto__linea">Dime a quién traes</span>
+        <span class="reveal-texto__linea">y te digo dónde</span>
+      </h2>
+      <p class="entradilla reveal">
+        Cinco maneras distintas de usar el mismo bosque. Escoge la tuya y aparta la fecha.
       </p>
     </header>
 
@@ -204,10 +234,14 @@
               <span class="planes-carril__indice">01</span> Bodas y conciertos
             </p>
 
+            <!-- RECORTE DE AGOSTO DE 2026 («quiero orden y poco texto, y el
+                 poco que haya que incentive alquilar»). Se va la primera
+                 frase, que sólo repetía el rótulo de al lado —«Bodas y
+                 conciertos»— y por tanto no aportaba un hecho. Lo que queda
+                 es la imagen: ceremonia, carpa y música. -->
             <p class="planes-carril__copy">
-              Matrimonios y conciertos. La ceremonia bajo un árbol de copa ancha, la carpa
-              iluminada con bombillos y la música puesta hasta que el cielo se ponga azul
-              oscuro.
+              La ceremonia bajo un árbol de copa ancha, la carpa con bombillos y la música
+              puesta hasta que el cielo se ponga azul oscuro.
             </p>
 
             <a
@@ -293,9 +327,8 @@
           </h3>
 
           <p class="planes-carril__copy">
-            Reuniones sociales y familiares. Mesas de picnic, guirnaldas colgadas entre las
-            ramas y sitio de sobra para salir corriendo. Los niños se pierden a jugar y
-            vuelven solos cuando aparece la torta.
+            Mesas de picnic, guirnaldas entre las ramas y sitio de sobra para salir
+            corriendo. Los niños se pierden a jugar y vuelven solos cuando aparece la torta.
           </p>
 
           <p class="nota planes-carril__donde">
@@ -420,9 +453,8 @@
           </h3>
 
           <p class="planes-carril__copy">
-            Reuniones corporativas y eventos de empresa. Carpa translúcida sobre el césped,
-            mesas altas para el café y un corro de butacas donde la gente se habla de otra
-            manera. Nadie mira el reloj cuando no hay techo de oficina.
+            Carpa translúcida sobre el césped, mesas altas para el café y un corro de
+            butacas. Nadie mira el reloj cuando no hay techo de oficina.
           </p>
 
           <p class="nota planes-carril__donde">
@@ -508,6 +540,27 @@
               Respira hondo, que aquí sobra aire
             </h3>
           </div>
+
+          <!-- LA CAJA DONDE VUELA LA FAUNA AMBIENTE (DIRECTRICES §2).
+               Vacía, decorativa y `aria-hidden`: el módulo compartido
+               js/fauna-ambiente.js le cuelga dentro los recortes y toda la
+               animación vive en base.css §v7. Aquí no se escribe ni una
+               mariposa propia.
+
+               POR QUÉ ESTÁ EXACTAMENTE AQUÍ Y NO EN OTRO PUNTO DE #planes.
+               La regla dura del módulo es que la caja caiga sobre FOTO o
+               color plano y nunca sobre un párrafo. La banda de bienestar es
+               la única pieza de la sección que cumple las dos condiciones en
+               TODOS los anchos: es fotografía a sangre, está siempre
+               presente y su texto vive acotado al tercio izquierdo, así que
+               el tercio derecho —césped iluminado— está libre de letra a
+               cualquier tamaño de pantalla. Puesta sobre el fondo crema de
+               la sección habría funcionado sólo de tableta para arriba,
+               porque en móvil los carriles ocupan el ancho entero y no queda
+               un solo hueco sin texto.
+               La caja va SIEMPRE a la derecha, que es el lado contrario al
+               del rótulo (planes.css §6 bis). -->
+          <div class="planes__aire" aria-hidden="true"></div>
         </div>
 
         <div class="planes-bienestar__bloque">
@@ -515,8 +568,7 @@
 
             <div class="planes-carril__texto">
               <p class="planes-carril__copy">
-                Clases y sesiones al aire libre, con las esterillas puestas en círculo sobre
-                el césped y el sonido de fondo que ya sabes.
+                Las esterillas en círculo sobre el césped y el sonido de fondo que ya sabes.
               </p>
 
               <ul class="lista-hojas planes-bienestar__lista">
@@ -636,7 +688,7 @@
         </ul>
 
         <p class="planes-carril__copy planes-talleres__copy">
-          Traes el grupo y el tema. El bosque pone el modelo, la luz y el olor a tierra
+          Trae el grupo y el tema. El bosque pone el modelo, la luz y el olor a tierra
           después de llover.
         </p>
 
@@ -724,4 +776,31 @@
     </div>
 
   </div>
+
+  <!-- ====================================================================
+       EL MONTAJE DE LA FAUNA AMBIENTE
+       Densidad `minima` (2 piezas) y semilla 2: es el reparto acordado en la
+       tabla del §2 del documento del director de arte, no una elección de
+       esta zona. Si las nueve secciones llevaran `viva`, el sitio sería una
+       plaga; #planes es una sección de venta con mucha información y le toca
+       el escalón más bajo. Sin colibrí: ese gesto sale UNA sola vez en toda
+       la página, en #naturaleza.
+
+       El cerrojo de `prefers-reduced-motion` va aquí fuera además de dentro
+       del módulo: quien pidió menos movimiento no descarga ni el archivo.
+       El `.catch()` vacío es deliberado: si el módulo no está o falla, la
+       sección se queda exactamente como está y no se rompe nada.
+       ==================================================================== -->
+  <script type="module">
+    if (!matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      import('./js/fauna-ambiente.js')
+        .then((m) =>
+          m.montarFaunaAmbiente(
+            document.querySelector('#planes .planes__aire'),
+            { densidad: 'minima', especies: ['mariposa'], semilla: 2 },
+          ),
+        )
+        .catch(() => {});
+    }
+  </script>
 </section>

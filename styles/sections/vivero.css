@@ -102,6 +102,25 @@
      son las de columna ancha y llevan la grande. */
   --viv-hoja-ancha: var(--radio-xl);
   --viv-hoja: var(--radio-lg);
+
+  /* v7 · LA FRANJA DE AIRE. Es el relleno superior de la sección, y por eso
+     se declara como token y no se escribe dos veces: la caja de fauna se
+     cuelga de él con un tiro negativo del MISMO valor, así que si mañana
+     cambia el aire de arriba, la caja lo sigue sin tocar nada. */
+  --viv-aire-banda: var(--esp-seccion-sm);
+}
+
+/* v7 · «EL BOSQUE» ES UN CAPÍTULO, NO DOS SECCIONES SUELTAS.
+   #naturaleza y #vivero son las dos mitades del mismo capítulo
+   (DIRECTRICES-ANIMACION §1) y el aire que las separa tiene que decirlo: un
+   --esp-seccion completo arriba es la medida que separa CAPÍTULOS, y aquí no
+   hay corte. Se recorta SÓLO el borde de arriba —el de abajo sigue entero
+   porque debajo sí empieza otro capítulo, «Cómo llegar»—.
+   Y `position` propia, que es lo que necesita la caja de aire para no
+   posicionarse contra el documento. */
+.viv {
+  position: relative;
+  padding-block-start: var(--viv-aire-banda);
 }
 
 /* base.css da a todo <img> un fondo gris de carga pensado para la crema. Sobre
@@ -110,6 +129,18 @@
 .viv img,
 .viv .marco {
   background-color: rgb(var(--crema-rgb) / 0.06);
+}
+
+/* v7 · Y LA EXCEPCIÓN QUE HAY QUE ESCRIBIR AQUÍ, NO EN base.css.
+   La regla de arriba mide (0,2,0) y carga después de la fundación, así que le
+   gana al `background-color: transparent` que `.fauna-ambiente__pieza` (0,1,0)
+   se pone precisamente para esto. Resultado sin esta línea, y verificado en
+   pantalla: cada mariposa sale con la caja rectangular de su PNG pintada de
+   gris claro por detrás del recorte con alfa. Se devuelve la transparencia
+   nombrando la pieza dentro de la sección para empatar en peso y ganar por
+   orden, en vez de subirle la especificidad a la fundación. */
+.viv .fauna-ambiente__pieza {
+  background-color: transparent;
 }
 
 /* --------------------------------------------------------------------------
@@ -121,6 +152,78 @@
 .viv-encabezado {
   max-width: var(--medida);
   margin-bottom: var(--gap-lg);
+}
+
+/* --------------------------------------------------------------------------
+   1 bis. LA CAJA DE AIRE  (v7)
+   Donde vuelan las mariposas de js/fauna-ambiente.js. Aquí sólo vive la CAJA:
+   ni una animación, ni un tamaño de pieza, ni una opacidad. Todo eso es de
+   base.css §v7 y del módulo, y esta hoja no lo duplica.
+
+   LAS TRES REGLAS DURAS DEL §2 DEL DOCUMENTO, CUMPLIDAS UNA A UNA:
+     1 · la caja está VACÍA en el marcado y es `aria-hidden`;
+     2 · tiene `position` propia —el módulo avisa por consola si falta, y sin
+         aviso el síntoma son cuatro mariposas volando en la esquina del
+         documento—;
+     3 · cae sobre CARBÓN PLANO y nunca sobre un párrafo. Es lo que decide su
+         geometría en los dos anchos, y no es un detalle estético: las piezas
+         van a --z-fondo, que es 0 y NO negativo, así que una caja posicionada
+         pinta por encima del texto en flujo aunque el z-index diga «fondo».
+         La legibilidad se garantiza con la maqueta, no con la pila.
+
+   MÓVIL: la franja de relleno superior de la sección, de borde a borde. Son
+   --esp-seccion-sm de carbón vacío entre el final de #naturaleza y el rótulo
+   del capítulo; ahí no hay ni una letra a ninguna altura de la caja.
+
+   La caja no intercepta el puntero y no aporta alto: está fuera del flujo, así
+   que no empuja ni un píxel de la maqueta.
+   -------------------------------------------------------------------------- */
+.viv-cabecera {
+  position: relative;
+}
+
+/* EL ALTO ES 2,2 BANDAS Y NO UNA, Y ESTÁ MEDIDO, NO ELEGIDO A OJO.
+   El módulo dimensiona cada mariposa en % del ANCHO de la caja (8–12 %), no de
+   su alto: en un teléfono de 375 px eso son piezas de unos 38 px. Con la caja
+   a una sola banda —40 px— las dos primeras posiciones (14 % y 30 % de arriba)
+   dejaban el bicho colgando por debajo del borde, encima del rótulo del
+   capítulo. Con 2,2 bandas la pieza más baja termina unos 24 px por encima del
+   texto en cualquier ancho.
+   Los 1,2 que sobran salen HACIA ARRIBA, al relleno inferior de #naturaleza,
+   que es la otra mitad de este mismo capítulo y es color plano por definición
+   (`.seccion` no pone nada en su relleno). Nunca hacia abajo: abajo empieza a
+   leerse. */
+.viv-aire {
+  position: absolute;
+  inset-block-start: calc(var(--viv-aire-banda) * -2.2);
+  inset-inline-start: 0;
+  /* EL ANCHO SE ACOTA, Y TAMBIÉN ESTÁ MEDIDO. El módulo da a cada pieza un
+     ancho en % del ANCHO DE LA CAJA, así que una caja que crece hace crecer a
+     las mariposas: a ancho de tableta (800 px) el 11 % son 88 px y el bicho
+     deja de ser atmósfera para ser una ilustración. Con el tope en 26rem la
+     pieza más grande no pasa de unos 46 px en ningún ancho, y por debajo de
+     416 px de ventana el `min()` devuelve el 100 % y la caja vuelve a cruzar
+     la pantalla entera, que es lo que se quiere en un teléfono. */
+  inline-size: min(100%, 26rem);
+  block-size: calc(var(--viv-aire-banda) * 2.2);
+  pointer-events: none;
+}
+
+/* DESDE 62rem la caja se muda a la columna derecha y crece hacia abajo hasta
+   el pie del encabezado. Puede hacerlo sin riesgo porque .viv-encabezado está
+   acotado a --medida (68ch ≈ 40rem) dentro de un .contenedor--ancho de 84rem:
+   a partir del 60 % del ancho útil no llega ni el titular ni la entradilla ni
+   con la letra del sistema agrandada. Por debajo de ese ancho el encabezado sí
+   puede ocupar la línea entera, y por eso ahí la caja se queda arriba. */
+@media (min-width: 62rem) {
+  .viv-aire {
+    inset-block-start: calc(var(--viv-aire-banda) * -1);
+    inset-inline-start: 60%;
+    /* Mismo tope de 26rem que abajo, para que la mariposa mida lo mismo en
+       las dos composiciones: lo que cambia es dónde vuela, no su tamaño. */
+    inline-size: min(40%, 26rem);
+    block-size: calc(100% + var(--viv-aire-banda));
+  }
 }
 
 /* --------------------------------------------------------------------------

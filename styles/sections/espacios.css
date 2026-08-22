@@ -186,6 +186,83 @@
 }
 
 /* ==========================================================================
+   0 bis. EL ENCABEZADO EN TRES TIEMPOS
+   ==========================================================================
+   El <header> dejó de ser un único .reveal (ver el comentario del HTML): ahora
+   el rótulo, el titular y la entradilla son tres .reveal independientes, y el
+   titular además lleva .reveal-texto--persiana, que descubre sus dos renglones
+   uno detrás de otro con el motor compartido de base.css §v7.
+
+   POR QUÉ HACEN FALTA ESTOS DOS RETARDOS
+   Los tres elementos cruzan el umbral del observador prácticamente en el mismo
+   fotograma, así que sin desfase entrarían a la vez y el revelado por renglones
+   del titular no se leería como una secuencia sino como un bloque más.
+   El orden es rótulo → titular → entradilla, que es el de lectura.
+
+   El titular NO lleva retardo propio: su escalonado ya lo pone --retardo-linea
+   renglón a renglón. La entradilla espera a que el segundo renglón haya
+   arrancado. Las cifras son DESFASES (múltiplos de --dur-instant, que
+   tokens.css deja en 1 ms bajo movimiento reducido, así que toda la
+   coreografía se colapsa sola), nunca duraciones nuevas: es el mismo mecanismo
+   que el escalonado interno de las fichas del §7.
+   ========================================================================== */
+.js .espacios__rotulo {
+  transition-delay: calc(var(--dur-instant) * 0.5);
+}
+
+.js .espacios__entradilla {
+  transition-delay: calc(var(--dur-instant) * 3);
+}
+
+/* ==========================================================================
+   0 ter. EL AIRE — dónde vuela la fauna ambiente
+   ==========================================================================
+   La caja la crea el HTML vacía y las piezas las cuelga js/fauna-ambiente.js.
+   Aquí sólo vive su GEOMETRÍA, y las tres reglas duras del módulo mandan sobre
+   ella:
+
+   1. `position` propia — sin ella las piezas se posicionarían contra otro
+      antepasado y aparecerían en la esquina del documento. El módulo avisa por
+      consola si falta; esta regla es la que hace que nunca avise.
+   2. Nunca encima de un párrafo. Por eso la caja NO ocupa la sección entera:
+      · Hasta 48em el encabezado se come el ancho completo, así que la caja se
+        queda en la BANDA DE AIRE de arriba —el relleno superior de la sección,
+        por encima del rótulo—, donde no hay ni una letra.
+      · Desde 48em el encabezado está limitado a --medida (base.css §5), así
+        que el margen derecho queda libre: la caja baja por ese costado, que es
+        además donde sangra la hoja alta. Las mariposas acompañan a la hoja en
+        vez de competir con ella.
+   3. Va a --z-fondo y sin puntero: por debajo de .espacios__contenedor
+      (--z-base) y por debajo de cualquier cosa que se lea o se pulse.
+
+   No se le pone `overflow`: la sección ya recorta el eje X con `clip` (§0), y
+   la deriva del módulo es de un 4-12 % de la propia pieza, así que nada se
+   escapa por abajo hacia #planes.
+   ========================================================================== */
+.espacios__aire {
+  position: absolute;
+  z-index: var(--z-fondo);
+  inset-block-start: 0;
+  inset-inline-end: 0;
+  inline-size: 52%;
+  /* Exactamente la banda de aire de la cabecera de sección: ni un píxel entra
+     en el rótulo. --esp-seccion-sm y no --esp-seccion porque en móvil el
+     relleno superior es el que menos mide y la caja no puede pasarse. */
+  block-size: var(--esp-seccion-sm);
+  pointer-events: none;
+}
+
+@media (min-width: 48em) {
+  .espacios__aire {
+    /* 30 % del ancho de la sección: el encabezado llega como mucho a --medida
+       (≈58 % del contenedor a 1200 px), así que entre la última palabra de la
+       entradilla y esta caja siempre queda calle. */
+    inline-size: 30%;
+    block-size: calc(var(--esp-seccion) + var(--esp-4xl));
+  }
+}
+
+/* ==========================================================================
    1. REJILLA — de catálogo a página de revista
    ==========================================================================
    EL PROBLEMA QUE SE ARREGLÓ EN v3 Y SIGUE ARREGLADO
@@ -1057,6 +1134,19 @@
 
   .js .traza-lista .icono-traza.espacio__glifo
     > :not([stroke-dasharray]):not([data-traza="detalle"]) {
+    transition-delay: 0s;
+  }
+
+  /* Los dos desfases del encabezado (§0 bis) ya valen 0,5 y 3 ms cuando
+     --dur-instant cae a 1 ms, pero se ponen a cero igualmente: cinturón y
+     tirantes, como el resto de este bloque. El revelado por renglones del
+     titular lo apaga base.css §v7, que además deja los dos renglones puestos
+     y legibles, nunca a opacidad 0 ni escondidos tras la máscara.
+     La fauna ambiente no necesita nada aquí: el módulo NI SE MONTA bajo esta
+     preferencia, y si alguien lo montara por otra vía base.css §v7 deja las
+     piezas quietas. */
+  .js .espacios__rotulo,
+  .js .espacios__entradilla {
     transition-delay: 0s;
   }
 }

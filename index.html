@@ -45,18 +45,18 @@
      herramientas/precargar-fuentes.js. -->
 <link rel="preload" as="font" type="font/woff2" crossorigin href="styles/fonts/dm-sans-latin.woff2?v=89c7ce3a">
 <link rel="preload" as="font" type="font/woff2" crossorigin href="styles/fonts/fraunces-latin.woff2?v=e75e106b">
-<link rel="stylesheet" href="styles/tokens.css?v=f81a04f9">
-<link rel="stylesheet" href="styles/base.css?v=be417620">
+<link rel="stylesheet" href="styles/tokens.css?v=5c471e79">
+<link rel="stylesheet" href="styles/base.css?v=f5430b4e">
 <link rel="stylesheet" href="styles/shell.css?v=8118b941">
 <link rel="stylesheet" href="styles/sections/inicio.css?v=76078f20">
-<link rel="stylesheet" href="styles/sections/nosotros.css?v=323b4df7">
-<link rel="stylesheet" href="styles/sections/espacios.css?v=60528286">
-<link rel="stylesheet" href="styles/sections/planes.css?v=31420ac0">
-<link rel="stylesheet" href="styles/sections/momentos.css?v=33b653e5">
-<link rel="stylesheet" href="styles/sections/colegios.css?v=9c490fe0">
-<link rel="stylesheet" href="styles/sections/naturaleza.css?v=108b429e">
-<link rel="stylesheet" href="styles/sections/vivero.css?v=bd8a3524">
-<link rel="stylesheet" href="styles/sections/ubicacion.css?v=92f5c908">
+<link rel="stylesheet" href="styles/sections/nosotros.css?v=8040cb90">
+<link rel="stylesheet" href="styles/sections/espacios.css?v=1a2d6fdd">
+<link rel="stylesheet" href="styles/sections/planes.css?v=a1c991c8">
+<link rel="stylesheet" href="styles/sections/momentos.css?v=99038a5b">
+<link rel="stylesheet" href="styles/sections/colegios.css?v=46510d35">
+<link rel="stylesheet" href="styles/sections/naturaleza.css?v=8d9817ef">
+<link rel="stylesheet" href="styles/sections/vivero.css?v=49cb5873">
+<link rel="stylesheet" href="styles/sections/ubicacion.css?v=2dbf11b3">
 <link rel="stylesheet" href="styles/sections/pie.css?v=0a795192">
 <link rel="stylesheet" href="styles/lightbox.css?v=8bbca7bb">
 
@@ -868,7 +868,19 @@
   <div class="contenedor contenedor--ancho nosotros__predio">
 
     <header class="seccion-encabezado nosotros__titular reveal reveal--izq">
-      <p class="eyebrow">El predio</p>
+      <!-- v7 · SALE EL ANTETÍTULO «El predio», Y ES UNA DECISIÓN DE ORDEN,
+           NO UN RECORTE DE TEXTO.
+           DIRECTRICES-ANIMACION §1 resuelve la única desviación del orden que
+           pedía el cliente —#nosotros colándose entre la portada y los
+           espacios— tratando esta sección como CODA DE LA PORTADA y no como
+           capítulo propio: «sin banda propia, sin eyebrow de capítulo, sin
+           filete de apertura». Un antetítulo en versalitas es, en este
+           sistema, la marca que abre un capítulo; con él puesto, la vista
+           cuenta #nosotros como sección independiente y el primer capítulo
+           percibido deja de ser «Los espacios», que es lo que el cliente
+           pide. Sin él, esto se lee como el último párrafo de la portada.
+           No se pierde ni un dato: «El predio» no era información, era
+           rotulación, y el <h2> de abajo ya dice de qué se habla. -->
       <!-- v6 · TITULAR NUEVO, APROBADO POR EL CLIENTE. «Lo que hay detrás de
            la portería» prometía un misterio que el cuerpo no cumple, y
            «portería» sonaba a conjunto residencial. Éste conserva el umbral
@@ -878,8 +890,22 @@
            EL id NO SE TOCA: el <section> lo referencia con aria-labelledby.
            Escrito en caja alta y baja en el propio HTML, nunca en mayúsculas
            confiando en el CSS (CONTRATO-V2 §3).                             -->
-      <h2 class="titulo-seccion nosotros__titulo" id="nosotros-titulo">
-        Cruzas la reja y cambia el día
+      <!-- v7 · EL TITULAR SE DESCUBRE RENGLÓN A RENGLÓN (.reveal-texto de
+           base.css §v7). LA FRASE NO CAMBIA NI UNA LETRA: está aprobada por
+           el cliente y sigue siendo exactamente «Cruzas la reja y cambia el
+           día». Lo único que cambia es que los dos renglones existen en el
+           marcado en vez de dejárselos al balanceo del navegador.
+           Y CON ESO SOBRA EL max-width DE 16ch que nosotros.css §1 usaba para
+           forzar el corte en la conjunción: ahora el corte está escrito, así
+           que la regla se ha quitado de la hoja en vez de dejarla peleando
+           con los <span>.
+           SIN `--persiana`: esta sección es la coda de la portada, no la
+           apertura de un capítulo, y el gesto caro se gasta una vez por
+           capítulo. Aquí basta el revelado limpio.
+           EL id NO SE TOCA: el <section> lo referencia con aria-labelledby. -->
+      <h2 class="titulo-seccion nosotros__titulo reveal reveal-texto" id="nosotros-titulo">
+        <span class="reveal-texto__linea">Cruzas la reja</span>
+        <span class="reveal-texto__linea">y cambia el día</span>
       </h2>
 
       <!-- v6 · LA RAMA QUE SE DIBUJA SOLA -----------------------------------
@@ -1296,6 +1322,15 @@
        d) SCROLL — dos hojas de fondo a velocidades y recorridos distintos
           (`animation-timeline: view()`, sin una línea de JS) y el encuadre
           ligado al scroll de foto-focus en las TRES piezas grandes.
+       e) EL ENCABEZADO EN TRES TIEMPOS (v5.1) — rótulo, titular y entradilla
+          dejan de entrar como un bloque: cada uno es su propio .reveal y el
+          titular se descubre renglón a renglón con .reveal-texto--persiana.
+          Es el único sitio de la sección donde se gasta la persiana.
+       f) FAUNA AMBIENTE (v5.1) — cuatro mariposas (dos en pantalla estrecha)
+          derivando en la banda de aire de la cabecera, montadas por el módulo
+          compartido js/fauna-ambiente.js. Densidad `discreta` y semilla 1: es
+          el reparto que fija DIRECTRICES-ANIMACION §2 para esta sección, y su
+          compás no coincide con ninguno de los otros cinco relojes de aquí.
 
      LO QUE NO SE HACE Y POR QUÉ
      · Nada de `data-contador` en las cifras, aunque el motor exista en
@@ -1389,12 +1424,47 @@
     />
   </svg>
 
+  <!-- EL AIRE DE LA SECCIÓN — caja vacía donde vuela la fauna ambiente.
+       Decorativa, sin texto y fuera del árbol de accesibilidad, igual que las
+       dos hojas de arriba y que `.inicio__enjambre` en la portada. Las piezas
+       las cuelga aquí js/fauna-ambiente.js (módulo del director de arte, ver
+       DIRECTRICES-ANIMACION §2); este fragmento no crea ni una mariposa.
+       Va FUERA de .espacios__contenedor a propósito: el contenedor está en
+       --z-base y todo lo que se lee vive dentro de él, así que ninguna pieza
+       puede cruzarse por delante de un nombre, de una cifra ni de un botón.
+       Su geometría —y por qué cambia con el ancho— está en espacios.css §0 ter. -->
+  <div class="espacios__aire" aria-hidden="true"></div>
+
   <div class="contenedor espacios__contenedor">
 
-    <header class="seccion-encabezado reveal">
-      <p class="eyebrow">Espacios en alquiler</p>
-      <h2 id="espacios-titulo" class="titulo-seccion">Cinco escenarios y ningún salón</h2>
-      <p class="entradilla">
+    <!-- EL ENCABEZADO ENTRA EN TRES TIEMPOS Y NO EN UNO (v5.1)
+         Antes el <header> entero era el .reveal: el bloque subía de una pieza
+         y el titular no tenía voz propia. Ahora el .reveal está en cada una de
+         las tres piezas, por dos razones:
+           a) el <h2> necesita ser ÉL el .reveal para que .reveal-texto tenga
+              dónde agarrarse (base.css §v7 exige las dos clases en el mismo
+              elemento y usa el observador de app.js, sin JS nuevo);
+           b) si el bloque siguiera moviéndose además de sus renglones, habría
+              DOS movimientos sobre el mismo texto — exactamente lo que §v7
+              apaga con `transform: none` en el contenedor.
+         Los tres desfases van en espacios.css §0 bis: rótulo, titular y
+         entradilla no arrancan a la vez.
+
+         PERSIANA, UNA VEZ Y AQUÍ. «Los espacios» es el primer capítulo que se
+         percibe después de la portada, y el gesto caro se gasta en el titular
+         que lo abre. Ninguna otra pieza de esta sección lo lleva.
+         Los cortes de renglón los decide quien escribe: dos líneas, sujeto y
+         remate. -->
+    <header class="seccion-encabezado">
+      <p class="eyebrow espacios__rotulo reveal">Espacios en alquiler</p>
+      <h2
+        id="espacios-titulo"
+        class="titulo-seccion reveal reveal-texto reveal-texto--persiana"
+      >
+        <span class="reveal-texto__linea">Cinco escenarios</span>
+        <span class="reveal-texto__linea">y ningún salón</span>
+      </h2>
+      <p class="entradilla espacios__entradilla reveal">
         Cinco lugares con nombre propio, del prado que traga 150 personas al taller con
         techo de caña. Aquí están todos, con su aforo y su foto.
       </p>
@@ -1773,6 +1843,27 @@
        defer no bloquea el parseo y corre con el DOM completo. Bajo
        prefers-reduced-motion no se monta. -->
   <script src="js/foto-focus.js?v=2e41fd79" defer></script>
+
+  <!-- FAUNA AMBIENTE — el lenguaje del hero, en voz baja.
+       Densidad `discreta` (4 piezas, 2 en pantalla estrecha porque el módulo
+       baja un escalón solo), sólo mariposas y semilla 1: es el reparto que fija
+       la tabla del director de arte para #espacios, no una elección de esta
+       sección. El colibrí NO sale aquí — se gasta una única vez en toda la
+       página, en #naturaleza.
+       El cerrojo de `prefers-reduced-motion` va fuera del import para no
+       descargar ni un byte del módulo cuando no se va a usar; el módulo lo
+       vuelve a comprobar por su cuenta. El `catch` vacío es deliberado: si el
+       módulo falla, la sección se queda exactamente como está. -->
+  <script type="module">
+    if (!matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      import('./js/fauna-ambiente.js?v=dfc40bad')
+        .then((m) => m.montarFaunaAmbiente(
+          document.querySelector('#espacios .espacios__aire'),
+          { densidad: 'discreta', especies: ['mariposa'], semilla: 1 },
+        ))
+        .catch(() => {});
+    }
+  </script>
 </section>
 
 <!-- ==========================================================================
@@ -1863,12 +1954,42 @@
 <section id="planes" class="seccion planes" aria-labelledby="planes-titulo">
   <div class="contenedor">
 
-    <header class="seccion-encabezado reveal">
-      <p class="eyebrow">Planes por ocasión</p>
-      <h2 id="planes-titulo" class="titulo-seccion">Dime a quién traes y te digo dónde</h2>
-      <p class="entradilla">
-        Bodas, cumpleaños, reuniones de empresa, clases de yoga y talleres.
-        Cinco maneras distintas de usar el mismo bosque.
+    <!-- ================================================================
+         LA APERTURA DEL CAPÍTULO «EVENTOS Y ACTIVIDADES»
+         (DIRECTRICES-ANIMACION.md §1). #planes, #momentos y #colegios son
+         UN SOLO capítulo, y esta cabecera es la única de las tres que lo
+         abre. Por eso, y sólo aquí:
+           · el eyebrow lleva el NÚMERO de capítulo además del rótulo
+             compartido «Eventos y actividades»;
+           · la sección lleva el filete de apertura a todo lo ancho
+             (planes.css §0 bis). #momentos y #colegios abren sin filete: es
+             lo que dice visualmente «esto sigue siendo lo mismo».
+         El h2 conserva la ocasión concreta de esta sección, como manda el
+         tratamiento de capítulo.
+
+         EL HEADER PASA DE .reveal A .reveal-secuencia. Ya no revela: sólo
+         reparte tiempos entre sus tres hijos, que ahora entran por separado.
+         Es el mismo cambio, y por el mismo motivo, que hizo .col-jornada en
+         #colegios: el titular necesita su propio .reveal para poder llevar
+         .reveal-texto, y en este sitio los .reveal no se anidan.
+
+         LA PERSIANA SE GASTA AQUÍ Y EN NINGÚN OTRO SITIO DEL CAPÍTULO
+         (§3 del documento): es el gesto caro y va una vez por capítulo, en
+         el titular que lo abre. #momentos y #colegios llevan .reveal-texto
+         a secas. Los cortes de renglón están escritos a mano porque son
+         parte del dibujo, no del navegador.
+         ================================================================ -->
+    <header class="seccion-encabezado reveal-secuencia">
+      <p class="eyebrow reveal">Eventos y actividades</p>
+      <h2
+        id="planes-titulo"
+        class="titulo-seccion reveal reveal-texto reveal-texto--persiana"
+      >
+        <span class="reveal-texto__linea">Dime a quién traes</span>
+        <span class="reveal-texto__linea">y te digo dónde</span>
+      </h2>
+      <p class="entradilla reveal">
+        Cinco maneras distintas de usar el mismo bosque. Escoge la tuya y aparta la fecha.
       </p>
     </header>
 
@@ -1981,10 +2102,14 @@
               <span class="planes-carril__indice">01</span> Bodas y conciertos
             </p>
 
+            <!-- RECORTE DE AGOSTO DE 2026 («quiero orden y poco texto, y el
+                 poco que haya que incentive alquilar»). Se va la primera
+                 frase, que sólo repetía el rótulo de al lado —«Bodas y
+                 conciertos»— y por tanto no aportaba un hecho. Lo que queda
+                 es la imagen: ceremonia, carpa y música. -->
             <p class="planes-carril__copy">
-              Matrimonios y conciertos. La ceremonia bajo un árbol de copa ancha, la carpa
-              iluminada con bombillos y la música puesta hasta que el cielo se ponga azul
-              oscuro.
+              La ceremonia bajo un árbol de copa ancha, la carpa con bombillos y la música
+              puesta hasta que el cielo se ponga azul oscuro.
             </p>
 
             <a
@@ -2070,9 +2195,8 @@
           </h3>
 
           <p class="planes-carril__copy">
-            Reuniones sociales y familiares. Mesas de picnic, guirnaldas colgadas entre las
-            ramas y sitio de sobra para salir corriendo. Los niños se pierden a jugar y
-            vuelven solos cuando aparece la torta.
+            Mesas de picnic, guirnaldas entre las ramas y sitio de sobra para salir
+            corriendo. Los niños se pierden a jugar y vuelven solos cuando aparece la torta.
           </p>
 
           <p class="nota planes-carril__donde">
@@ -2197,9 +2321,8 @@
           </h3>
 
           <p class="planes-carril__copy">
-            Reuniones corporativas y eventos de empresa. Carpa translúcida sobre el césped,
-            mesas altas para el café y un corro de butacas donde la gente se habla de otra
-            manera. Nadie mira el reloj cuando no hay techo de oficina.
+            Carpa translúcida sobre el césped, mesas altas para el café y un corro de
+            butacas. Nadie mira el reloj cuando no hay techo de oficina.
           </p>
 
           <p class="nota planes-carril__donde">
@@ -2285,6 +2408,27 @@
               Respira hondo, que aquí sobra aire
             </h3>
           </div>
+
+          <!-- LA CAJA DONDE VUELA LA FAUNA AMBIENTE (DIRECTRICES §2).
+               Vacía, decorativa y `aria-hidden`: el módulo compartido
+               js/fauna-ambiente.js le cuelga dentro los recortes y toda la
+               animación vive en base.css §v7. Aquí no se escribe ni una
+               mariposa propia.
+
+               POR QUÉ ESTÁ EXACTAMENTE AQUÍ Y NO EN OTRO PUNTO DE #planes.
+               La regla dura del módulo es que la caja caiga sobre FOTO o
+               color plano y nunca sobre un párrafo. La banda de bienestar es
+               la única pieza de la sección que cumple las dos condiciones en
+               TODOS los anchos: es fotografía a sangre, está siempre
+               presente y su texto vive acotado al tercio izquierdo, así que
+               el tercio derecho —césped iluminado— está libre de letra a
+               cualquier tamaño de pantalla. Puesta sobre el fondo crema de
+               la sección habría funcionado sólo de tableta para arriba,
+               porque en móvil los carriles ocupan el ancho entero y no queda
+               un solo hueco sin texto.
+               La caja va SIEMPRE a la derecha, que es el lado contrario al
+               del rótulo (planes.css §6 bis). -->
+          <div class="planes__aire" aria-hidden="true"></div>
         </div>
 
         <div class="planes-bienestar__bloque">
@@ -2292,8 +2436,7 @@
 
             <div class="planes-carril__texto">
               <p class="planes-carril__copy">
-                Clases y sesiones al aire libre, con las esterillas puestas en círculo sobre
-                el césped y el sonido de fondo que ya sabes.
+                Las esterillas en círculo sobre el césped y el sonido de fondo que ya sabes.
               </p>
 
               <ul class="lista-hojas planes-bienestar__lista">
@@ -2413,7 +2556,7 @@
         </ul>
 
         <p class="planes-carril__copy planes-talleres__copy">
-          Traes el grupo y el tema. El bosque pone el modelo, la luz y el olor a tierra
+          Trae el grupo y el tema. El bosque pone el modelo, la luz y el olor a tierra
           después de llover.
         </p>
 
@@ -2501,6 +2644,33 @@
     </div>
 
   </div>
+
+  <!-- ====================================================================
+       EL MONTAJE DE LA FAUNA AMBIENTE
+       Densidad `minima` (2 piezas) y semilla 2: es el reparto acordado en la
+       tabla del §2 del documento del director de arte, no una elección de
+       esta zona. Si las nueve secciones llevaran `viva`, el sitio sería una
+       plaga; #planes es una sección de venta con mucha información y le toca
+       el escalón más bajo. Sin colibrí: ese gesto sale UNA sola vez en toda
+       la página, en #naturaleza.
+
+       El cerrojo de `prefers-reduced-motion` va aquí fuera además de dentro
+       del módulo: quien pidió menos movimiento no descarga ni el archivo.
+       El `.catch()` vacío es deliberado: si el módulo no está o falla, la
+       sección se queda exactamente como está y no se rompe nada.
+       ==================================================================== -->
+  <script type="module">
+    if (!matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      import('./js/fauna-ambiente.js?v=dfc40bad')
+        .then((m) =>
+          m.montarFaunaAmbiente(
+            document.querySelector('#planes .planes__aire'),
+            { densidad: 'minima', especies: ['mariposa'], semilla: 2 },
+          ),
+        )
+        .catch(() => {});
+    }
+  </script>
 </section>
 
 <!-- ==========================================================================
@@ -2598,10 +2768,30 @@
 <section id="momentos" class="seccion seccion--carbon momentos" aria-labelledby="momentos-titulo">
   <div class="contenedor">
 
-    <header class="seccion-encabezado momentos__encabezado reveal">
-      <p class="eyebrow">Momentos</p>
-      <h2 id="momentos-titulo" class="titulo-seccion momentos__titulo">
-        Aquí el día se toma su tiempo
+    <!-- v3.4 · ESTA BANDA DEJA DE SER UNA SECCIÓN SUELTA
+         (DIRECTRICES-ANIMACION.md §1). #planes, #momentos y #colegios son un
+         solo capítulo, «Eventos y actividades», y esta banda es el RESPIRO
+         que va en medio: no es un corte entre capítulos.
+           · El eyebrow deja de ser «Momentos» y pasa al rótulo compartido de
+             los tres. La ocasión concreta la sigue diciendo el h2.
+           · El filete de apertura a todo lo ancho SALE de aquí (momentos.css
+             §1): lo lleva #planes y sólo #planes, porque es el que abre el
+             capítulo. Que esta cartela empiece sin línea es justamente lo que
+             dice «esto sigue siendo lo mismo».
+           · El h2 estrena .reveal-texto —la clase compartida de base.css
+             §v7—, SIN la variante persiana: ésa se gasta una vez por capítulo
+             y ya la lleva el titular de #planes.
+         El header pasa de .reveal a .reveal-secuencia por el mismo motivo que
+         en #planes: el titular necesita su propio .reveal y aquí los .reveal
+         no se anidan. El header ya no revela, sólo reparte tiempos. -->
+    <header class="seccion-encabezado momentos__encabezado reveal-secuencia">
+      <p class="eyebrow reveal">Eventos y actividades</p>
+      <h2
+        id="momentos-titulo"
+        class="titulo-seccion momentos__titulo reveal reveal-texto"
+      >
+        <span class="reveal-texto__linea">Aquí el día</span>
+        <span class="reveal-texto__linea">se toma su tiempo</span>
       </h2>
 
       <!-- v3.3 · LA MARIPOSA QUE SE DIBUJA -----------------------------------
@@ -2772,7 +2962,7 @@
 
   </div>
 
-  <script src="js/momentos-video.js?v=b8002017" defer></script>
+  <script src="js/momentos-video.js?v=29f86f95" defer></script>
 </section>
 
 <!-- ==========================================================================
@@ -2905,7 +3095,24 @@
 <section id="colegios" class="seccion seccion--alt col" aria-labelledby="colegios-titulo">
   <div class="contenedor contenedor--ancho">
 
-    <header class="col-portada reveal">
+    <!-- v5 · ESTA SECCIÓN DEJA DE SER UNA ISLA
+         (DIRECTRICES-ANIMACION.md §1). «Un día de colegio que no cabe en un
+         aula» venía leyéndose como el titular de una sección aparte, y no lo
+         es: es el TERCER movimiento del capítulo «Eventos y actividades»,
+         detrás de #planes y del respiro de #momentos.
+           · El eyebrow deja de ser «Salidas pedagógicas» y pasa al rótulo
+             compartido de los tres. La ocasión concreta —el día de colegio—
+             ya la dice el titular, que es donde el tratamiento de capítulo
+             manda que viva.
+           · Sin filete de apertura y sin número de capítulo: los dos son del
+             primero de los tres, #planes.
+           · El titular estrena .reveal-texto (base.css §v7) SIN persiana: esa
+             variante se gasta una vez por capítulo y ya la lleva #planes.
+         La portada pasa de .reveal a .reveal-secuencia —ya no revela, sólo
+         reparte tiempos— porque el titular necesita su propio .reveal para
+         poder llevar .reveal-texto y en este sitio los .reveal no se anidan.
+         Es el mismo cambio que .col-jornada hizo en v4, por el mismo motivo. -->
+    <header class="col-portada reveal-secuencia">
 
       <!-- Dos aves lejos. Decoración pura: sin texto, sin foco, sin contraste que
            aportar, y colocadas en el hueco que queda entre el titular y la
@@ -2928,15 +3135,23 @@
       </svg>
 
       <div class="col-portada__titulo">
-        <p class="eyebrow">Salidas pedagógicas</p>
-        <h2 id="colegios-titulo" class="titulo-seccion col-titular">
-          Un día de colegio que no cabe en un aula
+        <p class="eyebrow reveal">Eventos y actividades</p>
+        <h2
+          id="colegios-titulo"
+          class="titulo-seccion col-titular reveal reveal-texto"
+        >
+          <span class="reveal-texto__linea">Un día de colegio</span>
+          <span class="reveal-texto__linea">que no cabe en un aula</span>
         </h2>
       </div>
-      <p class="entradilla col-portada__entradilla">
-        Una jornada fuera del aula, de la llegada al regreso del bus. Con tres paradas
-        pensadas para un curso: el observatorio de aves, el de plantas y el jardín
-        de polinizadores.
+      <!-- RECORTE (queja del cliente: «orden y poco texto»). Se va «Una
+           jornada fuera del aula», que decía otra vez lo que acaba de decir el
+           titular. NO se toca ni uno de los tres hechos: las tres paradas
+           siguen nombradas una a una, porque son de esta sección y de ninguna
+           otra. -->
+      <p class="entradilla col-portada__entradilla reveal">
+        De la llegada al regreso del bus, con tres paradas pensadas para un curso: el
+        observatorio de aves, el de plantas y el jardín de polinizadores.
       </p>
     </header>
 
@@ -2971,9 +3186,8 @@
         </p>
         <h3 class="titulo-seccion titulo-seccion--sm">Bajar la voz y levantar la mirada</h3>
         <p>
-          El grupo se reparte, se queda quieto y aprende lo primero del pajareo:
-          escuchar antes de mirar. Cada quien anota lo que oye, busca de dónde viene
-          y lo compara con las aves pintadas en el mural.
+          Lo primero del pajareo: escuchar antes de mirar. Cada quien anota lo que oye,
+          busca de dónde viene y lo compara con las aves del mural.
         </p>
       </li>
 
@@ -3004,8 +3218,8 @@
         </p>
         <h3 class="titulo-seccion titulo-seccion--sm">Que una mata deje de ser «una mata»</h3>
         <p>
-          Aquí se aprende a mirar una hoja: la forma, el borde, la nervadura, el olor.
-          Los estudiantes se van con nombres propios donde antes sólo veían verde.
+          Se aprende a mirar una hoja: la forma, el borde, la nervadura, el olor. Se van
+          con nombres propios donde antes sólo veían verde.
         </p>
       </li>
 
@@ -3037,9 +3251,8 @@
         </p>
         <h3 class="titulo-seccion titulo-seccion--sm">Sentarse a esperar una mariposa</h3>
         <p>
-          La parada más quieta del día. El grupo se sienta frente a las floraciones del
-          jardín de polinizadores y espera: mariposas, abejas y quien más venga a
-          trabajar. Se anota quién visita cada flor.
+          La parada más quieta del día: sentarse frente a las floraciones del jardín de
+          polinizadores y esperar. Se anota quién visita cada flor.
         </p>
       </li>
 
@@ -3071,6 +3284,23 @@
             decoding="async"
           />
         </div>
+
+        <!-- LA CAJA DONDE VUELA LA FAUNA AMBIENTE (DIRECTRICES §2). Vacía,
+             decorativa y `aria-hidden`: las piezas las crea el módulo
+             compartido js/fauna-ambiente.js y el movimiento vive en base.css
+             §v7. Esta sección no escribe una sola mariposa propia.
+
+             POR QUÉ SOBRE LA PIEZA DOMINANTE Y POR QUÉ POR LA IZQUIERDA.
+             La regla del módulo es que la caja caiga sobre foto o color plano
+             y nunca sobre un párrafo. La foto de la jornada es la única
+             superficie de #colegios que es fotografía grande en TODOS los
+             anchos —las tres paradas son miniaturas de índice— y su mitad
+             izquierda queda siempre libre: desde 62em es el panel de los
+             hitos el que entra por la derecha, así que ése es justo el lado
+             que no se puede ocupar. Va en el tercio alto, por encima del
+             corro de niñas y niños, que es lo que hay que ver de esa foto. -->
+        <div class="col__aire" aria-hidden="true"></div>
+
         <figcaption>El curso, reunido en círculo sobre el prado</figcaption>
       </figure>
 
@@ -3081,8 +3311,8 @@
           <li class="col-hito">
             <p class="col-hito__nombre">La llegada</p>
             <p>
-              Baja el bus y el grupo se acomoda a la sombra. Se abre con una charla
-              corta: dónde están, qué van a ver y qué no se toca.
+              Baja el bus y el grupo se acomoda a la sombra. Charla corta: dónde están,
+              qué van a ver y qué no se toca.
             </p>
           </li>
           <li class="col-hito">
@@ -3102,8 +3332,8 @@
           <li class="col-hito">
             <p class="col-hito__nombre">El cierre</p>
             <p>
-              Antes de volver al bus todos se juntan otra vez y cada grupo cuenta lo
-              que vio. Nadie se sube con la mitad del día.
+              Antes del bus se juntan otra vez y cada grupo cuenta lo que vio. Nadie se
+              sube con la mitad del día.
             </p>
           </li>
         </ol>
@@ -3142,6 +3372,31 @@
     </div>
 
   </div>
+
+  <!-- ====================================================================
+       EL MONTAJE DE LA FAUNA AMBIENTE
+       Densidad `minima` (2 piezas) y semilla 3: reparto acordado en la tabla
+       del §2 del documento del director de arte, no una decisión de esta
+       zona. La semilla cambia la composición respecto a la de #planes, que
+       usa la 2, para que las dos secciones del capítulo no repitan la misma
+       escena. Sin colibrí: ese gesto sale una sola vez en toda la página, en
+       #naturaleza.
+       El cerrojo de `prefers-reduced-motion` va aquí además de dentro del
+       módulo, para no descargar ni el archivo. El `.catch()` vacío deja la
+       sección exactamente como está si el módulo falta o falla.
+       ==================================================================== -->
+  <script type="module">
+    if (!matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      import('./js/fauna-ambiente.js?v=dfc40bad')
+        .then((m) =>
+          m.montarFaunaAmbiente(
+            document.querySelector('#colegios .col__aire'),
+            { densidad: 'minima', especies: ['mariposa'], semilla: 3 },
+          ),
+        )
+        .catch(() => {});
+    }
+  </script>
 </section>
 
 <!-- ==========================================================================
@@ -3338,12 +3593,27 @@
         </div>
         <figcaption class="credito nat-apertura__pie">Guadua del predio</figcaption>
       </figure>
+
+      <!-- v8 · LA CAJA DE FAUNA AMBIENTE. Vacía, decorativa y con `position`
+           propia, como exige §2 del documento del director. Va AQUÍ, sobre la
+           fotografía del camino —el movimiento del sendero—, y no en la parte
+           de aves: allí ya vuelan pájaros de verdad, fotografiados en el
+           predio, y superponerles recortes genéricos sería competir con el
+           material bueno. Cae sobre foto, nunca sobre párrafo. -->
+      <div class="nat-apertura__aire" aria-hidden="true"></div>
     </div>
 
     <div class="nat-apertura__texto reveal reveal--der">
 
       <header class="nat-apertura__encabezado">
-        <p class="eyebrow">Sendero Ecovital y biodiversidad</p>
+        <!-- v8 · EL RÓTULO DE CAPÍTULO. Decía «Sendero Ecovital y
+             biodiversidad»: dos temas en un mismo renglón, que es justo lo
+             que el cliente lee como «está mezclado todo». Ahora el rótulo
+             trae el capítulo compartido con #vivero —«El bosque», §1 del
+             documento del director— y a continuación el nombre del PRIMER
+             movimiento, que es el sendero y sólo el sendero. Las aves tienen
+             su propio rótulo más abajo, en .nat-giro. -->
+        <p class="eyebrow">El bosque · El Sendero Ecovital</p>
         <!-- LA PIEZA-CIFRA DOMINANTE. El «101» es el dato que distingue a
              este predio de cualquier finca de eventos y no aparece en ningún
              otro sitio de la página. Antes iba dentro de la frase como una
@@ -3356,9 +3626,19 @@
              motor global de js/app.js (el mismo del 347 y el 57); el 101 ya
              está escrito en el HTML, así que sin JS —o antes de que el motor
              dispare— no hay hueco ni parpadeo. -->
-        <h2 id="naturaleza-titulo" class="titulo-seccion nat-apertura__titulo nat-cifra-dominante">
-          <span class="nat-cifra-dominante__frase">Camina donde cantan</span>
-          <span class="nat-cifra-dominante__linea">
+        <!-- v8 · .reveal-texto sobre el titular de apertura del capítulo. Los
+             dos renglones ya existían como spans (la frase y la línea de la
+             cifra), así que sólo hay que marcarlos: cero marcado nuevo y cero
+             JS nuevo — lo dispara el mismo observador de js/app.js.
+             NO se usa la variante persiana: su `overflow: clip` por renglón
+             recortaría el «101» a 143 px, que es la pieza más grande de la
+             sección. El gesto caro se queda sin gastar aquí a propósito.
+             `display: block` de .reveal-texto__linea no pisa el `flex` de
+             .nat-cifra-dominante__linea: esta hoja se carga DESPUÉS de
+             base.css y las dos reglas tienen la misma especificidad. -->
+        <h2 id="naturaleza-titulo" class="titulo-seccion nat-apertura__titulo nat-cifra-dominante reveal reveal-texto">
+          <span class="nat-cifra-dominante__frase reveal-texto__linea">Camina donde cantan</span>
+          <span class="nat-cifra-dominante__linea reveal-texto__linea">
             <span class="nat-cifra-dominante__numero" data-contador="101">101</span>
             <span class="nat-cifra-dominante__unidad">especies</span>
           </span>
@@ -3454,6 +3734,39 @@
 
     </div>
 
+  </div>
+
+  <!-- ======================================================================
+       1 bis · EL GIRO — la bisagra entre el sendero y los pájaros (v8)
+       El cliente lee esta sección como una sola masa: «por sección de pájaros
+       en un lado, sendero en otro, está mezclado todo». No lo está en el
+       contenido —el sendero se cuenta entero arriba y las aves enteras
+       abajo—, pero NADA lo señalaba: los dos movimientos comparten fondo
+       crema, ancho de contenedor y tamaño de rótulo, así que la vista los
+       cuenta como un mismo bloque largo.
+
+       Esta banda es el letrero que faltaba. Es lo mínimo que hace evidente el
+       cambio de tema sin fracturar el capítulo «El bosque» (que sigue con
+       #vivero): una franja de salvia a todo el ancho —el mismo recurso de
+       franja alterna que ya usa el sitio, no un recurso nuevo—, con el rótulo
+       del segundo movimiento y dos renglones que dicen en voz alta dónde
+       termina una cosa y empieza la otra.
+
+       Deliberadamente NO lleva cresta SVG ni fauna: la cresta es el gesto de
+       entrada del muro del concurso, cien líneas más abajo, y gastarla dos
+       veces en la misma sección la anula. Aquí basta el cambio de suelo.
+       ====================================================================== -->
+  <div class="nat-giro">
+    <div class="contenedor nat-giro__cuerpo">
+      <p class="eyebrow nat-giro__eyebrow">Las aves y el censo</p>
+      <h3 class="titulo-seccion titulo-seccion--sm nat-giro__titulo reveal reveal-texto">
+        <span class="reveal-texto__linea">Hasta aquí, el camino.</span>
+        <span class="reveal-texto__linea">Ahora, lo que vive en él.</span>
+      </h3>
+      <p class="nat-giro__texto">
+        El registro de aves, los ambientes del predio y el muro del concurso.
+      </p>
+    </div>
   </div>
 
   <!-- ======================================================================
@@ -5066,6 +5379,26 @@
        escena queda resuelta y estática, y no se rompe nada. -->
   <script src="js/concurso-cinta.js?v=48bd5c05" defer></script>
 
+  <!-- v8 · FAUNA AMBIENTE. Un solo montaje en toda la sección, con las cifras
+       que fija la tabla de reparto de §2 del documento del director:
+       densidad `viva`, mariposas Y colibrí, semilla 4. Es la única sección de
+       la página que monta el colibrí —pesa 88 kB y el gesto se gasta una vez
+       sola—, y le toca a ésta. El módulo baja solo un escalón de densidad en
+       pantalla estrecha y ahí no monta el colibrí nunca, así que en móvil no
+       se descarga.
+       El cerrojo de prefers-reduced-motion es el mismo de sections/hero.html:
+       quien pide menos movimiento no llega ni a pedir el módulo por red. -->
+  <script type="module">
+    if (!matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      import('./js/fauna-ambiente.js?v=dfc40bad')
+        .then((m) => m.montarFaunaAmbiente(
+          document.querySelector('#naturaleza .nat-apertura__aire'),
+          { densidad: 'viva', especies: ['mariposa', 'colibri'], semilla: 4 }
+        ))
+        .catch(() => {});
+    }
+  </script>
+
 </section>
 
 <!-- ==========================================================================
@@ -5163,15 +5496,47 @@
 
 <section id="vivero" class="seccion seccion--carbon viv" aria-labelledby="vivero-titulo">
 
-  <div class="contenedor contenedor--ancho">
+  <!-- v7 · CABECERA DE CAPÍTULO «EL BOSQUE» ---------------------------------
+       El rótulo pasa de «Vivero» a «El bosque»: es el MISMO capítulo que
+       #naturaleza (DIRECTRICES-ANIMACION §1), y la ocasión concreta la dice
+       el <h2>, no el antetítulo. Es exactamente el mismo reparto que llevan
+       los tres de «Eventos y actividades». El número de capítulo lo lleva
+       #naturaleza, que es la que abre; ésta no.
+
+       El wrapper deja de ser un `.contenedor` a secas y toma `.viv-cabecera`
+       sólo para tener `position` propia: es el bloque contenedor de la caja
+       de aire de abajo. No cambia ni una medida de la maqueta.
+       ------------------------------------------------------------------- -->
+  <div class="contenedor contenedor--ancho viv-cabecera">
     <header class="seccion-encabezado viv-encabezado reveal">
-      <p class="eyebrow">Vivero</p>
-      <h2 id="vivero-titulo" class="titulo-seccion">Te llevas a casa lo que crece aquí</h2>
+      <p class="eyebrow">El bosque</p>
+      <!-- v7 · El titular se descubre renglón a renglón (.reveal-texto de
+           base.css §v7). Los dos cortes están escritos a mano porque son
+           parte del dibujo: «Te llevas a casa» es la promesa y «lo que crece
+           aquí» es la prueba, y cada una entra por su lado.
+           SIN `--persiana`: el gesto caro se gasta UNA vez por capítulo y le
+           corresponde a #naturaleza, que es quien abre «El bosque».
+           Ni una palabra cambia; sólo se parte en dos <span>. -->
+      <h2 id="vivero-titulo" class="titulo-seccion reveal reveal-texto">
+        <span class="reveal-texto__linea">Te llevas a casa</span>
+        <span class="reveal-texto__linea">lo que crece aquí</span>
+      </h2>
       <p class="entradilla">
         Sale de aquí lo que ves plantado afuera. También sale lo que puedes plantar
         en tu casa, en tu oficina o en tu evento.
       </p>
     </header>
+
+    <!-- LA CAJA DE AIRE. Vacía, decorativa y `aria-hidden`: la puebla
+         js/fauna-ambiente.js con cuatro mariposas (tres en pantalla
+         estrecha, que el módulo baja solo un escalón).
+         DÓNDE CAE, Y POR QUÉ AHÍ: sobre carbón plano y NUNCA sobre un
+         párrafo (regla dura 3 del §2). En móvil ocupa la franja de relleno
+         superior de la sección, que es carbón vacío de borde a borde; desde
+         62rem se muda a la columna de la derecha del encabezado, que el
+         titular no alcanza porque está acotado a --medida. Las medidas
+         están en vivero.css §1 bis. -->
+    <div class="viv-aire" aria-hidden="true"></div>
   </div>
 
   <!-- ---------- La banda a sangre: la jardinera y las cuatro piezas ---------
@@ -5361,6 +5726,30 @@
 
     </div>
   </div>
+
+  <!-- ======================================================================
+       FAUNA AMBIENTE — el lenguaje del hero, en voz baja.
+       Módulo COMPARTIDO (js/fauna-ambiente.js): esta sección no escribe ni
+       una línea de animación propia, sólo declara cuántas piezas y de qué
+       especie. El reparto lo fija DIRECTRICES-ANIMACION §2.4 y no es a
+       gusto de nadie: #vivero va `discreta` (4 piezas), sólo mariposas y
+       semilla 5. El colibrí NO entra aquí: sale una única vez en toda la
+       página, en #naturaleza, que es la otra mitad de este capítulo.
+
+       Con prefers-reduced-motion el módulo ni se descarga —el cerrojo es el
+       mismo que usa sections/hero.html— y la sección queda idéntica pero
+       quieta. Si el import falla, muere en silencio y no falta nada.
+       ====================================================================== -->
+  <script type="module">
+    if (!matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      import('./js/fauna-ambiente.js?v=dfc40bad')
+        .then((m) => m.montarFaunaAmbiente(
+          document.querySelector('#vivero .viv-aire'),
+          { densidad: 'discreta', especies: ['mariposa'], semilla: 5 }
+        ))
+        .catch(() => {});
+    }
+  </script>
 </section>
 
 <!-- ==========================================================================
@@ -5424,13 +5813,29 @@
 <section id="ubicacion" class="seccion seccion--alt ubi" aria-labelledby="ubicacion-titulo">
 
   <!-- ================= 1 · PORTADA: TITULAR + DIRECCIÓN ==================== -->
+  <!-- v6 · LA CAJA DE AIRE DE LA SECCIÓN. Vacía, decorativa y `aria-hidden`:
+       la puebla js/fauna-ambiente.js con la densidad `minima` que le asigna
+       DIRECTRICES-ANIMACION §2.4 —dos mariposas, una sola en pantalla
+       estrecha—. Es la sección más práctica del sitio y el reparto lo dice
+       así: aquí la fauna es un rastro, no una escena. Cae sobre la franja de
+       salvia vacía que abre la sección, nunca sobre un párrafo (§2, regla 3).
+       Medidas en ubicacion.css §0 bis. -->
+  <div class="ubi-aire" aria-hidden="true"></div>
+
   <div class="contenedor contenedor--ancho">
     <div class="ubi-portada">
 
       <header class="seccion-encabezado ubi-portada__texto reveal">
         <p class="eyebrow">Cómo llegar</p>
-        <h2 id="ubicacion-titulo" class="titulo-seccion">
-          Dónde queda, cuándo abrimos y con quién hablas
+        <!-- v6 · El titular se descubre renglón a renglón (.reveal-texto de
+             base.css §v7). Los dos cortes están escritos a mano: la primera
+             línea son las dos preguntas del mapa y la segunda es la persona.
+             Sin `--persiana`: «Cómo llegar» es un capítulo de una sola
+             sección y el gesto caro se reserva a los capítulos largos.
+             El texto no cambia ni una coma; sólo se parte en dos <span>. -->
+        <h2 id="ubicacion-titulo" class="titulo-seccion reveal reveal-texto">
+          <span class="reveal-texto__linea">Dónde queda, cuándo abrimos</span>
+          <span class="reveal-texto__linea">y con quién hablas</span>
         </h2>
         <p class="entradilla">
           Todo lo práctico en un solo sitio: el mapa, las referencias, el horario y el número
@@ -6197,6 +6602,22 @@
        Bajo prefers-reduced-motion no se monta: la foto de llegada se queda
        quieta en el encuadre que declara ubicacion.css. -->
   <script src="js/foto-focus.js?v=2e41fd79" defer></script>
+
+  <!-- FAUNA AMBIENTE — módulo compartido, cifras del reparto de
+       DIRECTRICES-ANIMACION §2.4: `minima` (2 piezas), sólo mariposas,
+       semilla 6. Ni una animación propia y ni un byte nuevo: los recortes
+       son los mismos PNG que ya sirvió la portada.
+       Con prefers-reduced-motion el módulo ni se descarga. -->
+  <script type="module">
+    if (!matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      import('./js/fauna-ambiente.js?v=dfc40bad')
+        .then((m) => m.montarFaunaAmbiente(
+          document.querySelector('#ubicacion .ubi-aire'),
+          { densidad: 'minima', especies: ['mariposa'], semilla: 6 }
+        ))
+        .catch(() => {});
+    }
+  </script>
 </section>
 </main>
 <!-- ==========================================================================

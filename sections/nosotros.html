@@ -74,7 +74,19 @@
   <div class="contenedor contenedor--ancho nosotros__predio">
 
     <header class="seccion-encabezado nosotros__titular reveal reveal--izq">
-      <p class="eyebrow">El predio</p>
+      <!-- v7 · SALE EL ANTETÍTULO «El predio», Y ES UNA DECISIÓN DE ORDEN,
+           NO UN RECORTE DE TEXTO.
+           DIRECTRICES-ANIMACION §1 resuelve la única desviación del orden que
+           pedía el cliente —#nosotros colándose entre la portada y los
+           espacios— tratando esta sección como CODA DE LA PORTADA y no como
+           capítulo propio: «sin banda propia, sin eyebrow de capítulo, sin
+           filete de apertura». Un antetítulo en versalitas es, en este
+           sistema, la marca que abre un capítulo; con él puesto, la vista
+           cuenta #nosotros como sección independiente y el primer capítulo
+           percibido deja de ser «Los espacios», que es lo que el cliente
+           pide. Sin él, esto se lee como el último párrafo de la portada.
+           No se pierde ni un dato: «El predio» no era información, era
+           rotulación, y el <h2> de abajo ya dice de qué se habla. -->
       <!-- v6 · TITULAR NUEVO, APROBADO POR EL CLIENTE. «Lo que hay detrás de
            la portería» prometía un misterio que el cuerpo no cumple, y
            «portería» sonaba a conjunto residencial. Éste conserva el umbral
@@ -84,8 +96,22 @@
            EL id NO SE TOCA: el <section> lo referencia con aria-labelledby.
            Escrito en caja alta y baja en el propio HTML, nunca en mayúsculas
            confiando en el CSS (CONTRATO-V2 §3).                             -->
-      <h2 class="titulo-seccion nosotros__titulo" id="nosotros-titulo">
-        Cruzas la reja y cambia el día
+      <!-- v7 · EL TITULAR SE DESCUBRE RENGLÓN A RENGLÓN (.reveal-texto de
+           base.css §v7). LA FRASE NO CAMBIA NI UNA LETRA: está aprobada por
+           el cliente y sigue siendo exactamente «Cruzas la reja y cambia el
+           día». Lo único que cambia es que los dos renglones existen en el
+           marcado en vez de dejárselos al balanceo del navegador.
+           Y CON ESO SOBRA EL max-width DE 16ch que nosotros.css §1 usaba para
+           forzar el corte en la conjunción: ahora el corte está escrito, así
+           que la regla se ha quitado de la hoja en vez de dejarla peleando
+           con los <span>.
+           SIN `--persiana`: esta sección es la coda de la portada, no la
+           apertura de un capítulo, y el gesto caro se gasta una vez por
+           capítulo. Aquí basta el revelado limpio.
+           EL id NO SE TOCA: el <section> lo referencia con aria-labelledby. -->
+      <h2 class="titulo-seccion nosotros__titulo reveal reveal-texto" id="nosotros-titulo">
+        <span class="reveal-texto__linea">Cruzas la reja</span>
+        <span class="reveal-texto__linea">y cambia el día</span>
       </h2>
 
       <!-- v6 · LA RAMA QUE SE DIBUJA SOLA -----------------------------------

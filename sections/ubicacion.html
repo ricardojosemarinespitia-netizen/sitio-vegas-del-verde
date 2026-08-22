@@ -59,13 +59,29 @@
 <section id="ubicacion" class="seccion seccion--alt ubi" aria-labelledby="ubicacion-titulo">
 
   <!-- ================= 1 · PORTADA: TITULAR + DIRECCIÓN ==================== -->
+  <!-- v6 · LA CAJA DE AIRE DE LA SECCIÓN. Vacía, decorativa y `aria-hidden`:
+       la puebla js/fauna-ambiente.js con la densidad `minima` que le asigna
+       DIRECTRICES-ANIMACION §2.4 —dos mariposas, una sola en pantalla
+       estrecha—. Es la sección más práctica del sitio y el reparto lo dice
+       así: aquí la fauna es un rastro, no una escena. Cae sobre la franja de
+       salvia vacía que abre la sección, nunca sobre un párrafo (§2, regla 3).
+       Medidas en ubicacion.css §0 bis. -->
+  <div class="ubi-aire" aria-hidden="true"></div>
+
   <div class="contenedor contenedor--ancho">
     <div class="ubi-portada">
 
       <header class="seccion-encabezado ubi-portada__texto reveal">
         <p class="eyebrow">Cómo llegar</p>
-        <h2 id="ubicacion-titulo" class="titulo-seccion">
-          Dónde queda, cuándo abrimos y con quién hablas
+        <!-- v6 · El titular se descubre renglón a renglón (.reveal-texto de
+             base.css §v7). Los dos cortes están escritos a mano: la primera
+             línea son las dos preguntas del mapa y la segunda es la persona.
+             Sin `--persiana`: «Cómo llegar» es un capítulo de una sola
+             sección y el gesto caro se reserva a los capítulos largos.
+             El texto no cambia ni una coma; sólo se parte en dos <span>. -->
+        <h2 id="ubicacion-titulo" class="titulo-seccion reveal reveal-texto">
+          <span class="reveal-texto__linea">Dónde queda, cuándo abrimos</span>
+          <span class="reveal-texto__linea">y con quién hablas</span>
         </h2>
         <p class="entradilla">
           Todo lo práctico en un solo sitio: el mapa, las referencias, el horario y el número
@@ -832,4 +848,20 @@
        Bajo prefers-reduced-motion no se monta: la foto de llegada se queda
        quieta en el encuadre que declara ubicacion.css. -->
   <script src="js/foto-focus.js?v=2e41fd79" defer></script>
+
+  <!-- FAUNA AMBIENTE — módulo compartido, cifras del reparto de
+       DIRECTRICES-ANIMACION §2.4: `minima` (2 piezas), sólo mariposas,
+       semilla 6. Ni una animación propia y ni un byte nuevo: los recortes
+       son los mismos PNG que ya sirvió la portada.
+       Con prefers-reduced-motion el módulo ni se descarga. -->
+  <script type="module">
+    if (!matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      import('./js/fauna-ambiente.js')
+        .then((m) => m.montarFaunaAmbiente(
+          document.querySelector('#ubicacion .ubi-aire'),
+          { densidad: 'minima', especies: ['mariposa'], semilla: 6 }
+        ))
+        .catch(() => {});
+    }
+  </script>
 </section>
