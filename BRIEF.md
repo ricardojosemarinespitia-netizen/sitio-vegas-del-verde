@@ -10,7 +10,7 @@ Donde haya conflicto con documentos viejos, **manda el portafolio**.
 - **Nombre:** Vegas del Verde
 - **Tagline oficial:** *Oasis para la recreación y el bienestar*
 - **Descriptor:** Refugio natural en el corazón del Área Metropolitana de Bucaramanga
-- **Web:** www.vegasdelverde.com
+- **Web:** www.vegasdelverde.co
 
 ### Paleta EXACTA (extraída del logo y el portafolio) — no inventar colores
 ```
