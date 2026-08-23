@@ -54,6 +54,27 @@
      la barra de direcciones móvil no deje una franja del fondo al descubierto. */
   height: 100dvh;
   min-height: 26rem;
+  /* EL ARCO, en los dos anchos, no sólo bajo un @media: es la misma silueta
+     medida que tenía `.espacio--medio` (el Teatrino) en la extinta
+     #espacios — medio punto arriba, esquina casi recta abajo — antes de que
+     esa sección se retirara del sitio (ver
+     `git log -p -- styles/sections/espacios.css`, commit 87dbb40, línea
+     `--espacio-silueta: 50% 50% var(--radio-md) var(--radio-md);`, el mismo
+     valor que luego se unificó para las cinco tarjetas en móvil). No se
+     inventa una proporción nueva: se reutiliza la que el cliente ya vio y
+     pidió. `overflow: hidden` de aquí arriba es lo que la hace efectiva —
+     recorta foto, velo, marco Y la pastilla de aforo por igual.
+
+     ESTE ES EL ARCO EN REPOSO, Y ES EL ÚNICO QUE SE DECLARA AQUÍ
+     (js/usos-arco.js): con el scroll, el script releva a este
+     `border-radius` por un `clip-path: path(...)` en línea sobre ESTA MISMA
+     caja, que dibuja el mismo arco a mayor tamaño hasta que sus bordes
+     salen de la pantalla y sólo queda la fotografía. En el momento del
+     relevo las dos siluetas coinciden píxel a píxel —el script lee de aquí
+     el radio de las esquinas de abajo y deduce los de arriba de la caja—,
+     así que no hay salto. Sin JavaScript, o con `prefers-reduced-motion:
+     reduce`, manda esta regla y la tarjeta se queda en su arco pequeño. */
+  border-radius: 50% 50% var(--radio-md) var(--radio-md);
 }
 
 .usos-tarjeta::-webkit-details-marker {
@@ -71,11 +92,11 @@
   height: 100%;
   object-fit: cover;
   object-position: 50% 38%;
-  /* Reposo = sin recorte, foto completa. js/usos-ovalo.js escribe aquí un
-     `clip-path: ellipse(...)` en línea, ligado al progreso de scroll de la
-     tarjeta: crece hasta cubrir la tarjeta entera al centrarse en la
-     ventana. Sin ese script (JS apagado o prefers-reduced-motion: reduce)
-     este elemento se queda exactamente así — la foto se ve completa. */
+  /* Sin recorte propio, ni estático ni animado: la foto llena su caja y
+     quien la recorta es SIEMPRE `.usos-tarjeta` con la silueta de arco (en
+     reposo por `border-radius`, con el scroll por el `clip-path` que
+     escribe js/usos-arco.js). Una sola silueta para toda la tarjeta —foto,
+     velo, texto y pastilla de aforo entran y salen del arco a la vez. */
 }
 
 /* Alameda: boda-arbol.jpg es retrato (1400×1920), a diferencia del resto de
@@ -108,9 +129,9 @@
   justify-content: flex-end;
   padding: var(--esp-lg);
   color: var(--color-texto-inverso);
-  /* Reposo = opacidad normal (heredada, 1), texto visible. js/usos-ovalo.js
+  /* Reposo = opacidad normal (heredada, 1), texto visible. js/usos-arco.js
      escribe aquí `opacity` en línea (y `pointer-events: none` cerca de 0),
-     en la misma progresión que el óvalo de la foto: baja hacia 0 al
+     en la misma progresión que el arco de la tarjeta: baja hacia 0 al
      centrarse la tarjeta. Sin ese script el texto se queda visible. */
 }
 
@@ -155,6 +176,75 @@
   display: none;
 }
 
+/* ---- Pastilla de aforo sobre la foto ---------------------------------
+   Pedido explícito del cliente sobre una captura de la extinta #espacios:
+   cifra grande + «PERSONAS COMO MÁXIMO» superpuestas a la foto principal,
+   no sólo dentro del panel. Mismo lenguaje visual que `.usos-panel__aforo`
+   —píldora, --radio-full, --fuente-titulo en versalitas— pero resuelta
+   como su propia capa (no dentro de `.usos-tarjeta__marco`) porque:
+
+   1. VIVE EN LA ESQUINA SUPERIOR, no en la inferior. `.usos-tarjeta__marco`
+      ya ocupa todo el borde inferior (nombre, frase, aviso) con
+      `justify-content: flex-end`; una pastilla ahí competiría por el mismo
+      espacio y en pantallas bajas se encimaría con la frase. El arco de la
+      silueta además deja más foto «respirando» arriba —el medio punto no
+      recorta esa zona— así que es donde mejor se lee una pastilla clara
+      sobre foto oscura.
+   2. NO SE APAGA CON EL SCROLL. `.usos-tarjeta__marco` es el elemento cuya
+      opacidad anima `usos-arco.js`; el dato de aforo es información, no
+      un gesto decorativo, así que queda fuera de ese elemento y de su
+      animación — el aforo se mantiene legible en todo el recorrido de
+      scroll, cuando el arco ya llenó la pantalla y el resto del texto se
+      apagó.
+   3. EL PANEL DEJA DE REPETIR LA CIFRA (ver el HTML: `.usos-panel__aforo`
+      se retiró de las 5 tarjetas): con la pastilla ya visible en la
+      portada de la tarjeta, repetirla dentro del panel que se abre debajo
+      era el mismo dato dos veces en la misma tarjeta — la regla que la
+      propia sección declara no romper (ver comentario de cabecera de
+      usos.html: «ninguna cifra de aforo se repite aquí»). El panel se
+      queda con lo que sólo él aporta: los usos recomendados. */
+.usos-tarjeta__aforo {
+  position: absolute;
+  z-index: 2;
+  inset-block-start: var(--esp-lg);
+  inset-inline-end: var(--esp-lg);
+  display: flex;
+  align-items: baseline;
+  gap: var(--esp-3xs);
+  padding: var(--esp-3xs) var(--esp-sm);
+  background-color: rgb(var(--crema-rgb) / 0.94);
+  border-radius: var(--radio-full);
+  box-shadow: var(--sombra-sm);
+  color: var(--color-texto);
+  max-width: calc(100% - 2 * var(--esp-lg));
+}
+
+.usos-tarjeta__aforo-cifra {
+  font-family: var(--fuente-display);
+  font-size: clamp(1.5rem, 1.15rem + 1.4vw, 2rem);
+  line-height: 1;
+  white-space: nowrap;
+}
+
+/* Cancha: dos cifras (jugadores + espectadores), no una — la única tarjeta
+   con dos topes de aforo distintos. El «+20» va más chico y al lado, nunca
+   se inventa un promedio ni se calla el segundo número. */
+.usos-tarjeta__aforo-cifra-extra {
+  font-family: var(--fuente-display);
+  font-size: clamp(1rem, 0.85rem + 0.6vw, 1.25rem);
+  color: var(--color-texto-suave);
+}
+
+.usos-tarjeta__aforo-texto {
+  font-family: var(--fuente-titulo);
+  font-size: var(--fs-micro);
+  line-height: 1.15;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--color-texto-suave);
+  max-width: 9ch;
+}
+
 /* El parpadeo: sólo opacity, y sólo si el visitante no pidió menos
    movimiento. Un pulso lento —no un intermitente de alarma— para que se
    note sin ser molesto en una tarjeta que ocupa la pantalla entera. */
@@ -186,25 +276,12 @@
   padding: var(--esp-lg) var(--padding-contenedor);
 }
 
-/* Pastilla de aforo: mismo lenguaje que .usos-tarjeta__aviso (píldora,
-   mayúsculas, --radio-full) pero en superficie sólida —vive sobre el fondo
-   plano del panel, no sobre una foto— para que se lea como un dato y no
-   como un control. Va antes de la lista de usos: primero cuánto cabe,
-   luego para qué sirve. */
-.usos-panel__aforo {
-  display: inline-flex;
-  width: fit-content;
-  margin: 0 0 var(--esp-md);
-  padding: var(--esp-2xs) var(--esp-md);
-  border-radius: var(--radio-full);
-  background-color: var(--color-fondo);
-  box-shadow: var(--sombra-sm);
-  font-family: var(--fuente-titulo);
-  font-size: var(--fs-micro);
-  letter-spacing: 0.04em;
-  color: var(--color-texto);
-}
-
+/* La cifra de aforo YA NO vive aquí (v15): se subió a `.usos-tarjeta__aforo`,
+   superpuesta a la foto principal desde antes de abrir la tarjeta. Repetirla
+   dentro del panel era el mismo dato dos veces en la misma tarjeta abierta;
+   el panel se queda con lo único que sólo él aporta — los usos
+   recomendados. Regla vigente: la cifra de aforo tiene un solo dueño visual
+   por tarjeta. */
 .usos-panel__lista {
   list-style: none;
   margin: 0;

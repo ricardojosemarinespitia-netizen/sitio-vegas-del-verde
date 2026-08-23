@@ -174,15 +174,18 @@
            ================================================================ -->
       <li class="planes-carril planes-carril--fiesta reveal reveal--izq">
 
-        <!-- ESCENA POR SCROLL DEL ACTO 1 (sólo ≥64em y sin prefers-reduced-motion,
-             ver planes.css junto a §3). La pista es este `<div>` nuevo; el
-             escenario clavado sigue siendo `.planes-fiesta__acto1` de siempre,
-             CERO marcado nuevo dentro: la foto, la marca de agua y la tarjeta
-             son las mismas piezas ya medidas por contraste, sólo se les cuelgan
-             las variables `--entrada`/`--texto` que escribe
-             js/escena-planes.js cuadro a cuadro. Por debajo de 64em o con
-             `.js` ausente/reducido, este `<div>` no pinta nada (altura auto,
-             posición estática): el carril se ve exactamente como siempre. -->
+        <!-- ESCENA POR SCROLL DEL ACTO 1 (en TODOS los anchos; se apaga sólo
+             con `.js` ausente o con prefers-reduced-motion — ver planes.css
+             junto a §3). La pista es este `<div>`; el escenario clavado sigue
+             siendo `.planes-fiesta__acto1` de siempre, CERO marcado nuevo
+             dentro: la foto, la marca de agua y la tarjeta son las mismas
+             piezas ya medidas por contraste, sólo se les cuelgan las variables
+             `--entrada`/`--texto` que escribe js/escena-planes.js cuadro a
+             cuadro. Sin JS o con movimiento reducido este `<div>` no pinta
+             nada (altura auto, posición estática) y el carril se ve como
+             siempre. Ya NO hay un segundo armado para pantalla estrecha: el
+             teléfono ve la misma escena que el escritorio, que es lo que pidió
+             el cliente y lo que evita que la marca de agua se encime. -->
         <div class="planes-fiesta__escena">
         <div class="planes-fiesta__acto1">
 

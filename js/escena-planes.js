@@ -69,6 +69,12 @@ function escenaPorScroll(pista, guion) {
  * Tramos (documentados también en planes.css, junto a §3, para quien lea
  * sólo la hoja de estilos): 0–34 % sube y se abre el recorte; 34–55 % pausa
  * con la foto sola; 55–80 % entra el texto; 80–100 % queda quieto.
+ *
+ * Corre en TODOS los anchos. No hay —ni debe volver a haber— una comprobación
+ * de ancho aquí ni en el CSS: la escena es la misma en un teléfono y en un
+ * monitor, y lo único que cambia con el ancho es el cuerpo de la letra y la
+ * medida de la tarjeta. Dos armados para la misma pieza fue justo lo que
+ * rompió la marca de agua en móvil en agosto de 2026.
  */
 export function activarEscenaFiesta() {
   const pista = document.querySelector('.planes-fiesta__escena');

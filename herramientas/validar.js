@@ -55,7 +55,10 @@ for (const t of trozos) {
 }
 
 const ESPERADO = ['inicio', 'usos', 'nosotros', 'planes', 'momentos',
-                  'colegios', 'naturaleza', 'vivero', 'ubicacion'];
+                  'colegios', 'naturaleza', 'vivero', 'ubicacion',
+                  // v14 · el compromiso cierra el recorrido, después de cómo
+                  // llegar y justo antes del pie.
+                  'compromiso'];
 
 const raya = '='.repeat(74);
 console.log(raya);
@@ -73,8 +76,11 @@ const HECHOS = [
  ['«A 10 minutos» (promesa de cercania)', ['inicio'], ['\\ba (10|diez) minutos\\b'], false],
  ['«Nosotros ponemos los arboles»', ['inicio'], ['ponemos los arboles'], false],
  ['Refugio privado, cerrado y vigilado', ['nosotros'], ['bullicio urbano'], false],
- ['Compromiso «conexion y aprendizaje conjunto»', ['nosotros'], ['aprendizaje conjunto'], false],
- ['Los tres pilares', ['nosotros'], ['educacion ambiental','conciencia social','relaciones sanas'], false],
+ // v14 · los dos hechos del compromiso cambian de DUEÑO, no de contenido: la
+ // banda salió de #nosotros y es ahora la sección #compromiso, la última del
+ // <main>. Siguen escritos una sola vez en todo el sitio.
+ ['Compromiso «conexion y aprendizaje conjunto»', ['compromiso'], ['aprendizaje conjunto'], false],
+ ['Los tres pilares', ['compromiso'], ['educacion ambiental','conciencia social','relaciones sanas'], false],
  ['Servicios del predio (Wifi/Banos/Vigilancia/Parqueadero)', ['nosotros'], ['\\bwifi\\b','vigilancia privada','\\bparqueadero\\b'], false],
  ['«Proximamente: arenero»', ['nosotros'], ['\\barenero\\b'], false],
  ['Aforo Alameda 150', ['usos'], ['\\b150 personas\\b'], false],

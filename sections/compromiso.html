@@ -1,0 +1,183 @@
+<!-- ==========================================================================
+     FRAGMENTO: EL COMPROMISO  ·  ancla #compromiso
+     CSS propio: styles/sections/nosotros.css §3 (no se le abre hoja nueva:
+     la banda comparte todo su vocabulario visual con #nosotros y duplicar
+     ochenta líneas en un archivo aparte sería la forma más barata de que las
+     dos copias se separen).
+     JS propio: js/foto-focus.js (el mismo módulo compartido con #nosotros y
+     #espacios; el <script defer> lleva cerrojo de doble inclusión).
+
+     v14 — POR QUÉ ESTO YA NO VIVE DENTRO DE #nosotros ----------------------
+     Pedido del cliente, repetido tres veces y cada vez con más impaciencia:
+     «Nuestro compromiso» va AL FINAL. Se movió dos veces dentro de #nosotros
+     —hasta ser su último bloque— y la queja siguió igual, lo que significa
+     que «al final» nunca quiso decir «al final de esa sección»: quiere decir
+     al final del RECORRIDO. Aquí lo es. La banda pasa a ser una sección
+     propia, la última del <main>, justo antes del pie.
+
+     Y es la decisión correcta de diseño, no sólo la obediente. El compromiso
+     no describe el predio: dice para qué existe. Puesto a media página era el
+     porqué contado antes de haber enseñado nada; puesto al final es la
+     respuesta a todo lo que el visitante acaba de recorrer —los espacios, los
+     planes, el bosque, cómo llegar— y el sitio cierra en negativo, con la
+     misma voz grave con la que abre el hero.
+
+     LO QUE NO CAMBIA, Y ES CASI TODO: ni una palabra del texto, ni un hecho de
+     dueño (la tabla de propiedad de herramientas/validar.js pasa de «nosotros»
+     a «compromiso» para estos dos hechos, que es exactamente lo mismo dicho
+     una sola vez), ni una regla de CSS, ni la foto, ni las animaciones. El
+     marcado es el que ya existía en sections/nosotros.html, con dos únicos
+     ajustes obligados por el ensamblador: la etiqueta abre con `id` propio
+     —`herramientas/ensamblar.js` comprueba que el primer <section> del
+     fragmento traiga el ancla que pide ORDEN— y el <script> de foto-focus
+     viaja con él, porque la foto del panel de aves se va con la banda.
+
+     SIN `.seccion`: la banda ya se pone su propio `margin-top: --esp-seccion`
+     y su `padding-block: --esp-seccion-sm` en nosotros.css §3. Añadirle la
+     utilidad le sumaría un segundo aire de sección y abriría un hueco muerto
+     entre #ubicacion y el cierre.
+
+     Foto: parque-20.jpg (el panel pintado con aves del predio, verificada: es
+     un panel apoyado, no un mural sobre un muro).
+     Sin CTA a WhatsApp a propósito: #ubicacion, justo encima, es la sección
+     que cierra la conversación comercial; repetir aquí el botón sería pedir
+     dos veces lo mismo en dos pantallas seguidas.
+     ========================================================================== -->
+<section class="nosotros__compromiso seccion--oscura" id="compromiso" aria-labelledby="compromiso-titulo">
+
+  <!-- Los tres pilares del BRIEF, enteros y una sola vez en todo el sitio.
+       El texto se queda en la retícula y el panel de aves se sale por el borde
+       DERECHO. Los pilares no son tres tarjetas sino tres renglones separados
+       por un hilo, con la cifra grande haciendo de índice: una lista que se
+       lee, no un carrusel.
+
+       LA BANDA OSCURA. `seccion--oscura` es una utilidad de base.css y no un
+       invento de esta hoja: trae el fondo verde bosque, el texto en crema, los
+       h1–h6 en negativo, el rótulo y la entradilla en crema al 78 % y el foco
+       en amarillo. Lo que NO trae —y por eso está escrito a mano en
+       nosotros.css §3 bis— es el color del índice de cada pilar (terracota
+       sobre oscuro no llega a 4,5:1; va en amarillo del logo, 7,3), el de sus
+       párrafos y el de los filetes que los separan.
+
+       CUIDADO SI SE TOCA: `.seccion--oscura h1..h6` mide (0,1,1) y le gana a
+       cualquier clase suelta. Si algún día entra aquí una tarjeta CLARA, su
+       titular hay que pintarlo nombrando el ancestro, no con una clase a
+       secas, o se queda en crema sobre claro. -->
+  <div class="nosotros__compromiso-texto reveal reveal--izq">
+
+    <header class="seccion-encabezado">
+      <p class="eyebrow">Nuestro compromiso</p>
+      <h3 class="titulo-seccion titulo-seccion--sm" id="compromiso-titulo">
+        Aquí se viene a estar bien
+      </h3>
+      <p class="entradilla">
+        Creemos en el poder de la conexión y el aprendizaje conjunto. Por
+        eso abrimos el predio a actividades que promueven el bienestar
+        físico, mental y emocional.
+      </p>
+    </header>
+
+    <ol class="nosotros__pilares reveal-secuencia">
+
+      <li class="nosotros__pilar reveal">
+        <span class="nosotros__pilar-indice" aria-hidden="true">01</span>
+        <div class="nosotros__pilar-cuerpo">
+          <h4 class="nosotros__pilar-titulo">
+            Educación ambiental y conciencia social
+          </h4>
+          <p>
+            Que te vuelvas a casa con algo aprendido, no sólo con fotos.
+          </p>
+        </div>
+      </li>
+
+      <li class="nosotros__pilar reveal">
+        <span class="nosotros__pilar-indice" aria-hidden="true">02</span>
+        <div class="nosotros__pilar-cuerpo">
+          <h4 class="nosotros__pilar-titulo">
+            Desarrollo de relaciones sanas y respetuosas
+          </h4>
+          <p>
+            Sitio de sobra para sentarse en círculo y hablarse de frente,
+            sin prisa.
+          </p>
+        </div>
+      </li>
+
+      <li class="nosotros__pilar reveal">
+        <span class="nosotros__pilar-indice" aria-hidden="true">03</span>
+        <div class="nosotros__pilar-cuerpo">
+          <h4 class="nosotros__pilar-titulo">
+            Respeto por la naturaleza y por los demás
+          </h4>
+          <p>
+            Lo dejas como lo encontraste. Tu plan pasa; el bosque se queda.
+          </p>
+        </div>
+      </li>
+
+    </ol>
+
+    <!-- LA BANDADA — el cierre del cierre --------------------------------
+         Tres vuelos de tamaños distintos que se dibujan uno detrás de otro y
+         que además DERIVAN con el scroll (nosotros.css §6). Van aquí, en flujo
+         normal debajo del último pilar, y no en posición absoluta: la banda es
+         una rejilla de tres pistas con `align-items: center` y una pieza
+         flotante sobre ella se colocaría distinto según lo alto que quede el
+         panel de aves de al lado. En flujo el sitio es siempre el mismo y el
+         `transform` de la deriva no mueve nada de la maqueta.
+
+         v14 · EL DISPARADOR SIGUE SIENDO EL MISMO SIN TOCAR UNA LÍNEA DE JS.
+         js/app.js marca las siluetas al entrar el ANCESTRO `section` más
+         cercano, y el compromiso ya era un <section> propio cuando vivía
+         anidado dentro de #nosotros: al sacarlo al primer nivel del <main>
+         sigue siendo su propio disparador. Esta bandada arranca cuando entra
+         la banda oscura, exactamente igual que antes.
+
+         Estado inicial horneado a mano —`icono-traza` en la raíz y
+         `pathLength="1"` en cada forma—, así que el trazo está oculto desde el
+         primer paint y no hay un fotograma de parpadeo esperando al `defer`.
+         Cada vuelo lleva una sola `M` para que el guion pueda recorrerlo
+         entero: un camino con trazos sueltos saldría entrecortado.        -->
+    <svg class="icono-traza nosotros__silueta nosotros__silueta--vuelo"
+         viewBox="0 0 24 24" fill="none" stroke="currentColor"
+         stroke-width="0.9" stroke-linecap="round" stroke-linejoin="round"
+         aria-hidden="true" focusable="false">
+      <path d="M1.8 16.3c2.1-.4 3.8-1.5 5.1-3.2 1.3 1.7 3 2.8 5.1 3.2" pathLength="1"/>
+      <path d="M10.4 8.1c1.5-.3 2.7-1.1 3.6-2.3.9 1.2 2.1 2 3.6 2.3" pathLength="1"/>
+      <path d="M17.6 13.4c1-.2 1.9-.8 2.5-1.6.6.8 1.5 1.4 2.5 1.6" pathLength="1"/>
+    </svg>
+
+  </div>
+
+  <!-- No lleva `reveal--der`: el panel sangra por el borde derecho de la
+       ventana y un desplazamiento horizontal lo empujaría 28 px fuera de la
+       pantalla. Entra con `reveal--zoom`, que sólo escala: no desplaza nada y
+       por tanto no puede desbordar. -->
+  <!-- FOTO-FOCUS: es la pieza grande de la banda y la que cierra el sitio.
+       data-foco sube el encuadre desde el 57 % del CSS hacia el panel pintado
+       (el colibrí queda a media altura de la foto): al centrar la banda, los
+       pájaros centran con ella. El zoom es un punto mayor que el del prado
+       porque el motivo es más pequeño. -->
+  <figure class="nosotros__mural reveal reveal--zoom" data-foto-focus data-foco="50% 46%" data-zoom="0.14">
+    <img
+      src="img/parque/parque-20.jpg"
+      width="900"
+      height="1200"
+      alt="Panel pintado con aves del predio, apoyado sobre el césped junto a una construcción de caña: un colibrí en vuelo, una tángara roja posada en una rama y un perico verde entre hojas, sobre fondo turquesa, entre platanillos y heliconias."
+      loading="lazy"
+      decoding="async"
+    />
+  </figure>
+
+  <!-- FOTO-FOCUS — por qué el <script> va aquí dentro y no en la cola de
+       index.html: el ensamblador copia tal cual la cola (donde viven app.js y
+       mapa.js), así que un fragmento no puede añadir nada allí; el precedente
+       es momentos-video.js. Carga con defer —no bloquea el parseo y corre con
+       el DOM completo— y #nosotros y #espacios declaran este mismo archivo: el
+       propio script lleva un cerrojo que hace inofensiva la tercera ejecución,
+       y el navegador sólo lo descarga una vez. Bajo prefers-reduced-motion no
+       se monta: la foto queda quieta en el encuadre del CSS. -->
+  <script src="js/foto-focus.js?v=2e41fd79" defer></script>
+
+</section>

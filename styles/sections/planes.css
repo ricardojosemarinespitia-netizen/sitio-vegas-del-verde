@@ -434,36 +434,59 @@
 }
 
 /* ESCENA POR SCROLL DEL ACTO 1 — director de arte, agosto de 2026.
-   `.planes-fiesta__escena` es la pista nueva que envuelve `.planes-fiesta__acto1`
-   en el HTML; sin JS o por debajo de 64em NO HACE NADA (altura auto, posición
-   estática): el carril se ve exactamente como en el resto del sitio. Sólo con
-   `.js` en `<html>`, ancho de escritorio Y `prefers-reduced-motion: no-preference`
-   a la vez se activa el pin: js/escena-planes.js mide el scroll y escribe
-   `--entrada`/`--texto` en `.planes-fiesta__escena`; TODO el movimiento lo hacen
-   `clip-path`, `transform` y `opacity` de aquí abajo, en el compositor.
+   `.planes-fiesta__escena` es la pista que envuelve `.planes-fiesta__acto1`
+   en el HTML; sin JS o con movimiento reducido NO HACE NADA (altura auto,
+   posición estática): el carril se ve exactamente como en el resto del sitio.
+   Con `.js` en `<html>` y `prefers-reduced-motion: no-preference` se activa el
+   pin: js/escena-planes.js mide el scroll y escribe `--entrada`/`--texto` en
+   `.planes-fiesta__escena`; TODO el movimiento lo hacen `clip-path`,
+   `transform` y `opacity` de aquí abajo, en el compositor.
 
-   POR QUÉ SÓLO ≥64em: es el mismo umbral en el que la tarjeta YA pasa a
-   `position: absolute` sobre la foto (§3, más abajo). Ese es el único punto
-   del diseño donde foto y texto ocupan la misma caja, que es justo lo que la
-   escena necesita para clavarse en pantalla completa. Por debajo de 64em la
-   tarjeta vive en flujo normal DEBAJO de la foto a propósito —«en móvil baja
-   a bloque debajo de la foto», comentario original de §3— y un `overflow`
-   clavado la recortaría fuera de la vista. No es una escena a medias: es la
-   misma decisión responsive que ya regía este carril, con una entrada nueva
-   encima donde ya se cumplía.
+   REVISIÓN DE AGOSTO DE 2026 (v2) · LA ESCENA YA NO ES DE ESCRITORIO.
+   La versión anterior encerraba todo esto en `min-width: 64em` y dejaba en
+   pantalla estrecha un armado DISTINTO —foto con alto fijo y tarjeta en flujo
+   debajo— con su propia composición de la marca de agua. Dos armados para la
+   misma pieza es exactamente lo que producía la queja del cliente: en su
+   teléfono la marca se veía partida y encimada, porque la única versión
+   probada de verdad era la de escritorio. Aquí se resuelve por unificación,
+   que es como lo resuelve el mismo efecto en el sitio de Rafael Silva («La
+   prueba», sitio/estilo.css §durabilidad): allí NO hay un solo breakpoint —la
+   escena es idéntica a 375 px y a 1600, y lo único que cambia con el ancho es
+   el CUERPO de la letra, vía clamp(). Este bloque hace lo mismo.
+
+   Lo único que sigue mirando el ancho es la MEDIDA de la tarjeta (más abajo):
+   ancha de borde a borde en pantalla estrecha, columna de cinco pasos posada
+   a la derecha en escritorio. Es una medida, no otro armado: en los dos casos
+   la tarjeta está posada sobre la foto, dentro del escenario clavado.
 
    Los números de los tramos (0–34, 34–55, 55–80, 80–100) están en
    js/escena-planes.js y se repiten aquí en prosa para quien lea sólo esta
    hoja: sube y se abre el recorte · la foto quieta y sola · entra el texto ·
    reposo. */
+/* Los valores por defecto son 1 —escena RESUELTA— y no 0, por la misma razón
+   por la que lo son en «La prueba»: si el módulo no llega a cargar, lo que
+   queda en pantalla es la foto entera con su texto legible encima, nunca un
+   texto a opacidad 0 esperando a un script que no vino. El motor escribe los
+   valores reales en su primer cuadro, que ocurre en cuanto se importa. */
 .planes-fiesta__escena {
-  --entrada: 0;
-  --texto: 0;
+  --entrada: 1;
+  --texto: 1;
 }
 
-@media (min-width: 64em) and (prefers-reduced-motion: no-preference) {
+@media (prefers-reduced-motion: no-preference) {
   .js .planes-fiesta__escena {
     position: relative;
+    /* LA PISTA ENTERA SE SALE AL BORDE DE LA VENTANA, y no es cosmética.
+       El escenario clavado lleva `overflow: clip`, así que si el sangrado lo
+       pusiera la portada por dentro, el recorte se lo comería y la pieza se
+       quedaría con el ancho del contenedor. Con el sangrado AQUÍ, el panel
+       clavado mide la ventana entera: la foto vuelve a ir a sangre —que es
+       lo que este carril siempre fue— y, sobre todo, el cuerpo de la marca
+       de agua vuelve a cuadrar. `--planes-marca-tope` está calculado en `vw`
+       contra la VENTANA; con la portada encogida dos paddings, el renglón
+       largo se salía por la derecha y «encienden» se leía «enciende», que es
+       otra palabra. Era ESE el titular partido que reportó el cliente. */
+    margin-inline: var(--planes-sangrado);
     /* Tres pantallas de recorrido: ni tan corto que el pin no se note (una
        pista de 1 pantalla no deja tiempo de leer el gesto) ni tan largo que
        el visitante tenga que scrollear de más para llegar al díptico. */
@@ -478,12 +501,27 @@
     overflow: clip;
   }
 
+  /* LA MARCA BAJA POR DEBAJO DEL HEADER. Clavado a `top: 0`, el primer
+     renglón de la marca de agua caía justo detrás de la barra fija y se leía
+     cortado por arriba —el mismo síntoma que reportó el cliente—. `--alto-header`
+     es el token que ya usan `scroll-padding-top` y los `scroll-margin-top` de
+     base.css: la misma cifra, no un número nuevo. */
+  .js .planes-fiesta__escena .planes-portada__marca {
+    inset-block-start: calc(var(--alto-header) + var(--gap));
+  }
+
   /* La foto pasa de ocupar `--planes-portada-alto` a ocupar TODA la pantalla
      clavada: es la lámina que sube y se abre. `margin-inline` se anula porque
      el sangrado de siempre ya no aplica —aquí la portada ES la pantalla. */
   .js .planes-fiesta__escena .planes-portada {
     block-size: 100%;
     margin-inline: 0;
+    /* El verde de espera se cambia por la crema de la página: lo que rodea al
+       recorte mientras la foto sube TIENE que ser el fondo de la sección, o
+       el hueco se lee como un rectángulo verde pegado encima en vez de como
+       la lámina que asoma. Es lo mismo que hace `.prueba__escena` con
+       `var(--fondo)` en el sitio de Rafael Silva. */
+    background-color: var(--color-fondo);
   }
 
   /* EL RECORTE QUE SE ABRE. En `--entrada: 0` la foto asoma como una lámina
@@ -507,10 +545,50 @@
      opacidad y un desplazamiento corto, gobernados por `--texto`, que se
      queda en 0 mientras la foto todavía sube y sólo empieza a subir a partir
      del tramo 55–80 % que fija js/escena-planes.js. */
+  /* EL VELO ENTRA CON EL TEXTO, NO ANTES. Es una banda oscura que cubre el
+     tercio alto de la portada; mientras la foto todavía sube, esa banda cae
+     sobre la parte de la caja que el recorte deja VACÍA y se ve como un
+     rectángulo verde encima de la lámina. Colgado de `--texto` aparece justo
+     cuando hace falta —es el que sostiene los 10,9:1 de la marca de agua— y
+     durante la pausa de foto sola no hay nada encima de la fotografía, que
+     es la razón de ser de la pausa. Mismo criterio que `.prueba__velo`. */
+  .js .planes-fiesta__escena .planes-portada__velo {
+    opacity: var(--texto);
+  }
+
+  /* El velo NO entra en esta regla: sólo se le funde la opacidad. Va pegado a
+     los cuatro lados de la portada y desplazarlo 28 px dejaría una franja sin
+     velar justo arriba, que es donde cae la marca. */
   .js .planes-fiesta__escena .planes-portada__marca,
   .js .planes-fiesta__escena .planes-portada__tarjeta {
     opacity: var(--texto);
     translate: 0 calc((1 - var(--texto)) * 28px);
+  }
+
+  /* LA TARJETA SE POSA SOBRE LA FOTO EN TODOS LOS ANCHOS, y no es un capricho
+     de composición: dentro del escenario clavado (`overflow: clip`, alto de
+     una pantalla) una tarjeta en flujo normal quedaría DEBAJO del recorte,
+     es decir, invisible. Posarla es la condición para que la escena exista.
+     De base ocupa el ancho de la columna de lectura, con el sangrado devuelto
+     a cero por los dos flancos; el afinado de escritorio va justo debajo. */
+  .js .planes-fiesta__escena .planes-portada__tarjeta {
+    position: absolute;
+    z-index: var(--z-elevado);
+    inset-block-end: var(--gap);
+    inset-inline: calc(var(--planes-sangrado) * -1);
+    max-inline-size: none;
+  }
+}
+
+/* El afinado de escritorio de la tarjeta DENTRO de la escena: vuelve a ser la
+   columna de cinco pasos anclada a la derecha, que es lo que cruza la imagen
+   en diagonal contra la marca de agua que abre por la izquierda. Va aparte y
+   no anidado para no encadenar dos `@media`: mismas condiciones, sumadas. */
+@media (min-width: 64em) and (prefers-reduced-motion: no-preference) {
+  .js .planes-fiesta__escena .planes-portada__tarjeta {
+    inset-block-end: var(--gap-lg);
+    inset-inline-start: auto;
+    max-inline-size: calc(var(--planes-paso) * 5 - var(--gap));
   }
 }
 
@@ -604,8 +682,11 @@
   color: rgb(var(--crema-rgb) / 0.7);
 }
 
-/* EL CONTORNO ES UN GESTO DE ESCRITORIO, Y SÓLO DE ESCRITORIO.
-   ARREGLO DE AGOSTO DE 2026 · queja literal del cliente: «las letras en
+/* EL CONTORNO YA NO ES SÓLO DE ESCRITORIO — ver v4 más abajo: desde agosto
+   de 2026 (v4) se aplica siempre, subiendo el cuerpo mínimo en vez de
+   restringir por puntero. El diagnóstico original (v1) explica POR QUÉ
+   importa el cuerpo tipográfico y sigue vigente tal cual.
+   ARREGLO DE AGOSTO DE 2026 (v1) · queja literal del cliente: «las letras en
    blanco de las fotos de eventos bonitas en celular se ven horribles, en PC
    sí».
 
@@ -648,30 +729,39 @@
    sistema agrandada o en modo "sitio de escritorio" del navegador reportan
    más de 768px de ancho aunque sean un dedo tocando cristal, no un mouse.
 
-   EL CRITERIO CORRECTO: `pointer: fine` — hay un puntero de precisión (mouse,
-   trackpad) — en vez de `min-width`. Es exactamente la señal que distingue
-   "hay alguien con mouse mirando esto de cerca en un monitor" de "esto es
-   una pantalla que se toca", sin importar cuántos px de ancho reporte esa
-   pantalla. Un teléfono nunca cumple `pointer: fine`, así que nunca ve el
-   contorno hueco — vea 360px o 1160px. Un computador con mouse sí lo ve.   */
-@media (min-width: 48em) and (pointer: fine) {
-  @supports (-webkit-text-stroke-width: 1px) {
-    .planes-portada__renglon {
-      color: transparent;
-      -webkit-text-stroke: var(--planes-contorno-grosor)
-        var(--color-texto-inverso);
-    }
+   EL CRITERIO QUE ESTUVO AQUÍ (v3): `pointer: fine` en vez de `min-width`,
+   para que un teléfono —vea 360px o 1160px— nunca viera el contorno hueco.
+
+   ARREGLO DE AGOSTO DE 2026 (v4) · el cliente volvió a pedir el contorno,
+   esta vez explícitamente EN CELULAR: mandó una captura con el contorno
+   funcionando en una ventana angosta y preguntó si eso se veía así en su
+   celular real. Verificado: no —`pointer: fine` seguía bloqueándolo en
+   touch, tal como estaba documentado en v3, así que la captura era de una
+   ventana de escritorio redimensionada (con mouse, cumple `pointer: fine`
+   aunque sea angosta), no de un teléfono.
+   El diagnóstico de v1/v2 seguía siendo válido: el contorno se ve "sucio" en
+   celular NO por ser touch, sino porque el cuerpo tipográfico en móvil
+   (antes ~21,6-24,5 px) queda muy por debajo del piso de ~48 px que necesita
+   un contorno de Fraunces para que las contraformas no se cierren. La
+   solución de v4 es subir el piso del tope de la marca a 48 px reales (ver
+   --planes-marca-tope en .planes-portada__marca más abajo) y, con el cuerpo
+   ya en un rango donde el contorno lee limpio, QUITAR la restricción de
+   `pointer: fine`: el contorno hueco ahora se aplica siempre, en cualquier
+   ancho y con cualquier tipo de puntero. Si en el futuro el cuerpo mínimo de
+   la marca vuelve a bajar de 48 px por otro cambio de layout, hay que volver
+   a poner una guarda aquí (por tamaño de fuente, no por `pointer` ni por
+   `min-width`, que ya se comprobaron insuficientes dos veces).            */
+@supports (-webkit-text-stroke-width: 1px) {
+  .planes-portada__renglon {
+    color: transparent;
+    -webkit-text-stroke: var(--planes-contorno-grosor)
+      var(--color-texto-inverso);
   }
 }
 
-/* Todo lo demás —celular, tablet, laptop táctil, o un mouse en una ventana
-   angosta— se queda con el respaldo de arriba (crema al 70%) subido a
-   crema plena: la marca es lo único que se lee en ese tramo de la foto. */
-@media not all and (min-width: 48em) and (pointer: fine) {
-  .planes-portada__renglon {
-    color: var(--color-texto-inverso);
-  }
-}
+/* Respaldo para navegadores sin `-webkit-text-stroke`: el crema translúcido
+   del `.planes-portada__renglon` de más arriba (70%) sigue siendo el suelo
+   para todo navegador y todo ancho, y ese suelo nunca se queda invisible. */
 
 /* TRES RENGLONES DESIGUALES, y desiguales dos veces: por longitud (17, 19 y
    13 caracteres) y por sangría. Tres líneas centradas o alineadas a un mismo
@@ -721,7 +811,17 @@
    sitio, hay que decidirla contra la frase MÁS LARGA que la use, no contra la
    más corta.                                                                */
 .planes-portada__marca {
-  --planes-marca-tope: clamp(1.35rem, 0.15rem + 5.9vw, 2.6rem);
+  /* ARREGLO DE AGOSTO DE 2026 (v4) — piso subido de 1,35rem/21,6px a 3rem/48px.
+     Ver el bloque de comentarios de .planes-portada__renglon: el contorno
+     hueco deja de leerse limpio por debajo de ~48px de cuerpo porque las
+     contraformas de la serif se cierran. En vez de renunciar al contorno en
+     celular, el piso del tope ahora nunca baja de 48px, así el contorno
+     tiene cuerpo suficiente para verse limpio en cualquier ancho. El
+     sangrado por la derecha (overflow: clip en .planes-fiesta__escena) es
+     quien absorbe el texto de más: la marca puede ahora "salirse" un poco
+     más del cuadro a 320-375px, que es exactamente el gesto de marca de
+     agua que ya tenía la sección, sólo que ahora arranca a un cuerpo legal.*/
+  --planes-marca-tope: clamp(3rem, 1rem + 9vw, 4.2rem);
   font-size: min(var(--fs-portada, 99rem), var(--planes-marca-tope));
 }
 

@@ -6,7 +6,7 @@ index.html NO se edita a mano. Se ARMA:
     <head> + cabecera  +  <main> concatenando sections/*.html  +  pie + scripts
 
 Orden del <main> (ARQUITECTURA-V3):
-    inicio -> nosotros -> espacios -> planes -> momentos -> colegios -> naturaleza -> vivero -> ubicacion
+    inicio -> usos -> nosotros -> planes -> momentos -> colegios -> naturaleza -> vivero -> ubicacion -> compromiso
 """
 import io, os, re, sys
 
@@ -23,6 +23,12 @@ ORDEN = [
     ("naturaleza", "naturaleza.html"),
     ("vivero",     "vivero.html"),
     ("ubicacion",  "ubicacion.html"),
+    # v14 · «Nuestro compromiso» deja de ser un bloque dentro de #nosotros y
+    # pasa a ser la ULTIMA seccion del <main>, justo antes del pie. Pedido
+    # directo y repetido del cliente. No lleva hoja propia en CSS_SECCIONES:
+    # sus reglas viven en styles/sections/nosotros.css §3, con la que comparte
+    # todo el vocabulario visual.
+    ("compromiso", "compromiso.html"),
 ]
 
 # Hojas de sección que deben ir en el <head>, en el mismo orden que el <main>.

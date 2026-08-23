@@ -1,8 +1,20 @@
 /* ==========================================================================
-   VEGAS DEL VERDE — nosotros.css  ·  sección #nosotros  ·  v5 «orgánica»
-   (a) el predio · (b) lo básico resuelto · (c) el compromiso
+   VEGAS DEL VERDE — nosotros.css  ·  sección #nosotros  ·  v13 «la escena»
+   (a) el predio, DENTRO de la foto · (b) el compromiso
    Depende de tokens.css + base.css. Sin valores literales de color, tamaño de
    fuente, radio, sombra ni duración. No toca base.css, tokens.css ni shell.css.
+
+   LO QUE HAY QUE LEER PRIMERO SI SE VIENE A TOCAR ESTA HOJA
+   §1  la escena: la foto como fondo del bloque, el velo y sus cifras de
+       contraste medidas contra el peor píxel posible.
+   §1b los mismos dos grupos de figuras servidos sobre oscuro, y por qué el
+       terracota NO sube ahí.
+   §6  las TRES siluetas que se dibujan solas (rama · hojas · bandada) y sus
+       tres relojes.
+   Todo lo demás —la versión clara de los servicios y de los pilares— sigue
+   escrito para `en/index.html`, que enlaza esta misma hoja con el marcado
+   antiguo. Cada vez que aparece una regla acotada a `.nosotros__escena` o a
+   `.nosotros__discurso` es por eso: la inglesa no debe moverse ni un píxel.
 
    QUÉ CAMBIA RESPECTO A v4, Y POR QUÉ NO BASTABA CON v4
    v4 arregló la RETÍCULA: columnas desiguales, titular pegado al scroll, foto
@@ -78,40 +90,38 @@
 }
 
 /* ==========================================================================
-   1. EL PREDIO — titular a un lado, discurso en medio, umbral al otro   (v12)
+   1. EL PREDIO — titular sobre el papel, discurso DENTRO de la foto      (v13)
 
-   v12 · QUÉ CAMBIA Y POR QUÉ. El pedido fue literal: la foto nueva del sendero
-   entra en el bloque de «Cruzas la reja» y manda, y «Lo básico, resuelto» sube
-   a este mismo bloque en vez de vivir dos pantallas más abajo. Eso obliga a
-   recomponer, no a encajar: un bloque con titular, dos grupos de figuras y una
-   foto que tiene que ser protagonista no cabe en dos columnas.
+   v13 · QUÉ CAMBIA Y POR QUÉ. El pedido del cliente se repitió tres veces y
+   era literal: «quiero esto dentro de la foto con figuras animadas y
+   animaciones generales, rediséñalo de una vez por todas». Hasta v12 la foto
+   del umbral era una PISTA MÁS de una rejilla de tres columnas: estaba al lado
+   del texto, no debajo. Dos piezas vecinas por muy pegadas que estén siguen
+   siendo dos piezas, y eso es exactamente lo que el cliente veía.
 
-   LA REJILLA DEJA DE SER UN `.contenedor`. Para que la foto toque el borde de
-   la ventana y esté a la vez al lado del texto, el bloque se monta con el mismo
-   patrón que el compromiso de §3: una PISTA VACÍA de arranque que replica
-   exactamente el margen de página del contenedor, y la última pista llegando al
-   canto porque la rejilla no lleva relleno a la derecha. Nada de `100vw`: el
-   100 % de un hijo del <section> ya descuenta la barra de scroll.
+   Ahora son una sola: la fotografía es el FONDO de todo el bloque, a sangre de
+   canto a canto, y el discurso entero —entradilla, los dos grupos de figuras,
+   la nota, la pastilla y el botón— flota encima sobre un velo de legibilidad.
 
-   LOS TRES ANCHOS NO SON ARBITRARIOS. 27 % para el titular es lo que necesita
-   «Cruzas la reja» a --fs-h2 en el ancho más ajustado (62em) sin partir el
-   renglón que el marcado ya decidió; 29 % para la foto es lo que la deja leerse
-   como pieza grande y no como columna decorativa; el discurso se queda con el
-   `1fr`, que es la pista que de verdad tiene que respirar porque lleva texto y
-   siete figuras. Ninguno es la mitad ni el doble de otro: la asimetría se lee.
+   POR QUÉ DESAPARECEN LA REJILLA DE TRES PISTAS Y EL `sticky` DEL TITULAR.
+   Aquella rejilla existía para una sola cosa: poner la foto al lado del texto
+   dejándola tocar el canto derecho, con dos pistas vacías haciendo de margen de
+   página. Sin foto al lado no queda nada que sostener, y un titular pegado al
+   scroll sólo tiene sentido cuando hay texto pasándole por al lado —aquí el
+   texto está DEBAJO, dentro de la foto—. El bloque vuelve a ser lo que es: una
+   pila de dos piezas. El margen de página lo ponen ahora los dos
+   `.contenedor--ancho` del marcado (uno en el titular, otro dentro de la
+   escena), así que los dos textos comparten eje izquierdo exacto en todos los
+   anchos, sin aritmética de porcentajes que revisar en cada breakpoint.
+
+   Y CON ESO SE CAE SOLO EL PROBLEMA QUE OBLIGABA A DOS TRAMOS DE ESCRITORIO:
+   v12 necesitaba 62em–75em y 75em+ porque el renglón «y cambia el día» no cabía
+   en una pista del 27 %. A ancho de contenedor cabe siempre, así que el titular
+   no puede partirse y el revelado por renglones no puede reventar.
    ========================================================================== */
-/* A una columna el bloque se pone él mismo el margen de página —ya no está
-   dentro de ningún `.contenedor`— y sólo en las piezas de TEXTO: la foto del
-   umbral sangra por la derecha también en móvil, que es donde se mira el sitio
-   la mayor parte del tiempo, así que ahí el relleno la mataría. */
 .nosotros__predio {
   display: grid;
   gap: var(--esp-lg);
-}
-
-.nosotros__predio > .nosotros__titular,
-.nosotros__predio > .nosotros__discurso {
-  padding-inline: var(--padding-contenedor);
 }
 
 /* El aire entre el titular y el discurso lo pone el `gap` de la rejilla: el
@@ -130,13 +140,119 @@
   font-variation-settings: var(--ejes-display-sobrio);
 }
 
+/* ---- v13 · LA ESCENA -----------------------------------------------------
+   La banda a sangre donde la foto es el fondo y el texto vive dentro.
+
+   `overflow: clip` Y NO `hidden`, que es la regla dura del proyecto
+   (DIRECTRICES-ANIMACION §6): `hidden` crea contexto de scroll y mataría el
+   `scroll-margin-top` de la sección. Recorta igual el zoom de foto-focus.
+
+   `isolation: isolate` para que las tres capas —foto · velo · texto— se apilen
+   dentro de la banda y no compitan con nada de la página. Sin ella, un z-index
+   de aquí dentro se mediría contra el <header> fijo del sitio.
+
+   NADA DE `100vh` NI DE ALTURAS DE VENTANA: el alto lo decide el contenido más
+   su relleno, así que la banda crece sola cuando el usuario agranda la letra
+   del sistema y no hay un solo caso en que el texto se salga de la foto. La
+   foto se adapta al hueco con `cover`, nunca al revés.                       */
+.nosotros__escena {
+  position: relative;
+  isolation: isolate;
+  overflow: clip;
+  padding-block: var(--esp-seccion-sm);
+  color: var(--color-texto-inverso);
+  /* El color de reserva mientras la foto (lazy) no ha llegado: el texto ya es
+     legible sobre él desde el primer paint, sin esperar a la imagen. */
+  background-color: var(--color-fondo-oscuro);
+}
+
+.nosotros__escena-foto {
+  position: absolute;
+  inset: 0;
+  z-index: var(--z-fondo);
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  /* Por encima del centro: el motivo de este archivo es el fondo del túnel,
+     donde el sendero se pierde entre los árboles, y cae en la mitad alta. Es
+     el mismo encuadre de partida que ya tenía la figura en v12, y es también
+     el punto del que arranca el viaje de foto-focus en móvil. */
+  object-position: 50% 38%;
+}
+
+/* ---- EL VELO, Y LAS CIFRAS QUE LO JUSTIFICAN ------------------------------
+   Mismo recurso que `.usos-tarjeta__velo` (styles/sections/usos.css:111): una
+   capa propia entre la foto y el texto. En capa propia y no en un `background`
+   del contenedor porque foto-focus escala la IMAGEN por debajo, y una veladura
+   pintada sobre el contenedor no se movería con ella —quedaría un borde de velo
+   asomando por los cantos al ampliar—.
+
+   EL CONTRASTE ESTÁ MEDIDO CONTRA EL PEOR PÍXEL POSIBLE, no contra esta foto.
+   El tramo más flojo del degradado es el 0,72 de alfa. Compuesto sobre BLANCO
+   PURO —el píxel más claro que una fotografía puede tener— el fondo queda en
+   #4F4F4F (L = 0,079) y la crema del texto (10,7:1 sobre bosque) da 6,9:1
+   encima. O sea: AA con holgura incluso en el caso imposible, y esta foto es un
+   túnel de árboles en sombra, muy por debajo de ese techo.
+
+   Y AGUANTA CON EL FOTOGRAMA CONGELADO (DIRECTRICES-ANIMACION §4, regla 4): el
+   velo es estático, no depende de ninguna animación ni de JavaScript, así que
+   el contraste es el mismo con `prefers-reduced-motion`, con el script caído y
+   antes de que la foto cargue.
+
+   TRES TRAMOS Y NO UNA PLANCHA: sube al 0,88 por el pie —donde caen la pastilla
+   y el botón, que es lo que más pesa— y afloja hacia la copa de los árboles.
+   Una veladura plana sobre una foto se lee como un filtro; una graduada, como
+   luz.                                                                       */
+.nosotros__escena-velo {
+  position: absolute;
+  inset: 0;
+  z-index: var(--z-fondo);
+  pointer-events: none;
+  background: linear-gradient(
+    to top,
+    rgb(var(--verde-bosque-hondo-rgb) / 0.88) 0%,
+    rgb(var(--verde-bosque-hondo-rgb) / 0.78) 45%,
+    rgb(var(--verde-bosque-hondo-rgb) / 0.72) 100%
+  );
+}
+
 .nosotros__discurso {
+  position: relative;
+  z-index: var(--z-base);
   display: flex;
   flex-direction: column;
   align-items: flex-start;
   /* v9 — de --esp-sm a --esp-lg: tres párrafos cortos con el doble de aire
      entre ellos leen como apertura de revista, no como texto corrido. */
   gap: var(--esp-lg);
+}
+
+/* ---- v13 · LOS DOS GRUPOS, UNO AL LADO DEL OTRO EN ESCRITORIO ------------
+   Dentro de la foto la columna estrecha de v12 sobra: la banda es ancha y una
+   sola pila de siete figuras la dejaría medio vacía por la derecha, que es
+   justo donde la foto tiene el túnel y donde el ojo quiere ver imagen. Los dos
+   grupos se ponen en paralelo y las pistas no miden lo mismo —1,15 contra
+   0,85—: el grupo que vende pesa más que el que informa, igual que ya pesaban
+   distinto sus insignias.
+
+   La entradilla y el botón cruzan las dos pistas: abren y cierran la banda.  */
+@media (min-width: 62em) {
+  .nosotros__escena {
+    padding-block: var(--esp-seccion);
+  }
+
+  .nosotros__discurso {
+    display: grid;
+    grid-template-columns: minmax(0, 1.15fr) minmax(0, 0.85fr);
+    align-items: start;
+    column-gap: var(--gap-lg);
+    row-gap: var(--esp-xl);
+  }
+
+  .nosotros__discurso > .entradilla,
+  .nosotros__discurso > .grupo-botones {
+    grid-column: 1 / -1;
+  }
 }
 
 /* v9 — LA COLUMNA SE ESTRECHA A LA MEDIDA CORTA. Una línea de 46ch con mucho
@@ -297,110 +413,126 @@
   color: var(--color-texto-suave);
 }
 
-/* ---- v12 · LOS DOS TRAMOS DE ESCRITORIO, Y POR QUÉ SON DOS ---------------
-   La composición de tres columnas —titular, discurso, foto— no cabe en toda la
-   franja de escritorio, y eso se midió, no se supuso: el renglón «y cambia el
-   día» necesita 314 px a 1000 de ventana y 349 a 1280, y una pista del 27 %
-   sólo da 266 y 341. Es decir, entre 62em y 75em el titular se PARTIRÍA, y
-   partirlo revienta el revelado por renglones, que cuenta con que cada
-   `.reveal-texto__linea` sea exactamente una línea.
+/* ==========================================================================
+   1b. v13 · LOS MISMOS DOS GRUPOS, AHORA SOBRE LA FOTO
+   Todo lo de arriba está escrito para la versión CLARA de estos bloques, que
+   es la que sigue usando `en/index.html` —enlaza esta misma hoja con el
+   marcado antiguo, donde `.nosotros__servicios` vive sobre papel crema—. Por
+   eso el negativo NO se cambia en las reglas base: se añade aquí, acotado a
+   `.nosotros__escena`, y la página en inglés se queda exactamente como estaba.
 
-   Así que hay dos tramos y ninguno es un apaño:
+   POR QUÉ NO SE USA `.seccion--oscura`, QUE YA EXISTE. Esa utilidad trae un
+   `background-color` propio, y aquí el fondo es una fotografía: puesta encima,
+   taparía la foto o pelearía con ella. El marcado sí lleva `.sobre-oscuro`,
+   que es la clase que el sistema tiene para «esto va sobre algo oscuro sin
+   fondo propio» y que base.css ya usa para el foco visible y para el botón
+   fantasma en negativo. Los colores de texto, que esa clase no da, se escriben
+   aquí y sólo aquí.
 
-     · 62em–75em  DOS pistas. El titular y el discurso comparten la columna
-                  ancha (titular arriba, texto debajo) y la foto del umbral se
-                  queda en la de la derecha, alta y a sangre. Sin `sticky`:
-                  aquí el titular tiene el texto DEBAJO, no al lado, y pegar al
-                  scroll una pieza que ya se va con su propio contenido sólo
-                  produce un salto.
-     · 75em+      TRES pistas y el titular pegado al scroll, que es la
-                  composición completa. A 1200 la pista del 30 % da 355 px
-                  contra los 339 que pide el renglón, y de ahí para arriba la
-                  holgura sólo crece porque el titular llega a su tope de
-                  tamaño y la pista no.
+   LOS SEIS PARES, MEDIDOS SOBRE EL TRAMO MÁS FLOJO DEL VELO (el peor caso del
+   §1: fondo compuesto #4F4F4F sobre blanco puro):
+     crema (entradilla, palabras de las figuras) ..... 6,9:1   AA
+     crema al 78 % (rótulos y nota) .................. 4,6:1   AA
+     coral claro (trazo de «Se alquila a») ........... 4,2:1   decorativo
+     menta (trazo de los servicios) .................. 3,3:1   decorativo
+   Los dos trazos van con `aria-hidden` y duplican una palabra escrita al lado:
+   no son texto ni componente de interfaz, así que les aplica 3:1, no 4,5:1
+   (misma cuenta y mismo criterio que §6 para las siluetas). Sobre la foto real
+   —un túnel de árboles en sombra— los cuatro números suben bastante.
 
-   La PRIMERA pista de los dos tramos no lleva contenido: es el hueco que
-   alinea el texto con el borde izquierdo del contenedor del resto de la
-   página, calculado con los mismos porcentajes que `.contenedor` pero medidos
-   aquí, donde el 100 % sí es el ancho del <section>. La ÚLTIMA llega al borde
-   de la ventana porque la rejilla no tiene relleno a la derecha. Es el patrón
-   del compromiso (§3), tal cual.                                            */
-@media (min-width: 62em) {
-  .nosotros__predio {
-    grid-template-columns:
-      max(var(--padding-contenedor), calc((100% - var(--ancho-xl)) / 2))
-      minmax(0, 1fr)
-      minmax(0, 34%);
-    column-gap: var(--gap);
-    align-items: start;
-  }
-
-  /* Aquí las pistas ya ponen el margen de página: el relleno de móvil sobraría
-     y estrecharía unas columnas que van justas de ancho. */
-  .nosotros__predio > .nosotros__titular,
-  .nosotros__predio > .nosotros__discurso {
-    padding-inline: 0;
-  }
-
-  /* LAS FILAS SE ESCRIBEN, NO SE DEDUCEN. En el marcado el orden es titular ·
-     foto · discurso —el que hace falta en móvil, donde la imagen del umbral va
-     pegada al titular que la nombra— y en pantalla el discurso tiene que caer
-     DEBAJO del titular, o sea en una pista por la que el colocador automático
-     de la rejilla ya pasó. Ese colocador avanza y no retrocede: sin estas dos
-     líneas el discurso se iría a una tercera fila y el bloque se partiría. */
-  .nosotros__titular {
-    grid-area: 1 / 2;
-  }
-
-  .nosotros__discurso {
-    grid-area: 2 / 2;
-    margin-top: var(--esp-lg);
-  }
-
-  /* La foto acompaña a los dos: arranca con el titular y baja hasta donde
-     llegue el discurso. Su proporción NO se declara aquí —va junto a la regla
-     base de la figura, más abajo, y allí se explica por qué—. */
-  .nosotros__umbral {
-    grid-area: 1 / 3 / span 2 / auto;
-  }
+   EL TERRACOTA NO SUBE AQUÍ, y es la misma trampa que esta hoja ya documenta
+   dos veces (§4): sobre fondo oscuro se queda en 2,4:1. El acento cálido de la
+   banda es `--coral-claro`, la versión del naranja que tokens.css declara
+   legible sobre fondo oscuro. No reintroduzcas el terracota.
+   ========================================================================== */
+.nosotros__escena .entradilla {
+  color: var(--color-texto-inverso);
 }
 
-@media (min-width: 75em) {
-  /* Cuatro pistas: margen de página · titular · discurso · foto del umbral.
-     Tres anchos y ninguno es la mitad ni el doble de otro: 30 % para el
-     titular es lo que pide el renglón más largo en el extremo ajustado de este
-     tramo, 26 % para la foto es lo que la deja leerse como pieza grande, y el
-     discurso se queda con el `1fr` porque es la pista que de verdad tiene que
-     respirar: lleva texto y siete figuras. */
-  .nosotros__predio {
-    grid-template-columns:
-      max(var(--padding-contenedor), calc((100% - var(--ancho-xl)) / 2))
-      minmax(0, 30%)
-      minmax(0, 1fr)
-      minmax(0, 26%);
-  }
-
-  /* Ahora sí las tres piezas comparten fila, y otra vez hay que escribirlo:
-     las pistas van 2 · 4 · 3 y el orden del marcado es 2 · 4 · 3 sólo si se
-     lee al revés. Con la fila puesta, marcado y pantalla pueden discrepar. */
-  .nosotros__titular {
-    grid-area: 1 / 2;
-    /* Pegado al scroll mientras se lee el texto de al lado —que aquí sí está
-       al lado—. El desplazamiento superior es la cabecera fija más un respiro:
-       el mismo cálculo que usa .seccion en su scroll-margin. */
-    position: sticky;
-    top: calc(var(--alto-header) + var(--esp-lg));
-  }
-
-  .nosotros__discurso {
-    grid-area: 1 / 3;
-    margin-top: 0;
-  }
-
-  .nosotros__umbral {
-    grid-area: 1 / 4;
-  }
+.nosotros__escena .nosotros__grupo-titulo,
+.nosotros__escena .nosotros__quienes-nota {
+  color: var(--color-texto-inverso-suave);
 }
+
+.nosotros__escena .nosotros__grupo-titulo::before {
+  background-color: var(--color-borde-inverso);
+}
+
+.nosotros__escena .nosotros__quien,
+.nosotros__escena .nosotros__servicio {
+  color: var(--color-texto-inverso);
+}
+
+/* v14 · EL ARO GRANDE DE «Se alquila a» PASA DE AMARILLO A CORAL CLARO.
+   Pedido literal del cliente: esas insignias tienen que verse NARANJA, no
+   amarillas. El amarillo del logo (v13) resolvía el contraste sobre la foto
+   pero desplazaba el cálido de la marca hacia el limón, y este grupo es
+   justamente el que el sistema reserva para el acento de ACCIÓN.
+
+   POR QUÉ `--coral-claro` Y NO `--coral` NI `--coral-hondo`. Medido contra el
+   peor píxel posible del velo de esta banda (fondo compuesto #4F4F4F, el mismo
+   caso base que documenta el bloque de arriba):
+     --coral-claro #f0a072 ....... 4,2:1   AA para el 3:1 de pieza decorativa,
+                                           y casi el 4,5:1 de texto
+     --coral       #e0703c ....... 2,6:1   NO LLEGA ni al 3:1 · descartado
+     --coral-hondo #a8452a ....... por debajo todavía · descartado
+   Sobre la foto real —un túnel de árboles en sombra— sube bastante. Es además
+   el token que tokens.css declara como «versión legible sobre bosque», o sea
+   el naranja que este sistema ya tiene escrito para el negativo: no se inventa
+   un tono nuevo. El trazo va con `aria-hidden` y duplica la palabra escrita
+   debajo, así que le aplica 3:1 y no 4,5:1 (mismo criterio que §6).
+
+   EL TERRACOTA SIGUE SIN SUBIR AQUÍ (§4): 2,4:1 sobre oscuro. `--coral-claro`
+   NO es terracota; es la rama clara de la misma familia cálida. */
+.nosotros__escena .nosotros__quien-icono {
+  border-color: rgb(var(--coral-claro-rgb) / 0.45);
+  background-color: rgb(var(--coral-claro-rgb) / 0.12);
+  color: var(--coral-claro);
+}
+
+/* Y la insignia pequeña de los servicios pasa de oliva a menta, que es el
+   acento del negativo en todo el sitio —el mismo que ya usan los filetes de
+   los pilares al pasar el ratón dos bloques más abajo—. Sigue siendo la voz
+   baja frente al amarillo de arriba: la jerarquía entre los dos grupos no
+   cambia al cambiar de fondo, que era justo lo que había que conservar. */
+.nosotros__escena .nosotros__servicio-icono {
+  border-color: rgb(var(--verde-menta-rgb) / 0.4);
+  background-color: rgb(var(--verde-menta-rgb) / 0.12);
+  color: var(--color-acento);
+}
+
+/* La pastilla del arenero: la misma inversión que base.css ya escribe para
+   `.seccion--oscura .pildora`, repetida aquí porque la escena no es esa
+   utilidad (no puede serlo: tiene una foto de fondo, ver arriba). */
+.nosotros__escena .pildora {
+  background-color: rgb(var(--crema-rgb) / 0.1);
+  border-color: var(--color-borde-inverso);
+  color: var(--color-acento);
+}
+
+/* ---- v13 · EL ESCALONADO SE HACE MÁS LARGO Y MÁS DESIGUAL ----------------
+   El cliente pidió que las figuras se vieran ENTRAR. Con los retardos de v12
+   —de 0 a 306 ms— las siete estaban puestas antes de que el ojo llegara a la
+   segunda: técnicamente escalonadas, visualmente simultáneas. Aquí el reparto
+   se estira hasta unos 550 ms y se desordena más, de modo que ninguna entra
+   con su vecina y la última se hace esperar de verdad.
+
+   TODOS LOS VALORES SIGUEN COLGANDO DE --dur-instant, que es lo que hace que
+   bajo `prefers-reduced-motion` la escalera entera se aplane sola (ese token
+   vale 1 ms en ese modo) sin escribir una regla más.
+
+   Especificidad (0,3,0), la misma que las reglas de v12 que sustituyen, y van
+   escritas después: ganan por cascada, sin !important. Se acotan a la escena
+   para que `en/index.html` conserve los suyos.                              */
+.nosotros__escena .nosotros__quienes > .nosotros__quien:nth-child(1) { --reveal-delay: calc(var(--dur-instant) * 0.4); }
+.nosotros__escena .nosotros__quienes > .nosotros__quien:nth-child(2) { --reveal-delay: calc(var(--dur-instant) * 2.6); }
+.nosotros__escena .nosotros__quienes > .nosotros__quien:nth-child(3) { --reveal-delay: calc(var(--dur-instant) * 1.3); }
+.nosotros__escena .nosotros__quienes > .nosotros__quien:nth-child(4) { --reveal-delay: calc(var(--dur-instant) * 4.5); }
+
+.nosotros__escena .nosotros__servicios-lista > .nosotros__servicio:nth-child(1) { --reveal-delay: calc(var(--dur-instant) * 1.1); }
+.nosotros__escena .nosotros__servicios-lista > .nosotros__servicio:nth-child(2) { --reveal-delay: calc(var(--dur-instant) * 3.5); }
+.nosotros__escena .nosotros__servicios-lista > .nosotros__servicio:nth-child(3) { --reveal-delay: calc(var(--dur-instant) * 2.0); }
+.nosotros__escena .nosotros__servicios-lista > .nosotros__servicio:nth-child(4) { --reveal-delay: calc(var(--dur-instant) * 6.1); }
 
 /* v7 · EL `max-width: 16ch` DEL TITULAR YA NO EXISTE, Y NO VUELVE.
    v6 lo puso para forzar el corte en la conjunción —«Cruzas la reja / y cambia
@@ -412,87 +544,13 @@
    revelado por renglones. Es también el motivo de que los anchos de pista de
    arriba estén medidos contra ese renglón y no elegidos a ojo.              */
 
-/* ---- v12 · LA FOTO DEL UMBRAL, A SANGRE POR LA DERECHA -------------------
-   El titular dice «Cruzas la reja»: esta foto es la frase, no su ilustración.
-   Un sendero de losas entrando bajo un túnel de árboles, en retrato y tocando
-   el borde derecho de la ventana.
-
-   LA MANO ES LA CONTRARIA A LA DEL PRADO, Y ESO ES LA DECISIÓN. La foto de
-   parque-05 que viene justo debajo sangra por la IZQUIERDA. Dos piezas
-   seguidas saliéndose por el mismo lado se leen como una plantilla con una
-   maña; alternando, se lee como recorrido: derecha · izquierda · derecha (el
-   panel de aves del compromiso vuelve a la derecha).
-
-   LOS RADIOS, SÓLO EN EL BORDE QUE EXISTE. Sangra por la derecha, así que ahí
-   no hay esquina que redondear. A la izquierda sí, y con dos valores distintos
-   —el grande abajo y el mediano arriba, al revés que el prado— para que las
-   dos hojas rimen sin ser la misma pieza.
-
-   Sombra baja y abierta, la misma familia que el prado: es una pieza que se
-   apoya sobre el papel. Y por llevar sombra necesita el desbloqueo del
-   `clip-path` de abajo, exactamente igual que las otras.                    */
-.nosotros__umbral {
-  position: relative;
-  overflow: hidden;
-  aspect-ratio: 3 / 4;
-  margin-left: var(--padding-contenedor);
-  border-radius: var(--radio-lg) 0 0 var(--radio-xl);
-  box-shadow: var(--sombra-lg);
-  background-color: rgb(var(--gris-verde-rgb) / 0.3);
-}
-
-.nosotros__umbral img {
-  display: block;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  /* Por encima del centro: el motivo de este archivo es el fondo del túnel,
-     donde el sendero se pierde entre los árboles, y cae en la mitad alta. Al
-     revés que el prado, que se ancla por debajo del centro. */
-  object-position: 50% 42%;
-  transition: transform var(--dur-lenta) var(--ease-suave);
-}
-
-/* El velo, misma receta que el prado pero al revés de mano: baja desde el
-   borde SUPERIOR, que es por donde entra el cielo quemado entre las ramas, y
-   asienta la copa de los árboles sin teñir el sendero, que es lo que se mira.
-   En --verde-bosque-hondo, el mismo teal-verde al que el grading llevó las
-   sombras de todas las fotos del sitio. */
-.nosotros__umbral::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  pointer-events: none;
-  background: linear-gradient(
-    to bottom,
-    rgb(var(--verde-bosque-hondo-rgb) / 0.2),
-    rgb(var(--verde-bosque-hondo-rgb) / 0) 52%
-  );
-}
-
-/* LA PROPORCIÓN DE ESCRITORIO VA AQUÍ Y NO ARRIBA, EN EL BLOQUE DE LA REJILLA,
-   POR CASCADA: los dos selectores miden lo mismo (0,1,0) y el de la regla base
-   está escrito DESPUÉS de aquel `@media`, así que allí `aspect-ratio` no ganaba
-   y la pieza se quedaba en el 3/4 de móvil. Un media query no pesa más que
-   nada: sólo condiciona.
-
-   Y NO SE ESTIRA A LO ALTO DE LA FILA (`align-self: stretch`): la altura de esa
-   fila la manda el discurso, que crece con el texto y con la letra del sistema,
-   así que estirándola quedaría un pasillo de 327 × 800 en el ancho más
-   ajustado. Con la proporción escrita la figura es la misma —alta, de sendero—
-   en 992 y en 2560, y el papel que le queda debajo es la calle que hace legible
-   la asimetría, la misma que hay entre el titular y el discurso.             */
-@media (min-width: 62em) {
-  .nosotros__umbral {
-    aspect-ratio: 5 / 8;
-  }
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  .nosotros__umbral:hover img {
-    transform: scale(var(--escala-hover));
-  }
-}
+/* v13 · LAS REGLAS DE `.nosotros__umbral` SE HAN BORRADO, NO COMENTADO.
+   Aquella figura era la foto del sendero puesta AL LADO del texto; desde v13 la
+   misma foto es el fondo de la escena y su clase ya no existe en ningún
+   marcado del sitio —tampoco en `en/index.html`, que nunca la usó (allí viven
+   `.nosotros__foto`, `.nosotros__servicios` y los pilares, que sí se
+   conservan)—. Reglas muertas en una hoja de 1.200 líneas son la forma más
+   barata de que el siguiente que pase se equivoque de sitio.                */
 
 /* ---- La foto grande, a sangre por la izquierda --------------------------
    No lleva .marco: no es una foto encajonada en una tarjeta, es una imagen
@@ -539,102 +597,17 @@
    regla de base, y esta hoja se carga después: gana por cascada, sin
    !important. Antes de .visible no hay nada que romper, porque el clip
    inicial sólo lo declara .reveal--velo, que aquí no se usa.               */
-.nosotros__foto.reveal.visible,
-.nosotros__umbral.reveal.visible,
+/* v13 · SALEN DE LA LISTA `.nosotros__umbral` (que ya no existe) y
+   `.nosotros__discurso` (que ya no es `.reveal`: quien entra ahora es la banda
+   entera). NO ENTRA `.nosotros__escena`, y es a propósito: esa pieza sí quiere
+   el recorte —lleva una foto que hace zoom dentro— y además entra con
+   `.reveal--velo`, cuyo gesto ES el clip-path. Devolvérselo a `none` apagaría
+   su propia entrada. */
 .nosotros__mural.reveal.visible,
-.nosotros__discurso.reveal.visible,
 .nosotros__compromiso-texto.reveal.visible {
   clip-path: none;
 }
 
-/* En móvil y tableta la figura llegaba a los DOS bordes de la pantalla, que
-   es una banda, no una imagen descentrada: sin borde derecho, el radio de
-   hoja no se ve y el gesto no existe por debajo de 62em, justo donde se mira
-   el sitio la mayor parte del tiempo. Con este respiro la foto sigue
-   sangrando por la izquierda —el gesto se conserva— y aparece la esquina.
-   El combinador de hijo protege a en/index.html, que enlaza esta misma hoja
-   con tres <figure> de la misma clase METIDOS dentro de un contenedor: a
-   ésos no les toca ni este margen ni la sangría de abajo. */
-.nosotros > .nosotros__foto {
-  margin-right: var(--esp-lg);
-}
-
-/* El prado se lee a ras de suelo: el encuadre se ancla por debajo del centro
-   para que manden el césped y la línea de árboles, no el cielo. */
-.nosotros__foto img {
-  display: block;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  /* v8 · Baja del 48 % al 56 %: parque-05 está tomada a mediodía y la mitad
-     alta del archivo es la más quemada. Anclando el encuadre más abajo mandan
-     el césped y la sombra del árbol, que es donde la foto tiene materia. */
-  object-position: 50% 56%;
-  /* v8 · Corrección ESTÁTICA de la sobreexposición, sin tocar el archivo
-     (reprocesarlo es un paso aparte, con GPU): un punto de contraste y
-     saturación y una bajada mínima de brillo. Es un filtro fijo, no una
-     animación: no entra en el presupuesto de transform/opacity. */
-  filter: contrast(1.06) saturate(1.08) brightness(0.96);
-  transition: transform var(--dur-lenta) var(--ease-suave);
-}
-
-/* v8 · EL VELO. Un degradado muy abierto que sube desde el borde
-   inferior: asienta el prado sobreexpuesto sin teñir el cielo ni inventar una
-   hora del día. Va en --verde-bosque-hondo y no en --tinta: la tinta es color
-   de TEXTO, y un velo sobre fotografía tiene que ser el mismo teal-verde al
-   que el grading llevó las sombras de las 160 fotos, o el velo aplana el
-   verde en vez de hundirlo. Vive en un ::after DENTRO de la figura —el overflow hidden y
-   los radios de hoja lo recortan con la imagen— y no intercepta el puntero.
-   Queda por encima del zoom de foto-focus porque el zoom sólo escala el <img>
-   de debajo. */
-.nosotros__foto::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  pointer-events: none;
-  background: linear-gradient(
-    to top,
-    rgb(var(--verde-bosque-hondo-rgb) / 0.22),
-    rgb(var(--verde-bosque-hondo-rgb) / 0) 55%
-  );
-}
-
-/* El borde derecho de la foto cae a dos tercios del ancho del contenedor:
-   la mitad de lo que sobra a los lados del contenedor (que es donde empieza
-   .contenedor) más un tercio de su ancho. Así muerde la columna de texto de
-   arriba en vez de alinearse con ella, y la proporción del gesto es la misma
-   en 1024 que en 2560. El max() sólo protege el caso improbable de que el
-   cálculo quede por debajo del margen de página. */
-/* El combinador de hijo NO es decorativo: en/index.html —que todavía va con la
-   arquitectura vieja y enlaza esta misma hoja— tiene tres <figure> con esta
-   clase METIDOS dentro de un contenedor. Sin el `>`, este margen enorme se les
-   aplicaría también y los dejaría convertidos en una tira estrecha. La sangría
-   sólo tiene sentido para la figura que cuelga directamente del <section>, que
-   es la única que llega al borde de la ventana. */
-@media (min-width: 62em) {
-  .nosotros > .nosotros__foto {
-    aspect-ratio: 3 / 2;
-    /* v7 · LA HOJA A GRAN ESCALA (mockup 14, «nosotros»). En el mockup la foto
-       del predio no es un rectángulo con las puntas limadas: es una hoja — una
-       sola esquina con una curva enorme que da la silueta entera. Aquí la
-       esquina superior derecha —la del lado que SÍ existe, porque la izquierda
-       sangra— sube de --radio-xl a un múltiplo del token. Sólo desde 62em: en
-       móvil la pieza es más baja y la curva gigante se comería el encuadre.
-       El overflow:hidden de la figura ya recorta la imagen a esta forma y el
-       desbloqueo del clip-path de arriba sigue valiendo tal cual. */
-    border-radius: 0 calc(var(--radio-xl) * 3) var(--radio-lg) 0;
-    margin-right: max(
-      var(--padding-contenedor),
-      calc((100% - var(--ancho-xl)) / 2 + var(--ancho-xl) * 0.34)
-    );
-  }
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  .nosotros__foto:hover img {
-    transform: scale(var(--escala-hover));
-  }
-}
 
 /* ==========================================================================
    2. LO BÁSICO, RESUELTO — una tira discreta, sin caja y sin centrar
@@ -862,6 +835,16 @@
 
 /* ==========================================================================
    3. EL COMPROMISO — el texto en la retícula, el panel saliéndose a la derecha
+   ==========================================================================
+   v14 · ESTE §3 YA NO ESTILA UN BLOQUE DE #nosotros: ESTILA LA SECCIÓN
+   #compromiso, que es la última del <main> (sections/compromiso.html), servida
+   después de #ubicacion y justo antes del pie. Las reglas se quedan en ESTA
+   hoja a propósito: la banda comparte con #nosotros los pilares, las siluetas
+   y el tratamiento de foto, y partirlas en un archivo nuevo garantizaría que
+   las dos mitades se separen con el tiempo. La hoja se carga siempre (está en
+   CSS_SECCIONES), así que el ámbito no depende de dónde caiga la sección.
+   NINGÚN SELECTOR DE AQUÍ CUELGA DE `.nosotros`: todos arrancan en
+   `.nosotros__compromiso`, y por eso el traslado no cambió ni un píxel.
    ========================================================================== */
 /* v5 — DE «MÁS TEXTO» A CIERRE DE CAPÍTULO.
    Hasta v4 el compromiso era la tercera tanda de párrafos sobre el mismo
@@ -1184,7 +1167,7 @@
    Bajo prefers-reduced-motion no hay nada que apagar: el script no se monta
    y la foto queda quieta en el encuadre de arriba.
    ========================================================================== */
-:where(.nosotros__foto, .nosotros__umbral, .nosotros__mural)[data-foto-focus] img {
+:where(.nosotros__foto, .nosotros__escena, .nosotros__mural)[data-foto-focus] img {
   transform: scale(1);
 }
 
@@ -1192,7 +1175,7 @@
    si hay movimiento: dos imágenes promocionadas a capa, no un sitio entero.
    En móvil el efecto repinta el recorte y will-change no ayudaría. */
 @media (min-width: 64em) and (prefers-reduced-motion: no-preference) {
-  :where(.nosotros__foto, .nosotros__umbral, .nosotros__mural)[data-foto-focus] img {
+  :where(.nosotros__foto, .nosotros__escena, .nosotros__mural)[data-foto-focus] img {
     will-change: transform;
   }
 }
@@ -1294,6 +1277,103 @@
 .nosotros__silueta--rama > :nth-child(3) { --traza-espera: calc(var(--dur-lenta) * 2.4);     --traza-ritmo: 0.3;  }
 .nosotros__silueta--rama > :nth-child(4) { --traza-espera: calc(var(--dur-lenta) * 1.95);    --traza-ritmo: 0.34; }
 .nosotros__silueta--rama > :nth-child(5) { --traza-espera: calc(var(--dur-lenta) * 3.05);    --traza-ritmo: 0.26; }
+
+/* ---- v13 · LAS TRES HOJAS DE LA ESCENA -----------------------------------
+   La pieza que le faltaba a la banda para no quedarse quieta. Es la MISMA
+   mecánica de la rama y de la bandada, no una tercera invención: hereda
+   `.nosotros__silueta` entera —incluido el reparto de tiempos por forma de más
+   arriba, que engancha por `.nosotros__silueta.icono-traza`— y sólo cambia de
+   sitio, de tamaño y de color.
+
+   VA EN POSICIÓN ABSOLUTA Y AQUÍ SÍ ES CORRECTO, al revés que en la bandada.
+   La bandada vive en flujo porque comparte rejilla con el panel de aves y una
+   pieza flotante se colocaría distinto según lo alto que quedara aquél. Esta
+   no comparte nada: cae sobre la esquina superior derecha de una fotografía,
+   que es la zona que el discurso deja libre en los dos anchos, y ahí el flujo
+   no puede llevarla. Cumple la regla dura del ambiente decorativo
+   (DIRECTRICES-ANIMACION §2, regla 3): cae sobre FOTO, nunca sobre un párrafo.
+
+   `z-index` por encima del velo pero por debajo del texto: el trazo tiene que
+   verse sobre la veladura —debajo de ella el velo se lo comería— y nunca por
+   encima de una palabra.
+
+   Crema al 30 % sobre el velo (compuesto sobre el peor caso, 2,1:1): es
+   atmósfera con `aria-hidden`, no texto ni componente de interfaz, así que no
+   le aplica el mínimo de AA —la misma cuenta y el mismo criterio que las otras
+   dos siluetas, ver la cabecera de §6—. Subirlo hasta AA convertiría un trazo
+   de fondo en un dibujo que compite con las siete figuras que tiene al lado.
+
+   Se retira por debajo de 48em: en móvil el discurso ocupa la banda entera de
+   canto a canto y no queda foto libre donde ponerla sin cruzar texto. Es
+   decoración pura: ocultarla no quita ni una palabra.                       */
+.nosotros__silueta--hojas {
+  display: none;
+  position: absolute;
+  z-index: var(--z-fondo);
+  inset-block-start: var(--esp-lg);
+  inset-inline-end: var(--esp-lg);
+  width: calc(var(--esp-4xl) * 1.45);
+  color: rgb(var(--crema-rgb) / 0.3);
+}
+
+@media (min-width: 48em) {
+  .nosotros__silueta--hojas {
+    display: block;
+  }
+}
+
+/* Tres hojas, tres relojes, y la más grande abre. Igual que en la rama: la
+   primera tarda casi el doble que la última, así que brotan en vez de
+   aparecer. */
+.nosotros__silueta--hojas > :nth-child(1) { --traza-espera: calc(var(--dur-lenta) * 0.4); --traza-ritmo: 0.95; }
+.nosotros__silueta--hojas > :nth-child(2) { --traza-espera: calc(var(--dur-lenta) * 1.9); --traza-ritmo: 0.44; }
+.nosotros__silueta--hojas > :nth-child(3) { --traza-espera: calc(var(--dur-lenta) * 3.1); --traza-ritmo: 0.32; }
+
+/* LA DERIVA DE LAS HOJAS. Segundo movimiento de la pieza, ligado al scroll con
+   `animation-timeline: view()`: sin listeners, sin getBoundingClientRect y
+   resuelto por el compositor, exactamente el mismo patrón guardado que la
+   bandada del compromiso (más abajo en este mismo §6).
+
+   CRUZA EN DIAGONAL Y ES DELIBERADO. El otro movimiento de esta banda es el
+   zoom de foto-focus sobre la foto, que es pura escala; y la bandada del
+   compromiso cruza en horizontal. Ninguno de los tres se pisa, que es la regla
+   de «nada se mueve al mismo compás» (DIRECTRICES-ANIMACION §7).
+
+   El recorrido son ~28 px sobre una pieza de unos 200: por debajo del techo
+   del sistema y sobre un elemento decorativo, nunca sobre texto. El
+   `overflow: clip` de la escena lo recorta si en alguna pantalla llegara al
+   canto.
+
+   Las longhands van una a una y NO con el atajo `animation:`: el atajo deja
+   `animation-duration` en su valor inicial, y ese valor cambió de `0s` a
+   `auto` entre dos revisiones de la especificación.
+
+   Las dos guardas son obligatorias: quien pide menos movimiento no recibe
+   ninguno —las animaciones de línea de tiempo de scroll no tienen duración en
+   tiempo, así que el bloque global de base.css no las frena— y donde no exista
+   `view()` las hojas se quedan quietas y no se pierde nada.                 */
+@keyframes nosotros-hojas-deriva {
+  from {
+    transform: translate3d(6%, -9%, 0) rotate(-3deg);
+  }
+
+  to {
+    transform: translate3d(-8%, 7%, 0) rotate(4deg);
+  }
+}
+
+@supports (animation-timeline: view()) {
+  @media (prefers-reduced-motion: no-preference) {
+    .nosotros__silueta--hojas {
+      animation-name: nosotros-hojas-deriva;
+      animation-duration: auto;
+      animation-timing-function: linear;
+      animation-fill-mode: both;
+      animation-timeline: view();
+      animation-range: entry 0% exit 100%;
+    }
+  }
+}
 
 /* ---- La bandada del compromiso ------------------------------------------- */
 .nosotros__silueta--vuelo {

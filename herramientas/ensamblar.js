@@ -29,6 +29,12 @@ const ORDEN = [
   ['naturaleza', 'naturaleza.html'],
   ['vivero',     'vivero.html'],
   ['ubicacion',  'ubicacion.html'],
+  // v14 · «Nuestro compromiso» deja de ser un bloque dentro de #nosotros y
+  // pasa a ser la ÚLTIMA sección del <main>, justo antes del pie. Pedido
+  // directo y repetido del cliente. No lleva hoja propia en CSS_SECCIONES:
+  // sus reglas viven en styles/sections/nosotros.css §3, con la que comparte
+  // todo el vocabulario visual.
+  ['compromiso', 'compromiso.html'],
 ];
 
 const CSS_SECCIONES = [

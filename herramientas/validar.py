@@ -56,8 +56,11 @@ for t in trozos:
     orden_real.append(sid)
     regiones[sid] = t[m.start():]
 
-ESPERADO = ["inicio", "espacios", "nosotros", "planes", "momentos", "colegios",
-            "naturaleza", "vivero", "ubicacion"]
+# v14 · se pone al dia con validar.js: la segunda seccion es "usos" (lo era ya
+# desde hace varias versiones y aqui habia quedado el nombre viejo) y el
+# recorrido cierra con "compromiso", despues de #ubicacion y antes del pie.
+ESPERADO = ["inicio", "usos", "nosotros", "planes", "momentos", "colegios",
+            "naturaleza", "vivero", "ubicacion", "compromiso"]
 
 print("=" * 74)
 print("0. ORDEN DEL <main>")
@@ -84,9 +87,12 @@ HECHOS = [
   [r"aereo-predio\.jpg"], "raw"),
  ("Refugio privado, cerrado y vigilado", ["nosotros"],
   [r"bullicio urbano"], False),
- ("Compromiso «conexion y aprendizaje conjunto»", ["nosotros"],
+ # v14 · los dos hechos del compromiso cambian de DUENO, no de contenido: la
+ # banda salio de #nosotros y es ahora la seccion #compromiso, la ultima del
+ # <main>. Siguen escritos una sola vez en todo el sitio.
+ ("Compromiso «conexion y aprendizaje conjunto»", ["compromiso"],
   [r"aprendizaje conjunto"], False),
- ("Los tres pilares", ["nosotros"],
+ ("Los tres pilares", ["compromiso"],
   [r"educacion ambiental", r"conciencia social", r"relaciones sanas"], False),
  ("Servicios del predio (Wifi/Banos/Vigilancia/Parqueadero)", ["nosotros"],
   [r"\bwifi\b", r"vigilancia privada", r"\bparqueadero\b"], False),
