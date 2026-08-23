@@ -1,6 +1,9 @@
 <!-- ==========================================================================
      FRAGMENTO: USOS  ·  ancla #usos
      CSS propio: styles/sections/usos.css
+     JS propio: js/usos-ovalo.js (óvalo de la foto + apagado del texto
+     ligados al progreso de scroll de cada tarjeta; ver cabecera del
+     archivo). El <script defer> va al final del fragmento.
 
      QUÉ ES Y POR QUÉ EXISTE. Entre la portada y la ficha técnica de
      #espacios (aforos, botón de WhatsApp, condiciones) faltaba una pregunta
@@ -37,7 +40,6 @@
 
   <div class="contenedor contenedor--ancho">
     <header class="seccion-encabezado usos__encabezado reveal">
-      <p class="eyebrow">¿Qué puedes hacer en Vegas?</p>
       <h2 class="titulo-seccion usos__titulo" id="usos-titulo">
         Un espacio para cada plan
       </h2>
@@ -69,12 +71,13 @@
             <span class="usos-tarjeta__frase">La mejor grama de Vegas del Verde para los momentos más especiales.</span>
             <span class="usos-tarjeta__aviso">
               <span class="usos-tarjeta__aviso-movil">Toca para ver el espacio</span>
-              <span class="usos-tarjeta__aviso-escritorio">Ver usos recomendados</span>
+              <span class="usos-tarjeta__aviso-escritorio">Ver características del sitio</span>
             </span>
           </span>
         </summary>
         <div class="usos-panel">
           <h3 class="solo-lectores">Usos recomendados en Alameda</h3>
+          <p class="usos-panel__aforo">150 personas como máximo</p>
           <ul class="usos-panel__lista" role="list">
             <li class="usos-panel__uso">
               <img src="img/eventos/boda-arbol.jpg" width="1400" height="1920" loading="lazy" decoding="async"
@@ -122,12 +125,13 @@
             <span class="usos-tarjeta__frase">El espacio más grande de Vegas del Verde: para conciertos y eventos que crecen.</span>
             <span class="usos-tarjeta__aviso">
               <span class="usos-tarjeta__aviso-movil">Toca para ver el espacio</span>
-              <span class="usos-tarjeta__aviso-escritorio">Ver usos recomendados</span>
+              <span class="usos-tarjeta__aviso-escritorio">Ver características del sitio</span>
             </span>
           </span>
         </summary>
         <div class="usos-panel">
           <h3 class="solo-lectores">Usos recomendados en La Vega</h3>
+          <p class="usos-panel__aforo">100 personas como máximo</p>
           <ul class="usos-panel__lista" role="list">
             <li class="usos-panel__uso">
               <img src="img/eventos/boda-arbol.jpg" width="1400" height="1920" loading="lazy" decoding="async"
@@ -174,12 +178,13 @@
             <span class="usos-tarjeta__frase">Un claro al pie de un árbol enorme: el césped hace de platea.</span>
             <span class="usos-tarjeta__aviso">
               <span class="usos-tarjeta__aviso-movil">Toca para ver el espacio</span>
-              <span class="usos-tarjeta__aviso-escritorio">Ver usos recomendados</span>
+              <span class="usos-tarjeta__aviso-escritorio">Ver características del sitio</span>
             </span>
           </span>
         </summary>
         <div class="usos-panel">
           <h3 class="solo-lectores">Usos recomendados en Teatrino</h3>
+          <p class="usos-panel__aforo">70 personas como máximo</p>
           <ul class="usos-panel__lista" role="list">
             <li class="usos-panel__uso">
               <img src="img/eventos/boda-3.jpg" width="800" height="533" loading="lazy" decoding="async"
@@ -226,12 +231,13 @@
             <span class="usos-tarjeta__frase">El único bajo techo: piso firme y seco pase lo que pase afuera.</span>
             <span class="usos-tarjeta__aviso">
               <span class="usos-tarjeta__aviso-movil">Toca para ver el espacio</span>
-              <span class="usos-tarjeta__aviso-escritorio">Ver usos recomendados</span>
+              <span class="usos-tarjeta__aviso-escritorio">Ver características del sitio</span>
             </span>
           </span>
         </summary>
         <div class="usos-panel">
           <h3 class="solo-lectores">Usos recomendados en Taller</h3>
+          <p class="usos-panel__aforo">45 personas como máximo</p>
           <ul class="usos-panel__lista" role="list">
             <li class="usos-panel__uso">
               <img src="img/eventos/noche-evento-1.jpg" width="800" height="533" loading="lazy" decoding="async"
@@ -279,12 +285,13 @@
             <span class="usos-tarjeta__frase">El campo más plano y despejado, con el guadual cerrando el fondo.</span>
             <span class="usos-tarjeta__aviso">
               <span class="usos-tarjeta__aviso-movil">Toca para ver el espacio</span>
-              <span class="usos-tarjeta__aviso-escritorio">Ver usos recomendados</span>
+              <span class="usos-tarjeta__aviso-escritorio">Ver características del sitio</span>
             </span>
           </span>
         </summary>
         <div class="usos-panel">
           <h3 class="solo-lectores">Usos recomendados en Cancha</h3>
+          <p class="usos-panel__aforo">30 jugadores y 20 espectadores como máximo</p>
           <ul class="usos-panel__lista" role="list">
             <li class="usos-panel__uso">
               <img src="img/eventos/infantil-4.jpg" width="800" height="533" loading="lazy" decoding="async"
@@ -310,5 +317,7 @@
     </li>
 
   </ul>
+
+  <script src="js/usos-ovalo.js" defer></script>
 
 </section>

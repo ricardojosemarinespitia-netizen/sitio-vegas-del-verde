@@ -27,7 +27,7 @@
 }
 
 .usos__titulo {
-  margin-top: var(--esp-2xs);
+  margin-top: 0;
 }
 
 .usos-lista {
@@ -71,6 +71,11 @@
   height: 100%;
   object-fit: cover;
   object-position: 50% 38%;
+  /* Reposo = sin recorte, foto completa. js/usos-ovalo.js escribe aquí un
+     `clip-path: ellipse(...)` en línea, ligado al progreso de scroll de la
+     tarjeta: crece hasta cubrir la tarjeta entera al centrarse en la
+     ventana. Sin ese script (JS apagado o prefers-reduced-motion: reduce)
+     este elemento se queda exactamente así — la foto se ve completa. */
 }
 
 /* Alameda: boda-arbol.jpg es retrato (1400×1920), a diferencia del resto de
@@ -103,6 +108,10 @@
   justify-content: flex-end;
   padding: var(--esp-lg);
   color: var(--color-texto-inverso);
+  /* Reposo = opacidad normal (heredada, 1), texto visible. js/usos-ovalo.js
+     escribe aquí `opacity` en línea (y `pointer-events: none` cerca de 0),
+     en la misma progresión que el óvalo de la foto: baja hacia 0 al
+     centrarse la tarjeta. Sin ese script el texto se queda visible. */
 }
 
 .usos-tarjeta__orden {
@@ -175,6 +184,25 @@
 .usos-panel {
   background-color: var(--color-fondo-alt);
   padding: var(--esp-lg) var(--padding-contenedor);
+}
+
+/* Pastilla de aforo: mismo lenguaje que .usos-tarjeta__aviso (píldora,
+   mayúsculas, --radio-full) pero en superficie sólida —vive sobre el fondo
+   plano del panel, no sobre una foto— para que se lea como un dato y no
+   como un control. Va antes de la lista de usos: primero cuánto cabe,
+   luego para qué sirve. */
+.usos-panel__aforo {
+  display: inline-flex;
+  width: fit-content;
+  margin: 0 0 var(--esp-md);
+  padding: var(--esp-2xs) var(--esp-md);
+  border-radius: var(--radio-full);
+  background-color: var(--color-fondo);
+  box-shadow: var(--sombra-sm);
+  font-family: var(--fuente-titulo);
+  font-size: var(--fs-micro);
+  letter-spacing: 0.04em;
+  color: var(--color-texto);
 }
 
 .usos-panel__lista {
