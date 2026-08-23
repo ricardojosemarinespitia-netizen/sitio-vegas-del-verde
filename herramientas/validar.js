@@ -54,7 +54,7 @@ for (const t of trozos) {
   regiones[m[1]] = t.slice(m.index);
 }
 
-const ESPERADO = ['inicio', 'usos', 'espacios', 'nosotros', 'planes', 'momentos',
+const ESPERADO = ['inicio', 'usos', 'nosotros', 'planes', 'momentos',
                   'colegios', 'naturaleza', 'vivero', 'ubicacion'];
 
 const raya = '='.repeat(74);
@@ -77,11 +77,11 @@ const HECHOS = [
  ['Los tres pilares', ['nosotros'], ['educacion ambiental','conciencia social','relaciones sanas'], false],
  ['Servicios del predio (Wifi/Banos/Vigilancia/Parqueadero)', ['nosotros'], ['\\bwifi\\b','vigilancia privada','\\bparqueadero\\b'], false],
  ['«Proximamente: arenero»', ['nosotros'], ['\\barenero\\b'], false],
- ['Aforo Alameda 150', ['espacios'], ['\\b150 personas\\b'], false],
- ['Aforo La Vega 100', ['espacios'], ['\\b100 personas\\b'], false],
- ['Aforo Teatrino 70', ['espacios'], ['\\b70 personas\\b'], false],
- ['Aforo Taller 45', ['espacios'], ['\\b45 personas\\b'], false],
- ['Aforo Cancha 30/20', ['espacios'], ['\\b30 jugadores\\b','\\b20 espectadores\\b'], false],
+ ['Aforo Alameda 150', [NADIE], ['\\b150 personas\\b'], false],
+ ['Aforo La Vega 100', [NADIE], ['\\b100 personas\\b'], false],
+ ['Aforo Teatrino 70', [NADIE], ['\\b70 personas\\b'], false],
+ ['Aforo Taller 45', [NADIE], ['\\b45 personas\\b'], false],
+ ['Aforo Cancha 30/20', [NADIE], ['\\b30 jugadores\\b','\\b20 espectadores\\b'], false],
  ['Alquiler base de 4 horas / hora adicional', [NADIE], ['\\b(cuatro|4) horas\\b','hora adicional'], false],
  ['Sillas y mesas Rimax', [NADIE], ['\\brimax\\b'], false],
  ['No incluye sonido / catering externo', [NADIE], ['\\bcatering\\b','no incluye sonido'], false],
@@ -115,8 +115,8 @@ const HECHOS = [
    'el ruido mas fuerte es un pajaro','no es el mismo bosque en marzo'], false],
  ['Rotulo «Reserva tu escape»', ['inicio'], ['reserva tu escape'], false],
  ['Rotulo «Ver los cinco espacios»', ['nosotros'], ['ver los cinco espacios'], false],
- ['Rotulo «Quiero este plan»', ['espacios'], ['quiero este plan'], false],
- ['Rotulo «Atrevete a un plan distinto»', ['planes','espacios'], ['atrevete a un plan distinto'], false],
+ ['Rotulo «Quiero este plan»', [NADIE], ['quiero este plan'], false],
+ ['Rotulo «Atrevete a un plan distinto»', ['planes'], ['atrevete a un plan distinto'], false],
  ['Rotulo «Vengo con mi curso»', ['colegios'], ['vengo con mi curso'], false],
  ['Rotulo «Atrevete al sendero»', ['naturaleza'], ['atrevete al sendero'], false],
  ['Rotulo «Quiero plantas del vivero»', ['vivero'], ['quiero plantas del vivero'], false],

@@ -174,6 +174,16 @@
            ================================================================ -->
       <li class="planes-carril planes-carril--fiesta reveal reveal--izq">
 
+        <!-- ESCENA POR SCROLL DEL ACTO 1 (sólo ≥64em y sin prefers-reduced-motion,
+             ver planes.css junto a §3). La pista es este `<div>` nuevo; el
+             escenario clavado sigue siendo `.planes-fiesta__acto1` de siempre,
+             CERO marcado nuevo dentro: la foto, la marca de agua y la tarjeta
+             son las mismas piezas ya medidas por contraste, sólo se les cuelgan
+             las variables `--entrada`/`--texto` que escribe
+             js/escena-planes.js cuadro a cuadro. Por debajo de 64em o con
+             `.js` ausente/reducido, este `<div>` no pinta nada (altura auto,
+             posición estática): el carril se ve exactamente como siempre. -->
+        <div class="planes-fiesta__escena">
         <div class="planes-fiesta__acto1">
 
           <div class="planes-portada">
@@ -261,6 +271,7 @@
             </a>
           </div>
         </div>
+        </div>
 
         <div class="planes-fiesta__diptico">
 
@@ -283,9 +294,9 @@
 
               <p class="nota planes-carril__donde">
                 Se monta en la
-                <a href="#espacios">Alameda</a>
+                <a href="#usos">Alameda</a>
                 o en
-                <a href="#espacios">La Vega</a>.
+                <a href="#usos">La Vega</a>.
               </p>
             </div>
 
@@ -340,9 +351,9 @@
 
           <p class="nota planes-carril__donde">
             Cabe en
-            <a href="#espacios">La Vega</a>
+            <a href="#usos">La Vega</a>
             y en el
-            <a href="#espacios">Teatrino</a>.
+            <a href="#usos">Teatrino</a>.
           </p>
 
           <a
@@ -466,9 +477,9 @@
 
           <p class="nota planes-carril__donde">
             Va bien en la
-            <a href="#espacios">Alameda</a>
+            <a href="#usos">Alameda</a>
             y en el
-            <a href="#espacios">Taller</a>.
+            <a href="#usos">Taller</a>.
           </p>
 
           <a
@@ -594,9 +605,9 @@
 
               <p class="nota planes-carril__donde">
                 Se hace en el
-                <a href="#espacios">Teatrino</a>
+                <a href="#usos">Teatrino</a>
                 o en la
-                <a href="#espacios">Cancha</a>.
+                <a href="#usos">Cancha</a>.
               </p>
 
               <a
@@ -701,9 +712,9 @@
 
         <p class="nota planes-carril__donde">
           Se hace en el
-          <a href="#espacios">Taller</a>
+          <a href="#usos">Taller</a>
           y en el
-          <a href="#espacios">Teatrino</a>.
+          <a href="#usos">Teatrino</a>.
         </p>
 
         <a
@@ -807,6 +818,24 @@
             { densidad: 'abundante', especies: ['mariposa', 'ave'], semilla: 2 },
           ),
         )
+        .catch(() => {});
+    }
+  </script>
+
+  <!-- ====================================================================
+       LA ESCENA POR SCROLL DEL ACTO 1 (CARRIL 01).
+       Mismo cerrojo de `prefers-reduced-motion` que la fauna de arriba, y por
+       el mismo motivo: quien pidió menos movimiento no descarga ni el
+       archivo. El motor en sí (js/escena-planes.js) vuelve a comprobar la
+       media query por si algo lo importa desde otro lado, pero comprobarlo
+       aquí también evita la descarga del módulo cuando no hace falta.
+       `.catch()` vacío: si el módulo falla, el CSS de planes.css ya deja la
+       escena resuelta en una sola pantalla (regla dura del director de
+       arte), así que no hay nada que romper. -->
+  <script type="module">
+    if (!matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      import('./js/escena-planes.js')
+        .then((m) => m.activarEscenaFiesta())
         .catch(() => {});
     }
   </script>

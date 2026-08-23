@@ -78,11 +78,40 @@
 }
 
 /* ==========================================================================
-   1. EL PREDIO — titular a un lado, discurso al otro
+   1. EL PREDIO — titular a un lado, discurso en medio, umbral al otro   (v12)
+
+   v12 · QUÉ CAMBIA Y POR QUÉ. El pedido fue literal: la foto nueva del sendero
+   entra en el bloque de «Cruzas la reja» y manda, y «Lo básico, resuelto» sube
+   a este mismo bloque en vez de vivir dos pantallas más abajo. Eso obliga a
+   recomponer, no a encajar: un bloque con titular, dos grupos de figuras y una
+   foto que tiene que ser protagonista no cabe en dos columnas.
+
+   LA REJILLA DEJA DE SER UN `.contenedor`. Para que la foto toque el borde de
+   la ventana y esté a la vez al lado del texto, el bloque se monta con el mismo
+   patrón que el compromiso de §3: una PISTA VACÍA de arranque que replica
+   exactamente el margen de página del contenedor, y la última pista llegando al
+   canto porque la rejilla no lleva relleno a la derecha. Nada de `100vw`: el
+   100 % de un hijo del <section> ya descuenta la barra de scroll.
+
+   LOS TRES ANCHOS NO SON ARBITRARIOS. 27 % para el titular es lo que necesita
+   «Cruzas la reja» a --fs-h2 en el ancho más ajustado (62em) sin partir el
+   renglón que el marcado ya decidió; 29 % para la foto es lo que la deja leerse
+   como pieza grande y no como columna decorativa; el discurso se queda con el
+   `1fr`, que es la pista que de verdad tiene que respirar porque lleva texto y
+   siete figuras. Ninguno es la mitad ni el doble de otro: la asimetría se lee.
    ========================================================================== */
+/* A una columna el bloque se pone él mismo el margen de página —ya no está
+   dentro de ningún `.contenedor`— y sólo en las piezas de TEXTO: la foto del
+   umbral sangra por la derecha también en móvil, que es donde se mira el sitio
+   la mayor parte del tiempo, así que ahí el relleno la mataría. */
 .nosotros__predio {
   display: grid;
-  gap: var(--gap);
+  gap: var(--esp-lg);
+}
+
+.nosotros__predio > .nosotros__titular,
+.nosotros__predio > .nosotros__discurso {
+  padding-inline: var(--padding-contenedor);
 }
 
 /* El aire entre el titular y el discurso lo pone el `gap` de la rejilla: el
@@ -125,6 +154,46 @@
   margin-top: var(--esp-2xs);
 }
 
+/* ---- v12 · LOS DOS GRUPOS DE FIGURAS -------------------------------------
+   «Se alquila a» (quién) y «Lo básico, resuelto» (qué hay puesto) viven ahora
+   en el mismo discurso. Siete iconos seguidos en una sola rejilla se leerían
+   como una lista de siete cosas equivalentes, que es exactamente lo que no
+   son. Se separan con dos recursos a la vez:
+
+     · UN RÓTULO CADA UNO, y los dos riman: mismo <h3> `titulo-seccion--xs`,
+       mismo hilo corto encima, mismo color suave. Dos hermanos, no un padre y
+       un apéndice.
+     · DOS FAMILIAS DE INSIGNIA DISTINTAS, que la hoja ya tenía escritas y que
+       aquí por fin se leen juntas y en contraste: tarjetas en columna con aro
+       grande TERRACOTA arriba, tira horizontal con insignia pequeña OLIVA
+       abajo. El cálido para lo que se vende, el oliva para lo que ya está.
+
+   El aire entre los dos grupos lo pone el `gap` de --esp-lg del discurso; no
+   hace falta ningún margen propio. */
+.nosotros__grupo {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--esp-sm);
+  width: 100%;
+}
+
+/* El hilo corto vive DENTRO del h3 y no en el contenedor, por el mismo motivo
+   que ya documentaba §2: el contenedor es flex y un pseudo-elemento suyo sería
+   un flex item más. Dentro del h3 es layout de bloque normal siempre. */
+.nosotros__grupo-titulo {
+  color: var(--color-texto-suave);
+}
+
+.nosotros__grupo-titulo::before {
+  content: "";
+  display: block;
+  width: var(--esp-4xl);
+  height: 1px;
+  margin-bottom: var(--esp-sm);
+  background-color: var(--color-borde-fuerte);
+}
+
 /* ---- v10 · LA REJILLA «SE ALQUILA A» -------------------------------------
    Reemplaza a la capitular y a los dos párrafos de prosa que había debajo: el
    cliente pidió «menos texto... más figuras a tope» y sofisticación, no un
@@ -135,17 +204,30 @@
    El rótulo reutiliza `.eyebrow` de base.css (versalitas, tracking de rótulo,
    el mismo lenguaje que ya usa «Nuestro compromiso» más abajo): ningún
    tamaño ni color nuevo, sólo el vocabulario que el sistema ya tiene para
-   presentar un bloque. */
-.nosotros__quienes-rotulo {
-  margin-top: var(--esp-xs);
-}
+   presentar un bloque.
+
+   v12 · el rótulo pasa de `.eyebrow` a <h3> `titulo-seccion--xs`, el mismo que
+   ya llevaba «Lo básico, resuelto». No es cambio de texto —dice lo mismo— sino
+   de rango: ahora son dos grupos hermanos dentro del mismo discurso y tienen
+   que pesar igual. De paso son dos encabezados de verdad en el árbol, que es
+   lo que un lector de pantalla necesita para saltar entre ellos. */
 
 /* CUATRO TARJETAS PEQUEÑAS, NO UNA LISTA. `auto-fit` con un mínimo corto deja
    dos columnas en móvil y hasta cuatro donde el ancho de la columna de
    discurso lo permita, sin escribir un breakpoint aparte para la rejilla. */
+/* v12 · `width: 100%` NO ES DECORATIVO, ARREGLA UN DESBORDE REAL EN MÓVIL.
+   La columna que envuelve esta rejilla es `flex` con `align-items: flex-start`,
+   así que el ancho de la lista lo decidía su propio contenido, no el hueco
+   disponible. Y el contenido de un `repeat(auto-fit, minmax(7rem, 1fr))`
+   medido a max-content son SIEMPRE las tres pistas enteras: 3 × 112 px más dos
+   huecos de 16 son 368 px dentro de una columna de 337 en una pantalla de 375.
+   La tercera tarjeta se salía por la derecha y sólo no se veía porque la
+   sección recorta. Con el ancho declarado, `auto-fit` vuelve a contar las
+   pistas que de verdad caben y en pantalla estrecha baja a dos. */
 .nosotros__quienes {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(7rem, 1fr));
+  width: 100%;
   gap: var(--esp-sm);
   list-style: none;
   padding: 0;
@@ -215,39 +297,201 @@
   color: var(--color-texto-suave);
 }
 
+/* ---- v12 · LOS DOS TRAMOS DE ESCRITORIO, Y POR QUÉ SON DOS ---------------
+   La composición de tres columnas —titular, discurso, foto— no cabe en toda la
+   franja de escritorio, y eso se midió, no se supuso: el renglón «y cambia el
+   día» necesita 314 px a 1000 de ventana y 349 a 1280, y una pista del 27 %
+   sólo da 266 y 341. Es decir, entre 62em y 75em el titular se PARTIRÍA, y
+   partirlo revienta el revelado por renglones, que cuenta con que cada
+   `.reveal-texto__linea` sea exactamente una línea.
+
+   Así que hay dos tramos y ninguno es un apaño:
+
+     · 62em–75em  DOS pistas. El titular y el discurso comparten la columna
+                  ancha (titular arriba, texto debajo) y la foto del umbral se
+                  queda en la de la derecha, alta y a sangre. Sin `sticky`:
+                  aquí el titular tiene el texto DEBAJO, no al lado, y pegar al
+                  scroll una pieza que ya se va con su propio contenido sólo
+                  produce un salto.
+     · 75em+      TRES pistas y el titular pegado al scroll, que es la
+                  composición completa. A 1200 la pista del 30 % da 355 px
+                  contra los 339 que pide el renglón, y de ahí para arriba la
+                  holgura sólo crece porque el titular llega a su tope de
+                  tamaño y la pista no.
+
+   La PRIMERA pista de los dos tramos no lleva contenido: es el hueco que
+   alinea el texto con el borde izquierdo del contenedor del resto de la
+   página, calculado con los mismos porcentajes que `.contenedor` pero medidos
+   aquí, donde el 100 % sí es el ancho del <section>. La ÚLTIMA llega al borde
+   de la ventana porque la rejilla no tiene relleno a la derecha. Es el patrón
+   del compromiso (§3), tal cual.                                            */
 @media (min-width: 62em) {
   .nosotros__predio {
-    grid-template-columns: repeat(12, minmax(0, 1fr));
+    grid-template-columns:
+      max(var(--padding-contenedor), calc((100% - var(--ancho-xl)) / 2))
+      minmax(0, 1fr)
+      minmax(0, 34%);
     column-gap: var(--gap);
     align-items: start;
   }
 
-  /* Cinco columnas de doce, y pegado al scroll mientras se lee el texto de al
-     lado. El desplazamiento superior es la cabecera fija más un respiro: el
-     mismo cálculo que usa .seccion en su scroll-margin. */
+  /* Aquí las pistas ya ponen el margen de página: el relleno de móvil sobraría
+     y estrecharía unas columnas que van justas de ancho. */
+  .nosotros__predio > .nosotros__titular,
+  .nosotros__predio > .nosotros__discurso {
+    padding-inline: 0;
+  }
+
+  /* LAS FILAS SE ESCRIBEN, NO SE DEDUCEN. En el marcado el orden es titular ·
+     foto · discurso —el que hace falta en móvil, donde la imagen del umbral va
+     pegada al titular que la nombra— y en pantalla el discurso tiene que caer
+     DEBAJO del titular, o sea en una pista por la que el colocador automático
+     de la rejilla ya pasó. Ese colocador avanza y no retrocede: sin estas dos
+     líneas el discurso se iría a una tercera fila y el bloque se partiría. */
   .nosotros__titular {
-    grid-column: 1 / span 5;
+    grid-area: 1 / 2;
+  }
+
+  .nosotros__discurso {
+    grid-area: 2 / 2;
+    margin-top: var(--esp-lg);
+  }
+
+  /* La foto acompaña a los dos: arranca con el titular y baja hasta donde
+     llegue el discurso. Su proporción NO se declara aquí —va junto a la regla
+     base de la figura, más abajo, y allí se explica por qué—. */
+  .nosotros__umbral {
+    grid-area: 1 / 3 / span 2 / auto;
+  }
+}
+
+@media (min-width: 75em) {
+  /* Cuatro pistas: margen de página · titular · discurso · foto del umbral.
+     Tres anchos y ninguno es la mitad ni el doble de otro: 30 % para el
+     titular es lo que pide el renglón más largo en el extremo ajustado de este
+     tramo, 26 % para la foto es lo que la deja leerse como pieza grande, y el
+     discurso se queda con el `1fr` porque es la pista que de verdad tiene que
+     respirar: lleva texto y siete figuras. */
+  .nosotros__predio {
+    grid-template-columns:
+      max(var(--padding-contenedor), calc((100% - var(--ancho-xl)) / 2))
+      minmax(0, 30%)
+      minmax(0, 1fr)
+      minmax(0, 26%);
+  }
+
+  /* Ahora sí las tres piezas comparten fila, y otra vez hay que escribirlo:
+     las pistas van 2 · 4 · 3 y el orden del marcado es 2 · 4 · 3 sólo si se
+     lee al revés. Con la fila puesta, marcado y pantalla pueden discrepar. */
+  .nosotros__titular {
+    grid-area: 1 / 2;
+    /* Pegado al scroll mientras se lee el texto de al lado —que aquí sí está
+       al lado—. El desplazamiento superior es la cabecera fija más un respiro:
+       el mismo cálculo que usa .seccion en su scroll-margin. */
     position: sticky;
     top: calc(var(--alto-header) + var(--esp-lg));
   }
 
-  /* v7 · EL `max-width: 16ch` DEL TITULAR SALE DE AQUÍ.
-     v6 lo puso para forzar el corte en la conjunción —«Cruzas la reja / y
-     cambia el día»— dejándoselo al balanceo del navegador con la medida
-     acotada. Desde v7 los dos renglones son dos `.reveal-texto__linea`
-     escritos a mano en sections/nosotros.html, o sea que el corte ya no se
-     sortea: está en el marcado. Con los spans a `display: block`, un tope de
-     16ch sólo puede hacer daño —partiría un renglón que ya es una línea— y
-     además reventaría el revelado por renglones, que cuenta con que cada
-     span sea exactamente una línea. La regla se quita en vez de dejarla
-     peleando con el marcado. */
-
-  /* Empieza en la 7 y no en la 6: la columna vacía en medio es la calle que
-     hace legible la asimetría. */
   .nosotros__discurso {
-    grid-column: 7 / -1;
+    grid-area: 1 / 3;
+    margin-top: 0;
   }
 
+  .nosotros__umbral {
+    grid-area: 1 / 4;
+  }
+}
+
+/* v7 · EL `max-width: 16ch` DEL TITULAR YA NO EXISTE, Y NO VUELVE.
+   v6 lo puso para forzar el corte en la conjunción —«Cruzas la reja / y cambia
+   el día»— dejándoselo al balanceo del navegador con la medida acotada. Desde
+   v7 los dos renglones son dos `.reveal-texto__linea` escritos a mano en
+   sections/nosotros.html, o sea que el corte ya no se sortea: está en el
+   marcado. Con los spans a `display: block`, un tope de 16ch sólo puede hacer
+   daño —partiría un renglón que ya es una línea— y además reventaría el
+   revelado por renglones. Es también el motivo de que los anchos de pista de
+   arriba estén medidos contra ese renglón y no elegidos a ojo.              */
+
+/* ---- v12 · LA FOTO DEL UMBRAL, A SANGRE POR LA DERECHA -------------------
+   El titular dice «Cruzas la reja»: esta foto es la frase, no su ilustración.
+   Un sendero de losas entrando bajo un túnel de árboles, en retrato y tocando
+   el borde derecho de la ventana.
+
+   LA MANO ES LA CONTRARIA A LA DEL PRADO, Y ESO ES LA DECISIÓN. La foto de
+   parque-05 que viene justo debajo sangra por la IZQUIERDA. Dos piezas
+   seguidas saliéndose por el mismo lado se leen como una plantilla con una
+   maña; alternando, se lee como recorrido: derecha · izquierda · derecha (el
+   panel de aves del compromiso vuelve a la derecha).
+
+   LOS RADIOS, SÓLO EN EL BORDE QUE EXISTE. Sangra por la derecha, así que ahí
+   no hay esquina que redondear. A la izquierda sí, y con dos valores distintos
+   —el grande abajo y el mediano arriba, al revés que el prado— para que las
+   dos hojas rimen sin ser la misma pieza.
+
+   Sombra baja y abierta, la misma familia que el prado: es una pieza que se
+   apoya sobre el papel. Y por llevar sombra necesita el desbloqueo del
+   `clip-path` de abajo, exactamente igual que las otras.                    */
+.nosotros__umbral {
+  position: relative;
+  overflow: hidden;
+  aspect-ratio: 3 / 4;
+  margin-left: var(--padding-contenedor);
+  border-radius: var(--radio-lg) 0 0 var(--radio-xl);
+  box-shadow: var(--sombra-lg);
+  background-color: rgb(var(--gris-verde-rgb) / 0.3);
+}
+
+.nosotros__umbral img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  /* Por encima del centro: el motivo de este archivo es el fondo del túnel,
+     donde el sendero se pierde entre los árboles, y cae en la mitad alta. Al
+     revés que el prado, que se ancla por debajo del centro. */
+  object-position: 50% 42%;
+  transition: transform var(--dur-lenta) var(--ease-suave);
+}
+
+/* El velo, misma receta que el prado pero al revés de mano: baja desde el
+   borde SUPERIOR, que es por donde entra el cielo quemado entre las ramas, y
+   asienta la copa de los árboles sin teñir el sendero, que es lo que se mira.
+   En --verde-bosque-hondo, el mismo teal-verde al que el grading llevó las
+   sombras de todas las fotos del sitio. */
+.nosotros__umbral::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: linear-gradient(
+    to bottom,
+    rgb(var(--verde-bosque-hondo-rgb) / 0.2),
+    rgb(var(--verde-bosque-hondo-rgb) / 0) 52%
+  );
+}
+
+/* LA PROPORCIÓN DE ESCRITORIO VA AQUÍ Y NO ARRIBA, EN EL BLOQUE DE LA REJILLA,
+   POR CASCADA: los dos selectores miden lo mismo (0,1,0) y el de la regla base
+   está escrito DESPUÉS de aquel `@media`, así que allí `aspect-ratio` no ganaba
+   y la pieza se quedaba en el 3/4 de móvil. Un media query no pesa más que
+   nada: sólo condiciona.
+
+   Y NO SE ESTIRA A LO ALTO DE LA FILA (`align-self: stretch`): la altura de esa
+   fila la manda el discurso, que crece con el texto y con la letra del sistema,
+   así que estirándola quedaría un pasillo de 327 × 800 en el ancho más
+   ajustado. Con la proporción escrita la figura es la misma —alta, de sendero—
+   en 992 y en 2560, y el papel que le queda debajo es la calle que hace legible
+   la asimetría, la misma que hay entre el titular y el discurso.             */
+@media (min-width: 62em) {
+  .nosotros__umbral {
+    aspect-ratio: 5 / 8;
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .nosotros__umbral:hover img {
+    transform: scale(var(--escala-hover));
+  }
 }
 
 /* ---- La foto grande, a sangre por la izquierda --------------------------
@@ -296,6 +540,7 @@
    !important. Antes de .visible no hay nada que romper, porque el clip
    inicial sólo lo declara .reveal--velo, que aquí no se usa.               */
 .nosotros__foto.reveal.visible,
+.nosotros__umbral.reveal.visible,
 .nosotros__mural.reveal.visible,
 .nosotros__discurso.reveal.visible,
 .nosotros__compromiso-texto.reveal.visible {
@@ -405,6 +650,21 @@
   margin-top: var(--esp-seccion-sm);
   padding-top: var(--esp-lg);
   text-align: left;
+}
+
+/* v12 · EL BLOQUE SUBE AL DISCURSO, PERO ESTAS REGLAS NO SE BORRAN.
+   `en/index.html` va todavía con la arquitectura vieja y enlaza esta misma
+   hoja: allí `.nosotros__servicios` sigue siendo un <section> propio con su
+   margen de capítulo y su fila a lo ancho. Si se cambiaran las reglas base, la
+   página en inglés se descuadraría sin que nadie la hubiera tocado. Lo que
+   necesita la versión española va abajo, ACOTADO al discurso, que es donde
+   ahora vive: dos declaraciones y ninguna duplicada. */
+.nosotros__discurso .nosotros__servicios {
+  /* Dentro del discurso el aire entre grupos ya lo pone el `gap` de --esp-lg
+     de la columna: el margen de capítulo y el relleno de apertura sobran, y
+     puestos dejarían al segundo grupo a una pantalla del primero. */
+  margin-top: 0;
+  padding-top: 0;
 }
 
 .nosotros__servicios-titulo {
@@ -584,6 +844,19 @@
     align-items: center;
     justify-content: space-between;
     gap: var(--esp-md) var(--esp-lg);
+  }
+
+  /* v12 · DENTRO DEL DISCURSO NO. La fila a lo ancho tiene sentido cuando el
+     bloque cruza la página entera —el caso de `en/index.html`—, pero aquí vive
+     en una pista de rejilla junto a una foto: en fila, el título y las cuatro
+     insignias pelearían por 400 px y el hilo corto quedaría colgando al lado
+     de la tira en vez de encima. En columna, los dos grupos de figuras se leen
+     con el mismo eje izquierdo y el mismo ritmo. */
+  .nosotros__discurso .nosotros__servicios {
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: flex-start;
+    gap: var(--esp-sm);
   }
 }
 
@@ -911,7 +1184,7 @@
    Bajo prefers-reduced-motion no hay nada que apagar: el script no se monta
    y la foto queda quieta en el encuadre de arriba.
    ========================================================================== */
-:where(.nosotros__foto, .nosotros__mural)[data-foto-focus] img {
+:where(.nosotros__foto, .nosotros__umbral, .nosotros__mural)[data-foto-focus] img {
   transform: scale(1);
 }
 
@@ -919,7 +1192,7 @@
    si hay movimiento: dos imágenes promocionadas a capa, no un sitio entero.
    En móvil el efecto repinta el recorte y will-change no ayudaría. */
 @media (min-width: 64em) and (prefers-reduced-motion: no-preference) {
-  :where(.nosotros__foto, .nosotros__mural)[data-foto-focus] img {
+  :where(.nosotros__foto, .nosotros__umbral, .nosotros__mural)[data-foto-focus] img {
     will-change: transform;
   }
 }

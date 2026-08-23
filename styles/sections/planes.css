@@ -433,6 +433,87 @@
   gap: var(--gap);
 }
 
+/* ESCENA POR SCROLL DEL ACTO 1 — director de arte, agosto de 2026.
+   `.planes-fiesta__escena` es la pista nueva que envuelve `.planes-fiesta__acto1`
+   en el HTML; sin JS o por debajo de 64em NO HACE NADA (altura auto, posición
+   estática): el carril se ve exactamente como en el resto del sitio. Sólo con
+   `.js` en `<html>`, ancho de escritorio Y `prefers-reduced-motion: no-preference`
+   a la vez se activa el pin: js/escena-planes.js mide el scroll y escribe
+   `--entrada`/`--texto` en `.planes-fiesta__escena`; TODO el movimiento lo hacen
+   `clip-path`, `transform` y `opacity` de aquí abajo, en el compositor.
+
+   POR QUÉ SÓLO ≥64em: es el mismo umbral en el que la tarjeta YA pasa a
+   `position: absolute` sobre la foto (§3, más abajo). Ese es el único punto
+   del diseño donde foto y texto ocupan la misma caja, que es justo lo que la
+   escena necesita para clavarse en pantalla completa. Por debajo de 64em la
+   tarjeta vive en flujo normal DEBAJO de la foto a propósito —«en móvil baja
+   a bloque debajo de la foto», comentario original de §3— y un `overflow`
+   clavado la recortaría fuera de la vista. No es una escena a medias: es la
+   misma decisión responsive que ya regía este carril, con una entrada nueva
+   encima donde ya se cumplía.
+
+   Los números de los tramos (0–34, 34–55, 55–80, 80–100) están en
+   js/escena-planes.js y se repiten aquí en prosa para quien lea sólo esta
+   hoja: sube y se abre el recorte · la foto quieta y sola · entra el texto ·
+   reposo. */
+.planes-fiesta__escena {
+  --entrada: 0;
+  --texto: 0;
+}
+
+@media (min-width: 64em) and (prefers-reduced-motion: no-preference) {
+  .js .planes-fiesta__escena {
+    position: relative;
+    /* Tres pantallas de recorrido: ni tan corto que el pin no se note (una
+       pista de 1 pantalla no deja tiempo de leer el gesto) ni tan largo que
+       el visitante tenga que scrollear de más para llegar al díptico. */
+    block-size: 300svh;
+  }
+
+  .js .planes-fiesta__escena .planes-fiesta__acto1 {
+    position: sticky;
+    inset-block-start: 0;
+    display: block;
+    block-size: 100svh;
+    overflow: clip;
+  }
+
+  /* La foto pasa de ocupar `--planes-portada-alto` a ocupar TODA la pantalla
+     clavada: es la lámina que sube y se abre. `margin-inline` se anula porque
+     el sangrado de siempre ya no aplica —aquí la portada ES la pantalla. */
+  .js .planes-fiesta__escena .planes-portada {
+    block-size: 100%;
+    margin-inline: 0;
+  }
+
+  /* EL RECORTE QUE SE ABRE. En `--entrada: 0` la foto asoma como una lámina
+     recortada por los tres lados menos abajo, con las esquinas redondeadas y
+     los flancos metidos hacia dentro; en `--entrada: 1` el recorte llega a
+     cero y la foto ocupa la pantalla a sangre. `round var(--radio-lg)` usa el
+     mismo radio que ya reparte el resto del sitio, nunca un valor suelto. */
+  .js .planes-fiesta__escena .planes-portada__foto {
+    clip-path: inset(
+      calc((1 - var(--entrada)) * 34%) calc((1 - var(--entrada)) * 7%) 0
+        calc((1 - var(--entrada)) * 7%) round
+        calc((1 - var(--entrada)) * var(--radio-lg))
+    );
+    transform: translateY(calc((1 - var(--entrada)) * 9%))
+      scale(calc(1 + (1 - var(--entrada)) * 0.05));
+    will-change: clip-path, transform;
+  }
+
+  /* EL TEXTO ENTRA DESPUÉS, Y SOLO. Marca de agua y tarjeta son las mismas
+     piezas ya medidas por contraste en §3: aquí sólo se les cuelga la
+     opacidad y un desplazamiento corto, gobernados por `--texto`, que se
+     queda en 0 mientras la foto todavía sube y sólo empieza a subir a partir
+     del tramo 55–80 % que fija js/escena-planes.js. */
+  .js .planes-fiesta__escena .planes-portada__marca,
+  .js .planes-fiesta__escena .planes-portada__tarjeta {
+    opacity: var(--texto);
+    translate: 0 calc((1 - var(--texto)) * 28px);
+  }
+}
+
 .planes-portada {
   position: relative;
   isolation: isolate;

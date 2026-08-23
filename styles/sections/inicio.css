@@ -886,24 +886,23 @@
      · rótulo: 9,0:1, muy por encima del 4,5:1 de AA para texto pequeño.
    En el hover recupera el filete entero y el fondo velado que ya trae de
    base.css: el peso vuelve cuando el visitante lo ha elegido. */
-/* v12 · EL FANTASMA SE LLENA DE CORAL, por pedido directo: los dos botones
-   de la portada deben leerse en naranja, no uno lleno y otro en contorno.
-   Deja de ser un `.btn-fantasma` con lavado propio (v6-v9, ver historial) y
-   pasa a compartir el relleno de `.btn-whatsapp` (--color-accion, el coral
-   del sistema) con un borde un tono más oscuro para que la costura entre los
-   dos botones —ambos llenos, uno al lado del otro— siga siendo legible sin
-   depender sólo del espacio entre ellos. Mismo contraste de rótulo que
-   .btn-whatsapp: crema sobre coral ya pasa AA en todo el sistema. */
+/* v13 · EL NARANJA SALE, ENTRA EL VERDE DE MARCA, por pedido directo. El
+   coral se quedaba peleando contra el propio botón coral de WhatsApp al
+   lado; el verde oliva es el mismo tono que ya usa el sistema para marcar
+   "seleccionado/activo" (--verde-oliva, ver .idiomas__opcion[aria-current]
+   en shell.css), así que este botón hereda ese lenguaje en vez de inventar
+   un verde nuevo. Sigue relleno —no vuelve a ser fantasma— para que los dos
+   botones de la portada pesen igual; lo que cambia es sólo el matiz. */
 .inicio__accion-secundaria {
-  background-color: var(--color-accion);
-  border-color: var(--coral-hondo);
-  color: var(--color-accion-texto);
+  background-color: var(--verde-oliva);
+  border-color: var(--verde-bosque-hondo);
+  color: var(--color-texto-inverso);
 }
 
 .inicio__accion-secundaria:hover,
 .inicio__accion-secundaria:focus-visible {
-  background-color: var(--color-accion-hover);
-  border-color: var(--color-accion-hover);
+  background-color: var(--verde-bosque-hondo);
+  border-color: var(--verde-bosque-hondo);
   color: var(--color-texto-inverso);
 }
 

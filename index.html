@@ -45,14 +45,13 @@
      herramientas/precargar-fuentes.js. -->
 <link rel="preload" as="font" type="font/woff2" crossorigin href="styles/fonts/dm-sans-latin.woff2?v=89c7ce3a">
 <link rel="preload" as="font" type="font/woff2" crossorigin href="styles/fonts/fraunces-latin.woff2?v=e75e106b">
-<link rel="stylesheet" href="styles/tokens.css?v=3ffad076">
+<link rel="stylesheet" href="styles/tokens.css?v=e555389b">
 <link rel="stylesheet" href="styles/base.css?v=ef7220aa">
 <link rel="stylesheet" href="styles/shell.css?v=e2eb0d62">
-<link rel="stylesheet" href="styles/sections/inicio.css?v=33da29b3">
+<link rel="stylesheet" href="styles/sections/inicio.css?v=bc4a09a8">
 <link rel="stylesheet" href="styles/sections/usos.css?v=5543161b">
-<link rel="stylesheet" href="styles/sections/espacios.css?v=2f0788c4">
-<link rel="stylesheet" href="styles/sections/nosotros.css?v=5089abec">
-<link rel="stylesheet" href="styles/sections/planes.css?v=3d313e65">
+<link rel="stylesheet" href="styles/sections/nosotros.css?v=fa69c02f">
+<link rel="stylesheet" href="styles/sections/planes.css?v=fd090c6a">
 <link rel="stylesheet" href="styles/sections/momentos.css?v=632c5863">
 <link rel="stylesheet" href="styles/sections/colegios.css?v=729ef553">
 <link rel="stylesheet" href="styles/sections/naturaleza.css?v=26e490c1">
@@ -127,7 +126,7 @@
            va la última para no romper el orden del embudo. -->
       <ul class="nav__lista">
         <li class="nav__item--secundario"><a class="nav__enlace" href="#nosotros">Nosotros</a></li>
-        <li><a class="nav__enlace" href="#espacios">Espacios</a></li>
+        <li><a class="nav__enlace" href="#usos">Espacios</a></li>
         <li><a class="nav__enlace" href="#planes">Planes</a></li>
         <li><a class="nav__enlace" href="#colegios">Colegios</a></li>
         <li><a class="nav__enlace" href="#naturaleza">Naturaleza</a></li>
@@ -490,7 +489,7 @@
                —«Ver los cinco espacios» es de #nosotros y lleva la cifra, que
                es el hecho de esa sección; éste no nombra ningún número, ningún
                aforo y ningún precio. -->
-          <a class="btn btn-fantasma btn-grande inicio__accion-secundaria" href="#espacios">
+          <a class="btn btn-fantasma btn-grande inicio__accion-secundaria" href="#usos">
             Ver los espacios
           </a>
         </div>
@@ -648,6 +647,7 @@
       <details class="usos-detalle">
         <summary class="usos-tarjeta">
           <picture>
+            <source media="(max-width: 47.99em)" srcset="img/espacios/alameda.gif" type="image/gif" width="280" height="498" />
             <img
               class="usos-tarjeta__foto"
               src="img/espacios/alameda-2.jpg"
@@ -910,635 +910,6 @@
 </section>
 
 <!-- ==========================================================================
-     FRAGMENTO: ESPACIOS EN ALQUILER  ·  id="espacios"
-     CSS propio: styles/sections/espacios.css
-     JS propio: js/foto-focus.js (compartido con #nosotros; el <script defer>
-     va al final de este fragmento y lleva cerrojo de doble inclusión).
-     Además usa .reveal / .reveal-secuencia y el motor de .icono-traza del
-     script global (js/app.js).
-
-     ÁMBITO DE ESTA SECCIÓN — es el ÚNICO sitio del sitio donde se DESCRIBE un
-     espacio. Cualquier otra sección que nombre la Alameda, La Vega, el
-     Teatrino, el Taller o la Cancha enlaza aquí; no repite la ficha.
-
-     ======================================================================
-     ESTRUCTURA v5 «UNA INSIGNIA Y CUATRO QUE LA ACOMPAÑAN» (agosto de 2026)
-     ======================================================================
-     v4 dio a las cinco fichas cinco tamaños y cinco siluetas distintas, y eso
-     se conserva. Lo que v4 NO tenía —y era el encargo de v5— es JERARQUÍA:
-     cinco piezas desiguales pero equivalentes siguen leyéndose como catálogo,
-     porque el ojo no sabe cuál mirar primero. Ahora hay tres escalones y se
-     ven sin leer una palabra:
-
-       ESCALÓN 1 · LA INSIGNIA         Alameda
-         Ocupa la primera fila ENTERA (12 de 12), banda 12:5 con sus dos
-         fotografías propias, nombre a --paso-3, cifra a --paso-4 y el ÚNICO
-         botón relleno de la sección. Es la que se alquila más y la que más
-         gente admite: que pese el triple no es capricho, es el dato.
-       ESCALÓN 2 · LAS DOS QUE SOSTIENEN   La Vega · Teatrino
-         La Vega es la única con una fotografía del espacio MONTADO —la
-         prueba de que aquí se hacen cosas— y se lleva 7 de 12 columnas.
-         El Teatrino es la pieza vertical alta a su derecha, arrancando
-         mucho más abajo.
-       ESCALÓN 3 · LAS DOS QUE CIERRAN     Taller · Cancha
-         Las más pequeñas de la composición, en la tercera fila, con el
-         nombre y la cifra un escalón por debajo.
-
-     Ninguna se esconde: las cinco se alquilan, las cinco conservan foto
-     propia, aforo, descripción y su enlace de WhatsApp.
-
-     QUÉ SE CONSERVA DE v4, INTACTO
-     · La ficha sin caja: foto, pastilla de aforo y texto flotando sobre el
-       papel. Ni superficie, ni borde, ni sombra de tarjeta.
-     · Las cinco siluetas distintas (banda, hoja, ARCO, hoja invertida y
-       esquina viva), sin que dos vecinas repitan diagonal.
-     · La pastilla de aforo montando sobre la esquina inferior izquierda de
-       la foto: sigue siendo el ancla y el elemento que se sale de su caja.
-       Sigue siendo dato de apoyo y no titular (CONTRATO-V2 §6): el nombre
-       conserva el <h3> y la cifra nunca pasa de --paso-4, que es el cuerpo
-       del <h2> de la sección; el titular sigue mandando.
-     · Los HECHOS no cambian: «150 personas como máximo», «100», «70», «45»
-       y los dos datos de la Cancha, palabra por palabra.
-     · La hoja de fondo con desplazamiento ligado al scroll.
-
-     QUÉ ES NUEVO EN v5
-     1. LAS FOTOS SON TODAS REALES. Las CINCO tarjetas de borrador -TEMP
-        (que no eran fotografías sino placas de texto sobre verde) están
-        fuera. Ver el bloque FOTOS de más abajo.
-     2. LA VEGA ESTRENA FOTOGRAFÍA. `img/eventos/boda-4.jpg` —la única del
-        banco que enseña un montaje de tarde con la carpa encendida— sale del
-        carril de #planes y viene aquí. Era el hueco más caro de la sección:
-        el espacio que se alquila para reunir gente no tenía ni una foto con
-        gente.
-     3. UNA SILUETA DE TRAZO POR ESPACIO. Cinco glifos de 24×24 en la firma
-        que reconoce herramientas/hornear-trazos.js (`fill="none"` +
-        `stroke="currentColor"` + `viewBox="0 0 24 24"`) que se DIBUJAN al
-        entrar la sección. Van ya horneados a mano —clase `icono-traza` y
-        `pathLength="1"` escritos aquí— para que nazcan ocultos y no haya un
-        solo fotograma con el glifo entero antes de tiempo.
-     4. NADA ARRANCA A LA VEZ. Ver el bloque ANIMACIÓN.
-     5. UN SOLO BOTÓN RELLENO, en la Alameda. Los otros cuatro conservan el
-        .enlace-flecha. El coral sigue siendo escaso y sigue estando sólo en
-        lo que se pulsa.
-
-     ======================================================================
-     ANIMACIÓN — «nada se mueve al mismo compás y nada empieza a la vez»
-     ======================================================================
-     Cuatro relojes distintos, ninguno sincronizado con otro, y los cuatro
-     apagados bajo prefers-reduced-motion:
-
-       a) ENTRADA DE CADA FICHA — .reveal-secuencia (0/90/180/270/360 ms) con
-          CINCO gestos distintos: velo (la cortina sube) para la banda de la
-          Alameda, que no tiene lado por el que llegar; izq y der para las
-          que sí lo tienen, cada una por el borde al que está pegada; zoom
-          para el Taller.
-       b) ESCALONADO DENTRO DE CADA FICHA — la pastilla, el nombre, la línea
-          y el botón entran uno detrás de otro, y CADA FICHA lleva su propio
-          compás (un multiplicador distinto por espacio), así que la tercera
-          no repite el ritmo interno de la primera. Todo el estado inicial
-          está en CSS estático: nunca lo pone el JS.
-       c) LOS CINCO GLIFOS SE DIBUJAN CON RETARDOS DISTINTOS. El observador
-          de app.js vigila la SECCIÓN y los dispararía a la vez; el CSS los
-          separa de 300 en 300 ms.
-       d) SCROLL — dos hojas de fondo a velocidades y recorridos distintos
-          (`animation-timeline: view()`, sin una línea de JS) y el encuadre
-          ligado al scroll de foto-focus en las TRES piezas grandes.
-       e) EL ENCABEZADO EN TRES TIEMPOS (v5.1) — rótulo, titular y entradilla
-          dejan de entrar como un bloque: cada uno es su propio .reveal y el
-          titular se descubre renglón a renglón con .reveal-texto--persiana.
-          Es el único sitio de la sección donde se gasta la persiana.
-       f) FAUNA AMBIENTE (v5.1) — cuatro mariposas (dos en pantalla estrecha)
-          derivando en la banda de aire de la cabecera, montadas por el módulo
-          compartido js/fauna-ambiente.js. Densidad `discreta` y semilla 1: es
-          el reparto que fija DIRECTRICES-ANIMACION §2 para esta sección, y su
-          compás no coincide con ninguno de los otros cinco relojes de aquí.
-
-     LO QUE NO SE HACE Y POR QUÉ
-     · Nada de `data-contador` en las cifras, aunque el motor exista en
-       js/app.js. Ese motor arranca en `textContent = 0` cuando la pieza
-       llega al 60 % de la ventana, y .reveal ya la ha hecho visible al 15 %:
-       el visitante vería «150», luego «0», y luego la cuenta. Eso es el
-       parpadeo de contenido que este sitio tiene prohibido. Las cifras ganan
-       presencia por escala (cuatro cuerpos distintos, de --paso-4 a
-       --paso-1) y por su propio tiempo de entrada, no por un contador.
-     · Nada de Ken Burns: foto-focus ya mueve el encuadre y dos movimientos
-       sobre el mismo píxel se pelean.
-     · Nada de scroll-jacking, cursor propio, vídeo de fondo ni texto letra a
-       letra.
-
-     LO QUE AQUÍ NO SE ESCRIBE (y por qué):
-     · Las condiciones de alquiler (horas, mobiliario, sonido, catering) viven
-       en condiciones-de-alquiler.html. Se ENLAZAN, no se transcriben, y NO
-       son un modal: el cliente rechazó el modal expresamente.
-     · Los tipos de evento y sus galerías son de la sección de planes.
-     · El Sendero Ecovital y su precio son de la sección de naturaleza.
-
-     ======================================================================
-     FOTOS — las seis abiertas y comprobadas una a una antes de escribir el
-     alt. Ninguna ruta apunta a un archivo que no exista en disco.
-     ======================================================================
-       Alameda   img/espacios/alameda-2.jpg      1500×844   panorámica
-                 img/espacios/alameda-1-real.jpg 1125×1500  vertical
-       La Vega   img/eventos/boda-4.jpg          1500×1000  NUEVA aquí
-       Teatrino  img/parque/parque-56.jpg         675×1200
-       Taller    img/espacios/taller-1.jpg        849×1500
-       Cancha    img/parque/parque-57.jpg         900×1200
-
-     LAS CINCO -TEMP RETIRADAS EN v5 (eran placas de borrador, no fotos):
-       alameda-1-TEMP → alameda-1-real.jpg (derivada del original de 4220×5626)
-       parque-47-TEMP → boda-4.jpg          (La Vega, ver punto 2 de arriba)
-       parque-56-TEMP → parque-56.jpg
-       taller-1-TEMP  → taller-1.jpg
-       parque-57-TEMP → parque-57.jpg
-     `img/parque/parque-47.jpg` queda SIN USAR a propósito: es el mismo prado
-     y casi el mismo encuadre que parque-56.jpg (misma luz, mismo día, cuadro
-     contiguo). Poner las dos en la misma sección era repetir una foto con
-     dos nombres. boda-4 cuenta algo que ninguna otra cuenta.
-
-     LOS CINCO SON LOS DEL BRIEF: Alameda, La Vega, Teatrino, Taller y Cancha.
-     No existe ningún «Prado»: ver ARQUITECTURA-V3 §7.1.
-     ========================================================================== -->
-<section id="espacios" class="seccion espacios" aria-labelledby="espacios-titulo">
-
-  <!-- Hoja de fondo ALTA. Decorativa: sin texto, sin enlace y fuera del árbol
-       de accesibilidad. El color se lo pone el CSS con `currentColor`, así que
-       aquí no viaja ni un valor literal. -->
-  <svg
-    class="espacios__hoja espacios__hoja--alta"
-    viewBox="0 0 320 440"
-    aria-hidden="true"
-    focusable="false"
-  >
-    <path
-      d="M160 6C58 96 16 216 160 434 304 216 262 96 160 6Z"
-      fill="currentColor"
-    />
-    <path
-      d="M160 40V404M160 150 62 108M160 150l98-42M160 252 74 206M160 252l86-46"
-      fill="none"
-      stroke="currentColor"
-      stroke-width="7"
-      stroke-linecap="round"
-    />
-  </svg>
-
-  <!-- Hoja de fondo BAJA. La misma figura, sangrando por el borde contrario,
-       más pequeña, girada al revés y —lo que importa— con OTRO recorrido y
-       OTRA velocidad de scroll. Dos adornos a distinto compás leen como
-       atmósfera; dos al mismo compás leen como un fondo animado. -->
-  <svg
-    class="espacios__hoja espacios__hoja--baja"
-    viewBox="0 0 320 440"
-    aria-hidden="true"
-    focusable="false"
-  >
-    <path
-      d="M160 6C58 96 16 216 160 434 304 216 262 96 160 6Z"
-      fill="currentColor"
-    />
-    <path
-      d="M160 40V404M160 150 62 108M160 150l98-42M160 252 74 206M160 252l86-46"
-      fill="none"
-      stroke="currentColor"
-      stroke-width="7"
-      stroke-linecap="round"
-    />
-  </svg>
-
-  <!-- EL AIRE DE LA SECCIÓN — caja vacía donde vuela la fauna ambiente.
-       Decorativa, sin texto y fuera del árbol de accesibilidad, igual que las
-       dos hojas de arriba y que `.inicio__enjambre` en la portada. Las piezas
-       las cuelga aquí js/fauna-ambiente.js (módulo del director de arte, ver
-       DIRECTRICES-ANIMACION §2); este fragmento no crea ni una mariposa.
-       Va FUERA de .espacios__contenedor a propósito: el contenedor está en
-       --z-base y todo lo que se lee vive dentro de él, así que ninguna pieza
-       puede cruzarse por delante de un nombre, de una cifra ni de un botón.
-       Su geometría —y por qué cambia con el ancho— está en espacios.css §0 ter. -->
-  <div class="espacios__aire" aria-hidden="true"></div>
-
-  <div class="contenedor espacios__contenedor">
-
-    <!-- EL ENCABEZADO ENTRA EN TRES TIEMPOS Y NO EN UNO (v5.1)
-         Antes el <header> entero era el .reveal: el bloque subía de una pieza
-         y el titular no tenía voz propia. Ahora el .reveal está en cada una de
-         las tres piezas, por dos razones:
-           a) el <h2> necesita ser ÉL el .reveal para que .reveal-texto tenga
-              dónde agarrarse (base.css §v7 exige las dos clases en el mismo
-              elemento y usa el observador de app.js, sin JS nuevo);
-           b) si el bloque siguiera moviéndose además de sus renglones, habría
-              DOS movimientos sobre el mismo texto — exactamente lo que §v7
-              apaga con `transform: none` en el contenedor.
-         Los tres desfases van en espacios.css §0 bis: rótulo, titular y
-         entradilla no arrancan a la vez.
-
-         PERSIANA, UNA VEZ Y AQUÍ. «Los espacios» es el primer capítulo que se
-         percibe después de la portada, y el gesto caro se gasta en el titular
-         que lo abre. Ninguna otra pieza de esta sección lo lleva.
-         Los cortes de renglón los decide quien escribe: dos líneas, sujeto y
-         remate. -->
-
-    <ul class="espacios__rejilla reveal-secuencia">
-
-      <!-- ------------------------------------------------------------ 1/5
-           ALAMEDA · hasta 150 personas · LA INSIGNIA.
-           Fila entera y banda 12:5 con sus dos fotos propias. Es la única
-           ficha con botón relleno y la única con el pie en dos columnas.
-           Entra con velo (la cortina sube): el gesto que corresponde a una
-           banda ancha, que no tiene lado por el que llegar.                -->
-      <li class="espacio espacio--destacado reveal reveal--velo">
-        <!-- FOTO-FOCUS (js/foto-focus.js): la Alameda es el ancla de la
-             sección y una de las TRES piezas grandes que reciben el encuadre
-             ligado al scroll (las otras son La Vega y el Teatrino; las dos
-             pequeñas del último escalón quedan quietas — el efecto es una
-             señal de jerarquía, no un adorno repartido). El atributo va en la
-             FIGURA, que es quien recorta con la silueta de banda. data-foco
-             sólo actúa en móvil, donde la banda queda apaisada y la única
-             holgura del recorte es horizontal: el encuadre viaja del centro
-             hacia los árboles de la izquierda. En escritorio sólo hay zoom,
-             anclado al object-position de cada foto. LAS DOS CELDAS
-             (.espacio__celda) no son decorativas: cada foto zoomea dentro de
-             la suya con overflow hidden propio; sin ellas, la escala
-             invadiría la junta de 4 px que separa las dos fotos y se comería
-             el borde de la vecina. -->
-        <figure class="espacio__figura espacio__figura--banda" data-foto-focus data-foco="38% 50%" data-zoom="0.1">
-          <div class="espacio__celda">
-            <img
-              class="espacio__img"
-              src="img/espacios/alameda-2.jpg"
-              width="1500"
-              height="844"
-              loading="lazy"
-              decoding="async"
-              alt="La Alameda vista a lo ancho: una pradera de césped parejo con árboles de tronco delgado repartidos sobre la hierba y un seto vivo cerrando el fondo."
-            />
-          </div>
-          <div class="espacio__celda espacio__celda--apoyo">
-            <img
-              class="espacio__img espacio__img--apoyo"
-              src="img/espacios/alameda-1-real.jpg"
-              width="1125"
-              height="1500"
-              loading="lazy"
-              decoding="async"
-              alt="La misma Alameda en vertical: la sombra de un árbol grande tendida sobre el césped, la fila de arbolitos y el seto cerrando al fondo, y cielo abierto con nubes por encima."
-            />
-          </div>
-        </figure>
-
-        <!-- La pastilla va envuelta: el <p> lleva la ENTRADA (transform con
-             retardo) y el <span> interior lleva el gesto de hover. Dos
-             transformaciones sobre el mismo elemento se pisan; separadas en
-             dos capas, cada una es dueña de su transform. -->
-        <p class="espacio__aforo">
-          <span class="espacio__pastilla">
-            <span class="espacio__cifra">150</span>
-            <span class="espacio__glosa">personas como máximo</span>
-          </span>
-        </p>
-
-        <div class="espacio__cuerpo">
-          <h3 class="titulo-seccion titulo-seccion--sm espacio__nombre">
-            <span class="espacio__orden" aria-hidden="true">01</span>
-            <!-- Glifo horneado a mano: clase y pathLength ya escritos, así el
-                 trazo nace oculto y no hay parpadeo. Hilera de árboles sobre
-                 el prado: es lo que la palabra «alameda» significa. -->
-            <svg class="icono-traza espacio__glifo" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                 stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"
-                 aria-hidden="true" focusable="false">
-              <path d="M2.5 21h19" pathLength="1"/>
-              <circle cx="8" cy="8.5" r="4" pathLength="1"/>
-              <path d="M8 12.5V21" pathLength="1"/>
-              <circle cx="16.8" cy="11.4" r="2.9" pathLength="1"/>
-              <path d="M16.8 14.3V21" pathLength="1"/>
-            </svg>
-            Alameda
-          </h3>
-          <p class="espacio__texto">
-            El prado más ancho del predio, sin una sola pared y con sombra de sobra en
-            los bordes.
-          </p>
-          <!-- El envoltorio existe para animar: el <a> es un .btn y ya tiene
-               su propio transform en :hover. Se anima la caja, nunca el
-               control. -->
-          <span class="espacio__accion">
-            <a
-              class="btn btn-primario espacio__enlace espacio__enlace--fuerte"
-              href="https://wa.me/573166758362?text=Hola%2C%20quiero%20este%20plan%20en%20la%20Alameda.%20%C2%BFQu%C3%A9%20disponibilidad%20tienen%3F"
-              target="_blank"
-              rel="noopener"
-            >
-              Quiero este plan<span class="solo-lectores"> en la Alameda</span>
-            </a>
-          </span>
-        </div>
-      </li>
-
-      <!-- ------------------------------------------------------------ 2/5
-           LA VEGA · hasta 100 personas · SEGUNDO ESCALÓN.
-           Siete de doce columnas en la segunda fila, pegada al margen
-           izquierdo: entra por ese mismo lado.
-           Es la única ficha con el espacio MONTADO en la fotografía, y por
-           eso es la segunda en peso: enseña lo que se compra, no sólo dónde.
-           Silueta de hoja con las puntas arriba a la derecha y abajo a la
-           izquierda.                                                       -->
-      <li class="espacio espacio--alto reveal reveal--izq">
-        <!-- FOTO-FOCUS: tercera pieza grande. El data-foco mueve los DOS ejes
-             a propósito, porque el eje con holgura cambia con el ancho: en
-             recorte 16:10 y 8:5 el archivo (3:2) sobra por arriba y por abajo,
-             y en el 4:3 de móvil sobra por los lados. El script sólo aplica el
-             eje que de verdad tiene desborde, así que un foco de dos
-             coordenadas sirve para los tres recortes: el encuadre viaja hacia
-             la barra y las materas, que es la esquina cálida de la foto. -->
-        <figure class="espacio__figura" data-foto-focus data-foco="60% 68%" data-zoom="0.09">
-          <img
-            class="espacio__img"
-            src="img/eventos/boda-4.jpg"
-            width="1500"
-            height="1000"
-            loading="lazy"
-            decoding="async"
-            alt="Una celebración montada al atardecer sobre la explanada: una carpa transparente con guirnaldas de bombillos encendidos, invitados de pie alrededor de las mesas, una furgoneta roja convertida en barra y materas con flores en primer plano."
-          />
-        </figure>
-
-        <p class="espacio__aforo">
-          <span class="espacio__pastilla">
-            <span class="espacio__cifra">100</span>
-            <span class="espacio__glosa">personas como máximo</span>
-          </span>
-        </p>
-
-        <div class="espacio__cuerpo">
-          <h3 class="titulo-seccion titulo-seccion--sm espacio__nombre">
-            <span class="espacio__orden" aria-hidden="true">02</span>
-            <!-- Toldo de dos aguas sobre una línea de suelo perfectamente
-                 recta: la explanada llana y lo que se le monta encima. -->
-            <svg class="icono-traza espacio__glifo" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                 stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"
-                 aria-hidden="true" focusable="false">
-              <path d="M2.5 20.5h19" pathLength="1"/>
-              <path d="M4 12.5 12 7l8 5.5" pathLength="1"/>
-              <path d="M4.6 12.5v8" pathLength="1"/>
-              <path d="M19.4 12.5v8" pathLength="1"/>
-            </svg>
-            La Vega
-          </h3>
-          <p class="espacio__texto">
-            Explanada llana y pareja, sin desniveles ni columnas: se monta a tu manera.
-          </p>
-          <span class="espacio__accion">
-            <a
-              class="enlace-flecha espacio__enlace"
-              href="https://wa.me/573166758362?text=Hola%2C%20quiero%20este%20plan%20en%20La%20Vega.%20%C2%BFQu%C3%A9%20disponibilidad%20tienen%3F"
-              target="_blank"
-              rel="noopener"
-            >
-              Quiero este plan<span class="solo-lectores"> en La Vega</span>
-            </a>
-          </span>
-        </div>
-      </li>
-
-      <!-- ------------------------------------------------------------ 3/5
-           TEATRINO · hasta 70 personas · SEGUNDO ESCALÓN.
-           La vertical alta pegada al margen derecho de la segunda fila, con
-           el desfase más largo de su fila: entra por la derecha.
-           Su foto va recortada EN ARCO: la copa del árbol de la fotografía y
-           el medio punto de la silueta son la misma curva.                  -->
-      <li class="espacio espacio--medio reveal reveal--der">
-        <!-- FOTO-FOCUS: el archivo es un vertical de 675×1200 dentro de un
-             recorte 3:4, así que la holgura queda en vertical. data-foco
-             sube el encuadre hasta la copa, que es lo que esa foto cuenta y
-             lo que el arco de la silueta remata. -->
-        <figure class="espacio__figura" data-foto-focus data-foco="50% 42%" data-zoom="0.12">
-          <img
-            class="espacio__img"
-            src="img/parque/parque-56.jpg"
-            width="675"
-            height="1200"
-            loading="lazy"
-            decoding="async"
-            alt="El claro del Teatrino: un árbol enorme de copa muy abierta plantado en mitad del césped, con una persona de pie a su lado que da la escala, y el follaje de otros árboles enmarcando la escena por arriba."
-          />
-        </figure>
-
-        <p class="espacio__aforo">
-          <span class="espacio__pastilla">
-            <span class="espacio__cifra">70</span>
-            <span class="espacio__glosa">personas como máximo</span>
-          </span>
-        </p>
-
-        <div class="espacio__cuerpo">
-          <h3 class="titulo-seccion titulo-seccion--sm espacio__nombre">
-            <span class="espacio__orden" aria-hidden="true">03</span>
-            <!-- Copa en medio punto sobre un tronco y dos filas de platea:
-                 el mismo arco que recorta la fotografía. -->
-            <svg class="icono-traza espacio__glifo" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                 stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"
-                 aria-hidden="true" focusable="false">
-              <path d="M3.6 12.4a8.4 8.4 0 0 1 16.8 0" pathLength="1"/>
-              <path d="M12 12.4v4.4" pathLength="1"/>
-              <path d="M5.4 18h13.2" pathLength="1"/>
-              <path d="M7.6 21h8.8" pathLength="1"/>
-            </svg>
-            Teatrino
-          </h3>
-          <p class="espacio__texto">
-            Un claro al pie de un árbol enorme: el césped hace de platea y la copa, de techo.
-          </p>
-          <span class="espacio__accion">
-            <a
-              class="enlace-flecha espacio__enlace"
-              href="https://wa.me/573166758362?text=Hola%2C%20quiero%20este%20plan%20en%20el%20Teatrino.%20%C2%BFQu%C3%A9%20disponibilidad%20tienen%3F"
-              target="_blank"
-              rel="noopener"
-            >
-              Quiero este plan<span class="solo-lectores"> en el Teatrino</span>
-            </a>
-          </span>
-        </div>
-      </li>
-
-      <!-- ------------------------------------------------------------ 4/5
-           TALLER · hasta 45 personas · el espacio bajo techo · TERCER ESCALÓN.
-           Vertical estrecho que abre la última fila. Entra con zoom: es la
-           única de las cinco que no llega desde un borde ni con cortina.
-           Su hoja va al revés que la de La Vega: las dos verticales de la
-           sección no comparten contorno.                                    -->
-      <li class="espacio espacio--esbelto reveal reveal--zoom">
-        <figure class="espacio__figura">
-          <img
-            class="espacio__img"
-            src="img/espacios/taller-1.jpg"
-            width="849"
-            height="1500"
-            loading="lazy"
-            decoding="async"
-            alt="El interior del Taller: cubierta de caña sostenida por vigas, guirnaldas de bombillos encendidos cruzando el techo, paredes de esterilla, un caballete y mesas con cuadros apoyados, y sillas al costado sobre el piso firme."
-          />
-        </figure>
-
-        <p class="espacio__aforo">
-          <span class="espacio__pastilla">
-            <span class="espacio__cifra">45</span>
-            <span class="espacio__glosa">personas como máximo</span>
-          </span>
-        </p>
-
-        <div class="espacio__cuerpo">
-          <h3 class="titulo-seccion titulo-seccion--sm espacio__nombre">
-            <span class="espacio__orden" aria-hidden="true">04</span>
-            <!-- Cubierta a dos aguas, dos postes y la guirnalda colgando:
-                 los tres rasgos que se ven en la fotografía. -->
-            <svg class="icono-traza espacio__glifo" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                 stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"
-                 aria-hidden="true" focusable="false">
-              <path d="M2.5 10.2 12 4.4l9.5 5.8" pathLength="1"/>
-              <path d="M5.4 10.6V21" pathLength="1"/>
-              <path d="M18.6 10.6V21" pathLength="1"/>
-              <path d="M5.4 13.4c4.4 4.2 8.8 4.2 13.2 0" pathLength="1"/>
-            </svg>
-            Taller
-          </h3>
-          <p class="espacio__texto">
-            El único bajo techo: cubierta de caña, piso firme y seco, y un aguacero que
-            aquí sólo se oye.
-          </p>
-          <span class="espacio__accion">
-            <a
-              class="enlace-flecha espacio__enlace"
-              href="https://wa.me/573166758362?text=Hola%2C%20quiero%20este%20plan%20en%20el%20Taller.%20%C2%BFQu%C3%A9%20disponibilidad%20tienen%3F"
-              target="_blank"
-              rel="noopener"
-            >
-              Quiero este plan<span class="solo-lectores"> en el Taller</span>
-            </a>
-          </span>
-        </div>
-      </li>
-
-      <!-- ------------------------------------------------------------ 5/5
-           CANCHA · 30 jugadores y 20 espectadores · TERCER ESCALÓN.
-           Cierra la composición abajo a la derecha, con el desfase más largo
-           de la sección: es la última nota y la más baja. Entra por la
-           derecha, que es el margen al que está pegada.
-           Único aforo de dos cifras: la pastilla se parte en dos datos y es,
-           por eso, la más ancha de las cinco.                               -->
-      <li class="espacio espacio--breve reveal reveal--der">
-        <figure class="espacio__figura">
-          <img
-            class="espacio__img"
-            src="img/parque/parque-57.jpg"
-            width="900"
-            height="1200"
-            loading="lazy"
-            decoding="async"
-            alt="La Cancha a media tarde: un campo de césped amplio y plano, con el guadual cerrando el fondo, árboles altos por la derecha y hojas grandes asomando en primer plano."
-          />
-        </figure>
-
-        <p class="espacio__aforo espacio__aforo--doble">
-          <span class="espacio__pastilla">
-            <span class="espacio__dato">
-              <span class="espacio__cifra">30</span>
-              <span class="espacio__glosa">jugadores</span>
-            </span>
-            <span class="espacio__dato">
-              <span class="espacio__cifra">20</span>
-              <span class="espacio__glosa">espectadores</span>
-            </span>
-          </span>
-        </p>
-
-        <div class="espacio__cuerpo">
-          <h3 class="titulo-seccion titulo-seccion--sm espacio__nombre">
-            <span class="espacio__orden" aria-hidden="true">05</span>
-            <!-- Campo, línea central y círculo: la única figura geométrica
-                 de los cinco glifos, porque es el único espacio con marcas
-                 en el suelo. -->
-            <svg class="icono-traza espacio__glifo" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                 stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"
-                 aria-hidden="true" focusable="false">
-              <path d="M3 5.6h18v12.8H3z" pathLength="1"/>
-              <path d="M12 5.6v12.8" pathLength="1"/>
-              <circle cx="12" cy="12" r="2.6" pathLength="1"/>
-            </svg>
-            Cancha
-          </h3>
-          <p class="espacio__texto">
-            El campo más plano y despejado, con el guadual cerrando el fondo y borde en
-            sombra para mirar.
-          </p>
-          <span class="espacio__accion">
-            <a
-              class="enlace-flecha espacio__enlace"
-              href="https://wa.me/573166758362?text=Hola%2C%20quiero%20este%20plan%20en%20la%20Cancha.%20%C2%BFQu%C3%A9%20disponibilidad%20tienen%3F"
-              target="_blank"
-              rel="noopener"
-            >
-              Quiero este plan<span class="solo-lectores"> en la Cancha</span>
-            </a>
-          </span>
-        </div>
-      </li>
-
-    </ul>
-
-    <!-- ==================================================================
-         PIE DE SECCIÓN
-         Las condiciones no se transcriben aquí: tienen su propia página.
-         Es un ENLACE, no un modal.
-         Sigue siendo una tablilla con contorno de hoja, para que el remate
-         hable el mismo idioma que las cinco fichas.
-         ================================================================== -->
-    <div class="espacios__pie reveal">
-      <p class="nota sin-margen espacios__pie-texto">
-        Los cinco se alquilan con las mismas reglas, y están escritas enteras en su
-        propia página.
-      </p>
-      <a
-        class="btn btn-secundario espacios__pie-boton"
-        href="condiciones-de-alquiler.html"
-      >
-        Ver condiciones de alquiler
-      </a>
-    </div>
-
-  </div>
-
-  <!-- FOTO-FOCUS — el <script> va aquí dentro porque el ensamblador copia tal
-       cual la cola de index.html y un fragmento no puede añadir nada allí
-       (precedente: momentos-video.js). #nosotros declara este mismo archivo:
-       el script lleva cerrojo de doble inclusión, así que da igual cuál de
-       los dos fragmentos quede primero o si algún día uno se retira. Con
-       defer no bloquea el parseo y corre con el DOM completo. Bajo
-       prefers-reduced-motion no se monta. -->
-  <script src="js/foto-focus.js?v=2e41fd79" defer></script>
-
-  <!-- FAUNA AMBIENTE — el lenguaje del hero, en voz baja.
-       Densidad `discreta` (4 piezas, 2 en pantalla estrecha porque el módulo
-       baja un escalón solo), sólo mariposas y semilla 1: es el reparto que fija
-       la tabla del director de arte para #espacios, no una elección de esta
-       sección. El colibrí NO sale aquí — se gasta una única vez en toda la
-       página, en #naturaleza.
-       El cerrojo de `prefers-reduced-motion` va fuera del import para no
-       descargar ni un byte del módulo cuando no se va a usar; el módulo lo
-       vuelve a comprobar por su cuenta. El `catch` vacío es deliberado: si el
-       módulo falla, la sección se queda exactamente como está. -->
-  <script type="module">
-    if (!matchMedia('(prefers-reduced-motion: reduce)').matches) {
-      import('./js/fauna-ambiente.js?v=b8a9a1c8')
-        .then((m) => m.montarFaunaAmbiente(
-          document.querySelector('#espacios .espacios__aire'),
-          { densidad: 'discreta', especies: ['mariposa'], semilla: 1 },
-        ))
-        .catch(() => {});
-    }
-  </script>
-</section>
-
-<!-- ==========================================================================
      FRAGMENTO: NOSOTROS  ·  ancla #nosotros
      CSS propio: styles/sections/nosotros.css
      JS propio: js/foto-focus.js (compartido con #espacios; el <script defer>
@@ -1596,8 +967,25 @@
          negativo del sitio después del hero, y llega justo donde el discurso
          cambia de registro (qué es el predio → para qué existe).
 
-     Bloques: (a) el predio · (b) lo básico resuelto · (c) el compromiso
-     Fotos: parque-05.jpg (arbolado y prado a ras de suelo, verificada) y
+     v12 — LOS DOS BLOQUES DE ARRIBA SE FUNDEN EN UNO (pedido del cliente)
+     Hasta v11 la sección iba: el predio · foto del prado · lo básico resuelto ·
+     el compromiso. Es decir, «a quién se alquila» y «qué hay puesto» —la misma
+     conversación— separados por una foto a toda página. v12 los junta en un
+     solo bloque de apertura y le da a ese bloque la foto nueva del umbral
+     (img/nosotros-reja.jpg, el sendero de losas bajo el túnel de árboles), en
+     retrato y sangrando por el borde derecho.
+
+     No es una foto añadida al costado de lo que ya había: el bloque se
+     recompone entero en TRES pistas —titular pegajoso · discurso con los dos
+     grupos de figuras · foto del umbral— y los siete iconos se reparten en dos
+     grupos rotulados con familias de insignia distintas, para que no se lean
+     como una fila de siete cosas iguales. Ni una palabra cambia; ningún hecho
+     cambia de dueño.
+
+     Bloques: (a) el predio + lo básico resuelto · (b) la foto del prado ·
+              (c) el compromiso, que cierra la sección
+     Fotos: nosotros-reja.jpg (el sendero de losas entrando bajo los árboles),
+            parque-05.jpg (arbolado y prado a ras de suelo, verificada) y
             parque-20.jpg (el panel pintado con aves del predio, verificada:
             es un panel apoyado, no un mural sobre un muro).
      Única sección sin CTA a WhatsApp: aquí todavía no se cotiza nada.
@@ -1605,13 +993,37 @@
 <section class="seccion nosotros" id="nosotros" aria-labelledby="nosotros-titulo">
 
   <!-- (a) EL PREDIO ---------------------------------------------------------
-       Dos columnas de anchos distintos y alturas distintas: 5 de 12 para el
-       titular y 6 de 12 para el discurso, con una calle vacía en medio. La
-       columna del titular se queda pegada al scroll mientras se lee el texto
-       de al lado, que es lo que hace que la asimetría se lea como decisión y
-       no como descuadre.
+       Tres columnas de anchos distintos y alturas distintas, con una calle
+       vacía entre ellas: el titular a la izquierda pegado al scroll, el
+       discurso en el medio y LA FOTO DEL UMBRAL sangrando por el borde
+       derecho de la ventana. La asimetría se lee como decisión y no como
+       descuadre porque ninguna de las tres pistas mide lo mismo.
+
+       v12 · POR QUÉ ESTE BLOQUE DEJA DE SER UN `.contenedor` -----------------
+       El pedido del cliente fue literal: «descargue una foto la reja la quiero
+       aquí Cruzas la reja y cambia el día, quiero que lo básico también esté
+       arriba en el texto con esa foto». O sea DOS cosas: (1) la foto nueva del
+       sendero entra en este bloque y manda, no de miniatura; (2) «Lo básico,
+       resuelto» sube y se une aquí en vez de vivir dos pantallas más abajo
+       como bloque suelto.
+
+       Para que la foto pueda tocar el borde de la ventana Y estar al lado del
+       texto a la vez, este bloque no puede ir dentro de un `.contenedor`: un
+       contenedor centrado con ancho máximo es justo lo que impide llegar al
+       canto. Se resuelve con el MISMO patrón que ya usa el compromiso más
+       abajo (nosotros.css §3): rejilla en el propio bloque con una PISTA VACÍA
+       de arranque que replica el margen del contenedor, y la última pista
+       llegando al borde porque la rejilla no lleva relleno a la derecha.
+       Nada de `100vw`: el 100 % de un hijo del <section> ya descuenta la barra
+       de scroll (nosotros.css, «LAS DOS SANGRÍAS NO USAN 100vw»).
+
+       LA MANO DE LA SANGRÍA ES LA CONTRARIA A PROPÓSITO. La foto del prado
+       que viene justo debajo sangra por la IZQUIERDA y el panel de aves del
+       compromiso por la DERECHA. Si el umbral sangrara también a la izquierda,
+       las dos primeras piezas de la sección repetirían el mismo gesto seguido.
+       Así el recorrido alterna: derecha · izquierda · derecha.
        ---------------------------------------------------------------------- -->
-  <div class="contenedor contenedor--ancho nosotros__predio">
+  <div class="nosotros__predio">
 
     <header class="seccion-encabezado nosotros__titular reveal reveal--izq">
       <!-- v7 · SALE EL ANTETÍTULO «El predio», Y ES UNA DECISIÓN DE ORDEN,
@@ -1690,6 +1102,46 @@
       </svg>
     </header>
 
+    <!-- v12 · LA FOTO DEL UMBRAL ------------------------------------------
+         El titular dice «Cruzas la reja»: la imagen ES la frase. Un sendero
+         de losas bajo un túnel de árboles, en retrato y de la altura de todo
+         el bloque, sangrando por el borde derecho de la ventana. No es una
+         ilustración del texto puesta al lado, es la primera cosa que se ve
+         del predio.
+
+         EL ARCHIVO ES VERTICAL (1200 × 2134) Y ESO AQUÍ ES UNA VENTAJA, no un
+         problema que corregir con recorte: un pasillo de árboles pide formato
+         retrato. La figura declara su proporción en CSS (3/4 en móvil, 5/7 a
+         partir de 62em) y el `object-fit: cover` hace el resto; con
+         `width`/`height` escritos, el CLS es cero antes de que cargue.
+
+         `loading="lazy"` y no `fetchpriority`: el LCP de la página es el hero,
+         y esta pieza queda una pantalla por debajo (checklist §6 de
+         DIRECTRICES-ANIMACION). Sin `sizes` porque no hay `srcset`: una sola
+         fuente, un solo archivo.
+
+         FOTO-FOCUS: es la tercera pieza grande de la sección y le toca el
+         mismo encuadre ligado al scroll que al prado y al panel de aves. El
+         `data-foco` SUBE la mirada (38 %) en vez de bajarla: en este archivo
+         el motivo —el fondo del túnel, donde el sendero se pierde— está en la
+         mitad alta, al revés que en el prado. El zoom es el más corto de las
+         tres (0.09): la pieza es alta y estrecha, y ahí un zoom largo se come
+         los bordes del sendero, que es lo que da la profundidad.
+         Entra con `reveal--zoom` y no con `reveal--der`: un desplazamiento
+         horizontal en una pieza que ya toca el canto derecho la empujaría
+         fuera de la pantalla. -->
+    <figure class="nosotros__umbral reveal reveal--zoom"
+            data-foto-focus data-foco="50% 38%" data-zoom="0.09">
+      <img
+        src="img/nosotros-reja.jpg"
+        width="1200"
+        height="2134"
+        alt="Camino de losas de piedra entre el césped, entrando bajo un túnel de árboles del predio, con matas de lengua de suegra y flores moradas a lado y lado."
+        loading="lazy"
+        decoding="async"
+      />
+    </figure>
+
     <!-- Sin `reveal--der`: la entrada horizontal desplaza 28 px hacia la
          DERECHA, y en una columna que ocupa todo el ancho eso sí genera
          desbordamiento real (a la izquierda el navegador no deja desplazar;
@@ -1709,67 +1161,188 @@
         Un predio privado con portería y vigilancia, no un parque público.
       </p>
 
-      <p class="eyebrow nosotros__quienes-rotulo">Se alquila a</p>
+      <!-- v12 · LOS DOS GRUPOS DE FIGURAS, JUNTOS PERO NUNCA CONFUNDIDOS -----
+           El cliente pidió que «lo básico» subiera aquí. Lo que NO se puede
+           hacer es soltar los siete iconos en una sola rejilla: se leerían
+           como una lista de siete cosas equivalentes, y no lo son —«Se alquila
+           a» dice a QUIÉN, «Lo básico, resuelto» dice QUÉ hay puesto—.
+           Se juntan como DOS GRUPOS rotulados, y la diferencia no está sólo en
+           el rótulo: cada uno usa una familia de insignia distinta que la hoja
+           ya tenía escrita.
 
-      <!-- CUATRO FIGURAS, NO CUATRO ICONOS DE STOCK. Cada trazo se dibujó
-           para este sitio con la misma firma que reconoce el motor de
-           dibujado del sistema —`viewBox="0 0 24 24"`, `fill="none"` y
-           `stroke="currentColor"`—, la misma que llevan la rama de arriba y
-           los cuatro iconos de «Lo básico, resuelto». Ninguno se repite entre
-           bloques: el ojo de vigilancia es distinto del escudo de servicios,
-           a propósito, para que la sección no reparta la misma pieza dos
-           veces. Cada <li> es su propio .reveal dentro de .reveal-secuencia,
-           igual que la tira de servicios: los retardos desiguales los reparte
-           nosotros.css §1b. -->
-      <!-- v11 · EL OJO DE VIGILANCIA SE RETIRA DE AQUÍ, por pedido directo:
-           duplicaba «Vigilancia privada» de «Lo básico, resuelto» dos
-           bloques más abajo —dos figuras distintas para el mismo hecho—.
-           Esta rejilla es «a quién se alquila»; la vigilancia no es un
-           inquilino, es un servicio del predio, así que su sitio único
-           queda en la rejilla de servicios. El dato no se pierde: sigue en
-           la entradilla de arriba («portería y vigilancia»). -->
-      <ul class="nosotros__quienes reveal-secuencia">
+             · «Se alquila a»       tarjetas en columna, figura grande y
+                                    centrada, aro TERRACOTA (el cálido, para lo
+                                    que el cliente quiere que se note).
+             · «Lo básico, resuelto» tira horizontal, insignia pequeña al lado
+                                    de la palabra, aro OLIVA (la voz baja de la
+                                    información de servicio).
 
-        <li class="nosotros__quien reveal reveal--zoom">
-          <svg class="icono-traza nosotros__quien-icono" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-               stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"
-               aria-hidden="true" focusable="false">
-            <path d="M12 4 2.4 8.6 12 13.2l9.6-4.6L12 4Z" pathLength="1"/>
-            <path d="M6.5 10.8v4.6c0 1.5 2.5 2.7 5.5 2.7s5.5-1.2 5.5-2.7v-4.6" pathLength="1"/>
-            <path d="M21.6 8.6v5.6" pathLength="1"/>
-          </svg>
-          <span>Colegios</span>
-        </li>
+           Los dos rótulos sí riman: mismo <h3> `titulo-seccion--xs`, mismo
+           hilo corto encima. Dos grupos hermanos, no un grupo de siete. -->
+      <div class="nosotros__grupo">
 
-        <li class="nosotros__quien reveal reveal--zoom">
-          <svg class="icono-traza nosotros__quien-icono" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-               stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"
-               aria-hidden="true" focusable="false">
-            <rect x="5.4" y="3.4" width="8.2" height="17.2" rx="1" pathLength="1"/>
-            <path d="M13.6 20.6v-9.6h5v9.6" pathLength="1"/>
-            <path d="M8 7.2h1M8 10.6h1M8 14h1M11 7.2h1M11 10.6h1M11 14h1" pathLength="1"/>
-          </svg>
-          <span>Empresas</span>
-        </li>
+        <h3 class="titulo-seccion titulo-seccion--xs nosotros__grupo-titulo">
+          Se alquila a
+        </h3>
 
-        <li class="nosotros__quien reveal reveal--zoom">
-          <svg class="icono-traza nosotros__quien-icono" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-               stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"
-               aria-hidden="true" focusable="false">
-            <circle cx="8.3" cy="8.1" r="2.7" pathLength="1"/>
-            <path d="M2.6 19.2c.5-3.4 2.6-5.2 5.7-5.2s5.2 1.8 5.7 5.2" pathLength="1"/>
-            <circle cx="17" cy="7.3" r="2" pathLength="1"/>
-            <path d="M14.6 12.5c.7-.3 1.4-.5 2.4-.5 2.6 0 4.4 1.5 4.9 4.5" pathLength="1"/>
-          </svg>
-          <span>Particulares</span>
-        </li>
+        <!-- CUATRO FIGURAS, NO CUATRO ICONOS DE STOCK. Cada trazo se dibujó
+             para este sitio con la misma firma que reconoce el motor de
+             dibujado del sistema —`viewBox="0 0 24 24"`, `fill="none"` y
+             `stroke="currentColor"`—, la misma que llevan la rama de arriba y
+             los cuatro iconos de «Lo básico, resuelto». Ninguno se repite entre
+             bloques: el ojo de vigilancia es distinto del escudo de servicios,
+             a propósito, para que la sección no reparta la misma pieza dos
+             veces. Cada <li> es su propio .reveal dentro de .reveal-secuencia,
+             igual que la tira de servicios: los retardos desiguales los reparte
+             nosotros.css §1b. -->
+        <!-- v11 · EL OJO DE VIGILANCIA SE RETIRA DE AQUÍ, por pedido directo:
+             duplicaba «Vigilancia privada» de «Lo básico, resuelto» dos
+             bloques más abajo —dos figuras distintas para el mismo hecho—.
+             Esta rejilla es «a quién se alquila»; la vigilancia no es un
+             inquilino, es un servicio del predio, así que su sitio único
+             queda en la rejilla de servicios. El dato no se pierde: sigue en
+             la entradilla de arriba («portería y vigilancia»). -->
+        <ul class="nosotros__quienes reveal-secuencia">
 
-      </ul>
+          <li class="nosotros__quien reveal reveal--zoom">
+            <svg class="icono-traza nosotros__quien-icono" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                 stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"
+                 aria-hidden="true" focusable="false">
+              <path d="M12 4 2.4 8.6 12 13.2l9.6-4.6L12 4Z" pathLength="1"/>
+              <path d="M6.5 10.8v4.6c0 1.5 2.5 2.7 5.5 2.7s5.5-1.2 5.5-2.7v-4.6" pathLength="1"/>
+              <path d="M21.6 8.6v5.6" pathLength="1"/>
+            </svg>
+            <span>Colegios</span>
+          </li>
 
-      <p class="nosotros__quienes-nota">Tú decides qué pasa adentro.</p>
+          <li class="nosotros__quien reveal reveal--zoom">
+            <svg class="icono-traza nosotros__quien-icono" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                 stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"
+                 aria-hidden="true" focusable="false">
+              <rect x="5.4" y="3.4" width="8.2" height="17.2" rx="1" pathLength="1"/>
+              <path d="M13.6 20.6v-9.6h5v9.6" pathLength="1"/>
+              <path d="M8 7.2h1M8 10.6h1M8 14h1M11 7.2h1M11 10.6h1M11 14h1" pathLength="1"/>
+            </svg>
+            <span>Empresas</span>
+          </li>
 
+          <li class="nosotros__quien reveal reveal--zoom">
+            <svg class="icono-traza nosotros__quien-icono" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                 stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"
+                 aria-hidden="true" focusable="false">
+              <circle cx="8.3" cy="8.1" r="2.7" pathLength="1"/>
+              <path d="M2.6 19.2c.5-3.4 2.6-5.2 5.7-5.2s5.2 1.8 5.7 5.2" pathLength="1"/>
+              <circle cx="17" cy="7.3" r="2" pathLength="1"/>
+              <path d="M14.6 12.5c.7-.3 1.4-.5 2.4-.5 2.6 0 4.4 1.5 4.9 4.5" pathLength="1"/>
+            </svg>
+            <span>Particulares</span>
+          </li>
+
+        </ul>
+
+        <p class="nosotros__quienes-nota">Tú decides qué pasa adentro.</p>
+
+      </div>
+
+      <!-- (b) LO BÁSICO, RESUELTO ------------------------------------------
+           v12 · SUBE AQUÍ, POR PEDIDO DIRECTO DEL CLIENTE. Hasta v11 era un
+           bloque suelto dos pantallas más abajo, entre la foto del prado y el
+           compromiso: el visitante leía «se alquila a colegios, empresas y
+           particulares», bajaba una foto entera y sólo entonces se enteraba de
+           que hay wifi, baños, vigilancia y parqueadero. Son la misma
+           conversación —qué es esto y qué hay puesto— y ahora se leen de
+           corrido, con la foto del umbral al lado.
+
+           NI UNA PALABRA CAMBIA y ningún hecho se mueve de dueño: los cuatro
+           servicios y la pastilla del arenero siguen siendo de #nosotros y
+           siguen escritos una sola vez en todo el sitio (tabla de propiedad de
+           herramientas/validar.js). Lo que cambia es dónde caen.
+
+           Los iconos son legítimos aquí: wifi, baños, vigilancia y parqueadero
+           son conceptos de servicio, no cosas que se vendan por su fotografía.
+           Y siguen en voz baja —insignia pequeña, aro oliva, la palabra al
+           lado— frente a las tarjetas grandes en terracota del grupo de
+           arriba: es el «ya está puesto», no el argumento de venta. -->
+      <div class="nosotros__grupo nosotros__servicios">
+
+        <h3 class="titulo-seccion titulo-seccion--xs nosotros__grupo-titulo nosotros__servicios-titulo">
+          Lo básico, resuelto
+        </h3>
+
+        <!-- v6 · LA TIRA DEJA DE SER UNA FILA DE CUATRO IGUALES.
+             Hasta v5 los cuatro servicios entraban de golpe (el .reveal estaba
+             en el bloque entero) y las cuatro insignias medían exactamente lo
+             mismo. Cuatro piezas idénticas alineadas por arriba y por abajo es
+             el gesto de plantilla que el resto de la sección ya había
+             corregido en la foto y en los pilares.
+
+             Ahora cada <li> es su propio .reveal dentro de una
+             .reveal-secuencia y los cuatro tamaños, las cuatro alturas de base
+             y las cuatro formas de hoja los reparte nosotros.css §2 —el mismo
+             criterio y las mismas proporciones que la tira de aves del hero
+             (sections/hero.html:341 y styles/sections/inicio.css:993-1023)—.
+             Los RETARDOS los sobrescribe también la hoja: la escalera regular
+             de 90 en 90 ms de base.css se lee como un barrido; desigualada, se
+             lee como cuatro cosas distintas apareciendo. -->
+        <ul class="nosotros__servicios-lista reveal-secuencia">
+
+          <li class="nosotros__servicio reveal reveal--zoom">
+            <svg class="icono-traza nosotros__servicio-icono" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                 stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"
+                 aria-hidden="true" focusable="false">
+              <path d="M2.6 9.1a14.4 14.4 0 0 1 18.8 0"  pathLength="1"/>
+              <path d="M5.9 12.8a9.6 9.6 0 0 1 12.2 0"  pathLength="1"/>
+              <path d="M9.1 16.5a4.7 4.7 0 0 1 5.8 0"  pathLength="1"/>
+              <circle cx="12" cy="19.9" r="1.1" fill="currentColor" stroke="none"  pathLength="1"/>
+            </svg>
+            Wifi
+          </li>
+
+          <li class="nosotros__servicio reveal reveal--zoom">
+            <svg class="icono-traza nosotros__servicio-icono" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                 stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"
+                 aria-hidden="true" focusable="false">
+              <rect x="4.25" y="2.75" width="15.5" height="18.5" rx="2.75"  pathLength="1"/>
+              <circle cx="12" cy="7.9" r="1.5"  pathLength="1"/>
+              <path d="M9.5 16.6 12 10.9l2.5 5.7"  pathLength="1"/>
+              <path d="M10.4 14.5h3.2"  pathLength="1"/>
+            </svg>
+            Baños
+          </li>
+
+          <li class="nosotros__servicio reveal reveal--zoom">
+            <svg class="icono-traza nosotros__servicio-icono" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                 stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"
+                 aria-hidden="true" focusable="false">
+              <path d="M12 2.8 4.9 5.6v5.7c0 4.4 3 8.4 7.1 9.9 4.1-1.5 7.1-5.5 7.1-9.9V5.6L12 2.8Z"  pathLength="1"/>
+              <path d="m8.9 11.9 2.2 2.2 4-4.3"  pathLength="1"/>
+            </svg>
+            Vigilancia privada
+          </li>
+
+          <li class="nosotros__servicio reveal reveal--zoom">
+            <svg class="icono-traza nosotros__servicio-icono" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                 stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"
+                 aria-hidden="true" focusable="false">
+              <rect x="3.25" y="3.25" width="17.5" height="17.5" rx="4.25"  pathLength="1"/>
+              <path d="M9.8 17.1V7.4h3.2a2.9 2.9 0 0 1 0 5.9H9.8"  pathLength="1"/>
+            </svg>
+            Parqueadero
+          </li>
+
+        </ul>
+
+        <p class="nosotros__servicios-extra">
+          <span class="pildora">Próximamente · Arenero</span>
+        </p>
+
+      </div>
+
+      <!-- La salida del bloque, después de los dos grupos: leído lo que es el
+           predio y lo que hay puesto, el siguiente paso es ver los espacios.
+           Ningún bloque de texto sin salida (DIRECTRICES-ANIMACION §7). -->
       <p class="grupo-botones">
-        <a class="btn btn-secundario" href="#espacios">Ver los cinco espacios</a>
+        <a class="btn btn-secundario" href="#usos">Ver los cinco espacios</a>
       </p>
     </div>
 
@@ -1800,89 +1373,6 @@
       decoding="async"
     />
   </figure>
-
-  <!-- (b) LO BÁSICO, RESUELTO ----------------------------------------------
-       Los iconos son legítimos aquí: wifi, baños, vigilancia y parqueadero
-       son conceptos de servicio, no cosas que se vendan por su fotografía.
-       Ya no van dentro de una caja con filete: un hilo arriba y todo alineado
-       a la izquierda. Es el «ya está puesto», no el argumento de venta.
-       ---------------------------------------------------------------------- -->
-  <div class="contenedor contenedor--ancho">
-    <div class="nosotros__servicios reveal">
-
-      <h3 class="titulo-seccion titulo-seccion--xs nosotros__servicios-titulo">
-        Lo básico, resuelto
-      </h3>
-
-      <!-- v6 · LA TIRA DEJA DE SER UNA FILA DE CUATRO IGUALES.
-           Hasta v5 los cuatro servicios entraban de golpe (el .reveal está en
-           el bloque entero) y las cuatro insignias medían exactamente lo
-           mismo. Cuatro piezas idénticas alineadas por arriba y por abajo es
-           el gesto de plantilla que el resto de la sección ya había
-           corregido en la foto y en los pilares.
-
-           Ahora cada <li> es su propio .reveal dentro de una .reveal-secuencia
-           y los cuatro tamaños, las cuatro alturas de base y las cuatro
-           formas de hoja los reparte nosotros.css §2 —el mismo criterio y las
-           mismas proporciones que la tira de aves del hero
-           (sections/hero.html:341 y styles/sections/inicio.css:993-1023)—.
-           Los RETARDOS los sobrescribe también la hoja: la escalera regular
-           de 90 en 90 ms de base.css se lee como un barrido; desigualada, se
-           lee como cuatro cosas distintas apareciendo. -->
-      <ul class="nosotros__servicios-lista reveal-secuencia">
-
-        <li class="nosotros__servicio reveal reveal--zoom">
-          <svg class="icono-traza nosotros__servicio-icono" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-               stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"
-               aria-hidden="true" focusable="false">
-            <path d="M2.6 9.1a14.4 14.4 0 0 1 18.8 0"  pathLength="1"/>
-            <path d="M5.9 12.8a9.6 9.6 0 0 1 12.2 0"  pathLength="1"/>
-            <path d="M9.1 16.5a4.7 4.7 0 0 1 5.8 0"  pathLength="1"/>
-            <circle cx="12" cy="19.9" r="1.1" fill="currentColor" stroke="none"  pathLength="1"/>
-          </svg>
-          Wifi
-        </li>
-
-        <li class="nosotros__servicio reveal reveal--zoom">
-          <svg class="icono-traza nosotros__servicio-icono" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-               stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"
-               aria-hidden="true" focusable="false">
-            <rect x="4.25" y="2.75" width="15.5" height="18.5" rx="2.75"  pathLength="1"/>
-            <circle cx="12" cy="7.9" r="1.5"  pathLength="1"/>
-            <path d="M9.5 16.6 12 10.9l2.5 5.7"  pathLength="1"/>
-            <path d="M10.4 14.5h3.2"  pathLength="1"/>
-          </svg>
-          Baños
-        </li>
-
-        <li class="nosotros__servicio reveal reveal--zoom">
-          <svg class="icono-traza nosotros__servicio-icono" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-               stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"
-               aria-hidden="true" focusable="false">
-            <path d="M12 2.8 4.9 5.6v5.7c0 4.4 3 8.4 7.1 9.9 4.1-1.5 7.1-5.5 7.1-9.9V5.6L12 2.8Z"  pathLength="1"/>
-            <path d="m8.9 11.9 2.2 2.2 4-4.3"  pathLength="1"/>
-          </svg>
-          Vigilancia privada
-        </li>
-
-        <li class="nosotros__servicio reveal reveal--zoom">
-          <svg class="icono-traza nosotros__servicio-icono" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-               stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"
-               aria-hidden="true" focusable="false">
-            <rect x="3.25" y="3.25" width="17.5" height="17.5" rx="4.25"  pathLength="1"/>
-            <path d="M9.8 17.1V7.4h3.2a2.9 2.9 0 0 1 0 5.9H9.8"  pathLength="1"/>
-          </svg>
-          Parqueadero
-        </li>
-
-      </ul>
-
-      <p class="nosotros__servicios-extra">
-        <span class="pildora">Próximamente · Arenero</span>
-      </p>
-
-    </div>
-  </div>
 
   <!-- (c) EL COMPROMISO ----------------------------------------------------
        Los tres pilares del BRIEF, enteros y una sola vez en todo el sitio.
@@ -2200,6 +1690,16 @@
            ================================================================ -->
       <li class="planes-carril planes-carril--fiesta reveal reveal--izq">
 
+        <!-- ESCENA POR SCROLL DEL ACTO 1 (sólo ≥64em y sin prefers-reduced-motion,
+             ver planes.css junto a §3). La pista es este `<div>` nuevo; el
+             escenario clavado sigue siendo `.planes-fiesta__acto1` de siempre,
+             CERO marcado nuevo dentro: la foto, la marca de agua y la tarjeta
+             son las mismas piezas ya medidas por contraste, sólo se les cuelgan
+             las variables `--entrada`/`--texto` que escribe
+             js/escena-planes.js cuadro a cuadro. Por debajo de 64em o con
+             `.js` ausente/reducido, este `<div>` no pinta nada (altura auto,
+             posición estática): el carril se ve exactamente como siempre. -->
+        <div class="planes-fiesta__escena">
         <div class="planes-fiesta__acto1">
 
           <div class="planes-portada">
@@ -2287,6 +1787,7 @@
             </a>
           </div>
         </div>
+        </div>
 
         <div class="planes-fiesta__diptico">
 
@@ -2309,9 +1810,9 @@
 
               <p class="nota planes-carril__donde">
                 Se monta en la
-                <a href="#espacios">Alameda</a>
+                <a href="#usos">Alameda</a>
                 o en
-                <a href="#espacios">La Vega</a>.
+                <a href="#usos">La Vega</a>.
               </p>
             </div>
 
@@ -2366,9 +1867,9 @@
 
           <p class="nota planes-carril__donde">
             Cabe en
-            <a href="#espacios">La Vega</a>
+            <a href="#usos">La Vega</a>
             y en el
-            <a href="#espacios">Teatrino</a>.
+            <a href="#usos">Teatrino</a>.
           </p>
 
           <a
@@ -2492,9 +1993,9 @@
 
           <p class="nota planes-carril__donde">
             Va bien en la
-            <a href="#espacios">Alameda</a>
+            <a href="#usos">Alameda</a>
             y en el
-            <a href="#espacios">Taller</a>.
+            <a href="#usos">Taller</a>.
           </p>
 
           <a
@@ -2620,9 +2121,9 @@
 
               <p class="nota planes-carril__donde">
                 Se hace en el
-                <a href="#espacios">Teatrino</a>
+                <a href="#usos">Teatrino</a>
                 o en la
-                <a href="#espacios">Cancha</a>.
+                <a href="#usos">Cancha</a>.
               </p>
 
               <a
@@ -2727,9 +2228,9 @@
 
         <p class="nota planes-carril__donde">
           Se hace en el
-          <a href="#espacios">Taller</a>
+          <a href="#usos">Taller</a>
           y en el
-          <a href="#espacios">Teatrino</a>.
+          <a href="#usos">Teatrino</a>.
         </p>
 
         <a
@@ -2833,6 +2334,24 @@
             { densidad: 'abundante', especies: ['mariposa', 'ave'], semilla: 2 },
           ),
         )
+        .catch(() => {});
+    }
+  </script>
+
+  <!-- ====================================================================
+       LA ESCENA POR SCROLL DEL ACTO 1 (CARRIL 01).
+       Mismo cerrojo de `prefers-reduced-motion` que la fauna de arriba, y por
+       el mismo motivo: quien pidió menos movimiento no descarga ni el
+       archivo. El motor en sí (js/escena-planes.js) vuelve a comprobar la
+       media query por si algo lo importa desde otro lado, pero comprobarlo
+       aquí también evita la descarga del módulo cuando no hace falta.
+       `.catch()` vacío: si el módulo falla, el CSS de planes.css ya deja la
+       escena resuelta en una sola pantalla (regla dura del director de
+       arte), así que no hay nada que romper. -->
+  <script type="module">
+    if (!matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      import('./js/escena-planes.js?v=ca0b1239')
+        .then((m) => m.activarEscenaFiesta())
         .catch(() => {});
     }
   </script>
@@ -3512,7 +3031,7 @@
 
         <p class="nota col-enlaces">
           La jornada se alarga con
-          <a href="#espacios">los espacios del parque</a>, con
+          <a href="#usos">los espacios del parque</a>, con
           <a href="#naturaleza">el Sendero Ecovital</a> o con una vuelta por
           <a href="#vivero">el vivero</a>.
         </p>

@@ -16,7 +16,6 @@ IDX  = os.path.join(RAIZ, "index.html")
 ORDEN = [
     ("inicio",     "hero.html"),
     ("usos",       "usos.html"),
-    ("espacios",   "espacios.html"),
     ("nosotros",   "nosotros.html"),
     ("planes",     "planes.html"),
     ("momentos",   "momentos.html"),
@@ -30,7 +29,6 @@ ORDEN = [
 CSS_SECCIONES = [
     "styles/sections/inicio.css",
     "styles/sections/usos.css",
-    "styles/sections/espacios.css",
     "styles/sections/nosotros.css",
     "styles/sections/planes.css",
     "styles/sections/momentos.css",

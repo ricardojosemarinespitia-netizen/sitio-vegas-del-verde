@@ -562,6 +562,23 @@
   --espacio-silueta: var(--radio-lg) var(--radio-lg) var(--radio-xs) var(--radio-lg);
 }
 
+/* ---- Móvil: todas las siluetas convergen en el arco del Teatrino ----------
+   En pantalla pequeña, las cinco tarjetas adoptan la misma silueta de medio
+   punto (arco simétrico arriba, radio moderado abajo). Sin ella, cada tarjeta
+   llevaría un contorno distinto y el escalonamiento que existe en escritorio
+   —la gracia de las cinco siluetas— se perdería al apilarse en una columna.
+   Con el arco unificado el pulgar recorre alturas distintas (y sus propios
+   ritmos de entrada) pero todos los contornos se leen como un patrón. */
+@media (max-width: 47.99em) {
+  .espacio--destacado,
+  .espacio--alto,
+  .espacio--medio,
+  .espacio--esbelto,
+  .espacio--breve {
+    --espacio-silueta: 50% 50% var(--radio-md) var(--radio-md);
+  }
+}
+
 /* ==========================================================================
    4. EL ZOOM DE HOVER — y por qué no es igual en las cinco
    ==========================================================================

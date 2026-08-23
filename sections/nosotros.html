@@ -56,8 +56,25 @@
          negativo del sitio después del hero, y llega justo donde el discurso
          cambia de registro (qué es el predio → para qué existe).
 
-     Bloques: (a) el predio · (b) lo básico resuelto · (c) el compromiso
-     Fotos: parque-05.jpg (arbolado y prado a ras de suelo, verificada) y
+     v12 — LOS DOS BLOQUES DE ARRIBA SE FUNDEN EN UNO (pedido del cliente)
+     Hasta v11 la sección iba: el predio · foto del prado · lo básico resuelto ·
+     el compromiso. Es decir, «a quién se alquila» y «qué hay puesto» —la misma
+     conversación— separados por una foto a toda página. v12 los junta en un
+     solo bloque de apertura y le da a ese bloque la foto nueva del umbral
+     (img/nosotros-reja.jpg, el sendero de losas bajo el túnel de árboles), en
+     retrato y sangrando por el borde derecho.
+
+     No es una foto añadida al costado de lo que ya había: el bloque se
+     recompone entero en TRES pistas —titular pegajoso · discurso con los dos
+     grupos de figuras · foto del umbral— y los siete iconos se reparten en dos
+     grupos rotulados con familias de insignia distintas, para que no se lean
+     como una fila de siete cosas iguales. Ni una palabra cambia; ningún hecho
+     cambia de dueño.
+
+     Bloques: (a) el predio + lo básico resuelto · (b) la foto del prado ·
+              (c) el compromiso, que cierra la sección
+     Fotos: nosotros-reja.jpg (el sendero de losas entrando bajo los árboles),
+            parque-05.jpg (arbolado y prado a ras de suelo, verificada) y
             parque-20.jpg (el panel pintado con aves del predio, verificada:
             es un panel apoyado, no un mural sobre un muro).
      Única sección sin CTA a WhatsApp: aquí todavía no se cotiza nada.
@@ -65,13 +82,37 @@
 <section class="seccion nosotros" id="nosotros" aria-labelledby="nosotros-titulo">
 
   <!-- (a) EL PREDIO ---------------------------------------------------------
-       Dos columnas de anchos distintos y alturas distintas: 5 de 12 para el
-       titular y 6 de 12 para el discurso, con una calle vacía en medio. La
-       columna del titular se queda pegada al scroll mientras se lee el texto
-       de al lado, que es lo que hace que la asimetría se lea como decisión y
-       no como descuadre.
+       Tres columnas de anchos distintos y alturas distintas, con una calle
+       vacía entre ellas: el titular a la izquierda pegado al scroll, el
+       discurso en el medio y LA FOTO DEL UMBRAL sangrando por el borde
+       derecho de la ventana. La asimetría se lee como decisión y no como
+       descuadre porque ninguna de las tres pistas mide lo mismo.
+
+       v12 · POR QUÉ ESTE BLOQUE DEJA DE SER UN `.contenedor` -----------------
+       El pedido del cliente fue literal: «descargue una foto la reja la quiero
+       aquí Cruzas la reja y cambia el día, quiero que lo básico también esté
+       arriba en el texto con esa foto». O sea DOS cosas: (1) la foto nueva del
+       sendero entra en este bloque y manda, no de miniatura; (2) «Lo básico,
+       resuelto» sube y se une aquí en vez de vivir dos pantallas más abajo
+       como bloque suelto.
+
+       Para que la foto pueda tocar el borde de la ventana Y estar al lado del
+       texto a la vez, este bloque no puede ir dentro de un `.contenedor`: un
+       contenedor centrado con ancho máximo es justo lo que impide llegar al
+       canto. Se resuelve con el MISMO patrón que ya usa el compromiso más
+       abajo (nosotros.css §3): rejilla en el propio bloque con una PISTA VACÍA
+       de arranque que replica el margen del contenedor, y la última pista
+       llegando al borde porque la rejilla no lleva relleno a la derecha.
+       Nada de `100vw`: el 100 % de un hijo del <section> ya descuenta la barra
+       de scroll (nosotros.css, «LAS DOS SANGRÍAS NO USAN 100vw»).
+
+       LA MANO DE LA SANGRÍA ES LA CONTRARIA A PROPÓSITO. La foto del prado
+       que viene justo debajo sangra por la IZQUIERDA y el panel de aves del
+       compromiso por la DERECHA. Si el umbral sangrara también a la izquierda,
+       las dos primeras piezas de la sección repetirían el mismo gesto seguido.
+       Así el recorrido alterna: derecha · izquierda · derecha.
        ---------------------------------------------------------------------- -->
-  <div class="contenedor contenedor--ancho nosotros__predio">
+  <div class="nosotros__predio">
 
     <header class="seccion-encabezado nosotros__titular reveal reveal--izq">
       <!-- v7 · SALE EL ANTETÍTULO «El predio», Y ES UNA DECISIÓN DE ORDEN,
@@ -150,6 +191,46 @@
       </svg>
     </header>
 
+    <!-- v12 · LA FOTO DEL UMBRAL ------------------------------------------
+         El titular dice «Cruzas la reja»: la imagen ES la frase. Un sendero
+         de losas bajo un túnel de árboles, en retrato y de la altura de todo
+         el bloque, sangrando por el borde derecho de la ventana. No es una
+         ilustración del texto puesta al lado, es la primera cosa que se ve
+         del predio.
+
+         EL ARCHIVO ES VERTICAL (1200 × 2134) Y ESO AQUÍ ES UNA VENTAJA, no un
+         problema que corregir con recorte: un pasillo de árboles pide formato
+         retrato. La figura declara su proporción en CSS (3/4 en móvil, 5/7 a
+         partir de 62em) y el `object-fit: cover` hace el resto; con
+         `width`/`height` escritos, el CLS es cero antes de que cargue.
+
+         `loading="lazy"` y no `fetchpriority`: el LCP de la página es el hero,
+         y esta pieza queda una pantalla por debajo (checklist §6 de
+         DIRECTRICES-ANIMACION). Sin `sizes` porque no hay `srcset`: una sola
+         fuente, un solo archivo.
+
+         FOTO-FOCUS: es la tercera pieza grande de la sección y le toca el
+         mismo encuadre ligado al scroll que al prado y al panel de aves. El
+         `data-foco` SUBE la mirada (38 %) en vez de bajarla: en este archivo
+         el motivo —el fondo del túnel, donde el sendero se pierde— está en la
+         mitad alta, al revés que en el prado. El zoom es el más corto de las
+         tres (0.09): la pieza es alta y estrecha, y ahí un zoom largo se come
+         los bordes del sendero, que es lo que da la profundidad.
+         Entra con `reveal--zoom` y no con `reveal--der`: un desplazamiento
+         horizontal en una pieza que ya toca el canto derecho la empujaría
+         fuera de la pantalla. -->
+    <figure class="nosotros__umbral reveal reveal--zoom"
+            data-foto-focus data-foco="50% 38%" data-zoom="0.09">
+      <img
+        src="img/nosotros-reja.jpg"
+        width="1200"
+        height="2134"
+        alt="Camino de losas de piedra entre el césped, entrando bajo un túnel de árboles del predio, con matas de lengua de suegra y flores moradas a lado y lado."
+        loading="lazy"
+        decoding="async"
+      />
+    </figure>
+
     <!-- Sin `reveal--der`: la entrada horizontal desplaza 28 px hacia la
          DERECHA, y en una columna que ocupa todo el ancho eso sí genera
          desbordamiento real (a la izquierda el navegador no deja desplazar;
@@ -169,67 +250,188 @@
         Un predio privado con portería y vigilancia, no un parque público.
       </p>
 
-      <p class="eyebrow nosotros__quienes-rotulo">Se alquila a</p>
+      <!-- v12 · LOS DOS GRUPOS DE FIGURAS, JUNTOS PERO NUNCA CONFUNDIDOS -----
+           El cliente pidió que «lo básico» subiera aquí. Lo que NO se puede
+           hacer es soltar los siete iconos en una sola rejilla: se leerían
+           como una lista de siete cosas equivalentes, y no lo son —«Se alquila
+           a» dice a QUIÉN, «Lo básico, resuelto» dice QUÉ hay puesto—.
+           Se juntan como DOS GRUPOS rotulados, y la diferencia no está sólo en
+           el rótulo: cada uno usa una familia de insignia distinta que la hoja
+           ya tenía escrita.
 
-      <!-- CUATRO FIGURAS, NO CUATRO ICONOS DE STOCK. Cada trazo se dibujó
-           para este sitio con la misma firma que reconoce el motor de
-           dibujado del sistema —`viewBox="0 0 24 24"`, `fill="none"` y
-           `stroke="currentColor"`—, la misma que llevan la rama de arriba y
-           los cuatro iconos de «Lo básico, resuelto». Ninguno se repite entre
-           bloques: el ojo de vigilancia es distinto del escudo de servicios,
-           a propósito, para que la sección no reparta la misma pieza dos
-           veces. Cada <li> es su propio .reveal dentro de .reveal-secuencia,
-           igual que la tira de servicios: los retardos desiguales los reparte
-           nosotros.css §1b. -->
-      <!-- v11 · EL OJO DE VIGILANCIA SE RETIRA DE AQUÍ, por pedido directo:
-           duplicaba «Vigilancia privada» de «Lo básico, resuelto» dos
-           bloques más abajo —dos figuras distintas para el mismo hecho—.
-           Esta rejilla es «a quién se alquila»; la vigilancia no es un
-           inquilino, es un servicio del predio, así que su sitio único
-           queda en la rejilla de servicios. El dato no se pierde: sigue en
-           la entradilla de arriba («portería y vigilancia»). -->
-      <ul class="nosotros__quienes reveal-secuencia">
+             · «Se alquila a»       tarjetas en columna, figura grande y
+                                    centrada, aro TERRACOTA (el cálido, para lo
+                                    que el cliente quiere que se note).
+             · «Lo básico, resuelto» tira horizontal, insignia pequeña al lado
+                                    de la palabra, aro OLIVA (la voz baja de la
+                                    información de servicio).
 
-        <li class="nosotros__quien reveal reveal--zoom">
-          <svg class="icono-traza nosotros__quien-icono" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-               stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"
-               aria-hidden="true" focusable="false">
-            <path d="M12 4 2.4 8.6 12 13.2l9.6-4.6L12 4Z" pathLength="1"/>
-            <path d="M6.5 10.8v4.6c0 1.5 2.5 2.7 5.5 2.7s5.5-1.2 5.5-2.7v-4.6" pathLength="1"/>
-            <path d="M21.6 8.6v5.6" pathLength="1"/>
-          </svg>
-          <span>Colegios</span>
-        </li>
+           Los dos rótulos sí riman: mismo <h3> `titulo-seccion--xs`, mismo
+           hilo corto encima. Dos grupos hermanos, no un grupo de siete. -->
+      <div class="nosotros__grupo">
 
-        <li class="nosotros__quien reveal reveal--zoom">
-          <svg class="icono-traza nosotros__quien-icono" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-               stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"
-               aria-hidden="true" focusable="false">
-            <rect x="5.4" y="3.4" width="8.2" height="17.2" rx="1" pathLength="1"/>
-            <path d="M13.6 20.6v-9.6h5v9.6" pathLength="1"/>
-            <path d="M8 7.2h1M8 10.6h1M8 14h1M11 7.2h1M11 10.6h1M11 14h1" pathLength="1"/>
-          </svg>
-          <span>Empresas</span>
-        </li>
+        <h3 class="titulo-seccion titulo-seccion--xs nosotros__grupo-titulo">
+          Se alquila a
+        </h3>
 
-        <li class="nosotros__quien reveal reveal--zoom">
-          <svg class="icono-traza nosotros__quien-icono" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-               stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"
-               aria-hidden="true" focusable="false">
-            <circle cx="8.3" cy="8.1" r="2.7" pathLength="1"/>
-            <path d="M2.6 19.2c.5-3.4 2.6-5.2 5.7-5.2s5.2 1.8 5.7 5.2" pathLength="1"/>
-            <circle cx="17" cy="7.3" r="2" pathLength="1"/>
-            <path d="M14.6 12.5c.7-.3 1.4-.5 2.4-.5 2.6 0 4.4 1.5 4.9 4.5" pathLength="1"/>
-          </svg>
-          <span>Particulares</span>
-        </li>
+        <!-- CUATRO FIGURAS, NO CUATRO ICONOS DE STOCK. Cada trazo se dibujó
+             para este sitio con la misma firma que reconoce el motor de
+             dibujado del sistema —`viewBox="0 0 24 24"`, `fill="none"` y
+             `stroke="currentColor"`—, la misma que llevan la rama de arriba y
+             los cuatro iconos de «Lo básico, resuelto». Ninguno se repite entre
+             bloques: el ojo de vigilancia es distinto del escudo de servicios,
+             a propósito, para que la sección no reparta la misma pieza dos
+             veces. Cada <li> es su propio .reveal dentro de .reveal-secuencia,
+             igual que la tira de servicios: los retardos desiguales los reparte
+             nosotros.css §1b. -->
+        <!-- v11 · EL OJO DE VIGILANCIA SE RETIRA DE AQUÍ, por pedido directo:
+             duplicaba «Vigilancia privada» de «Lo básico, resuelto» dos
+             bloques más abajo —dos figuras distintas para el mismo hecho—.
+             Esta rejilla es «a quién se alquila»; la vigilancia no es un
+             inquilino, es un servicio del predio, así que su sitio único
+             queda en la rejilla de servicios. El dato no se pierde: sigue en
+             la entradilla de arriba («portería y vigilancia»). -->
+        <ul class="nosotros__quienes reveal-secuencia">
 
-      </ul>
+          <li class="nosotros__quien reveal reveal--zoom">
+            <svg class="icono-traza nosotros__quien-icono" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                 stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"
+                 aria-hidden="true" focusable="false">
+              <path d="M12 4 2.4 8.6 12 13.2l9.6-4.6L12 4Z" pathLength="1"/>
+              <path d="M6.5 10.8v4.6c0 1.5 2.5 2.7 5.5 2.7s5.5-1.2 5.5-2.7v-4.6" pathLength="1"/>
+              <path d="M21.6 8.6v5.6" pathLength="1"/>
+            </svg>
+            <span>Colegios</span>
+          </li>
 
-      <p class="nosotros__quienes-nota">Tú decides qué pasa adentro.</p>
+          <li class="nosotros__quien reveal reveal--zoom">
+            <svg class="icono-traza nosotros__quien-icono" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                 stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"
+                 aria-hidden="true" focusable="false">
+              <rect x="5.4" y="3.4" width="8.2" height="17.2" rx="1" pathLength="1"/>
+              <path d="M13.6 20.6v-9.6h5v9.6" pathLength="1"/>
+              <path d="M8 7.2h1M8 10.6h1M8 14h1M11 7.2h1M11 10.6h1M11 14h1" pathLength="1"/>
+            </svg>
+            <span>Empresas</span>
+          </li>
 
+          <li class="nosotros__quien reveal reveal--zoom">
+            <svg class="icono-traza nosotros__quien-icono" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                 stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"
+                 aria-hidden="true" focusable="false">
+              <circle cx="8.3" cy="8.1" r="2.7" pathLength="1"/>
+              <path d="M2.6 19.2c.5-3.4 2.6-5.2 5.7-5.2s5.2 1.8 5.7 5.2" pathLength="1"/>
+              <circle cx="17" cy="7.3" r="2" pathLength="1"/>
+              <path d="M14.6 12.5c.7-.3 1.4-.5 2.4-.5 2.6 0 4.4 1.5 4.9 4.5" pathLength="1"/>
+            </svg>
+            <span>Particulares</span>
+          </li>
+
+        </ul>
+
+        <p class="nosotros__quienes-nota">Tú decides qué pasa adentro.</p>
+
+      </div>
+
+      <!-- (b) LO BÁSICO, RESUELTO ------------------------------------------
+           v12 · SUBE AQUÍ, POR PEDIDO DIRECTO DEL CLIENTE. Hasta v11 era un
+           bloque suelto dos pantallas más abajo, entre la foto del prado y el
+           compromiso: el visitante leía «se alquila a colegios, empresas y
+           particulares», bajaba una foto entera y sólo entonces se enteraba de
+           que hay wifi, baños, vigilancia y parqueadero. Son la misma
+           conversación —qué es esto y qué hay puesto— y ahora se leen de
+           corrido, con la foto del umbral al lado.
+
+           NI UNA PALABRA CAMBIA y ningún hecho se mueve de dueño: los cuatro
+           servicios y la pastilla del arenero siguen siendo de #nosotros y
+           siguen escritos una sola vez en todo el sitio (tabla de propiedad de
+           herramientas/validar.js). Lo que cambia es dónde caen.
+
+           Los iconos son legítimos aquí: wifi, baños, vigilancia y parqueadero
+           son conceptos de servicio, no cosas que se vendan por su fotografía.
+           Y siguen en voz baja —insignia pequeña, aro oliva, la palabra al
+           lado— frente a las tarjetas grandes en terracota del grupo de
+           arriba: es el «ya está puesto», no el argumento de venta. -->
+      <div class="nosotros__grupo nosotros__servicios">
+
+        <h3 class="titulo-seccion titulo-seccion--xs nosotros__grupo-titulo nosotros__servicios-titulo">
+          Lo básico, resuelto
+        </h3>
+
+        <!-- v6 · LA TIRA DEJA DE SER UNA FILA DE CUATRO IGUALES.
+             Hasta v5 los cuatro servicios entraban de golpe (el .reveal estaba
+             en el bloque entero) y las cuatro insignias medían exactamente lo
+             mismo. Cuatro piezas idénticas alineadas por arriba y por abajo es
+             el gesto de plantilla que el resto de la sección ya había
+             corregido en la foto y en los pilares.
+
+             Ahora cada <li> es su propio .reveal dentro de una
+             .reveal-secuencia y los cuatro tamaños, las cuatro alturas de base
+             y las cuatro formas de hoja los reparte nosotros.css §2 —el mismo
+             criterio y las mismas proporciones que la tira de aves del hero
+             (sections/hero.html:341 y styles/sections/inicio.css:993-1023)—.
+             Los RETARDOS los sobrescribe también la hoja: la escalera regular
+             de 90 en 90 ms de base.css se lee como un barrido; desigualada, se
+             lee como cuatro cosas distintas apareciendo. -->
+        <ul class="nosotros__servicios-lista reveal-secuencia">
+
+          <li class="nosotros__servicio reveal reveal--zoom">
+            <svg class="icono-traza nosotros__servicio-icono" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                 stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"
+                 aria-hidden="true" focusable="false">
+              <path d="M2.6 9.1a14.4 14.4 0 0 1 18.8 0"  pathLength="1"/>
+              <path d="M5.9 12.8a9.6 9.6 0 0 1 12.2 0"  pathLength="1"/>
+              <path d="M9.1 16.5a4.7 4.7 0 0 1 5.8 0"  pathLength="1"/>
+              <circle cx="12" cy="19.9" r="1.1" fill="currentColor" stroke="none"  pathLength="1"/>
+            </svg>
+            Wifi
+          </li>
+
+          <li class="nosotros__servicio reveal reveal--zoom">
+            <svg class="icono-traza nosotros__servicio-icono" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                 stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"
+                 aria-hidden="true" focusable="false">
+              <rect x="4.25" y="2.75" width="15.5" height="18.5" rx="2.75"  pathLength="1"/>
+              <circle cx="12" cy="7.9" r="1.5"  pathLength="1"/>
+              <path d="M9.5 16.6 12 10.9l2.5 5.7"  pathLength="1"/>
+              <path d="M10.4 14.5h3.2"  pathLength="1"/>
+            </svg>
+            Baños
+          </li>
+
+          <li class="nosotros__servicio reveal reveal--zoom">
+            <svg class="icono-traza nosotros__servicio-icono" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                 stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"
+                 aria-hidden="true" focusable="false">
+              <path d="M12 2.8 4.9 5.6v5.7c0 4.4 3 8.4 7.1 9.9 4.1-1.5 7.1-5.5 7.1-9.9V5.6L12 2.8Z"  pathLength="1"/>
+              <path d="m8.9 11.9 2.2 2.2 4-4.3"  pathLength="1"/>
+            </svg>
+            Vigilancia privada
+          </li>
+
+          <li class="nosotros__servicio reveal reveal--zoom">
+            <svg class="icono-traza nosotros__servicio-icono" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                 stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"
+                 aria-hidden="true" focusable="false">
+              <rect x="3.25" y="3.25" width="17.5" height="17.5" rx="4.25"  pathLength="1"/>
+              <path d="M9.8 17.1V7.4h3.2a2.9 2.9 0 0 1 0 5.9H9.8"  pathLength="1"/>
+            </svg>
+            Parqueadero
+          </li>
+
+        </ul>
+
+        <p class="nosotros__servicios-extra">
+          <span class="pildora">Próximamente · Arenero</span>
+        </p>
+
+      </div>
+
+      <!-- La salida del bloque, después de los dos grupos: leído lo que es el
+           predio y lo que hay puesto, el siguiente paso es ver los espacios.
+           Ningún bloque de texto sin salida (DIRECTRICES-ANIMACION §7). -->
       <p class="grupo-botones">
-        <a class="btn btn-secundario" href="#espacios">Ver los cinco espacios</a>
+        <a class="btn btn-secundario" href="#usos">Ver los cinco espacios</a>
       </p>
     </div>
 
@@ -260,89 +462,6 @@
       decoding="async"
     />
   </figure>
-
-  <!-- (b) LO BÁSICO, RESUELTO ----------------------------------------------
-       Los iconos son legítimos aquí: wifi, baños, vigilancia y parqueadero
-       son conceptos de servicio, no cosas que se vendan por su fotografía.
-       Ya no van dentro de una caja con filete: un hilo arriba y todo alineado
-       a la izquierda. Es el «ya está puesto», no el argumento de venta.
-       ---------------------------------------------------------------------- -->
-  <div class="contenedor contenedor--ancho">
-    <div class="nosotros__servicios reveal">
-
-      <h3 class="titulo-seccion titulo-seccion--xs nosotros__servicios-titulo">
-        Lo básico, resuelto
-      </h3>
-
-      <!-- v6 · LA TIRA DEJA DE SER UNA FILA DE CUATRO IGUALES.
-           Hasta v5 los cuatro servicios entraban de golpe (el .reveal está en
-           el bloque entero) y las cuatro insignias medían exactamente lo
-           mismo. Cuatro piezas idénticas alineadas por arriba y por abajo es
-           el gesto de plantilla que el resto de la sección ya había
-           corregido en la foto y en los pilares.
-
-           Ahora cada <li> es su propio .reveal dentro de una .reveal-secuencia
-           y los cuatro tamaños, las cuatro alturas de base y las cuatro
-           formas de hoja los reparte nosotros.css §2 —el mismo criterio y las
-           mismas proporciones que la tira de aves del hero
-           (sections/hero.html:341 y styles/sections/inicio.css:993-1023)—.
-           Los RETARDOS los sobrescribe también la hoja: la escalera regular
-           de 90 en 90 ms de base.css se lee como un barrido; desigualada, se
-           lee como cuatro cosas distintas apareciendo. -->
-      <ul class="nosotros__servicios-lista reveal-secuencia">
-
-        <li class="nosotros__servicio reveal reveal--zoom">
-          <svg class="icono-traza nosotros__servicio-icono" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-               stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"
-               aria-hidden="true" focusable="false">
-            <path d="M2.6 9.1a14.4 14.4 0 0 1 18.8 0"  pathLength="1"/>
-            <path d="M5.9 12.8a9.6 9.6 0 0 1 12.2 0"  pathLength="1"/>
-            <path d="M9.1 16.5a4.7 4.7 0 0 1 5.8 0"  pathLength="1"/>
-            <circle cx="12" cy="19.9" r="1.1" fill="currentColor" stroke="none"  pathLength="1"/>
-          </svg>
-          Wifi
-        </li>
-
-        <li class="nosotros__servicio reveal reveal--zoom">
-          <svg class="icono-traza nosotros__servicio-icono" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-               stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"
-               aria-hidden="true" focusable="false">
-            <rect x="4.25" y="2.75" width="15.5" height="18.5" rx="2.75"  pathLength="1"/>
-            <circle cx="12" cy="7.9" r="1.5"  pathLength="1"/>
-            <path d="M9.5 16.6 12 10.9l2.5 5.7"  pathLength="1"/>
-            <path d="M10.4 14.5h3.2"  pathLength="1"/>
-          </svg>
-          Baños
-        </li>
-
-        <li class="nosotros__servicio reveal reveal--zoom">
-          <svg class="icono-traza nosotros__servicio-icono" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-               stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"
-               aria-hidden="true" focusable="false">
-            <path d="M12 2.8 4.9 5.6v5.7c0 4.4 3 8.4 7.1 9.9 4.1-1.5 7.1-5.5 7.1-9.9V5.6L12 2.8Z"  pathLength="1"/>
-            <path d="m8.9 11.9 2.2 2.2 4-4.3"  pathLength="1"/>
-          </svg>
-          Vigilancia privada
-        </li>
-
-        <li class="nosotros__servicio reveal reveal--zoom">
-          <svg class="icono-traza nosotros__servicio-icono" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-               stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"
-               aria-hidden="true" focusable="false">
-            <rect x="3.25" y="3.25" width="17.5" height="17.5" rx="4.25"  pathLength="1"/>
-            <path d="M9.8 17.1V7.4h3.2a2.9 2.9 0 0 1 0 5.9H9.8"  pathLength="1"/>
-          </svg>
-          Parqueadero
-        </li>
-
-      </ul>
-
-      <p class="nosotros__servicios-extra">
-        <span class="pildora">Próximamente · Arenero</span>
-      </p>
-
-    </div>
-  </div>
 
   <!-- (c) EL COMPROMISO ----------------------------------------------------
        Los tres pilares del BRIEF, enteros y una sola vez en todo el sitio.
