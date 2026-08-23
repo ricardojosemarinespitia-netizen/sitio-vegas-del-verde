@@ -183,6 +183,20 @@
   max-width: var(--medida);
 }
 
+/* v9 «CAPA EDITORIAL» · LA CABECERA RESPIRA ANTES DE LA PORTADA A SANGRE.
+   El encabezado ganaba el filete pero soltaba la pila encima sin aire: antes
+   de que entre la portada del 01 —la pieza más pesada de la sección— hace
+   falta blanco, que es lo que distingue una revista de un folleto. Y la
+   entradilla baja a voz suave (6,1:1 sobre crema, AA con margen): el titular
+   Fraunces queda solo como protagonista de la apertura.                     */
+.planes .seccion-encabezado {
+  padding-block-end: var(--esp-2xl);
+}
+
+.planes .seccion-encabezado > .entradilla {
+  color: var(--color-texto-suave);
+}
+
 .planes .seccion-encabezado::before {
   content: "";
   position: absolute;
@@ -326,6 +340,64 @@
 
 .planes-carril__cta {
   margin-top: var(--esp-2xs);
+}
+
+/* v9 · EL CORAL SE DOSIFICA. Cuatro botones coral idénticos apilados es
+   lenguaje de catálogo; los CTA de los carriles 03 y 05 pasan en el HTML a
+   .enlace-flecha —mismo rótulo, mismo destino— y quedan DOS botones coral
+   anclando las dos mitades (02 y 04), con los carriles callados rematando
+   como ya remata el 01. El alto de dedo se conserva con la misma fórmula de
+   44 px que usa .planes-portada__cta (§3): dos tokens, cero números nuevos. */
+.planes-carril__cta.enlace-flecha {
+  min-block-size: calc(var(--esp-lg) + var(--esp-xs));
+}
+
+/* v9 · LOS TITULARES DE CARRIL SUBEN UN ESCALÓN (02 y 03). A --fs-h3
+   (--paso-2) el h3 se leía como pie de foto junto a fotos de 600+ px; a
+   --paso-3 comparte escala con .planes-talleres__titulo (§7) y los tres
+   carriles de texto protagonista hablan con el mismo cuerpo. El 04 no se
+   toca: su titular vive sobre la banda y ya tiene la escala del negativo. */
+.planes-carril--familia .titulo-seccion--sm,
+.planes-carril--empresa .titulo-seccion--sm {
+  font-size: var(--paso-3);
+  max-width: var(--medida-corta);
+}
+
+/* v9 · EL NUMERAL DE MARGEN — sólo ≥64em y sólo en los carriles 02 y 03.
+   El gesto de folio de revista: la cifra Fraunces a peso 320 sale de la
+   columna de texto y cuelga en el blanco de un margen propio, con la
+   etiqueta caps debajo, alineada a su eje. La columna de texto pasa a una
+   rejilla interna 1fr/4fr —fracciones de retícula, que no son tokens, igual
+   que las del resto del archivo— y el ordinal sube de --paso-4 a --paso-5:
+   deja de ser adorno y pasa a ser estructura. En móvil y tableta nada
+   cambia: la columna de margen sin blanco alrededor sería sólo una sangría.
+   `justify-items: start` replica el shrink-wrap que daba el flex: sin él,
+   el CTA se estiraría al ancho entero de su pista.                          */
+@media (min-width: 64em) {
+  .planes-carril--familia .planes-carril__texto,
+  .planes-carril--empresa .planes-carril__texto {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 4fr);
+    column-gap: var(--gap);
+    align-items: start;
+    justify-items: start;
+  }
+
+  .planes-carril--familia .planes-carril__texto > :not(.planes-carril__ocasion),
+  .planes-carril--empresa .planes-carril__texto > :not(.planes-carril__ocasion) {
+    grid-column: 2;
+  }
+
+  .planes-carril--familia .planes-carril__ocasion,
+  .planes-carril--empresa .planes-carril__ocasion {
+    grid-column: 1;
+    grid-row: 1 / span 4;
+  }
+
+  .planes-carril--familia .planes-carril__indice,
+  .planes-carril--empresa .planes-carril__indice {
+    font-size: var(--paso-5);
+  }
 }
 
 /* --------------------------------------------------------------------------
@@ -1060,6 +1132,21 @@
   margin: 0;
 }
 
+/* v9 · Las siete viñetas son el bloque más denso de la sección y estiraban
+   el verde por texto frente a su trío de fotos. A dos columnas de tableta
+   para arriba: misma información, la mitad de alto. `break-inside: avoid`
+   para que ninguna viñeta parta entre columnas.                             */
+@media (min-width: 48em) {
+  .planes-bienestar__lista {
+    columns: 2;
+    column-gap: var(--esp-md);
+  }
+
+  .planes-bienestar__lista > li {
+    break-inside: avoid;
+  }
+}
+
 /* El trío va en cuadrados —a propósito, para que no se confunda con las
    verticales del carril 02— y en colcha: uno ancho arriba y dos pequeños
    debajo. En columna de tres medía 1245 px contra 550 de texto; así se queda
@@ -1368,8 +1455,11 @@
    animación gana a la transición y el hover no haría nada: mejor no
    prometerlo. Y la foto suelta de un carril nunca lo lleva, para que no baile
    sola.                                                                     */
+/* v9: el retrato del dossier gana paralaje en §10, así que sale de esta
+   lista —la animación sobre `transform` ganaría a la transición y el hover
+   sería una promesa vacía—. El par apaisado sí lo conserva.               */
 .planes-familia__mosaico .marco:hover > img,
-.planes-dossier .marco:hover > img,
+.planes-dossier__par .marco:hover > img,
 .planes-bienestar__trio .marco:hover > img {
   transform: scale(var(--escala-hover));
 }
@@ -1495,6 +1585,7 @@
     .planes-familia__alta,
     .planes-familia__baja,
     .planes-familia__contexto > img,
+    .planes-dossier__retrato > img,
     .planes-bienestar__foto,
     .planes-bienestar__rotulo,
     .planes-bienestar__trio > * {
@@ -1546,6 +1637,11 @@
       view-timeline-name: --planes-tl-contexto;
     }
 
+    /* v9 · el carril 03 era el único sin un solo gesto de scroll. */
+    .planes-dossier__retrato {
+      view-timeline-name: --planes-tl-retrato;
+    }
+
     .planes-bienestar__banda {
       view-timeline-name: --planes-tl-banda;
     }
@@ -1565,6 +1661,10 @@
 
     .planes-familia__contexto > img {
       animation-timeline: --planes-tl-contexto;
+    }
+
+    .planes-dossier__retrato > img {
+      animation-timeline: --planes-tl-retrato;
     }
 
     .planes-bienestar__foto,
@@ -1644,6 +1744,20 @@
       --planes-a: -2.5%;
       animation-name: planes-paralaje-x;
       animation-range: entry 0% exit 100%;
+    }
+
+    /* ---- carril 03 ---------------------------------------------------- */
+    /* Paralaje suave del retrato, a contramarcha de la banda del 04 que
+       viene debajo (ella baja -4→4; éste sube 2,5→-2,5) y con un rango
+       propio que no repite el del díptico del 01: nada queda quieto en la
+       sección y ningún compás se duplica. El zoom de hover de este marco se
+       retiró en §9: la animación gana la propiedad `transform` entera.     */
+    .planes-dossier__retrato > img {
+      --planes-esc: 1.07;
+      --planes-de: 2.5%;
+      --planes-a: -2.5%;
+      animation-name: planes-paralaje-y;
+      animation-range: entry 5% exit 95%;
     }
 
     /* ---- carril 04 ---------------------------------------------------- */

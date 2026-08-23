@@ -48,16 +48,16 @@
 <link rel="stylesheet" href="styles/tokens.css?v=e4d2bf08">
 <link rel="stylesheet" href="styles/base.css?v=71db93b6">
 <link rel="stylesheet" href="styles/shell.css?v=8118b941">
-<link rel="stylesheet" href="styles/sections/inicio.css?v=76078f20">
-<link rel="stylesheet" href="styles/sections/espacios.css?v=1a2d6fdd">
-<link rel="stylesheet" href="styles/sections/nosotros.css?v=acc908c8">
-<link rel="stylesheet" href="styles/sections/planes.css?v=de03e4d5">
-<link rel="stylesheet" href="styles/sections/momentos.css?v=99038a5b">
-<link rel="stylesheet" href="styles/sections/colegios.css?v=0bb8e5c4">
-<link rel="stylesheet" href="styles/sections/naturaleza.css?v=cc40e005">
-<link rel="stylesheet" href="styles/sections/vivero.css?v=49cb5873">
-<link rel="stylesheet" href="styles/sections/ubicacion.css?v=e814d84e">
-<link rel="stylesheet" href="styles/sections/pie.css?v=0a795192">
+<link rel="stylesheet" href="styles/sections/inicio.css?v=65c618e8">
+<link rel="stylesheet" href="styles/sections/espacios.css?v=46a39c26">
+<link rel="stylesheet" href="styles/sections/nosotros.css?v=77ad9ad2">
+<link rel="stylesheet" href="styles/sections/planes.css?v=3d313e65">
+<link rel="stylesheet" href="styles/sections/momentos.css?v=632c5863">
+<link rel="stylesheet" href="styles/sections/colegios.css?v=729ef553">
+<link rel="stylesheet" href="styles/sections/naturaleza.css?v=26e490c1">
+<link rel="stylesheet" href="styles/sections/vivero.css?v=39ecab57">
+<link rel="stylesheet" href="styles/sections/ubicacion.css?v=bf46fe0a">
+<link rel="stylesheet" href="styles/sections/pie.css?v=8015512b">
 <link rel="stylesheet" href="styles/lightbox.css?v=92a48a1f">
 
 <script type="application/ld+json">
@@ -413,7 +413,19 @@
              Los dos van en crema; el contraste lo hacen el cuerpo y la sangría,
              nunca el color, porque debajo hay una fotografía y el coral claro
              sobre el cielo blanco de este archivo se quedaría en 3,6:1. -->
-        <h1 class="titulo-seccion inicio__titulo reveal" id="inicio-titulo">
+        <!-- v9 · EL TITULAR SUBE EN PERSIANA, RENGLÓN A RENGLÓN.
+             La portada es el capítulo cero del sitio, y DIRECTRICES §
+             «Variante persiana» reserva ese gesto —una vez por capítulo— al
+             titular de apertura. Cero JS nuevo: .reveal ya lo ve el
+             observador de js/app.js, y el estado inicial (cada renglón
+             escondido tras su máscara) lo hornea base.css §v7 en CSS
+             estático, con el colchón de descendentes (0.18em) ya resuelto
+             allí y con prefers-reduced-motion dejándolo todo puesto y
+             legible. Cada renglón visual va envuelto en su propio
+             .reveal-texto__linea, POR FUERA del .inicio__titulo-linea, para
+             que la máscara y el retardo caigan por renglón sin tocar la
+             tipografía existente. -->
+        <h1 class="titulo-seccion inicio__titulo reveal reveal-texto reveal-texto--persiana" id="inicio-titulo">
           <!-- EL QUIEBRE VA HORNEADO, Y ES UN ARREGLO MEDIDO, NO UN CAPRICHO.
              Dejado al ancho disponible, el renglón grande partía distinto según
              la ventana: en la franja de tableta (≈768–1023 px) quedaba
@@ -423,8 +435,8 @@
              despejaba al ave. El <br> fija esa composición —la buena— en TODOS
              los anchos: el texto no cambia ni una letra y el lector de
              pantalla lo lee seguido igual. -->
-        <span class="inicio__titulo-linea">Escápate<br />de la ciudad</span>
-          <span class="inicio__titulo-linea inicio__titulo-linea--menor">sin salir de ella</span>
+        <span class="reveal-texto__linea"><span class="inicio__titulo-linea">Escápate<br />de la ciudad</span></span>
+          <span class="reveal-texto__linea"><span class="inicio__titulo-linea inicio__titulo-linea--menor">sin salir de ella</span></span>
         </h1>
 
         <p class="entradilla reveal">
@@ -514,53 +526,14 @@
       </picture>
     </div>
 
-    <!-- ======================================================================
-         LAS TRES SILUETAS QUE SE DIBUJAN
-         Vencejo en vuelo · hoja de caracolí · pluma de raqueta. Tres marcas de
-         trazo en la columna derecha de la portada, la única que no ocupan ni
-         el pájaro ni el texto.
-
-         NO LLEVAN JAVASCRIPT NUEVO. Están escritas con la firma exacta que
-         reconoce herramientas/hornear-trazos.js —`viewBox="0 0 24 24"`,
-         `fill="none"` y `stroke="currentColor"`—, así que esa herramienta les
-         añade la clase `icono-traza` y el `pathLength` de cada forma EN EL
-         PROPIO HTML. Consecuencia: el trazo nace oculto en el primer pintado y
-         no existe el fotograma en el que la figura se ve entera antes de
-         empezar a dibujarse. El disparador ya está en js/app.js y vigila la
-         sección, no el icono.
-
-         Decorativas de verdad: `aria-hidden` y sin rótulo. No añaden ningún
-         hecho a la tabla de propiedad de ARQUITECTURA-V3 §9.
-         ====================================================================== -->
-    <div class="inicio__siluetas" aria-hidden="true">
-
-      <!-- VENCEJO EN VUELO. Dos alas en hoz y la cola en horquilla: la
-           silueta que de verdad se ve contra el cielo, no un pájaro de perfil
-           con pico y ojo, que a 24 px es una mancha. -->
-      <svg class="icono-traza inicio__silueta" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.1" stroke-linecap="round" stroke-linejoin="round" focusable="false">
-        <path d="M2.5 6.5c3.6 1.3 6.6 3.8 9.5 7.4 2.9-3.6 5.9-6.1 9.5-7.4-2.8 3-4.7 6.4-5.7 10.4"  pathLength="1"/>
-        <path d="M12 13.9c-1 1.3-1.6 2.9-1.9 4.9-1-2.2-2.1-3.8-3.4-4.9"  pathLength="1"/>
-      </svg>
-
-      <!-- HOJA DE CARACOLÍ. La misma figura orgánica del sistema —dos esquinas
-           a radio pleno en diagonal y dos vivas, el remate de .lista-hojas de
-           base.css—, dibujada como contorno en vez de como relleno. La
-           nervadura va en su propio `path` para que se dibuje a la vez que el
-           contorno y no se pose después como un detalle suelto. -->
-      <svg class="icono-traza inicio__silueta" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.1" stroke-linecap="round" stroke-linejoin="round" focusable="false">
-        <path d="M3.5 20.5C3.5 11.1 11.1 3.5 20.5 3.5c0 9.4-7.6 17-17 17z"  pathLength="1"/>
-        <path d="M6.5 17.5 17.5 6.5"  pathLength="1"/>
-      </svg>
-
-      <!-- PLUMA DE RAQUETA. El rasgo por el que se reconoce al barranquero:
-           el raquis desnudo y la paleta al final. Es la firma del ave de la
-           portada, reducida a un trazo. -->
-      <svg class="icono-traza inicio__silueta" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.1" stroke-linecap="round" stroke-linejoin="round" focusable="false">
-        <path d="M12 2.5v12.2"  pathLength="1"/>
-        <path d="M12 14.7c1.9 0 3.1 1.6 3.1 3.5s-1.4 3.3-3.1 3.3-3.1-1.4-3.1-3.3 1.2-3.5 3.1-3.5z"  pathLength="1"/>
-      </svg>
-
-    </div>
+    <!-- v9 · LAS TRES SILUETAS DE TRAZO SE RETIRAN, y es una decisión de
+         sustracción, no un olvido. La columna derecha acumulaba CUATRO gestos
+         simultáneos —enjambre, partículas, siluetas y la gota de scroll— y
+         las siluetas eran el único que no aportaba ni atmósfera ni función:
+         competían con el enjambre, que según DIRECTRICES §2 es EL lenguaje
+         del hero. Con ellas fuera, el enjambre por fin se ve solo.
+         herramientas/hornear-trazos.js no depende de que existan trazos en
+         el hero (verificado con grep antes de borrar). -->
 
     <!-- LA PISTA DE QUE LA PÁGINA SIGUE.
          Medido en la página real: la portada mide EXACTAMENTE la ventana menos
@@ -1029,7 +1002,10 @@
          Los cortes de renglón los decide quien escribe: dos líneas, sujeto y
          remate. -->
     <header class="seccion-encabezado">
-      <p class="eyebrow espacios__rotulo reveal">Espacios en alquiler</p>
+      <!-- FOLIO DE CAPÍTULO. «Los espacios» es el primer capítulo percibido
+           tras la portada (DIRECTRICES-ANIMACION §1) y el número va DENTRO del
+           eyebrow existente, sin elemento de bloque nuevo. -->
+      <p class="eyebrow espacios__rotulo reveal"><span class="espacios__folio">01</span> Espacios en alquiler</p>
       <h2
         id="espacios-titulo"
         class="titulo-seccion reveal reveal-texto reveal-texto--persiana"
@@ -1104,6 +1080,7 @@
 
         <div class="espacio__cuerpo">
           <h3 class="titulo-seccion titulo-seccion--sm espacio__nombre">
+            <span class="espacio__orden" aria-hidden="true">01</span>
             <!-- Glifo horneado a mano: clase y pathLength ya escritos, así el
                  trazo nace oculto y no hay parpadeo. Hilera de árboles sobre
                  el prado: es lo que la palabra «alameda» significa. -->
@@ -1175,6 +1152,7 @@
 
         <div class="espacio__cuerpo">
           <h3 class="titulo-seccion titulo-seccion--sm espacio__nombre">
+            <span class="espacio__orden" aria-hidden="true">02</span>
             <!-- Toldo de dos aguas sobre una línea de suelo perfectamente
                  recta: la explanada llana y lo que se le monta encima. -->
             <svg class="icono-traza espacio__glifo" viewBox="0 0 24 24" fill="none" stroke="currentColor"
@@ -1235,6 +1213,7 @@
 
         <div class="espacio__cuerpo">
           <h3 class="titulo-seccion titulo-seccion--sm espacio__nombre">
+            <span class="espacio__orden" aria-hidden="true">03</span>
             <!-- Copa en medio punto sobre un tronco y dos filas de platea:
                  el mismo arco que recorta la fotografía. -->
             <svg class="icono-traza espacio__glifo" viewBox="0 0 24 24" fill="none" stroke="currentColor"
@@ -1291,6 +1270,7 @@
 
         <div class="espacio__cuerpo">
           <h3 class="titulo-seccion titulo-seccion--sm espacio__nombre">
+            <span class="espacio__orden" aria-hidden="true">04</span>
             <!-- Cubierta a dos aguas, dos postes y la guirnalda colgando:
                  los tres rasgos que se ven en la fotografía. -->
             <svg class="icono-traza espacio__glifo" viewBox="0 0 24 24" fill="none" stroke="currentColor"
@@ -1355,6 +1335,7 @@
 
         <div class="espacio__cuerpo">
           <h3 class="titulo-seccion titulo-seccion--sm espacio__nombre">
+            <span class="espacio__orden" aria-hidden="true">05</span>
             <!-- Campo, línea central y círculo: la única figura geométrica
                  de los cinco glifos, porque es el único espacio con marcas
                  en el suelo. -->
@@ -1432,7 +1413,7 @@
       import('./js/fauna-ambiente.js?v=b8a9a1c8')
         .then((m) => m.montarFaunaAmbiente(
           document.querySelector('#espacios .espacios__aire'),
-          { densidad: 'abundante', especies: ['mariposa', 'ave'], semilla: 1 },
+          { densidad: 'discreta', especies: ['mariposa'], semilla: 1 },
         ))
         .catch(() => {});
     }
@@ -1918,6 +1899,13 @@
        enlace con flecha dentro de la tarjeta flotante, no como botón: la
        tarjeta es lo único sólido que hay sobre una foto a sangre y meterle un
        botón coral encima la convertía en un banner.
+       v9 · EL CORAL SE DOSIFICA: los CTA del 03 y del 05 pasan también a
+       .enlace-flecha (mismo rótulo, mismo destino, mismo solo-lectores).
+       Quedan DOS botones coral —02 y 04— anclando las dos mitades del
+       scroll; los carriles callados (dossier y colofón) rematan como el 01.
+       Cuatro botones idénticos apilados es lenguaje de catálogo; un coral
+       dosificado es una decisión por carril. El alto táctil de 44 px lo
+       conserva planes.css §2 (v9).
 
      REVISIÓN v4 «orgánica» (agosto de 2026) — TRES CAMBIOS, TODOS DE FORMA.
      Ni un hecho, ni un titular, ni un destino de enlace se mueven.
@@ -2340,7 +2328,7 @@
           </p>
 
           <a
-            class="btn btn-whatsapp planes-carril__cta"
+            class="enlace-flecha planes-carril__cta"
             href="https://wa.me/573166758362?text=Hola%2C%20quiero%20cotizar%20Vegas%20del%20Verde%20para%20una%20reuni%C3%B3n%20corporativa%20o%20un%20evento%20de%20empresa."
             target="_blank"
             rel="noopener"
@@ -2575,7 +2563,7 @@
         </p>
 
         <a
-          class="btn btn-whatsapp planes-carril__cta"
+          class="enlace-flecha planes-carril__cta"
           href="https://wa.me/573166758362?text=Hola%2C%20quiero%20cotizar%20Vegas%20del%20Verde%20para%20un%20taller%20educativo%2C%20de%20jardiner%C3%ADa%20o%20de%20pintura%20al%20aire%20libre."
           target="_blank"
           rel="noopener"
@@ -2870,7 +2858,10 @@
               <source src="video/mariposa-naranja.mp4" type="video/mp4" />
             </video>
           </div>
-          <figcaption class="momentos__pie">
+          <!-- El pie de la protagonista es un VERSO (momentos.css §5): mismo
+               texto, otra voz. Sólo cambia la clase; el contrato de hechos
+               queda intacto. -->
+          <figcaption class="momentos__pie momentos__pie--verso">
             Una mariposa naranja se posa entre las varas moradas y sigue.
           </figcaption>
         </figure>
@@ -3189,7 +3180,11 @@
             <path d="M5 8.2V5.7A1.7 1.7 0 0 1 6.7 4h1.1a1.7 1.7 0 0 1 1.7 1.7v2.5" pathLength="1"/>
             <path d="M19 8.2V5.7A1.7 1.7 0 0 0 17.3 4h-1.1a1.7 1.7 0 0 0-1.7 1.7v2.5" pathLength="1"/>
           </svg>
-          Primera parada
+          <!-- v6 · FOLIO EDITORIAL: la palabra ordinal se envuelve para poder
+               tratarla como folio serif en CSS (§3 de colegios.css). Ni una
+               letra del texto cambia y sigue escrita con palabras, no con
+               dígitos (ARQUITECTURA-V3 §10). -->
+          <span class="col-parada__ordinal">Primera</span> parada
         </p>
         <h3 class="titulo-seccion titulo-seccion--sm">Bajar la voz y levantar la mirada</h3>
         <p>
@@ -3221,7 +3216,7 @@
             <path d="M16.4 8.3 12.3 7" pathLength="1"/>
             <path d="M13 12.4 9.2 11.4" pathLength="1"/>
           </svg>
-          Segunda parada
+          <span class="col-parada__ordinal">Segunda</span> parada
         </p>
         <h3 class="titulo-seccion titulo-seccion--sm">Que una mata deje de ser «una mata»</h3>
         <p>
@@ -3254,7 +3249,7 @@
             <path d="M12 7.2 9.9 3.9" pathLength="1"/>
             <path d="M12 7.2 14.1 3.9" pathLength="1"/>
           </svg>
-          Tercera parada
+          <span class="col-parada__ordinal">Tercera</span> parada
         </p>
         <h3 class="titulo-seccion titulo-seccion--sm">Sentarse a esperar una mariposa</h3>
         <p>
@@ -3694,11 +3689,13 @@
           corrientes de agua rodean el terreno arbolado.
         </p>
 
-        <ul class="lista-hojas nat-apertura__lista">
-          <li>Guaduas a lado y lado del trayecto</li>
-          <li>Búcaro y Caracolí, los árboles grandes del recorrido</li>
-          <li>Recorrido guiado de pajareo y de observación de plantas</li>
-        </ul>
+<!-- v9 · Era una lista de viñetas de hoja (lista-hojas): tres renglones de
+             folleto en la columna más leída de la sección. Ahora es UNA línea
+             de registro separada por interpunto — ficha de expedición, no
+             lista de beneficios. Micro-etiqueta (<24px), caps permitidos. -->
+        <p class="nat-apertura__notas">
+          Guaduas a lado y lado · Búcaro y Caracolí · Recorrido guiado de pajareo
+        </p>
       </div>
 
       <!-- El único precio publicado del sitio, y el CTA a su lado: dos
@@ -4082,6 +4079,9 @@
             Ninguna sale de un banco de imágenes y cada una conserva el nombre de quien
             la tomó.
           </p>
+          <!-- v9 · Colofón firmado: el gesto de catálogo de exposición. Ancla
+               la cinta como pieza curada, no como carrusel. -->
+          <p class="nat-cinta__firma">— Concurso interno de fotografía, Vegas del Verde</p>
         </div>
 
       </div>
@@ -5659,28 +5659,43 @@
       <!-- ---------- Lo que sale del vivero: el catálogo ---------- -->
       <div class="viv-oferta reveal">
 
+        <!-- v8 · El lead se parte en dos voces: la frase de venta se queda a
+             cuerpo de entradilla y la generalización baja a nota. Ni una
+             palabra cambia; sólo el reparto. SIN .reveal-texto: ese gesto es
+             del titular que abre el capítulo (base.css §v7) y aquí ya lo
+             lleva el <h2>. -->
         <p class="viv-lead">
           Escoges la planta en el camellón y te la llevas: en bolsa para sembrar o
-          en matera para poner. Lo mismo para una sala que para una oficina o el
-          montaje de un evento.
+          en matera para poner.
+        </p>
+        <p class="viv-lead__nota">
+          Lo mismo para una sala que para una oficina o el montaje de un evento.
         </p>
 
-        <ul class="viv-servicios">
-          <li class="viv-servicio">
+        <!-- v8 · El catálogo pasa a índice editorial: el sustantivo principal
+             habla en Fraunces a escala de titular y la subordinada de los dos
+             servicios largos baja a matiz en cuerpo pequeño. Los <li> entran
+             escalonados con la .reveal-secuencia de base.css §6: cero JS
+             nuevo, el IntersectionObserver existente los gobierna y el estado
+             inicial queda horneado en CSS estático. -->
+        <ul class="viv-servicios reveal-secuencia">
+          <li class="viv-servicio reveal">
             <span class="viv-servicio__indice" aria-hidden="true">01</span>
             <span class="viv-servicio__nombre">Producción y venta de plantas</span>
           </li>
-          <li class="viv-servicio">
+          <li class="viv-servicio reveal">
             <span class="viv-servicio__indice" aria-hidden="true">02</span>
             <span class="viv-servicio__nombre">Venta de abonos</span>
           </li>
-          <li class="viv-servicio">
+          <li class="viv-servicio reveal">
             <span class="viv-servicio__indice" aria-hidden="true">03</span>
-            <span class="viv-servicio__nombre">Mantenimiento de jardines y poda de árboles y raíces</span>
+            <span class="viv-servicio__nombre">Mantenimiento de jardines
+              <span class="viv-servicio__matiz">y poda de árboles y raíces</span></span>
           </li>
-          <li class="viv-servicio">
+          <li class="viv-servicio reveal">
             <span class="viv-servicio__indice" aria-hidden="true">04</span>
-            <span class="viv-servicio__nombre">Venta de productos y alquiler de complementos para decoración de eventos</span>
+            <span class="viv-servicio__nombre">Venta de productos
+              <span class="viv-servicio__matiz">y alquiler de complementos para decoración de eventos</span></span>
           </li>
         </ul>
 
@@ -5845,8 +5860,7 @@
           <span class="reveal-texto__linea">y con quién hablas</span>
         </h2>
         <p class="entradilla">
-          Todo lo práctico en un solo sitio: el mapa, las referencias, el horario y el número
-          al que escribir.
+          El mapa, las referencias y el número al que escribir.
         </p>
       </header>
 
@@ -5978,7 +5992,11 @@
 
     <!-- La dirección, al lado de los botones que la resuelven. -->
     <div class="ubi-placa reveal reveal--der">
-      <h3 class="titulo-seccion titulo-seccion--xs">La dirección</h3>
+      <!-- v9 · El rótulo baja a eyebrow y la DIRECCIÓN pasa a ser la pieza
+           protagonista del bloque: se compone en Fraunces a cuerpo de titular
+           (ver .ubi-direccion en ubicacion.css). El dato-joya manda; el
+           rótulo sólo lo nombra. -->
+      <p class="eyebrow">La dirección</p>
       <address class="ubi-direccion">
         Vereda Río Frío, 500&nbsp;m sobre la vía Carabineros.<br />
         Floridablanca, Santander, Colombia.
@@ -5987,8 +6005,15 @@
     </div>
     </div>
 
-    <!-- ================= 4 · PUNTOS DE REFERENCIA ============================ -->
-    <div class="ubi-bloque reveal">
+    <!-- ================= 4 · PUNTOS DE REFERENCIA ============================
+         v9 · SALE LA FIGURA DUPLICADA. La foto aérea que iba aquí era
+         exactamente el mismo archivo (img/mapa-ubicacion.jpg) que ya se ve
+         como respaldo del mapa a sangre dos pantallas arriba, y sus sitios
+         están señalados en el mapa interactivo: una foto contada dos veces es
+         lo contrario de editorial. El bloque queda a una sola columna
+         tipográfica (modificador --solo en el CSS) y los ocho chips-pastilla
+         pasan a leerse como una frase corrida de lugares con punto medio. -->
+    <div class="ubi-bloque ubi-bloque--solo reveal">
       <div class="ubi-bloque__encabezado">
         <h3 class="titulo-seccion titulo-seccion--xs">Puntos de referencia</h3>
         <p class="nota">Si te suena alguno de estos sitios, ya sabes llegar.</p>
@@ -6010,21 +6035,6 @@
           <li class="ubi-ref reveal reveal--zoom">C.C. Caracolí</li>
         </ul>
       </div>
-
-      <figure class="ubi-refs__figura">
-        <img
-          class="ubi-refs__foto"
-          src="img/mapa-ubicacion.jpg"
-          width="1200"
-          height="1111"
-          alt="La misma vista aérea del sector, con cada uno de los puntos de referencia de la lista anterior señalado con un pin sobre la foto."
-          loading="lazy"
-          decoding="async"
-        />
-        <figcaption>
-          El predio, visto desde el aire, con los sitios que ya conoces marcados alrededor.
-        </figcaption>
-      </figure>
     </div>
 
     <!-- ================= 5 · DISTANCIAS ====================================== -->
@@ -6654,8 +6664,11 @@
   <div class="contenedor contenedor--ancho">
 
     <div class="pie-final__cierre">
-      <p class="pie-final__antetitulo">Oasis para la recreación y el bienestar</p>
-      <p class="pie-final__titular">El verde te está<br />esperando.</p>
+      <p class="pie-final__antetitulo reveal"><span class="pie-final__filete" aria-hidden="true"></span>Oasis para la recreación y el bienestar</p>
+      <p class="pie-final__titular reveal reveal-texto">
+        <span class="reveal-texto__linea">El verde te está</span>
+        <span class="reveal-texto__linea">esperando.</span>
+      </p>
       <a class="pie-final__cta" href="#ubicacion">
         Dónde queda y cómo llegar
         <svg class="pie-final__flecha" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">

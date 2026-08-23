@@ -178,7 +178,10 @@
     align-items: end;
     column-gap: var(--gap-lg);
     row-gap: 0;
-    margin-bottom: var(--esp-3xl);
+    /* v3.5 · era --esp-3xl. La cartela flota un paso más lejos del muro: el
+       aire extra es el gesto editorial más barato y más visible, y es lo que
+       deja sitio para que el verso de §5 no compita con el titular. */
+    margin-bottom: var(--esp-4xl);
   }
 }
 
@@ -336,6 +339,12 @@
    inferior desciende hacia la derecha. Nada se alinea con nada.
    -------------------------------------------------------------------------- */
 @media (min-width: 64em) {
+  /* v3.5 · Red de seguridad de aire: sólo actúa si el muro rompe a dos filas
+     en anchos intermedios; en la banda de cuatro no cambia nada. */
+  .momentos__muro {
+    row-gap: var(--esp-3xl);
+  }
+
   .momentos__pieza--uno {
     grid-column: 1 / 5;
     --desfase: 0;
@@ -578,7 +587,12 @@
   /* Alinea la hoja con la primera línea de texto, no con el borde de la caja. */
   margin-block-start: 0.58em;
   border-radius: 0 var(--radio-full) 0 var(--radio-full);
-  background-color: var(--color-acento);
+  /* v3.5 · era --color-acento (menta plena). Las hojas de los pies menores
+     bajan a menta al 55 %: siguen siendo el motivo del sistema, pero dejan de
+     competir en puntos de color idénticos con el verso de la protagonista.
+     Queda una jerarquía de un verso + tres notas al margen. Es decoración,
+     no información: el pie se entiende entero sin ella. */
+  background-color: rgb(var(--verde-menta-rgb) / 0.55);
 }
 
 /* Hoja espejada en las piezas pares: mismo motivo, orientación contraria. */
@@ -587,12 +601,38 @@
   border-radius: var(--radio-full) 0 var(--radio-full) 0;
 }
 
-/* La protagonista habla más alto que las tres menores. Crema plena sobre
-   carbón: 14,1:1. */
-.momentos__pieza--uno .momentos__pie {
-  font-size: var(--fs-pequeno);
+/* v3.5 · EL VERSO. El pie de la protagonista deja de ser un rótulo y pasa a
+   ser el único texto grande de la banda después del titular: Fraunces fina
+   sobre carbón, como un intertítulo de cine mudo. El TEXTO no cambia ni un
+   carácter —sigue describiendo sólo lo que se ve en el clip, el contrato de
+   hechos queda intacto— y va anclado bajo su marco, no en la cabecera, así
+   que no es una entradilla ni compite con el h2: es la nota que acompaña.
+   Crema plena sobre carbón: 14,1:1, AAA holgado a este cuerpo.
+   Si en pantalla llegara a disputarle peso al titular, el fallback acordado
+   es bajar a --fs-h3 o a --fs-grande antes que devolverlo a rótulo. */
+.momentos__pie--verso {
+  font-family: var(--fuente-display);
+  font-size: var(--fs-h4);
+  font-weight: var(--peso-display);
+  font-variation-settings: var(--ejes-display-sobrio);
+  letter-spacing: var(--tracking-display);
+  line-height: var(--alto-linea-titulo);
   color: var(--color-texto-inverso);
-  max-width: 34ch;
+  max-width: 26ch;
+  /* Un punto más de aire que los pies menores respecto a su clip: se lee
+     como texto que acompaña, no como etiqueta pegada. Se suma al gap mayor
+     de la figura de la protagonista (justo debajo). */
+  margin-block-start: var(--esp-sm);
+}
+
+/* El verso no lleva hoja: la tipografía ES el ornamento, y una viñeta junto a
+   Fraunces a --fs-h4 sería un bullet gigante. */
+.momentos__pie--verso::before {
+  display: none;
+}
+
+.momentos__pieza--uno .momentos__figura {
+  gap: var(--esp-md);
 }
 
 /* ==========================================================================

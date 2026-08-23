@@ -61,6 +61,12 @@
 
 .nosotros {
   background-color: var(--color-fondo);
+  /* v9 «editorial» — EL AIRE DE ENTRADA SUBE AL COMPÁS LARGO. El lujo
+     editorial se mide en papel vacío antes del primer titular: la coda de la
+     portada abre con más respiración que el compás común de .seccion. Sólo el
+     arranque; el cierre conserva el padding de .seccion para que el testigo
+     con #espacios no cambie. */
+  padding-block-start: var(--esp-seccion-lg);
   /* Textura, no color: una sola mancha radial muy abierta al 6 % de alfa,
      puesta donde la columna del discurso deja el papel más vacío. No se ve
      como una mancha; se nota como que el fondo no es una plancha plana. */
@@ -86,16 +92,32 @@
   margin-bottom: 0;
 }
 
+/* v9 — EJES SOBRIOS SÓLO EN ESTA CODA. El titular baja el WONK a 0 y el SOFT
+   a 14 (--ejes-display-sobrio, ya existente en tokens.css): un registro más
+   contenido que el hero, que es el matiz tipográfico que distingue la coda de
+   la portada sin tocar tamaño ni fuente. Misma especificidad (0,1,0) que la
+   regla de base y esta hoja carga después: gana por cascada. */
+.nosotros__titulo {
+  font-variation-settings: var(--ejes-display-sobrio);
+}
+
 .nosotros__discurso {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  gap: var(--esp-sm);
+  /* v9 — de --esp-sm a --esp-lg: tres párrafos cortos con el doble de aire
+     entre ellos leen como apertura de revista, no como texto corrido. */
+  gap: var(--esp-lg);
 }
 
+/* v9 — LA COLUMNA SE ESTRECHA A LA MEDIDA CORTA. Una línea de 46ch con mucho
+   margen derecho vacío se lee como composición, no como bloque: el papel
+   vacío alrededor es lo que separa una página editorial de una plantilla.
+   Vale para la entradilla y para los dos párrafos; la entradilla ya trae
+   --fs-grande y --alto-linea-suelto de base.css, no se re-declaran. */
 .nosotros__discurso p {
   margin: 0;
-  max-width: var(--medida);
+  max-width: var(--medida-corta);
 }
 
 /* .grupo-botones es un <p>: hay que devolverle el margen que trae de base. */
@@ -332,12 +354,26 @@
   gap: var(--esp-sm);
   margin-top: var(--esp-seccion-sm);
   padding-top: var(--esp-lg);
-  border-top: 1px solid var(--color-borde-suave);
   text-align: left;
 }
 
 .nosotros__servicios-titulo {
   color: var(--color-texto-suave);
+}
+
+/* v9 — DEL FILETE DE PÁGINA AL HILO CORTO. Un border-top que cruza toda la
+   retícula es la firma de la franja de «amenities» de cualquier plantilla; un
+   hilo que sólo subraya el título es de editorial. Vive DENTRO del h3 y no en
+   el contenedor: el contenedor es flex (columna en móvil, fila en escritorio)
+   y un pseudo-elemento suyo sería un flex item que en fila se colaría al lado
+   del título. Dentro del h3 es layout de bloque normal en los dos modos. */
+.nosotros__servicios-titulo::before {
+  content: "";
+  display: block;
+  width: var(--esp-4xl);
+  height: 1px;
+  margin-bottom: var(--esp-sm);
+  background-color: var(--color-borde-fuerte);
 }
 
 /* v6 — `align-items: flex-end` NO es decorativo: es lo que permite que las
@@ -555,6 +591,14 @@
   margin-bottom: var(--gap);
 }
 
+/* v9 — LA ENTRADILLA DE LA BANDA SE ACOTA A LA MEDIDA CORTA. Corriendo al
+   ancho de la columna pesaba igual que los pilares; a 46ch vuelve a ser la
+   voz que presenta, no la que compite. El interlineado suelto ya lo trae
+   .entradilla de base.css. */
+.nosotros__compromiso .seccion-encabezado .entradilla {
+  max-width: var(--medida-corta);
+}
+
 /* Tres pistas: margen de página · texto · panel.
    La primera pista NO lleva contenido: es el hueco que alinea el texto con
    el borde izquierdo del contenedor del resto de la página. Se calcula con
@@ -738,8 +782,14 @@
    justo el defecto que ya se corrigió una vez en esta hoja (el índice iba en
    menta y daba 2,07). No lo reintroduzcas.
    ========================================================================== */
+/* v9 — MÁS PAPEL ENTRE HILOS, PERO SÓLO DENTRO DE LA BANDA. Tres renglones
+   con el doble de aire es lo que separa una lista cara de un listado. Se
+   escribe AQUÍ y no en la regla base a propósito: en/index.html usa la
+   versión clara de esta misma lista y no debe moverse ni un píxel. */
 .nosotros__compromiso .nosotros__pilar {
   border-top-color: var(--color-borde-inverso);
+  padding-block: var(--esp-lg);
+  gap: var(--esp-lg);
 }
 
 .nosotros__compromiso .nosotros__pilar:last-child {

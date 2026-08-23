@@ -139,8 +139,11 @@
   --hoja-viaje: 5%;
   bottom: var(--esp-2xl);
   inset-inline-start: calc(var(--esp-4xl) * -1);
-  width: clamp(9rem, 22vw, 19rem);
-  color: rgb(var(--verde-bosque-rgb) / 0.07);
+  /* Medio paso más abajo que antes (era clamp(9rem,22vw,19rem) al 0.07): con
+     el aire nuevo entre filas (§1) la hoja quedaba más expuesta, y aquí el
+     protagonista es el vacío, no el adorno. */
+  width: clamp(8rem, 18vw, 16rem);
+  color: rgb(var(--verde-bosque-rgb) / 0.05);
   /* En una columna no hay margen que la aloje sin ensuciar el texto. */
   display: none;
 }
@@ -212,6 +215,27 @@
 
 .js .espacios__entradilla {
   transition-delay: calc(var(--dur-instant) * 3);
+}
+
+/* EL FOLIO DE CAPÍTULO — el «01» dentro del eyebrow. Fraunces con peso de
+   cifra y el cálido de texto: es el índice de la revista, no un adorno.
+   El eyebrow conserva su caja, su caps y su tracking; el folio sólo se
+   separa del rótulo con un respiro corto. */
+.espacios__folio {
+  font-family: var(--fuente-display);
+  font-size: var(--fs-eyebrow);
+  font-weight: var(--peso-fuerte);
+  font-optical-sizing: auto;
+  color: var(--color-acento-texto);
+  margin-inline-end: var(--esp-2xs);
+}
+
+/* LA ENTRADILLA COMO LEAD DE REVISTA. base.css ya le da --fs-grande; aquí se
+   le acorta la medida para que parta en tres renglones y respire respecto del
+   titular en persiana. Se lee como entradilla, no como párrafo de relleno. */
+.espacios__entradilla {
+  max-width: var(--medida-corta);
+  margin-block-start: var(--esp-md);
 }
 
 /* ==========================================================================
@@ -324,6 +348,14 @@
 @media (min-width: 48em) {
   .espacios__rejilla {
     grid-template-columns: repeat(12, 1fr);
+    /* MÁS AIRE ENTRE ESCALONES. El aire vertical entre filas es lo que separa
+       una parrilla densa de una página de revista: la fila gana el aire de
+       sección chico (fluido) y la calle horizontal se queda en --gap. Los
+       desfases diagonales (--espacio-desfase) se suman a este aire; medido,
+       la progresión 0 · --esp-2xl · --esp-3xl sigue leyéndose como diagonal
+       y no como descuelgue. */
+    row-gap: var(--esp-seccion-sm);
+    column-gap: var(--gap);
   }
 
   .espacio--destacado {
@@ -712,6 +744,26 @@
   font-size: var(--paso-1);
 }
 
+/* EL ORDINAL DEL ÍNDICE — el «01…05» que antecede a cada nombre. Fraunces
+   fino, un cuerpo por debajo del texto y en oliva desvanecido: convierte el
+   catálogo en un índice de revista sin añadir caja ni color nuevo. Es texto
+   decorativo (aria-hidden en el HTML); la numeración de lectura la sigue
+   dando el orden de la rejilla. Sólo el número, sin filetes ni adornos. */
+.espacio__orden {
+  font-family: var(--fuente-display);
+  font-size: var(--paso--1);
+  font-weight: var(--peso-ligero);
+  font-optical-sizing: auto;
+  line-height: var(--alto-linea-apretado);
+  color: rgb(var(--verde-oliva-rgb) / 0.55);
+  flex: none;
+  align-self: baseline;
+}
+
+.espacio--destacado .espacio__orden {
+  font-size: var(--paso-1);
+}
+
 /* La glosa: micro-etiqueta en caps, de las permitidas por el §3 del contrato.
    El `max-width` en ch la parte en DOS renglones cortos a propósito: una
    glosa de una sola línea larga volvería a leerse como el renglón de datos de
@@ -1039,7 +1091,14 @@
   }
 
   .espacio--destacado .espacio__nombre  { grid-column: 1; }
-  .espacio--destacado .espacio__texto   { grid-column: 2; max-width: var(--medida-corta); }
+  /* La única línea descriptiva GRANDE de la sección: un gesto tipográfico que
+     marca la insignia sin añadir ni color ni caja. Sólo en el pie de tres
+     columnas, donde la línea tiene calle propia. */
+  .espacio--destacado .espacio__texto   {
+    grid-column: 2;
+    max-width: var(--medida-corta);
+    font-size: var(--fs-grande);
+  }
 
   /* EL MARGEN DE LA DERECHA NO ES ESTÉTICO, ES EL ANILLO DE FOCO.
      Sin él el botón termina exactamente en el canto de la ficha, y el
@@ -1061,11 +1120,10 @@
    Una línea de contexto y un botón secundario que lleva a
    condiciones-de-alquiler.html. Nada más: el detalle vive en su propia
    página, no en un modal y no dentro de esta sección.
-   Es una tablilla con contorno de hoja y un lavado de oliva muy bajo, para
-   que el remate cierre la sección con la misma forma con la que la sección se
-   abre, en vez de con una raya.
-   El lavado está al 7 %: el gris del .nota conserva 6.0:1 y el filete del
-   .btn-secundario sus 10.6:1. No lo subas sin volver a medirlos.
+   EL REMATE SE DESPOJA (rediseño editorial): fuera la tablilla con lavado de
+   oliva y su radio de hoja — un filete superior de 1px y aire leen más caro
+   que una pastilla más, y el .nota recupera su contraste pleno sobre la
+   crema (6.1:1, sin lavado que lo rebaje).
    ========================================================================== */
 .espacios__pie {
   display: flex;
@@ -1074,19 +1132,12 @@
   justify-content: space-between;
   gap: var(--esp-sm) var(--esp-md);
   margin-top: var(--gap-lg);
-  padding: var(--esp-lg) var(--esp-md);
-  border-radius: var(--radio-xl) var(--radio-md) var(--radio-xl) var(--radio-md);
-  background-color: rgb(var(--verde-oliva-rgb) / 0.07);
+  padding-block: var(--esp-lg);
+  border-block-start: 1px solid var(--color-borde-suave);
 }
 
 .espacios__pie-texto {
   max-width: var(--medida-corta);
-}
-
-@media (min-width: 48em) {
-  .espacios__pie {
-    padding: var(--esp-lg) var(--esp-xl);
-  }
 }
 
 @media (max-width: 33.99em) {

@@ -378,8 +378,11 @@
   align-items: flex-start;
   /* Aire GRANDE entre los tres movimientos de la columna (encabezado, cuerpo,
      oferta) y aire pequeño dentro de cada uno: así se leen como tres cosas y
-     no como nueve párrafos seguidos. */
-  gap: var(--gap);
+     no como nueve párrafos seguidos.
+     v9 · sube un escalón (--gap → --gap-lg): la columna competía con la foto
+     por densidad; con más blanco entre movimientos se lee como página de
+     libro, no como panel. */
+  gap: var(--gap-lg);
   justify-content: center;
 }
 
@@ -480,13 +483,27 @@
   flex-direction: column;
   align-items: flex-start;
   gap: var(--esp-sm);
-  max-width: var(--medida);
+  /* v9 · medida corta (46ch): línea de libro, no de panel. La columna gana
+     blanco por la derecha y el cuerpo se lee de un tirón. */
+  max-width: var(--medida-corta);
 }
 
-/* El subtítulo baja a --xs y se queda pequeño a propósito: entre el h2 grande
-   y el cuerpo hace de bisagra, no de segundo titular. */
+/* v9 · Deja de ser un cuarto nivel de titular serif —en una sección con
+   portada, cifra dominante y capitular, otro titular era una voz más
+   compitiendo— y pasa a ENTRADILLA en itálica de cuerpo: voz editorial de
+   continuación. El selector se conserva (el marcado no cambia); estas
+   declaraciones pisan las de .titulo-seccion--xs porque esta hoja carga
+   después de base.css con la misma especificidad. */
 .nat-apertura__antetitulo {
   margin: 0;
+  font-family: var(--fuente-cuerpo);
+  font-size: var(--fs-grande);
+  font-weight: var(--peso-ligero);
+  font-style: italic;
+  font-variation-settings: normal;
+  letter-spacing: normal;
+  line-height: var(--alto-linea-base);
+  color: var(--color-texto-suave);
 }
 
 /* CAPITULAR. Registro editorial, y de paso una jerarquía que no cuesta nada:
@@ -521,9 +538,20 @@
   }
 }
 
-.nat-apertura__lista {
-  gap: var(--esp-3xs);
-  margin-top: var(--esp-2xs);
+/* v9 · La lista de viñetas de hoja se retira: tres viñetas eran folleto.
+   En su lugar, UNA línea de «ficha de expedición» separada por interpunto,
+   compuesta como micro-etiqueta (caps permitidos por debajo de 24px):
+   registro de museo, no lista de beneficios. */
+.nat-apertura__notas {
+  margin: var(--esp-2xs) 0 0;
+  max-width: none;
+  font-family: var(--fuente-titulo);
+  font-size: var(--fs-micro);
+  font-weight: var(--peso-medio);
+  text-transform: uppercase;
+  letter-spacing: var(--tracking-rotulo);
+  line-height: var(--alto-linea-base);
+  color: var(--color-texto-suave);
 }
 
 /* ---- El único precio del sitio, y su botón ------------------------------- */
@@ -793,6 +821,22 @@
       minmax(0, 0.85fr);
     align-items: start;
     gap: var(--gap-lg);
+    /* v9 · más aire arriba y abajo: el apunte se lee como INTERLUDIO entre
+       dos bloques grandes, no como fila intermedia apretada. */
+    margin-block: var(--esp-seccion-sm) 0;
+    padding-block-end: var(--esp-lg);
+  }
+
+  /* v9 · La versión con giro delante conserva su filete retirado pero gana
+     el mismo aire de interludio. */
+  .nat-giro + .contenedor .nat-registro {
+    margin-top: var(--esp-seccion-sm);
+  }
+
+  /* v9 · La ficha endémica se acota a medida corta: el bloque respira sin
+     añadir ni una caja. */
+  .nat-ficha--endemica {
+    max-width: var(--medida-corta);
   }
 }
 
@@ -834,15 +878,24 @@
   }
 }
 
+/* v9 · «Chachalaca Colombiana» sube a --fs-h2 con el traje de display: en un
+   bloque sin fotografía, el nombre propio ES la pieza — tipografía como
+   protagonista, la convención del cuaderno de campo. El científico baja a
+   --fs-pequeno para acompañar sin competir. */
 .nat-ficha__titulo {
   margin: 0;
-  font-size: var(--fs-h3);
+  font-size: var(--fs-h2);
+  font-weight: var(--peso-display);
+  font-optical-sizing: auto;
+  font-variation-settings: var(--ejes-display);
+  line-height: var(--alto-linea-titulo);
+  letter-spacing: var(--tracking-display);
 }
 
 .nat-ficha__cientifico {
   margin: 0;
   font-family: var(--fuente-cuerpo);
-  font-size: var(--fs-grande);
+  font-size: var(--fs-pequeno);
   font-weight: var(--peso-ligero);
   font-style: italic;
   color: var(--color-acento-alt);
@@ -1123,6 +1176,30 @@
   color: var(--color-texto-inverso-suave);
 }
 
+/* v9 · En reposo la ficha queda en tres datos limpios (lugar + cifra +
+   etiqueta) y el párrafo descriptivo se revela al pasar por encima o al
+   enfocar: menos texto compitiendo sobre foto. SOLO donde existe hover real
+   y no se pidió menos movimiento — en táctil (hover: none) y bajo
+   prefers-reduced-motion el párrafo queda SIEMPRE visible, porque el estado
+   por defecto de arriba es el visible: nada se esconde si esta media query
+   no aplica. Estado inicial horneado en CSS, cero JS; solo opacity y la
+   propiedad `translate` (no pisa el transform de nadie). */
+@media (hover: hover) and (prefers-reduced-motion: no-preference) {
+  .nat-habitat__texto {
+    opacity: 0;
+    translate: 0 var(--desplazamiento-linea);
+    transition:
+      opacity var(--transicion),
+      translate var(--transicion);
+  }
+
+  .nat-habitat:hover .nat-habitat__texto,
+  .nat-habitat:focus-within .nat-habitat__texto {
+    opacity: 1;
+    translate: 0 0;
+  }
+}
+
 .nat-censo__aclaracion {
   margin-top: var(--esp-md);
   max-width: var(--medida);
@@ -1241,7 +1318,10 @@
   position: relative;
   padding-left: var(--esp-lg);
   font-family: var(--fuente-display);
-  font-size: var(--fs-h4);
+  /* v9 · sube de --fs-h4 a --fs-h3: el pie de sección vive de dos nombres
+     propios bien compuestos, no del titular explicativo. La jerarquía se
+     invierte a la editorial — nombres grandes, explicación en nota. */
+  font-size: var(--fs-h3);
   font-weight: var(--peso-display);
   font-optical-sizing: auto;
   font-variation-settings: var(--ejes-display);
@@ -1405,8 +1485,27 @@
   /* `dense` sólo trabaja en móvil: la 8ª pieza es apaisada y cruza las dos
      columnas, y sin él la 9ª dejaría un hueco al lado de la 7ª. */
   grid-auto-flow: row dense;
-  gap: var(--gap-sm);
+  /* v9 · un escalón más de aire (--gap-sm → --gap): las piezas enmarcadas
+     piden pared entre ellas; el archivo compacto de abajo conserva su celda
+     apretada, que es lo que hace grande a la curaduría. */
+  gap: var(--gap);
   margin-bottom: var(--gap-lg);
+}
+
+/* v9 · Pies de pared de galería: más aire respecto a la copia y la especie
+   en serif itálica de display — la convención exacta de cartela de museo.
+   Solo en las nueve destacadas; el archivo sigue callado en sans micro. */
+.nat-destacadas .nat-obra__pie {
+  margin-top: var(--esp-3xs);
+}
+
+.nat-destacadas .nat-obra__especie {
+  font-family: var(--fuente-display);
+  font-size: var(--fs-pequeno);
+  font-weight: var(--peso-display);
+  font-style: italic;
+  font-optical-sizing: auto;
+  font-variation-settings: var(--ejes-display);
 }
 
 .nat-destacadas .nat-obra {
@@ -1499,7 +1598,8 @@
     grid-template-columns: repeat(12, minmax(0, 1fr));
     grid-auto-flow: row;
     align-items: start;
-    gap: var(--gap);
+    /* v9 · un escalón más (--gap → --gap-lg): aire de pared de galería. */
+    gap: var(--gap-lg);
   }
 
   /* 1 · LA DOMINANTE. Media pared, dos filas de alto. Necesita estirarse
@@ -2003,7 +2103,9 @@
   display: grid;
   place-content: center;
   justify-items: center;
-  gap: var(--esp-sm);
+  /* v9 · sube de --esp-sm a --esp-md: el rótulo gana aire de cartela de
+     exposición ahora que cierra con una firma. */
+  gap: var(--esp-md);
   padding: var(--esp-lg);
   text-align: center;
   opacity: var(--texto);
@@ -2040,6 +2142,15 @@
 
 .nat-cinta__rotulo .nat-galeria__nota {
   max-width: 44ch;
+  color: var(--color-texto-inverso-suave);
+}
+
+/* v9 · El colofón firmado: gesto de catálogo de exposición. Un renglón en
+   micro e itálica, crema rebajado (7.2:1 sobre bosque, más sobre la sala). */
+.nat-cinta__firma {
+  margin: 0;
+  font-size: var(--fs-micro);
+  font-style: italic;
   color: var(--color-texto-inverso-suave);
 }
 
@@ -2162,6 +2273,35 @@
      el 18–80 % del alto. Con 52 % / 32 % la cabeza conserva aire arriba en
      las tres proporciones y la cola no se corta en ninguna. */
   object-position: 52% 32%;
+}
+
+/* v9 · EL EMPUJE. La plancha entra con la cámara acercada (scale 1.08) y se
+   asienta a escala 1 mientras recorre el viewport: el gesto de apertura de
+   una película, atado al scroll con view() y sin una línea de JS. Va a
+   contramarcha del contorno «Pajareo», que deriva en diagonal con su propio
+   keyframe — cada uno anima un elemento distinto, así que ningún transform
+   pisa a otro. Estado final horneado: sin la animación (o sin soporte, o con
+   menos movimiento) la foto queda a escala 1, exactamente como está escrita.
+   La foto está overflow-recortada por la plancha, así que el 8 % sobrante
+   nunca desborda. Solo transform: compositor puro. */
+@keyframes nat-empuje {
+  from {
+    transform: scale(1.08);
+  }
+
+  to {
+    transform: scale(1);
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  @supports (animation-timeline: view()) {
+    .nat-portada__foto {
+      animation: nat-empuje linear both;
+      animation-timeline: view();
+      animation-range: entry 0% exit 100%;
+    }
+  }
 }
 
 .nat-portada__velo {

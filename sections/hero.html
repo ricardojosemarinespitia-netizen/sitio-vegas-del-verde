@@ -196,7 +196,19 @@
              Los dos van en crema; el contraste lo hacen el cuerpo y la sangría,
              nunca el color, porque debajo hay una fotografía y el coral claro
              sobre el cielo blanco de este archivo se quedaría en 3,6:1. -->
-        <h1 class="titulo-seccion inicio__titulo reveal" id="inicio-titulo">
+        <!-- v9 · EL TITULAR SUBE EN PERSIANA, RENGLÓN A RENGLÓN.
+             La portada es el capítulo cero del sitio, y DIRECTRICES §
+             «Variante persiana» reserva ese gesto —una vez por capítulo— al
+             titular de apertura. Cero JS nuevo: .reveal ya lo ve el
+             observador de js/app.js, y el estado inicial (cada renglón
+             escondido tras su máscara) lo hornea base.css §v7 en CSS
+             estático, con el colchón de descendentes (0.18em) ya resuelto
+             allí y con prefers-reduced-motion dejándolo todo puesto y
+             legible. Cada renglón visual va envuelto en su propio
+             .reveal-texto__linea, POR FUERA del .inicio__titulo-linea, para
+             que la máscara y el retardo caigan por renglón sin tocar la
+             tipografía existente. -->
+        <h1 class="titulo-seccion inicio__titulo reveal reveal-texto reveal-texto--persiana" id="inicio-titulo">
           <!-- EL QUIEBRE VA HORNEADO, Y ES UN ARREGLO MEDIDO, NO UN CAPRICHO.
              Dejado al ancho disponible, el renglón grande partía distinto según
              la ventana: en la franja de tableta (≈768–1023 px) quedaba
@@ -206,8 +218,8 @@
              despejaba al ave. El <br> fija esa composición —la buena— en TODOS
              los anchos: el texto no cambia ni una letra y el lector de
              pantalla lo lee seguido igual. -->
-        <span class="inicio__titulo-linea">Escápate<br />de la ciudad</span>
-          <span class="inicio__titulo-linea inicio__titulo-linea--menor">sin salir de ella</span>
+        <span class="reveal-texto__linea"><span class="inicio__titulo-linea">Escápate<br />de la ciudad</span></span>
+          <span class="reveal-texto__linea"><span class="inicio__titulo-linea inicio__titulo-linea--menor">sin salir de ella</span></span>
         </h1>
 
         <p class="entradilla reveal">
@@ -297,53 +309,14 @@
       </picture>
     </div>
 
-    <!-- ======================================================================
-         LAS TRES SILUETAS QUE SE DIBUJAN
-         Vencejo en vuelo · hoja de caracolí · pluma de raqueta. Tres marcas de
-         trazo en la columna derecha de la portada, la única que no ocupan ni
-         el pájaro ni el texto.
-
-         NO LLEVAN JAVASCRIPT NUEVO. Están escritas con la firma exacta que
-         reconoce herramientas/hornear-trazos.js —`viewBox="0 0 24 24"`,
-         `fill="none"` y `stroke="currentColor"`—, así que esa herramienta les
-         añade la clase `icono-traza` y el `pathLength` de cada forma EN EL
-         PROPIO HTML. Consecuencia: el trazo nace oculto en el primer pintado y
-         no existe el fotograma en el que la figura se ve entera antes de
-         empezar a dibujarse. El disparador ya está en js/app.js y vigila la
-         sección, no el icono.
-
-         Decorativas de verdad: `aria-hidden` y sin rótulo. No añaden ningún
-         hecho a la tabla de propiedad de ARQUITECTURA-V3 §9.
-         ====================================================================== -->
-    <div class="inicio__siluetas" aria-hidden="true">
-
-      <!-- VENCEJO EN VUELO. Dos alas en hoz y la cola en horquilla: la
-           silueta que de verdad se ve contra el cielo, no un pájaro de perfil
-           con pico y ojo, que a 24 px es una mancha. -->
-      <svg class="icono-traza inicio__silueta" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.1" stroke-linecap="round" stroke-linejoin="round" focusable="false">
-        <path d="M2.5 6.5c3.6 1.3 6.6 3.8 9.5 7.4 2.9-3.6 5.9-6.1 9.5-7.4-2.8 3-4.7 6.4-5.7 10.4"  pathLength="1"/>
-        <path d="M12 13.9c-1 1.3-1.6 2.9-1.9 4.9-1-2.2-2.1-3.8-3.4-4.9"  pathLength="1"/>
-      </svg>
-
-      <!-- HOJA DE CARACOLÍ. La misma figura orgánica del sistema —dos esquinas
-           a radio pleno en diagonal y dos vivas, el remate de .lista-hojas de
-           base.css—, dibujada como contorno en vez de como relleno. La
-           nervadura va en su propio `path` para que se dibuje a la vez que el
-           contorno y no se pose después como un detalle suelto. -->
-      <svg class="icono-traza inicio__silueta" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.1" stroke-linecap="round" stroke-linejoin="round" focusable="false">
-        <path d="M3.5 20.5C3.5 11.1 11.1 3.5 20.5 3.5c0 9.4-7.6 17-17 17z"  pathLength="1"/>
-        <path d="M6.5 17.5 17.5 6.5"  pathLength="1"/>
-      </svg>
-
-      <!-- PLUMA DE RAQUETA. El rasgo por el que se reconoce al barranquero:
-           el raquis desnudo y la paleta al final. Es la firma del ave de la
-           portada, reducida a un trazo. -->
-      <svg class="icono-traza inicio__silueta" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.1" stroke-linecap="round" stroke-linejoin="round" focusable="false">
-        <path d="M12 2.5v12.2"  pathLength="1"/>
-        <path d="M12 14.7c1.9 0 3.1 1.6 3.1 3.5s-1.4 3.3-3.1 3.3-3.1-1.4-3.1-3.3 1.2-3.5 3.1-3.5z"  pathLength="1"/>
-      </svg>
-
-    </div>
+    <!-- v9 · LAS TRES SILUETAS DE TRAZO SE RETIRAN, y es una decisión de
+         sustracción, no un olvido. La columna derecha acumulaba CUATRO gestos
+         simultáneos —enjambre, partículas, siluetas y la gota de scroll— y
+         las siluetas eran el único que no aportaba ni atmósfera ni función:
+         competían con el enjambre, que según DIRECTRICES §2 es EL lenguaje
+         del hero. Con ellas fuera, el enjambre por fin se ve solo.
+         herramientas/hornear-trazos.js no depende de que existan trazos en
+         el hero (verificado con grep antes de borrar). -->
 
     <!-- LA PISTA DE QUE LA PÁGINA SIGUE.
          Medido en la página real: la portada mide EXACTAMENTE la ventana menos

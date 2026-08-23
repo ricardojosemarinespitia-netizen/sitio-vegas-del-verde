@@ -226,7 +226,10 @@
          Los cortes de renglón los decide quien escribe: dos líneas, sujeto y
          remate. -->
     <header class="seccion-encabezado">
-      <p class="eyebrow espacios__rotulo reveal">Espacios en alquiler</p>
+      <!-- FOLIO DE CAPÍTULO. «Los espacios» es el primer capítulo percibido
+           tras la portada (DIRECTRICES-ANIMACION §1) y el número va DENTRO del
+           eyebrow existente, sin elemento de bloque nuevo. -->
+      <p class="eyebrow espacios__rotulo reveal"><span class="espacios__folio">01</span> Espacios en alquiler</p>
       <h2
         id="espacios-titulo"
         class="titulo-seccion reveal reveal-texto reveal-texto--persiana"
@@ -301,6 +304,7 @@
 
         <div class="espacio__cuerpo">
           <h3 class="titulo-seccion titulo-seccion--sm espacio__nombre">
+            <span class="espacio__orden" aria-hidden="true">01</span>
             <!-- Glifo horneado a mano: clase y pathLength ya escritos, así el
                  trazo nace oculto y no hay parpadeo. Hilera de árboles sobre
                  el prado: es lo que la palabra «alameda» significa. -->
@@ -372,6 +376,7 @@
 
         <div class="espacio__cuerpo">
           <h3 class="titulo-seccion titulo-seccion--sm espacio__nombre">
+            <span class="espacio__orden" aria-hidden="true">02</span>
             <!-- Toldo de dos aguas sobre una línea de suelo perfectamente
                  recta: la explanada llana y lo que se le monta encima. -->
             <svg class="icono-traza espacio__glifo" viewBox="0 0 24 24" fill="none" stroke="currentColor"
@@ -432,6 +437,7 @@
 
         <div class="espacio__cuerpo">
           <h3 class="titulo-seccion titulo-seccion--sm espacio__nombre">
+            <span class="espacio__orden" aria-hidden="true">03</span>
             <!-- Copa en medio punto sobre un tronco y dos filas de platea:
                  el mismo arco que recorta la fotografía. -->
             <svg class="icono-traza espacio__glifo" viewBox="0 0 24 24" fill="none" stroke="currentColor"
@@ -488,6 +494,7 @@
 
         <div class="espacio__cuerpo">
           <h3 class="titulo-seccion titulo-seccion--sm espacio__nombre">
+            <span class="espacio__orden" aria-hidden="true">04</span>
             <!-- Cubierta a dos aguas, dos postes y la guirnalda colgando:
                  los tres rasgos que se ven en la fotografía. -->
             <svg class="icono-traza espacio__glifo" viewBox="0 0 24 24" fill="none" stroke="currentColor"
@@ -552,6 +559,7 @@
 
         <div class="espacio__cuerpo">
           <h3 class="titulo-seccion titulo-seccion--sm espacio__nombre">
+            <span class="espacio__orden" aria-hidden="true">05</span>
             <!-- Campo, línea central y círculo: la única figura geométrica
                  de los cinco glifos, porque es el único espacio con marcas
                  en el suelo. -->
@@ -629,7 +637,7 @@
       import('./js/fauna-ambiente.js?v=b8a9a1c8')
         .then((m) => m.montarFaunaAmbiente(
           document.querySelector('#espacios .espacios__aire'),
-          { densidad: 'abundante', especies: ['mariposa', 'ave'], semilla: 1 },
+          { densidad: 'discreta', especies: ['mariposa'], semilla: 1 },
         ))
         .catch(() => {});
     }

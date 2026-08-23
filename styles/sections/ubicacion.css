@@ -165,11 +165,18 @@
   border-top: 1px solid var(--color-borde-fuerte);
 }
 
+/* v9 · EL DATO-JOYA. La dirección deja de ser un párrafo gris junto a dos
+   botones y se compone en Fraunces fino a cuerpo de titular, igual que los
+   titulares del sitio: el rótulo de arriba bajó a eyebrow y ella manda.
+   Ejes sobrios —sin WONK— porque es un dato, no un gesto. */
 .ubi-direccion {
   font-style: normal;
-  font-size: var(--fs-grande);
-  font-weight: var(--peso-ligero);
-  line-height: var(--alto-linea-base);
+  font-family: var(--fuente-display);
+  font-size: var(--fs-h3);
+  font-weight: var(--peso-display);
+  font-variation-settings: var(--ejes-display-sobrio);
+  letter-spacing: var(--tracking-display);
+  line-height: var(--alto-linea-titulo);
   color: var(--color-texto);
 }
 
@@ -645,59 +652,47 @@
   }
 }
 
-/* --- Referencias ---------------------------------------------------------- */
+/* --- Referencias ----------------------------------------------------------
+   v9 · LA FRASE DE LUGARES. La figura duplicada salió (era el mismo archivo
+   que el respaldo del mapa, dos pantallas arriba) y el bloque queda a una
+   sola columna tipográfica; los ocho chips-pastilla dejan la piel de píldora
+   y pasan a una línea corrida de sitios separados por punto medio, en cuerpo
+   grande y peso ligero — tipografía como protagonista, ocho elementos que se
+   leen como una sola frase. La nube de retardos de §12b.1 se conserva tal
+   cual: mismos <li> .reveal reveal--zoom, sólo cambia su piel, y la entrada
+   se lee ahora como palabras que van cayendo en la frase.                  */
+@media (min-width: 62em) {
+  .ubi-bloque--solo {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .ubi-bloque--solo .ubi-bloque__encabezado {
+    max-width: var(--medida);
+  }
+}
+
 .ubi-refs {
   display: flex;
   flex-wrap: wrap;
-  gap: var(--esp-2xs);
+  align-items: baseline;
+  gap: var(--esp-3xs) 0;
   margin: 0;
   padding: 0;
   list-style: none;
 }
 
-/* El radio pleno se queda: .ubi-ref es un chip, y los chips conservan la forma
-   por el mismo motivo que .pildora en base.css. */
 .ubi-ref {
-  padding: 0.45em 0.95em;
-  border: 1px solid var(--color-borde-suave);
-  border-radius: var(--radio-full);
-  /* v8 · era blanco al 55 %. El chip es un REALCE sobre la salvia, no un
-     campo de formulario, así que sube a --luz (la crema cálida a la que van
-     las altas luces del grading). Compone #e9e9dd sobre la salvia y el
-     texto en tinta da 12,1:1. */
-  background-color: rgb(var(--luz-rgb) / 0.55);
-  font-size: var(--fs-pequeno);
-  line-height: 1.35;
+  font-size: var(--fs-grande);
+  font-weight: var(--peso-ligero);
+  line-height: var(--alto-linea-base);
   color: var(--color-texto);
 }
 
-/* La foto trae los mismos sitios señalados sobre el terreno: es la prueba de
-   la lista de al lado, no un adorno. Va sin recorte para no perder ningún pin. */
-.ubi-refs__figura {
-  margin: 0;
-  min-width: 0;
-}
-
-/* LA HOJA — norma del sitio, arbitrada por el director de arte: la foto que
-   vive DENTRO de la maqueta lleva dos esquinas curvas en diagonal y dos vivas.
-   Ésta es la única foto de la sección que está dentro (el mapa sangra y se
-   queda a esquina viva, que es lo que manda cuando la imagen toca el canto de
-   la ventana).
-
-   LA DIAGONAL NO ES LIBRE, LA ELIGE LA FOTO. Abierta con Read: el archivo
-   tiene la barra amarilla de marca pegada a la esquina de arriba a la
-   izquierda y los distintivos de Google Maps y Waze pegados a la de abajo a la
-   derecha. Curvar esa diagonal recortaría las dos. Va la contraria —arriba a
-   la derecha es cielo, abajo a la izquierda es arbolado— y no se pierde nada.
-
-   El filete se queda: la imagen lleva rótulos sobre fondo claro y sin él se
-   derrama sobre la salvia de la sección. Y sigue el <img> entero, sin recorte,
-   para no perder ningún pin. */
-.ubi-refs__foto {
-  width: 100%;
-  height: auto;
-  border-radius: 0 var(--radio-xl) 0 var(--radio-xl);
-  border: 1px solid var(--color-borde-suave);
+/* El separador es tinta de la frase, no caja: punto medio en oliva. */
+.ubi-ref:not(:last-child)::after {
+  content: "·";
+  color: var(--color-acento-alt);
+  padding-inline: var(--esp-2xs);
 }
 
 /* ==========================================================================
@@ -727,7 +722,8 @@
   grid-template-columns: minmax(0, 1fr) auto;
   align-items: baseline;
   gap: var(--esp-3xs) var(--esp-sm);
-  padding-block: var(--esp-xs);
+  /* v9 · era --esp-xs: la fila respira a la altura de la nueva cifra serif. */
+  padding-block: var(--esp-sm);
   border-bottom: 1px solid var(--color-borde-suave);
 }
 
@@ -738,10 +734,15 @@
   color: var(--color-texto);
 }
 
+/* v9 · La cifra pasa a Fraunces con peso: la tabla se lee como un índice de
+   revista de viajes — topónimo discreto en sans, kilómetro en serif. Las
+   barras y sus relojes (--ubi-ritmo/--ubi-turno) no se tocan. */
 .ubi-dist__km {
-  font-size: var(--fs-pequeno);
+  font-family: var(--fuente-display);
+  font-size: var(--fs-h4);
+  font-weight: var(--peso-fuerte);
   font-variant-numeric: tabular-nums;
-  color: var(--color-texto-suave);
+  color: var(--color-texto);
   white-space: nowrap;
 }
 
@@ -827,6 +828,9 @@ html:not(.js) .ubi-dist__relleno {
 @media (min-width: 64em) {
   .ubi-hablar {
     grid-template-columns: minmax(0, 1fr) minmax(0, 1.15fr);
+    /* v9 · más aire entre la lista de canales y el papel del formulario,
+       que a --gap-lg casi se tocaban. */
+    column-gap: var(--esp-3xl);
   }
 }
 
@@ -1345,12 +1349,12 @@ a.ubi-canal--destacado:focus-visible {
    La única pieza de fotografía a la altura de los ojos en toda la sección, y
    la bisagra entre el mapa y la conversación (ver la nota en el HTML).
 
-   LA HOJA, Y POR QUÉ ESTA DIAGONAL. La foto de referencias que queda un
-   bloque más arriba curva arriba-derecha y abajo-izquierda; ésta curva la
-   diagonal CONTRARIA y con dos tamaños distintos (--radio-xl arriba,
-   --radio-lg abajo), así que dos piezas vecinas no repiten forma. El mapa, que
-   sangra hasta el canto de la ventana, sigue a esquina viva: en este sistema
-   la foto que toca el borde no se redondea nunca.
+   LA HOJA. Desde v9 es la ÚNICA foto de la sección que vive dentro de la
+   maqueta (la figura de referencias salió por duplicada), así que lleva la
+   hoja: dos radios distintos en diagonal (--radio-xl arriba,
+   --radio-lg abajo). El mapa, que sangra hasta el canto de la ventana, sigue
+   a esquina viva: en este sistema la foto que toca el borde no se redondea
+   nunca.
 
    16/9 desde 48em y 4/3 por debajo: el archivo es 3/2, así que el recorte de
    escritorio se come una franja de cielo —que es lo que sobra— y en móvil se

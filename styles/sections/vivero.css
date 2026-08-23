@@ -90,9 +90,8 @@
     calc((100% - var(--ancho-xl)) / 2)
   );
 
-  /* El papel del panel de confianza y su filete. En negativo no hay «tarjeta
-     blanca»: hay un rectángulo de luz levantado del fondo un 5 %. */
-  --viv-panel: rgb(var(--crema-rgb) / 0.05);
+  /* El filete de la sección. v8: --viv-panel SALE — el panel de confianza
+     dejó de ser caja y cuelga de este mismo filete (§3). */
   --viv-filete: var(--color-borde-inverso);
 
   /* LA HOJA, en dos tamaños. La norma del sitio fija la FORMA (dos esquinas
@@ -549,11 +548,14 @@
    cuatro renglones largos («Venta de productos y alquiler de complementos…»)
    y a la mitad del ancho se partía en cuatro líneas cada uno.
    -------------------------------------------------------------------------- */
+/* v8 · MÁS AIRE ENTRE LA BANDA Y EL CUERPO. Con el panel de respaldo fuera
+   (ver más abajo), el blanco entre bloques es lo que hace el trabajo de
+   separación: sube de --gap-lg a --esp-seccion-sm. */
 .viv-cuerpo {
   position: relative;
   display: grid;
   gap: var(--gap-lg);
-  margin-top: var(--gap-lg);
+  margin-top: var(--esp-seccion-sm);
 }
 
 /* ---- LA HOJA DE CARTEL (v5) ----------------------------------------------
@@ -620,7 +622,9 @@
   .viv-cuerpo {
     grid-template-columns: minmax(0, 1.22fr) minmax(0, 0.78fr);
     align-items: start;
-    gap: var(--gap-lg);
+    /* v8 · Con el respaldo colgado de un filete y no de una caja, el hueco
+       entre columnas tiene que crecer para que el filete respire. */
+    gap: calc(var(--gap-lg) * 1.5);
   }
 }
 
@@ -633,17 +637,29 @@
   max-width: var(--medida);
 }
 
-/* v4: LAS DOS COLUMNAS DEJAN DE SER EL MISMO MATERIAL. La de la izquierda es
-   texto sobre la banda; la de la derecha es un panel de luz con filete. Dos
-   columnas de idéntico tratamiento una al lado de la otra son, literalmente,
-   el bloque uniforme que se venía a quitar; con materiales distintos se lee de
-   un vistazo qué es oferta y qué es respaldo. */
+/* v8 · EL PANEL SALE; QUEDA EL FILETE. El «rectángulo de luz» de v4 era el
+   único elemento-tarjeta de la banda y competía con el catálogo: exactamente
+   el patrón «panel de framework». Ahora la columna de confianza cuelga de un
+   solo filete lateral —el gesto editorial de revista— y el sello ICA, que sí
+   conserva su caja (es un documento, la excepción con motivo), pasa a ser LA
+   única caja de la sección.
+   En móvil el filete es superior, porque el cuerpo va en una columna.
+   CONTRASTE: sin panel, el aula y el pie del sello caen sobre el carbón
+   directo — crema 78 % da 9,0:1, y la cuenta de la hoja de cartel del §3
+   mejora (el trazo cruza ahora sobre carbón, no sobre panel + carbón). */
 .viv-respaldo {
   gap: var(--esp-lg);
-  padding: var(--esp-lg);
-  border: 1px solid var(--viv-filete);
-  border-radius: 0;
-  background-color: var(--viv-panel);
+  border-block-start: 1px solid var(--viv-filete);
+  padding-block-start: var(--esp-lg);
+}
+
+@media (min-width: 62rem) {
+  .viv-respaldo {
+    border-block-start: 0;
+    padding-block-start: 0;
+    border-inline-start: 1px solid var(--viv-filete);
+    padding-inline-start: var(--esp-lg);
+  }
 }
 
 .viv-lead {
@@ -651,6 +667,16 @@
   font-weight: var(--peso-ligero);
   line-height: var(--alto-linea-suelto);
   color: var(--color-texto-inverso);
+}
+
+/* v8 · La generalización («Lo mismo para una sala…») baja a nota: segunda
+   voz en cuerpo de lectura y crema suave, para que la frase de venta mande. */
+.viv-lead__nota {
+  margin: 0;
+  font-size: var(--fs-cuerpo);
+  line-height: var(--alto-linea-base);
+  color: var(--color-texto-inverso-suave);
+  max-width: var(--medida-corta);
 }
 
 /* --------------------------------------------------------------------------
@@ -664,46 +690,79 @@
 
 .viv-servicio {
   display: grid;
-  grid-template-columns: auto minmax(0, 1fr);
+  /* v8 · Columna fija para que los cuatro rótulos 01–04 alineen. */
+  grid-template-columns: minmax(3.5ch, auto) minmax(0, 1fr);
   gap: var(--esp-sm);
   align-items: baseline;
-  /* El aire vertical sube de --esp-xs a --esp-sm: con cuatro renglones, el
-     interlineado de la lista es lo que decide si se lee como catálogo o como
-     letra pequeña. */
-  padding-block: var(--esp-sm);
+  /* v8 · El aire sube de --esp-sm a --esp-md: con el nombre a escala de
+     display, cuatro filetes con más aire = menos elementos por pantalla. */
+  padding-block: var(--esp-md);
   border-bottom: 1px solid var(--viv-filete);
 }
 
-/* v4: EL ÍNDICE PASA A NUMERAL DE DISPLAY. En v3 era una micro-etiqueta en
-   caps de 12,8 px y desaparecía. Ahora es la misma serifa de los titulares
-   (Fraunces, como .cifra en base.css) a cuerpo de h4 y en crema al 78 %:
-   numera el catálogo y da el ritmo de la columna sin gritar. Se queda en gris
-   claro y no en acento cálido, por el motivo de v3 que sigue siendo bueno:
-   en color competía con el nombre del servicio, que es lo que hay que leer.
-   Las cifras tabulares alinean el 01–04 en una columna exacta. */
+/* v8 · EL ÍNDICE VUELVE A MICRO-ETIQUETA. Con el nombre en Fraunces a cuerpo
+   de h3, dos display compitiendo (índice y nombre) eran ruido: el rótulo
+   01–04 baja a DM Sans en caps de micro y el nombre manda solo.
+   (uppercase permitido: --fs-micro está muy por debajo de 24 px.) */
 .viv-servicio__indice {
-  font-family: var(--fuente-display);
-  font-size: var(--fs-h4);
-  font-weight: var(--peso-display);
-  font-optical-sizing: auto;
-  font-variation-settings: var(--ejes-display);
-  line-height: 1;
-  letter-spacing: var(--tracking-display);
+  font-family: var(--fuente-titulo);
+  font-size: var(--fs-micro);
+  font-weight: var(--peso-medio);
+  text-transform: uppercase;
+  letter-spacing: var(--tracking-rotulo);
   font-variant-numeric: tabular-nums;
   color: var(--color-texto-inverso-suave);
 }
 
+/* v8 · EL PRODUCTO HABLA EN FRAUNCES. Los cuatro servicios son lo único del
+   sitio que el visitante se lleva a casa: suben a la voz de los titulares,
+   con los ejes sobrios (sin WONK: es un índice, no una portada). La
+   transición de transform es para el hover de abajo; con reduced-motion las
+   duraciones colapsan a 1 ms vía tokens y el gesto se apaga solo. */
 .viv-servicio__nombre {
-  font-size: var(--fs-cuerpo);
-  line-height: var(--alto-linea-base);
+  display: block;
+  font-family: var(--fuente-display);
+  font-size: var(--fs-h3);
+  font-weight: var(--peso-display);
+  font-optical-sizing: auto;
+  font-variation-settings: var(--ejes-display-sobrio);
+  letter-spacing: var(--tracking-display);
+  line-height: var(--alto-linea-titulo);
   color: var(--color-texto-inverso);
+  transition: transform var(--transicion);
+}
+
+/* La subordinada de los dos servicios largos baja de tono: el sustantivo
+   queda en display y el matiz se lee como segunda línea de cuerpo pequeño. */
+.viv-servicio__matiz {
+  display: block;
+  font-family: var(--fuente-cuerpo);
+  font-size: var(--fs-pequeno);
+  font-weight: var(--peso-normal);
+  font-variation-settings: normal;
+  letter-spacing: normal;
+  line-height: var(--alto-linea-base);
+  color: var(--color-texto-inverso-suave);
+  margin-top: var(--esp-3xs);
+}
+
+/* v8 · Hover de fila sin animar layout: sólo transform. */
+@media (hover: hover) {
+  .viv-servicio:hover .viv-servicio__nombre {
+    transform: translateX(var(--esp-2xs));
+  }
 }
 
 /* --------------------------------------------------------------------------
    5. EL VIVERO COMO AULA — remate con enlace a los talleres
    -------------------------------------------------------------------------- */
+/* v8 · Del pie de página a segunda voz: cuerpo grande y ligero. Sigue en
+   crema suave (9,0:1 sobre carbón, de sobra para AA a este cuerpo). */
 .viv-aula {
   margin: 0;
+  font-size: var(--fs-grande);
+  font-weight: var(--peso-ligero);
+  line-height: var(--alto-linea-suelto);
   color: var(--color-texto-inverso-suave);
 }
 
@@ -718,15 +777,18 @@
    sistema un documento va en una caja de filete, no en una tarjeta redondeada.
    Vive dentro del panel de respaldo, así que su fondo sube otro escalón de luz
    para separarse de él sin necesidad de sombra. */
+/* v8 · Ya sin panel alrededor, el sello es LA única caja de la sección y
+   gana el único acento de color de la columna: filete a menta velada y un
+   punto más de luz de fondo. Jerarquía de confianza, no decoración. */
 .viv-sello {
   display: flex;
   align-items: flex-start;
   gap: var(--esp-sm);
   margin: 0;
   padding: var(--esp-md);
-  border: 1px solid var(--viv-filete);
+  border: 1px solid rgb(var(--verde-menta-rgb) / 0.35);
   border-radius: 0;
-  background-color: rgb(var(--crema-rgb) / 0.06);
+  background-color: rgb(var(--crema-rgb) / 0.08);
 }
 
 /* LA ÚNICA CURVA DE LA SECCIÓN, Y ES UNA HOJA. El radio pleno en dos esquinas
@@ -778,10 +840,6 @@
    7. MÓVIL
    -------------------------------------------------------------------------- */
 @media (max-width: 30em) {
-  .viv-respaldo {
-    padding: var(--esp-md);
-  }
-
   .viv-sello {
     padding: var(--esp-sm);
   }

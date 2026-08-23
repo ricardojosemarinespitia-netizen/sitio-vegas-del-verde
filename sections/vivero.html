@@ -249,28 +249,43 @@
       <!-- ---------- Lo que sale del vivero: el catálogo ---------- -->
       <div class="viv-oferta reveal">
 
+        <!-- v8 · El lead se parte en dos voces: la frase de venta se queda a
+             cuerpo de entradilla y la generalización baja a nota. Ni una
+             palabra cambia; sólo el reparto. SIN .reveal-texto: ese gesto es
+             del titular que abre el capítulo (base.css §v7) y aquí ya lo
+             lleva el <h2>. -->
         <p class="viv-lead">
           Escoges la planta en el camellón y te la llevas: en bolsa para sembrar o
-          en matera para poner. Lo mismo para una sala que para una oficina o el
-          montaje de un evento.
+          en matera para poner.
+        </p>
+        <p class="viv-lead__nota">
+          Lo mismo para una sala que para una oficina o el montaje de un evento.
         </p>
 
-        <ul class="viv-servicios">
-          <li class="viv-servicio">
+        <!-- v8 · El catálogo pasa a índice editorial: el sustantivo principal
+             habla en Fraunces a escala de titular y la subordinada de los dos
+             servicios largos baja a matiz en cuerpo pequeño. Los <li> entran
+             escalonados con la .reveal-secuencia de base.css §6: cero JS
+             nuevo, el IntersectionObserver existente los gobierna y el estado
+             inicial queda horneado en CSS estático. -->
+        <ul class="viv-servicios reveal-secuencia">
+          <li class="viv-servicio reveal">
             <span class="viv-servicio__indice" aria-hidden="true">01</span>
             <span class="viv-servicio__nombre">Producción y venta de plantas</span>
           </li>
-          <li class="viv-servicio">
+          <li class="viv-servicio reveal">
             <span class="viv-servicio__indice" aria-hidden="true">02</span>
             <span class="viv-servicio__nombre">Venta de abonos</span>
           </li>
-          <li class="viv-servicio">
+          <li class="viv-servicio reveal">
             <span class="viv-servicio__indice" aria-hidden="true">03</span>
-            <span class="viv-servicio__nombre">Mantenimiento de jardines y poda de árboles y raíces</span>
+            <span class="viv-servicio__nombre">Mantenimiento de jardines
+              <span class="viv-servicio__matiz">y poda de árboles y raíces</span></span>
           </li>
-          <li class="viv-servicio">
+          <li class="viv-servicio reveal">
             <span class="viv-servicio__indice" aria-hidden="true">04</span>
-            <span class="viv-servicio__nombre">Venta de productos y alquiler de complementos para decoración de eventos</span>
+            <span class="viv-servicio__nombre">Venta de productos
+              <span class="viv-servicio__matiz">y alquiler de complementos para decoración de eventos</span></span>
           </li>
         </ul>
 

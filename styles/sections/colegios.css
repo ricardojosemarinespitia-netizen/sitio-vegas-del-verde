@@ -369,12 +369,18 @@
 
 /* `position: relative` + z-index para quedar POR DELANTE del ave del §2, que
    es un elemento posicionado y, sin esto, pintaría encima. */
+/* v6 · FILETE DE ARRANQUE EDITORIAL: la entradilla cuelga de una regla fina
+   —el gesto de «deck» de revista— y con eso la columna derecha de la portada
+   deja de flotar sin apoyo contra el titular gigante. El 1px es la misma
+   excepción documentada que usan los demás filetes de esta hoja. */
 .col-portada__entradilla {
   position: relative;
   z-index: var(--z-base);
   margin: 0;
   min-width: 0;
   max-width: var(--medida-corta);
+  border-block-start: 1px solid var(--color-borde-fuerte);
+  padding-block-start: var(--esp-sm);
 }
 
 /* ==========================================================================
@@ -407,12 +413,16 @@
    foto en un carril estrecho. El carril no llega a un tercio del ancho a
    propósito —la foto ilustra la parada, no la encabeza— y eso es lo que deja
    sitio para que el titular vaya grande. */
+/* v6 · MÁS AIRE ENTRE FILAS (índice de revista). El aire entre filas es lo
+   que separa un índice editorial de una lista apretada; con sólo tres filas
+   la sección se lo puede permitir sin alargarse de más. El padding sube de
+   --gap a --gap-lg y el hueco interno de --esp-2xs a --esp-xs. */
 .col-parada {
   display: grid;
   grid-template-columns: 1fr;
-  gap: var(--esp-2xs);
+  gap: var(--esp-xs);
   min-width: 0;
-  padding-block: var(--gap);
+  padding-block: var(--gap-lg);
   border-bottom: 1px solid var(--color-borde-suave);
 }
 
@@ -476,7 +486,7 @@
     grid-template-columns: minmax(0, var(--col-rail)) minmax(0, 1fr);
     grid-template-rows: auto auto 1fr;
     column-gap: var(--gap-lg);
-    row-gap: var(--esp-2xs);
+    row-gap: var(--esp-xs);
     align-items: start;
     grid-template-areas:
       "foto rotulo"
@@ -645,16 +655,51 @@
   color: var(--color-acento-alt);
 }
 
+/* v6 · EL FOLIO ORDINAL — el gesto de sumario de revista cara.
+   La palabra ordinal («Primera / Segunda / Tercera») sale del registro de
+   micro-caps y pasa a Fraunces grande en caja de frase: folio serif +
+   micro-caps al lado, el patrón de los sumarios impresos. Se anula el
+   uppercase del rótulo padre porque a --fs-h3 el texto supera los 24 px y
+   la regla dura lo prohíbe; además a peso 320 la caja baja es donde la
+   Fraunces fina se lee como lujo. Gris suave y ejes sobrios para que el
+   folio se lea como marginalia y no compita con el titular de la fila:
+   si en 68em+ llegara a competir, el ajuste previsto es bajarlo a --fs-h4. */
+.col-parada__ordinal {
+  font-family: var(--fuente-display);
+  font-size: var(--fs-h3);
+  font-weight: var(--peso-display);
+  font-variation-settings: var(--ejes-display-sobrio);
+  text-transform: none;
+  letter-spacing: var(--tracking-display);
+  line-height: var(--alto-linea-apretado);
+  color: var(--color-texto-suave);
+}
+
 .col-parada h3 {
   margin: 0;
   text-wrap: balance;
 }
 
+/* v6 · EL TITULAR DE PARADA SUBE A --fs-h2, sólo desde 68em. En la rejilla
+   de tres carriles el titular es la columna protagonista y medía igual que
+   un h3 de tarjeta; a --fs-h2 la columna de titulares se lee como el sumario
+   que la sección dice ser. Por debajo de 68em no hay ancho para pagarlo.
+   Mide (0,2,1) y le gana al --fs-h3 de .titulo-seccion--sm de base.css. */
+@media (min-width: 68em) {
+  .col-parada h3 {
+    font-size: var(--fs-h2);
+    line-height: var(--alto-linea-titulo);
+  }
+}
+
+/* v6 · el párrafo de servicio se estrecha a --medida-corta: con el titular
+   más grande (arriba), columna de texto angosta junto a titular ancho es la
+   proporción de sumario editorial, y así el párrafo no le compite. */
 .col-parada > p:not(.col-parada__etiqueta) {
   margin: 0;
   font-size: var(--fs-pequeno);
   color: var(--color-texto-suave);
-  max-width: var(--medida);
+  max-width: var(--medida-corta);
 }
 
 /* ==========================================================================
@@ -845,7 +890,12 @@
     z-index: var(--z-base);
     margin-block-start: var(--esp-3xl);
     margin-inline-start: calc(var(--esp-2xl) * -1);
-    padding: var(--esp-xl);
+    /* v6 · más margen interior de papel = panel más caro: el padding inline
+       sube a --esp-2xl (el block se queda en --esp-xl para no alargar el
+       solape). La medida útil de los hitos sigue en la horquilla cómoda
+       porque el §4 ya los tiene en una sola columna dentro del panel. */
+    padding-block: var(--esp-xl);
+    padding-inline: var(--esp-2xl);
     border-radius: 0 var(--radio-xl) 0 var(--radio-xl);
     background-color: var(--color-superficie-solida);
   }

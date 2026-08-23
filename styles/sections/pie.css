@@ -41,10 +41,24 @@
 }
 
 /* --------------------------------------------------------------------------
+   0 bis. EL TELÓN — el pie deja de ser franja plana y cae hacia la sala.
+   El degradado va del bosque hondo (donde termina la última sección) al
+   --negro-escena del grading: el mismo par tonal de las sombras de las 160
+   fotos. Sobrescribe el fondo plano que .pie-sitio hereda de shell.css sin
+   tocar su padding ni sus enlaces.
+   -------------------------------------------------------------------------- */
+.pie-final {
+  background: linear-gradient(
+    var(--color-fondo-hondo),
+    var(--negro-escena)
+  );
+}
+
+/* --------------------------------------------------------------------------
    1. CIERRE — antetítulo, titular serif grande, CTA final
    -------------------------------------------------------------------------- */
 .pie-final__cierre {
-  padding-block-end: var(--esp-2xl);
+  padding-block: var(--esp-xl) var(--esp-3xl);
   display: flex;
   flex-direction: column;
   align-items: flex-start;
@@ -52,6 +66,9 @@
 }
 
 .pie-final__antetitulo {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--esp-sm);
   font-family: var(--fuente-titulo);
   font-size: var(--fs-eyebrow);
   font-weight: var(--peso-medio);
@@ -60,11 +77,33 @@
   color: var(--verde-menta);
 }
 
+/* Filete corto que se dibuja al entrar. Estado final horneado (scaleX(1));
+   sólo con JS, y sólo mientras el antetítulo aún no es visible, se pliega a
+   scaleX(0) — sin script el filete está puesto desde el primer fotograma.
+   La duración sale de --transicion-reveal y colapsa a 1 ms bajo
+   prefers-reduced-motion vía tokens. */
+.pie-final__filete {
+  inline-size: 4ch;
+  block-size: 1px;
+  flex: none;
+  background: var(--verde-menta);
+  transform: scaleX(1);
+  transform-origin: left;
+  transition: transform var(--transicion-reveal);
+}
+
+.js .pie-final__antetitulo:not(.visible) .pie-final__filete {
+  transform: scaleX(0);
+}
+
 /* Titular editorial: serif fina, sin mayúsculas (regla: nada de uppercase
-   en texto grande). */
+   en texto grande). Sube a --fs-hero: es el ÚLTIMO titular de la página y
+   la tipografía es aquí la protagonista — no compite con --fs-portada, que
+   sigue siendo exclusivo del hero. Entra renglón a renglón con el
+   .reveal-texto compartido de base.css (marcado en _footer.html). */
 .pie-final__titular {
   font-family: var(--fuente-display);
-  font-size: var(--fs-h1);
+  font-size: var(--fs-hero);
   font-weight: var(--peso-display);
   font-variation-settings: var(--ejes-display);
   letter-spacing: var(--tracking-display);
@@ -73,27 +112,38 @@
   max-width: var(--medida-corta);
 }
 
-/* CTA final: fantasma coral-claro sobre carbón (5.7:1 con --coral-claro). */
+/* CTA final LLENO: el último botón de la página gasta el coral pleno sobre
+   el negro más hondo del sitio — máximo contraste cromático reservado para
+   el cierre. Sólo transform en hover; la flecha lleva el suyo aparte. */
 .pie-final__cta {
   display: inline-flex;
   align-items: center;
   gap: var(--esp-2xs);
   min-height: 2.75rem; /* 44px táctiles */
-  padding: var(--esp-2xs) var(--esp-md);
-  border: 1px solid var(--color-acento-inverso);
+  padding: var(--esp-2xs) var(--esp-lg);
+  background: var(--color-accion);
+  border: 1px solid var(--color-accion-borde);
+  box-shadow: var(--sombra-accion);
   font-family: var(--fuente-titulo);
   font-size: var(--fs-pequeno);
   font-weight: var(--peso-medio);
   text-transform: uppercase;
   letter-spacing: var(--track-boton);
+  transition: transform var(--transicion-rapida);
 }
 
 .pie-sitio a.pie-final__cta {
-  color: var(--color-acento-inverso);
+  color: var(--color-accion-texto);
 }
 
 .pie-sitio a.pie-final__cta:hover {
-  color: var(--color-acento-inverso);
+  color: var(--color-accion-texto);
+}
+
+/* El levante sale de --esp-3xs (4px) a la mitad: ningún tamaño literal. */
+.pie-final__cta:hover,
+.pie-final__cta:focus-visible {
+  transform: translateY(calc(var(--esp-3xs) / -2));
 }
 
 .pie-final__flecha {
@@ -113,7 +163,7 @@
    -------------------------------------------------------------------------- */
 .pie-final__fila {
   border-block-start: 1px solid var(--color-borde-inverso);
-  padding-block: var(--esp-lg);
+  padding-block: var(--esp-xl);
   display: flex;
   flex-wrap: wrap;
   align-items: center;
@@ -134,9 +184,11 @@
   color: var(--verde-menta);
 }
 
+/* La marca firma, no compite: baja de --fs-h3 a --fs-h4 para que la escala
+   del pie tenga tres niveles limpios (titular hero → fila media → legal micro). */
 .pie-final__nombre {
   font-family: var(--fuente-display);
-  font-size: var(--fs-h3);
+  font-size: var(--fs-h4);
   font-weight: var(--peso-display);
   font-variation-settings: var(--ejes-display-sobrio);
   letter-spacing: var(--tracking-display);
@@ -186,7 +238,7 @@
    -------------------------------------------------------------------------- */
 .pie-final__legal {
   border-block-start: 1px solid var(--color-borde-inverso);
-  padding-block-start: var(--esp-md);
+  padding-block-start: var(--esp-lg);
   display: flex;
   flex-wrap: wrap;
   justify-content: space-between;

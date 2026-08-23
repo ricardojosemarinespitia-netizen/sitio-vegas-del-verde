@@ -84,8 +84,7 @@
           <span class="reveal-texto__linea">y con quién hablas</span>
         </h2>
         <p class="entradilla">
-          Todo lo práctico en un solo sitio: el mapa, las referencias, el horario y el número
-          al que escribir.
+          El mapa, las referencias y el número al que escribir.
         </p>
       </header>
 
@@ -217,7 +216,11 @@
 
     <!-- La dirección, al lado de los botones que la resuelven. -->
     <div class="ubi-placa reveal reveal--der">
-      <h3 class="titulo-seccion titulo-seccion--xs">La dirección</h3>
+      <!-- v9 · El rótulo baja a eyebrow y la DIRECCIÓN pasa a ser la pieza
+           protagonista del bloque: se compone en Fraunces a cuerpo de titular
+           (ver .ubi-direccion en ubicacion.css). El dato-joya manda; el
+           rótulo sólo lo nombra. -->
+      <p class="eyebrow">La dirección</p>
       <address class="ubi-direccion">
         Vereda Río Frío, 500&nbsp;m sobre la vía Carabineros.<br />
         Floridablanca, Santander, Colombia.
@@ -226,8 +229,15 @@
     </div>
     </div>
 
-    <!-- ================= 4 · PUNTOS DE REFERENCIA ============================ -->
-    <div class="ubi-bloque reveal">
+    <!-- ================= 4 · PUNTOS DE REFERENCIA ============================
+         v9 · SALE LA FIGURA DUPLICADA. La foto aérea que iba aquí era
+         exactamente el mismo archivo (img/mapa-ubicacion.jpg) que ya se ve
+         como respaldo del mapa a sangre dos pantallas arriba, y sus sitios
+         están señalados en el mapa interactivo: una foto contada dos veces es
+         lo contrario de editorial. El bloque queda a una sola columna
+         tipográfica (modificador --solo en el CSS) y los ocho chips-pastilla
+         pasan a leerse como una frase corrida de lugares con punto medio. -->
+    <div class="ubi-bloque ubi-bloque--solo reveal">
       <div class="ubi-bloque__encabezado">
         <h3 class="titulo-seccion titulo-seccion--xs">Puntos de referencia</h3>
         <p class="nota">Si te suena alguno de estos sitios, ya sabes llegar.</p>
@@ -249,21 +259,6 @@
           <li class="ubi-ref reveal reveal--zoom">C.C. Caracolí</li>
         </ul>
       </div>
-
-      <figure class="ubi-refs__figura">
-        <img
-          class="ubi-refs__foto"
-          src="img/mapa-ubicacion.jpg"
-          width="1200"
-          height="1111"
-          alt="La misma vista aérea del sector, con cada uno de los puntos de referencia de la lista anterior señalado con un pin sobre la foto."
-          loading="lazy"
-          decoding="async"
-        />
-        <figcaption>
-          El predio, visto desde el aire, con los sitios que ya conoces marcados alrededor.
-        </figcaption>
-      </figure>
     </div>
 
     <!-- ================= 5 · DISTANCIAS ====================================== -->
