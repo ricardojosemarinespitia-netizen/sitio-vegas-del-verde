@@ -170,7 +170,7 @@ HECHOS = [
    r"el ruido mas fuerte es un pajaro",
    r"no es el mismo bosque en marzo"], False),
  ("Rotulo «Reserva tu escape»",            ["inicio"],     [r"reserva tu escape"], False),
- ("Rotulo «Ver los cinco espacios»",       ["nosotros"],   [r"ver los cinco espacios"], False),
+ ("Rotulo «Ver eventos y actividades»",    ["nosotros"],   [r"ver eventos y actividades"], False),
  ("Rotulo «Quiero este plan»",             ["espacios"],   [r"quiero este plan"], False),
  ("Rotulo «Atrevete a un plan distinto»",  ["planes","espacios"], [r"atrevete a un plan distinto"], False),
  ("Rotulo «Vengo con mi curso»",           ["colegios"],   [r"vengo con mi curso"], False),

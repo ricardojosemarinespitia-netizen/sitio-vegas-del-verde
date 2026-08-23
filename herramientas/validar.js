@@ -120,7 +120,7 @@ const HECHOS = [
   ['tu proximo plan no es en un salon','planes distintos, mas atrevidos',
    'el ruido mas fuerte es un pajaro','no es el mismo bosque en marzo'], false],
  ['Rotulo «Reserva tu escape»', ['inicio'], ['reserva tu escape'], false],
- ['Rotulo «Ver los cinco espacios»', ['nosotros'], ['ver los cinco espacios'], false],
+ ['Rotulo «Ver eventos y actividades»', ['nosotros'], ['ver eventos y actividades'], false],
  ['Rotulo «Quiero este plan»', [NADIE], ['quiero este plan'], false],
  ['Rotulo «Atrevete a un plan distinto»', ['planes'], ['atrevete a un plan distinto'], false],
  ['Rotulo «Vengo con mi curso»', ['colegios'], ['vengo con mi curso'], false],

@@ -61,6 +61,42 @@
    ========================================================================== */
 
 /* --------------------------------------------------------------------------
+   0 ter. EL BUG DEL «TEXTO CORTADO» EN CELULAR — Y NO ERA LA MAQUETA
+   --------------------------------------------------------------------------
+   Síntoma que reportó el cliente con capturas: en el teléfono, junto al
+   rótulo y al titular de un carril aparecían LETRAS SUELTAS pegadas al borde
+   izquierdo («C», «S», «M», «ti», «l»), como si hubiera dos capas de texto
+   encimadas y una se saliera de su caja.
+
+   LA CAUSA. Todas las fotos de la sección son `loading="lazy"` y llevan un
+   `alt` largo y descriptivo —tres o cuatro renglones de prosa—, que es como
+   tiene que ser. Mientras una de esas fotos NO ha llegado todavía (o si
+   falla), el navegador pinta ese `alt` como texto normal DENTRO de la caja de
+   la imagen. Y esas cajas no son cajas de texto:
+     · `.planes-portada__foto` y `.planes-bienestar__foto` son absolutas a
+       `inset: 0` sobre una caja que sangra hasta el borde de la ventana, así
+       que el alt se sale por los dos flancos y lo corta el recorte;
+     · las figuras de `.marco` tienen `aspect-ratio` fijo —y una de ellas,
+       `.planes-familia__baja`, es 1:2, más alta que ancha—, así que el mismo
+       alt se reparte a UNA O DOS LETRAS POR RENGLÓN. Eso es, literalmente,
+       la columna de letras sueltas de la captura.
+   En escritorio casi no se ve porque las fotos entran antes de que el ojo
+   llegue; en un teléfono con datos móviles se ve en cada carril.
+
+   EL ARREGLO, en una línea: el `alt` deja de PINTARSE. El atributo sigue
+   entero en el HTML —no se toca ni un carácter—, así que lectores de pantalla
+   y buscadores lo siguen leyendo igual; lo único que cambia es que el color
+   heredado del texto alternativo es transparente y ya no dibuja letras sobre
+   la maqueta. El hueco mientras carga lo cubre el color de espera que cada
+   caja ya declara (`--color-fondo-oscuro` en las de sangre, el gris verdoso
+   de `.marco` en las demás), que es lo que hay que ver: un rectángulo del
+   color de la pieza, no un párrafo descuartizado.
+   -------------------------------------------------------------------------- */
+.planes img {
+  color: transparent;
+}
+
+/* --------------------------------------------------------------------------
    1. LA PILA DE CARRILES
    Aire generoso entre carriles: cada uno es una unidad de lectura completa,
    y si se tocan se leen como una lista de tarjetas, que es justo lo que no
@@ -197,6 +233,16 @@
   color: var(--color-texto-suave);
 }
 
+/* EL FILETE DE APERTURA SE RETIRA (pedido del cliente, agosto de 2026:
+   «de todos elimina esta línea»). Era la única raya horizontal dibujada en
+   toda la sección —la que cruzaba de borde a borde por encima del rótulo
+   «Eventos y actividades»— y es lo que señalaba la captura. El encabezado en
+   sí NO se toca: el eyebrow, el titular y la entradilla se quedan exactamente
+   como estaban, y el aire de apertura lo sigue poniendo el `padding-block`.
+   La regla queda comentada y no borrada porque es la marca de capítulo que
+   documenta DIRECTRICES-ANIMACION.md §1: si algún día se quiere de vuelta,
+   se devuelve aquí y en un solo sitio.
+
 .planes .seccion-encabezado::before {
   content: "";
   position: absolute;
@@ -206,6 +252,7 @@
   background-color: var(--color-borde-fuerte);
   pointer-events: none;
 }
+*/
 
 /* EL REVELADO BAJA DE 900 A 550 ms. No se toca ningún token global: se
    redefine --dur-reveal para esta sección con otro token que ya existe
@@ -322,6 +369,20 @@
   color: var(--color-acento-inverso);
 }
 
+/* EL RÓTULO AGRUPADO (agosto de 2026) — la ocasión y el titular, juntos.
+   Antes eran dos hijos sueltos del bloque de texto; ahora viajan dentro de
+   `.planes-carril__rotulo`, que reproduce EXACTAMENTE el reparto que les daba
+   el flex del padre (columna, pegados a la izquierda, --esp-sm de aire), así
+   que de tableta para arriba no cambia un píxel. Lo que gana es que el rótulo
+   es ya una pieza COLOCABLE: en móvil se posa dentro de la fotografía de
+   cabeza del carril (§11) sin tener que anidarlo en el DOM de la figura. */
+.planes-carril__rotulo {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--esp-sm);
+}
+
 .planes-carril__copy {
   margin: 0;
   max-width: var(--medida);
@@ -383,8 +444,23 @@
     justify-items: start;
   }
 
-  .planes-carril--familia .planes-carril__texto > :not(.planes-carril__ocasion),
-  .planes-carril--empresa .planes-carril__texto > :not(.planes-carril__ocasion) {
+  /* El rótulo agrupado se DISUELVE aquí: con `display: contents` la ocasión y
+     el titular vuelven a ser hijos de rejilla del bloque de texto, que es lo
+     que este folio necesitaba antes de que existiera la caja. Cero cambio
+     visual respecto a la versión anterior de este bloque. */
+  .planes-carril--familia .planes-carril__rotulo,
+  .planes-carril--empresa .planes-carril__rotulo {
+    display: contents;
+  }
+
+  .planes-carril--familia .planes-carril__texto > :not(.planes-carril__rotulo),
+  .planes-carril--empresa .planes-carril__texto > :not(.planes-carril__rotulo),
+  .planes-carril--familia
+    .planes-carril__rotulo
+    > :not(.planes-carril__ocasion),
+  .planes-carril--empresa
+    .planes-carril__rotulo
+    > :not(.planes-carril__ocasion) {
     grid-column: 2;
   }
 
@@ -778,8 +854,24 @@
   margin-inline-start: 0.18em;
 }
 
+/* La version de movil pasa a CINCO renglones (ver la nota del HTML): cinco
+   sangrias desiguales, ninguna repetida, para que la escalera siga siendo una
+   firma y no un bloque centrado. Van en `em` como las de la version ancha:
+   son parte del dibujo y tienen que crecer con la letra. */
 .planes-portada__version--corta > :nth-child(2) {
   margin-inline-start: 0.18em;
+}
+
+.planes-portada__version--corta > :nth-child(3) {
+  margin-inline-start: 0.55em;
+}
+
+.planes-portada__version--corta > :nth-child(4) {
+  margin-inline-start: 0.3em;
+}
+
+.planes-portada__version--corta > :nth-child(5) {
+  margin-inline-start: 0.12em;
 }
 
 /* MÓVIL: DOS RENGLONES, no tres. A 375 px la frase partida en tres a escala
@@ -856,6 +948,43 @@
   background-color: var(--color-superficie-solida);
   border-radius: var(--radio-xs) var(--radio-xl) var(--radio-xs) var(--radio-xl);
   box-shadow: var(--sombra-lg);
+}
+
+/* PORTADA PURA EN MÓVIL (pedido explícito del cliente viendo el celular):
+   por debajo de 768 px el carril 01 es sólo la foto a sangre con el titular
+   en blanco —el mismo tratamiento que ya lleva en escritorio—, sin la
+   tarjeta clara encima. El rótulo y el párrafo NO se borran del HTML: los
+   lee validar.js (tabla de propiedad, 'Rótulo «Atrévete a un plan
+   distinto»') y siguen presentes para lectores de pantalla vía el resto de
+   la maqueta; aquí sólo se retiran del lienzo visual con display:none, que
+   AT y buscadores tratan igual que "no está". De 768 px para arriba
+   reaparece exactamente como estaba: la regla siguiente NO se toca por el
+   otro agente que trabaja el contorno de `.planes-portada__renglon`. */
+/* DOS ARREGLOS SOBRE LA VERSIÓN ANTERIOR DE ESTA REGLA, los dos reportados:
+
+   1 · NO SURTÍA EFECTO EN EL TELÉFONO DEL CLIENTE. `max-width: 47.9375em` es
+       el mismo criterio que este archivo ya documentó como insuficiente dos
+       veces (ver la historia v3/v4 de `.planes-portada__renglon`): su
+       teléfono reporta del orden de 1160 px de ancho —letra del sistema
+       grande, modo «sitio de escritorio», horizontal—, así que la consulta no
+       llegaba a aplicarse y la tarjeta seguía viéndose. Se le suma la
+       condición de PUNTERO, que es la que sí distingue un dedo de un ratón:
+       cualquier pantalla táctil por debajo de 1024 px entra, vea el ancho que
+       vea. Ancho O (táctil y no-escritorio): las dos puertas, no una.
+
+   2 · SE LLEVABA POR DELANTE LA TARJETA DEL CIERRE NOCTURNO. La regla
+       apuntaba a `.planes-portada__tarjeta` a secas, y esa clase la comparten
+       la tarjeta del carril 01 y la del cierre `.planes-noche`, que es donde
+       vive el CTA «Aparta tu fecha». En móvil desaparecía también, es decir,
+       la sección se quedaba sin su llamada final. Ahora la regla está acotada
+       al carril 01 y la del cierre no se toca.
+
+   El HTML de la tarjeta NO se borra: lo lee herramientas/validar.js (tabla de
+   propiedad, rótulo «Atrévete a un plan distinto») y sigue entero. */
+@media (max-width: 47.9375em), (max-width: 63.9375em) and (pointer: coarse) {
+  .planes-carril--fiesta .planes-portada__tarjeta {
+    display: none;
+  }
 }
 
 .planes-portada__icono {
@@ -1280,7 +1409,17 @@
    extremos son tokens y los dos sostienen la crema por encima de 10:1, así
    que el contraste no depende de por dónde caiga la letra.                  */
 .planes-bienestar__bloque {
+  /* v10 · La caja pasa a contener una fotografía a fondo y una lámina de
+     cristal encima, así que necesita contexto de apilado propio y recorte:
+     sin `overflow: hidden` la foto se saldría por las cuatro esquinas de
+     hoja, que son justo lo que le da forma al bloque. */
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
   border-radius: var(--radio-xl) var(--radio-md) var(--radio-xl) var(--radio-md);
+  /* El degradado NO se retira: es la base sólida que se ve mientras la foto
+     carga, la que queda si la foto fallara y la que sostiene el contraste en
+     el navegador que no sepa desenfocar. */
   background-image: linear-gradient(
     152deg,
     var(--verde-bosque) 0%,
@@ -1317,16 +1456,9 @@
    el verde por texto frente a su trío de fotos. A dos columnas de tableta
    para arriba: misma información, la mitad de alto. `break-inside: avoid`
    para que ninguna viñeta parta entre columnas.                             */
-@media (min-width: 48em) {
-  .planes-bienestar__lista {
-    columns: 2;
-    column-gap: var(--esp-md);
-  }
-
-  .planes-bienestar__lista > li {
-    break-inside: avoid;
-  }
-}
+/* v10 · `columns: 2` se retiró: las viñetas ahora entran con `.reveal` y una
+   caja multicolumna reparte mal a un hijo que se está moviendo. El mismo
+   reparto a dos columnas se hace ahora con rejilla, en §6 quater.          */
 
 /* El trío va en cuadrados —a propósito, para que no se confunda con las
    verticales del carril 02— y en colcha: uno ancho arriba y dos pequeños
@@ -1344,61 +1476,359 @@
 }
 
 /* --------------------------------------------------------------------------
-   7. CARRIL 05 · TALLERES
-   Sin galería, a conciencia: no hay en el banco ninguna foto de un taller de
-   pintura o de jardinería, y el contrato prohíbe tanto inventar un nombre de
-   archivo como dejar un placeholder gris. Así que este carril se compone con
-   tipografía, y su rareza —ser el único sin fotografía— es lo que corta la
-   cadencia al final.
+   6 ter. LA FOTO DE FONDO Y EL CRISTAL  (v10)
+   --------------------------------------------------------------------------
+   PEDIDO LITERAL DEL CLIENTE: «pon una foto de Vegas de fondo con liquid
+   glass». Lo que había era un rectángulo verde plano —el único de la
+   sección— con siete viñetas iguales dentro.
+
+   LAS TRES CAPAS, DE ABAJO ARRIBA:
+     1. el degradado verde del bloque, que nunca se va;
+     2. `parque-48` a `cover` y encima --color-velo, que la asienta;
+     3. el cuerpo de texto dentro de .planes-bienestar__vidrio.
+   El trío de fotos de la derecha se queda FUERA del cristal, posado
+   directamente sobre la fotografía: es lo que hace que el cristal se lea
+   como una lámina y no como un color de fondo más.
+
+   LA LEGIBILIDAD, MEDIDA Y NO ESTIMADA (método de §3 y §6).
+   Se compuso píxel a píxel el JPG real de `parque-48` (675 × 1200) bajo el
+   velo (--color-velo, 0,55) y bajo el relleno del cristal (0,50 del mismo
+   verde hondo), SIN contar el desenfoque —que sólo puede mejorar el peor
+   píxel, porque promedia—, y se midió contra los tres colores de texto que
+   caen ahí:
+       crema (--color-texto-inverso)          mínimo  7,70:1   mediana 12,80:1
+       crema 0,78 (--…-inverso-suave)         mínimo  5,43:1   mediana  8,31:1
+       coral claro (--color-acento-inverso)   mínimo  4,52:1   mediana  7,50:1
+   Cero por ciento de los píxeles por debajo de 4,5:1 en los tres casos, o
+   sea que AA se cumple en el PEOR punto de la fotografía y no de media. Si
+   algún día se cambia la foto, se vuelve a medir; y si no diera, se sube la
+   opacidad del cristal, nunca se aclara el color del texto.
+
+   EL RESPALDO NO ES OPCIONAL. `backdrop-filter` no existe en todos los
+   navegadores, así que el estado por defecto —el que ve quien no lo tenga—
+   es un cristal casi opaco (0,86) sin desenfoque, que es aún más legible que
+   el medido arriba. El desenfoque y la bajada a 0,50 viven dentro del
+   @supports y son la mejora, no la base.
    -------------------------------------------------------------------------- */
-/* v4 · DE DOS FILETES A UNA TABLILLA.
-   El recurso de las guardas —una banda entre dos rayas de 1 px— era correcto
-   de tipografía y flojo de forma: en una sección donde todo lo demás tiene
-   contorno, dos rayas rectas leen como el hueco donde iba una foto. Pasa a
-   ser una tablilla con lavado de oliva y contorno de hoja, con la punta
-   ARRIBA A LA DERECHA: es la única de la sección que abre por ese lado, así
-   que el colofón sigue siendo la pieza rara que corta la cadencia, pero
-   ahora lo es por su forma y no por su ausencia.
-   El lavado está al 7 %: sobre él, el gris de .planes-talleres__copy conserva
-   6.0:1 y el filete del enlace su contraste de contorno. No lo subas sin
-   volver a medir los dos.                                                    */
+.planes-bienestar__fondo {
+  position: absolute;
+  inset: 0;
+  z-index: var(--z-fondo);
+  inline-size: 100%;
+  block-size: 100%;
+  object-fit: cover;
+  /* La copa del árbol vive en el tercio alto de la vertical y el césped en
+     sombra en el resto. Bajando el encuadre al 58 % el bloque se queda con
+     la parte tranquila —césped y sombra— y sólo asoma el borde de las hojas
+     por arriba: es textura, no un motivo que compita con el trío. */
+  object-position: 50% 58%;
+}
+
+.planes-bienestar__fondo-velo {
+  position: absolute;
+  inset: 0;
+  z-index: var(--z-fondo);
+  pointer-events: none;
+  background-color: var(--color-velo);
+}
+
+/* El cuerpo sube por encima de las dos capas de fondo. Sin esto quedaría
+   tapado por el velo, que va después de la foto en el marcado. */
+.planes-bienestar__cuerpo {
+  position: relative;
+  z-index: var(--z-base);
+}
+
+/* LA LÁMINA DE CRISTAL.
+   El radio es el de hoja del sistema, un escalón por dentro del que lleva el
+   bloque (lg/md contra xl/md): una lámina metida en una caja no puede tener
+   la misma curva que la caja, porque entonces son la misma pieza.
+   El filete de luz de 1 px es la única medida escrita a mano, como todos los
+   filetes de esta hoja, y el brillo interior de arriba es lo que hace que el
+   canto se lea como vidrio y no como un borde de tarjeta. */
+.planes-bienestar__vidrio {
+  position: relative;
+  border-radius: var(--radio-lg) var(--radio-md) var(--radio-lg) var(--radio-md);
+  padding: var(--gap-sm);
+  background-color: rgb(var(--verde-bosque-hondo-rgb) / 0.86);
+  border: 1px solid rgb(var(--crema-rgb) / 0.18);
+  box-shadow:
+    inset 0 1px 0 rgb(var(--crema-rgb) / 0.22),
+    var(--sombra-modal);
+}
+
+@media (min-width: 48em) {
+  .planes-bienestar__vidrio {
+    padding: var(--gap);
+  }
+}
+
+@supports (backdrop-filter: blur(1px)) {
+  .planes-bienestar__vidrio {
+    /* --blur-vidrio es el token del sistema (el mismo de la cabecera, del
+       lightbox y de .btn-claro): saturación y desenfoque en una sola
+       declaración. Aquí no se inventa un valor propio. */
+    backdrop-filter: var(--blur-vidrio);
+    -webkit-backdrop-filter: var(--blur-vidrio);
+    background-color: rgb(var(--verde-bosque-hondo-rgb) / 0.5);
+  }
+}
+
+/* --------------------------------------------------------------------------
+   6 quater. LAS SIETE VIÑETAS CON ICONO PROPIO  (v10)
+   --------------------------------------------------------------------------
+   La hojita de .lista-hojas se retira SÓLO en esta lista —en el resto del
+   sitio sigue siendo la viñeta de la casa— y su sitio lo ocupa el icono de
+   trazo que cada actividad trae en el marcado.
+
+   POR QUÉ LA LISTA DEJA `columns` Y PASA A REJILLA. El reparto a dos
+   columnas se hacía con `columns: 2`, y una viñeta que ahora entra con
+   `.reveal` —o sea, con `transform` y `opacity` propios— dentro de un
+   contenedor multicolumna se reparte de forma impredecible mientras se
+   mueve. Con `grid-template-columns` cada viñeta es una celda entera y el
+   escalonado de .reveal-secuencia sigue contándolas por `nth-child`
+   exactamente igual. Misma información y mismo alto que antes.
+   -------------------------------------------------------------------------- */
+.planes-bienestar__lista > li {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--esp-2xs);
+  /* La sangría de .lista-hojas la sustituye ahora el propio icono. */
+  padding-left: 0;
+}
+
+.planes-bienestar__lista > li::before {
+  content: none;
+}
+
+/* 1,4 em del cuerpo del ítem: unos 22 px, que es el tamaño para el que están
+   dibujadas las siete formas. El `margin-block-start` negativo sube el icono
+   a la línea de la mayúscula; sin él se posa sobre la base y la viñeta se ve
+   caída. El color es el acento del negativo, el mismo que tenía la hoja. */
+.planes-bienestar__glifo {
+  flex: 0 0 auto;
+  inline-size: 1.4em;
+  block-size: 1.4em;
+  margin-block-start: -0.06em;
+  color: var(--color-acento-inverso);
+}
+
+@media (min-width: 48em) {
+  .planes-bienestar__lista {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    column-gap: var(--esp-md);
+    row-gap: var(--esp-2xs);
+  }
+}
+
+/* ---- EL DIBUJADO, ESCALONADO -------------------------------------------
+   EL PROBLEMA QUE RESUELVE ESTE BLOQUE. El observador de trazo de js/app.js
+   vigila la SECCIÓN entera, y #planes mide varias pantallas: cuando el
+   visitante llega al carril 04, la orden de dibujar se dio hace rato y las
+   siete formas ya estarían hechas. Así que aquí el disparador no es
+   `.traza-lista` de la sección sino `.visible` de CADA viñeta, que es lo que
+   le pone a cada una el observador de revelado cuando de verdad entra.
+
+   ESPECIFICIDAD, anotada para quien venga detrás. La regla que hay que
+   superar es la de base.css que empieza por `.js .traza-lista .icono-traza`
+   y lleva dos `:not()` con argumento de atributo: mide (0,5,0). Cada
+   selector de aquí abajo suma seis clases y un elemento, o sea (0,6,1), y
+   gana por encima de ella sin tocarla. Si alguien acorta uno de estos
+   selectores, las siete vuelven a dibujarse antes de tiempo y sin error
+   visible en consola: cuidado.
+
+   Y TODO VIVE DENTRO DE `no-preference`. Sin movimiento no se declara nada
+   de esto: manda base.css, que deja las siete formas dibujadas y quietas
+   desde el primer fotograma. Ninguna regla de aquí puede esconder un trazo
+   que nadie vaya a devolver.
+   ------------------------------------------------------------------------- */
+@media (prefers-reduced-motion: no-preference) {
+  .js .planes .planes-bienestar__bloque .planes-bienestar__lista > li:not(.visible) .icono-traza > * {
+    stroke-dashoffset: 1;
+  }
+
+  .js .planes .planes-bienestar__bloque .planes-bienestar__lista > li.visible .icono-traza > * {
+    stroke-dashoffset: 0;
+    transition: stroke-dashoffset var(--dur-traza) var(--ease-traza);
+  }
+
+  /* Siete pares retardo/duración y ninguno se repite: es la regla dura de la
+     sección —nada empieza a la vez y nada va al mismo compás— aplicada a la
+     escala más pequeña que tiene. Ni un tiempo literal: todos son tokens de
+     movimiento por un factor, igual que hace base.css con el retardo de los
+     detalles de trazo. Van DESPUÉS de la regla de arriba a propósito: el
+     atajo `transition` de aquélla reinicia el retardo a cero, y empatados en
+     especificidad gana la última declarada. */
+  .js .planes .planes-bienestar__bloque .planes-bienestar__lista > li:nth-child(1) .icono-traza > * {
+    transition-delay: 0ms;
+    transition-duration: var(--dur-traza);
+  }
+
+  .js .planes .planes-bienestar__bloque .planes-bienestar__lista > li:nth-child(2) .icono-traza > * {
+    transition-delay: calc(var(--dur-rapida) * 1.2);
+    transition-duration: calc(var(--dur-traza) * 0.85);
+  }
+
+  .js .planes .planes-bienestar__bloque .planes-bienestar__lista > li:nth-child(3) .icono-traza > * {
+    transition-delay: calc(var(--dur-media) * 1.5);
+    transition-duration: calc(var(--dur-traza) * 1.2);
+  }
+
+  .js .planes .planes-bienestar__bloque .planes-bienestar__lista > li:nth-child(4) .icono-traza > * {
+    transition-delay: calc(var(--dur-lenta) * 1.3);
+    transition-duration: calc(var(--dur-traza) * 0.95);
+  }
+
+  .js .planes .planes-bienestar__bloque .planes-bienestar__lista > li:nth-child(5) .icono-traza > * {
+    transition-delay: calc(var(--dur-media) * 3.1);
+    transition-duration: calc(var(--dur-traza) * 1.35);
+  }
+
+  .js .planes .planes-bienestar__bloque .planes-bienestar__lista > li:nth-child(6) .icono-traza > * {
+    transition-delay: calc(var(--dur-lenta) * 2.2);
+    transition-duration: calc(var(--dur-traza) * 0.9);
+  }
+
+  .js .planes .planes-bienestar__bloque .planes-bienestar__lista > li:nth-child(7) .icono-traza > * {
+    transition-delay: calc(var(--dur-lenta) * 2.7);
+    transition-duration: calc(var(--dur-traza) * 1.1);
+  }
+}
+
+/* --------------------------------------------------------------------------
+   7. CARRIL 05 · TALLERES  —  FOTO DE FONDO Y CRISTAL  (agosto de 2026)
+   --------------------------------------------------------------------------
+   HASTA HOY este carril se componía sin una sola fotografía, y estaba
+   justificado: no había en el banco ninguna imagen real de un taller. Ya la
+   hay —`taller-educativo-cuento`, el corro de niños escuchando el cuento
+   sobre el césped, derivada de _material-fuente/ESPACIOS/Eventos/Recreación
+   Infantil— así que cae el motivo y con él la tablilla de lavado de oliva y
+   el brote decorativo que ocupaban «el sitio de la fotografía que este carril
+   no tiene».
+
+   LO QUE NO CAMBIA: ni una palabra del texto, ni la caja de ocho columnas, ni
+   el hecho de que este carril siga siendo el raro de los cinco. Antes lo era
+   por no tener foto; ahora lo es por ser el único donde el texto va POSADO
+   SOBRE la foto en una lámina, y no al lado de ella.
+   -------------------------------------------------------------------------- */
+
+/* --- .planes-vidrio · LA LÁMINA DE CRISTAL DE LA SECCIÓN --------------------
+   Receta ÚNICA del liquid glass de #planes, parametrizada por dos custom
+   properties para que no haya dos implementaciones del mismo efecto:
+
+     --vidrio-rgb          el tinte, en componentes sueltos;
+     --vidrio-alfa         opacidad CON desenfoque (la mejora);
+     --vidrio-alfa-plano   opacidad SIN desenfoque (el respaldo, más opaca).
+
+   El carril 04 tiene hoy su propia lámina en negativo (.planes-bienestar__
+   vidrio, §6 ter): es ESTA MISMA receta con --vidrio-rgb en verde bosque
+   hondo. Cuando los dos trabajos aterricen, aquella regla se sustituye por
+   `.planes-vidrio` con su tinte y se borra el duplicado; se deja anotado aquí
+   para que nadie escriba una tercera.
+
+   EL RESPALDO NO ES OPCIONAL. El estado por defecto —el que ve quien no tenga
+   `backdrop-filter`— es un cristal casi opaco y sin desenfoque, aún más
+   legible que el medido. El desenfoque y la bajada de opacidad viven dentro
+   del @supports y son la mejora, nunca la base.                            */
+.planes-vidrio {
+  position: relative;
+  z-index: var(--z-base);
+  background-color: rgb(var(--vidrio-rgb) / var(--vidrio-alfa-plano));
+  /* Filete de luz de 1 px + brillo interior arriba: es lo que hace que el
+     canto se lea como vidrio y no como el borde de una tarjeta. Escrito a
+     mano como todos los filetes de esta hoja. */
+  border: 1px solid rgb(var(--crema-rgb) / 0.55);
+  box-shadow:
+    inset 0 1px 0 rgb(var(--crema-rgb) / 0.65),
+    var(--sombra-media);
+}
+
+@supports (backdrop-filter: blur(1px)) {
+  .planes-vidrio {
+    /* --blur-vidrio es el token del sistema (el mismo de la cabecera, del
+       lightbox y de .btn-claro). Aquí no se inventa un valor propio. */
+    backdrop-filter: var(--blur-vidrio);
+    -webkit-backdrop-filter: var(--blur-vidrio);
+    background-color: rgb(var(--vidrio-rgb) / var(--vidrio-alfa));
+  }
+}
+
+/* --- LA TARJETA ------------------------------------------------------------
+   El `padding` de la tarjeta pasa a ser el MARCO DE FOTOGRAFÍA: es la única
+   franja donde la imagen se ve sin cristal delante, y por eso no puede ser
+   fino. El aire interior lo pone ahora la lámina.                          */
 .planes-carril--talleres {
   position: relative;
   overflow: hidden;
-  justify-items: start;
-  gap: var(--esp-sm);
-  padding: var(--gap) var(--esp-md);
+  display: block;
+  padding: var(--esp-sm);
   border-radius: var(--radio-md) var(--radio-xl) var(--radio-md) var(--radio-xl);
+  /* Se ve mientras la foto todavía no ha llegado; nunca un hueco gris. */
   background-color: rgb(var(--verde-oliva-rgb) / 0.07);
 }
 
 @media (min-width: 48em) {
   .planes-carril--talleres {
-    padding: var(--gap-lg) var(--esp-xl);
+    padding: var(--esp-md);
   }
 }
 
-/* El brote decorativo ocupa el sitio de la fotografía que este carril no
-   tiene. Va detrás del texto —--z-fondo— y a una opacidad de textura, no de
-   ilustración. `pointer-events: none` para que no se coma el clic del CTA si
-   algún día crece.                                                          */
-.planes-talleres__brote {
+/* LA FOTO, A SANGRE DE LA TARJETA.
+   `object-position` al 62 %: el corro de niños y la monitora viven en la
+   mitad baja de la cuadrada, y el tercio alto es copa de árbol y cielo. */
+.planes-talleres__fondo {
   position: absolute;
+  inset: 0;
   z-index: var(--z-fondo);
-  inset-block-start: calc(var(--esp-lg) * -1);
-  inset-inline-end: calc(var(--esp-md) * -1);
-  width: clamp(8rem, 22vw, 16rem);
-  height: auto;
-  color: rgb(var(--verde-oliva-rgb) / 0.16);
-  pointer-events: none;
+  display: block;
 }
 
-/* Todo lo que es contenido va por delante del brote. Se hace con el hermano
-   general y no elemento a elemento para que un párrafo nuevo no se cuele
-   detrás del adorno el día que alguien lo añada. */
-.planes-carril--talleres > :not(.planes-talleres__brote) {
-  position: relative;
-  z-index: var(--z-base);
+.planes-talleres__fondo > img {
+  inline-size: 100%;
+  block-size: 100%;
+  object-fit: cover;
+  object-position: 50% 62%;
+}
+
+/* LA LÁMINA DE ESTE CARRIL — cristal en CREMA, no en verde hondo.
+   Va en claro porque el 04 es «el único carril en negativo del sitio» y esa
+   regla no se rompe por añadir una foto: el texto de aquí sigue siendo tinta
+   sobre claro, exactamente el mismo que había sobre el lavado de oliva.
+
+   LA LEGIBILIDAD, MEDIDA Y NO ESTIMADA (método de §3 y §6 ter).
+   Se compuso píxel a píxel el JPG real ya publicado —promediado a la escala
+   que deja el desenfoque, y con la saturación de --blur-vidrio aplicada— bajo
+   el relleno del cristal al 0,92, y se midió contra los tres colores que caen
+   encima:
+       tinta      (--color-texto)          mínimo 10,58:1   mediana 12,4:1
+       verde gris (--color-texto-suave)    mínimo  4,64:1   mediana  4,99:1
+       coral      (--color-acento-texto)   mínimo  4,05:1   mediana  4,4:1
+   El cuerpo pasa AA (4,5:1) en el PEOR píxel de la foto, no de media; el
+   coral sólo lo lleva el «05», a --paso-4, que es texto grande y le basta
+   3:1. Sin desenfoque el relleno sube a 0,96 y el mínimo del cuerpo se va a
+   5,06:1. Bajar el 0,92 exige volver a medir los tres: a 0,90 el cuerpo cae
+   a 4,44:1 y ya no pasa.
+   Y aguanta con el fotograma congelado: aquí no hay una sola animación que
+   sostenga el contraste.                                                    */
+.planes-talleres__vidrio {
+  --vidrio-rgb: var(--crema-rgb);
+  --vidrio-alfa: 0.92;
+  --vidrio-alfa-plano: 0.96;
+
+  display: grid;
+  justify-items: start;
+  gap: var(--esp-sm);
+  padding: var(--gap) var(--esp-md);
+  /* Un escalón por dentro del radio de la tarjeta: una lámina metida en una
+     caja no puede tener la misma curva que la caja. */
+  border-radius: var(--radio-xs) var(--radio-lg) var(--radio-xs) var(--radio-lg);
+}
+
+@media (min-width: 48em) {
+  .planes-talleres__vidrio {
+    padding: var(--gap-lg) var(--esp-xl);
+  }
 }
 
 /* La caja del 05: vuelve a pegar a la izquierda —la página tiene que
@@ -2007,6 +2437,215 @@
     .planes-portada__marca {
       --planes-de: 6vw;
       --planes-a: -6vw;
+    }
+  }
+}
+
+/* ==========================================================================
+   11. EN EL CELULAR, TODOS LOS CARRILES SON PORTADA
+   ==========================================================================
+   PEDIDO LITERAL DEL CLIENTE (agosto de 2026): que el tratamiento del carril
+   01 se aplique a TODOS los carriles, es decir la fotografía a sangre y su
+   texto encima. Hasta hoy sólo el 01 —y a medias el 04— entraban por la foto;
+   el 02 y el 03 abrían con un bloque de texto sobre crema, y en una pantalla
+   de 375 px eso son dos pantallas de letra antes de ver el predio.
+
+   LA REGLA DE LA SECCIÓN NO SE ROMPE, SE MUEVE DE SITIO. «Los cinco carriles
+   no se maquetan igual» sigue mandando DE TABLETA PARA ARRIBA, que es donde
+   hay ancho para que cinco rejillas distintas se noten. En el teléfono no lo
+   hay: a una columna, cinco rejillas distintas se leen todas igual, y lo
+   único que de verdad distingue un carril de otro es SU FOTOGRAFÍA. Así que
+   en móvil el sistema es uno solo y es el bueno: foto de cabeza a sangre,
+   rótulo dentro, y debajo el argumento y el CTA sobre la crema.
+
+   QUÉ CARRIL HACE QUÉ, para que no haya que adivinarlo:
+     01 fiesta     ya era portada (escena por scroll). Aquí sólo se le retira
+                   la tarjeta clara, arriba en el §3.
+     02 familia    `infantil-4` —el niño saltando— pasa a portada.
+     03 empresa    `parque-21` —el grupo posando— pasa a portada.
+     04 bienestar  ya era portada: banda a sangre con el rótulo dentro (§6).
+     05 talleres   SIGUE SIN FOTO, y no es un olvido. No hay en el banco una
+                   sola imagen real de un taller de pintura o de jardinería, y
+                   el contrato prohíbe tanto inventar un nombre de archivo
+                   como poner una foto que enseñe otra cosa. El colofón se
+                   compone con tipografía, como siempre.
+
+   CÓMO SE POSA EL TEXTO DENTRO DE LA FOTO SIN TOCAR EL DOM. La foto de cabeza
+   y el rótulo NO están anidados en el HTML —la foto vive en el mosaico o en
+   el dossier, el rótulo dentro del bloque de texto—. En vez de mover nodos,
+   los dos contenedores intermedios pasan a `display: contents` y las dos
+   piezas quedan como hijas directas de la rejilla del carril, donde se les
+   asigna LA MISMA CELDA. Es apilado por rejilla, no `position: absolute`: la
+   celda mide lo que mide la foto y nada puede salirse de ella, que es justo
+   el fallo que se estaba arreglando en el §0 ter.
+
+   LA LEGIBILIDAD ESTÁ MEDIDA Y NO ES NUEVA. El velo es EL MISMO que ya
+   sostiene el rótulo de la banda del 04 en móvil (§6): transparente arriba y
+   `--color-velo-modal` pleno desde el 26 % del alto hacia abajo. Sobre ese
+   tramo pleno, medido en su día contra la foto ya compuesta:
+       crema        mínimo 5,33:1   ·  0,0 % de los píxeles por debajo de 4,5:1
+       coral claro  mínimo 3,13:1   ·  0,0 % por debajo de 3:1 (texto grande)
+   El rótulo va anclado ABAJO, o sea siempre dentro del tramo pleno, y nunca
+   sobre el cuarto alto de la foto, que es donde están las copas iluminadas.
+   Por eso la portada es 4:5 y no 16:9: hace falta alto para que el velo tenga
+   recorrido y para que el rótulo respire sin taparlo todo.
+
+   EL UMBRAL. La misma puerta doble que el §3: ancho de móvil O pantalla
+   táctil por debajo de escritorio. El teléfono del cliente reporta del orden
+   de 1160 px y por ancho solo no entraba nunca.
+   ========================================================================== */
+@media (max-width: 47.9375em), (max-width: 63.9375em) and (pointer: coarse) {
+  /* Una sola columna, y el aire de la pila lo pone la portada. */
+  .planes-carril--familia,
+  .planes-carril--empresa {
+    grid-template-columns: minmax(0, 1fr);
+    row-gap: var(--esp-sm);
+  }
+
+  /* Los contenedores intermedios se disuelven: sus hijos suben a ser hijos de
+     la rejilla del carril y así la foto de cabeza y el rótulo pueden
+     compartir celda. No se pierde ni un nodo ni un texto. */
+  .planes-carril--familia .planes-carril__texto,
+  .planes-carril--empresa .planes-carril__texto,
+  .planes-carril--familia .planes-familia__mosaico,
+  .planes-carril--empresa .planes-dossier {
+    display: contents;
+  }
+
+  /* --- LA PORTADA DEL CARRIL ------------------------------------------- */
+  .planes-carril__portada {
+    grid-row: 1;
+    grid-column: 1;
+    /* A sangre, y por tanto ESQUINA VIVA: la regla del §8 —lo que llega al
+       borde de la ventana no se redondea— vale también aquí. */
+    margin-inline: var(--planes-sangrado);
+    border-radius: 0;
+    aspect-ratio: 4 / 5;
+    background-color: var(--color-fondo-oscuro);
+    /* El paralaje de entrada del mosaico (§10) desplazaba la figura entera y
+       el rótulo, que ya no se mueve con ella, se habría quedado descolgado.
+       Se apaga aquí y el movimiento pasa a la foto de dentro, más abajo. */
+    animation-name: none;
+  }
+
+  /* El velo de legibilidad. Mismo degradado medido que el de la banda del 04
+     en móvil; no se inventa un valor nuevo. */
+  .planes-carril__portada::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    background-image: linear-gradient(
+      to bottom,
+      transparent 0%,
+      var(--color-velo-modal) 26%
+    );
+  }
+
+  /* --- EL RÓTULO, DENTRO DE LA FOTO ------------------------------------ */
+  .planes-carril__rotulo {
+    grid-row: 1;
+    grid-column: 1;
+    align-self: end;
+    z-index: var(--z-base);
+    /* Sangra como la foto y devuelve el margen con su propio relleno: el
+       texto acaba cayendo a la misma distancia del borde de la ventana que el
+       rótulo de la banda del 04, que es la pieza que esto imita. */
+    margin-inline: var(--planes-sangrado);
+    padding: var(--gap);
+    gap: var(--esp-2xs);
+  }
+
+  /* Los tres papeles de color del negativo, los mismos que reparte
+     .seccion--oscura en el carril 04. Ni un valor literal. */
+  .planes-carril__rotulo .planes-carril__ocasion {
+    color: var(--color-texto-inverso-suave);
+  }
+
+  .planes-carril__rotulo .planes-carril__indice {
+    color: var(--color-acento-inverso);
+  }
+
+  .planes-carril__rotulo .titulo-seccion {
+    color: var(--color-texto-inverso);
+    max-width: none;
+  }
+
+  /* --- EL ORDEN DE LO QUE QUEDA DEBAJO --------------------------------- */
+  /* Con los contenedores disueltos, cada pieza dice en qué fila va. Es
+     explícito a propósito: el orden del DOM ya no manda y dejarlo al flujo
+     implícito sería confiar en el azar. */
+  .planes-carril--familia .planes-carril__copy,
+  .planes-carril--empresa .planes-carril__copy {
+    grid-row: 2;
+  }
+
+  .planes-carril--familia .planes-carril__donde,
+  .planes-carril--empresa .planes-carril__donde {
+    grid-row: 3;
+  }
+
+  .planes-carril--familia .planes-carril__cta,
+  .planes-carril--empresa .planes-carril__cta {
+    grid-row: 4;
+    /* El bloque de texto era un flex con `align-items: flex-start`; disuelto,
+       el CTA se estiraría al ancho entero de la pista. Esto le devuelve el
+       ajuste a su contenido, que es lo que tenía. */
+    justify-self: start;
+    margin-block-end: var(--esp-md);
+  }
+
+  .planes-carril--familia .planes-familia__par {
+    grid-row: 5;
+  }
+
+  .planes-carril--familia .planes-familia__contexto {
+    grid-row: 6;
+    margin-block-start: var(--gap-sm);
+  }
+
+  .planes-carril--empresa .planes-dossier__par {
+    grid-row: 5;
+    display: grid;
+    gap: var(--gap-sm);
+  }
+
+  /* La foto de cabeza deja de tener silueta propia: a sangre no se redondea.
+     Los selectores originales del §8 llevan el modificador del carril delante
+     y pesan (0,2,0), así que aquí se les empata con el mismo peso. */
+  .planes-carril--familia .planes-familia__protagonista,
+  .planes-carril--empresa .planes-dossier__retrato {
+    border-radius: 0;
+  }
+}
+
+/* EL PARALAJE DE LA PORTADA DE CARRIL. Va en su propia consulta porque
+   depende de las dos guardas del §10 —movimiento reducido y soporte de
+   `animation-timeline`— y porque la línea de tiempo tiene que declararse
+   sobre la CAJA del recorte y no sobre la foto, por lo mismo que explica el
+   §10: dentro de un `overflow: hidden`, `view()` a secas se ata a una caja
+   que no se mueve nunca y la animación queda muerta.
+   Recorrido corto (3 %) con `scale` de guarda al 1,08: la foto respira sin
+   descubrir el borde del recorte y sin competir con el rótulo, que se queda
+   quieto porque es lo que hay que leer.                                     */
+@media (prefers-reduced-motion: no-preference) and (max-width: 47.9375em),
+  (prefers-reduced-motion: no-preference) and (max-width: 63.9375em) and
+    (pointer: coarse) {
+  @supports (animation-timeline: view()) {
+    .planes-carril__portada {
+      view-timeline-name: --planes-tl-carril;
+    }
+
+    .planes-carril__portada > img {
+      --planes-esc: 1.08;
+      --planes-de: -3%;
+      --planes-a: 3%;
+      animation-name: planes-paralaje-y;
+      animation-duration: auto;
+      animation-timing-function: linear;
+      animation-fill-mode: both;
+      animation-timeline: --planes-tl-carril;
+      animation-range: entry 0% exit 100%;
     }
   }
 }
