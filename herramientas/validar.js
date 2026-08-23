@@ -54,7 +54,7 @@ for (const t of trozos) {
   regiones[m[1]] = t.slice(m.index);
 }
 
-const ESPERADO = ['inicio', 'espacios', 'nosotros', 'planes', 'momentos',
+const ESPERADO = ['inicio', 'usos', 'espacios', 'nosotros', 'planes', 'momentos',
                   'colegios', 'naturaleza', 'vivero', 'ubicacion'];
 
 const raya = '='.repeat(74);
@@ -72,7 +72,6 @@ const HECHOS = [
  ['«Cuatro hectareas» (tamano del predio)', ['inicio'], ['\\bcuatro hectareas\\b','\\b4 hectareas\\b','\\b4 ?ha\\b'], false],
  ['«A 10 minutos» (promesa de cercania)', ['inicio'], ['\\ba (10|diez) minutos\\b'], false],
  ['«Nosotros ponemos los arboles»', ['inicio'], ['ponemos los arboles'], false],
- ['Vista aerea del predio como plano-indice', ['inicio'], ['aereo-predio\\.jpg'], 'raw'],
  ['Refugio privado, cerrado y vigilado', ['nosotros'], ['bullicio urbano'], false],
  ['Compromiso «conexion y aprendizaje conjunto»', ['nosotros'], ['aprendizaje conjunto'], false],
  ['Los tres pilares', ['nosotros'], ['educacion ambiental','conciencia social','relaciones sanas'], false],

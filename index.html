@@ -45,12 +45,13 @@
      herramientas/precargar-fuentes.js. -->
 <link rel="preload" as="font" type="font/woff2" crossorigin href="styles/fonts/dm-sans-latin.woff2?v=89c7ce3a">
 <link rel="preload" as="font" type="font/woff2" crossorigin href="styles/fonts/fraunces-latin.woff2?v=e75e106b">
-<link rel="stylesheet" href="styles/tokens.css?v=e4d2bf08">
-<link rel="stylesheet" href="styles/base.css?v=71db93b6">
-<link rel="stylesheet" href="styles/shell.css?v=8118b941">
-<link rel="stylesheet" href="styles/sections/inicio.css?v=65c618e8">
-<link rel="stylesheet" href="styles/sections/espacios.css?v=46a39c26">
-<link rel="stylesheet" href="styles/sections/nosotros.css?v=77ad9ad2">
+<link rel="stylesheet" href="styles/tokens.css?v=3ffad076">
+<link rel="stylesheet" href="styles/base.css?v=ef7220aa">
+<link rel="stylesheet" href="styles/shell.css?v=e2eb0d62">
+<link rel="stylesheet" href="styles/sections/inicio.css?v=33da29b3">
+<link rel="stylesheet" href="styles/sections/usos.css?v=5543161b">
+<link rel="stylesheet" href="styles/sections/espacios.css?v=2f0788c4">
+<link rel="stylesheet" href="styles/sections/nosotros.css?v=5089abec">
 <link rel="stylesheet" href="styles/sections/planes.css?v=3d313e65">
 <link rel="stylesheet" href="styles/sections/momentos.css?v=632c5863">
 <link rel="stylesheet" href="styles/sections/colegios.css?v=729ef553">
@@ -182,20 +183,6 @@
         >EN</a>
       </div>
 
-      <a
-        class="btn btn-whatsapp btn-pequeno cabecera__cta"
-        href="https://wa.me/573166758362?text=Hola%2C%20quiero%20informaci%C3%B3n%20sobre%20Vegas%20del%20Verde"
-        target="_blank"
-        rel="noopener"
-        aria-label="Escribir por WhatsApp a Vegas del Verde"
-      >
-        <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" focusable="false">
-          <path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.46 1.32 4.96L2 22l5.25-1.38a9.87 9.87 0 0 0 4.79 1.22h.01c5.46 0 9.91-4.45 9.91-9.91 0-2.65-1.03-5.14-2.9-7.01A9.82 9.82 0 0 0 12.04 2Zm0 18.02h-.01a8.2 8.2 0 0 1-4.19-1.15l-.3-.18-3.12.82.83-3.04-.2-.31a8.19 8.19 0 0 1-1.26-4.38c0-4.54 3.7-8.24 8.25-8.24 2.2 0 4.27.86 5.83 2.42a8.2 8.2 0 0 1 2.41 5.83c0 4.54-3.7 8.23-8.24 8.23Z"/>
-          <path d="M17.47 14.38c-.3-.15-1.76-.87-2.03-.97-.27-.1-.47-.15-.67.15-.2.3-.77.97-.94 1.17-.17.2-.35.22-.65.07-.3-.15-1.26-.46-2.4-1.48-.89-.79-1.49-1.77-1.66-2.07-.17-.3-.02-.46.13-.61.13-.13.3-.35.45-.52.15-.17.2-.3.3-.5.1-.2.05-.37-.02-.52-.08-.15-.67-1.61-.92-2.21-.24-.58-.49-.5-.67-.51h-.57c-.2 0-.52.07-.79.37-.27.3-1.04 1.01-1.04 2.47s1.06 2.87 1.21 3.07c.15.2 2.1 3.2 5.08 4.49.71.31 1.26.49 1.69.63.71.23 1.36.19 1.87.12.57-.09 1.76-.72 2.01-1.41.25-.69.25-1.29.17-1.41-.07-.12-.27-.2-.57-.35Z"/>
-        </svg>
-        <span class="btn__texto">WhatsApp</span>
-      </a>
-
       <button
         class="boton-menu"
         type="button"
@@ -214,16 +201,42 @@
 </header>
 
 <div class="velo-menu" data-cerrar-menu></div>
+
+<!-- ==========================================================================
+     WHATSAPP FLOTANTE — reemplaza al botón de la cabecera (v12).
+     Antes vivía DENTRO de `.cabecera__acciones`: competía con el selector de
+     idioma y el botón de menú por el mismo espacio angosto, y en pantallas
+     con la letra del sistema agrandada era el primero en desaparecer (ver el
+     colapso documentado en shell.css). Fuera de la cabecera no depende de su
+     ancho: flota fijo en la esquina, visible en cualquier punto del scroll y
+     en cualquier página del sitio —vive en este fragmento, que se inserta
+     como primer hijo de <body> en TODAS ellas—.
+     Mismo enlace y mismo SVG que ya usaba el botón de la cabecera: ni una
+     petición nueva, ni un ícono nuevo que mantener.
+     `position: fixed` con z-index por encima del contenido pero por debajo
+     de cualquier futuro modal (ver --z-modal en tokens.css si existe). El
+     pulso es sólo opacity —GPU, y se apaga solo con prefers-reduced-motion,
+     que shell.css ya resuelve para toda animación infinita del sitio. -->
+<a
+  class="whatsapp-flotante"
+  href="https://wa.me/573166758362?text=Hola%2C%20quiero%20informaci%C3%B3n%20sobre%20Vegas%20del%20Verde"
+  target="_blank"
+  rel="noopener"
+  aria-label="Escribir por WhatsApp a Vegas del Verde"
+>
+  <span class="whatsapp-flotante__pulso" aria-hidden="true"></span>
+  <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" focusable="false">
+    <path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.46 1.32 4.96L2 22l5.25-1.38a9.87 9.87 0 0 0 4.79 1.22h.01c5.46 0 9.91-4.45 9.91-9.91 0-2.65-1.03-5.14-2.9-7.01A9.82 9.82 0 0 0 12.04 2Zm0 18.02h-.01a8.2 8.2 0 0 1-4.19-1.15l-.3-.18-3.12.82.83-3.04-.2-.31a8.19 8.19 0 0 1-1.26-4.38c0-4.54 3.7-8.24 8.25-8.24 2.2 0 4.27.86 5.83 2.42a8.2 8.2 0 0 1 2.41 5.83c0 4.54-3.7 8.23-8.24 8.23Z"/>
+    <path d="M17.47 14.38c-.3-.15-1.76-.87-2.03-.97-.27-.1-.47-.15-.67.15-.2.3-.77.97-.94 1.17-.17.2-.35.22-.65.07-.3-.15-1.26-.46-2.4-1.48-.89-.79-1.49-1.77-1.66-2.07-.17-.3-.02-.46.13-.61.13-.13.3-.35.45-.52.15-.17.2-.3.3-.5.1-.2.05-.37-.02-.52-.08-.15-.67-1.61-.92-2.21-.24-.58-.49-.5-.67-.51h-.57c-.2 0-.52.07-.79.37-.27.3-1.04 1.01-1.04 2.47s1.06 2.87 1.21 3.07c.15.2 2.1 3.2 5.08 4.49.71.31 1.26.49 1.69.63.71.23 1.36.19 1.87.12.57-.09 1.76-.72 2.01-1.41.25-.69.25-1.29.17-1.41-.07-.12-.27-.2-.57-.35Z"/>
+  </svg>
+</a>
 <main id="contenido">
 <!-- ==========================================================================
      FRAGMENTO: INICIO  ·  ancla #inicio
      CSS propio: styles/sections/inicio.css
 
-     v5 «orgánica». v4 ya había roto el compás de la retícula partiendo la
-     sección en dos escalas. Lo que seguía leyéndose como plantilla era la
-     GEOMETRÍA: rectángulos a escuadra, corte recto entre la foto y la página,
-     y seis miniaturas idénticas en fila. v5 mete el lenguaje orgánico que pide
-     el sitio —es un bosque, no un panel de control—:
+     v6 «directa». v5 «orgánica» metió el lenguaje orgánico que pide el sitio
+     —es un bosque, no un panel de control—:
 
        · la portada ya no termina en una línea recta: una orla curva y
          ASIMÉTRICA (delgada a la izquierda, gruesa a la derecha) disuelve la
@@ -232,42 +245,30 @@
          de 24 px salvo en el logotipo) y pasa a dos renglones de escala
          distinta: el segundo entra más pequeño y sangrado, como un pie de
          entrada editorial.
-       · el plano-índice deja de ir a sangre por los dos lados: se alinea con
-         el contenedor por la izquierda, se va de la ventana por la derecha y
-         redondea sólo sus dos esquinas izquierdas.
        · la tira de aves deja de ser una fila de seis cuadrados iguales: seis
          tamaños distintos, dos alturas y radios de hoja alternos.
 
-     La composición sigue partida en DOS MOVIMIENTOS de escala distinta, que es
-     lo que separa una portada de un listado:
+     v6 RETIRA EL PLANO-ÍNDICE (el aéreo con las cuatro anclas superpuestas).
+     La sección ya no tiene un segundo movimiento de escala distinta: la
+     portada es UN SOLO BLOQUE —fotografía a sangre, titular, entradilla,
+     botones— y de ahí el flujo del documento sigue directo a la tira de aves
+     y, por el botón «Ver los espacios», a #espacios. El aéreo
+     (img/aereo-predio.jpg) no se borra del proyecto —puede seguir vivo en otra
+     sección—; lo que sale es su uso como índice superpuesto de esta portada.
 
-       1. PORTADA A SANGRE — una sola fotografía ocupando la ventana entera
-          (menos la altura de la cabecera fija), con el titular encima en
-          Fraunces fino y grande. Es lo primero que se ve y no comparte fila
-          con nada.
-       2. EL PLANO-ÍNDICE — el aéreo, que sigue sin ir metido en el
-          contenedor, pero desde v5 ya no cruza la ventana por los dos lados:
-          arranca en el margen del contenedor —la misma vertical que su pie y
-          que la tira de aves— y se va de la pantalla por la derecha. La idea
-          de v3 se conserva entera (cuatro anclas que bajan a cuatro
-          secciones); lo que cambia es el tamaño y la mano por la que sangra.
-
-     Los dos bloques son hijos DIRECTOS del <section>, no del .contenedor: así
-     miden el 100 % del ancho del <body> —que ya descuenta la barra de scroll—
-     y se van a sangre sin recurrir a 100vw, que sí desborda 15 px. El texto de
-     cada bloque vuelve a la retícula con su propio .contenedor.
-
-     LA SANGRÍA ALTERNA, Y NO ES CAPRICHO. El plano se va por la DERECHA porque
-     la foto grande de #nosotros —la sección de debajo— se va por la IZQUIERDA.
-     Dos bloques seguidos sangrando por la misma mano se leen como el mismo
-     gesto repetido, que es exactamente la queja que se está corrigiendo.
+     PORTADA A SANGRE — una sola fotografía ocupando la ventana entera (menos
+     la altura de la cabecera fija), con el titular encima en Fraunces fino y
+     grande. Es lo primero que se ve y no comparte fila con nada. Es hija
+     DIRECTA del <section>, no del .contenedor: así mide el 100 % del ancho
+     del <body> —que ya descuenta la barra de scroll— y se va a sangre sin
+     recurrir a 100vw, que sí desborda 15 px. El texto vuelve a la retícula
+     con su propio .contenedor.
 
      QUÉ POSEE ESTA SECCIÓN (ARQUITECTURA-V3 §9) Y NADIE MÁS
        · el tagline de marca, que va en el .eyebrow
        · el tamaño del predio: única mención en toda la página
        · la promesa de cercanía a la vía: única mención en ese registro
        · la frase «los árboles los ponemos nosotros», de la entradilla
-       · img/aereo-predio.jpg convertido en PLANO-ÍNDICE
        · el rótulo del botón de esta sección, que no se repite en ninguna otra
 
      Los cuatro primeros van escritos UNA sola vez cada uno, y sólo en el
@@ -277,7 +278,7 @@
      QUÉ TIENE PROHIBIDO DECIR
        Ninguna cifra de biodiversidad, ningún aforo, ninguna dirección, ningún
        horario, ninguna condición de alquiler y ningún precio. Se enlaza, no se
-       resume: para eso están las cuatro anclas del plano.
+       resume.
 
      POR QUÉ EL <h1>
        La estructura de sección pide h2.titulo-seccion, y de ahí saca el peso,
@@ -313,38 +314,56 @@
        abajo para adelante el fondo vuelve a ser el papel crema. -->
   <div class="inicio__portada sobre-oscuro">
 
-    <!-- v6 · LA PORTADA DEJA DE SER PAISAJE Y PASA A SER RETRATO.
-         La foto anterior (img/portada-inicio.jpg) era un prado a mediodía sin
-         sujeto: sin persona, sin animal, sin acontecimiento. Su propio texto
-         alternativo lo delataba —cuarenta palabras describiendo césped—, y de
-         ahí colgaba todo lo demás: el velo tenía que ser espeso porque el
-         cielo blanco no aguantaba texto crema encima, y no había ni una capa
-         que interpenetrar porque no había nada que estuviera delante de nada.
-
-         Ahora la ventana entera la ocupa el barranquero de Leyner Lozano, del
-         concurso de fotografía del predio. Es el ave que ya encabeza la tira
-         de esta misma sección y la que está pintada como mural en el predio,
-         así que la metáfora no se importa de fuera: ya estaba aquí.
+    <!-- v10 · LA PORTADA CAMBIA DE AVE. El barranquero vertical (Leyner
+         Lozano) sale por uno de los pájaros de Fabio Hernandez, posado entre
+         flores de tulipán africano: la misma metáfora del predio, otra
+         fotografía. Es APAISADA (1600×1092, no 1600×2400), así que no lleva
+         capa de recorte —ver la nota más abajo— ni asume ningún retrato
+         vertical: es una sola foto a sangre.
 
          EL <picture> Y EL ORDEN DE LOS FORMATOS. AVIF primero, WebP después,
          JPG como respaldo del <img>: el navegador se queda con el primero que
-         entienda y no descarga los otros. Pesos reales de la derivación:
-         AVIF 104 KB · WebP 143 KB · JPG 221 KB. El <img> conserva
-         fetchpriority alto, width/height para reservar la caja antes de que
-         llegue un byte, y NADA de loading perezoso: es el LCP.  -->
+         entienda y no descarga los otros. El <img> conserva fetchpriority
+         alto, width/height para reservar la caja antes de que llegue un
+         byte, y NADA de loading perezoso: es el LCP.  -->
     <picture>
-      <source srcset="img/hero-momotus.avif" type="image/avif" />
-      <source srcset="img/hero-momotus.webp" type="image/webp" />
+      <source media="(max-width: 47.99em)" srcset="img/hero-ave-rosada.avif" type="image/avif" />
+      <source media="(max-width: 47.99em)" srcset="img/hero-ave-rosada.webp" type="image/webp" />
+      <source srcset="img/hero-ave-flor.avif" type="image/avif" />
+      <source srcset="img/hero-ave-flor.webp" type="image/webp" />
       <img
         class="inicio__portada-foto"
-        src="img/hero-momotus.jpg"
+        src="img/hero-ave-flor.jpg"
         width="1600"
-        height="2400"
-        alt="Barranquero (Momotus subrufescens) posado en una rama del bosque, con una baya en el pico y la cola de raqueta colgando. Fotografía de Leyner Lozano."
+        height="1092"
+        alt="Ave posada en el bosque de Vegas del Verde."
         fetchpriority="high"
         decoding="async"
       />
     </picture>
+
+    <!-- v11 · LA LUZ QUE SE CUELA ENTRE LAS HOJAS.
+         Una caja VACÍA cuyos dos pseudoelementos (inicio.css §1.b) son los
+         únicos que se mueven: dos claros de sol muy abiertos que cruzan la
+         fotografía cada tanto y se van. Va vacía y sin contenido a propósito,
+         igual que el velo y que .inicio__enjambre: no dice nada, no se lee y
+         no existe para el lector de pantalla.
+
+         POR QUÉ ES UN <div> Y NO UN ::before DE LA FOTOGRAFÍA. La foto es un
+         <img> y un elemento reemplazado no pinta pseudoelementos de forma
+         fiable en todos los navegadores. Y no puede colgar del velo porque
+         entonces se pintaría POR ENCIMA de él, que es justo lo que no puede
+         pasar: la luz tiene que quedar debajo del velo para que el contrato de
+         contraste del titular —medido y anotado en inicio.css— no cambie ni un
+         decimal.
+
+         SU SITIO EN LA PILA LO DA EL ORDEN DEL DOCUMENTO, no un z-index, y es
+         deliberado: un z-index aquí crearía un contexto de apilamiento y el
+         `mix-blend-mode: screen` de los claros dejaría de mezclarse con la
+         fotografía —que es lo que los hace luz y no pintura— para mezclarse
+         con la nada. Por eso va DESPUÉS del <picture> y ANTES del velo: entre
+         hermanos posicionados sin z-index manda quién va primero. -->
+    <div class="inicio__luz" aria-hidden="true"></div>
 
     <div class="inicio__portada-velo" aria-hidden="true"></div>
 
@@ -354,8 +373,8 @@
          subiendo a comerse la foto. La curva es ASIMÉTRICA a propósito —16 de
          120 de alto en el borde izquierdo, 94 en el derecho—: una ola simétrica
          es el divisor de plantilla que se ve en cualquier sitio; una diagonal
-         curva lleva el ojo desde el titular (abajo a la izquierda) hasta donde
-         arranca el plano-índice. Por eso el texto sólo tiene que despejar la
+         curva lleva el ojo desde el titular (abajo a la izquierda) hacia el
+         resto de la página. Por eso el texto sólo tiene que despejar la
          parte fina, aunque el relleno de abajo despeja la orla entera.
          preserveAspectRatio="none" para que estire con la ventana sin dejar
          franja: el alto lo manda --alto-orla en el CSS. -->
@@ -402,7 +421,12 @@
            el bloque se desvaneciera dos veces, una como grupo y otra por hijo.
            La clase `.reveal-secuencia` sola no oculta nada. -->
       <header class="seccion-encabezado inicio__encabezado reveal-secuencia">
-        <p class="eyebrow reveal">Oasis para la recreación y el bienestar</p>
+        <!-- v10 · EL ANTETÍTULO SE RETIRA. «Oasis para la recreación y el
+             bienestar» era el tagline de marca y encima del titular no hacía
+             más que retrasarlo: la portada abre ahora directamente con
+             «Escápate de la ciudad», que dice lo mismo en el registro del
+             sitio y sin sonar a folleto. -->
+
 
         <!-- DOS RENGLONES, DOS ESCALAS. El texto no cambia ni una letra: lo que
              cambia es que la frase deja de ser un bloque de mayúsculas —cinco
@@ -445,25 +469,13 @@
         </p>
 
         <div class="grupo-botones inicio__acciones reveal">
-          <a
-            class="btn btn-whatsapp btn-grande"
-            href="https://wa.me/573166758362?text=Hola%2C%20quiero%20reservar%20mi%20escape%20en%20Vegas%20del%20Verde.%20%C2%BFQu%C3%A9%20fechas%20tienen%20libres%3F"
-            target="_blank"
-            rel="noopener"
-          >
-            <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" focusable="false">
-              <path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.46 1.32 4.96L2 22l5.25-1.38a9.87 9.87 0 0 0 4.79 1.22h.01c5.46 0 9.91-4.45 9.91-9.91 0-2.65-1.03-5.14-2.9-7.01A9.82 9.82 0 0 0 12.04 2Zm0 18.02h-.01a8.2 8.2 0 0 1-4.19-1.15l-.3-.18-3.12.82.83-3.04-.2-.31a8.19 8.19 0 0 1-1.26-4.38c0-4.54 3.7-8.24 8.25-8.24 2.2 0 4.27.86 5.83 2.42a8.2 8.2 0 0 1 2.41 5.83c0 4.54-3.7 8.23-8.24 8.23Z"/>
-              <path d="M17.47 14.38c-.3-.15-1.76-.87-2.03-.97-.27-.1-.47-.15-.67.15-.2.3-.77.97-.94 1.17-.17.2-.35.22-.65.07-.3-.15-1.26-.46-2.4-1.48-.89-.79-1.49-1.77-1.66-2.07-.17-.3-.02-.46.13-.61.13-.13.3-.35.45-.52.15-.17.2-.3.3-.5.1-.2.05-.37-.02-.52-.08-.15-.67-1.61-.92-2.21-.24-.58-.49-.5-.67-.51h-.57c-.2 0-.52.07-.79.37-.27.3-1.04 1.01-1.04 2.47s1.06 2.87 1.21 3.07c.15.2 2.1 3.2 5.08 4.49.71.31 1.26.49 1.69.63.71.23 1.36.19 1.87.12.57-.09 1.76-.72 2.01-1.41.25-.69.25-1.29.17-1.41-.07-.12-.27-.2-.57-.35Z"/>
-            </svg>
-            Reserva tu escape
-          </a>
 
           <!-- SEGUNDO CAMINO, EL DE QUIEN TODAVÍA NO SABE QUÉ VA A PEDIR.
                La portada prometía «escápate» y ofrecía una sola salida:
                escribir por WhatsApp. Quien llega buscando DÓNDE hacer un
                evento —que es la mitad del tráfico de este sitio— no tenía en
                la primera pantalla ni una pista de que aquí se alquilan
-               espacios; el plano-índice lo dice, pero está por debajo del
+               espacios; #espacios lo dice, pero está por debajo del
                pliegue. Este enlace lo resuelve sin subir el volumen: no es un
                segundo botón de conversión, es un `.btn-fantasma` —contorno y
                nada más, cero relleno— al lado del coral, que sigue siendo el
@@ -485,46 +497,11 @@
       </header>
     </div>
 
-    <!-- ======================================================================
-         LA CAPA DE RECORTE — la profundidad, sin un solo byte de red
-
-         Es la MISMA fotografía pintada por segunda vez, encima del titular, y
-         recortada con un `clip-path` que sigue el contorno del pájaro. El
-         resultado es que la cola de raqueta cuelga POR DELANTE de las letras
-         mientras el resto del titular sigue leyéndose sobre el bosque: tres
-         capas interpenetradas en vez de tres capas apiladas.
-
-         POR QUÉ NO CUESTA NADA. La URL es idéntica a la del LCP —mismo
-         `<picture>`, mismas fuentes AVIF/WebP/JPG—, así que el navegador la
-         sirve de la imagen que ya descargó y decodificó: una sola petición de
-         red para las dos capas. `clip-path` con un polígono es trabajo del
-         compositor, no del hilo principal.
-
-         POR QUÉ EL POLÍGONO VA POR DENTRO DEL PÁJARO Y NO HOLGADO. Debajo de
-         esta capa hay un velo de legibilidad; lo que esta capa recorta se
-         pinta SIN ese velo. Si el polígono se saliera del pájaro, ese sobrante
-         sería una mancha de bosque sin velar —más clara que su alrededor— con
-         un borde poligonal perfectamente visible. Al revés no pasa nada: si el
-         polígono muerde unos píxeles del pájaro, esos píxeles siguen ahí
-         debajo, idénticos, en la capa de la foto. Se pierde nada y se gana el
-         no tener franja. Los 35 puntos están medidos sobre la imagen derivada
-         con una cuadrícula superpuesta y van en % de la caja del elemento, que
-         por construcción es exactamente la caja de la imagen (ver inicio.css).
-
-         `aria-hidden` y `alt` vacío: es la misma fotografía que ya está
-         descrita treinta líneas más arriba. Nadie tiene que oírla dos veces.
-
-         En móvil NO SE MONTA (inicio.css la apaga por debajo de 64em): a 375
-         px el `cover` deja la cola fuera de cuadro y el recorte no recortaría
-         nada que valga la pena.
-         ====================================================================== -->
-    <div class="inicio__portada-recorte" aria-hidden="true">
-      <picture>
-        <source srcset="img/hero-momotus.avif" type="image/avif" />
-        <source srcset="img/hero-momotus.webp" type="image/webp" />
-        <img src="img/hero-momotus.jpg" width="1600" height="2400" alt="" decoding="async" />
-      </picture>
-    </div>
+    <!-- v10 · LA CAPA DE RECORTE SE RETIRA. Medía un polígono de 35 puntos a
+         mano sobre el contorno del barranquero vertical de hero-momotus.jpg;
+         la portada pasó a una sola fotografía apaisada del ave entre flores
+         y ese recorte ya no tiene un sujeto que seguir. Se vuelve a una sola
+         capa a sangre, sin interpenetración con el titular. -->
 
     <!-- v9 · LAS TRES SILUETAS DE TRAZO SE RETIRAN, y es una decisión de
          sustracción, no un olvido. La columna derecha acumulaba CUATRO gestos
@@ -555,174 +532,11 @@
 
   </div>
 
-  <!-- ======================================================================
-       2. EL PLANO-ÍNDICE  (ARQUITECTURA-V3 §1.1)
-       El aéreo deja de ser papel pintado: es el índice del sitio entero.
-       Cuatro anclas internas —Espacios, Sendero, Vivero, Cómo llegar— para
-       que el visitante vea de qué se compone el predio antes de leer nada, y
-       para que ninguna sección de más abajo tenga que re-listar lo que hay.
-
-       Las cuatro coordenadas (left/top en %) se eligieron ampliando el render
-       antes de fijarlas; van en inicio.css, no aquí, para que mover un punto
-       no obligue a tocar el HTML.
-
-       TRES CAJAS Y NO UNA, a propósito:
-         .inicio__plano-lienzo → sólo da el sistema de coordenadas. No recorta.
-         .inicio__plano-marco  → el que lleva la proporción y el recorte.
-         .inicio__anclas       → hermana del marco, NO hija. Si viviera dentro
-           del marco, el `overflow: hidden` que recorta la foto se comería la
-           rejilla de pastillas que las anclas forman debajo del plano en
-           móvil y en tableta.
-
-       La superposición sólo existe a partir de 64em. Por debajo, las cuatro
-       anclas bajan del plano y se convierten en una rejilla de pastillas: en
-       una pantalla de teléfono un punto de 12 px sobre una foto de 190 px de
-       alto no se acierta con el dedo (inicio.css lo explica en detalle).
-       ====================================================================== -->
-  <figure class="inicio__plano reveal reveal--velo">
-
-    <div class="inicio__plano-lienzo">
-
-      <div class="inicio__plano-marco">
-        <img
-          class="inicio__plano-foto"
-          src="img/aereo-predio.jpg"
-          width="2000"
-          height="1013"
-          alt="Vista aérea del predio de Vegas del Verde: un paseo ancho de tierra clara cruza en diagonal el prado, con las construcciones de techo blanco y la estructura de techo translúcido arriba, una vela de sombra triangular sobre el césped y el camino de acceso abajo a la derecha; el bosque lo rodea por los cuatro costados."
-          loading="lazy"
-          decoding="async"
-        />
-      </div>
-
-      <!-- ESPACIOS VA PRIMERO, y es la otra mitad del encargo comercial.
-           En escritorio las cuatro anclas están posicionadas en absoluto sobre
-           sus coordenadas del render, así que el ORDEN DEL DOCUMENTO no mueve
-           nada de sitio: lo único que cambia es qué se lee primero con el
-           lector de pantalla y qué se alcanza primero con el tabulador. En
-           móvil y tableta —donde las cuatro bajan a una rejilla— sí cambia el
-           orden visual, y también ahí Espacios encabeza.
-           Antes el recorrido empezaba por Vivero, que es la venta más pequeña
-           del predio. Empezar por Espacios no le quita presencia a ninguna de
-           las otras tres: sigue habiendo cuatro anclas del mismo tamaño. -->
-      <ul class="inicio__anclas" role="list" aria-label="Índice del predio sobre el plano">
-        <li class="inicio__ancla-item inicio__ancla-item--espacios">
-          <a class="inicio__ancla" href="#espacios">
-            <span class="inicio__punto" aria-hidden="true"></span>
-            <span class="inicio__rotulo">Espacios</span>
-          </a>
-        </li>
-        <li class="inicio__ancla-item inicio__ancla-item--vivero">
-          <a class="inicio__ancla" href="#vivero">
-            <span class="inicio__punto" aria-hidden="true"></span>
-            <span class="inicio__rotulo">Vivero</span>
-          </a>
-        </li>
-        <li class="inicio__ancla-item inicio__ancla-item--sendero">
-          <a class="inicio__ancla" href="#naturaleza">
-            <span class="inicio__punto" aria-hidden="true"></span>
-            <span class="inicio__rotulo">Sendero</span>
-          </a>
-        </li>
-        <li class="inicio__ancla-item inicio__ancla-item--llegar">
-          <a class="inicio__ancla" href="#ubicacion">
-            <span class="inicio__punto" aria-hidden="true"></span>
-            <span class="inicio__rotulo">Cómo llegar</span>
-          </a>
-        </li>
-      </ul>
-
-    </div>
-
-    <figcaption class="inicio__plano-pie">
-      El predio visto desde arriba. Cada punto del plano baja a esa parte del sitio.
-    </figcaption>
-
-  </figure>
-
-  <!-- ======================================================================
-       TIRA DE AVES — ATMÓSFERA, NO ARCHIVO  (ARQUITECTURA-V3 §5)
-       Seis fotos del concurso en papel decorativo: aquí NO llevan ficha ni
-       crédito visible, porque el único sitio del sitio con fichas acreditadas
-       es el muro de #naturaleza y duplicarlas era justo el defecto medido.
-       El crédito al fotógrafo no se pierde: va en el `alt`, y sale literal de
-       img/aves/_creditos.json. Nunca se inventa un autor.
-       Orden: ave-14 · ave-38 · ave-27 · ave-07 · ave-56 · ave-31.
-       La tira ya no va centrada: arranca en el margen izquierdo del
-       contenedor, alineada con el pie del plano. Seis cuadrados centrados
-       debajo de una imagen a sangre eran otra fila simétrica más.
-
-       v5 — Y TAMPOCO SON SEIS CUADRADOS IGUALES. Seis miniaturas del mismo
-       tamaño, alineadas por arriba y por abajo, son una fila de plantilla por
-       mucho que la fila esté descentrada. Ahora cada una lleva su propio
-       tamaño (del 0,62 al 1,3 del módulo), dos de ellas suben de la línea de
-       base y los radios alternan entre dos formas de hoja. Los seis <li> son
-       hijos .reveal de una .reveal-secuencia: entran escalonados de 90 en 90
-       ms —seis hijos, por debajo del tope de ocho— en vez de aparecer la tira
-       entera de golpe.
-       ====================================================================== -->
-  <ul class="inicio__aves reveal-secuencia" role="list">
-    <li class="inicio__ave reveal reveal--zoom">
-      <img
-        src="img/aves/ave-14-saltador-pio.jpg"
-        width="1300"
-        height="975"
-        alt="Saltador pío de plumaje oliva y pecho claro, posado en una rama cubierta de musgo. Fotografía de Carlos Serrano."
-        loading="lazy"
-        decoding="async"
-      />
-    </li>
-    <li class="inicio__ave reveal reveal--zoom">
-      <img
-        src="img/aves/ave-38-carpintero.jpg"
-        width="1300"
-        height="1040"
-        alt="Carpintero de cresta roja y espalda oscura, agarrado al tronco de un árbol entre hojas verdes. Fotografía de Jesus Lopez."
-        loading="lazy"
-        decoding="async"
-      />
-    </li>
-    <li class="inicio__ave reveal reveal--zoom">
-      <img
-        src="img/aves/ave-27-colibri.jpg"
-        width="867"
-        height="1300"
-        alt="Colibrí de plumaje verde en pleno vuelo, con las alas abiertas junto a una flor naranja de heliconia. Fotografía de Eritmoratto."
-        loading="lazy"
-        decoding="async"
-      />
-    </li>
-    <li class="inicio__ave reveal reveal--zoom">
-      <img
-        src="img/aves/ave-07-thraupis-episcopus.jpg"
-        width="1040"
-        height="1300"
-        alt="Ave de plumaje azul pálido (Thraupis episcopus) posada en una rama con musgo, sobre un fondo verde desenfocado. Fotografía de Jonathan Layton Avila."
-        loading="lazy"
-        decoding="async"
-      />
-    </li>
-    <li class="inicio__ave reveal reveal--zoom">
-      <img
-        src="img/aves/ave-56-canario.jpg"
-        width="1300"
-        height="1300"
-        alt="Canario amarillo caminando sobre el césped, entre hojas secas. Fotografía de Yeraldilsa Gamboa."
-        loading="lazy"
-        decoding="async"
-      />
-    </li>
-    <li class="inicio__ave reveal reveal--zoom">
-      <img
-        src="img/aves/ave-31-periquito-bronceado.jpg"
-        width="867"
-        height="1300"
-        alt="Periquito bronceado, verde y de pico anaranjado, inclinado sobre una rama cubierta de plantas epífitas, con luz cálida de la tarde. Fotografía de Fabiola Rueda."
-        loading="lazy"
-        decoding="async"
-      />
-    </li>
-  </ul>
+  <!-- v13 · LA TIRA DE AVES SE RETIRA. Pedido directo, con captura de
+       pantalla de las seis miniaturas en fila bajo la foto principal. Se
+       borra el <ul> entero y su CSS (.inicio__aves/.inicio__ave en
+       inicio.css §2) para no dejar reglas huérfanas. El flujo de la portada
+       pasa directo de la foto principal a «EL AIRE DEL BOSQUE». -->
 
   <!-- ======================================================================
        EL AIRE DEL BOSQUE — canvas de partículas sobre la portada
@@ -755,22 +569,343 @@
          AÚN SIN DECODIFICAR, que es justo la carrera que este cerrojo
          evita. decode() resuelve en el acto si ya está decodificada y
          espera también la carga si no ha terminado: cubre los dos casos. */
+      /* v10 · LA FOTO ES LA CAPA ÚNICA, así que ella misma es el LCP y se ve
+         de inmediato — no hay nada que ocultar ni revelar. Lo que sí entra
+         un segundo después de que decode() resuelve es lo VIVO de la escena
+         —hojas, polen, mariposas y colibrí—, montado por los dos módulos de
+         abajo: el retraso es a propósito, para que el gesto llegue cuando el
+         titular ya se leyó y nunca compita con el pintado del LCP. */
       foto.decode().catch(() => {})
+        .then(() => new Promise((r) => setTimeout(r, 1000)))
         .then(() => Promise.all([
-          import('./js/particulas-hero.js?v=0fef6596')
+          import('./js/particulas-hero.js?v=b09ed560')
             .then((m) => m?.montarParticulas(portada, foto))
             .catch(() => {}),
           /* El enjambre va DESPUÉS del mismo cerrojo y en su propia rama: si
              uno de los dos módulos falla, el otro sigue vivo. Los PNG de las
              mariposas no se piden hasta aquí, así que no compiten con el LCP
              ni por red ni por decodificación. */
-          import('./js/enjambre-hero.js?v=b8fb2f94')
+          import('./js/enjambre-hero.js?v=0594b6cd')
             .then((m) => m?.montarEnjambre(document.querySelector('.inicio__enjambre')))
             .catch(() => {}),
         ]))
         .catch(() => {});
     }
   </script>
+
+</section>
+
+<!-- ==========================================================================
+     FRAGMENTO: USOS  ·  ancla #usos
+     CSS propio: styles/sections/usos.css
+
+     QUÉ ES Y POR QUÉ EXISTE. Entre la portada y la ficha técnica de
+     #espacios (aforos, botón de WhatsApp, condiciones) faltaba una pregunta
+     más simple: «¿qué puedo hacer aquí?». #espacios ya responde «qué
+     espacios hay»; esta sección responde «para qué sirve cada uno», con la
+     foto de un evento real en vez de una cifra de aforo. Los CINCO espacios
+     son los mismos cinco de #espacios —no se inventa un sexto— y ninguna
+     cifra de aforo se repite aquí: ARQUITECTURA-V3 le da la propiedad de esa
+     cifra a #espacios en exclusiva.
+
+     CADA TARJETA ES UN <details>, no un acordeón hecho a mano ni un modal
+     —el patrón de ventana emergente que este proyecto prohíbe—. `<summary>`
+     es la tarjeta visible (foto a sangre, nombre, frase breve, aviso de
+     tocar) y el contenido de `<details>` son los usos recomendados: se abre
+     y cierra con el teclado y con el lector de pantalla sin una línea de
+     JavaScript, y en la fuente de la página el usuario que no ve la foto
+     igual encuentra el texto.
+
+     EN MÓVIL cada tarjeta ocupa el alto completo de la ventana (100dvh): se
+     pasa de una a otra con scroll, como una portada por espacio. En
+     escritorio pasan a una rejilla —hay sitio de sobra para verlas todas a
+     la vez— y el aviso de «tocar» se cambia por «ver usos», que es lo que
+     de verdad se hace con un cursor.
+
+     LOS USOS NO INVENTAN AFOROS NI CONDICIONES: son recomendaciones de tipo
+     de evento («bodas», «cumpleaños», «empresarial»...) con una frase de por
+     qué ese espacio funciona para ese uso, apoyada en un rasgo que #espacios
+     ya describe (el prado abierto, la explanada llana, el árbol grande...).
+     Las fotos de evento salen de img/eventos/, la misma carpeta que usa
+     #momentos; ninguna es la foto principal de la tarjeta de su propio
+     espacio, para no repetir un mismo archivo dos veces en la misma tarjeta.
+     ========================================================================== -->
+<section class="seccion usos" id="usos" aria-labelledby="usos-titulo">
+
+  <div class="contenedor contenedor--ancho">
+    <header class="seccion-encabezado usos__encabezado reveal">
+      <p class="eyebrow">¿Qué puedes hacer en Vegas?</p>
+      <h2 class="titulo-seccion usos__titulo" id="usos-titulo">
+        Un espacio para cada plan
+      </h2>
+    </header>
+  </div>
+
+  <ul class="usos-lista" role="list">
+
+    <!-- ---------------------------------------------------------- 1/5 -->
+    <li class="usos-item">
+      <details class="usos-detalle">
+        <summary class="usos-tarjeta">
+          <picture>
+            <img
+              class="usos-tarjeta__foto"
+              src="img/espacios/alameda-2.jpg"
+              width="1500"
+              height="1000"
+              loading="lazy"
+              decoding="async"
+              alt=""
+            />
+          </picture>
+          <span class="usos-tarjeta__velo" aria-hidden="true"></span>
+          <span class="usos-tarjeta__marco">
+            <span class="usos-tarjeta__orden" aria-hidden="true">01</span>
+            <span class="usos-tarjeta__nombre">Alameda</span>
+            <span class="usos-tarjeta__frase">La mejor grama de Vegas del Verde para los momentos más especiales.</span>
+            <span class="usos-tarjeta__aviso">
+              <span class="usos-tarjeta__aviso-movil">Toca para ver el espacio</span>
+              <span class="usos-tarjeta__aviso-escritorio">Ver usos recomendados</span>
+            </span>
+          </span>
+        </summary>
+        <div class="usos-panel">
+          <h3 class="solo-lectores">Usos recomendados en Alameda</h3>
+          <ul class="usos-panel__lista" role="list">
+            <li class="usos-panel__uso">
+              <img src="img/eventos/boda-arbol.jpg" width="1400" height="1920" loading="lazy" decoding="async"
+                   alt="Boda montada al aire libre sobre un prado abierto, con sillas en filas frente a un altar floral." />
+              <p class="usos-panel__tipo">Bodas</p>
+              <p class="usos-panel__razon">El prado entero cabe una ceremonia grande, con sombra de sobra en los bordes para los invitados.</p>
+            </li>
+            <li class="usos-panel__uso">
+              <img src="img/eventos/noche-evento-1.jpg" width="800" height="533" loading="lazy" decoding="async"
+                   alt="Evento nocturno con luces cálidas sobre el césped y mesas dispuestas para los asistentes." />
+              <p class="usos-panel__tipo">Empresarial</p>
+              <p class="usos-panel__razon">Es el espacio con más aforo del predio: cabe un lanzamiento o una convención de pie.</p>
+            </li>
+            <li class="usos-panel__uso">
+              <img src="img/eventos/cumpleanos-1.jpg" width="800" height="533" loading="lazy" decoding="async"
+                   alt="Celebración de cumpleaños al aire libre con globos y mesa de torta sobre el césped." />
+              <p class="usos-panel__tipo">Cumpleaños</p>
+              <p class="usos-panel__razon">El más grande de los cinco: para la fiesta que necesita el mayor número de invitados.</p>
+            </li>
+          </ul>
+        </div>
+      </details>
+    </li>
+
+    <!-- ---------------------------------------------------------- 2/5 -->
+    <li class="usos-item">
+      <details class="usos-detalle">
+        <summary class="usos-tarjeta">
+          <picture>
+            <source media="(max-width: 47.99em)" srcset="img/eventos/vega-vertical.jpg" />
+            <img
+              class="usos-tarjeta__foto"
+              src="img/eventos/vega-horizontal.jpg"
+              width="1600"
+              height="900"
+              loading="lazy"
+              decoding="async"
+              alt=""
+            />
+          </picture>
+          <span class="usos-tarjeta__velo" aria-hidden="true"></span>
+          <span class="usos-tarjeta__marco">
+            <span class="usos-tarjeta__orden" aria-hidden="true">02</span>
+            <span class="usos-tarjeta__nombre">La Vega</span>
+            <span class="usos-tarjeta__frase">El espacio más grande de Vegas del Verde: para conciertos y eventos que crecen.</span>
+            <span class="usos-tarjeta__aviso">
+              <span class="usos-tarjeta__aviso-movil">Toca para ver el espacio</span>
+              <span class="usos-tarjeta__aviso-escritorio">Ver usos recomendados</span>
+            </span>
+          </span>
+        </summary>
+        <div class="usos-panel">
+          <h3 class="solo-lectores">Usos recomendados en La Vega</h3>
+          <ul class="usos-panel__lista" role="list">
+            <li class="usos-panel__uso">
+              <img src="img/eventos/boda-arbol.jpg" width="1400" height="1920" loading="lazy" decoding="async"
+                   alt="Boda con carpa transparente montada sobre una explanada plana, con guirnaldas de luces." />
+              <p class="usos-panel__tipo">Bodas</p>
+              <p class="usos-panel__razon">Sin un solo desnivel: la carpa y la pista se montan derechas, sin nivelar nada.</p>
+            </li>
+            <li class="usos-panel__uso">
+              <img src="img/eventos/infantil-1.jpg" width="800" height="533" loading="lazy" decoding="async"
+                   alt="Fiesta infantil con juegos inflables sobre una explanada de césped." />
+              <p class="usos-panel__tipo">Cumpleaños</p>
+              <p class="usos-panel__razon">Piso parejo de punta a punta: entran inflables y juegos sin buscarles un tramo plano.</p>
+            </li>
+            <li class="usos-panel__uso">
+              <img src="img/eventos/yoga-1.jpg" width="800" height="533" loading="lazy" decoding="async"
+                   alt="Clase de yoga al aire libre con tapetes dispuestos en filas sobre el césped." />
+              <p class="usos-panel__tipo">Bienestar</p>
+              <p class="usos-panel__razon">Superficie pareja de borde a borde: los tapetes quedan todos a la misma altura.</p>
+            </li>
+          </ul>
+        </div>
+      </details>
+    </li>
+
+    <!-- ---------------------------------------------------------- 3/5 -->
+    <li class="usos-item">
+      <details class="usos-detalle">
+        <summary class="usos-tarjeta">
+          <picture>
+            <img
+              class="usos-tarjeta__foto"
+              src="img/eventos/boda-4.jpg"
+              width="1500"
+              height="1000"
+              loading="lazy"
+              decoding="async"
+              alt=""
+            />
+          </picture>
+          <span class="usos-tarjeta__velo" aria-hidden="true"></span>
+          <span class="usos-tarjeta__marco">
+            <span class="usos-tarjeta__orden" aria-hidden="true">03</span>
+            <span class="usos-tarjeta__nombre">Teatrino</span>
+            <span class="usos-tarjeta__frase">Un claro al pie de un árbol enorme: el césped hace de platea.</span>
+            <span class="usos-tarjeta__aviso">
+              <span class="usos-tarjeta__aviso-movil">Toca para ver el espacio</span>
+              <span class="usos-tarjeta__aviso-escritorio">Ver usos recomendados</span>
+            </span>
+          </span>
+        </summary>
+        <div class="usos-panel">
+          <h3 class="solo-lectores">Usos recomendados en Teatrino</h3>
+          <ul class="usos-panel__lista" role="list">
+            <li class="usos-panel__uso">
+              <img src="img/eventos/boda-3.jpg" width="800" height="533" loading="lazy" decoding="async"
+                   alt="Ceremonia íntima bajo la sombra de un árbol grande, con pocas sillas dispuestas en semicírculo." />
+              <p class="usos-panel__tipo">Bodas íntimas</p>
+              <p class="usos-panel__razon">La copa del árbol hace de techo: ceremonias pequeñas, más recogidas que en la Alameda.</p>
+            </li>
+            <li class="usos-panel__uso">
+              <img src="img/eventos/infantil-2.jpg" width="800" height="533" loading="lazy" decoding="async"
+                   alt="Niños jugando bajo la sombra de un árbol grande en una fiesta al aire libre." />
+              <p class="usos-panel__tipo">Cumpleaños</p>
+              <p class="usos-panel__razon">La sombra del árbol cubre casi todo el claro: la fiesta no necesita toldo aparte.</p>
+            </li>
+            <li class="usos-panel__uso">
+              <img src="img/eventos/yoga-2.jpg" width="800" height="533" loading="lazy" decoding="async"
+                   alt="Grupo sentado en círculo sobre el césped bajo un árbol, en una charla al aire libre." />
+              <p class="usos-panel__tipo">Charlas y talleres</p>
+              <p class="usos-panel__razon">El césped hace de platea natural para un grupo pequeño reunido en círculo.</p>
+            </li>
+          </ul>
+        </div>
+      </details>
+    </li>
+
+    <!-- ---------------------------------------------------------- 4/5 -->
+    <li class="usos-item">
+      <details class="usos-detalle">
+        <summary class="usos-tarjeta">
+          <picture>
+            <img
+              class="usos-tarjeta__foto"
+              src="img/espacios/taller-1.jpg"
+              width="900"
+              height="1200"
+              loading="lazy"
+              decoding="async"
+              alt=""
+            />
+          </picture>
+          <span class="usos-tarjeta__velo" aria-hidden="true"></span>
+          <span class="usos-tarjeta__marco">
+            <span class="usos-tarjeta__orden" aria-hidden="true">04</span>
+            <span class="usos-tarjeta__nombre">Taller</span>
+            <span class="usos-tarjeta__frase">El único bajo techo: piso firme y seco pase lo que pase afuera.</span>
+            <span class="usos-tarjeta__aviso">
+              <span class="usos-tarjeta__aviso-movil">Toca para ver el espacio</span>
+              <span class="usos-tarjeta__aviso-escritorio">Ver usos recomendados</span>
+            </span>
+          </span>
+        </summary>
+        <div class="usos-panel">
+          <h3 class="solo-lectores">Usos recomendados en Taller</h3>
+          <ul class="usos-panel__lista" role="list">
+            <li class="usos-panel__uso">
+              <img src="img/eventos/noche-evento-1.jpg" width="800" height="533" loading="lazy" decoding="async"
+                   alt="Reunión nocturna bajo techo con luces cálidas, resguardada del clima." />
+              <p class="usos-panel__tipo">Empresarial</p>
+              <p class="usos-panel__razon">Es el único techado del predio: la reunión sigue igual aunque llueva.</p>
+            </li>
+            <li class="usos-panel__uso">
+              <img src="img/eventos/infantil-3.jpg" width="800" height="533" loading="lazy" decoding="async"
+                   alt="Niños jugando sobre un piso firme bajo una cubierta, resguardados del sol." />
+              <p class="usos-panel__tipo">Cumpleaños infantil</p>
+              <p class="usos-panel__razon">Piso firme y seco para los juegos de los más chicos, sin barro ni sol directo.</p>
+            </li>
+            <li class="usos-panel__uso">
+              <img src="img/eventos/yoga-1.jpg" width="800" height="533" loading="lazy" decoding="async"
+                   alt="Clase o taller reunido bajo una cubierta techada." />
+              <p class="usos-panel__tipo">Talleres</p>
+              <p class="usos-panel__razon">Cubierta de caña de punta a punta: una clase entera cabe sin depender del clima.</p>
+            </li>
+          </ul>
+        </div>
+      </details>
+    </li>
+
+    <!-- ---------------------------------------------------------- 5/5 -->
+    <li class="usos-item">
+      <details class="usos-detalle">
+        <summary class="usos-tarjeta">
+          <picture>
+            <source media="(max-width: 47.99em)" srcset="img/eventos/cancha-vertical.jpg" />
+            <img
+              class="usos-tarjeta__foto"
+              src="img/eventos/cancha-horizontal.jpg"
+              width="1600"
+              height="900"
+              loading="lazy"
+              decoding="async"
+              alt=""
+            />
+          </picture>
+          <span class="usos-tarjeta__velo" aria-hidden="true"></span>
+          <span class="usos-tarjeta__marco">
+            <span class="usos-tarjeta__orden" aria-hidden="true">05</span>
+            <span class="usos-tarjeta__nombre">Cancha</span>
+            <span class="usos-tarjeta__frase">El campo más plano y despejado, con el guadual cerrando el fondo.</span>
+            <span class="usos-tarjeta__aviso">
+              <span class="usos-tarjeta__aviso-movil">Toca para ver el espacio</span>
+              <span class="usos-tarjeta__aviso-escritorio">Ver usos recomendados</span>
+            </span>
+          </span>
+        </summary>
+        <div class="usos-panel">
+          <h3 class="solo-lectores">Usos recomendados en Cancha</h3>
+          <ul class="usos-panel__lista" role="list">
+            <li class="usos-panel__uso">
+              <img src="img/eventos/infantil-4.jpg" width="800" height="533" loading="lazy" decoding="async"
+                   alt="Niños jugando en un campo despejado durante una celebración de cumpleaños." />
+              <p class="usos-panel__tipo">Cumpleaños deportivos</p>
+              <p class="usos-panel__razon">El campo despejado alcanza para un torneo entero o los juegos de la fiesta.</p>
+            </li>
+            <li class="usos-panel__uso">
+              <img src="img/eventos/noche-evento-1.jpg" width="800" height="533" loading="lazy" decoding="async"
+                   alt="Grupo reunido al aire libre en un evento de integración nocturno." />
+              <p class="usos-panel__tipo">Integración empresarial</p>
+              <p class="usos-panel__razon">Un partido de por medio cambia cualquier jornada de equipo.</p>
+            </li>
+            <li class="usos-panel__uso">
+              <img src="img/eventos/infantil-2.jpg" width="800" height="533" loading="lazy" decoding="async"
+                   alt="Familia jugando en un campo abierto en una tarde de sol." />
+              <p class="usos-panel__tipo">Familiares</p>
+              <p class="usos-panel__razon">Tardes de fútbol y juegos con el guadual haciendo de borde y de sombra.</p>
+            </li>
+          </ul>
+        </div>
+      </details>
+    </li>
+
+  </ul>
 
 </section>
 
@@ -1001,23 +1136,6 @@
          que lo abre. Ninguna otra pieza de esta sección lo lleva.
          Los cortes de renglón los decide quien escribe: dos líneas, sujeto y
          remate. -->
-    <header class="seccion-encabezado">
-      <!-- FOLIO DE CAPÍTULO. «Los espacios» es el primer capítulo percibido
-           tras la portada (DIRECTRICES-ANIMACION §1) y el número va DENTRO del
-           eyebrow existente, sin elemento de bloque nuevo. -->
-      <p class="eyebrow espacios__rotulo reveal"><span class="espacios__folio">01</span> Espacios en alquiler</p>
-      <h2
-        id="espacios-titulo"
-        class="titulo-seccion reveal reveal-texto reveal-texto--persiana"
-      >
-        <span class="reveal-texto__linea">Cinco escenarios</span>
-        <span class="reveal-texto__linea">y ningún salón</span>
-      </h2>
-      <p class="entradilla espacios__entradilla reveal">
-        Cinco lugares con nombre propio, del prado que traga 150 personas al taller con
-        techo de caña. Aquí están todos, con su aforo y su foto.
-      </p>
-    </header>
 
     <ul class="espacios__rejilla reveal-secuencia">
 
@@ -1576,27 +1694,79 @@
          DERECHA, y en una columna que ocupa todo el ancho eso sí genera
          desbordamiento real (a la izquierda el navegador no deja desplazar;
          a la derecha, sí). El bloque entra en vertical, como el resto. -->
-    <!-- v8 · EL DISCURSO SE RECORTA A LA MITAD. El cliente pidió «poco
-         texto... que llame la atención» y aquí había ~90 palabras de prosa
-         antes de la primera foto. Los HECHOS se conservan todos —privado,
-         portería y vigilancia, se alquila a colegios/empresas/particulares—;
-         lo que sale es la descripción alrededor de ellos. Frases cortas. -->
+    <!-- v10 · DE PROSA A FIGURAS. El pedido del cliente fue literal: «se ve
+         básico, más figuras a tope y menos texto» transmitiendo sofisticación.
+         v8 ya había recortado la prosa a la mitad; v10 la termina de recortar
+         y reemplaza los dos párrafos de cuerpo (la capitular incluida, que ya
+         no tiene prosa larga donde apoyarse) por CUATRO figuras —una por
+         hecho— en vez de una frase por hecho. LOS HECHOS NO CAMBIAN, sólo el
+         formato: sigue siendo privado con vigilancia (ahora es la entradilla
+         + la primera figura) y se sigue alquilando a colegios, empresas y
+         particulares (ahora tres figuras, no una enumeración). El «tú
+         decides qué pasa adentro» pasa a nota de cierre bajo la rejilla. -->
     <div class="nosotros__discurso reveal">
       <p class="entradilla">
         Un predio privado con portería y vigilancia, no un parque público.
       </p>
-      <!-- La capitular se marca con una clase y no con `p:nth-of-type(2)`
-           porque la entradilla también es un <p>: un selector posicional se
-           rompería en cuanto alguien añada o quite un párrafo. La letra que
-           agranda el CSS es la «E» de «Entras». -->
-      <p class="nosotros__parrafo--capitular">
-        Entras y la ciudad se queda afuera. El predio está cerrado y hay
-        vigilancia privada mientras dure tu plan.
-      </p>
-      <p>
-        Se alquila a colegios, empresas y particulares. Tú decides qué pasa
-        adentro.
-      </p>
+
+      <p class="eyebrow nosotros__quienes-rotulo">Se alquila a</p>
+
+      <!-- CUATRO FIGURAS, NO CUATRO ICONOS DE STOCK. Cada trazo se dibujó
+           para este sitio con la misma firma que reconoce el motor de
+           dibujado del sistema —`viewBox="0 0 24 24"`, `fill="none"` y
+           `stroke="currentColor"`—, la misma que llevan la rama de arriba y
+           los cuatro iconos de «Lo básico, resuelto». Ninguno se repite entre
+           bloques: el ojo de vigilancia es distinto del escudo de servicios,
+           a propósito, para que la sección no reparta la misma pieza dos
+           veces. Cada <li> es su propio .reveal dentro de .reveal-secuencia,
+           igual que la tira de servicios: los retardos desiguales los reparte
+           nosotros.css §1b. -->
+      <!-- v11 · EL OJO DE VIGILANCIA SE RETIRA DE AQUÍ, por pedido directo:
+           duplicaba «Vigilancia privada» de «Lo básico, resuelto» dos
+           bloques más abajo —dos figuras distintas para el mismo hecho—.
+           Esta rejilla es «a quién se alquila»; la vigilancia no es un
+           inquilino, es un servicio del predio, así que su sitio único
+           queda en la rejilla de servicios. El dato no se pierde: sigue en
+           la entradilla de arriba («portería y vigilancia»). -->
+      <ul class="nosotros__quienes reveal-secuencia">
+
+        <li class="nosotros__quien reveal reveal--zoom">
+          <svg class="icono-traza nosotros__quien-icono" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+               stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"
+               aria-hidden="true" focusable="false">
+            <path d="M12 4 2.4 8.6 12 13.2l9.6-4.6L12 4Z" pathLength="1"/>
+            <path d="M6.5 10.8v4.6c0 1.5 2.5 2.7 5.5 2.7s5.5-1.2 5.5-2.7v-4.6" pathLength="1"/>
+            <path d="M21.6 8.6v5.6" pathLength="1"/>
+          </svg>
+          <span>Colegios</span>
+        </li>
+
+        <li class="nosotros__quien reveal reveal--zoom">
+          <svg class="icono-traza nosotros__quien-icono" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+               stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"
+               aria-hidden="true" focusable="false">
+            <rect x="5.4" y="3.4" width="8.2" height="17.2" rx="1" pathLength="1"/>
+            <path d="M13.6 20.6v-9.6h5v9.6" pathLength="1"/>
+            <path d="M8 7.2h1M8 10.6h1M8 14h1M11 7.2h1M11 10.6h1M11 14h1" pathLength="1"/>
+          </svg>
+          <span>Empresas</span>
+        </li>
+
+        <li class="nosotros__quien reveal reveal--zoom">
+          <svg class="icono-traza nosotros__quien-icono" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+               stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"
+               aria-hidden="true" focusable="false">
+            <circle cx="8.3" cy="8.1" r="2.7" pathLength="1"/>
+            <path d="M2.6 19.2c.5-3.4 2.6-5.2 5.7-5.2s5.2 1.8 5.7 5.2" pathLength="1"/>
+            <circle cx="17" cy="7.3" r="2" pathLength="1"/>
+            <path d="M14.6 12.5c.7-.3 1.4-.5 2.4-.5 2.6 0 4.4 1.5 4.9 4.5" pathLength="1"/>
+          </svg>
+          <span>Particulares</span>
+        </li>
+
+      </ul>
+
+      <p class="nosotros__quienes-nota">Tú decides qué pasa adentro.</p>
 
       <p class="grupo-botones">
         <a class="btn btn-secundario" href="#espacios">Ver los cinco espacios</a>

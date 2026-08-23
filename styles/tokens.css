@@ -98,16 +98,21 @@
                      TODA superficie de tarjeta o realce.
                      NO sustituye al blanco de un campo de formulario: ahí
                      el blanco es affordance («esto se escribe»), no luz. */
-  --negro-escena: #0a1714;
+  /* v11 · SE QUITA EL SESGO VERDE. El grading cine-editorial (sombras
+     teal-verde, luces crema) se retiró de las 160 fotos por pedido directo
+     — «quítale el fondo verde a todo»— así que estos dos tokens dejan de
+     empujar hacia el teal y pasan a un negro/blanco neutros, sin matiz.
+     --luz se conserva tal cual: la crema cálida sigue siendo válida para
+     tarjetas y realces, no es lo que se pidió quitar. */
+  --negro-escena: #0b0d0c;
   --luz: #faf6ec;
 
-  /* El tinte de TODAS las sombras. Es --negro-escena un punto más abierto:
-     una sombra tiene que ser sombra DE ALGO, y a este valor todavía se lee
-     como una veladura verde y no como una mancha. Sale aparte de --tinta
-     (que es color de TEXTO) porque son dos oficios distintos aunque los
-     valores se parezcan: si mañana la tinta se aclara para ganar legibilidad,
-     las sombras no tienen por qué seguirla.                              */
-  --sombra-rgb: 12 34 28;
+  /* El tinte de TODAS las sombras. Neutro, no verde: una sombra sigue
+     necesitando un punto más abierto que --negro-escena, pero sin matiz de
+     color. Sale aparte de --tinta (que es color de TEXTO) porque son dos
+     oficios distintos aunque los valores se parezcan: si mañana la tinta se
+     aclara para ganar legibilidad, las sombras no tienen por qué seguirla. */
+  --sombra-rgb: 20 22 21;
 
   /* — Cálidos: el acento de ACCIÓN — */
   --amarillo: #e4cb3a;           /* = círculos del logo · intacto            */
@@ -136,7 +141,7 @@
   --coral-hondo-rgb: 168 69 42;
   --coral-claro-rgb: 240 160 114;
   --blanco-rgb: 255 255 255;
-  --negro-escena-rgb: 10 23 20;
+  --negro-escena-rgb: 11 13 12;
   --luz-rgb: 250 246 236;
 
   /* ---------------------------------------------------------------------
@@ -194,9 +199,11 @@
 
   /* ---------------------------------------------------------------------
      3. TIPOGRAFÍA
-     --fuente-display  → titulares y cifras. Fraunces: serif editorial de
-                         contraste alto que conversa con el trazo déco del
-                         logo sin imitarlo.
+     --fuente-display  → titulares y cifras. Bodoni Moda: serif de contraste
+                         MUY alto (trazos gruesos y finos extremos, tipo
+                         revista de moda) — cambia a Fraunces por pedido
+                         directo tras comparar tres alternativas mostradas
+                         en pantalla.
      --fuente-titulo   → LA FUENTE DE ETIQUETA (eyebrow, botón, píldora,
                          micro-caps).
      --fuente-cuerpo   → la de leer.
@@ -211,8 +218,14 @@
      aperturas y sube la altura de x: al mismo tamaño en píxeles se lee más
      grande. Es la misma familia de decisión que toma blackberryfarm.com,
      que usa DM Sans para todo lo que no es display.
-     --------------------------------------------------------------------- */
-  --fuente-display: "Fraunces", "Marcellus", Georgia, "Times New Roman", serif;
+
+     v11 · FRAUNCES SALE, ENTRA BODONI MODA. Mismo contrato de accesibilidad
+     que ya cumplía Fraunces (contraste AAA verificado con --luz encima):
+     Bodoni Moda es igual de legible a los tamaños de titular en los que se
+     usa. El respaldo de pila cambia de Marcellus a Didot/Bodoni MT, que son
+     los que existen en los sistemas cuando la fuente propia no cargó y
+     tienen el mismo contraste alto de trazo. */
+  --fuente-display: "Bodoni Moda", Didot, "Bodoni MT", Georgia, "Times New Roman", serif;
   --fuente-titulo: "DM Sans", "Jost", -apple-system, BlinkMacSystemFont,
     "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
   --fuente-cuerpo: "DM Sans", "Jost", -apple-system, BlinkMacSystemFont,

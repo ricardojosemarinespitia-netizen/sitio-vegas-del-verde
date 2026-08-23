@@ -58,6 +58,22 @@
     U+FEFF, U+FFFD;
 }
 
+/* v11 · BODONI MODA reemplaza a Fraunces como --fuente-display, por pedido
+   directo tras comparar tres alternativas. Autohospedada igual que las
+   otras dos: variable de 300 a 700, un solo archivo, sin <link> a
+   fonts.googleapis.com. Fraunces se queda declarada arriba —puede volver a
+   hacer falta— pero deja de ser la que consume tokens.css. */
+@font-face {
+  font-family: 'Bodoni Moda';
+  font-style: normal;
+  font-weight: 300 700;
+  font-display: optional;
+  src: url('fonts/bodoni-moda-latin.woff2') format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC,
+    U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215,
+    U+FEFF, U+FFFD;
+}
+
 /* ==========================================================================
    1. RESET MODERNO
    ========================================================================== */

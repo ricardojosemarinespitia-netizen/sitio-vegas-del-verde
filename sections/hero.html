@@ -2,11 +2,8 @@
      FRAGMENTO: INICIO  ·  ancla #inicio
      CSS propio: styles/sections/inicio.css
 
-     v5 «orgánica». v4 ya había roto el compás de la retícula partiendo la
-     sección en dos escalas. Lo que seguía leyéndose como plantilla era la
-     GEOMETRÍA: rectángulos a escuadra, corte recto entre la foto y la página,
-     y seis miniaturas idénticas en fila. v5 mete el lenguaje orgánico que pide
-     el sitio —es un bosque, no un panel de control—:
+     v6 «directa». v5 «orgánica» metió el lenguaje orgánico que pide el sitio
+     —es un bosque, no un panel de control—:
 
        · la portada ya no termina en una línea recta: una orla curva y
          ASIMÉTRICA (delgada a la izquierda, gruesa a la derecha) disuelve la
@@ -15,42 +12,30 @@
          de 24 px salvo en el logotipo) y pasa a dos renglones de escala
          distinta: el segundo entra más pequeño y sangrado, como un pie de
          entrada editorial.
-       · el plano-índice deja de ir a sangre por los dos lados: se alinea con
-         el contenedor por la izquierda, se va de la ventana por la derecha y
-         redondea sólo sus dos esquinas izquierdas.
        · la tira de aves deja de ser una fila de seis cuadrados iguales: seis
          tamaños distintos, dos alturas y radios de hoja alternos.
 
-     La composición sigue partida en DOS MOVIMIENTOS de escala distinta, que es
-     lo que separa una portada de un listado:
+     v6 RETIRA EL PLANO-ÍNDICE (el aéreo con las cuatro anclas superpuestas).
+     La sección ya no tiene un segundo movimiento de escala distinta: la
+     portada es UN SOLO BLOQUE —fotografía a sangre, titular, entradilla,
+     botones— y de ahí el flujo del documento sigue directo a la tira de aves
+     y, por el botón «Ver los espacios», a #espacios. El aéreo
+     (img/aereo-predio.jpg) no se borra del proyecto —puede seguir vivo en otra
+     sección—; lo que sale es su uso como índice superpuesto de esta portada.
 
-       1. PORTADA A SANGRE — una sola fotografía ocupando la ventana entera
-          (menos la altura de la cabecera fija), con el titular encima en
-          Fraunces fino y grande. Es lo primero que se ve y no comparte fila
-          con nada.
-       2. EL PLANO-ÍNDICE — el aéreo, que sigue sin ir metido en el
-          contenedor, pero desde v5 ya no cruza la ventana por los dos lados:
-          arranca en el margen del contenedor —la misma vertical que su pie y
-          que la tira de aves— y se va de la pantalla por la derecha. La idea
-          de v3 se conserva entera (cuatro anclas que bajan a cuatro
-          secciones); lo que cambia es el tamaño y la mano por la que sangra.
-
-     Los dos bloques son hijos DIRECTOS del <section>, no del .contenedor: así
-     miden el 100 % del ancho del <body> —que ya descuenta la barra de scroll—
-     y se van a sangre sin recurrir a 100vw, que sí desborda 15 px. El texto de
-     cada bloque vuelve a la retícula con su propio .contenedor.
-
-     LA SANGRÍA ALTERNA, Y NO ES CAPRICHO. El plano se va por la DERECHA porque
-     la foto grande de #nosotros —la sección de debajo— se va por la IZQUIERDA.
-     Dos bloques seguidos sangrando por la misma mano se leen como el mismo
-     gesto repetido, que es exactamente la queja que se está corrigiendo.
+     PORTADA A SANGRE — una sola fotografía ocupando la ventana entera (menos
+     la altura de la cabecera fija), con el titular encima en Fraunces fino y
+     grande. Es lo primero que se ve y no comparte fila con nada. Es hija
+     DIRECTA del <section>, no del .contenedor: así mide el 100 % del ancho
+     del <body> —que ya descuenta la barra de scroll— y se va a sangre sin
+     recurrir a 100vw, que sí desborda 15 px. El texto vuelve a la retícula
+     con su propio .contenedor.
 
      QUÉ POSEE ESTA SECCIÓN (ARQUITECTURA-V3 §9) Y NADIE MÁS
        · el tagline de marca, que va en el .eyebrow
        · el tamaño del predio: única mención en toda la página
        · la promesa de cercanía a la vía: única mención en ese registro
        · la frase «los árboles los ponemos nosotros», de la entradilla
-       · img/aereo-predio.jpg convertido en PLANO-ÍNDICE
        · el rótulo del botón de esta sección, que no se repite en ninguna otra
 
      Los cuatro primeros van escritos UNA sola vez cada uno, y sólo en el
@@ -60,7 +45,7 @@
      QUÉ TIENE PROHIBIDO DECIR
        Ninguna cifra de biodiversidad, ningún aforo, ninguna dirección, ningún
        horario, ninguna condición de alquiler y ningún precio. Se enlaza, no se
-       resume: para eso están las cuatro anclas del plano.
+       resume.
 
      POR QUÉ EL <h1>
        La estructura de sección pide h2.titulo-seccion, y de ahí saca el peso,
@@ -96,38 +81,56 @@
        abajo para adelante el fondo vuelve a ser el papel crema. -->
   <div class="inicio__portada sobre-oscuro">
 
-    <!-- v6 · LA PORTADA DEJA DE SER PAISAJE Y PASA A SER RETRATO.
-         La foto anterior (img/portada-inicio.jpg) era un prado a mediodía sin
-         sujeto: sin persona, sin animal, sin acontecimiento. Su propio texto
-         alternativo lo delataba —cuarenta palabras describiendo césped—, y de
-         ahí colgaba todo lo demás: el velo tenía que ser espeso porque el
-         cielo blanco no aguantaba texto crema encima, y no había ni una capa
-         que interpenetrar porque no había nada que estuviera delante de nada.
-
-         Ahora la ventana entera la ocupa el barranquero de Leyner Lozano, del
-         concurso de fotografía del predio. Es el ave que ya encabeza la tira
-         de esta misma sección y la que está pintada como mural en el predio,
-         así que la metáfora no se importa de fuera: ya estaba aquí.
+    <!-- v10 · LA PORTADA CAMBIA DE AVE. El barranquero vertical (Leyner
+         Lozano) sale por uno de los pájaros de Fabio Hernandez, posado entre
+         flores de tulipán africano: la misma metáfora del predio, otra
+         fotografía. Es APAISADA (1600×1092, no 1600×2400), así que no lleva
+         capa de recorte —ver la nota más abajo— ni asume ningún retrato
+         vertical: es una sola foto a sangre.
 
          EL <picture> Y EL ORDEN DE LOS FORMATOS. AVIF primero, WebP después,
          JPG como respaldo del <img>: el navegador se queda con el primero que
-         entienda y no descarga los otros. Pesos reales de la derivación:
-         AVIF 104 KB · WebP 143 KB · JPG 221 KB. El <img> conserva
-         fetchpriority alto, width/height para reservar la caja antes de que
-         llegue un byte, y NADA de loading perezoso: es el LCP.  -->
+         entienda y no descarga los otros. El <img> conserva fetchpriority
+         alto, width/height para reservar la caja antes de que llegue un
+         byte, y NADA de loading perezoso: es el LCP.  -->
     <picture>
-      <source srcset="img/hero-momotus.avif" type="image/avif" />
-      <source srcset="img/hero-momotus.webp" type="image/webp" />
+      <source media="(max-width: 47.99em)" srcset="img/hero-ave-rosada.avif" type="image/avif" />
+      <source media="(max-width: 47.99em)" srcset="img/hero-ave-rosada.webp" type="image/webp" />
+      <source srcset="img/hero-ave-flor.avif" type="image/avif" />
+      <source srcset="img/hero-ave-flor.webp" type="image/webp" />
       <img
         class="inicio__portada-foto"
-        src="img/hero-momotus.jpg"
+        src="img/hero-ave-flor.jpg"
         width="1600"
-        height="2400"
-        alt="Barranquero (Momotus subrufescens) posado en una rama del bosque, con una baya en el pico y la cola de raqueta colgando. Fotografía de Leyner Lozano."
+        height="1092"
+        alt="Ave posada en el bosque de Vegas del Verde."
         fetchpriority="high"
         decoding="async"
       />
     </picture>
+
+    <!-- v11 · LA LUZ QUE SE CUELA ENTRE LAS HOJAS.
+         Una caja VACÍA cuyos dos pseudoelementos (inicio.css §1.b) son los
+         únicos que se mueven: dos claros de sol muy abiertos que cruzan la
+         fotografía cada tanto y se van. Va vacía y sin contenido a propósito,
+         igual que el velo y que .inicio__enjambre: no dice nada, no se lee y
+         no existe para el lector de pantalla.
+
+         POR QUÉ ES UN <div> Y NO UN ::before DE LA FOTOGRAFÍA. La foto es un
+         <img> y un elemento reemplazado no pinta pseudoelementos de forma
+         fiable en todos los navegadores. Y no puede colgar del velo porque
+         entonces se pintaría POR ENCIMA de él, que es justo lo que no puede
+         pasar: la luz tiene que quedar debajo del velo para que el contrato de
+         contraste del titular —medido y anotado en inicio.css— no cambie ni un
+         decimal.
+
+         SU SITIO EN LA PILA LO DA EL ORDEN DEL DOCUMENTO, no un z-index, y es
+         deliberado: un z-index aquí crearía un contexto de apilamiento y el
+         `mix-blend-mode: screen` de los claros dejaría de mezclarse con la
+         fotografía —que es lo que los hace luz y no pintura— para mezclarse
+         con la nada. Por eso va DESPUÉS del <picture> y ANTES del velo: entre
+         hermanos posicionados sin z-index manda quién va primero. -->
+    <div class="inicio__luz" aria-hidden="true"></div>
 
     <div class="inicio__portada-velo" aria-hidden="true"></div>
 
@@ -137,8 +140,8 @@
          subiendo a comerse la foto. La curva es ASIMÉTRICA a propósito —16 de
          120 de alto en el borde izquierdo, 94 en el derecho—: una ola simétrica
          es el divisor de plantilla que se ve en cualquier sitio; una diagonal
-         curva lleva el ojo desde el titular (abajo a la izquierda) hasta donde
-         arranca el plano-índice. Por eso el texto sólo tiene que despejar la
+         curva lleva el ojo desde el titular (abajo a la izquierda) hacia el
+         resto de la página. Por eso el texto sólo tiene que despejar la
          parte fina, aunque el relleno de abajo despeja la orla entera.
          preserveAspectRatio="none" para que estire con la ventana sin dejar
          franja: el alto lo manda --alto-orla en el CSS. -->
@@ -185,7 +188,12 @@
            el bloque se desvaneciera dos veces, una como grupo y otra por hijo.
            La clase `.reveal-secuencia` sola no oculta nada. -->
       <header class="seccion-encabezado inicio__encabezado reveal-secuencia">
-        <p class="eyebrow reveal">Oasis para la recreación y el bienestar</p>
+        <!-- v10 · EL ANTETÍTULO SE RETIRA. «Oasis para la recreación y el
+             bienestar» era el tagline de marca y encima del titular no hacía
+             más que retrasarlo: la portada abre ahora directamente con
+             «Escápate de la ciudad», que dice lo mismo en el registro del
+             sitio y sin sonar a folleto. -->
+
 
         <!-- DOS RENGLONES, DOS ESCALAS. El texto no cambia ni una letra: lo que
              cambia es que la frase deja de ser un bloque de mayúsculas —cinco
@@ -228,25 +236,13 @@
         </p>
 
         <div class="grupo-botones inicio__acciones reveal">
-          <a
-            class="btn btn-whatsapp btn-grande"
-            href="https://wa.me/573166758362?text=Hola%2C%20quiero%20reservar%20mi%20escape%20en%20Vegas%20del%20Verde.%20%C2%BFQu%C3%A9%20fechas%20tienen%20libres%3F"
-            target="_blank"
-            rel="noopener"
-          >
-            <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" focusable="false">
-              <path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.46 1.32 4.96L2 22l5.25-1.38a9.87 9.87 0 0 0 4.79 1.22h.01c5.46 0 9.91-4.45 9.91-9.91 0-2.65-1.03-5.14-2.9-7.01A9.82 9.82 0 0 0 12.04 2Zm0 18.02h-.01a8.2 8.2 0 0 1-4.19-1.15l-.3-.18-3.12.82.83-3.04-.2-.31a8.19 8.19 0 0 1-1.26-4.38c0-4.54 3.7-8.24 8.25-8.24 2.2 0 4.27.86 5.83 2.42a8.2 8.2 0 0 1 2.41 5.83c0 4.54-3.7 8.23-8.24 8.23Z"/>
-              <path d="M17.47 14.38c-.3-.15-1.76-.87-2.03-.97-.27-.1-.47-.15-.67.15-.2.3-.77.97-.94 1.17-.17.2-.35.22-.65.07-.3-.15-1.26-.46-2.4-1.48-.89-.79-1.49-1.77-1.66-2.07-.17-.3-.02-.46.13-.61.13-.13.3-.35.45-.52.15-.17.2-.3.3-.5.1-.2.05-.37-.02-.52-.08-.15-.67-1.61-.92-2.21-.24-.58-.49-.5-.67-.51h-.57c-.2 0-.52.07-.79.37-.27.3-1.04 1.01-1.04 2.47s1.06 2.87 1.21 3.07c.15.2 2.1 3.2 5.08 4.49.71.31 1.26.49 1.69.63.71.23 1.36.19 1.87.12.57-.09 1.76-.72 2.01-1.41.25-.69.25-1.29.17-1.41-.07-.12-.27-.2-.57-.35Z"/>
-            </svg>
-            Reserva tu escape
-          </a>
 
           <!-- SEGUNDO CAMINO, EL DE QUIEN TODAVÍA NO SABE QUÉ VA A PEDIR.
                La portada prometía «escápate» y ofrecía una sola salida:
                escribir por WhatsApp. Quien llega buscando DÓNDE hacer un
                evento —que es la mitad del tráfico de este sitio— no tenía en
                la primera pantalla ni una pista de que aquí se alquilan
-               espacios; el plano-índice lo dice, pero está por debajo del
+               espacios; #espacios lo dice, pero está por debajo del
                pliegue. Este enlace lo resuelve sin subir el volumen: no es un
                segundo botón de conversión, es un `.btn-fantasma` —contorno y
                nada más, cero relleno— al lado del coral, que sigue siendo el
@@ -268,46 +264,11 @@
       </header>
     </div>
 
-    <!-- ======================================================================
-         LA CAPA DE RECORTE — la profundidad, sin un solo byte de red
-
-         Es la MISMA fotografía pintada por segunda vez, encima del titular, y
-         recortada con un `clip-path` que sigue el contorno del pájaro. El
-         resultado es que la cola de raqueta cuelga POR DELANTE de las letras
-         mientras el resto del titular sigue leyéndose sobre el bosque: tres
-         capas interpenetradas en vez de tres capas apiladas.
-
-         POR QUÉ NO CUESTA NADA. La URL es idéntica a la del LCP —mismo
-         `<picture>`, mismas fuentes AVIF/WebP/JPG—, así que el navegador la
-         sirve de la imagen que ya descargó y decodificó: una sola petición de
-         red para las dos capas. `clip-path` con un polígono es trabajo del
-         compositor, no del hilo principal.
-
-         POR QUÉ EL POLÍGONO VA POR DENTRO DEL PÁJARO Y NO HOLGADO. Debajo de
-         esta capa hay un velo de legibilidad; lo que esta capa recorta se
-         pinta SIN ese velo. Si el polígono se saliera del pájaro, ese sobrante
-         sería una mancha de bosque sin velar —más clara que su alrededor— con
-         un borde poligonal perfectamente visible. Al revés no pasa nada: si el
-         polígono muerde unos píxeles del pájaro, esos píxeles siguen ahí
-         debajo, idénticos, en la capa de la foto. Se pierde nada y se gana el
-         no tener franja. Los 35 puntos están medidos sobre la imagen derivada
-         con una cuadrícula superpuesta y van en % de la caja del elemento, que
-         por construcción es exactamente la caja de la imagen (ver inicio.css).
-
-         `aria-hidden` y `alt` vacío: es la misma fotografía que ya está
-         descrita treinta líneas más arriba. Nadie tiene que oírla dos veces.
-
-         En móvil NO SE MONTA (inicio.css la apaga por debajo de 64em): a 375
-         px el `cover` deja la cola fuera de cuadro y el recorte no recortaría
-         nada que valga la pena.
-         ====================================================================== -->
-    <div class="inicio__portada-recorte" aria-hidden="true">
-      <picture>
-        <source srcset="img/hero-momotus.avif" type="image/avif" />
-        <source srcset="img/hero-momotus.webp" type="image/webp" />
-        <img src="img/hero-momotus.jpg" width="1600" height="2400" alt="" decoding="async" />
-      </picture>
-    </div>
+    <!-- v10 · LA CAPA DE RECORTE SE RETIRA. Medía un polígono de 35 puntos a
+         mano sobre el contorno del barranquero vertical de hero-momotus.jpg;
+         la portada pasó a una sola fotografía apaisada del ave entre flores
+         y ese recorte ya no tiene un sujeto que seguir. Se vuelve a una sola
+         capa a sangre, sin interpenetración con el titular. -->
 
     <!-- v9 · LAS TRES SILUETAS DE TRAZO SE RETIRAN, y es una decisión de
          sustracción, no un olvido. La columna derecha acumulaba CUATRO gestos
@@ -338,174 +299,11 @@
 
   </div>
 
-  <!-- ======================================================================
-       2. EL PLANO-ÍNDICE  (ARQUITECTURA-V3 §1.1)
-       El aéreo deja de ser papel pintado: es el índice del sitio entero.
-       Cuatro anclas internas —Espacios, Sendero, Vivero, Cómo llegar— para
-       que el visitante vea de qué se compone el predio antes de leer nada, y
-       para que ninguna sección de más abajo tenga que re-listar lo que hay.
-
-       Las cuatro coordenadas (left/top en %) se eligieron ampliando el render
-       antes de fijarlas; van en inicio.css, no aquí, para que mover un punto
-       no obligue a tocar el HTML.
-
-       TRES CAJAS Y NO UNA, a propósito:
-         .inicio__plano-lienzo → sólo da el sistema de coordenadas. No recorta.
-         .inicio__plano-marco  → el que lleva la proporción y el recorte.
-         .inicio__anclas       → hermana del marco, NO hija. Si viviera dentro
-           del marco, el `overflow: hidden` que recorta la foto se comería la
-           rejilla de pastillas que las anclas forman debajo del plano en
-           móvil y en tableta.
-
-       La superposición sólo existe a partir de 64em. Por debajo, las cuatro
-       anclas bajan del plano y se convierten en una rejilla de pastillas: en
-       una pantalla de teléfono un punto de 12 px sobre una foto de 190 px de
-       alto no se acierta con el dedo (inicio.css lo explica en detalle).
-       ====================================================================== -->
-  <figure class="inicio__plano reveal reveal--velo">
-
-    <div class="inicio__plano-lienzo">
-
-      <div class="inicio__plano-marco">
-        <img
-          class="inicio__plano-foto"
-          src="img/aereo-predio.jpg"
-          width="2000"
-          height="1013"
-          alt="Vista aérea del predio de Vegas del Verde: un paseo ancho de tierra clara cruza en diagonal el prado, con las construcciones de techo blanco y la estructura de techo translúcido arriba, una vela de sombra triangular sobre el césped y el camino de acceso abajo a la derecha; el bosque lo rodea por los cuatro costados."
-          loading="lazy"
-          decoding="async"
-        />
-      </div>
-
-      <!-- ESPACIOS VA PRIMERO, y es la otra mitad del encargo comercial.
-           En escritorio las cuatro anclas están posicionadas en absoluto sobre
-           sus coordenadas del render, así que el ORDEN DEL DOCUMENTO no mueve
-           nada de sitio: lo único que cambia es qué se lee primero con el
-           lector de pantalla y qué se alcanza primero con el tabulador. En
-           móvil y tableta —donde las cuatro bajan a una rejilla— sí cambia el
-           orden visual, y también ahí Espacios encabeza.
-           Antes el recorrido empezaba por Vivero, que es la venta más pequeña
-           del predio. Empezar por Espacios no le quita presencia a ninguna de
-           las otras tres: sigue habiendo cuatro anclas del mismo tamaño. -->
-      <ul class="inicio__anclas" role="list" aria-label="Índice del predio sobre el plano">
-        <li class="inicio__ancla-item inicio__ancla-item--espacios">
-          <a class="inicio__ancla" href="#espacios">
-            <span class="inicio__punto" aria-hidden="true"></span>
-            <span class="inicio__rotulo">Espacios</span>
-          </a>
-        </li>
-        <li class="inicio__ancla-item inicio__ancla-item--vivero">
-          <a class="inicio__ancla" href="#vivero">
-            <span class="inicio__punto" aria-hidden="true"></span>
-            <span class="inicio__rotulo">Vivero</span>
-          </a>
-        </li>
-        <li class="inicio__ancla-item inicio__ancla-item--sendero">
-          <a class="inicio__ancla" href="#naturaleza">
-            <span class="inicio__punto" aria-hidden="true"></span>
-            <span class="inicio__rotulo">Sendero</span>
-          </a>
-        </li>
-        <li class="inicio__ancla-item inicio__ancla-item--llegar">
-          <a class="inicio__ancla" href="#ubicacion">
-            <span class="inicio__punto" aria-hidden="true"></span>
-            <span class="inicio__rotulo">Cómo llegar</span>
-          </a>
-        </li>
-      </ul>
-
-    </div>
-
-    <figcaption class="inicio__plano-pie">
-      El predio visto desde arriba. Cada punto del plano baja a esa parte del sitio.
-    </figcaption>
-
-  </figure>
-
-  <!-- ======================================================================
-       TIRA DE AVES — ATMÓSFERA, NO ARCHIVO  (ARQUITECTURA-V3 §5)
-       Seis fotos del concurso en papel decorativo: aquí NO llevan ficha ni
-       crédito visible, porque el único sitio del sitio con fichas acreditadas
-       es el muro de #naturaleza y duplicarlas era justo el defecto medido.
-       El crédito al fotógrafo no se pierde: va en el `alt`, y sale literal de
-       img/aves/_creditos.json. Nunca se inventa un autor.
-       Orden: ave-14 · ave-38 · ave-27 · ave-07 · ave-56 · ave-31.
-       La tira ya no va centrada: arranca en el margen izquierdo del
-       contenedor, alineada con el pie del plano. Seis cuadrados centrados
-       debajo de una imagen a sangre eran otra fila simétrica más.
-
-       v5 — Y TAMPOCO SON SEIS CUADRADOS IGUALES. Seis miniaturas del mismo
-       tamaño, alineadas por arriba y por abajo, son una fila de plantilla por
-       mucho que la fila esté descentrada. Ahora cada una lleva su propio
-       tamaño (del 0,62 al 1,3 del módulo), dos de ellas suben de la línea de
-       base y los radios alternan entre dos formas de hoja. Los seis <li> son
-       hijos .reveal de una .reveal-secuencia: entran escalonados de 90 en 90
-       ms —seis hijos, por debajo del tope de ocho— en vez de aparecer la tira
-       entera de golpe.
-       ====================================================================== -->
-  <ul class="inicio__aves reveal-secuencia" role="list">
-    <li class="inicio__ave reveal reveal--zoom">
-      <img
-        src="img/aves/ave-14-saltador-pio.jpg"
-        width="1300"
-        height="975"
-        alt="Saltador pío de plumaje oliva y pecho claro, posado en una rama cubierta de musgo. Fotografía de Carlos Serrano."
-        loading="lazy"
-        decoding="async"
-      />
-    </li>
-    <li class="inicio__ave reveal reveal--zoom">
-      <img
-        src="img/aves/ave-38-carpintero.jpg"
-        width="1300"
-        height="1040"
-        alt="Carpintero de cresta roja y espalda oscura, agarrado al tronco de un árbol entre hojas verdes. Fotografía de Jesus Lopez."
-        loading="lazy"
-        decoding="async"
-      />
-    </li>
-    <li class="inicio__ave reveal reveal--zoom">
-      <img
-        src="img/aves/ave-27-colibri.jpg"
-        width="867"
-        height="1300"
-        alt="Colibrí de plumaje verde en pleno vuelo, con las alas abiertas junto a una flor naranja de heliconia. Fotografía de Eritmoratto."
-        loading="lazy"
-        decoding="async"
-      />
-    </li>
-    <li class="inicio__ave reveal reveal--zoom">
-      <img
-        src="img/aves/ave-07-thraupis-episcopus.jpg"
-        width="1040"
-        height="1300"
-        alt="Ave de plumaje azul pálido (Thraupis episcopus) posada en una rama con musgo, sobre un fondo verde desenfocado. Fotografía de Jonathan Layton Avila."
-        loading="lazy"
-        decoding="async"
-      />
-    </li>
-    <li class="inicio__ave reveal reveal--zoom">
-      <img
-        src="img/aves/ave-56-canario.jpg"
-        width="1300"
-        height="1300"
-        alt="Canario amarillo caminando sobre el césped, entre hojas secas. Fotografía de Yeraldilsa Gamboa."
-        loading="lazy"
-        decoding="async"
-      />
-    </li>
-    <li class="inicio__ave reveal reveal--zoom">
-      <img
-        src="img/aves/ave-31-periquito-bronceado.jpg"
-        width="867"
-        height="1300"
-        alt="Periquito bronceado, verde y de pico anaranjado, inclinado sobre una rama cubierta de plantas epífitas, con luz cálida de la tarde. Fotografía de Fabiola Rueda."
-        loading="lazy"
-        decoding="async"
-      />
-    </li>
-  </ul>
+  <!-- v13 · LA TIRA DE AVES SE RETIRA. Pedido directo, con captura de
+       pantalla de las seis miniaturas en fila bajo la foto principal. Se
+       borra el <ul> entero y su CSS (.inicio__aves/.inicio__ave en
+       inicio.css §2) para no dejar reglas huérfanas. El flujo de la portada
+       pasa directo de la foto principal a «EL AIRE DEL BOSQUE». -->
 
   <!-- ======================================================================
        EL AIRE DEL BOSQUE — canvas de partículas sobre la portada
@@ -538,16 +336,23 @@
          AÚN SIN DECODIFICAR, que es justo la carrera que este cerrojo
          evita. decode() resuelve en el acto si ya está decodificada y
          espera también la carga si no ha terminado: cubre los dos casos. */
+      /* v10 · LA FOTO ES LA CAPA ÚNICA, así que ella misma es el LCP y se ve
+         de inmediato — no hay nada que ocultar ni revelar. Lo que sí entra
+         un segundo después de que decode() resuelve es lo VIVO de la escena
+         —hojas, polen, mariposas y colibrí—, montado por los dos módulos de
+         abajo: el retraso es a propósito, para que el gesto llegue cuando el
+         titular ya se leyó y nunca compita con el pintado del LCP. */
       foto.decode().catch(() => {})
+        .then(() => new Promise((r) => setTimeout(r, 1000)))
         .then(() => Promise.all([
-          import('./js/particulas-hero.js?v=0fef6596')
+          import('./js/particulas-hero.js?v=b09ed560')
             .then((m) => m?.montarParticulas(portada, foto))
             .catch(() => {}),
           /* El enjambre va DESPUÉS del mismo cerrojo y en su propia rama: si
              uno de los dos módulos falla, el otro sigue vivo. Los PNG de las
              mariposas no se piden hasta aquí, así que no compiten con el LCP
              ni por red ni por decodificación. */
-          import('./js/enjambre-hero.js?v=b8fb2f94')
+          import('./js/enjambre-hero.js?v=0594b6cd')
             .then((m) => m?.montarEnjambre(document.querySelector('.inicio__enjambre')))
             .catch(() => {}),
         ]))

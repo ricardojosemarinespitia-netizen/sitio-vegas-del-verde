@@ -1,5 +1,17 @@
 /* ==========================================================================
-   VEGAS DEL VERDE — inicio.css  ·  sección #inicio  ·  v5 «orgánica»
+   VEGAS DEL VERDE — inicio.css  ·  sección #inicio  ·  v6 «directa»
+
+   QUÉ CAMBIA RESPECTO A v5 Y POR QUÉ
+   v5 metía el lenguaje orgánico (ver más abajo) pero conservaba el
+   PLANO-ÍNDICE: el aéreo con las cuatro anclas (Espacios/Vivero/Sendero/Cómo
+   llegar) superpuestas, como segundo movimiento de la portada. v6 lo retira
+   entero —figura, lienzo, marco, anclas, pie— junto con todas sus reglas. La
+   sección ya no tiene dos bloques a sangre de escala distinta: sólo queda
+   .inicio__portada, y de ahí el documento sigue directo a la tira de aves y,
+   por el botón «Ver los espacios», a #espacios. Nada de lo que sigue depende
+   del plano; lo único que se conserva de esa arquitectura es el propio
+   ARCHIVO de imagen (img/aereo-predio.jpg no se toca aquí: puede seguir
+   usándose en otra sección).
 
    QUÉ CAMBIA RESPECTO A v4 Y POR QUÉ
    v4 arregló la ESCALA (portada de ventana entera + plano gigante) y con eso
@@ -33,9 +45,8 @@
        sobre el papel.
      · LA TIRA DE AVES deja de ser una fila de seis cuadrados iguales.
 
-   Lo que NO cambia: los hechos, el reparto de la tabla de propiedad, las
-   coordenadas de las cuatro anclas, los encuadres de cada fotografía y la
-   prohibición de valores literales.
+   Lo que NO cambia: los hechos, el reparto de la tabla de propiedad, los
+   encuadres de cada fotografía y la prohibición de valores literales.
    --------------------------------------------------------------------------
    LO QUE YA VENÍA DE v4 «abrir de verdad», y sigue vigente:
    Depende de tokens.css + base.css (cargarlos antes). Ningún valor literal de
@@ -47,22 +58,17 @@
    figura, tira. Leída en fila con las ocho secciones siguientes, la portada
    tenía exactamente el mismo compás que un listado de espacios, y eso —no la
    falta de efectos— es lo que hacía que la página se leyera como generada.
-   v4 rompe ese compás con dos escalas que ninguna otra sección usa:
-
-     1. PORTADA A SANGRE, alto de ventana, foto a pantalla completa y el
-        titular encima a --fs-hero (hasta 84 px en 1440). Es el único titular
-        de la página que sube de --fs-h2.
-     2. PLANO-ÍNDICE A SANGRE, de borde a borde de la ventana y a proporción
-        natural en escritorio, para que las cuatro anclas sigan cayendo
-        exactamente sobre lo que señalan.
+   v4 rompió ese compás con una PORTADA A SANGRE, alto de ventana, foto a
+   pantalla completa y el titular encima a --fs-hero/--fs-portada. Es el
+   único titular de la página que sube de --fs-h2.
 
    POR QUÉ NADA DE ESTO USA 100vw
-   Los dos bloques a sangre son hijos directos del <section>, así que su 100 %
-   ya es el ancho del <body>, que descuenta la barra de scroll. Con 100vw
-   habría 15 px de desbordamiento horizontal real en todo escritorio con
-   barra visible. El mismo motivo explica el `margin-inline` con max() que
-   alinea el pie del plano y la tira de aves con el contenedor: es aritmética
-   de porcentajes, no de ventana.
+   La portada a sangre es hija directa del <section>, así que su 100 % ya es
+   el ancho del <body>, que descuenta la barra de scroll. Con 100vw habría
+   15 px de desbordamiento horizontal real en todo escritorio con barra
+   visible. El mismo motivo explica el `margin-inline` con max() que alinea
+   la tira de aves con el contenedor: es aritmética de porcentajes, no de
+   ventana.
 
    ESTRUCTURA
      .inicio                        la sección (crema, la de serie)
@@ -72,23 +78,6 @@
          .inicio__portada-orla      v5 · la curva de papel que remata el pie
          .inicio__portada-interior  .contenedor con el encabezado
            .inicio__titulo-linea    v5 · los dos renglones del titular
-       .inicio__plano               <figure> con el render aéreo
-         .inicio__plano-lienzo      coordenadas de las anclas · sangra a la dcha.
-           .inicio__plano-marco     proporción + recorte + radios de hoja
-           .inicio__anclas          Vivero · Sendero · Espacios · Cómo llegar
-         .inicio__plano-pie         <figcaption>, alineado al contenedor
-       .inicio__aves                seis miniaturas de atmósfera, desiguales
-
-   POR QUÉ LAS ANCLAS NO SE SUPERPONEN HASTA 64em
-   Sobre el plano, cada ancla es una pastilla de ~2,1 rem de alto colocada en
-   coordenadas porcentuales. En un teléfono el render (2000 × 1013) baja a unos
-   190 px de alto: las cuatro pastillas se pisarían entre ellas y quedarían muy
-   por debajo del objetivo táctil de 44 px que pide WCAG 2.5.5. Por eso, por
-   debajo de 64em, las anclas SALEN del plano y se convierten en una rejilla de
-   dos columnas debajo de la foto, con altura de botón. El plano sigue siendo el
-   índice; lo que cambia es dónde se toca. El corte en 64em es el mismo que usa
-   base.css para dar tamaño táctil, así que no queda ninguna franja de anchos en
-   la que las anclas estén superpuestas y sean pequeñas a la vez.
    ========================================================================== */
 
 /* La cabecera es fija (shell.css): la portada se aparta ella misma justo lo
@@ -102,8 +91,8 @@
   padding-bottom: var(--esp-seccion);
   scroll-margin-top: 0;
   /* v5 — TEXTURA, NO COLOR. Dos manchas radiales muy abiertas y casi
-     invisibles (7 % y 5 % de alfa) que rompen el plano liso del papel debajo
-     del plano-índice y de la tira de aves. Se declaran como `background-image`
+     invisibles (7 % y 5 % de alfa) que rompen la superficie lisa del papel
+     debajo de la tira de aves. Se declaran como `background-image`
      y no como pseudoelemento a propósito: un fondo pinta siempre por detrás
      del contenido, así que no hace falta pelearse con el z-index ni arriesgar
      que la mancha se coma un texto. Sin `background-color`: el papel sigue
@@ -128,40 +117,25 @@
      texto, que tiene que despejarla. Un solo número, dos consumidores. */
   --alto-orla: clamp(2.25rem, 5vw, 5.5rem);
 
-  /* v6 · EL ENCUADRE DE LA PORTADA, ESCRITO UNA SOLA VEZ.
-     De este número cuelgan TRES consumidores que tienen que coincidir al
+  /* v10 · EL ENCUADRE DE LA PORTADA, ESCRITO UNA SOLA VEZ.
+     De este número cuelgan DOS consumidores que tienen que coincidir al
      píxel o el efecto de profundidad se despega:
        1. el `object-position` vertical de la fotografía de fondo;
-       2. la geometría de .inicio__portada-recorte, que no usa object-fit sino
-          que REPLICA el encuadre con caja propia (ver allí la cuenta);
-       3. POSICION_FOTO en js/particulas-hero.js, que replica el mismo
+       2. POSICION_FOTO en js/particulas-hero.js, que replica el mismo
           `cover` para que el polen nazca del follaje real y no del aire.
-     Está en 14 % y no en el 52 % que traía la portada anterior porque aquel
-     archivo era un prado con cielo arriba y este es un retrato vertical: con
-     el centro geométrico, en escritorio la ventana se llenaba de rama y la
-     cabeza del pájaro quedaba fuera por arriba. Medido en la página montada:
-     en 1280 × 716 la ventana enseña la franja 0,104–0,447 de la imagen —de la
-     corona a la rama del posadero—, y la corona queda a 44 px del borde de
-     arriba, holgura suficiente para que el vaivén del paralaje (±25 px) no la
-     recorte nunca.
+     (Hasta v9 había un tercer consumidor, la capa de recorte del barranquero;
+     se retiró junto con esa capa — ver la nota más abajo.)
      Si se cambia, hay que cambiarlo TAMBIÉN en particulas-hero.js. */
-  --pos-foto-y: 14%;
+  --pos-foto-y: 42%;
 
   /* El paralaje, en dos números y ni uno más.
      --zoom-paralaje  : la sobre-escala que impide que el vaivén descubra el
                         borde de la fotografía en el ancho más estrecho, donde
                         el `cover` no deja sobrante vertical ninguno.
-     --margen-zoom    : la mitad de lo que sobra por esa escala, que es lo que
-                        la capa de recorte tiene que desbordar por cada lado
-                        para nacer ya alineada con la foto de fondo.
-     --recorrido-paralaje: el vaivén, EN vw y no en %, y esto es la clave del
-                        asunto. Las dos capas de fotografía tienen cajas de
-                        alturas distintas, así que un 5 % desplazaría a cada
-                        una una cantidad distinta de píxeles y el recorte se
-                        despegaría en cuanto se moviera la rueda. Una longitud
-                        absoluta desplaza a las dos exactamente lo mismo. */
+     --recorrido-paralaje: el vaivén, EN vw y no en %, para que sea una
+                        longitud absoluta y no dependa de la altura de la
+                        caja. */
   --zoom-paralaje: 1.1;
-  --margen-zoom: calc((var(--zoom-paralaje) - 1) / 2 * 100%);
   --recorrido-paralaje: 2vw;
 
   /* Y AQUÍ LA SOBRE-ESCALA SE APAGA, QUE ES EL ARREGLO DE UN FALLO REAL.
@@ -246,40 +220,18 @@
         dentro de la horquilla de 5–15 % que admite el sistema, y el
         `scale(1.1)` está para que ese 10 % nunca descubra el borde.
    ------------------------------------------------------------------------ */
-/* v6 · UNA SOLA LÍNEA DE TIEMPO PARA LAS DOS CAPAS DE FOTOGRAFÍA, Y ES LA
-   PIEZA MÁS FRÁGIL DE TODA LA PORTADA.
-
-   Desde v6 la fotografía se pinta DOS veces: el fondo (.inicio__portada-foto)
-   y el recorte del pájaro por delante del titular (.inicio__portada-recorte).
-   Si las dos no se desplazan exactamente igual en cada fotograma, el recorte
-   se despega de su propia sombra y el efecto se convierte en un error.
-
-   Lo obvio —un envoltorio común que lleve el paralaje— aquí NO se puede: el
-   titular tiene que quedar EN MEDIO de las dos capas, y un envoltorio con
-   `transform` crea contexto de apilamiento, así que sus dos hijas se pintarían
-   siempre juntas y no habría manera de meter el texto entre ellas.
-
-   La atadura equivalente, y más fuerte, son estas dos:
-     1. UNA línea de tiempo con nombre, declarada en la portada
-        (`view-timeline-name`) y consumida por las dos capas. Con `view()` cada
-        elemento mide SU PROPIO paso por la ventana, y como las dos cajas
-        tienen alturas distintas, el progreso sería distinto: desfase
-        garantizado. Con la línea nombrada, el progreso es uno solo.
-     2. El recorrido va en `vw` —una longitud absoluta— y no en porcentaje. Un
-        5 % de la caja de cada capa son cantidades de píxeles distintas; 2vw
-        son los mismos píxeles para las dos.
-   La sobre-escala del fondo (--zoom-paralaje) no se le aplica al recorte como
-   `transform`: se le da HORNEADA en su geometría (ver .inicio__portada-recorte),
-   porque escalar dos cajas de distinto alto alrededor de sus propios centros
-   también las desalinea.
-
-   LAS TRES GUARDAS DE SIEMPRE, intactas:
+/* v10 · UNA SOLA CAPA DE FOTOGRAFÍA. Hasta v9 la fotografía se pintaba DOS
+   veces —el fondo (.inicio__portada-foto) y un recorte del pájaro por
+   delante del titular, atados a una misma línea de tiempo con nombre para
+   que no se desalinearan fotograma a fotograma—. El recorte se retiró (ver
+   más abajo) y con él toda la atadura entre dos capas: sólo queda el
+   paralaje del fondo, sin envoltorio ni segunda línea de tiempo que
+   sincronizar.
+   LAS DOS GUARDAS DE SIEMPRE, intactas:
      1. `prefers-reduced-motion: no-preference` — quien pide menos movimiento
         no recibe ninguno: la animación ni se declara.
-     2. `@supports` — donde no exista, las dos capas se quedan quietas y
-        alineadas, que es un estado perfectamente válido.
-     3. El recorrido es pequeño y la sobre-escala lo cubre, así que el vaivén
-        no descubre el borde de la fotografía ni en el ancho más estrecho.  */
+     2. `@supports` — donde no exista, la capa se queda quieta, que es un
+        estado perfectamente válido.  */
 @media (prefers-reduced-motion: no-preference) {
   @supports (animation-timeline: view()) {
     .inicio__portada {
@@ -293,28 +245,17 @@
        `animation:` deja la duración en su valor inicial y ese valor cambió de
        `0s` a `auto` entre dos versiones de la especificación: escribirlo evita
        depender de cuál de las dos implementa el navegador. */
-    .inicio__portada-foto,
-    .inicio__portada-recorte {
+    .inicio__portada-foto {
       animation-duration: auto;
       animation-timing-function: linear;
       animation-fill-mode: both;
       animation-timeline: --paralaje-portada;
       animation-range: entry 0% exit 100%;
-    }
-
-    .inicio__portada-foto {
       animation-name: inicio-paralaje;
-    }
-
-    .inicio__portada-recorte {
-      animation-name: inicio-paralaje-recorte;
     }
   }
 }
 
-/* El desplazamiento va PRIMERO y la escala después: al revés, la escala
-   multiplicaría también el recorrido y las dos capas volverían a moverse
-   cantidades distintas. */
 @keyframes inicio-paralaje {
   from {
     transform: translate3d(0, calc(-1 * var(--recorrido-paralaje)), 0)
@@ -327,144 +268,190 @@
   }
 }
 
-/* El mismo recorrido, más la traslación estática que coloca la capa en su
-   sitio (ver .inicio__portada-recorte). Se repite aquí porque una animación
-   sustituye el `transform` entero: si no se reescribiera, la capa saltaría a
-   su posición sin desplazar en cuanto arrancara la animación. */
-@keyframes inicio-paralaje-recorte {
-  from {
-    transform: translate3d(0, calc(-1 * var(--recorrido-paralaje)), 0)
-      translateY(calc(-1 * var(--pos-foto-y)));
-  }
-
-  to {
-    transform: translate3d(0, var(--recorrido-paralaje), 0)
-      translateY(calc(-1 * var(--pos-foto-y)));
-  }
-}
+/* v10 · LA CAPA DE RECORTE SE RETIRA. Su clip-path de 40 puntos estaba
+   medido a mano sobre el contorno del barranquero vertical (1600x2400) de
+   img/hero-momotus.jpg. La portada pasó al ave entre flores de tulipán
+   africano, una foto APAISADA (distinta proporción, distinto sujeto): ese
+   polígono ya no recorta nada con sentido. Se retira en vez de remedirse
+   porque el pedido explícito fue volver a una sola fotografía a sangre, sin
+   capas de interpenetración. */
 
 /* ==========================================================================
-   LA CAPA DE RECORTE — el pájaro por delante del titular
-   --------------------------------------------------------------------------
-   POR QUÉ NO USA `object-fit: cover` COMO LA CAPA DE FONDO
-   `clip-path` recorta la CAJA del elemento, no la fotografía que hay dentro.
-   Con `cover`, la imagen se coloca dentro de la caja según el ancho de la
-   ventana, así que un mismo polígono en porcentajes caería sobre una parte
-   distinta del pájaro en cada tamaño de pantalla: el recorte sólo encajaría
-   en el ancho en el que se midió.
-   La solución es que la caja SEA la fotografía. Aquí la caja se declara con la
-   proporción del archivo (2:3, 1600 × 2400) y se coloca replicando a mano lo
-   que `cover` hace con la capa de fondo. Consecuencia: los porcentajes del
-   `clip-path` son coordenadas de la imagen, iguales en 1024 que en 1920, y se
-   pueden medir una vez sobre el archivo.
+   1.b LA LUZ QUE SE CUELA ENTRE LAS HOJAS  ·  v11
+   (la caja vive en sections/hero.html, justo detrás del <picture>)
 
-   LA CUENTA, para que se pueda auditar. Con W = ancho de la portada,
-   H = su alto y P = --pos-foto-y:
-     · `cover` con una imagen más alta que la caja escala por el ancho: la
-       imagen se pinta W × 1,5W, desplazada (H − 1,5W)·P desde arriba.
-     · luego el fondo se sobre-escala por Z = --zoom-paralaje respecto al
-       centro de la portada.
-   Deshaciendo las dos cosas, esta capa tiene que medir Z·W de ancho —de ahí el
-   desbordamiento de --margen-zoom por cada lado— y colocarse en
-   `top: Z·P − margen`, con una traslación de −P de su PROPIO alto. Esa última
-   traslación es la que aporta el término −Z·P·1,5W sin necesidad de conocer W:
-   el porcentaje de `translateY` se mide contra la altura del propio elemento,
-   que es exactamente Z·1,5W. Comprobado con números en 1280 × 716: las dos
-   capas caen en el mismo píxel.
+   QUÉ ES, Y QUÉ NO ES. No es el brillo diagonal de plantilla que cruza un
+   botón cada dos segundos. Es lo que hace el sol de la tarde cuando el aire
+   mueve las copas: un claro se abre, la luz baja hasta el suelo, se estira, y
+   se cierra. Después no pasa nada durante un buen rato. Esa PAUSA es la mitad
+   del efecto —sin ella el gesto se lee como un carrusel de anuncios— y por eso
+   los dos claros sólo están encendidos en un tercio de su ciclo.
 
-   LA VALIDEZ TIENE UN LÍMITE, y por eso esta capa no se monta en móvil: la
-   cuenta supone que la imagen es MÁS ALTA que la portada (1,5W > H). A partir
-   de 64em siempre lo es (1,5 × 1024 = 1536 frente a un alto máximo de 52rem);
-   por debajo deja de serlo y además el `cover` de un teléfono deja la cola
-   fuera de cuadro, así que no habría nada que adelantar.
+   DOS CLAROS Y NO UNO, con ciclos que no son múltiplos entre sí (4 y 5,4 veces
+   --dur-vuelo, o sea 18 s y 24,3 s). Al no ser conmensurables nunca vuelven a
+   coincidir: la portada no repite nunca el mismo fotograma y no hay un compás
+   que el ojo pueda contar. Es la misma regla de DIRECTRICES §7 con la que se
+   desincronizaron las mariposas y los cuatro clips de #momentos.
+
+   POR QUÉ MEZCLA EN `screen` Y NO ES UNA CAPA DE PINTURA ENCIMA. Un rectángulo
+   crema translúcido sobre una foto la LAVA: baja el contraste de todo por
+   igual y se ve una veladura, no un rayo. En `screen` el claro sólo puede
+   ACLARAR, y aclara mucho más lo que ya estaba claro —los soles del bokeh—
+   que las sombras del follaje, que es exactamente lo que hace la luz de
+   verdad. Requiere que la caja NO tenga z-index, ver el comentario del
+   fragmento.
+
+   POR QUÉ NO LLEVA `filter: blur()`. La suavidad la da la propia rampa del
+   degradado, que tarda casi la mitad del ancho del claro en llegar a su punto
+   más alto y otro tanto en apagarse. Un `blur` habría metido un valor literal
+   en píxeles (prohibido) y, sobre todo, obliga a rasterizar de nuevo una capa
+   del tamaño de la portada. Así no se toca nada fuera del compositor.
+
+   SU SITIO EN LA PILA: por ENCIMA de la fotografía y por DEBAJO del velo. El
+   contrato de contraste del titular está medido contra el velo, y el velo se
+   pinta después: la luz no puede subir ni un decimal por encima de él, así que
+   ninguno de los números anotados en .inicio__portada-velo cambia.
+
+   MOVIMIENTO REDUCIDO: las animaciones se declaran DENTRO de
+   `no-preference`. El estado estático de los dos claros es `opacity: 0`, así
+   que quien pide menos movimiento no ve una banda parada encima de la foto:
+   no ve absolutamente nada. Y como todo esto es CSS, sin JS la portada se ve
+   igual de completa.
+
+   NO SE PAUSA FUERA DE PANTALLA, y es una decisión y no un olvido: son dos
+   propiedades de compositor (`translate` y `opacity`) sobre dos
+   pseudoelementos de un mismo bloque, exactamente el mismo coste y el mismo
+   trato que ya recibe la gota de .inicio__bajar-linea::after, que también
+   corre en bucle sin observador. Meter un IntersectionObserver aquí sería
+   JavaScript nuevo para apagar dos capas GPU.
    ========================================================================== */
-.inicio__portada-recorte {
-  position: absolute;
-  display: none;
-  left: calc(-1 * var(--margen-zoom));
-  top: calc(var(--zoom-paralaje) * var(--pos-foto-y) - var(--margen-zoom));
-  /* Por encima del interior (--z-elevado) y muy por debajo de la cabecera
-     fija (--z-header): es lo único de la portada que pasa por delante del
-     texto, y no puede pasar por delante del menú. */
-  z-index: calc(var(--z-elevado) + 1);
-  width: calc(100% + 2 * var(--margen-zoom));
-  aspect-ratio: 2 / 3;
-  transform: translateY(calc(-1 * var(--pos-foto-y)));
-  pointer-events: none;
+.inicio__luz {
+  /* Los dos ciclos. Salen de --dur-vuelo (la duración «cinematográfica» del
+     sistema), multiplicada: no se inventa ninguna duración nueva, y los dos
+     factores son a propósito uno entero y otro no para que nunca rimen. */
+  --dur-claro: calc(var(--dur-vuelo) * 4);
+  --dur-claro-eco: calc(var(--dur-vuelo) * 5.4);
 
-  /* EL CONTORNO DEL BARRANQUERO, en coordenadas de la imagen derivada.
-     40 puntos medidos con una cuadrícula del 5 % sobre img/hero-momotus.jpg.
-     Va por DENTRO del pájaro, nunca holgado: lo que esta capa recorta se pinta
-     sin el velo de legibilidad que sí lleva la capa de fondo, así que un
-     sobrante de polígono sería una mancha de bosque más clara con borde
-     poligonal. Morder unos píxeles del ave, en cambio, no se ve: debajo está
-     la misma fotografía con los mismos píxeles. */
-  clip-path: polygon(
-    67.5% 14%, 70.5% 15.2%, 76.5% 16.2%, 75.5% 17.4%, 70% 18.8%, 69.3% 21%,
-    69.6% 25%, 68.7% 30%, 67.6% 34.5%, 65.6% 39%, 62.5% 42.5%, 59% 46.5%,
-    55.5% 50%, 52% 53%, 49.8% 58%, 48.6% 66%, 46.8% 75%, 45% 78%, 46.8% 80%,
-    47% 85%, 45.3% 90%, 43% 96%, 40.2% 95.5%, 39.7% 90.5%, 41.2% 85%,
-    43.5% 80%, 44% 77%, 44.6% 72%, 45.3% 65%, 46% 57%, 46.9% 50%, 48.9% 47%,
-    48.1% 41%, 48.9% 36%, 50% 31%, 51.6% 27.5%, 53.5% 24%, 55.7% 20%,
-    58% 16.5%, 62% 14.2%
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+/* EL CLARO GRANDE. Un huso de luz cálida inclinado como cae el sol de la
+   tarde, más alto que la portada por arriba y por abajo (de ahí el -60 %) para
+   que sus cantos rectos queden SIEMPRE fuera de cuadro: lo único que se ve del
+   claro es su degradado, nunca un borde.
+   El amarillo del logo en el centro y la crema en los flancos: el corazón del
+   rayo es cálido y las orillas son luz neutra, que es como se ve un haz de sol
+   con polvo dentro. */
+.inicio__luz::before,
+.inicio__luz::after {
+  content: "";
+  position: absolute;
+  top: -60%;
+  bottom: -60%;
+  /* Sin animación declarada —la parte de abajo la enciende— el claro está
+     apagado. Es el estado inicial horneado que pide DIRECTRICES §7: nunca hay
+     un fotograma con una banda quieta encima de la fotografía. */
+  opacity: 0;
+  /* En `screen` la capa sólo puede aclarar: es luz, no pintura. */
+  mix-blend-mode: screen;
+}
+
+.inicio__luz::before {
+  left: -46%;
+  width: 44%;
+  /* La inclinación va en `rotate` —propiedad independiente— y no dentro de un
+     `transform`, para dejar `translate` libre: así el recorrido lo escribe una
+     animación que no tiene que repetir el ángulo en cada fotograma, que es la
+     trampa de DIRECTRICES §7 (dos animaciones sobre `transform` no se suman). */
+  rotate: 14deg;
+  background-image: linear-gradient(
+    to right,
+    transparent 0%,
+    rgb(var(--crema-rgb) / 0.05) 26%,
+    rgb(var(--amarillo-rgb) / 0.16) 50%,
+    rgb(var(--crema-rgb) / 0.05) 74%,
+    transparent 100%
   );
 }
 
-@media (min-width: 64em) {
-  .inicio__portada-recorte {
-    display: block;
+/* EL SEGUNDO CLARO. Más estrecho, más frío y bastante más tenue: no es otro
+   rayo, es la rendija que queda al lado del primero. Se inclina al revés para
+   que los dos no se lean como una misma banda pasando dos veces. */
+.inicio__luz::after {
+  left: -34%;
+  width: 26%;
+  rotate: -9deg;
+  background-image: linear-gradient(
+    to right,
+    transparent 0%,
+    rgb(var(--crema-rgb) / 0.09) 50%,
+    transparent 100%
+  );
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .inicio__luz::before {
+    /* Dos animaciones, dos propiedades distintas: se COMPONEN en vez de
+       pisarse. La del recorrido lleva --ease-traza, que arranca despacio, coge
+       velocidad en el tramo largo y frena al final —el mismo perfil con el que
+       la gota baja por su tallo—; la del brillo va en --ease-suave para que
+       encienda y apague sin canto. Misma duración en las dos: el claro nunca
+       se enciende cuando está parado. */
+    animation:
+      inicio-luz-cruza var(--dur-claro) var(--ease-traza) infinite,
+      inicio-luz-brilla var(--dur-claro) var(--ease-suave) infinite;
+  }
+
+  .inicio__luz::after {
+    animation:
+      inicio-luz-cruza var(--dur-claro-eco) var(--ease-traza) infinite,
+      inicio-luz-brilla var(--dur-claro-eco) var(--ease-suave) infinite;
   }
 }
 
-/* EL AVE TAMBIÉN LLEVA VELO — PERO SÓLO EL DE PROTEGER TEXTO, NO EL DE
-   ATMÓSFERA. Y esto no es un adorno: es lo que hace la capa segura.
+/* EL RECORRIDO. El claro está QUIETO en su sitio de partida hasta el 8 % del
+   ciclo, cruza entre el 8 % y el 36 %, y se queda quieto fuera de cuadro el
+   64 % restante. Ese 64 % es la pausa: sin ella esto sería un barrido de
+   plantilla dando vueltas.
+   El 400 % es el recorrido medido en anchos del propio claro (44 % de la
+   portada × 4 = 176 %), suficiente para que salga por completo por la derecha
+   habiendo entrado por completo por la izquierda. */
+@keyframes inicio-luz-cruza {
+  0%,
+  8% {
+    translate: 0 0;
+  }
 
-   EL PROBLEMA, MEDIDO. Esta capa se pinta POR ENCIMA del velo, así que el ave
-   sale a plena luz mientras el bosque queda apagado —que es justo el efecto
-   que se busca—. Pero el pecho del barranquero es beige claro, y donde la
-   entradilla o el botón fantasma le caen encima el contraste de la crema se
-   desploma: medido en 1280, mínimo de 1,19:1 en la entradilla y 2,91:1 en el
-   rótulo del botón. Un texto ilegible sobre el sujeto es peor defecto que no
-   tener efecto ninguno.
-
-   LA SOLUCIÓN, Y POR QUÉ ES EXACTA. De las dos capas del velo, la HORIZONTAL
-   —la que protege la columna de texto— sí se puede replicar aquí con
-   precisión: de 64em para arriba --margen-zoom vale cero, así que esta caja
-   mide exactamente el ancho de la portada y los porcentajes son los mismos.
-   Los topes de abajo son los del velo, un punto más densos. La capa
-   VERTICAL no se replica —su relación con la portada sí depende de la ventana—
-   y tampoco hace falta: es la del ambiente, no la del texto.
-   Consecuencia buscada: en la columna izquierda el ave recibe la misma
-   protección que el fondo; en la derecha, donde no llega ningún texto, se
-   queda a plena luz y sigue saliéndose del velo.
-   Los topes son un punto más densos que los del velo del fondo porque el ave
-   no recibe la capa vertical y hay que compensarla. Medido con la entradilla
-   ya acotada, en el ancho más apretado en que esta capa se monta (1024, donde
-   la columna de texto es la más estrecha respecto al ave): entradilla 5,07:1
-   (era 1,19) y rótulo del botón fantasma 7,34:1 (era 2,91).                */
-.inicio__portada-recorte::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  /* v9 · misma tinta del grading que el velo principal (ver allí). */
-  background-image: linear-gradient(
-    to right,
-    rgb(var(--negro-escena-rgb) / 0.74) 0%,
-    rgb(var(--negro-escena-rgb) / 0.64) 55%,
-    transparent 85%
-  );
+  36%,
+  100% {
+    translate: 400% 0;
+  }
 }
 
-/* La caja ya tiene la proporción exacta del archivo, así que `cover` aquí no
-   recorta nada: sólo garantiza que un futuro cambio de proporción de la
-   fotografía no deforme el pájaro mientras se vuelve a medir el polígono. */
-.inicio__portada-recorte img {
-  display: block;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  border-radius: 0;
-  box-shadow: none;
+/* EL BRILLO, en su propia propiedad y con la misma ventana que el recorrido:
+   enciende cuando el claro ya está entrando y se apaga antes de que salga, así
+   que nunca se ve aparecer ni desaparecer un canto en mitad de la fotografía. */
+@keyframes inicio-luz-brilla {
+  0%,
+  8% {
+    opacity: 0;
+  }
+
+  17% {
+    opacity: 1;
+  }
+
+  28% {
+    opacity: 1;
+  }
+
+  36%,
+  100% {
+    opacity: 0;
+  }
 }
 
 /* ---- EL AIRE DEL BOSQUE (canvas de partículas) ---------------------------
@@ -520,8 +507,9 @@
      el navegador dibuja una costura de un píxel de fotografía entre la curva
      y el papel. Bajarla un pelo la esconde; lo que se recorta por debajo es
      relleno macizo, así que no se pierde nada de la forma. En % —no en px—
-     para no meter un literal en la hoja. */
-  bottom: -0.5%;
+     para no meter un literal en la hoja. v14 · Aumentado a -1.5 % para tapar
+     completamente la costura de antialiasing del SVG. */
+  bottom: -1.5%;
   width: 100%;
   height: var(--alto-orla);
   color: var(--color-fondo);
@@ -802,7 +790,6 @@
 .inicio__titulo-linea--menor {
   position: relative;
   margin-top: var(--esp-3xs);
-  padding-left: 1.8em;
   font-size: var(--fs-h2);
   color: var(--color-texto-inverso-suave);
   /* v9 · UNA VOZ DISTINTA DENTRO DE LA MISMA FRASE. El segundo renglón deja
@@ -814,21 +801,9 @@
   font-variation-settings: var(--ejes-display-sobrio);
 }
 
-/* La hoja. Misma forma exacta que el remate de .lista-hojas en base.css
-   —dos esquinas a --radio-full y dos a cero—, que es la única figura orgánica
-   que ya tenía el sistema. Es decorativa y no lleva información, así que no
-   le aplica el mínimo de contraste de texto; aun así va en coral claro, que
-   sobre el bosque del velo pasa 5,7:1 de sobra. */
-.inicio__titulo-linea--menor::before {
-  content: "";
-  position: absolute;
-  left: 0;
-  top: 0.3em;
-  width: 0.62em;
-  height: 0.62em;
-  border-radius: 0 var(--radio-full) 0 var(--radio-full);
-  background-color: var(--color-acento-inverso);
-}
+/* v11 · LA HOJA SE QUITA, por pedido directo. Con ella se iba también la
+   sangría de 1,8em que existía sólo para dejarle sitio: el renglón vuelve
+   a arrancar al margen, alineado con el primero. */
 
 /* Sobre la portada no hay .seccion--oscura de la que heredar el negativo: el
    fondo oscuro es local, así que el rótulo y la entradilla se repintan aquí.
@@ -874,18 +849,12 @@
   z-index: calc(var(--z-elevado) + 2);
 }
 
-/* LA MEDIDA SE ACORTA, Y ESTÁ MEDIDA CONTRA EL PÁJARO, NO ELEGIDA.
-   --medida-corta (46ch) da 733 px en 1280, y el borde izquierdo del ave cae
-   en 617: la última frase de la entradilla se metía sobre el pecho claro del
-   barranquero y ahí la crema al 78 % baja a 1,19:1. Con 34ch la entradilla
-   mide 542 px y cierra en 582, treinta y cinco píxeles antes del ave. No es
-   un número suelto: es la medida más larga que sigue cerrando la entradilla
-   en DOS renglones en todo el rango de escritorio. Y eso importa tanto como
-   el contraste: con tres renglones el bloque crece 41 px, la portada se pasa
-   de la ventana y los botones se van por debajo del pliegue.
-   Lo que se sale de la columna limpia y cae sobre el ave lo cubre el velo
-   propio de la capa de recorte (ver .inicio__portada-recorte::after), que es
-   justo para lo que existe. */
+/* LA MEDIDA SE ACORTA PARA NO CAER SOBRE EL AVE.
+   Con 34ch la entradilla cierra en dos renglones en todo el rango de
+   escritorio sin invadir la zona donde vive el pájaro de la fotografía —eso
+   importa tanto como el contraste: con tres renglones el bloque crece y la
+   portada se pasa de la ventana. El velo general de la portada (más abajo)
+   sigue cubriendo cualquier resto que caiga sobre la foto. */
 .inicio__portada .entradilla {
   color: var(--color-texto-inverso-suave);
   max-width: 38ch;
@@ -917,25 +886,25 @@
      · rótulo: 9,0:1, muy por encima del 4,5:1 de AA para texto pequeño.
    En el hover recupera el filete entero y el fondo velado que ya trae de
    base.css: el peso vuelve cuando el visitante lo ha elegido. */
-/* v6 · EL FANTASMA SE LLEVA SU PROPIO FONDO, Y NO ES UN CAMBIO DE ESTILO.
-   Desde v6 este botón puede caer sobre el pecho del barranquero —claro y a
-   plena luz, porque el ave se pinta por encima del velo—. Medido en 1024, el
-   peor píxel de su caja se quedaba en 2,85:1: por debajo del 3:1 que WCAG
-   1.4.11 pide para el contorno de un control y muy por debajo del 4,5:1 de su
-   rótulo. Con este lavado propio el botón deja de depender de lo que tenga
-   detrás: lo lleva puesto.
-   No lo convierte en un segundo botón lleno —sigue sin color de marca, sigue
-   siendo contorno y rótulo— y es exactamente el mismo recurso que base.css ya
-   usa en su `:hover`, sólo que permanente y a la mitad de intensidad. */
+/* v12 · EL FANTASMA SE LLENA DE CORAL, por pedido directo: los dos botones
+   de la portada deben leerse en naranja, no uno lleno y otro en contorno.
+   Deja de ser un `.btn-fantasma` con lavado propio (v6-v9, ver historial) y
+   pasa a compartir el relleno de `.btn-whatsapp` (--color-accion, el coral
+   del sistema) con un borde un tono más oscuro para que la costura entre los
+   dos botones —ambos llenos, uno al lado del otro— siga siendo legible sin
+   depender sólo del espacio entre ellos. Mismo contraste de rótulo que
+   .btn-whatsapp: crema sobre coral ya pasa AA en todo el sistema. */
 .inicio__accion-secundaria {
-  border-color: rgb(var(--crema-rgb) / 0.55);
-  /* v9 · el lavado propio pasa a la tinta del grading, como los velos. */
-  background-color: rgb(var(--negro-escena-rgb) / 0.45);
+  background-color: var(--color-accion);
+  border-color: var(--coral-hondo);
+  color: var(--color-accion-texto);
 }
 
 .inicio__accion-secundaria:hover,
 .inicio__accion-secundaria:focus-visible {
-  border-color: var(--color-texto-inverso);
+  background-color: var(--color-accion-hover);
+  border-color: var(--color-accion-hover);
+  color: var(--color-texto-inverso);
 }
 
 /* Cuando la fila se parte —teléfono y tableta pequeña— los dos botones pasan a
@@ -973,10 +942,9 @@
    flecha de plantilla: el movimiento ES el mensaje.
 
    POR QUÉ NO ES UN ENLACE. Un ancla más aquí sería una parada más de teclado
-   antes del CTA, un rótulo más en la tabla de ARQUITECTURA-V3 §9 y un destino
-   que compite con las cuatro anclas del plano. Es un `<div aria-hidden>`: no
-   existe para el lector de pantalla, que ya tiene el índice del predio a un
-   scroll de distancia.
+   antes del CTA y un rótulo más en la tabla de ARQUITECTURA-V3 §9. Es un
+   `<div aria-hidden>`: no existe para el lector de pantalla, que ya tiene el
+   botón «Ver los espacios» a un scroll de distancia.
 
    LAS DOS GUARDAS
      1. Sólo a partir de 64em. En un teléfono no hay columna derecha libre —el
@@ -998,8 +966,8 @@
 
   position: absolute;
   /* La misma vertical exacta por la que el contenedor cierra a la derecha:
-     mismo max() que usan el pie del plano y la tira de aves, sólo que por la
-     otra mano. Aritmética de porcentajes del padre, nunca de la ventana. */
+     mismo max() que usa la tira de aves, sólo que por la otra mano.
+     Aritmética de porcentajes del padre, nunca de la ventana. */
   right: max(var(--padding-contenedor), calc((100% - var(--ancho-xl)) / 2));
   /* Despeja la orla ENTERA y deja además un respiro: en el borde derecho la
      curva es la parte gruesa (94 de 120 del viewBox), así que apoyar la línea
@@ -1162,17 +1130,45 @@
    la segunda no arranca no aporta nada, y cuando arranca manda ella. Es la
    única manera de tener entrada y aleteo sin que se peleen por el
    `transform`. */
+/* v10 · CUATRO GESTOS A LA VEZ, Y CADA UNO EN SU PROPIA PROPIEDAD.
+   EL FALLO QUE SE ARREGLA: hasta v9 la mariposa subía y, una vez puesta, sólo
+   cerraba las alas en el sitio. Vista de lejos parecía QUIETA. La causa no era
+   falta de animaciones sino que TODAS iban sobre `transform`, y varias
+   animaciones sobre la misma propiedad NO SE SUMAN: manda la última y las
+   demás desaparecen. Por eso no se podía añadir movimiento sin quitar otro.
+
+   LA SOLUCIÓN, que es la regla dura de DIRECTRICES §7: repartirlas entre las
+   propiedades INDEPENDIENTES, que sí componen entre ellas.
+     · translate → entrada, y después la DERIVA por el aire (el revoloteo)
+     · scale     → entrada, y después el ALETEO (cierre de alas en X)
+     · rotate    → el BALANCEO, desde el primer momento
+     · opacity   → entrada, y después ASOMARSE y esconderse
+   Las cuatro son propiedades de compositor: cuatro animaciones simultáneas por
+   pieza y dieciocho piezas siguen sin tocar el hilo principal.
+
+   Dentro de una misma propiedad se encadenan por RETARDO, igual que antes: la
+   deriva no arranca hasta que la entrada ha terminado, y mientras no arranca no
+   aporta nada, así que no se pelean. */
 .en-vuelo .inicio__mariposa {
   animation:
     inicio-mariposa-sube var(--dur-subida) var(--ease-salida) var(--espera) both,
+    inicio-mariposa-escala var(--dur-subida) var(--ease-salida) var(--espera) both,
+    inicio-mariposa-deriva var(--deriva) var(--ease-suave)
+      calc(var(--espera) + var(--dur-subida)) infinite alternate,
     inicio-mariposa-aletea var(--aleteo) var(--ease-suave)
-      calc(var(--espera) + var(--dur-subida)) infinite alternate;
+      calc(var(--espera) + var(--dur-subida)) infinite alternate,
+    inicio-mariposa-balancea var(--balanceo) var(--ease-suave)
+      var(--espera) infinite alternate,
+    inicio-mariposa-asoma var(--asoma) var(--ease-suave)
+      calc(var(--espera) + var(--dur-subida) + var(--espera-asoma)) infinite;
 }
 
+/* LA ENTRADA — sube desde abajo. Sólo `translate` y `opacity`; la escala va
+   aparte para que el aleteo pueda tomar el relevo sin reescribirla. */
 @keyframes inicio-mariposa-sube {
   from {
     opacity: 0;
-    transform: translate3d(0, 260%, 0) scale(0.2) rotate(var(--giro));
+    translate: 0 260%;
   }
 
   35% {
@@ -1184,21 +1180,65 @@
        lámina y va a tope; aquí vuela sobre una fotografía y a tope se lee
        como una calcomanía pegada encima. */
     opacity: 0.9;
-    transform: translate3d(0, 0, 0) scale(1) rotate(var(--giro));
+    translate: 0 0;
   }
 }
 
-/* El aleteo es un cierre de alas en X, no un giro: una mariposa vista de
-   frente no rota, se cierra. El vaivén va en el mismo fotograma para no
-   necesitar una tercera animación sobre el transform. */
-@keyframes inicio-mariposa-aletea {
-  from {
-    transform: translate3d(0, 0, 0) scaleX(1) rotate(var(--giro));
-  }
+/* La escala de la entrada, en su propia animación para que `scale` quede libre
+   en cuanto termina y el aleteo se la pueda quedar. */
+@keyframes inicio-mariposa-escala {
+  from { scale: 0.2; }
+  to   { scale: 1; }
+}
 
-  to {
-    transform: translate3d(-4%, -6%, 0) scaleX(0.62) rotate(var(--giro));
-  }
+/* EL REVOLOTEO. Es el gesto que faltaba: la mariposa no se queda donde
+   aterrizó, vaga por el aire. Cuatro puntos en un recorrido que NO se cierra
+   —va y vuelve con `alternate`, así que el camino de ida no es el de vuelta al
+   ojo— y en porcentajes de la propia pieza, así que una mariposa grande se
+   mueve más que una pequeña y el conjunto no parece una cuadrícula
+   desplazándose en bloque. */
+@keyframes inicio-mariposa-deriva {
+  from { translate: 0 0; }
+  25%  { translate: 34% -26%; }
+  50%  { translate: -18% -44%; }
+  75%  { translate: -42% -12%; }
+  to   { translate: 16% 22%; }
+}
+
+/* El aleteo es un cierre de alas en X, no un giro: una mariposa vista de
+   frente no rota, se cierra. Ahora en `scale` —dos valores, sólo se aplasta el
+   eje horizontal— en vez de dentro del `transform` compartido. */
+@keyframes inicio-mariposa-aletea {
+  from { scale: 1 1; }
+  to   { scale: 0.62 1; }
+}
+
+/* EL BALANCEO. Una mariposa en el aire no vuela a plomo: cabecea. Va sobre el
+   ángulo propio de cada pieza (--giro), así que ninguna se balancea alrededor
+   de la misma vertical. */
+@keyframes inicio-mariposa-balancea {
+  from { rotate: calc(var(--giro) - 9deg); }
+  to   { rotate: calc(var(--giro) + 9deg); }
+}
+
+/* ASOMARSE Y ESCONDERSE. Lo que convierte un enjambre fijo en uno vivo: cada
+   pieza se apaga y se vuelve a encender en su propio ciclo, y como los ciclos
+   son primos entre sí, en cada momento hay unas cuantas fuera. El ojo lee que
+   las mariposas ENTRAN Y SALEN de cuadro —se meten entre las hojas— en vez de
+   estar todas pegadas todo el rato.
+   No baja a cero del todo en el tramo largo: una desaparición completa y
+   repetida se lee como un parpadeo de error; un rastro del 6 % se lee como que
+   se metió detrás de una hoja. */
+@keyframes inicio-mariposa-asoma {
+  0%,
+  38% { opacity: 0.9; }
+
+  50% { opacity: 0.06; }
+
+  64% { opacity: 0.06; }
+
+  78%,
+  100% { opacity: 0.9; }
 }
 
 /* EL COLIBRÍ. No aletea —en el recorte las alas ya salen abiertas y
@@ -1250,470 +1290,14 @@
   }
 }
 
-/* ==========================================================================
-   2. EL PLANO-ÍNDICE
-   ========================================================================== */
-.inicio__plano {
-  margin-top: var(--esp-seccion-sm);
-}
+/* v6 · EL PLANO-ÍNDICE (el aéreo con las cuatro anclas superpuestas) SE
+   RETIRA de la portada. Todas las reglas .inicio__plano*, .inicio__anclas,
+   .inicio__ancla* y .inicio__punto se borraron con él; nada de lo que sigue
+   depende de ellas. img/aereo-predio.jpg puede seguir vivo en otra sección
+   (verificado con grep antes de tocar el archivo de imagen). */
 
-/* Sólo sistema de coordenadas: ni recorta ni mide. Si llevara `overflow` se
-   comería la rejilla de anclas de móvil, que es hija suya y vive fuera de la
-   foto.
+/* v13 · LA TIRA DE AVES SE RETIRA (era la sección 2, .inicio__aves /
+   .inicio__ave). Pedido directo. El flujo pasa directo de la foto
+   principal a EL AIRE DEL BOSQUE. */
 
-   v5 — LA SANGRÍA CAMBIA DE MANO Y SE QUEDA COJA A PROPÓSITO.
-   Hasta v4 el plano cruzaba la ventana de borde a borde. Una banda simétrica
-   de lado a lado no rompe ninguna retícula: la confirma. Ahora arranca en el
-   margen del contenedor —la misma vertical exacta que su pie y que la tira de
-   aves, porque el margen se calcula con el mismo max()— y se va de la
-   pantalla por la DERECHA. Dos consecuencias buscadas:
-     · queda una columna de papel a la izquierda que ata el bloque a la
-       retícula del resto de la página en lugar de flotar suelto;
-     · la mano por la que sangra es la contraria a la de la foto grande de
-       #nosotros, que se va por la izquierda. Dos sangrías seguidas por el
-       mismo lado son el mismo gesto repetido.
-   El max() es el mismo recurso del pie: mientras la ventana sea más estrecha
-   que --ancho-xl gana el relleno de página; en cuanto es más ancha, gana la
-   mitad de lo que sobra, que es donde empieza .contenedor. Aritmética de
-   porcentajes del <section>, nunca de la ventana.
 
-   OJO AL ORDEN: el desplazamiento va en el LIENZO y no en el marco. Las
-   coordenadas de las cuatro anclas de escritorio son porcentajes del lienzo,
-   así que mover el marco por su cuenta las dejaría señalando al vacío.     */
-.inicio__plano-lienzo {
-  position: relative;
-  margin-left: max(var(--padding-contenedor), calc((100% - var(--ancho-xl)) / 2));
-}
-
-/* La proporción y el recorte, aquí. En móvil y en tableta la foto se recorta
-   a una caja más alta que la del archivo: a 375 px de ancho, el aéreo servido
-   a su proporción natural (1,97) mide 190 px de alto y no se ve nada. Como por
-   debajo de 64em las anclas NO están encima, recortar es gratis: no hay ningún
-   punto que se salga del encuadre. A partir de 64em la caja recupera la
-   proporción exacta del archivo (2000 × 1013) y el recorte desaparece, que es
-   la condición para que las coordenadas en % sigan cayendo sobre el sitio
-   que señalan. */
-/* v5 — LOS RADIOS SON DE HOJA, NO DE TARJETA.
-   Cuatro esquinas iguales es la firma de la plantilla; aquí hay tres valores
-   distintos y el par de la derecha en cero, porque ese borde no existe: se va
-   de la pantalla. Arriba a la izquierda el radio grande (--radio-xl) y abajo
-   el mediano (--radio-lg): la forma queda asimétrica, como una hoja apoyada,
-   y el mordisco que el redondeo le pega al render aéreo se queda en la
-   esquina, lejos del predio.
-   La sombra es baja y muy abierta (--sombra-lg): no es el halo de una tarjeta
-   flotante, es la sombra que echa una copa sobre el suelo. */
-.inicio__plano-marco {
-  position: relative;
-  aspect-ratio: 4 / 3;
-  overflow: hidden;
-  border-radius: var(--radio-xl) 0 0 var(--radio-lg);
-  box-shadow: var(--sombra-lg);
-  background-color: var(--color-fondo-alt);
-}
-
-@media (min-width: 48em) {
-  .inicio__plano-marco {
-    aspect-ratio: 16 / 9;
-  }
-}
-
-@media (min-width: 64em) {
-  .inicio__plano-marco {
-    aspect-ratio: 2000 / 1013;
-  }
-}
-
-/* v3: el plano va a ESQUINA VIVA, sin filete y sin sombra. Era una foto de
-   2000 px flotando sobre la crema con radio grande y --sombra-lg: la sombra la
-   despegaba de la página como una tarjeta de otro sitio, y el redondeo le
-   recortaba las esquinas al render, que es justo donde está el bosque que
-   rodea el predio. El radio se declara en cero explícitamente —no por
-   omisión— para que quede escrito que es decisión y no olvido; lo mismo la
-   sombra. */
-.inicio__plano-foto {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  object-position: 50% 50%;
-  border-radius: 0;
-  box-shadow: none;
-}
-
-/* El pie NO va centrado ni ocupa el ancho de la ventana: se alinea con el
-   margen izquierdo del contenedor y conserva medida corta de lectura.
-   El max() hace de contenedor sin serlo: mientras la ventana sea más estrecha
-   que --ancho-xl gana el relleno del contenedor; en cuanto es más ancha, gana
-   la mitad de lo que sobra, que es exactamente donde empieza .contenedor. Todo
-   en porcentajes del padre —el <section>—, nunca en vw. */
-.inicio__plano-pie {
-  max-width: var(--medida-corta);
-  margin-block: var(--esp-sm) 0;
-  margin-inline: max(var(--padding-contenedor), calc((100% - var(--ancho-xl)) / 2)) auto;
-  /* v9 · LEYENDA DE LÁMINA, NO NOTA DE PLANTILLA. El pie pasa a la Fraunces
-     itálica del sistema, un paso por encima del cuerpo: se lee como la
-     leyenda de una lámina de libro de naturaleza. --color-texto-suave sigue
-     dando 6,1:1 sobre la crema (medido en tokens.css). */
-  font-family: var(--fuente-display);
-  font-style: italic;
-  font-size: var(--fs-h4);
-  color: var(--color-texto-suave);
-}
-
-/* ---- LAS CUATRO ANCLAS --------------------------------------------------
-   Móvil y tableta: rejilla de pastillas bajo el plano.
-   v5: el margen izquierdo ya se lo pone el lienzo, que es su padre; lo único
-   que tiene que resolver la rejilla es que no llegue pegada al borde DERECHO
-   de la pantalla, que es por donde el lienzo se sale.                       */
-.inicio__anclas {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: var(--gap-sm);
-  max-width: var(--ancho-xl);
-  margin: var(--esp-md) 0 0;
-  padding-inline: 0 var(--padding-contenedor);
-}
-
-/* En tableta las cuatro caben en una fila y dejan de parecer un formulario. */
-@media (min-width: 40em) {
-  .inicio__anclas {
-    grid-template-columns: repeat(4, 1fr);
-  }
-}
-
-.inicio__ancla {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 0.6em;
-  /* «Cómo llegar» es el único rótulo que parte en dos líneas en una columna
-     estrecha. Sin esto, su pastilla queda más alta que las otras tres y la
-     fila se ve descuadrada. */
-  height: 100%;
-  /* Sin min-height literal: el padding vertical (--esp-sm arriba y abajo) más
-     la línea de la etiqueta pasan de 2,75 rem incluso con el cuerpo más
-     pequeño de la escala fluida. El objetivo táctil sale del sistema.      */
-  padding: var(--esp-sm);
-  border: 1px solid var(--color-borde-fuerte);
-  /* v5: vuelve la forma de pastilla, y por el mismo motivo por el que
-     base.css se la deja a .pildora aunque todo lo demás fuera cuadrado: «un
-     chip es un chip». Estas cuatro no son botones de formulario, son las
-     chinchetas de un plano, y sobre una fotografía aérea la forma redonda es
-     lo que las lee como marcas y no como recortes del papel. */
-  border-radius: var(--radio-full);
-  background-color: var(--color-superficie-solida);
-  /* Etiqueta, no titular: la fuente de etiqueta y las caps que §3 del
-     contrato sí permite en micro-rótulos.                                  */
-  font-family: var(--fuente-titulo);
-  font-size: var(--fs-pequeno);
-  font-weight: var(--peso-medio);
-  line-height: var(--alto-linea-titulo);
-  text-transform: uppercase;
-  /* El tracking de rótulo del sistema v3, el mismo del .btn y del nav. */
-  letter-spacing: var(--tracking-rotulo);
-  text-decoration: none;
-  text-align: center;
-  /* 13,9:1 sobre la superficie clara. La regla `a` de base.css es (0,0,1):
-     esta clase (0,1,0) la gana sin necesidad de !important.                */
-  color: var(--color-texto);
-  /* Sin `box-shadow` en la transición: ya no hay ninguna sombra que animar. */
-  transition:
-    background-color var(--transicion),
-    border-color var(--transicion),
-    color var(--transicion);
-}
-
-/* El rótulo no declara tipografía propia —la hereda entera de la pastilla—;
-   lo único suyo es poder partirse. «Cómo llegar» es el único de los cuatro que
-   pasa a dos líneas en una columna estrecha o con la letra del sistema
-   agrandada, y sin esto fija un mínimo que saca la rejilla de la pantalla. */
-.inicio__rotulo {
-  display: inline-block;
-  min-width: 0;
-  overflow-wrap: break-word;
-}
-
-.inicio__ancla:hover,
-.inicio__ancla:focus-visible {
-  background-color: var(--verde-bosque);
-  border-color: var(--verde-bosque);
-  color: var(--color-texto-inverso);
-}
-
-/* El punto es el pin del plano: coral —el único cálido del sistema— con un
-   aro del color de la pastilla para que se despegue de la foto.
-   Es el ÚNICO redondeo que queda en la sección, y se queda por lo mismo que
-   .pildora conserva el suyo en base.css: un punto es un punto. Lo que sí se
-   va es la sombra: el punto vive DENTRO de la pastilla, nunca suelto sobre la
-   fotografía, así que --sombra-pin no separaba nada. */
-.inicio__punto {
-  flex: none;
-  width: var(--esp-xs);
-  height: var(--esp-xs);
-  border: var(--borde-pin) solid var(--color-superficie-solida);
-  border-radius: var(--radio-full);
-  background-color: var(--color-accion);
-  transition:
-    border-color var(--transicion),
-    transform var(--transicion);
-}
-
-.inicio__ancla:hover .inicio__punto,
-.inicio__ancla:focus-visible .inicio__punto {
-  border-color: var(--verde-bosque);
-  transform: scale(var(--escala-hover));
-}
-
-/* v6 · UNA DE LAS CUATRO PESA UN PUNTO MÁS, Y ES ESPACIOS.
-   El encargo pedía que la portada insinuara que aquí también se alquila el
-   predio, sin convertirse en una página de ventas. Ésta es la mitad callada
-   de esa respuesta: no hay un banner, no hay una frase nueva y no hay un
-   hecho nuevo —el ancla ya estaba, con el mismo rótulo y el mismo destino—;
-   lo único que cambia es que su chinchete es un punto más grande y su filete
-   es el terracota del sistema en vez del oliva. Entre cuatro pastillas
-   idénticas, ésa es la que el ojo toca primero.
-
-   NO ES UN PROBLEMA DE CONTRASTE, ES UNA MEJORA: el filete pasa de oliva
-   (4,99:1 sobre la superficie clara) a --color-accion-borde (5,3:1). El
-   rótulo no cambia de color, así que sigue en los 13,9:1 de la regla base.
-   El cálido está permitido justo aquí —CONTRATO-V2 §4, «el cálido funciona
-   por escasez»—: es UN elemento en toda la sección, y el coral relleno sigue
-   siendo sólo del CTA. */
-.inicio__ancla-item--espacios .inicio__ancla {
-  border-color: var(--color-accion-borde);
-}
-
-/* Y en el hover vuelve al verde de las otras tres. Sin esto, la regla de
-   arriba —misma especificidad (0,2,0) pero escrita DESPUÉS— le ganaría a
-   `.inicio__ancla:hover` y esta pastilla sería la única que no se pinta
-   entera al pasar por encima. */
-.inicio__ancla-item--espacios .inicio__ancla:hover,
-.inicio__ancla-item--espacios .inicio__ancla:focus-visible {
-  border-color: var(--verde-bosque);
-}
-
-.inicio__ancla-item--espacios .inicio__punto {
-  /* Estático, no animado: crecer un punto en reposo es geometría, y el único
-     `transform` de este elemento sigue reservado al hover. */
-  width: var(--esp-sm);
-  height: var(--esp-sm);
-}
-
-/* ---- ESCRITORIO: las anclas suben al plano ------------------------------ */
-@media (min-width: 64em) {
-  .inicio__anclas {
-    position: absolute;
-    inset: 0;
-    display: block;
-    max-width: none;
-    margin: 0;
-    padding-inline: 0;
-    /* La lista cubre la foto entera; sólo los enlaces reciben el puntero. */
-    pointer-events: none;
-  }
-
-  .inicio__ancla-item {
-    position: absolute;
-    /* El grupo (punto + rótulo) se centra sobre su coordenada. */
-    transform: translate(-50%, -50%);
-  }
-
-  .inicio__ancla {
-    flex-direction: column;
-    gap: var(--esp-3xs);
-    height: auto;
-    padding: var(--esp-2xs) var(--esp-sm);
-    /* Sobre la foto la pastilla se separa con MATERIA, no con sombra: crema
-       casi opaca + desenfoque del fondo + el filete de 1 px que ya trae de la
-       regla base. La --sombra-md que llevaba en v2 era el único halo suave que
-       quedaba encima de una fotografía en toda la página. */
-    background-color: rgb(var(--crema-rgb) / 0.94);
-    backdrop-filter: var(--blur-vidrio);
-    -webkit-backdrop-filter: var(--blur-vidrio);
-    /* v5: aquí la pastilla SÍ flota sobre la fotografía, así que recupera
-       sombra —pero la corta y cerrada (--sombra-sm), la de un objeto apoyado,
-       no la nube de una tarjeta despegada. */
-    box-shadow: var(--sombra-sm);
-    pointer-events: auto;
-  }
-
-  /* Coordenadas leídas sobre img/aereo-predio.jpg (2000 × 1013), ampliando el
-     archivo antes de fijarlas: la estructura de techo translúcido con las
-     mesas de cultivo debajo, la masa de árboles del costado, la alameda con el
-     prado y la vela de sombra, y el camino de acceso con los coches.
-     Siguen valiendo en v4 porque a partir de 64em el marco recupera la
-     proporción exacta del archivo: la foto se amplía, no se recorta.       */
-  .inicio__ancla-item--vivero   { left: 52%; top: 31%; }
-  .inicio__ancla-item--sendero  { left: 16%; top: 44%; }
-  .inicio__ancla-item--espacios { left: 41%; top: 63%; }
-  .inicio__ancla-item--llegar   { left: 76%; top: 85%; }
-}
-
-/* ==========================================================================
-   3. TIRA DE AVES — atmósfera
-   Miniaturas decorativas: ni ficha ni crédito visible (el crédito va en el
-   `alt`). Tope en píxeles para que no crezcan hasta volverse medallones si la
-   letra del sistema está agrandada.
-   ========================================================================== */
-/* v4 dejó la tira alineada al margen del contenedor en vez de centrada, y eso
-   estaba bien. Lo que seguía siendo plantilla era el interior: SEIS CUADRADOS
-   IDÉNTICOS, misma medida, misma esquina, todos apoyados en la misma línea.
-   Una retícula perfecta de seis módulos es exactamente lo que el ojo lee como
-   «generado», por muy descentrada que esté la retícula entera.
-
-   v5 la desarma: seis anchos distintos (del 0,66 al 1,3 del módulo), dos que
-   se levantan de la línea de base, cuatro formas de esquina distintas —dos
-   hojas, un canto suave y dos círculos— y una sombra corta que las apoya en
-   el papel. El módulo sigue siendo uno solo (--tam-ave) y todos los tamaños
-   son múltiplos suyos, así que el desorden es aparente: la tira sigue siendo
-   un sistema, sólo que uno que no se puede dibujar con una regla.
-
-   FLEX Y NO GRID, al revés que en v4: ahora que cada pieza mide distinto, la
-   rejilla de columnas iguales ya no sirve de nada. Con `wrap` la fila cede
-   sola en un teléfono —a 375 px se parte en dos grupos— en lugar de sacar
-   nada de la pantalla, y con `flex-end` las que no están levantadas comparten
-   línea de suelo, que es lo que impide que el conjunto se lea como un
-   descuido. */
-.inicio__aves {
-  /* Tope en píxeles a propósito: con la letra del sistema agrandada, un valor
-     en rem convertiría estas miniaturas en medallones y sacaría la fila de la
-     pantalla. Mismo recurso que ya usaba la tira del hero. */
-  --tam-ave: min(var(--esp-2xl), 64px);
-
-  display: flex;
-  flex-wrap: wrap;
-  align-items: flex-end;
-  justify-content: flex-start;
-  /* v9 · AIRE DE GALERÍA. La tira ya tenía tamaños desiguales (v5); lo que
-     todavía la hacía «tira» era ir apretada. Con --gap-lg las mismas seis
-     fotos se leen como piezas colgadas, no como thumbnails. */
-  gap: var(--gap-lg);
-  margin-block: var(--esp-lg) 0;
-  margin-inline: max(var(--padding-contenedor), calc((100% - var(--ancho-xl)) / 2))
-    var(--padding-contenedor);
-  padding: 0;
-}
-
-.inicio__ave {
-  position: relative;
-  flex: none;
-  width: var(--tam-ave);
-  aspect-ratio: 1;
-  overflow: hidden;
-  /* Corta y cerrada: apoya la miniatura en el papel, no la despega de él. */
-  box-shadow: var(--sombra-sm);
-  background-color: var(--color-fondo-alt);
-}
-
-/* LOS SEIS TAMAÑOS Y LAS SEIS FORMAS.
-   Las dos hojas (nth 1 y 3) llevan la misma figura que el remate de
-   .lista-hojas en base.css: dos esquinas redondas en diagonal y dos vivas.
-   Las dos levantadas (nth 2 y 5) suben con `margin-bottom`, que en un flex
-   alineado a `flex-end` es lo que separa una pieza de la línea de suelo sin
-   sacarla del flujo ni pedir posición absoluta. */
-.inicio__ave:nth-child(1) {
-  width: calc(var(--tam-ave) * 1.3);
-  border-radius: var(--radio-lg) 0 var(--radio-lg) 0;
-}
-
-.inicio__ave:nth-child(2) {
-  width: calc(var(--tam-ave) * 0.72);
-  margin-bottom: var(--esp-md);
-  border-radius: var(--radio-full);
-}
-
-.inicio__ave:nth-child(3) {
-  width: calc(var(--tam-ave) * 1.1);
-  border-radius: 0 var(--radio-xl) 0 var(--radio-xl);
-}
-
-.inicio__ave:nth-child(4) {
-  width: calc(var(--tam-ave) * 0.86);
-  border-radius: var(--radio-md);
-}
-
-.inicio__ave:nth-child(5) {
-  width: calc(var(--tam-ave) * 1.18);
-  margin-bottom: var(--esp-lg);
-  border-radius: var(--radio-xl) var(--radio-sm) var(--radio-xl) var(--radio-sm);
-}
-
-.inicio__ave:nth-child(6) {
-  width: calc(var(--tam-ave) * 0.66);
-  border-radius: var(--radio-full);
-}
-
-/* v9 · CAÍDA DE MANO. Cada miniatura descansa con un ángulo propio y mínimo
-   —impares a un lado, pares al otro—: seis papeles apoyados en la mesa en
-   vez de seis rectángulos a plomo. Es el mismo lenguaje de los tamaños
-   desiguales de v5, llevado al ángulo. Va en `rotate` —propiedad
-   independiente, GPU— y NO en `transform`, así no pisa ni el reveal de
-   entrada ni ningún otro gesto del elemento. El ángulo en reposo es
-   geometría estática (con movimiento reducido no hay nada que apagar), y la
-   transición usa la duración del sistema, que colapsa a 1 ms sola. Al pasar
-   por encima la pieza se endereza: la foto que el visitante elige se pone
-   de frente. */
-.inicio__ave {
-  transition: rotate var(--transicion-rapida);
-}
-
-.inicio__ave:nth-child(odd) {
-  rotate: -1.5deg;
-}
-
-.inicio__ave:nth-child(even) {
-  rotate: 1deg;
-}
-
-.inicio__ave:hover,
-.inicio__ave:focus-within {
-  rotate: 0deg;
-}
-
-/* TRAMPA DE base.css, ANOTADA PARA QUIEN VENGA DETRÁS.
-   `.js .reveal.visible` pone `clip-path: inset(0 0 0 0)` a TODO elemento que
-   entra —lo necesita .reveal--velo, y de paso se lo come el resto—, y un
-   `clip-path` recorta también la sombra del elemento, que vive fuera de su
-   caja. Como estas seis miniaturas sí llevan sombra y sí son .reveal, sin
-   esto la sombra desaparecía justo al terminar la animación de entrada.
-   Se le devuelve el clip a `none` una vez visible: la regla de base mide
-   (0,3,0) y ésta también, pero esta hoja se carga después, así que gana por
-   cascada y no hace falta ningún !important. Antes de .visible no hay nada
-   que romper, porque el clip inicial sólo lo declara .reveal--velo.        */
-.inicio__ave.reveal.visible {
-  clip-path: none;
-}
-
-/* Absoluta y no `height: 100%`: el alto de la miniatura lo fija `aspect-ratio`,
-   y contra ese alto un porcentaje no resuelve igual en todos los navegadores. */
-.inicio__ave img {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  background: none;
-  transition: transform var(--dur-lenta) var(--ease-suave);
-}
-
-/* Encuadre archivo por archivo: en un recorte tan pequeño el centro geométrico
-   casi nunca cae sobre el ave. Los porcentajes salen de mirar cada fotografía,
-   no de suponerlos. */
-.inicio__ave:nth-child(1) img { object-position: 50% 28%; } /* Momotus      */
-.inicio__ave:nth-child(2) img { object-position: 55% 40%; } /* carpintero   */
-.inicio__ave:nth-child(3) img { object-position: 66% 44%; } /* colibrí      */
-.inicio__ave:nth-child(4) img { object-position: 45% 38%; } /* Thraupis     */
-.inicio__ave:nth-child(5) img { object-position: 42% 32%; } /* canario      */
-.inicio__ave:nth-child(6) img { object-position: 46% 52%; } /* periquito    */
-
-/* El único movimiento: la foto respira DENTRO de su cuadrado, igual que en las
-   fichas de #espacios. Antes se levantaba la miniatura entera —un salto de
-   tarjeta que sin sombra ya no significa nada—; ahora se mueve la imagen y el
-   recorte se queda quieto. --escala-hover vale 1 cuando el visitante pide
-   menos movimiento, así que se apaga solo. */
-@media (prefers-reduced-motion: no-preference) {
-  .inicio__ave:hover img {
-    transform: scale(var(--escala-hover));
-  }
-}

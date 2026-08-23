@@ -1,0 +1,232 @@
+/* ==========================================================================
+   #usos — «¿Qué puedes hacer en Vegas?»
+
+   Cinco tarjetas <details>/<summary> nativas: sin JavaScript y sin la
+   patrón de ventana emergente que este proyecto prohíbe. `<summary>` es la
+   tarjeta cerrada —foto a sangre, nombre, frase, aviso—; el contenido de
+   `<details>` son los usos recomendados, y se abre y cierra con teclado y
+   con lector de pantalla de fábrica.
+
+   EN MÓVIL cada tarjeta ocupa el alto completo de la ventana: se pasa de
+   una a otra scrolleando, como una portada por espacio. EN ESCRITORIO pasan
+   a una rejilla de tres columnas —hay sitio para verlas casi todas a la
+   vez— y el aviso cambia de «tocar» a «ver usos», que es lo que de verdad
+   hace un cursor.
+   ========================================================================== */
+
+.usos {
+  background-color: var(--color-fondo);
+  padding-block: var(--esp-seccion) 0;
+}
+
+.usos__encabezado {
+  text-align: center;
+  max-width: 42rem;
+  margin-inline: auto;
+  padding-inline: var(--padding-contenedor);
+}
+
+.usos__titulo {
+  margin-top: var(--esp-2xs);
+}
+
+.usos-lista {
+  list-style: none;
+  margin: var(--esp-xl) 0 0;
+  padding: 0;
+}
+
+.usos-item + .usos-item {
+  margin-top: var(--esp-sm);
+}
+
+/* ---- La tarjeta cerrada (<summary>) --------------------------------------
+   `display: block` porque Safari/Firefox le ponen a <summary> `display:
+   list-item` con su propio marcador triangular; se quita también con
+   `::marker` y con el selector -webkit- para Chrome/Safari viejos. */
+.usos-tarjeta {
+  display: block;
+  position: relative;
+  overflow: hidden;
+  cursor: pointer;
+  list-style: none;
+  /* En móvil, la portada de su propio espacio: 100dvh y no 100vh, para que
+     la barra de direcciones móvil no deje una franja del fondo al descubierto. */
+  height: 100dvh;
+  min-height: 26rem;
+}
+
+.usos-tarjeta::-webkit-details-marker {
+  display: none;
+}
+
+.usos-tarjeta::marker {
+  content: '';
+}
+
+.usos-tarjeta__foto {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: 50% 38%;
+}
+
+/* Alameda: boda-arbol.jpg es retrato (1400×1920), a diferencia del resto de
+   fotos de tarjeta (apaisadas). En una caja de 100dvh el recorte por defecto
+   se queda en la copa del árbol y pierde el pasillo con las sillas, que es
+   el sujeto real de la foto — baja el foco a la mitad inferior. */
+.usos-item:first-child .usos-tarjeta__foto {
+  object-position: 50% 62%;
+}
+
+/* Velo de legibilidad: más denso abajo, donde vive el texto, casi limpio
+   arriba, para que la fotografía se lea entera y no sólo su mitad inferior. */
+.usos-tarjeta__velo {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    to top,
+    rgb(var(--negro-escena-rgb) / 0.86) 0%,
+    rgb(var(--negro-escena-rgb) / 0.4) 42%,
+    rgb(var(--negro-escena-rgb) / 0.05) 72%
+  );
+}
+
+.usos-tarjeta__marco {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding: var(--esp-lg);
+  color: var(--color-texto-inverso);
+}
+
+.usos-tarjeta__orden {
+  font-family: var(--fuente-titulo);
+  font-size: var(--fs-micro);
+  letter-spacing: 0.12em;
+  color: rgb(var(--crema-rgb) / 0.6);
+  margin-bottom: var(--esp-3xs);
+}
+
+.usos-tarjeta__nombre {
+  display: block;
+  font-family: var(--fuente-display);
+  font-size: clamp(2rem, 1.5rem + 2.2vw, 3rem);
+  line-height: 1.05;
+}
+
+.usos-tarjeta__frase {
+  display: block;
+  margin-top: var(--esp-2xs);
+  max-width: 30ch;
+  color: rgb(var(--crema-rgb) / 0.85);
+}
+
+.usos-tarjeta__aviso {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--esp-2xs);
+  margin-top: var(--esp-md);
+  padding: var(--esp-2xs) var(--esp-md);
+  width: fit-content;
+  border: 1px solid rgb(var(--crema-rgb) / 0.55);
+  border-radius: var(--radio-full);
+  font-family: var(--fuente-titulo);
+  font-size: var(--fs-micro);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.usos-tarjeta__aviso-escritorio {
+  display: none;
+}
+
+/* El parpadeo: sólo opacity, y sólo si el visitante no pidió menos
+   movimiento. Un pulso lento —no un intermitente de alarma— para que se
+   note sin ser molesto en una tarjeta que ocupa la pantalla entera. */
+@media (prefers-reduced-motion: no-preference) {
+  .usos-tarjeta__aviso {
+    animation: usos-aviso-parpadeo 2.4s var(--ease-suave) infinite;
+  }
+}
+
+@keyframes usos-aviso-parpadeo {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.45; }
+}
+
+/* Al enfocar/pasar el cursor, el aviso dice quieto en opacidad plena: no
+   compite con la intención de quien ya está a punto de tocar. */
+.usos-tarjeta:hover .usos-tarjeta__aviso,
+.usos-tarjeta:focus-visible .usos-tarjeta__aviso {
+  animation-play-state: paused;
+  opacity: 1;
+}
+
+/* ---- El panel abierto (<details>) ----------------------------------------
+   Nace fuera del flujo de altura —max-height: 0— y crece con `interpolate-
+   size` si el navegador lo soporta; donde no, `[open]` simplemente muestra
+   el bloque entero sin transición, que sigue siendo un resultado correcto. */
+.usos-panel {
+  background-color: var(--color-fondo-alt);
+  padding: var(--esp-lg) var(--padding-contenedor);
+}
+
+.usos-panel__lista {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: var(--esp-md);
+  grid-template-columns: repeat(auto-fit, minmax(15rem, 1fr));
+}
+
+.usos-panel__uso {
+  background-color: var(--color-fondo);
+  border-radius: var(--radio-md);
+  overflow: hidden;
+  box-shadow: var(--sombra-sm);
+}
+
+.usos-panel__uso img {
+  display: block;
+  width: 100%;
+  aspect-ratio: 3 / 2;
+  object-fit: cover;
+}
+
+.usos-panel__tipo {
+  margin: var(--esp-sm) var(--esp-sm) 0;
+  font-family: var(--fuente-titulo);
+  font-size: var(--fs-micro);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--coral-hondo);
+}
+
+.usos-panel__razon {
+  margin: var(--esp-3xs) var(--esp-sm) var(--esp-sm);
+  color: var(--color-texto-suave);
+}
+
+/* v14 · LA REJILLA DE ESCRITORIO SE RETIRA, por pedido directo: pantalla
+   completa en cualquier ancho, sin excepción para monitores anchos. Sólo
+   cambia el AVISO —«tocar» no describe lo que hace un cursor— y eso sí
+   sigue diferenciando por tamaño de pantalla, no por ancho de ventana:
+   `(hover: hover)` detecta un dispositivo con puntero de precisión en vez
+   de leer un breakpoint, así que una tableta en modo ancho sigue viendo
+   «tocar» y un portátil angosto ya ve «ver usos». */
+@media (hover: hover) and (pointer: fine) {
+  .usos-tarjeta__aviso-movil {
+    display: none;
+  }
+
+  .usos-tarjeta__aviso-escritorio {
+    display: inline;
+  }
+}

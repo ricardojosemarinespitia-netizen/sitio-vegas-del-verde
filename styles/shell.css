@@ -277,6 +277,83 @@
     visibility 0s linear var(--dur-media);
 }
 
+/* ---- WhatsApp flotante ----------------------------------------------------
+   v12 · Vive fuera de `.cabecera` a propósito: `position: fixed` respecto al
+   viewport, no a la cabecera, así que un contexto de apilamiento propio en
+   ella no lo afectaría de todas formas, pero sacarlo del DOM de la cabecera
+   deja claro que es un elemento de OTRA capa —la del chrome flotante del
+   sitio entero, junto al futuro --z-modal si algún día lo hay—.
+   Por debajo de --z-menu: si el panel de navegación móvil está abierto, el
+   círculo no debe quedar flotando encima de él. */
+.whatsapp-flotante {
+  position: fixed;
+  right: var(--esp-md);
+  bottom: var(--esp-md);
+  z-index: calc(var(--z-menu) - 1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 3.25rem;
+  height: 3.25rem;
+  border-radius: var(--radio-full);
+  background-color: #25d366; /* verde de marca de WhatsApp: identidad ajena, no token del sistema */
+  color: #fff;
+  box-shadow: var(--sombra-md);
+  transition: transform var(--transicion-rapida), box-shadow var(--transicion-rapida);
+}
+
+.whatsapp-flotante svg {
+  width: 1.7rem;
+  height: 1.7rem;
+}
+
+.whatsapp-flotante:hover,
+.whatsapp-flotante:focus-visible {
+  transform: scale(1.06);
+  box-shadow: var(--sombra-lg);
+}
+
+/* El pulso: un anillo que crece y se disuelve detrás del círculo, para que el
+   botón se note al abrir cualquier página sin gritar todo el tiempo — un solo
+   pulso cada varios segundos, no un parpadeo continuo. Sólo `transform` y
+   `opacity`: nada que el compositor no pueda mover en su propio hilo. */
+.whatsapp-flotante__pulso {
+  position: absolute;
+  inset: 0;
+  border-radius: var(--radio-full);
+  background-color: #25d366;
+  opacity: 0;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .whatsapp-flotante__pulso {
+    animation: whatsapp-flotante-pulso 3.6s var(--ease-suave) infinite;
+  }
+}
+
+@keyframes whatsapp-flotante-pulso {
+  0%, 40% {
+    opacity: 0;
+    scale: 1;
+  }
+  55% {
+    opacity: 0.45;
+  }
+  100% {
+    opacity: 0;
+    scale: 1.7;
+  }
+}
+
+@media (max-width: 40em) {
+  .whatsapp-flotante {
+    right: var(--esp-sm);
+    bottom: var(--esp-sm);
+    width: 3rem;
+    height: 3rem;
+  }
+}
+
 body.menu-abierto .velo-menu {
   opacity: 1;
   visibility: visible;

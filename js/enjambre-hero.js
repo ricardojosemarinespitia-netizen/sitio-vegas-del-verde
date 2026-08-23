@@ -59,6 +59,22 @@ const MARIPOSAS = [
   { n: 5,  x: 18, y: 55, w: 11, movil: false },
   { n: 16, x: 52, y: 66, w: 12, movil: true },
   { n: 21, x: 4,  y: 79, w: 8,  movil: false },
+  /* v10 · LAS NUEVE DE REFUERZO. Se pide un enjambre excesivo, y nueve piezas
+     repartidas por una caja de media portada dejaban demasiado aire entre una
+     y otra: se leían como nueve calcomanías, no como un enjambre. Estas nueve
+     se meten en los huecos que dejaban las primeras —ninguna repite la
+     coordenada de otra— y bajan de tamaño según se alejan, que es lo que da la
+     sensación de que unas están más cerca que otras. Cuatro son de móvil, así
+     que en un teléfono el enjambre pasa de cuatro piezas a nueve. */
+  { n: 7,  x: 34, y: 5,  w: 7,  movil: true },
+  { n: 12, x: 68, y: 12, w: 9,  movil: true },
+  { n: 2,  x: 12, y: 17, w: 12, movil: false },
+  { n: 18, x: 90, y: 33, w: 7,  movil: false },
+  { n: 9,  x: 60, y: 44, w: 10, movil: true },
+  { n: 4,  x: 32, y: 49, w: 8,  movil: false },
+  { n: 20, x: 72, y: 61, w: 8,  movil: true },
+  { n: 6,  x: 10, y: 68, w: 10, movil: false },
+  { n: 15, x: 40, y: 85, w: 9,  movil: false },
 ];
 
 /** El colibrí entra tarde: cuando el enjambre ya está puesto y el titular ya
@@ -99,6 +115,19 @@ export function montarEnjambre(caja) {
     img.style.setProperty('--aleteo', (1.6 + ((i * 7) % 11) / 10).toFixed(2) + 's');
     img.style.setProperty('--giro', (((i * 11) % 15) - 7) + 'deg');
     img.style.setProperty('--dur-subida', (1500 + ((i * 13) % 9) * 90) + 'ms');
+    /* v10 · LOS TRES COMPASES DEL REVOLOTEO.
+       Hasta v9 la mariposa aterrizaba en su sitio y ya sólo cerraba las alas:
+       de lejos parecía QUIETA, que es exactamente la queja. Ahora, además del
+       aleteo, cada pieza deriva por el aire y se asoma y se esconde, y los tres
+       ciclos tienen duraciones PRIMAS entre sí —13, 7 y 11 pasos— para que no
+       vuelvan a coincidir en toda la visita: el enjambre nunca repite la misma
+       postura de conjunto. Nada de azar: el desfase sale del índice, así que
+       dos cargas seguidas dibujan la misma escena y se puede afinar mirando una
+       captura, que es la regla de este módulo desde el principio. */
+    img.style.setProperty('--deriva', (7 + ((i * 13) % 9)) + 's');
+    img.style.setProperty('--balanceo', (2.4 + ((i * 7) % 8) / 10).toFixed(2) + 's');
+    img.style.setProperty('--asoma', (9 + ((i * 11) % 13)) + 's');
+    img.style.setProperty('--espera-asoma', ((i * 17) % 9) * 620 + 'ms');
     piezas.push(img);
   });
 

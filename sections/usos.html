@@ -1,0 +1,313 @@
+<!-- ==========================================================================
+     FRAGMENTO: USOS  ·  ancla #usos
+     CSS propio: styles/sections/usos.css
+
+     QUÉ ES Y POR QUÉ EXISTE. Entre la portada y la ficha técnica de
+     #espacios (aforos, botón de WhatsApp, condiciones) faltaba una pregunta
+     más simple: «¿qué puedo hacer aquí?». #espacios ya responde «qué
+     espacios hay»; esta sección responde «para qué sirve cada uno», con la
+     foto de un evento real en vez de una cifra de aforo. Los CINCO espacios
+     son los mismos cinco de #espacios —no se inventa un sexto— y ninguna
+     cifra de aforo se repite aquí: ARQUITECTURA-V3 le da la propiedad de esa
+     cifra a #espacios en exclusiva.
+
+     CADA TARJETA ES UN <details>, no un acordeón hecho a mano ni un modal
+     —el patrón de ventana emergente que este proyecto prohíbe—. `<summary>`
+     es la tarjeta visible (foto a sangre, nombre, frase breve, aviso de
+     tocar) y el contenido de `<details>` son los usos recomendados: se abre
+     y cierra con el teclado y con el lector de pantalla sin una línea de
+     JavaScript, y en la fuente de la página el usuario que no ve la foto
+     igual encuentra el texto.
+
+     EN MÓVIL cada tarjeta ocupa el alto completo de la ventana (100dvh): se
+     pasa de una a otra con scroll, como una portada por espacio. En
+     escritorio pasan a una rejilla —hay sitio de sobra para verlas todas a
+     la vez— y el aviso de «tocar» se cambia por «ver usos», que es lo que
+     de verdad se hace con un cursor.
+
+     LOS USOS NO INVENTAN AFOROS NI CONDICIONES: son recomendaciones de tipo
+     de evento («bodas», «cumpleaños», «empresarial»...) con una frase de por
+     qué ese espacio funciona para ese uso, apoyada en un rasgo que #espacios
+     ya describe (el prado abierto, la explanada llana, el árbol grande...).
+     Las fotos de evento salen de img/eventos/, la misma carpeta que usa
+     #momentos; ninguna es la foto principal de la tarjeta de su propio
+     espacio, para no repetir un mismo archivo dos veces en la misma tarjeta.
+     ========================================================================== -->
+<section class="seccion usos" id="usos" aria-labelledby="usos-titulo">
+
+  <div class="contenedor contenedor--ancho">
+    <header class="seccion-encabezado usos__encabezado reveal">
+      <p class="eyebrow">¿Qué puedes hacer en Vegas?</p>
+      <h2 class="titulo-seccion usos__titulo" id="usos-titulo">
+        Un espacio para cada plan
+      </h2>
+    </header>
+  </div>
+
+  <ul class="usos-lista" role="list">
+
+    <!-- ---------------------------------------------------------- 1/5 -->
+    <li class="usos-item">
+      <details class="usos-detalle">
+        <summary class="usos-tarjeta">
+          <picture>
+            <img
+              class="usos-tarjeta__foto"
+              src="img/espacios/alameda-2.jpg"
+              width="1500"
+              height="1000"
+              loading="lazy"
+              decoding="async"
+              alt=""
+            />
+          </picture>
+          <span class="usos-tarjeta__velo" aria-hidden="true"></span>
+          <span class="usos-tarjeta__marco">
+            <span class="usos-tarjeta__orden" aria-hidden="true">01</span>
+            <span class="usos-tarjeta__nombre">Alameda</span>
+            <span class="usos-tarjeta__frase">La mejor grama de Vegas del Verde para los momentos más especiales.</span>
+            <span class="usos-tarjeta__aviso">
+              <span class="usos-tarjeta__aviso-movil">Toca para ver el espacio</span>
+              <span class="usos-tarjeta__aviso-escritorio">Ver usos recomendados</span>
+            </span>
+          </span>
+        </summary>
+        <div class="usos-panel">
+          <h3 class="solo-lectores">Usos recomendados en Alameda</h3>
+          <ul class="usos-panel__lista" role="list">
+            <li class="usos-panel__uso">
+              <img src="img/eventos/boda-arbol.jpg" width="1400" height="1920" loading="lazy" decoding="async"
+                   alt="Boda montada al aire libre sobre un prado abierto, con sillas en filas frente a un altar floral." />
+              <p class="usos-panel__tipo">Bodas</p>
+              <p class="usos-panel__razon">El prado entero cabe una ceremonia grande, con sombra de sobra en los bordes para los invitados.</p>
+            </li>
+            <li class="usos-panel__uso">
+              <img src="img/eventos/noche-evento-1.jpg" width="800" height="533" loading="lazy" decoding="async"
+                   alt="Evento nocturno con luces cálidas sobre el césped y mesas dispuestas para los asistentes." />
+              <p class="usos-panel__tipo">Empresarial</p>
+              <p class="usos-panel__razon">Es el espacio con más aforo del predio: cabe un lanzamiento o una convención de pie.</p>
+            </li>
+            <li class="usos-panel__uso">
+              <img src="img/eventos/cumpleanos-1.jpg" width="800" height="533" loading="lazy" decoding="async"
+                   alt="Celebración de cumpleaños al aire libre con globos y mesa de torta sobre el césped." />
+              <p class="usos-panel__tipo">Cumpleaños</p>
+              <p class="usos-panel__razon">El más grande de los cinco: para la fiesta que necesita el mayor número de invitados.</p>
+            </li>
+          </ul>
+        </div>
+      </details>
+    </li>
+
+    <!-- ---------------------------------------------------------- 2/5 -->
+    <li class="usos-item">
+      <details class="usos-detalle">
+        <summary class="usos-tarjeta">
+          <picture>
+            <source media="(max-width: 47.99em)" srcset="img/eventos/vega-vertical.jpg" />
+            <img
+              class="usos-tarjeta__foto"
+              src="img/eventos/vega-horizontal.jpg"
+              width="1600"
+              height="900"
+              loading="lazy"
+              decoding="async"
+              alt=""
+            />
+          </picture>
+          <span class="usos-tarjeta__velo" aria-hidden="true"></span>
+          <span class="usos-tarjeta__marco">
+            <span class="usos-tarjeta__orden" aria-hidden="true">02</span>
+            <span class="usos-tarjeta__nombre">La Vega</span>
+            <span class="usos-tarjeta__frase">El espacio más grande de Vegas del Verde: para conciertos y eventos que crecen.</span>
+            <span class="usos-tarjeta__aviso">
+              <span class="usos-tarjeta__aviso-movil">Toca para ver el espacio</span>
+              <span class="usos-tarjeta__aviso-escritorio">Ver usos recomendados</span>
+            </span>
+          </span>
+        </summary>
+        <div class="usos-panel">
+          <h3 class="solo-lectores">Usos recomendados en La Vega</h3>
+          <ul class="usos-panel__lista" role="list">
+            <li class="usos-panel__uso">
+              <img src="img/eventos/boda-arbol.jpg" width="1400" height="1920" loading="lazy" decoding="async"
+                   alt="Boda con carpa transparente montada sobre una explanada plana, con guirnaldas de luces." />
+              <p class="usos-panel__tipo">Bodas</p>
+              <p class="usos-panel__razon">Sin un solo desnivel: la carpa y la pista se montan derechas, sin nivelar nada.</p>
+            </li>
+            <li class="usos-panel__uso">
+              <img src="img/eventos/infantil-1.jpg" width="800" height="533" loading="lazy" decoding="async"
+                   alt="Fiesta infantil con juegos inflables sobre una explanada de césped." />
+              <p class="usos-panel__tipo">Cumpleaños</p>
+              <p class="usos-panel__razon">Piso parejo de punta a punta: entran inflables y juegos sin buscarles un tramo plano.</p>
+            </li>
+            <li class="usos-panel__uso">
+              <img src="img/eventos/yoga-1.jpg" width="800" height="533" loading="lazy" decoding="async"
+                   alt="Clase de yoga al aire libre con tapetes dispuestos en filas sobre el césped." />
+              <p class="usos-panel__tipo">Bienestar</p>
+              <p class="usos-panel__razon">Superficie pareja de borde a borde: los tapetes quedan todos a la misma altura.</p>
+            </li>
+          </ul>
+        </div>
+      </details>
+    </li>
+
+    <!-- ---------------------------------------------------------- 3/5 -->
+    <li class="usos-item">
+      <details class="usos-detalle">
+        <summary class="usos-tarjeta">
+          <picture>
+            <img
+              class="usos-tarjeta__foto"
+              src="img/eventos/boda-4.jpg"
+              width="1500"
+              height="1000"
+              loading="lazy"
+              decoding="async"
+              alt=""
+            />
+          </picture>
+          <span class="usos-tarjeta__velo" aria-hidden="true"></span>
+          <span class="usos-tarjeta__marco">
+            <span class="usos-tarjeta__orden" aria-hidden="true">03</span>
+            <span class="usos-tarjeta__nombre">Teatrino</span>
+            <span class="usos-tarjeta__frase">Un claro al pie de un árbol enorme: el césped hace de platea.</span>
+            <span class="usos-tarjeta__aviso">
+              <span class="usos-tarjeta__aviso-movil">Toca para ver el espacio</span>
+              <span class="usos-tarjeta__aviso-escritorio">Ver usos recomendados</span>
+            </span>
+          </span>
+        </summary>
+        <div class="usos-panel">
+          <h3 class="solo-lectores">Usos recomendados en Teatrino</h3>
+          <ul class="usos-panel__lista" role="list">
+            <li class="usos-panel__uso">
+              <img src="img/eventos/boda-3.jpg" width="800" height="533" loading="lazy" decoding="async"
+                   alt="Ceremonia íntima bajo la sombra de un árbol grande, con pocas sillas dispuestas en semicírculo." />
+              <p class="usos-panel__tipo">Bodas íntimas</p>
+              <p class="usos-panel__razon">La copa del árbol hace de techo: ceremonias pequeñas, más recogidas que en la Alameda.</p>
+            </li>
+            <li class="usos-panel__uso">
+              <img src="img/eventos/infantil-2.jpg" width="800" height="533" loading="lazy" decoding="async"
+                   alt="Niños jugando bajo la sombra de un árbol grande en una fiesta al aire libre." />
+              <p class="usos-panel__tipo">Cumpleaños</p>
+              <p class="usos-panel__razon">La sombra del árbol cubre casi todo el claro: la fiesta no necesita toldo aparte.</p>
+            </li>
+            <li class="usos-panel__uso">
+              <img src="img/eventos/yoga-2.jpg" width="800" height="533" loading="lazy" decoding="async"
+                   alt="Grupo sentado en círculo sobre el césped bajo un árbol, en una charla al aire libre." />
+              <p class="usos-panel__tipo">Charlas y talleres</p>
+              <p class="usos-panel__razon">El césped hace de platea natural para un grupo pequeño reunido en círculo.</p>
+            </li>
+          </ul>
+        </div>
+      </details>
+    </li>
+
+    <!-- ---------------------------------------------------------- 4/5 -->
+    <li class="usos-item">
+      <details class="usos-detalle">
+        <summary class="usos-tarjeta">
+          <picture>
+            <img
+              class="usos-tarjeta__foto"
+              src="img/espacios/taller-1.jpg"
+              width="900"
+              height="1200"
+              loading="lazy"
+              decoding="async"
+              alt=""
+            />
+          </picture>
+          <span class="usos-tarjeta__velo" aria-hidden="true"></span>
+          <span class="usos-tarjeta__marco">
+            <span class="usos-tarjeta__orden" aria-hidden="true">04</span>
+            <span class="usos-tarjeta__nombre">Taller</span>
+            <span class="usos-tarjeta__frase">El único bajo techo: piso firme y seco pase lo que pase afuera.</span>
+            <span class="usos-tarjeta__aviso">
+              <span class="usos-tarjeta__aviso-movil">Toca para ver el espacio</span>
+              <span class="usos-tarjeta__aviso-escritorio">Ver usos recomendados</span>
+            </span>
+          </span>
+        </summary>
+        <div class="usos-panel">
+          <h3 class="solo-lectores">Usos recomendados en Taller</h3>
+          <ul class="usos-panel__lista" role="list">
+            <li class="usos-panel__uso">
+              <img src="img/eventos/noche-evento-1.jpg" width="800" height="533" loading="lazy" decoding="async"
+                   alt="Reunión nocturna bajo techo con luces cálidas, resguardada del clima." />
+              <p class="usos-panel__tipo">Empresarial</p>
+              <p class="usos-panel__razon">Es el único techado del predio: la reunión sigue igual aunque llueva.</p>
+            </li>
+            <li class="usos-panel__uso">
+              <img src="img/eventos/infantil-3.jpg" width="800" height="533" loading="lazy" decoding="async"
+                   alt="Niños jugando sobre un piso firme bajo una cubierta, resguardados del sol." />
+              <p class="usos-panel__tipo">Cumpleaños infantil</p>
+              <p class="usos-panel__razon">Piso firme y seco para los juegos de los más chicos, sin barro ni sol directo.</p>
+            </li>
+            <li class="usos-panel__uso">
+              <img src="img/eventos/yoga-1.jpg" width="800" height="533" loading="lazy" decoding="async"
+                   alt="Clase o taller reunido bajo una cubierta techada." />
+              <p class="usos-panel__tipo">Talleres</p>
+              <p class="usos-panel__razon">Cubierta de caña de punta a punta: una clase entera cabe sin depender del clima.</p>
+            </li>
+          </ul>
+        </div>
+      </details>
+    </li>
+
+    <!-- ---------------------------------------------------------- 5/5 -->
+    <li class="usos-item">
+      <details class="usos-detalle">
+        <summary class="usos-tarjeta">
+          <picture>
+            <source media="(max-width: 47.99em)" srcset="img/eventos/cancha-vertical.jpg" />
+            <img
+              class="usos-tarjeta__foto"
+              src="img/eventos/cancha-horizontal.jpg"
+              width="1600"
+              height="900"
+              loading="lazy"
+              decoding="async"
+              alt=""
+            />
+          </picture>
+          <span class="usos-tarjeta__velo" aria-hidden="true"></span>
+          <span class="usos-tarjeta__marco">
+            <span class="usos-tarjeta__orden" aria-hidden="true">05</span>
+            <span class="usos-tarjeta__nombre">Cancha</span>
+            <span class="usos-tarjeta__frase">El campo más plano y despejado, con el guadual cerrando el fondo.</span>
+            <span class="usos-tarjeta__aviso">
+              <span class="usos-tarjeta__aviso-movil">Toca para ver el espacio</span>
+              <span class="usos-tarjeta__aviso-escritorio">Ver usos recomendados</span>
+            </span>
+          </span>
+        </summary>
+        <div class="usos-panel">
+          <h3 class="solo-lectores">Usos recomendados en Cancha</h3>
+          <ul class="usos-panel__lista" role="list">
+            <li class="usos-panel__uso">
+              <img src="img/eventos/infantil-4.jpg" width="800" height="533" loading="lazy" decoding="async"
+                   alt="Niños jugando en un campo despejado durante una celebración de cumpleaños." />
+              <p class="usos-panel__tipo">Cumpleaños deportivos</p>
+              <p class="usos-panel__razon">El campo despejado alcanza para un torneo entero o los juegos de la fiesta.</p>
+            </li>
+            <li class="usos-panel__uso">
+              <img src="img/eventos/noche-evento-1.jpg" width="800" height="533" loading="lazy" decoding="async"
+                   alt="Grupo reunido al aire libre en un evento de integración nocturno." />
+              <p class="usos-panel__tipo">Integración empresarial</p>
+              <p class="usos-panel__razon">Un partido de por medio cambia cualquier jornada de equipo.</p>
+            </li>
+            <li class="usos-panel__uso">
+              <img src="img/eventos/infantil-2.jpg" width="800" height="533" loading="lazy" decoding="async"
+                   alt="Familia jugando en un campo abierto en una tarde de sol." />
+              <p class="usos-panel__tipo">Familiares</p>
+              <p class="usos-panel__razon">Tardes de fútbol y juegos con el guadual haciendo de borde y de sombra.</p>
+            </li>
+          </ul>
+        </div>
+      </details>
+    </li>
+
+  </ul>
+
+</section>

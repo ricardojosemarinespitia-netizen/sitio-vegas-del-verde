@@ -24,10 +24,8 @@
  *     activa con la página abierta, se desmonta solo).
  *
  * ── POR QUÉ EN COORDENADAS DE LA FOTO Y NO DEL CANVAS ──────────────────
- * La portada pinta img/hero-momotus.jpg (1600 × 2400, vertical) con
- * `object-fit: cover`: en pantalla ancha se recorta arriba y abajo —en
- * 1280 × 716 sólo se ve la franja 0,104–0,447 del archivo—, en un teléfono se
- * ve entera de arriba abajo. Si las copas se marcaran en porcentajes del
+ * La portada pinta img/hero-ave-flor.jpg (1600 × 1092, apaisada) con
+ * `object-fit: cover`. Si las copas se marcaran en porcentajes del
  * canvas, el follaje emisor se despegaría de los árboles reales al cambiar
  * el viewport. Todo el sistema vive en 0..1 sobre la imagen original y
  * `aPantalla()` replica el encuadre exacto del CSS — incluido el
@@ -71,22 +69,15 @@
 /** Las copas emisoras, en coordenadas normalizadas de la foto (0..1).
  *  `peso` reparte los nacimientos entre las dos.
  *
- *  v6 — RE-MEDIDAS SOBRE img/hero-momotus.jpg, que es lo que la cabecera de
- *  este archivo lleva pidiendo desde que se escribió. Con la portada anterior
- *  el follaje era una banda estrecha entre el prado y el cielo; aquí NO HAY
- *  cielo ni prado: el encuadre entero es dosel a contraluz. Las dos cajas
- *  cambian de significado en consecuencia —ya no son «los dos árboles» sino
- *  las dos zonas de las que tiene sentido que caiga algo—:
- *    · la franja alta, que cruza la imagen entera y en escritorio queda por
- *      ENCIMA del recorte: sus partículas entran en cuadro cayendo desde el
- *      borde de arriba, que es la lectura correcta —vienen del follaje que
- *      sigue ahí aunque no se vea—;
- *    · la maraña de ramas de la derecha, que sí está dentro del encuadre de
- *      escritorio y es la única parte del cuadro donde no está ni el pájaro
- *      ni el bloque de texto. */
+ *  v10 — RE-MEDIDAS SOBRE img/hero-ave-flor.jpg. El ave y las flores de
+ *  tulipán africano ocupan el centro del encuadre; el resto es follaje
+ *  oscuro y desenfocado de arriba abajo, así que sigue sin haber prado ni
+ *  cielo: las dos cajas son «dosel alto» y «la mata de hojas de abajo»,
+ *  las dos zonas de las que tiene sentido que caiga algo sin cruzar por
+ *  encima del ave ni del bloque de texto (que vive a la izquierda). */
 const COPAS = [
-  { x0: 0.00, x1: 1.00, y0: 0.00, y1: 0.20, peso: 0.45 }, // dosel alto, cruza entero
-  { x0: 0.56, x1: 1.00, y0: 0.14, y1: 0.48, peso: 0.55 }, // ramaje de la derecha
+  { x0: 0.00, x1: 1.00, y0: 0.00, y1: 0.18, peso: 0.4 }, // dosel alto, cruza entero
+  { x0: 0.30, x1: 1.00, y0: 0.55, y1: 0.92, peso: 0.6 }, // la mata de hojas del primer plano
 ];
 
 /** Donde muere la partícula, en coordenadas de foto. Esta fotografía no tiene
@@ -98,7 +89,7 @@ const SUELO = 0.96;
 /** El object-position de .inicio__portada-foto, que desde v6 sale de
  *  --pos-foto-y (50% 14%). Tiene que ser el MISMO del CSS o el encuadre
  *  replicado se desfasa un puñado de píxeles y el polen nace del aire. */
-const POSICION_FOTO = { x: 0.5, y: 0.14 };
+const POSICION_FOTO = { x: 0.5, y: 0.42 };
 
 const azar = (a, b) => a + Math.random() * (b - a);
 
@@ -347,9 +338,15 @@ export function montarParticulas(contenedor, img) {
   // portada viva; el aire tiene que llegar a PERCEPTIBLE, que sigue estando
   // muy por debajo de protagonista: el protagonista es el pájaro.
   // En móvil siguen siendo menos: pantalla chica y cuadro más caro.
+  // v11 · MÁS HOJAS TODAVÍA. Treinta sobre 1280 px seguía leyéndose corto
+  // según revisión directa en pantalla: se pidió explícitamente «más hojas
+  // cayendo». Cuarenta y cuatro es la lluvia continua que se pedía —sigue sin
+  // ser un otoño: reparte por toda la copa, no amontona—. El polen sube en la
+  // misma proporción para que la textura no se quede corta debajo.
+  // En móvil siguen siendo menos: pantalla chica y cuadro más caro.
   const movil = window.innerWidth < 640;
-  const motas = Array.from({ length: movil ? 24 : 48 }, () => new Mota(true));
-  const hojas = Array.from({ length: movil ? 6 : 12 }, () => new Hoja(true));
+  const motas = Array.from({ length: movil ? 40 : 80 }, () => new Mota(true));
+  const hojas = Array.from({ length: movil ? 24 : 44 }, () => new Hoja(true));
 
   let anchoCss = 0, altoCss = 0;
   let despX = 0, despY = 0, anchoFoto = 0, altoFoto = 0;

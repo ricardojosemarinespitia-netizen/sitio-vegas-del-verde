@@ -125,35 +125,94 @@
   margin-top: var(--esp-2xs);
 }
 
-/* ---- LA CAPITULAR --------------------------------------------------------
-   Cuatro párrafos seguidos en una columna sin una sola pieza que mire
-   distinto es lo que hace que un bloque de texto se salte. La capitular da el
-   punto de entrada y, además, es la manera más barata de romper la retícula:
-   la letra CUELGA fuera de la caja de texto (ver el media query), que es el
-   «algo que se sale de su marco» que le faltaba a la composición.
+/* ---- v10 · LA REJILLA «SE ALQUILA A» -------------------------------------
+   Reemplaza a la capitular y a los dos párrafos de prosa que había debajo: el
+   cliente pidió «menos texto... más figuras a tope» y sofisticación, no un
+   párrafo con una letra grande. Los mismos tres hechos —privado y vigilado,
+   quién alquila, tú decides— ahora se leen en la entradilla más cuatro
+   figuras, no en cuatro renglones de prosa.
 
-   NO LLEVA font-family declarada por capricho: `::first-letter` no hereda del
-   titular, hereda del párrafo, que va en la fuente de cuerpo. Aquí hay que
-   nombrar el display —Fraunces— explícitamente, y con él sus ejes ópticos y
-   variables, o la letra sale en DM Sans a cuerpo enorme, que es exactamente
-   lo que no se quiere. Esto NO contradice la regla de «ningún font-family en
-   un titular»: esto no es un titular, es un párrafo.
+   El rótulo reutiliza `.eyebrow` de base.css (versalitas, tracking de rótulo,
+   el mismo lenguaje que ya usa «Nuestro compromiso» más abajo): ningún
+   tamaño ni color nuevo, sólo el vocabulario que el sistema ya tiene para
+   presentar un bloque. */
+.nosotros__quienes-rotulo {
+  margin-top: var(--esp-xs);
+}
 
-   El interlineado apretado es obligatorio: con el 1,68 del cuerpo, la caja de
-   la capitular mediría casi el doble que la letra y abriría un agujero entre
-   los dos primeros renglones.                                              */
-.nosotros__parrafo--capitular::first-letter {
-  float: left;
-  margin-right: var(--esp-2xs);
-  font-family: var(--fuente-display);
-  font-size: var(--fs-h1);
-  font-weight: var(--peso-display);
-  font-optical-sizing: auto;
-  font-variation-settings: var(--ejes-display);
-  line-height: var(--alto-linea-apretado);
-  /* Terracota sobre crema: 5,3:1. Es el color de acento de texto del sistema,
-     el mismo que llevan los índices de los pilares en su versión clara. */
+/* CUATRO TARJETAS PEQUEÑAS, NO UNA LISTA. `auto-fit` con un mínimo corto deja
+   dos columnas en móvil y hasta cuatro donde el ancho de la columna de
+   discurso lo permita, sin escribir un breakpoint aparte para la rejilla. */
+.nosotros__quienes {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(7rem, 1fr));
+  gap: var(--esp-sm);
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  max-width: var(--medida-corta);
+}
+
+/* Cada figura es la protagonista de su tarjeta: aro de hoja igual que las
+   insignias de servicio pero a más del doble de tamaño, con relleno y borde
+   en terracota —el acento cálido del sistema, reservado para lo que el
+   cliente quiere que se note— en vez del oliva discreto de los servicios.
+   Sofisticación aquí es contención: sin sombra, sin fondo sólido, un filete
+   fino y mucho aire alrededor del trazo. */
+.nosotros__quien {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--esp-xs);
+  padding-block: var(--esp-sm);
+  text-align: center;
+  font-family: var(--fuente-titulo);
+  font-size: var(--fs-pequeno);
+  font-weight: var(--peso-medio);
+  text-transform: uppercase;
+  letter-spacing: var(--tracking-rotulo);
+  color: var(--color-texto);
+}
+
+.nosotros__quien-icono {
+  box-sizing: border-box;
+  width: min(var(--esp-2xl), 76px);
+  height: min(var(--esp-2xl), 76px);
+  padding: var(--esp-xs);
+  border: 1px solid rgb(var(--coral-hondo-rgb) / 0.35);
+  border-radius: var(--radio-full) 0 var(--radio-full) 0;
+  background-color: rgb(var(--coral-hondo-rgb) / 0.08);
   color: var(--color-acento-texto);
+}
+
+/* La diagonal de la hoja alterna por tarjeta, el mismo criterio que las
+   insignias de servicio (nosotros.css §2): ni las cuatro son la misma pieza
+   ni hay dos vecinas iguales. */
+.nosotros__quien:nth-child(2) .nosotros__quien-icono {
+  border-radius: 0 var(--radio-full) 0 var(--radio-full);
+}
+
+.nosotros__quien:nth-child(3) .nosotros__quien-icono {
+  border-radius: var(--radio-full) 0 var(--radio-full) 0;
+}
+
+.nosotros__quien:nth-child(4) .nosotros__quien-icono {
+  border-radius: 0 var(--radio-lg) 0 var(--radio-full);
+}
+
+/* Retardos desiguales, mismo criterio que la tira de servicios: la escalera
+   regular de base.css se leería como un barrido de cuatro piezas idénticas.
+   Todo cuelga de --dur-instant, así que baja sola con reduced-motion. */
+.nosotros__quienes > .nosotros__quien:nth-child(1) { --reveal-delay: 0ms; }
+.nosotros__quienes > .nosotros__quien:nth-child(2) { --reveal-delay: calc(var(--dur-instant) * 1.6); }
+.nosotros__quienes > .nosotros__quien:nth-child(3) { --reveal-delay: calc(var(--dur-instant) * 0.8); }
+.nosotros__quienes > .nosotros__quien:nth-child(4) { --reveal-delay: calc(var(--dur-instant) * 2.9); }
+
+/* La nota de cierre («tú decides qué pasa adentro»): un renglón, no un
+   párrafo, en la voz suave del sistema. */
+.nosotros__quienes-nota {
+  max-width: var(--medida-corta);
+  color: var(--color-texto-suave);
 }
 
 @media (min-width: 62em) {
@@ -189,15 +248,6 @@
     grid-column: 7 / -1;
   }
 
-  /* La capitular SALE de la columna y se mete en la calle vacía que separa el
-     titular del discurso —la columna 6 de 12, que no lleva contenido—. Sólo a
-     partir de 62em, que es donde esa calle existe: por debajo, el discurso
-     arranca en el relleno de página y colgar la letra la sacaría de la
-     pantalla. Ahí arriba, en cambio, a la izquierda no hay más que aire, así
-     que los 24 px no pueden chocar con nada. */
-  .nosotros__parrafo--capitular::first-letter {
-    margin-left: calc(var(--esp-md) * -1);
-  }
 }
 
 /* ---- La foto grande, a sangre por la izquierda --------------------------

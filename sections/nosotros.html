@@ -154,27 +154,79 @@
          DERECHA, y en una columna que ocupa todo el ancho eso sí genera
          desbordamiento real (a la izquierda el navegador no deja desplazar;
          a la derecha, sí). El bloque entra en vertical, como el resto. -->
-    <!-- v8 · EL DISCURSO SE RECORTA A LA MITAD. El cliente pidió «poco
-         texto... que llame la atención» y aquí había ~90 palabras de prosa
-         antes de la primera foto. Los HECHOS se conservan todos —privado,
-         portería y vigilancia, se alquila a colegios/empresas/particulares—;
-         lo que sale es la descripción alrededor de ellos. Frases cortas. -->
+    <!-- v10 · DE PROSA A FIGURAS. El pedido del cliente fue literal: «se ve
+         básico, más figuras a tope y menos texto» transmitiendo sofisticación.
+         v8 ya había recortado la prosa a la mitad; v10 la termina de recortar
+         y reemplaza los dos párrafos de cuerpo (la capitular incluida, que ya
+         no tiene prosa larga donde apoyarse) por CUATRO figuras —una por
+         hecho— en vez de una frase por hecho. LOS HECHOS NO CAMBIAN, sólo el
+         formato: sigue siendo privado con vigilancia (ahora es la entradilla
+         + la primera figura) y se sigue alquilando a colegios, empresas y
+         particulares (ahora tres figuras, no una enumeración). El «tú
+         decides qué pasa adentro» pasa a nota de cierre bajo la rejilla. -->
     <div class="nosotros__discurso reveal">
       <p class="entradilla">
         Un predio privado con portería y vigilancia, no un parque público.
       </p>
-      <!-- La capitular se marca con una clase y no con `p:nth-of-type(2)`
-           porque la entradilla también es un <p>: un selector posicional se
-           rompería en cuanto alguien añada o quite un párrafo. La letra que
-           agranda el CSS es la «E» de «Entras». -->
-      <p class="nosotros__parrafo--capitular">
-        Entras y la ciudad se queda afuera. El predio está cerrado y hay
-        vigilancia privada mientras dure tu plan.
-      </p>
-      <p>
-        Se alquila a colegios, empresas y particulares. Tú decides qué pasa
-        adentro.
-      </p>
+
+      <p class="eyebrow nosotros__quienes-rotulo">Se alquila a</p>
+
+      <!-- CUATRO FIGURAS, NO CUATRO ICONOS DE STOCK. Cada trazo se dibujó
+           para este sitio con la misma firma que reconoce el motor de
+           dibujado del sistema —`viewBox="0 0 24 24"`, `fill="none"` y
+           `stroke="currentColor"`—, la misma que llevan la rama de arriba y
+           los cuatro iconos de «Lo básico, resuelto». Ninguno se repite entre
+           bloques: el ojo de vigilancia es distinto del escudo de servicios,
+           a propósito, para que la sección no reparta la misma pieza dos
+           veces. Cada <li> es su propio .reveal dentro de .reveal-secuencia,
+           igual que la tira de servicios: los retardos desiguales los reparte
+           nosotros.css §1b. -->
+      <!-- v11 · EL OJO DE VIGILANCIA SE RETIRA DE AQUÍ, por pedido directo:
+           duplicaba «Vigilancia privada» de «Lo básico, resuelto» dos
+           bloques más abajo —dos figuras distintas para el mismo hecho—.
+           Esta rejilla es «a quién se alquila»; la vigilancia no es un
+           inquilino, es un servicio del predio, así que su sitio único
+           queda en la rejilla de servicios. El dato no se pierde: sigue en
+           la entradilla de arriba («portería y vigilancia»). -->
+      <ul class="nosotros__quienes reveal-secuencia">
+
+        <li class="nosotros__quien reveal reveal--zoom">
+          <svg class="icono-traza nosotros__quien-icono" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+               stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"
+               aria-hidden="true" focusable="false">
+            <path d="M12 4 2.4 8.6 12 13.2l9.6-4.6L12 4Z" pathLength="1"/>
+            <path d="M6.5 10.8v4.6c0 1.5 2.5 2.7 5.5 2.7s5.5-1.2 5.5-2.7v-4.6" pathLength="1"/>
+            <path d="M21.6 8.6v5.6" pathLength="1"/>
+          </svg>
+          <span>Colegios</span>
+        </li>
+
+        <li class="nosotros__quien reveal reveal--zoom">
+          <svg class="icono-traza nosotros__quien-icono" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+               stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"
+               aria-hidden="true" focusable="false">
+            <rect x="5.4" y="3.4" width="8.2" height="17.2" rx="1" pathLength="1"/>
+            <path d="M13.6 20.6v-9.6h5v9.6" pathLength="1"/>
+            <path d="M8 7.2h1M8 10.6h1M8 14h1M11 7.2h1M11 10.6h1M11 14h1" pathLength="1"/>
+          </svg>
+          <span>Empresas</span>
+        </li>
+
+        <li class="nosotros__quien reveal reveal--zoom">
+          <svg class="icono-traza nosotros__quien-icono" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+               stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"
+               aria-hidden="true" focusable="false">
+            <circle cx="8.3" cy="8.1" r="2.7" pathLength="1"/>
+            <path d="M2.6 19.2c.5-3.4 2.6-5.2 5.7-5.2s5.2 1.8 5.7 5.2" pathLength="1"/>
+            <circle cx="17" cy="7.3" r="2" pathLength="1"/>
+            <path d="M14.6 12.5c.7-.3 1.4-.5 2.4-.5 2.6 0 4.4 1.5 4.9 4.5" pathLength="1"/>
+          </svg>
+          <span>Particulares</span>
+        </li>
+
+      </ul>
+
+      <p class="nosotros__quienes-nota">Tú decides qué pasa adentro.</p>
 
       <p class="grupo-botones">
         <a class="btn btn-secundario" href="#espacios">Ver los cinco espacios</a>

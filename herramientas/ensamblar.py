@@ -15,6 +15,7 @@ IDX  = os.path.join(RAIZ, "index.html")
 
 ORDEN = [
     ("inicio",     "hero.html"),
+    ("usos",       "usos.html"),
     ("espacios",   "espacios.html"),
     ("nosotros",   "nosotros.html"),
     ("planes",     "planes.html"),
@@ -28,6 +29,7 @@ ORDEN = [
 # Hojas de sección que deben ir en el <head>, en el mismo orden que el <main>.
 CSS_SECCIONES = [
     "styles/sections/inicio.css",
+    "styles/sections/usos.css",
     "styles/sections/espacios.css",
     "styles/sections/nosotros.css",
     "styles/sections/planes.css",

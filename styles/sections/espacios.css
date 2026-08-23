@@ -209,34 +209,8 @@
    coreografía se colapsa sola), nunca duraciones nuevas: es el mismo mecanismo
    que el escalonado interno de las fichas del §7.
    ========================================================================== */
-.js .espacios__rotulo {
-  transition-delay: calc(var(--dur-instant) * 0.5);
-}
 
-.js .espacios__entradilla {
-  transition-delay: calc(var(--dur-instant) * 3);
-}
 
-/* EL FOLIO DE CAPÍTULO — el «01» dentro del eyebrow. Fraunces con peso de
-   cifra y el cálido de texto: es el índice de la revista, no un adorno.
-   El eyebrow conserva su caja, su caps y su tracking; el folio sólo se
-   separa del rótulo con un respiro corto. */
-.espacios__folio {
-  font-family: var(--fuente-display);
-  font-size: var(--fs-eyebrow);
-  font-weight: var(--peso-fuerte);
-  font-optical-sizing: auto;
-  color: var(--color-acento-texto);
-  margin-inline-end: var(--esp-2xs);
-}
-
-/* LA ENTRADILLA COMO LEAD DE REVISTA. base.css ya le da --fs-grande; aquí se
-   le acorta la medida para que parta en tres renglones y respire respecto del
-   titular en persiana. Se lee como entradilla, no como párrafo de relleno. */
-.espacios__entradilla {
-  max-width: var(--medida-corta);
-  margin-block-start: var(--esp-md);
-}
 
 /* ==========================================================================
    0 ter. EL AIRE — dónde vuela la fauna ambiente
@@ -528,6 +502,7 @@
    foto-focus escala en escritorio (§9): si aquí se cambia un valor, allí
    cambia el punto fijo del zoom. */
 .espacio--alto .espacio__img    { object-position: 50% 58%; } /* carpa y gente */
+.espacio--medio .espacio__img   { object-position: 50% 42%; } /* copa del árbol: sin esto el recorte por defecto (50% 50%) corta la copa contra la que remata el arco de la silueta y deja un tronco genérico, que es justo la queja del cliente */
 .espacio--esbelto .espacio__img { object-position: 50% 32%; } /* techo de caña */
 .espacio--breve .espacio__img   { object-position: 50% 42%; } /* guadual y césped */
 
