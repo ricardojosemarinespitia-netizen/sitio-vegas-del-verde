@@ -208,7 +208,29 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-rendering: optimizeLegibility;
-  overflow-x: hidden;
+  /* CAUSA RAÍZ DEL MURO DEL CONCURSO SIN STICKY (26-ago) · Esto era
+     `overflow-x: hidden`. Por la regla de CSS Overflow "si un eje es
+     `visible` y el otro no, el eje `visible` se recalcula a `auto`", tener
+     `overflow-x: hidden` aquí sin tocar el eje Y fuerza a que
+     `overflow-y` compute como `auto` — invisible en el layout (el body
+     nunca desborda su propio contenido, así que no aparece scrollbar ni
+     cambia nada a simple vista), pero convierte a <body> en "contenedor de
+     scroll" a efectos de `position: sticky`: los `.nat-cinta__escena`,
+     `.rs-escena` y cualquier otro sticky del sitio pasan a anclarse contra
+     el scrollport de <body> (que nunca se mueve, porque <body> no scrollea
+     de verdad) en vez de contra el viewport real. El resultado es un
+     sticky que nunca se pega: la escena de 100svh flota en su posición
+     normal de documento y se desplaza con la página como si `position`
+     fuera `relative`. Esto llevaba tiempo así — no lo causó el traslado
+     reciente del muro del concurso, solo lo hizo visible tan arriba de la
+     página que quedó imposible de no ver.
+     `html` ya resuelve exactamente este mismo problema con `overflow-x:
+     clip` en vez de `hidden` (ver el comentario de esa regla, arriba): con
+     `clip` el eje X se recorta sin forzar el eje Y a `auto`, así que
+     `html` NUNCA se vuelve contenedor de scroll y el `position: sticky`
+     de cualquier descendiente queda intacto. Aquí se aplica la misma
+     solución. */
+  overflow-x: clip;
 }
 
 img,

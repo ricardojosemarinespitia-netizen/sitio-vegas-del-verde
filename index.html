@@ -68,7 +68,7 @@
       media="(min-width: 48em)" href="img/hero-ave-flor.avif">
 
 <link rel="stylesheet" href="styles/tokens.css?v=84276b65">
-<link rel="stylesheet" href="styles/base.css?v=89296fcb">
+<link rel="stylesheet" href="styles/base.css?v=6456e7ac">
 <link rel="stylesheet" href="styles/shell.css?v=e2eb0d62">
 <link rel="stylesheet" href="styles/sections/inicio.css?v=d9b9fe2c">
 <link rel="stylesheet" href="styles/sections/usos.css?v=88c81cc1">
@@ -2821,414 +2821,14 @@
 
   </figure>
 
-  <!-- ======================================================================
-       1 · APERTURA A SANGRE POR LA IZQUIERDA
-       El encabezado de sección vive DENTRO de esta composición: la foto del
-       camino toca el borde de la pantalla y el titular arranca a su derecha.
-       Es lo principal de la sección y tiene que verse que lo es.
-       ====================================================================== -->
-  <div class="nat-apertura">
-
-    <div class="nat-apertura__media reveal reveal--izq">
-      <figure class="nat-apertura__principal">
-        <div class="marco marco--retrato">
-          <img
-            src="img/espacios/sendero-1.jpg"
-            width="844"
-            height="1500"
-            loading="lazy"
-            decoding="async"
-            alt="Camino de tierra y hojarasca del Sendero Ecovital, cubierto por el arco de las ramas y bordeado de setos y árboles jóvenes"
-          />
-        </div>
-      </figure>
-      <figure class="nat-apertura__inset">
-        <div class="marco marco--1-1">
-          <img
-            src="img/parque/parque-45.jpg"
-            width="675"
-            height="1200"
-            loading="lazy"
-            decoding="async"
-            alt="Cerramiento de cañas de guadua del predio, con orquídeas colgadas de una vara y materas de barro sobre la gravilla"
-          />
-        </div>
-        <figcaption class="credito nat-apertura__pie">Guadua del predio</figcaption>
-      </figure>
-
-      <!-- v8 · LA CAJA DE FAUNA AMBIENTE. Vacía, decorativa y con `position`
-           propia, como exige §2 del documento del director. Va AQUÍ, sobre la
-           fotografía del camino —el movimiento del sendero—, y no en la parte
-           de aves: allí ya vuelan pájaros de verdad, fotografiados en el
-           predio, y superponerles recortes genéricos sería competir con el
-           material bueno. Cae sobre foto, nunca sobre párrafo. -->
-      <div class="nat-apertura__aire" aria-hidden="true"></div>
-    </div>
-
-    <div class="nat-apertura__texto reveal reveal--der">
-
-      <header class="nat-apertura__encabezado">
-        <!-- v8 · EL RÓTULO DE CAPÍTULO. Decía «Sendero Ecovital y
-             biodiversidad»: dos temas en un mismo renglón, que es justo lo
-             que el cliente lee como «está mezclado todo». Ahora el rótulo
-             trae el capítulo compartido con #vivero —«El bosque», §1 del
-             documento del director— y a continuación el nombre del PRIMER
-             movimiento, que es el sendero y sólo el sendero. Las aves tienen
-             su propio rótulo más abajo, en .nat-giro. -->
-        <p class="eyebrow">El bosque · El Sendero Ecovital</p>
-        <!-- LA PIEZA-CIFRA DOMINANTE. El «101» es el dato que distingue a
-             este predio de cualquier finca de eventos y no aparece en ningún
-             otro sitio de la página. Antes iba dentro de la frase como una
-             palabra más subida de peso; ahora el titular se compone alrededor
-             de él: la frase arriba, la cifra en cuerpo gigante debajo y la
-             unidad colgada de su línea base. La oración no cambia —el lector
-             de pantalla y el validador siguen leyendo «Camina donde cantan
-             101 especies»— y la cifra sigue apareciendo UNA sola vez en la
-             página. data-contador la cuenta al entrar en pantalla con el
-             motor global de js/app.js (el mismo del 347 y el 57); el 101 ya
-             está escrito en el HTML, así que sin JS —o antes de que el motor
-             dispare— no hay hueco ni parpadeo. -->
-        <!-- v8 · .reveal-texto sobre el titular de apertura del capítulo. Los
-             dos renglones ya existían como spans (la frase y la línea de la
-             cifra), así que sólo hay que marcarlos: cero marcado nuevo y cero
-             JS nuevo — lo dispara el mismo observador de js/app.js.
-             NO se usa la variante persiana: su `overflow: clip` por renglón
-             recortaría el «101» a 143 px, que es la pieza más grande de la
-             sección. El gesto caro se queda sin gastar aquí a propósito.
-             `display: block` de .reveal-texto__linea no pisa el `flex` de
-             .nat-cifra-dominante__linea: esta hoja se carga DESPUÉS de
-             base.css y las dos reglas tienen la misma especificidad. -->
-        <h2 id="naturaleza-titulo" class="titulo-seccion nat-apertura__titulo nat-cifra-dominante reveal reveal-texto">
-          <span class="nat-cifra-dominante__frase reveal-texto__linea">Camina donde cantan</span>
-          <span class="nat-cifra-dominante__linea reveal-texto__linea">
-            <span class="nat-cifra-dominante__numero" data-contador="101">101</span>
-            <span class="nat-cifra-dominante__unidad">especies</span>
-          </span>
-        </h2>
-        <p class="entradilla">
-          El recorrido guiado que sigue la quebrada, y el censo de lo que vive alrededor.
-          Es la única visita suelta con un precio publicado.
-        </p>
-      </header>
-
-      <div class="nat-apertura__cuerpo">
-        <h3 class="titulo-seccion titulo-seccion--xs nat-apertura__antetitulo">
-          Se camina despacio y con alguien que sabe mirar
-        </h3>
-
-        <p>
-          Es pajareo y observación de plantas a la vez: se anda poco y se para mucho.
-          Vas con guía, así que lo que oyes tiene nombre.
-        </p>
-
-        <!-- El cauce entre los dos puntos era un filete recto de 1 px. Un
-             filete recto es lo que dibuja una tabla; una quebrada serpentea.
-             El trazo es SVG y es decoración pura (aria-hidden): los dos
-             nombres ya están escritos al lado y el orden lo da el flujo. -->
-        <p class="nat-ruta">
-          <span class="nat-ruta__punto">Quebrada Aranzoque</span>
-          <svg
-            class="nat-ruta__cauce"
-            viewBox="0 0 16 64"
-            preserveAspectRatio="none"
-            aria-hidden="true"
-            focusable="false"
-          >
-            <path
-              d="M1 0 C 13 12, 1 22, 8 34 C 15 46, 3 54, 1 64"
-              stroke-width="1.4"
-              stroke-linecap="round"
-              vector-effect="non-scaling-stroke"
-            />
-          </svg>
-          <span class="nat-ruta__punto">Riachuelo La Florida</span>
-        </p>
-
-        <p>
-          El camino sigue la quebrada hasta su encuentro con el riachuelo. Las dos
-          corrientes de agua rodean el terreno arbolado.
-        </p>
-
-<!-- v9 · Era una lista de viñetas de hoja (lista-hojas): tres renglones de
-             folleto en la columna más leída de la sección. Ahora es UNA línea
-             de registro separada por interpunto — ficha de expedición, no
-             lista de beneficios. Micro-etiqueta (<24px), caps permitidos. -->
-        <p class="nat-apertura__notas">
-          Guaduas a lado y lado · Búcaro y Caracolí · Recorrido guiado de pajareo
-        </p>
-      </div>
-
-      <!-- El único precio publicado del sitio, y el CTA a su lado: dos
-           columnas desiguales cerradas por filete arriba y abajo. -->
-      <div class="nat-oferta">
-        <div class="nat-precio">
-          <p class="nat-precio__etiqueta">Entrada al Sendero Ecovital</p>
-          <p class="nat-precio__valor">
-            <span class="nat-precio__simbolo">$</span>15.000
-            <span class="nat-precio__moneda">COP</span>
-          </p>
-          <p class="nat-precio__unidad">por persona</p>
-        </div>
-
-        <div class="nat-oferta__accion">
-          <div class="grupo-botones">
-            <a
-              class="btn btn-whatsapp btn-grande"
-              href="https://wa.me/573166758362?text=Hola%2C%20quiero%20reservar%20un%20recorrido%20guiado%20por%20el%20Sendero%20Ecovital.%20Vamos%20___%20personas%20y%20nos%20gustar%C3%ADa%20ir%20el%20___."
-              target="_blank"
-              rel="noopener"
-            >
-              Atrévete al sendero
-            </a>
-            <!-- El contrapunto del precio de al lado: esa entrada es para
-                 venir una vez; el Plan vecino es para volver. Vive en su
-                 propia página porque tiene tarifas, condiciones y beneficios
-                 que aquí obligarían a repetir media sección. -->
-            <a class="btn btn-secundario btn-grande" href="plan-vecino.html">
-              Ven todo el año
-            </a>
-          </div>
-
-          <p class="nota nat-oferta__nota">
-            Escribe con cuántos vienen y qué día les sirve.
-            <a href="#ubicacion">Cómo llegar</a>.
-          </p>
-        </div>
-      </div>
-
-    </div>
-
-  </div>
-
-  <!-- ======================================================================
-       1 bis · EL GIRO — la bisagra entre el sendero y los pájaros (v8)
-       El cliente lee esta sección como una sola masa: «por sección de pájaros
-       en un lado, sendero en otro, está mezclado todo». No lo está en el
-       contenido —el sendero se cuenta entero arriba y las aves enteras
-       abajo—, pero NADA lo señalaba: los dos movimientos comparten fondo
-       crema, ancho de contenedor y tamaño de rótulo, así que la vista los
-       cuenta como un mismo bloque largo.
-
-       Esta banda es el letrero que faltaba. Es lo mínimo que hace evidente el
-       cambio de tema sin fracturar el capítulo «El bosque» (que sigue con
-       #vivero): una franja de salvia a todo el ancho —el mismo recurso de
-       franja alterna que ya usa el sitio, no un recurso nuevo—, con el rótulo
-       del segundo movimiento y dos renglones que dicen en voz alta dónde
-       termina una cosa y empieza la otra.
-
-       Deliberadamente NO lleva cresta SVG ni fauna: la cresta es el gesto de
-       entrada del muro del concurso, cien líneas más abajo, y gastarla dos
-       veces en la misma sección la anula. Aquí basta el cambio de suelo.
-       ====================================================================== -->
-  <div class="nat-giro">
-    <div class="contenedor nat-giro__cuerpo">
-      <p class="eyebrow nat-giro__eyebrow">Las aves y el censo</p>
-      <h3 class="titulo-seccion titulo-seccion--sm nat-giro__titulo reveal reveal-texto">
-        <span class="reveal-texto__linea">Hasta aquí, el camino.</span>
-        <span class="reveal-texto__linea">Ahora, lo que vive en él.</span>
-      </h3>
-      <p class="nat-giro__texto">
-        El registro de aves, los ambientes del predio y el muro del concurso.
-      </p>
-    </div>
-  </div>
-
-  <!-- ======================================================================
-       2 · LA NOTA AL MARGEN
-       Tres columnas desiguales, sin caja: el rótulo estrecho a la izquierda,
-       la endémica ancha en el centro y el dato migratorio en un carril fino.
-       ====================================================================== -->
-  <div class="contenedor">
-    <div class="nat-registro reveal-secuencia">
-
-      <h3 class="titulo-seccion titulo-seccion--xs nat-registro__titulo reveal">
-        Dos apuntes del registro de aves
-      </h3>
-
-      <article class="nat-ficha nat-ficha--endemica reveal">
-        <p class="pildora pildora--destacada">Endémica de Colombia</p>
-        <h4 class="nat-ficha__titulo">Chachalaca Colombiana</h4>
-        <p class="nat-ficha__cientifico">Ortalis columbiana</p>
-        <p class="nat-ficha__texto">
-          Endémica quiere decir que no vive de forma silvestre en ningún otro país
-          del mundo. Está en el registro de este predio.
-        </p>
-        <p class="nat-ficha__aviso">
-          Todavía no hay una fotografía suya en el muro de aquí abajo.
-          Ese es justamente el plan.
-        </p>
-      </article>
-
-      <article class="nat-ficha nat-ficha--dato reveal">
-        <p class="cifra">7</p>
-        <p class="cifra-etiqueta">Especies migratorias boreales</p>
-        <p class="nat-ficha__texto">
-          Bajan desde el norte del continente y solo se dejan ver una parte del año.
-          No están siempre: hay que venir cuando llegan.
-        </p>
-      </article>
-
-    </div>
-  </div>
-
-  <!-- ======================================================================
-       3 · A SANGRE POR LA DERECHA: el censo y la columna de vídeo
-       Contrapeso de la apertura. El vídeo es metraje propio, vertical y mudo;
-       el póster es el suelo si la red falla.
-       ====================================================================== -->
-  <div class="nat-vida">
-
-    <div class="nat-censo">
-
-      <h3 class="titulo-seccion titulo-seccion--sm nat-censo__titulo reveal">
-        Aquí no solo hay aves
-      </h3>
-
-      <ul class="nat-habitats reveal-secuencia">
-
-        <li class="nat-habitat nat-habitat--ancho nat-habitat--foco-medio reveal">
-          <img
-            class="nat-habitat__foto"
-            src="img/parque/parque-61.jpg"
-            width="900"
-            height="1200"
-            loading="lazy"
-            decoding="async"
-            alt="Huella de losas de piedra entre bromelias y bastones del emperador en flor, bajo los árboles grandes del predio"
-          />
-          <div class="nat-habitat__cuerpo">
-            <p class="nat-habitat__lugar">El jardín</p>
-            <p class="nat-habitat__cifra" data-contador="347">347</p>
-            <p class="nat-habitat__etiqueta">Especies de plantas · 20 familias botánicas</p>
-            <p class="nat-habitat__texto">
-              Bromelias, bastones del emperador y árboles altos compartiendo el mismo
-              tramo de camino.
-            </p>
-          </div>
-        </li>
-
-        <li class="nat-habitat nat-habitat--foco-bajo reveal">
-          <img
-            class="nat-habitat__foto"
-            src="img/parque/parque-60.jpg"
-            width="675"
-            height="1200"
-            loading="lazy"
-            decoding="async"
-            alt="Árbol grande de hoja ancha dando sombra sobre el camino de gravilla, con matas de hoja grande y hojarasca a su pie"
-          />
-          <div class="nat-habitat__cuerpo">
-            <p class="nat-habitat__lugar">La hojarasca</p>
-            <p class="nat-habitat__cifra">18</p>
-            <p class="nat-habitat__etiqueta">Especies de anfibios</p>
-            <p class="nat-habitat__texto">Donde la hoja caída guarda humedad todo el día.</p>
-          </div>
-        </li>
-
-        <li class="nat-habitat nat-habitat--foco-bajo reveal">
-          <img
-            class="nat-habitat__foto"
-            src="img/parque/parque-13.jpg"
-            width="800"
-            height="1200"
-            loading="lazy"
-            decoding="async"
-            alt="Cactus al sol sobre piso de piedra y arena, delante de la pérgola de guadua y caña del predio"
-          />
-          <div class="nat-habitat__cuerpo">
-            <p class="nat-habitat__lugar">La piedra al sol</p>
-            <p class="nat-habitat__cifra">23</p>
-            <p class="nat-habitat__etiqueta">Especies de reptiles</p>
-            <p class="nat-habitat__texto">Piedra caliente, cactus y bordes secos: su sitio.</p>
-          </div>
-        </li>
-
-        <li class="nat-habitat nat-habitat--foco-alto reveal">
-          <img
-            class="nat-habitat__foto"
-            src="img/parque/parque-09.jpg"
-            width="675"
-            height="1200"
-            loading="lazy"
-            decoding="async"
-            alt="Copa amplia de un árbol grande abriéndose sobre el prado segado del predio, con el seto de fondo"
-          />
-          <div class="nat-habitat__cuerpo">
-            <p class="nat-habitat__lugar">El dosel</p>
-            <p class="nat-habitat__cifra">3</p>
-            <p class="nat-habitat__etiqueta">Especies de mamíferos</p>
-            <p class="nat-habitat__texto">Arriba, entre las ramas gruesas, lejos del camino.</p>
-          </div>
-        </li>
-
-      </ul>
-
-      <p class="nota nat-censo__aclaracion">
-        Las fotografías muestran los ambientes del predio, no las especies: no hay
-        fotografía propia de anfibios, reptiles ni mamíferos. Las cifras vienen del
-        inventario biológico del lugar.
-      </p>
-
-    </div>
-
-    <!-- ---- La columna de vídeo, pegada al borde derecho -------------------- -->
-    <figure class="nat-video reveal reveal--der">
-      <video
-        class="nat-video__pieza"
-        width="720"
-        height="1280"
-        muted
-        loop
-        playsinline
-        preload="none"
-        poster="img/video/mariposa-verbena.jpg"
-        aria-label="Una mariposa parda, con las alas cerradas, posada en lo alto de una vara de verbena de flores moradas; alrededor, decenas de varas más y hojas verdes, con la vegetación del fondo desenfocada."
-        data-video-escena
-      >
-        <source src="video/mariposa-verbena.webm" type="video/webm" />
-        <source src="video/mariposa-verbena.mp4" type="video/mp4" />
-      </video>
-      <figcaption class="nat-video__pie">
-        Una mariposa parda descansa en lo alto de una vara en flor.
-      </figcaption>
-    </figure>
-
-  </div>
-
-  <!-- ======================================================================
-       4 · PIE DE LA SECCIÓN: los dos árboles de CITES
-       Ya no es una caja: es un filete y tipografía. Es un dato de archivo,
-       no una tarjeta, y no puede pesar lo mismo que el sendero.
-       ====================================================================== -->
-  <div class="contenedor">
-    <aside class="nat-conservacion reveal" aria-labelledby="conservacion-titulo">
-      <div class="nat-conservacion__intro">
-        <p class="pildora">CITES · Apéndice III</p>
-        <h3 id="conservacion-titulo" class="titulo-seccion titulo-seccion--xs">
-          Dos árboles que no se talan a la ligera
-        </h3>
-        <p class="nota">
-          Esa es la lista de especies cuyo comercio internacional se controla.
-          Los dos son valiosos para conservación y los dos crecen dentro del predio.
-        </p>
-      </div>
-
-      <ul class="nat-especies">
-        <li class="nat-especie">Cedro</li>
-        <li class="nat-especie">Guayacán Amarillo</li>
-      </ul>
-
-      <p class="credito nat-conservacion__pie">
-        Todavía no hay fotografía propia de estos dos árboles. Cuando la haya, estará aquí.
-      </p>
-    </aside>
-  </div>
-
   <!-- ==========================================================================
        EL MURO DEL CONCURSO
        Es el único sitio del sitio con fichas de ave acreditadas. Publica el
        archivo completo, porque un archivo incompleto no es un archivo.
        Cada crédito sale de img/aves/_creditos.json; ninguno se inventa.
+       Vive aquí, justo debajo de la portada de pajareo y antes de la
+       apertura del Sendero: el cliente lo quiere como la primera parada
+       después de abrir la sección, no como cierre tras las fichas de aves.
        ========================================================================== -->
   <!-- v7: la banda pierde su .reveal, por dos razones medidas en preview:
        (1) el observer global exige threshold 0.15 y la banda —con la pista
@@ -4569,6 +4169,409 @@
       </p>
 
     </div>
+  </div>
+
+  <!-- ======================================================================
+       1 · APERTURA A SANGRE POR LA IZQUIERDA
+       El encabezado de sección vive DENTRO de esta composición: la foto del
+       camino toca el borde de la pantalla y el titular arranca a su derecha.
+       Es lo principal de la sección y tiene que verse que lo es.
+       ====================================================================== -->
+  <div class="nat-apertura">
+
+    <div class="nat-apertura__media reveal reveal--izq">
+      <figure class="nat-apertura__principal">
+        <div class="marco marco--retrato">
+          <img
+            src="img/espacios/sendero-1.jpg"
+            width="844"
+            height="1500"
+            loading="lazy"
+            decoding="async"
+            alt="Camino de tierra y hojarasca del Sendero Ecovital, cubierto por el arco de las ramas y bordeado de setos y árboles jóvenes"
+          />
+        </div>
+      </figure>
+      <figure class="nat-apertura__inset">
+        <div class="marco marco--1-1">
+          <img
+            src="img/parque/parque-45.jpg"
+            width="675"
+            height="1200"
+            loading="lazy"
+            decoding="async"
+            alt="Cerramiento de cañas de guadua del predio, con orquídeas colgadas de una vara y materas de barro sobre la gravilla"
+          />
+        </div>
+        <figcaption class="credito nat-apertura__pie">Guadua del predio</figcaption>
+      </figure>
+
+      <!-- v8 · LA CAJA DE FAUNA AMBIENTE. Vacía, decorativa y con `position`
+           propia, como exige §2 del documento del director. Va AQUÍ, sobre la
+           fotografía del camino —el movimiento del sendero—, y no en la parte
+           de aves: allí ya vuelan pájaros de verdad, fotografiados en el
+           predio, y superponerles recortes genéricos sería competir con el
+           material bueno. Cae sobre foto, nunca sobre párrafo. -->
+      <div class="nat-apertura__aire" aria-hidden="true"></div>
+    </div>
+
+    <div class="nat-apertura__texto reveal reveal--der">
+
+      <header class="nat-apertura__encabezado">
+        <!-- v8 · EL RÓTULO DE CAPÍTULO. Decía «Sendero Ecovital y
+             biodiversidad»: dos temas en un mismo renglón, que es justo lo
+             que el cliente lee como «está mezclado todo». Ahora el rótulo
+             trae el capítulo compartido con #vivero —«El bosque», §1 del
+             documento del director— y a continuación el nombre del PRIMER
+             movimiento, que es el sendero y sólo el sendero. Las aves tienen
+             su propio rótulo más abajo, en .nat-giro. -->
+        <p class="eyebrow">El bosque · El Sendero Ecovital</p>
+        <!-- LA PIEZA-CIFRA DOMINANTE. El «101» es el dato que distingue a
+             este predio de cualquier finca de eventos y no aparece en ningún
+             otro sitio de la página. Antes iba dentro de la frase como una
+             palabra más subida de peso; ahora el titular se compone alrededor
+             de él: la frase arriba, la cifra en cuerpo gigante debajo y la
+             unidad colgada de su línea base. La oración no cambia —el lector
+             de pantalla y el validador siguen leyendo «Camina donde cantan
+             101 especies»— y la cifra sigue apareciendo UNA sola vez en la
+             página. data-contador la cuenta al entrar en pantalla con el
+             motor global de js/app.js (el mismo del 347 y el 57); el 101 ya
+             está escrito en el HTML, así que sin JS —o antes de que el motor
+             dispare— no hay hueco ni parpadeo. -->
+        <!-- v8 · .reveal-texto sobre el titular de apertura del capítulo. Los
+             dos renglones ya existían como spans (la frase y la línea de la
+             cifra), así que sólo hay que marcarlos: cero marcado nuevo y cero
+             JS nuevo — lo dispara el mismo observador de js/app.js.
+             NO se usa la variante persiana: su `overflow: clip` por renglón
+             recortaría el «101» a 143 px, que es la pieza más grande de la
+             sección. El gesto caro se queda sin gastar aquí a propósito.
+             `display: block` de .reveal-texto__linea no pisa el `flex` de
+             .nat-cifra-dominante__linea: esta hoja se carga DESPUÉS de
+             base.css y las dos reglas tienen la misma especificidad. -->
+        <h2 id="naturaleza-titulo" class="titulo-seccion nat-apertura__titulo nat-cifra-dominante reveal reveal-texto">
+          <span class="nat-cifra-dominante__frase reveal-texto__linea">Camina donde cantan</span>
+          <span class="nat-cifra-dominante__linea reveal-texto__linea">
+            <span class="nat-cifra-dominante__numero" data-contador="101">101</span>
+            <span class="nat-cifra-dominante__unidad">especies</span>
+          </span>
+        </h2>
+        <p class="entradilla">
+          El recorrido guiado que sigue la quebrada, y el censo de lo que vive alrededor.
+          Es la única visita suelta con un precio publicado.
+        </p>
+      </header>
+
+      <div class="nat-apertura__cuerpo">
+        <h3 class="titulo-seccion titulo-seccion--xs nat-apertura__antetitulo">
+          Se camina despacio y con alguien que sabe mirar
+        </h3>
+
+        <p>
+          Es pajareo y observación de plantas a la vez: se anda poco y se para mucho.
+          Vas con guía, así que lo que oyes tiene nombre.
+        </p>
+
+        <!-- El cauce entre los dos puntos era un filete recto de 1 px. Un
+             filete recto es lo que dibuja una tabla; una quebrada serpentea.
+             El trazo es SVG y es decoración pura (aria-hidden): los dos
+             nombres ya están escritos al lado y el orden lo da el flujo. -->
+        <p class="nat-ruta">
+          <span class="nat-ruta__punto">Quebrada Aranzoque</span>
+          <svg
+            class="nat-ruta__cauce"
+            viewBox="0 0 16 64"
+            preserveAspectRatio="none"
+            aria-hidden="true"
+            focusable="false"
+          >
+            <path
+              d="M1 0 C 13 12, 1 22, 8 34 C 15 46, 3 54, 1 64"
+              stroke-width="1.4"
+              stroke-linecap="round"
+              vector-effect="non-scaling-stroke"
+            />
+          </svg>
+          <span class="nat-ruta__punto">Riachuelo La Florida</span>
+        </p>
+
+        <p>
+          El camino sigue la quebrada hasta su encuentro con el riachuelo. Las dos
+          corrientes de agua rodean el terreno arbolado.
+        </p>
+
+<!-- v9 · Era una lista de viñetas de hoja (lista-hojas): tres renglones de
+             folleto en la columna más leída de la sección. Ahora es UNA línea
+             de registro separada por interpunto — ficha de expedición, no
+             lista de beneficios. Micro-etiqueta (<24px), caps permitidos. -->
+        <p class="nat-apertura__notas">
+          Guaduas a lado y lado · Búcaro y Caracolí · Recorrido guiado de pajareo
+        </p>
+      </div>
+
+      <!-- El único precio publicado del sitio, y el CTA a su lado: dos
+           columnas desiguales cerradas por filete arriba y abajo. -->
+      <div class="nat-oferta">
+        <div class="nat-precio">
+          <p class="nat-precio__etiqueta">Entrada al Sendero Ecovital</p>
+          <p class="nat-precio__valor">
+            <span class="nat-precio__simbolo">$</span>15.000
+            <span class="nat-precio__moneda">COP</span>
+          </p>
+          <p class="nat-precio__unidad">por persona</p>
+        </div>
+
+        <div class="nat-oferta__accion">
+          <div class="grupo-botones">
+            <a
+              class="btn btn-whatsapp btn-grande"
+              href="https://wa.me/573166758362?text=Hola%2C%20quiero%20reservar%20un%20recorrido%20guiado%20por%20el%20Sendero%20Ecovital.%20Vamos%20___%20personas%20y%20nos%20gustar%C3%ADa%20ir%20el%20___."
+              target="_blank"
+              rel="noopener"
+            >
+              Atrévete al sendero
+            </a>
+            <!-- El contrapunto del precio de al lado: esa entrada es para
+                 venir una vez; el Plan vecino es para volver. Vive en su
+                 propia página porque tiene tarifas, condiciones y beneficios
+                 que aquí obligarían a repetir media sección. -->
+            <a class="btn btn-secundario btn-grande" href="plan-vecino.html">
+              Ven todo el año
+            </a>
+          </div>
+
+          <p class="nota nat-oferta__nota">
+            Escribe con cuántos vienen y qué día les sirve.
+            <a href="#ubicacion">Cómo llegar</a>.
+          </p>
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+
+  <!-- ======================================================================
+       1 bis · EL GIRO — la bisagra entre el sendero y los pájaros (v8)
+       El cliente lee esta sección como una sola masa: «por sección de pájaros
+       en un lado, sendero en otro, está mezclado todo». No lo está en el
+       contenido —el sendero se cuenta entero arriba y las aves enteras
+       abajo—, pero NADA lo señalaba: los dos movimientos comparten fondo
+       crema, ancho de contenedor y tamaño de rótulo, así que la vista los
+       cuenta como un mismo bloque largo.
+
+       Esta banda es el letrero que faltaba. Es lo mínimo que hace evidente el
+       cambio de tema sin fracturar el capítulo «El bosque» (que sigue con
+       #vivero): una franja de salvia a todo el ancho —el mismo recurso de
+       franja alterna que ya usa el sitio, no un recurso nuevo—, con el rótulo
+       del segundo movimiento y dos renglones que dicen en voz alta dónde
+       termina una cosa y empieza la otra.
+
+       Deliberadamente NO lleva cresta SVG ni fauna: la cresta es el gesto de
+       entrada del muro del concurso, cien líneas más abajo, y gastarla dos
+       veces en la misma sección la anula. Aquí basta el cambio de suelo.
+       ====================================================================== -->
+  <div class="nat-giro">
+    <div class="contenedor nat-giro__cuerpo">
+      <p class="eyebrow nat-giro__eyebrow">Las aves y el censo</p>
+      <h3 class="titulo-seccion titulo-seccion--sm nat-giro__titulo reveal reveal-texto">
+        <span class="reveal-texto__linea">Hasta aquí, el camino.</span>
+        <span class="reveal-texto__linea">Ahora, lo que vive en él.</span>
+      </h3>
+      <p class="nat-giro__texto">
+        El registro de aves, los ambientes del predio y el muro del concurso.
+      </p>
+    </div>
+  </div>
+
+  <!-- ======================================================================
+       2 · LA NOTA AL MARGEN
+       Tres columnas desiguales, sin caja: el rótulo estrecho a la izquierda,
+       la endémica ancha en el centro y el dato migratorio en un carril fino.
+       ====================================================================== -->
+  <div class="contenedor">
+    <div class="nat-registro reveal-secuencia">
+
+      <h3 class="titulo-seccion titulo-seccion--xs nat-registro__titulo reveal">
+        Dos apuntes del registro de aves
+      </h3>
+
+      <article class="nat-ficha nat-ficha--endemica reveal">
+        <p class="pildora pildora--destacada">Endémica de Colombia</p>
+        <h4 class="nat-ficha__titulo">Chachalaca Colombiana</h4>
+        <p class="nat-ficha__cientifico">Ortalis columbiana</p>
+        <p class="nat-ficha__texto">
+          Endémica quiere decir que no vive de forma silvestre en ningún otro país
+          del mundo. Está en el registro de este predio.
+        </p>
+        <p class="nat-ficha__aviso">
+          Todavía no hay una fotografía suya en el muro de aquí abajo.
+          Ese es justamente el plan.
+        </p>
+      </article>
+
+      <article class="nat-ficha nat-ficha--dato reveal">
+        <p class="cifra">7</p>
+        <p class="cifra-etiqueta">Especies migratorias boreales</p>
+        <p class="nat-ficha__texto">
+          Bajan desde el norte del continente y solo se dejan ver una parte del año.
+          No están siempre: hay que venir cuando llegan.
+        </p>
+      </article>
+
+    </div>
+  </div>
+
+  <!-- ======================================================================
+       3 · A SANGRE POR LA DERECHA: el censo y la columna de vídeo
+       Contrapeso de la apertura. El vídeo es metraje propio, vertical y mudo;
+       el póster es el suelo si la red falla.
+       ====================================================================== -->
+  <div class="nat-vida">
+
+    <div class="nat-censo">
+
+      <h3 class="titulo-seccion titulo-seccion--sm nat-censo__titulo reveal">
+        Aquí no solo hay aves
+      </h3>
+
+      <ul class="nat-habitats reveal-secuencia">
+
+        <li class="nat-habitat nat-habitat--ancho nat-habitat--foco-medio reveal">
+          <img
+            class="nat-habitat__foto"
+            src="img/parque/parque-61.jpg"
+            width="900"
+            height="1200"
+            loading="lazy"
+            decoding="async"
+            alt="Huella de losas de piedra entre bromelias y bastones del emperador en flor, bajo los árboles grandes del predio"
+          />
+          <div class="nat-habitat__cuerpo">
+            <p class="nat-habitat__lugar">El jardín</p>
+            <p class="nat-habitat__cifra" data-contador="347">347</p>
+            <p class="nat-habitat__etiqueta">Especies de plantas · 20 familias botánicas</p>
+            <p class="nat-habitat__texto">
+              Bromelias, bastones del emperador y árboles altos compartiendo el mismo
+              tramo de camino.
+            </p>
+          </div>
+        </li>
+
+        <li class="nat-habitat nat-habitat--foco-bajo reveal">
+          <img
+            class="nat-habitat__foto"
+            src="img/parque/parque-60.jpg"
+            width="675"
+            height="1200"
+            loading="lazy"
+            decoding="async"
+            alt="Árbol grande de hoja ancha dando sombra sobre el camino de gravilla, con matas de hoja grande y hojarasca a su pie"
+          />
+          <div class="nat-habitat__cuerpo">
+            <p class="nat-habitat__lugar">La hojarasca</p>
+            <p class="nat-habitat__cifra">18</p>
+            <p class="nat-habitat__etiqueta">Especies de anfibios</p>
+            <p class="nat-habitat__texto">Donde la hoja caída guarda humedad todo el día.</p>
+          </div>
+        </li>
+
+        <li class="nat-habitat nat-habitat--foco-bajo reveal">
+          <img
+            class="nat-habitat__foto"
+            src="img/parque/parque-13.jpg"
+            width="800"
+            height="1200"
+            loading="lazy"
+            decoding="async"
+            alt="Cactus al sol sobre piso de piedra y arena, delante de la pérgola de guadua y caña del predio"
+          />
+          <div class="nat-habitat__cuerpo">
+            <p class="nat-habitat__lugar">La piedra al sol</p>
+            <p class="nat-habitat__cifra">23</p>
+            <p class="nat-habitat__etiqueta">Especies de reptiles</p>
+            <p class="nat-habitat__texto">Piedra caliente, cactus y bordes secos: su sitio.</p>
+          </div>
+        </li>
+
+        <li class="nat-habitat nat-habitat--foco-alto reveal">
+          <img
+            class="nat-habitat__foto"
+            src="img/parque/parque-09.jpg"
+            width="675"
+            height="1200"
+            loading="lazy"
+            decoding="async"
+            alt="Copa amplia de un árbol grande abriéndose sobre el prado segado del predio, con el seto de fondo"
+          />
+          <div class="nat-habitat__cuerpo">
+            <p class="nat-habitat__lugar">El dosel</p>
+            <p class="nat-habitat__cifra">3</p>
+            <p class="nat-habitat__etiqueta">Especies de mamíferos</p>
+            <p class="nat-habitat__texto">Arriba, entre las ramas gruesas, lejos del camino.</p>
+          </div>
+        </li>
+
+      </ul>
+
+      <p class="nota nat-censo__aclaracion">
+        Las fotografías muestran los ambientes del predio, no las especies: no hay
+        fotografía propia de anfibios, reptiles ni mamíferos. Las cifras vienen del
+        inventario biológico del lugar.
+      </p>
+
+    </div>
+
+    <!-- ---- La columna de vídeo, pegada al borde derecho -------------------- -->
+    <figure class="nat-video reveal reveal--der">
+      <video
+        class="nat-video__pieza"
+        width="720"
+        height="1280"
+        muted
+        loop
+        playsinline
+        preload="none"
+        poster="img/video/mariposa-verbena.jpg"
+        aria-label="Una mariposa parda, con las alas cerradas, posada en lo alto de una vara de verbena de flores moradas; alrededor, decenas de varas más y hojas verdes, con la vegetación del fondo desenfocada."
+        data-video-escena
+      >
+        <source src="video/mariposa-verbena.webm" type="video/webm" />
+        <source src="video/mariposa-verbena.mp4" type="video/mp4" />
+      </video>
+      <figcaption class="nat-video__pie">
+        Una mariposa parda descansa en lo alto de una vara en flor.
+      </figcaption>
+    </figure>
+
+  </div>
+
+  <!-- ======================================================================
+       4 · PIE DE LA SECCIÓN: los dos árboles de CITES
+       Ya no es una caja: es un filete y tipografía. Es un dato de archivo,
+       no una tarjeta, y no puede pesar lo mismo que el sendero.
+       ====================================================================== -->
+  <div class="contenedor">
+    <aside class="nat-conservacion reveal" aria-labelledby="conservacion-titulo">
+      <div class="nat-conservacion__intro">
+        <p class="pildora">CITES · Apéndice III</p>
+        <h3 id="conservacion-titulo" class="titulo-seccion titulo-seccion--xs">
+          Dos árboles que no se talan a la ligera
+        </h3>
+        <p class="nota">
+          Esa es la lista de especies cuyo comercio internacional se controla.
+          Los dos son valiosos para conservación y los dos crecen dentro del predio.
+        </p>
+      </div>
+
+      <ul class="nat-especies">
+        <li class="nat-especie">Cedro</li>
+        <li class="nat-especie">Guayacán Amarillo</li>
+      </ul>
+
+      <p class="credito nat-conservacion__pie">
+        Todavía no hay fotografía propia de estos dos árboles. Cuando la haya, estará aquí.
+      </p>
+    </aside>
   </div>
 
   <!-- ======================================================================
