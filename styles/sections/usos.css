@@ -111,14 +111,23 @@
 }
 
 /* Velo de legibilidad: más denso abajo, donde vive el texto, casi limpio
-   arriba, para que la fotografía se lea entera y no sólo su mitad inferior. */
+   arriba, para que la fotografía se lea entera y no sólo su mitad inferior.
+
+   v16 · EL TRAMO MEDIO SUBE DE 0,40 A 0,52. La medición sobre las cinco
+   fotos reales encontró que el índice («01», «02»...) cae justo en esa
+   banda del degradado y sobre las fotos claras —la grama al sol de Alameda,
+   la cubierta del Taller— el fondo compuesto quedaba en torno a rgb(72 84
+   41): con el índice a 0,6 de crema eso daba 3,5:1, por debajo del 4,5:1
+   que pide AA para texto pequeño. Con 0,52 el fondo bajo esa línea se
+   oscurece lo suficiente sin apagar el tercio superior de la foto, que
+   sigue con su 0,05 de siempre. */
 .usos-tarjeta__velo {
   position: absolute;
   inset: 0;
   background: linear-gradient(
     to top,
-    rgb(var(--negro-escena-rgb) / 0.86) 0%,
-    rgb(var(--negro-escena-rgb) / 0.4) 42%,
+    rgb(var(--negro-escena-rgb) / 0.88) 0%,
+    rgb(var(--negro-escena-rgb) / 0.52) 42%,
     rgb(var(--negro-escena-rgb) / 0.05) 72%
   );
 }
@@ -132,17 +141,74 @@
   justify-content: flex-end;
   padding: var(--esp-lg);
   color: var(--color-texto-inverso);
-  /* Reposo = opacidad normal (heredada, 1), texto visible. js/usos-arco.js
-     escribe aquí `opacity` en línea (y `pointer-events: none` cerca de 0),
-     en la misma progresión que el arco de la tarjeta: baja hacia 0 al
-     centrarse la tarjeta. Sin ese script el texto se queda visible. */
+  /* v16 · EL TEXTO YA NO SE APAGA CON EL SCROLL, Y ESTE ES EL ARREGLO DE
+     RAÍZ DE LA QUEJA DEL CLIENTE («el efecto no deja leer el texto»).
+
+     Hasta la v15 js/usos-arco.js escribía aquí una `opacity` en línea igual
+     a `1 − e`, donde `e` es el mismo progreso que hace crecer el arco y vale
+     1 con la tarjeta centrada en la ventana. Pero cada tarjeta mide 100dvh:
+     «centrada» y «en posición de lectura» son EXACTAMENTE el mismo momento.
+     El texto llegaba a opacidad 0 justo cuando el visitante lo estaba
+     mirando, y en todo el tramo previo iba a mitad de camino —eso es lo que
+     se ve en la captura: el título y la frase medio borrados—. Medido en el
+     navegador: con la tarjeta a rectTop ≈ 0 la opacidad computada era 0 y
+     0,005. El texto no era débil por contraste: se estaba apagando por
+     diseño en el peor momento posible.
+
+     Ahora el script sólo gobierna la silueta (`clip-path` sobre
+     `.usos-tarjeta`) y no toca nunca este elemento. La foto sigue creciendo
+     a sangre —el gesto que el cliente ya aprobó— pero el texto se queda
+     encima, legible de principio a fin.
+
+     UN SOLO MOTOR SOBRE ESTA PIEZA: la animación de entrada de aquí abajo
+     es lo único que anima este elemento. Sin ella —navegador sin timelines
+     de scroll, o `prefers-reduced-motion: reduce`— manda este estado
+     estático, que ya es el de llegada: opacidad plena y sin desplazar. */
 }
 
+/* LA ENTRADA. Cronometrada por el propio scroll (`animation-timeline:
+   view()`), no por un observador en JavaScript: el texto sube un pelo y
+   asienta mientras la tarjeta termina de entrar en cuadro, y queda quieto
+   mucho antes de que la tarjeta se centre. La regla dura de este proyecto
+   —«el estado estático nunca depende de que una animación llegue»— se
+   cumple por partida doble: el reposo de CSS es ya el fotograma final, y el
+   fotograma de PARTIDA también es legible (0,85 de opacidad sobre un texto
+   que en el peor de los casos medía 5,45:1 sigue por encima de 4,5:1). La
+   animación es sólo el tránsito, nunca la condición para leer.
+
+   `animation-fill-mode: both` importa: fuera del rango, antes y después, el
+   elemento se queda en un extremo declarado y nunca en un estado sin
+   definir. Sólo transform y opacity — compositor puro. */
+@media (prefers-reduced-motion: no-preference) {
+  @supports (animation-timeline: view()) {
+    .usos-tarjeta__marco {
+      animation: usos-marco-asienta both linear;
+      animation-timeline: view();
+      animation-range: entry 20% entry 70%;
+    }
+  }
+}
+
+@keyframes usos-marco-asienta {
+  from {
+    opacity: 0.85;
+    transform: translate3d(0, var(--esp-md), 0);
+  }
+  to {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+/* v16 · El índice sube de 0,6 a 0,92 de crema. A 0,6 medía 3,5:1 sobre la
+   grama al sol de Alameda y 3,8:1 sobre La Vega: por debajo del 4,5:1 de
+   AA para texto pequeño. Sigue siendo el elemento más callado de la
+   tarjeta —lo dice el tamaño y el interletrado, no un color apagado. */
 .usos-tarjeta__orden {
   font-family: var(--fuente-titulo);
   font-size: var(--fs-micro);
   letter-spacing: 0.12em;
-  color: rgb(var(--crema-rgb) / 0.6);
+  color: rgb(var(--crema-rgb) / 0.92);
   margin-bottom: var(--esp-3xs);
 }
 
@@ -157,10 +223,14 @@
   display: block;
   margin-top: var(--esp-2xs);
   max-width: 30ch;
-  color: rgb(var(--crema-rgb) / 0.85);
+  /* v16 · de 0,85 a 0,94: margen de sobra para que el peor caso medido
+     (5,45:1 sobre la cubierta clara del Taller) aguante también el
+     fotograma de partida de la entrada, que multiplica por 0,85. */
+  color: rgb(var(--crema-rgb) / 0.94);
 }
 
 .usos-tarjeta__aviso {
+  position: relative;
   display: inline-flex;
   align-items: center;
   gap: var(--esp-2xs);
@@ -248,26 +318,54 @@
   max-width: 9ch;
 }
 
-/* El parpadeo: sólo opacity, y sólo si el visitante no pidió menos
-   movimiento. Un pulso lento —no un intermitente de alarma— para que se
-   note sin ser molesto en una tarjeta que ocupa la pantalla entera. */
+/* EL LLAMADO A TOCAR — v16, y el segundo arreglo de legibilidad.
+
+   Antes esto era un parpadeo de la píldora entera: `opacity` de 1 a 0,45 y
+   vuelta, cada 2,4 s. Medido, ese valle deja la etiqueta —12,8 px en
+   versalitas— en torno a 3:1 sobre su foto: la mitad de cada ciclo el botón
+   incumplía AA, y es literalmente el «TOCA PARA VER EL ESPACIO» que en la
+   captura del cliente se ve desvanecido. Apagar el texto no puede ser la
+   forma de llamar la atención sobre el texto.
+
+   Ahora la píldora y su etiqueta se quedan quietas en opacidad plena, y
+   quien pulsa es un aro decorativo que sale de ella y se disuelve hacia
+   afuera —el gesto de una gota en el agua, que es lo que de verdad dice
+   «tócame»—. `::after` no lleva texto ni recibe puntero, así que su
+   opacidad no le quita contraste a nada. Sólo transform y opacity. */
+.usos-tarjeta__aviso::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border: 1px solid rgb(var(--crema-rgb) / 0.55);
+  border-radius: var(--radio-full);
+  opacity: 0;
+  pointer-events: none;
+}
+
 @media (prefers-reduced-motion: no-preference) {
-  .usos-tarjeta__aviso {
-    animation: usos-aviso-parpadeo 2.4s var(--ease-suave) infinite;
+  .usos-tarjeta__aviso::after {
+    animation: usos-aviso-onda calc(var(--dur-lenta) * 4) var(--ease-salida) infinite;
   }
 }
 
-@keyframes usos-aviso-parpadeo {
-  0%, 100% { opacity: 1; }
-  50% { opacity: 0.45; }
+@keyframes usos-aviso-onda {
+  0% {
+    opacity: 0.7;
+    transform: scale(1);
+  }
+  70%, 100% {
+    opacity: 0;
+    transform: scale(1.18);
+  }
 }
 
-/* Al enfocar/pasar el cursor, el aviso dice quieto en opacidad plena: no
-   compite con la intención de quien ya está a punto de tocar. */
-.usos-tarjeta:hover .usos-tarjeta__aviso,
-.usos-tarjeta:focus-visible .usos-tarjeta__aviso {
+/* Al enfocar o pasar el cursor el aro se detiene: quien ya está a punto de
+   tocar no necesita que lo sigan invitando. La píldora no cambia —nunca
+   estuvo animada—, así que aquí no hay nada que devolver a su sitio. */
+.usos-tarjeta:hover .usos-tarjeta__aviso::after,
+.usos-tarjeta:focus-visible .usos-tarjeta__aviso::after {
   animation-play-state: paused;
-  opacity: 1;
+  opacity: 0;
 }
 
 /* ---- El panel abierto (<details>) ----------------------------------------

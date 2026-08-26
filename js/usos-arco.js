@@ -51,9 +51,24 @@
    misma aritmética que usa foto-focus para centrar el efecto en el punto
    medio del recorrido de la pieza por el viewport.
 
+   v16 · ESTE ARCHIVO YA NO TOCA EL TEXTO. Hasta la v15 escribía también
+   `opacity` en línea sobre `.usos-tarjeta__marco`, igual a `1 − e`: el
+   texto se apagaba con la misma curva con la que crecía el arco. El error
+   de fondo es que cada tarjeta mide 100dvh, así que «tarjeta centrada»
+   —donde `e` vale 1 y la opacidad 0— es exactamente «tarjeta en posición de
+   lectura». El título, la frase y el aviso llegaban a invisibles justo
+   cuando había que leerlos, y a media opacidad durante todo el tramo
+   previo. El cliente lo reportó como «el efecto no deja leer el texto», y
+   tenía razón literal.
+
+   Ahora este script gobierna UNA sola cosa —la silueta de `.usos-tarjeta`—
+   y el texto es asunto exclusivo de usos.css, que lo deja en opacidad plena
+   y le da su propia entrada con `animation-timeline: view()`. Un motor por
+   pieza: la lección que este proyecto ya aprendió varias veces.
+
    QUÉ ANIMA Y POR QUÉ CLIP-PATH ES UNA EXCEPCIÓN ANOTADA
-   `opacity` en `.usos-tarjeta__marco` es compositor puro. `clip-path` no lo
-   es en todos los navegadores, pero es la única forma de recortar la caja
+   `clip-path` no es compositor puro en todos los navegadores,
+   pero es la única forma de recortar la caja
    con una silueta que crece manteniendo su dibujo; la alternativa —agrandar
    la caja con `transform: scale()`— movería también el texto, la pastilla
    de aforo y la maqueta de la sección. Es la excepción consciente de este
@@ -63,14 +78,13 @@
    CERO PARPADEO POR CONSTRUCCIÓN
    El estado de reposo —sin este script, o con `prefers-reduced-motion:
    reduce`— es el CSS estático de usos.css: el arco hecho con
-   `border-radius` + `overflow: hidden`, y `.usos-tarjeta__marco` en su
-   opacidad normal. Este script nunca fija ese estado de partida: sólo
-   escribe estilos en línea cuando calcula un progreso, y en progreso 0 esos
-   estilos son indistinguibles del reposo.
+   `border-radius` + `overflow: hidden`, y el texto legible. Este script
+   nunca fija ese estado de partida: sólo escribe estilos en línea cuando
+   calcula un progreso, y en progreso 0 esos estilos son indistinguibles del
+   reposo.
 
    MARCADO: ninguno nuevo. Recorre `.usos-tarjeta` (el `<summary>` visible de
-   cada `<details class="usos-detalle">`) y dentro de cada una toma
-   `.usos-tarjeta__marco` (el bloque de texto). Sin él, la tarjeta se ignora.
+   cada `<details class="usos-detalle">`) y no busca nada dentro de ella.
 
    EN ESCRITORIO TAMBIÉN. Desde la v14 de usos.css las tarjetas ocupan la
    pantalla completa en cualquier ancho (se retiró la rejilla de tres
@@ -89,9 +103,7 @@
 
   const piezas = [];
   document.querySelectorAll('.usos-tarjeta').forEach((tarjeta) => {
-    const marco = tarjeta.querySelector('.usos-tarjeta__marco');
-    if (!marco) return;
-    piezas.push({ tarjeta, marco, top: 0, ancho: 1, alto: 1, base: 0 });
+    piezas.push({ tarjeta, top: 0, ancho: 1, alto: 1, base: 0 });
   });
   if (!piezas.length) return;
 
@@ -109,8 +121,6 @@
     for (const pieza of piezas) {
       pieza.tarjeta.style.clipPath = '';
       pieza.tarjeta.style.borderRadius = '';
-      pieza.marco.style.opacity = '';
-      pieza.marco.style.pointerEvents = '';
     }
   };
 
@@ -193,13 +203,6 @@
       /* El relevo: mientras el `path()` manda, el arco de `border-radius`
          estorbaría recortando la caja al tamaño de reposo. */
       pieza.tarjeta.style.borderRadius = '0';
-
-      const opacidad = 1 - e;
-      pieza.marco.style.opacity = opacidad.toFixed(3);
-      /* Con el marco prácticamente invisible, su aviso deja de ser
-         clicable: por debajo de 5 % de opacidad ya no se distingue del
-         fondo, así que ahí se le quita el puntero. */
-      pieza.marco.style.pointerEvents = opacidad < 0.05 ? 'none' : '';
     }
   };
 

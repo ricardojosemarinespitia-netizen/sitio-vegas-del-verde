@@ -3082,18 +3082,47 @@
    de por una superficie sólida. Sigue siendo un `<div>` con rejilla propia
    sólo por el layout (gap, ancho de lectura), no por su aspecto: por eso el
    nombre de la clase se queda, aunque el cristal ya no esté. */
+/* v5 · EL BLOQUE SE APRIETA (agosto de 2026, orden del cliente: «un poquito
+   más comprimido el texto»). Al retirarse el cristal se retiró también lo
+   que justificaba tanto aire: el relleno de una lámina es lo que separa la
+   letra de SU BORDE, y aquí ya no hay borde. Lo que quedaba era un bloque de
+   seis piezas flotando sobre la foto con 16 px entre cada una y 62 px de
+   respiración arriba y abajo en escritorio — la mitad de la altura del
+   carril era aire.
+   Se toca SÓLO el reparto vertical; ni un tamaño de letra, ni un color, ni
+   el interlineado de ninguna pieza. Bajar el `line-height` era la otra vía y
+   se descartó: el titular ya va a 1,14 y el cuerpo a 1,68 sobre una
+   FOTOGRAFÍA, donde el renglón necesita más separación que sobre un fondo
+   plano, no menos. Cerrar los huecos ENTRE bloques no le quita legibilidad a
+   ninguna línea; cerrar el interlineado sí.
+     gap      --esp-sm (16 px) → --esp-2xs (8 px) en móvil, --esp-xs (12 px)
+              desde tableta: en pantalla ancha el bloque convive con más foto
+              alrededor y aguanta —pide— un punto más de aire.
+     relleno  el bloque vertical pasa de --gap/--gap-lg (fluidos, hasta
+              62 px por lado) a --esp-xs/--esp-lg (fijos). El horizontal NO
+              se toca: es el que aparta la letra del canto de la ventana.
+   El CTA conserva sus 44 px de alto de dedo (`min-block-size` más abajo, en
+   §3): esto no lo roza. Lo único que pierde es el `margin-top` que se sumaba
+   al gap y hacía del botón la única pieza con doble separación.            */
 .planes-talleres__vidrio {
   position: relative;
   z-index: var(--z-base);
   display: grid;
   justify-items: start;
-  gap: var(--esp-sm);
-  padding: var(--gap) var(--esp-md);
+  gap: var(--esp-2xs);
+  padding: var(--esp-xs) var(--esp-md);
+}
+
+/* El botón ya está separado por el gap de la rejilla; el margen propio de
+   `.planes-carril__cta` (§3) lo sumaba encima. Dentro de este bloque sobra. */
+.planes-talleres__vidrio .planes-carril__cta {
+  margin-top: 0;
 }
 
 @media (min-width: 48em) {
   .planes-talleres__vidrio {
-    padding: var(--gap-lg) var(--esp-xl);
+    gap: var(--esp-xs);
+    padding: var(--esp-lg) var(--esp-xl);
     /* Sigue acotado a la medida de lectura y a la izquierda: la fotografía
        respira a su derecha en vez de quedar tapada de canto a canto. */
     max-inline-size: calc(var(--planes-paso) * 6);
@@ -3213,7 +3242,11 @@
 .planes-talleres__lista {
   display: flex;
   flex-direction: column;
-  gap: var(--esp-2xs);
+  /* v5 · los tres talleres son UN verso de tres renglones, no tres bloques:
+     con --esp-2xs encima del interlineado de titular se leían como tres
+     párrafos sueltos. --esp-3xs los cierra en un solo grupo y de paso es lo
+     que más altura devuelve en móvil, donde van apilados. */
+  gap: var(--esp-3xs);
   margin: 0;
   font-size: var(--fs-grande);
   font-weight: var(--peso-ligero);
@@ -3227,7 +3260,7 @@
     flex-wrap: wrap;
     align-items: baseline;
     column-gap: var(--esp-md);
-    row-gap: var(--esp-2xs);
+    row-gap: var(--esp-3xs);
   }
 
   .planes-talleres__lista > li + li::before {
@@ -3300,6 +3333,143 @@
 
   .js .planes-carril--talleres.visible .planes-talleres__lista > li {
     clip-path: inset(0 0 0 0);
+  }
+}
+
+/* --- §7 bis · EL SUBRAYADO QUE SE DIBUJA, Y LAS TRES MOTAS ----------------
+   EL TEMA, LEÍDO ANTES DE DIBUJAR NADA. Este carril no vende un lugar: vende
+   tres talleres —educativo, de jardinería y de pintura al aire libre— y su
+   foto es un corro de niños mirando las páginas de un cuento. Lo común a los
+   tres no es el bosque: es LA MANO QUE HACE ALGO. Alguien traza, alguien
+   siembra, alguien mancha el papel. De ahí sale el gesto, y de ahí sale que
+   no se parezca a ninguno de los otros cuatro carriles: el 01 tiene luces,
+   el 02 su diorama de burbujas y mariposas, el 04 respira. Aquí se DIBUJA.
+
+   LA FIGURA, y por qué es una sola. Un trazo continuo que empieza como el
+   renglón ondulado que deja un lápiz al subrayar a mano —nunca recto: una
+   regla se lee como filete de plantilla, no como algo hecho por alguien— y
+   que en el extremo derecho, en vez de terminar, se levanta y se cierra en
+   una HOJA. Con eso los dos oficios que el carril nombra caben en una sola
+   línea: el que dibuja y el que siembra. Se descartaron las otras dos ideas
+   que estaban sobre la mesa: la esquina de cuaderno que se dobla (pide una
+   superficie de papel, y aquí precisamente NO hay ninguna caja: la
+   reintroduciría por la puerta de atrás) y el brote que germina con `scale`
+   (ya hubo un brote decorativo en este carril y se retiró cuando llegó la
+   foto; volver a ponerlo sería deshacer esa decisión).
+
+   LAS TRES MOTAS son el taller de pintura, y son el único color del gesto:
+   coral, amarillo y oliva, los tres acentos del sistema, del tamaño de una
+   salpicadura. No caen desde arriba de la tarjeta —eso sería nieve, y sería
+   vistoso—: se posan un milímetro, ya casi en su sitio, cuando el trazo va
+   por el último tercio. Son 3 px de recorrido: se notan si se mira, no
+   interrumpen si se está leyendo. Este carril es «el colofón silencioso del
+   capítulo» y ese encargo manda sobre las ganas de lucirse.
+
+   EL MOTOR: EL MISMO Y ÚNICO QUE YA HABÍA. Transiciones colgadas de
+   `.planes-carril--talleres.visible`, la clase que el IntersectionObserver
+   del sitio ya pone. Ni `animation-timeline: view()` ni JS nuevo.
+   Y MUY IMPORTANTE: este SVG NO lleva la clase `icono-traza`. Podría —la
+   técnica del guion y el desfase es exactamente la de base.css—, pero el
+   observador de esa clase vigila la SECCIÓN #planes entera, que empieza
+   cinco carriles más arriba: el subrayado se habría dibujado solo, mucho
+   antes de que este carril asome, y además habrían quedado DOS motores
+   sobre el mismo camino. Se copia la técnica, no la clase. Por eso el SVG
+   del HTML esquiva a propósito la firma que reconoce hornear-trazos.js.
+
+   Sólo se anima `stroke-dashoffset`, `opacity` y `transform`: la lista
+   blanca del proyecto.
+
+   SIN JS o CON MOVIMIENTO REDUCIDO: el estado inicial (trazo escondido,
+   motas invisibles) vive ENTERO dentro de `.js` + `no-preference`, así que
+   en ambos casos la figura nace hecha. Nunca se esconde algo sin que exista
+   quien lo devuelva.                                                       */
+.planes-talleres__traza {
+  /* QUIÉN MANDA EN EL TAMAÑO: EL ALTO, NO EL ANCHO. El viewBox es 96×24 y el
+     `preserveAspectRatio="xMinYMid meet"` del HTML encaja la figura por el
+     lado que primero se le acabe. El `inline-size` va a propósito HOLGADO
+     —siempre más de cuatro veces el alto— para que el que se acabe primero
+     sea SIEMPRE el alto: así el trazo mide lo mismo en cualquier ancho de
+     ventana en vez de estirarse con la columna, que es lo que convertiría un
+     subrayado a mano en un filete de separación de sección. El `min(100%)`
+     sólo está para que en una ventana estrechísima no desborde.
+     Alto explícito y no `auto`: el viewBox no es cuadrado y `height: auto`
+     dentro de una rejilla lo resuelve cada navegador a su manera. */
+  inline-size: min(100%, calc(var(--esp-4xl) * 2));
+  /* Cuesta --esp-md de altura en móvil —menos de lo que devolvió apretar un
+     solo gap— y --esp-lg desde tableta, donde el bloque es más ancho y un
+     trazo de 24 px al pie de un titular de dos renglones se pierde. */
+  block-size: var(--esp-md);
+  /* Se pega al titular comiéndose el gap de la rejilla: un subrayado
+     separado de lo que subraya deja de ser un subrayado y pasa a ser un
+     filete suelto. De paso devuelve los 8 px que costaba entrar. */
+  margin-block-start: calc(var(--esp-2xs) * -1);
+  color: var(--color-texto-inverso-suave);
+  overflow: visible;
+}
+
+@media (min-width: 48em) {
+  .planes-talleres__traza {
+    block-size: var(--esp-lg);
+    margin-block-start: calc(var(--esp-xs) * -1);
+  }
+}
+
+.planes-talleres__mota--1 { fill: var(--coral); }
+.planes-talleres__mota--2 { fill: var(--amarillo); }
+.planes-talleres__mota--3 { fill: var(--verde-oliva); }
+
+@media (prefers-reduced-motion: no-preference) {
+  /* El trazo, escondido dentro de sí mismo: guion de 1 y desfase de 1 sobre
+     el `pathLength="1"` horneado en el HTML. Es la técnica de base.css. */
+  .js .planes-carril--talleres .planes-talleres__traza-linea {
+    stroke-dasharray: 1;
+    stroke-dashoffset: 1;
+    transition: stroke-dashoffset var(--dur-traza) var(--ease-traza);
+    /* Arranca con el tercer renglón de la lista ya escribiéndose (esa línea
+       entra en --dur-media + --dur-lenta × 1,1). El carril tiene un orden de
+       lectura y el gesto lo respeta —primero se escriben los talleres,
+       después se subraya—, pero esperar a que la lista TERMINE del todo
+       dejaba el subrayado empezando a los 1,7 s: quien va bajando ya no está
+       mirando. Media línea de solape es lo que hace que se lean como una
+       secuencia y no como dos cosas a la vez. */
+    transition-delay: calc(var(--dur-media) + var(--dur-lenta) * 1.65);
+  }
+
+  .js .planes-carril--talleres.visible .planes-talleres__traza-linea {
+    stroke-dashoffset: 0;
+  }
+
+  /* Las motas: `transform-box: fill-box` para que el `translate` se mida
+     contra la propia mota y no contra el lienzo entero del SVG —sin él, el
+     origen es el (0,0) del viewBox y las tres se irían a otro sitio. */
+  .js .planes-carril--talleres .planes-talleres__mota {
+    opacity: 0;
+    transform-box: fill-box;
+    transform-origin: center;
+    transform: translateY(-3px);
+    transition:
+      opacity var(--dur-lenta) var(--ease-suave),
+      transform var(--dur-lenta) var(--ease-salida);
+  }
+
+  .js .planes-carril--talleres.visible .planes-talleres__mota {
+    opacity: 1;
+    transform: none;
+  }
+
+  /* Se posan cuando al trazo le queda el último tercio —se solapan, así que
+     no hay pausa muerta— y no las tres a la vez: una salpicadura ordenada
+     no es una salpicadura. El escalonado va en `calc()` sobre tokens. */
+  .js .planes-carril--talleres .planes-talleres__mota--1 {
+    transition-delay: calc(var(--dur-media) + var(--dur-lenta) * 1.65 + var(--dur-traza) * 0.66);
+  }
+
+  .js .planes-carril--talleres .planes-talleres__mota--2 {
+    transition-delay: calc(var(--dur-media) + var(--dur-lenta) * 1.65 + var(--dur-traza) * 0.78);
+  }
+
+  .js .planes-carril--talleres .planes-talleres__mota--3 {
+    transition-delay: calc(var(--dur-media) + var(--dur-lenta) * 1.65 + var(--dur-traza) * 0.9);
   }
 }
 
@@ -4111,11 +4281,48 @@
     border-radius: 0;
   }
 
+  /* EL RÓTULO DEL 02 SE VA ARRIBA, DENTRO DE LA FOTO (pedido literal del
+     cliente, agosto de 2026: «en celular pon el texto del 02 arriba dentro de
+     la foto no como está»). Comparte celda con el marco del diorama desde el
+     §11, así que mudarlo es cambiar a qué borde se apoya: `start` en vez del
+     `end` que heredaba. Y hay una razón de composición además del pedido: el
+     niño saltando —el gesto que vende esta foto— vive en la mitad BAJA del
+     recorte 4:5, justo donde el rótulo lo estaba pisando. Arriba sólo hay
+     copas de árbol y guirnalda; el salto queda libre. */
+  .planes-carril--familia .planes-carril__rotulo {
+    align-self: start;
+  }
+
   /* El velo del rótulo SE ENCIENDE sólo aquí, que es donde el rótulo se posa
-     dentro de la foto. Mismo degradado por abajo que las otras portadas del
-     §11; en escritorio queda a opacidad 0 y la foto se ve limpia. */
+     dentro de la foto. En escritorio queda a opacidad 0 y la foto se ve
+     limpia. */
   .planes-diorama__velo {
     opacity: 1;
+    /* Y SE DA LA VUELTA, porque el rótulo se dio la vuelta. El degradado de
+       base es el del §11 —transparente arriba, `--color-velo-modal` pleno
+       abajo— y con el rótulo arriba dejaba la letra sobre la foto desnuda.
+       Aquí se pinta EL MISMO velo medido, con la misma curva en S y el mismo
+       0,74 de alfa pleno, pero espejado: pleno de 0 a 36 % y disuelto por
+       completo antes del 62 %. El 36 % está MEDIDO en la página montada, no
+       elegido: a 385 px de ventana el marco mide 469 px y el rótulo llega
+       hasta el 34,2 %, relleno incluido, así que quedan dos puntos de
+       colchón para cuando el visitante agranda la letra del sistema. Y por
+       abajo el niño saltando empieza sobre el 50 %, donde el velo ya está en
+       0,4 y bajando: el salto no se apaga.
+       EL CONTRASTE NO CAMBIA: la letra sigue cayendo sobre el tramo pleno de
+       siempre —crema 5,33:1 y coral claro 3,13:1, con 0,0 % de píxeles por
+       debajo de AA—; lo único que se mudó es qué mitad de la foto queda
+       limpia, y ahora es la de abajo, que es donde está el niño. */
+    background-image: linear-gradient(
+      to bottom,
+      var(--color-velo-modal) 0%,
+      var(--color-velo-modal) 36%,
+      rgb(var(--verde-bosque-hondo-rgb) / 0.72) 39%,
+      rgb(var(--verde-bosque-hondo-rgb) / 0.62) 43%,
+      rgb(var(--verde-bosque-hondo-rgb) / 0.37) 49%,
+      rgb(var(--verde-bosque-hondo-rgb) / 0.12) 55%,
+      rgb(var(--verde-bosque-hondo-rgb) / 0) 62%
+    );
   }
 
   /* La hoja flotante, al flujo: pieza propia entre el CTA y el par. */
