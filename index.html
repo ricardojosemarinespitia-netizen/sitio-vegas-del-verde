@@ -50,8 +50,8 @@
 <link rel="stylesheet" href="styles/shell.css?v=e2eb0d62">
 <link rel="stylesheet" href="styles/sections/inicio.css?v=6a32b50c">
 <link rel="stylesheet" href="styles/sections/usos.css?v=09deb7f8">
-<link rel="stylesheet" href="styles/sections/nosotros.css?v=60025f34">
-<link rel="stylesheet" href="styles/sections/planes.css?v=22da300c">
+<link rel="stylesheet" href="styles/sections/nosotros.css?v=d3047fb2">
+<link rel="stylesheet" href="styles/sections/planes.css?v=e8b568b3">
 <link rel="stylesheet" href="styles/sections/momentos.css?v=cdb15818">
 <link rel="stylesheet" href="styles/sections/colegios.css?v=729ef553">
 <link rel="stylesheet" href="styles/sections/naturaleza.css?v=26e490c1">
@@ -1038,123 +1038,16 @@
 <section class="seccion nosotros" id="nosotros" aria-labelledby="nosotros-titulo">
 
   <!-- (a) EL PREDIO ---------------------------------------------------------
-       Tres columnas de anchos distintos y alturas distintas, con una calle
-       vacía entre ellas: el titular a la izquierda pegado al scroll, el
-       discurso en el medio y LA FOTO DEL UMBRAL sangrando por el borde
-       derecho de la ventana. La asimetría se lee como decisión y no como
-       descuadre porque ninguna de las tres pistas mide lo mismo.
-
-       v12 · POR QUÉ ESTE BLOQUE DEJA DE SER UN `.contenedor` -----------------
-       El pedido del cliente fue literal: «descargue una foto la reja la quiero
-       aquí Cruzas la reja y cambia el día, quiero que lo básico también esté
-       arriba en el texto con esa foto». O sea DOS cosas: (1) la foto nueva del
-       sendero entra en este bloque y manda, no de miniatura; (2) «Lo básico,
-       resuelto» sube y se une aquí en vez de vivir dos pantallas más abajo
-       como bloque suelto.
-
-       Para que la foto pueda tocar el borde de la ventana Y estar al lado del
-       texto a la vez, este bloque no puede ir dentro de un `.contenedor`: un
-       contenedor centrado con ancho máximo es justo lo que impide llegar al
-       canto. Se resuelve con el MISMO patrón que ya usa el compromiso más
-       abajo (nosotros.css §3): rejilla en el propio bloque con una PISTA VACÍA
-       de arranque que replica el margen del contenedor, y la última pista
-       llegando al borde porque la rejilla no lleva relleno a la derecha.
-       Nada de `100vw`: el 100 % de un hijo del <section> ya descuenta la barra
-       de scroll (nosotros.css, «LAS DOS SANGRÍAS NO USAN 100vw»).
-
-       LA MANO DE LA SANGRÍA ES LA CONTRARIA A PROPÓSITO. La foto del prado
-       que viene justo debajo sangra por la IZQUIERDA y el panel de aves del
-       compromiso por la DERECHA. Si el umbral sangrara también a la izquierda,
-       las dos primeras piezas de la sección repetirían el mismo gesto seguido.
-       Así el recorrido alterna: derecha · izquierda · derecha.
+       v17 · UN SOLO BLOQUE, SIN «TITULAR AFUERA + ESCENA ADENTRO». Hasta v16
+       la sección abría en dos soportes distintos: un `<header>` con el h2
+       sobre el papel crema y, debajo, `.nosotros__escena` con la foto del
+       sendero y el resto del discurso. El cliente pidió integrar ese texto
+       en la foto —el mismo defecto que ya se le había corregido a la rama
+       (v16, más abajo)—, así que el `.nosotros__predio` que envolvía ambos
+       desaparece: `.nosotros__escena` pasa a ser el único hijo directo de
+       esta sección, y el titular se muda dentro de ella, al principio de
+       `.nosotros__discurso`. Ver la nota completa junto al h2 nuevo.
        ---------------------------------------------------------------------- -->
-  <div class="nosotros__predio">
-
-    <!-- v13 · EL TITULAR SE QUEDA SOBRE EL PAPEL Y LLEVA SU PROPIO CONTENEDOR.
-         Hasta v12 el margen de página se lo ponía la pista vacía de una
-         rejilla de tres columnas. Esa rejilla ya no existe (ver el comentario
-         del bloque, abajo), así que el titular se alinea con el resto de la
-         página del modo normal del sistema: `.contenedor--ancho`, el mismo
-         que usa la escena de abajo para su texto. Así el <h2> y la entradilla
-         que ahora vive dentro de la foto arrancan en el MISMO eje vertical,
-         que es lo que hace que las dos piezas se lean como una sola. -->
-    <header class="seccion-encabezado nosotros__titular contenedor contenedor--ancho reveal reveal--izq">
-      <!-- v7 · SALE EL ANTETÍTULO «El predio», Y ES UNA DECISIÓN DE ORDEN,
-           NO UN RECORTE DE TEXTO.
-           DIRECTRICES-ANIMACION §1 resuelve la única desviación del orden que
-           pedía el cliente —#nosotros colándose entre la portada y los
-           espacios— tratando esta sección como CODA DE LA PORTADA y no como
-           capítulo propio: «sin banda propia, sin eyebrow de capítulo, sin
-           filete de apertura». Un antetítulo en versalitas es, en este
-           sistema, la marca que abre un capítulo; con él puesto, la vista
-           cuenta #nosotros como sección independiente y el primer capítulo
-           percibido deja de ser «Los espacios», que es lo que el cliente
-           pide. Sin él, esto se lee como el último párrafo de la portada.
-           No se pierde ni un dato: «El predio» no era información, era
-           rotulación, y el <h2> de abajo ya dice de qué se habla. -->
-      <!-- v6 · TITULAR NUEVO, APROBADO POR EL CLIENTE. «Lo que hay detrás de
-           la portería» prometía un misterio que el cuerpo no cumple, y
-           «portería» sonaba a conjunto residencial. Éste conserva el umbral
-           —la reja como frontera— y cambia la promesa a lo que la sección de
-           verdad entrega, que es además lo que dice el párrafo de abajo: «Eso
-           cambia cómo se siente el día».
-           EL id NO SE TOCA: el <section> lo referencia con aria-labelledby.
-           Escrito en caja alta y baja en el propio HTML, nunca en mayúsculas
-           confiando en el CSS (CONTRATO-V2 §3).                             -->
-      <!-- v7 · EL TITULAR SE DESCUBRE RENGLÓN A RENGLÓN (.reveal-texto de
-           base.css §v7). LA FRASE NO CAMBIA NI UNA LETRA: está aprobada por
-           el cliente y sigue siendo exactamente «Cruzas la reja y cambia el
-           día». Lo único que cambia es que los dos renglones existen en el
-           marcado en vez de dejárselos al balanceo del navegador.
-           Y CON ESO SOBRA EL max-width DE 16ch que nosotros.css §1 usaba para
-           forzar el corte en la conjunción: ahora el corte está escrito, así
-           que la regla se ha quitado de la hoja en vez de dejarla peleando
-           con los <span>.
-           SIN `--persiana`: esta sección es la coda de la portada, no la
-           apertura de un capítulo, y el gesto caro se gasta una vez por
-           capítulo. Aquí basta el revelado limpio.
-           EL id NO SE TOCA: el <section> lo referencia con aria-labelledby. -->
-      <h2 class="titulo-seccion nosotros__titulo reveal reveal-texto" id="nosotros-titulo">
-        <span class="reveal-texto__linea">Cruzas la reja</span>
-        <span class="reveal-texto__linea">y cambia el día</span>
-      </h2>
-
-      <!-- v6 · LA RAMA QUE SE DIBUJA SOLA -----------------------------------
-           La columna del titular se queda pegada al scroll durante cuatro
-           párrafos de texto: a partir de 62em son unos 300 px de papel vacío
-           debajo del h2 que hasta ahora no hacían nada. Aquí crece una rama.
-
-           NO ES UN SVG DECORATIVO CUALQUIERA: lleva la firma EXACTA que
-           reconoce el motor de dibujado del sitio —`viewBox="0 0 24 24"`,
-           `fill="none"` y `stroke="currentColor"`— y el estado inicial va
-           HORNEADO A MANO en el propio marcado (`class="icono-traza"` en el
-           elemento raíz y `pathLength="1"` en cada forma). Eso es obligatorio
-           y no es
-           un detalle: js/app.js va con `defer`, así que si fuera él quien
-           marcase la silueta, el navegador alcanzaría a pintarla entera y
-           desaparecería un instante después. Con el trazo oculto desde el
-           primer paint no hay un solo fotograma de parpadeo.
-
-           CINCO FORMAS, CINCO TIEMPOS. El tallo sale primero y las cuatro
-           hojas van brotando detrás con retardos desiguales (nosotros.css §6):
-           una rama no se dibuja de golpe, se recorre. Cada <path> lleva UNA
-           sola `M` a propósito: un camino con varios trazos sueltos no se
-           puede recorrer con el guion y saldría entrecortado.
-
-           Se oculta por debajo de 62em: ahí la columna no es pegajosa, no
-           sobra papel y la rama sólo empujaría el discurso hacia abajo.     -->
-      <svg class="icono-traza nosotros__silueta nosotros__silueta--rama"
-           viewBox="0 0 24 24" fill="none" stroke="currentColor"
-           stroke-width="0.85" stroke-linecap="round" stroke-linejoin="round"
-           aria-hidden="true" focusable="false">
-        <path d="M4.4 22.6C6.9 19 8.9 15 10.4 10.8 11.4 7.7 12.1 4.6 12.4 1.5" pathLength="1"/>
-        <path d="M8.6 16.5c-2.7-1.4-5-1.3-6.9.4 2.3 2 4.6 1.9 6.9-.4Z" pathLength="1"/>
-        <path d="M10.4 11.4c1.8-2.7 4.2-4 7.2-3.9-1 3-3.4 4.3-7.2 3.9Z" pathLength="1"/>
-        <path d="M11.6 7.2c-1.6-2.2-3.6-3-5.9-2.3 1 2.4 3 3.2 5.9 2.3Z" pathLength="1"/>
-        <path d="M12.3 3.5c1-1.9 2.6-2.8 4.7-2.7-.5 2.2-2.1 3.1-4.7 2.7Z" pathLength="1"/>
-      </svg>
-    </header>
-
     <!-- v13 · LA ESCENA: EL DISCURSO SE METE DENTRO DE LA FOTO ---------------
          El pedido del cliente fue literal y se repitió: «quiero esto dentro
          de la foto con figuras animadas y animaciones generales, rediséñalo de
@@ -1171,10 +1064,13 @@
          POR QUÉ DESAPARECE LA REJILLA DE TRES PISTAS. Aquella rejilla existía
          para una cosa: poner la foto al lado del texto y dejarla tocar el canto
          derecho. Sin foto al lado, la rejilla sobra —y las dos pistas vacías de
-         margen que la sostenían, también—. El bloque vuelve a ser una pila:
-         titular sobre el papel · escena a sangre. El margen de página lo ponen
-         ahora los dos `.contenedor--ancho`, uno en el titular y otro dentro de
-         la escena, así que los dos textos comparten eje izquierdo exacto.
+         margen que la sostenían, también—.
+
+         v17 · YA NO QUEDA «TITULAR SOBRE EL PAPEL». Hasta v16 el bloque era
+         una pila de dos piezas —titular en su propio `<header>`, escena a
+         sangre debajo—. Ahora sólo queda una: el h2 se mudó dentro de
+         `.nosotros__discurso`, así que el único margen de página que hace
+         falta es el `.contenedor--ancho` de aquí dentro.
 
          EL VELO NO ES DECORACIÓN, ES LO QUE HACE LEGIBLE EL TEXTO, y por eso va
          en un elemento propio y no en un `background` del contenedor: tiene que
@@ -1244,6 +1140,41 @@
         <path d="M2.6 12.8c3.1-1.6 5.8-1.2 8.2 1.2-2.8 2-5.5 1.6-8.2-1.2Z" pathLength="1"/>
       </svg>
 
+      <!-- v16 · LA RAMA, MUDADA AQUÍ DESDE EL TITULAR -------------------------
+           Vivía junto al h2 «Cruzas la reja y cambia el día», sobre el papel
+           crema, empujada ahí desde v15. El pedido del cliente fue explícito:
+           que quedara DENTRO de la fotografía, compuesta sobre el follaje real
+           en vez de flotar sobre el fondo claro que tenía encima.
+
+           MISMA PIEZA, NI UN PATH CAMBIADO: sigue siendo el mismo SVG con la
+           misma firma —`viewBox="0 0 24 24"`, `fill="none"`,
+           `stroke="currentColor"`, `class="icono-traza"` y `pathLength="1"`
+           horneados a mano— y nosotros.css §6 sigue repartiendo sus cinco
+           tiempos por `:nth-child`, así que la animación de trazado no se toca.
+
+           CAE EN LA ESQUINA OPUESTA A LAS HOJAS, a propósito: las tres hojas
+           de arriba ya ocupan la esquina superior derecha de la escena, encima
+           de la entradilla corta. La rama va abajo a la derecha, bajo la
+           pastilla y el botón —que quedan alineados a la izquierda—, así las
+           dos siluetas se leen como un par que enmarca la foto sin pisarse ni
+           taparse entre ellas ni sobre ningún párrafo (DIRECTRICES-ANIMACION
+           §2, regla 3: cae sobre FOTO, nunca sobre texto).
+
+           SE VUELVE A ENSEÑAR DESDE 48em, el mismo umbral que las hojas y no
+           ya los 62em de cuando vivía junto al titular: aquí no comparte fila
+           con ningún texto que pueda comprimir, así que puede aparecer un
+           poco antes. -->
+      <svg class="icono-traza nosotros__silueta nosotros__silueta--rama"
+           viewBox="0 0 24 24" fill="none" stroke="currentColor"
+           stroke-width="0.85" stroke-linecap="round" stroke-linejoin="round"
+           aria-hidden="true" focusable="false">
+        <path d="M4.4 22.6C6.9 19 8.9 15 10.4 10.8 11.4 7.7 12.1 4.6 12.4 1.5" pathLength="1"/>
+        <path d="M8.6 16.5c-2.7-1.4-5-1.3-6.9.4 2.3 2 4.6 1.9 6.9-.4Z" pathLength="1"/>
+        <path d="M10.4 11.4c1.8-2.7 4.2-4 7.2-3.9-1 3-3.4 4.3-7.2 3.9Z" pathLength="1"/>
+        <path d="M11.6 7.2c-1.6-2.2-3.6-3-5.9-2.3 1 2.4 3 3.2 5.9 2.3Z" pathLength="1"/>
+        <path d="M12.3 3.5c1-1.9 2.6-2.8 4.7-2.7-.5 2.2-2.1 3.1-4.7 2.7Z" pathLength="1"/>
+      </svg>
+
       <!-- v10 · DE PROSA A FIGURAS. El pedido del cliente fue literal: «se ve
            básico, más figuras a tope y menos texto» transmitiendo sofisticación.
            v8 ya había recortado la prosa a la mitad; v10 la termina de recortar
@@ -1261,6 +1192,50 @@
            justo lo que el cliente pidió que se notara— se perdería. Aquí el
            contenedor sólo coloca; quienes entran son las figuras, una a una. -->
       <div class="nosotros__discurso contenedor contenedor--ancho">
+      <!-- v17 · EL TITULAR SE MUDA DENTRO DE LA FOTO, Y CAMBIA DE TEXTO -------
+           Pedido del cliente, explícito: «integra ese texto en la foto, pero
+           tampoco me gusta ese texto, cámbialo». Dos cosas en un mismo golpe.
+
+           (1) DÓNDE VIVE. Hasta v16 el h2 se quedaba en un <header> propio
+           sobre el papel crema, ARRIBA de la escena: dos bloques separados
+           —titular en un soporte, discurso en otro— con el mismo problema que
+           tenía la rama antes de mudarse (v16, más abajo en este archivo). Se
+           resuelve igual: el h2 entra a `.nosotros__discurso`, como primer
+           elemento antes de la entradilla, y comparte con ella el mismo
+           `.contenedor--ancho` y el mismo soporte —la foto—. Ya no hay dos
+           piezas vecinas, hay una sola.
+
+           SIN `reveal reveal-texto` PROPIO, A PROPÓSITO. Con el titular en su
+           header aparte tenía su propio disparador de revelado línea a línea.
+           Aquí dentro sigue la regla que ya usa la entradilla, dos renglones
+           más abajo: quien entra es la BANDA ENTERA con `reveal--velo` (ver la
+           nota de `.nosotros__escena`), y el titular aparece con ella, sin un
+           segundo motor superpuesto sobre el mismo texto (UN SOLO MOTOR DE
+           ANIMACIÓN por elemento). Los dos `<span class="reveal-texto__linea">`
+           se quedan sólo por el `display: block` que ya les da base.css: bastan
+           para partir el renglón donde el cliente lo aprobó, sin arrastrar el
+           engranaje de retardos que sólo aplica bajo `.reveal.reveal-texto`.
+
+           (2) EL TEXTO. «Cruzas la reja y cambia el día» era demasiado
+           literal —hablaba de la reja física de la entrada— y al cliente dejó
+           de gustarle. El resto de titulares del sitio no describen el objeto,
+           evocan la sensación: «Un taller donde la mesa está afuera»,
+           «Aquí el día se toma su tiempo», «Dime a quién traes y te digo
+           dónde». Este nuevo titular sigue esa misma gramática —dos renglones
+           cortos, un verbo en cada uno, la frase que se completa al leerlos
+           seguidos— y dice lo mismo que decía la vieja frase sin nombrar la
+           reja: que al entrar al predio el ruido de afuera se queda afuera y
+           lo que se respira adentro es otra cosa. Ni un hecho cambia: sigue
+           siendo la coda que presenta «qué es el predio», el mismo papel que
+           tenía desde v6.
+           EL id NO SE TOCA: el <section> lo referencia con aria-labelledby.
+           Escrito en caja alta y baja en el propio HTML, nunca en mayúsculas
+           confiando en el CSS (CONTRATO-V2 §3). -->
+      <h2 class="titulo-seccion nosotros__titulo" id="nosotros-titulo">
+        <span class="reveal-texto__linea">Dejas el ruido atrás</span>
+        <span class="reveal-texto__linea">y entras a otro aire</span>
+      </h2>
+
       <p class="entradilla">
         Un predio privado con portería y vigilancia, no un parque público.
       </p>
@@ -1459,8 +1434,6 @@
       </div>
 
     </div>
-
-  </div>
 
 
   <!-- v14 · EL COMPROMISO YA NO VIVE AQUI: ES LA ULTIMA SECCION DEL SITIO.

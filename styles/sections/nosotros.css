@@ -93,7 +93,7 @@
 }
 
 /* ==========================================================================
-   1. EL PREDIO — titular sobre el papel, discurso DENTRO de la foto      (v13)
+   1. EL PREDIO — todo el discurso, titular incluido, DENTRO de la foto (v17)
 
    v13 · QUÉ CAMBIA Y POR QUÉ. El pedido del cliente se repitió tres veces y
    era literal: «quiero esto dentro de la foto con figuras animadas y
@@ -103,44 +103,21 @@
    siendo dos piezas, y eso es exactamente lo que el cliente veía.
 
    Ahora son una sola: la fotografía es el FONDO de todo el bloque, a sangre de
-   canto a canto, y el discurso entero —entradilla, los dos grupos de figuras,
-   la nota, la pastilla y el botón— flota encima sobre un velo de legibilidad.
+   canto a canto, y el discurso entero —titular, entradilla, los dos grupos de
+   figuras, la nota, la pastilla y el botón— flota encima sobre un velo de
+   legibilidad.
 
-   POR QUÉ DESAPARECEN LA REJILLA DE TRES PISTAS Y EL `sticky` DEL TITULAR.
-   Aquella rejilla existía para una sola cosa: poner la foto al lado del texto
-   dejándola tocar el canto derecho, con dos pistas vacías haciendo de margen de
-   página. Sin foto al lado no queda nada que sostener, y un titular pegado al
-   scroll sólo tiene sentido cuando hay texto pasándole por al lado —aquí el
-   texto está DEBAJO, dentro de la foto—. El bloque vuelve a ser lo que es: una
-   pila de dos piezas. El margen de página lo ponen ahora los dos
-   `.contenedor--ancho` del marcado (uno en el titular, otro dentro de la
-   escena), así que los dos textos comparten eje izquierdo exacto en todos los
-   anchos, sin aritmética de porcentajes que revisar en cada breakpoint.
-
-   Y CON ESO SE CAE SOLO EL PROBLEMA QUE OBLIGABA A DOS TRAMOS DE ESCRITORIO:
-   v12 necesitaba 62em–75em y 75em+ porque el renglón «y cambia el día» no cabía
-   en una pista del 27 %. A ancho de contenedor cabe siempre, así que el titular
-   no puede partirse y el revelado por renglones no puede reventar.
+   v17 · Y AHORA TAMBIÉN EL TITULAR. Hasta v16 el h2 se había quedado por fuera
+   de este bloque: vivía en un `<header>` propio sobre el papel crema, envuelto
+   junto con la escena en un `.nosotros__predio` que los apilaba con un simple
+   `gap`. Era el mismo defecto que ya se le corrigió a la rama en v16 —una
+   pieza flotando sobre el fondo claro, ENCIMA de la foto en vez de dentro de
+   ella—. Pedido del cliente, literal: «integra ese texto en la foto». El h2
+   se muda dentro de `.nosotros__discurso` (ver nosotros.html) y
+   `.nosotros__predio` desaparece entero: ya no envuelve nada, `.nosotros__escena`
+   pasa a ser hija directa de la sección. El margen de página lo sigue poniendo
+   el único `.contenedor--ancho` que queda, el de dentro de la escena.
    ========================================================================== */
-.nosotros__predio {
-  display: grid;
-  gap: var(--esp-lg);
-}
-
-/* El aire entre el titular y el discurso lo pone el `gap` de la rejilla: el
-   margen inferior de .seccion-encabezado sobraría y descuadraría las dos
-   columnas, que arrancan a la misma altura.
-
-   v15 — LA RAMITA VA AL LADO DEL TITULAR. Usa flexbox para alinear el h2 y la
-   rama en una fila, alineados al pie para que la rama acompañe visualmente
-   al último renglón del texto. */
-.nosotros__titular {
-  margin-bottom: 0;
-  display: flex;
-  flex-wrap: wrap;
-  align-items: flex-end;
-  gap: var(--esp-md);
-}
 
 /* v9 — EJES SOBRIOS SÓLO EN ESTA CODA. El titular baja el WONK a 0 y el SOFT
    a 14 (--ejes-display-sobrio, ya existente en tokens.css): un registro más
@@ -148,15 +125,13 @@
    la portada sin tocar tamaño ni fuente. Misma especificidad (0,1,0) que la
    regla de base y esta hoja carga después: gana por cascada.
 
-   v15 · En el flex de .nosotros__titular: ocupa el ancho disponible y deja la
-   rama al lado sin que se comprima el texto. */
+   v17 · EL COLOR YA NO SE DECLARA AQUÍ. `.titulo-seccion` no trae color propio
+   y el h2 vive ahora dentro de `.nosotros__escena`, que ya pone
+   `color: var(--color-texto-inverso)` (crema, 10,7:1 sobre bosque) para todo
+   el discurso: el titular hereda ese mismo blanco roto sin declarar nada por
+   su cuenta, igual que ya hacía la entradilla un renglón más abajo. */
 .nosotros__titulo {
   font-variation-settings: var(--ejes-display-sobrio);
-}
-
-.nosotros__titular .nosotros__titulo {
-  flex: 1;
-  min-width: 0;
 }
 
 /* ---- v13 · LA ESCENA -----------------------------------------------------
@@ -267,6 +242,7 @@
     row-gap: var(--esp-xl);
   }
 
+  .nosotros__discurso > .nosotros__titulo,
   .nosotros__discurso > .entradilla,
   .nosotros__discurso > .grupo-botones {
     grid-column: 1 / -1;
@@ -1262,8 +1238,10 @@
    6. LAS SILUETAS QUE SE DIBUJAN SOLAS   (v6)
    Dos piezas de trazo, cada una con su reloj:
 
-     · .nosotros__silueta--rama   una rama con cuatro hojas, en la columna
-       pegajosa del titular. Sale sola cuando entra #nosotros.
+     · .nosotros__silueta--rama   una rama con cuatro hojas, ahora DENTRO de
+       la escena del sendero (esquina inferior derecha, opuesta a las tres
+       hojas). Hasta v15 vivía junto al titular, sobre el papel crema; el
+       cliente la quiso dentro de la foto. Sale sola cuando entra #nosotros.
      · .nosotros__silueta--vuelo  tres vuelos, al pie del compromiso. Sale
        cuando entra la BANDA OSCURA, que es un <section> propio y por tanto
        su propio disparador en js/app.js. Dos entradas, dos momentos, cero
@@ -1322,30 +1300,50 @@
   transition-delay: var(--traza-espera, 0ms);
 }
 
-/* ---- La rama de la columna pegajosa -------------------------------------- */
-/* v15 · AHORA VA AL LADO DEL TITULAR. Usa flexbox hermano en .nosotros__titular
-   para que la rama acompañe el último renglón del h2 de manera visual, sin
-   empujar el discurso hacia abajo. En móvil sigue oculta porque no sobra espacio
-   horizontal para que una decoración como esta se lea sin comprimir el texto.
+/* ---- v16 · LA RAMA, MUDADA DENTRO DE LA ESCENA ---------------------------
+   Hasta v15 vivía junto al titular sobre el papel crema, en flujo, alineada
+   al pie del h2 (`position: sticky` de `.nosotros__titular` incluido). El
+   cliente la quiso DENTRO de la fotografía —donde el follaje real le da
+   contexto en vez de flotar sobre el fondo claro que tenía encima—, así que
+   se muda al mismo mecanismo que ya usan las tres hojas de arriba: posición
+   ABSOLUTA dentro de `.nosotros__escena`, misma capa (por encima del velo,
+   por debajo del discurso).
 
-   Su movimiento relativo sigue siendo el `position: sticky` de .nosotros__titular
-   (si la hay), que deja la rama quieta mientras el texto pasa por al lado. */
+   ESQUINA INFERIOR DERECHA, LA OPUESTA A LAS HOJAS. Las hojas ya ocupan la
+   esquina superior derecha, sobre la entradilla corta; la rama cae abajo a
+   la derecha, bajo la pastilla y el botón —que quedan alineados a la
+   izquierda por `.nosotros__discurso`—. Las dos siluetas enmarcan la foto sin
+   pisarse entre ellas ni sobre ningún párrafo (DIRECTRICES-ANIMACION §2,
+   regla 3: cae sobre FOTO, nunca sobre texto).
+
+   CREMA Y NO OLIVA. Sobre el papel crema el trazo era oliva al 45 %
+   (compuesto 1,80:1); sobre la foto oscura ese mismo oliva se hunde casi
+   invisible. Se cambia a crema —el mismo tono que ya usan las hojas—, a un
+   punto más alto de opacidad porque esta esquina cae en el 88 % de velo (el
+   tramo más oscuro del degradado, «0 % pie» de `.nosotros__escena-velo`) y
+   admite más presencia sin competir con el botón. Medido contra el peor
+   píxel del degradado (bosque hondo casi negro): ~3,4:1. Sigue siendo
+   decoración con `aria-hidden`, no le aplica el mínimo de AA (ver la
+   cabecera de este §6), pero de todas formas queda por encima del umbral no
+   textual de 3:1.
+
+   SE ENSEÑA DESDE 48em, el mismo umbral que las hojas —y no ya los 62em de
+   cuando compartía fila con el titular—: aquí no comparte renglón con texto
+   que pueda comprimirse, así que puede aparecer un poco antes. Por debajo de
+   48em el discurso ocupa la banda de canto a canto y no queda foto libre
+   donde ponerla sin cruzar el botón. Decoración pura: ocultarla no quita ni
+   una palabra. */
 .nosotros__silueta--rama {
-  width: calc(var(--esp-4xl) * 1.65);
-  flex: none;
-  /* Sin separación adicional: el `gap` del flex contenedor coloca la rama. */
-  margin: 0;
-  /* Oliva al 45 % sobre la crema (compuesto #adb097, 1,80:1): el trazo tiene
-     que insinuarse, no dibujar un cartel. Ver la nota de contraste de arriba:
-     es decoración con aria-hidden, no le aplica el mínimo de AA. */
-  color: rgb(var(--verde-oliva-rgb) / 0.45);
-  /* Por debajo de 62em el ancho de la pantalla es tan estrecho que la rama
-     comprimiría el titular innecesariamente. Es decoración pura: ocultarla no
-     quita ni una palabra. */
   display: none;
+  position: absolute;
+  z-index: var(--z-fondo);
+  inset-block-end: var(--esp-lg);
+  inset-inline-end: var(--esp-lg);
+  width: calc(var(--esp-4xl) * 1.1);
+  color: rgb(var(--crema-rgb) / 0.42);
 }
 
-@media (min-width: 62em) {
+@media (min-width: 48em) {
   .nosotros__silueta--rama {
     display: block;
   }

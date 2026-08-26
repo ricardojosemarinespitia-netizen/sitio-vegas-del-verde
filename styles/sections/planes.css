@@ -569,10 +569,14 @@
        largo se salía por la derecha y «encienden» se leía «enciende», que es
        otra palabra. Era ESE el titular partido que reportó el cliente. */
     margin-inline: var(--planes-sangrado);
-    /* Tres pantallas de recorrido: ni tan corto que el pin no se note (una
-       pista de 1 pantalla no deja tiempo de leer el gesto) ni tan largo que
-       el visitante tenga que scrollear de más para llegar al díptico. */
-    block-size: 300svh;
+    /* v2 · ACORTADA. Pedido directo del cliente: "se demoran mucho en salir
+       [los bombillos] deslizando" — con 300svh el guion (bombillos + apertura
+       de la foto + tarjeta) no terminaba hasta el 80% de TRES pantallas de
+       scroll, casi 2,4 pantallas de rueda. Se acorta a dos pantallas: sigue
+       dejando pin suficiente para notarse (una pista de 1 pantalla no deja
+       tiempo de leer el gesto), pero el guion entero cierra a las 1,6
+       pantallas en vez de a las 2,4. */
+    block-size: 200svh;
   }
 
   .js .planes-fiesta__escena .planes-fiesta__acto1 {
