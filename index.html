@@ -50,8 +50,8 @@
 <link rel="stylesheet" href="styles/shell.css?v=e2eb0d62">
 <link rel="stylesheet" href="styles/sections/inicio.css?v=6a32b50c">
 <link rel="stylesheet" href="styles/sections/usos.css?v=09deb7f8">
-<link rel="stylesheet" href="styles/sections/nosotros.css?v=d3047fb2">
-<link rel="stylesheet" href="styles/sections/planes.css?v=e8b568b3">
+<link rel="stylesheet" href="styles/sections/nosotros.css?v=f69fe719">
+<link rel="stylesheet" href="styles/sections/planes.css?v=6920ebaa">
 <link rel="stylesheet" href="styles/sections/momentos.css?v=cdb15818">
 <link rel="stylesheet" href="styles/sections/colegios.css?v=729ef553">
 <link rel="stylesheet" href="styles/sections/naturaleza.css?v=26e490c1">
@@ -568,14 +568,15 @@
          AÚN SIN DECODIFICAR, que es justo la carrera que este cerrojo
          evita. decode() resuelve en el acto si ya está decodificada y
          espera también la carga si no ha terminado: cubre los dos casos. */
-      /* v10 · LA FOTO ES LA CAPA ÚNICA, así que ella misma es el LCP y se ve
-         de inmediato — no hay nada que ocultar ni revelar. Lo que sí entra
-         un segundo después de que decode() resuelve es lo VIVO de la escena
-         —hojas, polen, mariposas y colibrí—, montado por los dos módulos de
-         abajo: el retraso es a propósito, para que el gesto llegue cuando el
-         titular ya se leyó y nunca compita con el pintado del LCP. */
+      /* v11 · LA FOTO ES LA CAPA ÚNICA, así que ella misma es el LCP y se ve
+         de inmediato — no hay nada que ocultar ni revelar. Lo VIVO de la
+         escena —hojas, polen y mariposas— entra justo después de que
+         decode() resuelve, con una pausa mínima (pedido directo del
+         cliente: "que salga al instante pero que se aprecie") sólo para que
+         el navegador termine de componer el primer cuadro de la foto antes
+         de sumar capas nuevas; ya no espera a que el titular "se lea". */
       foto.decode().catch(() => {})
-        .then(() => new Promise((r) => setTimeout(r, 1000)))
+        .then(() => new Promise((r) => setTimeout(r, 150)))
         .then(() => Promise.all([
           import('./js/particulas-hero.js?v=b09ed560')
             .then((m) => m?.montarParticulas(portada, foto))
