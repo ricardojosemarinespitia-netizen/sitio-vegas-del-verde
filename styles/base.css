@@ -92,6 +92,21 @@ html {
   scroll-behavior: smooth;
   /* el header fijo no debe tapar el destino de un ancla */
   scroll-padding-top: calc(var(--alto-header) + var(--esp-md));
+  /* `body{overflow-x:hidden}` recorta el contenido normal, pero NO alcanza a
+     los descendientes `position: fixed` (cabecera, velo del menú): su bloque
+     contenedor es el viewport inicial, que en Chrome/Android WebView mide
+     100vw INCLUYENDO el ancho de la barra de scroll —unos 8-10 px más que
+     `document.documentElement.clientWidth`, el ancho real y visible—. Con
+     `inset-inline: 0` la cabecera se dimensionaba contra ese 100vw inflado y
+     sobraba ese sobrante hacia la derecha: en un WebView con scrollbar
+     clásica (no superpuesta) eso se veía como una línea vertical pegada al
+     borde derecho. `overflow-x: clip` en el elemento raíz sí recorta también
+     los `position: fixed`, porque el recorte ocurre en el propio viewport de
+     pintado y no depende de la cadena de bloques contenedores. Se usa `clip`
+     y no `hidden`, la misma elección de .planes/.momentos, para no convertir
+     `html` en contenedor de scroll y no romper `scroll-padding-top` ni los
+     `position: sticky` internos. */
+  overflow-x: clip;
 }
 
 body {
@@ -173,6 +188,18 @@ body {
     100% 1500px,
     auto;
   background-repeat: repeat, repeat, repeat, repeat-y, repeat-y, no-repeat;
+  /* v2 · FIJA AL VIEWPORT — pedido directo del cliente: «quiero que la
+     trama del fondo sea estática, que no se mueva». Sin esto el papel viaja
+     con la página (el `attachment` por defecto es `scroll`) y en un scroll
+     largo se nota el patrón desplazándose detrás del texto. Con `fixed`
+     queda clavado a la ventana: el contenido pasa por encima, el papel no
+     se mueve un píxel. Efecto secundario asumido: las dos pozas de claro
+     que alternan cada 1500px de scroll (capas 4-5, arriba) dejan de variar
+     —siempre se ve el mismo tramo del papel—, que es justo la lectura de
+     «estático» que pidió el cliente. iOS Safari no soporta `background-
+     attachment: fixed` y lo trata como `scroll` sin avisar: ahí el papel
+     seguirá viajando con la página, degradación silenciosa y aceptable. */
+  background-attachment: fixed;
   color: var(--color-texto);
   font-family: var(--fuente-cuerpo);
   font-size: var(--fs-cuerpo);

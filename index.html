@@ -68,15 +68,15 @@
       media="(min-width: 48em)" href="img/hero-ave-flor.avif">
 
 <link rel="stylesheet" href="styles/tokens.css?v=84276b65">
-<link rel="stylesheet" href="styles/base.css?v=dcdc80a8">
+<link rel="stylesheet" href="styles/base.css?v=89296fcb">
 <link rel="stylesheet" href="styles/shell.css?v=e2eb0d62">
 <link rel="stylesheet" href="styles/sections/inicio.css?v=d9b9fe2c">
 <link rel="stylesheet" href="styles/sections/usos.css?v=88c81cc1">
 <link rel="stylesheet" href="styles/sections/nosotros.css?v=b775831b">
-<link rel="stylesheet" href="styles/sections/planes.css?v=229f9539">
-<link rel="stylesheet" href="styles/sections/momentos.css?v=37ed9317">
+<link rel="stylesheet" href="styles/sections/planes.css?v=747f2994">
+<link rel="stylesheet" href="styles/sections/momentos.css?v=529a0f99">
 <link rel="stylesheet" href="styles/sections/colegios.css?v=729ef553">
-<link rel="stylesheet" href="styles/sections/naturaleza.css?v=26e490c1">
+<link rel="stylesheet" href="styles/sections/naturaleza.css?v=52589697">
 <link rel="stylesheet" href="styles/sections/vivero.css?v=39ecab57">
 <link rel="stylesheet" href="styles/sections/ubicacion.css?v=bf46fe0a">
 <link rel="stylesheet" href="styles/sections/pie.css?v=8015512b">
@@ -2566,6 +2566,21 @@
           <a href="#usos">Teatrino</a>.
         </p>
 
+        <!-- EL ENLACE A #colegios (agosto de 2026). Un carril nuevo, no: un
+             hecho, un dueño (ARQUITECTURA-V3) — la jornada pedagógica con
+             colegios y la salida para particulares que quieren un curso
+             viven enteras en #colegios, y aquí sólo se NOMBRA el destino y
+             se enlaza, igual que .planes-carril__donde enlaza a #usos sin
+             repetir el aforo. Reutiliza la clase .nota y .planes-carril__donde
+             a propósito: hereda el mismo texto inverso suave del bloque de
+             cristal (planes.css §7, regla de `.planes-talleres__vidrio
+             .planes-carril__donde a`) sin declarar un color nuevo, y entra
+             en el mismo `gap` de la rejilla sin margen propio. -->
+        <p class="nota planes-carril__donde">
+          ¿Vienes con un colegio o buscas un curso para ti?
+          <a href="#colegios">Ver los cursos</a>.
+        </p>
+
         <a
           class="enlace-flecha planes-carril__cta"
           href="https://wa.me/573166758362?text=Hola%2C%20quiero%20cotizar%20Vegas%20del%20Verde%20para%20un%20taller%20educativo%2C%20de%20jardiner%C3%ADa%20o%20de%20pintura%20al%20aire%20libre."
@@ -2641,837 +2656,6 @@
     if (!matchMedia('(prefers-reduced-motion: reduce)').matches) {
       import('./js/respiracion-bienestar.js?v=c51748e1')
         .then((m) => m.activarRespiracionBienestar())
-        .catch(() => {});
-    }
-  </script>
-</section>
-
-<!-- ==========================================================================
-     FRAGMENTO: MOMENTOS  ·  id="momentos"
-     CSS propio: styles/sections/momentos.css
-     JS propio:  js/momentos-video.js   (reproducción perezosa de los clips)
-
-     QUÉ ES: una banda de carbón que corta la página crema entre #planes y
-     #colegios. Es la única pausa visual del recorrido: sirve para respirar,
-     no para informar. Desde v3.1 ya no es una rejilla de fotos: es un MURO
-     DE VÍDEO en vertical, metraje de móvil grabado en el predio.
-
-     QUÉ CAMBIÓ EN v3.2 — EL MARCADO
-       Sólo dos cosas, y ninguna toca el texto:
-         · La cabecera pierde la clase de tamaño y gana el trato de CARTELA
-           en la hoja (rótulo y titular en la misma línea de base, con filete
-           a todo lo ancho). No cambia el marcado.
-         · Cada pieza añade `reveal--velo` junto a `reveal`. Es la cortina de
-           clip-path que ya estaba escrita en base.css §6 y que no usaba
-           NINGUNA sección del sitio: la pieza se descubre de arriba abajo en
-           vez de aparecer con un fundido. Es el gesto que le corresponde a un
-           muro de vídeo, y al usarse sólo aquí no se gasta el recurso.
-       Todo lo demás de la composición (anchos, desfases, sangría por la
-       derecha, grano y viñeta) vive en momentos.css y no necesita marcado.
-
-     POR QUÉ VERTICAL Y POR QUÉ ESCALONADO
-       Los seis clips son 720×1280, retrato, sin pista de audio: son de
-       teléfono, no de banco de imágenes. Presentarlos en una rejilla regular
-       de recuadros iguales los devolvería al terreno del «genérico»: lo que
-       delata a un muro de archivo es la simetría. Aquí van CUATRO piezas de
-       anchos distintos (protagonista + tres menores) y con desfases
-       verticales desiguales, de modo que la línea de arriba nunca coincide
-       y la de abajo tampoco. La composición está en momentos.css §3.
-
-     QUÉ POSEE ESTA SECCIÓN (ARQUITECTURA-V3, «un hecho, un dueño»)
-       NADA. Ni un solo hecho. Esta sección es ATMÓSFERA PURA y por eso puede
-       borrarse entera sin que la página pierda un dato.
-
-     QUÉ TIENE PROHIBIDO DECIR
-       TODO hecho: aforos, precios, horarios, direcciones, superficies,
-       distancias, cifras de especies, condiciones de alquiler, nombres de
-       espacios y nombres de planes. Los pies describen LO QUE SE VE en el
-       clip y se paran ahí.
-       OJO ESPECIAL CON ESTOS CLIPS: el jardín de polinizadores es un hecho
-       de #colegios. Aquí se pueden VER mariposas y flores —son imagen—, pero
-       no se puede afirmar que exista un jardín ni describirlo como
-       instalación. Por eso ningún pie nombra «polinizadores», «jardín de
-       mariposas» ni «avistamiento»: se describe el encuadre, no el
-       equipamiento. Por lo mismo NO se usa el sexto clip disponible,
-       video/jardin-polinizadores.*: su ruta viaja en el atributo `poster`,
-       que herramientas/validar.py sí lee como texto, y colaría la palabra
-       «polinizador» dentro de una sección que no es su dueña.
-
-     LOS CUATRO CLIPS, EN ORDEN DE LECTURA
-       01  video/mariposa-naranja.*   3,6 s · plano abierto de las varas
-       02  video/verbena-viento.*     6,2 s · primer plano, la vara se mece
-       03  video/mariposa-amarilla.*  4,6 s · contraluz, amarilla al borde
-       04  video/mariposas-par.*      2,1 s · dos naranjas, la más pequeña
-       Cada <video> lleva el webm PRIMERO y el mp4 después (el webm pesa más
-       aquí, pero el orden lo decide el navegador por soporte, no por tamaño;
-       Safari cae al mp4). `width`/`height` son los del archivo y el marco
-       tiene `aspect-ratio`, así que no hay salto de layout.
-
-     EL PÓSTER ES EL SUELO, NO HAY <img> DEBAJO
-       Cada clip trae su propio fotograma en img/video/<mismo-nombre>.jpg.
-       Si el vídeo no carga, si no hay JS, si el navegador bloquea la
-       reproducción o si el usuario pide menos movimiento, se queda esa foto
-       fija: nunca un hueco negro. Poner además un <img> debajo duplicaría la
-       descarga para enseñar exactamente la misma imagen.
-       Los cuatro pósters (unos 600 kB en total) SÍ se descargan siempre, aunque
-       el visitante no llegue a esta altura de la página: `poster` no admite
-       carga diferida. Es el precio de que la sección nunca aparezca vacía, y se
-       paga a sabiendas. Los clips, que pesan varios megas, no se tocan hasta
-       que la banda entra en pantalla.
-
-     NO HAY ICONO DE PLAY, Y NO SE PONE
-       Los clips arrancan solos, en silencio y en bucle, cuando entran en
-       pantalla; se pausan al salir. No hay nada que pulsar, así que un
-       triángulo encima sería un control falso. Toda esa lógica —incluida la
-       de `prefers-reduced-motion`— vive en js/momentos-video.js.
-
-     POR QUÉ EL <script> VA AQUÍ DENTRO Y NO AL FINAL DEL <body>
-       herramientas/ensamblar.py copia tal cual la cola de index.html
-       (donde están app.js y mapa.js), así que un fragmento no puede añadir
-       nada allí. Se carga con `defer`, de modo que no bloquea el parseo y se
-       ejecuta con el DOM ya completo, igual que los otros dos. Si el
-       integrador prefiere tenerlo junto a los demás, puede moverlo a la cola
-       de index.html y borrar esta línea: el JS no depende de dónde se cargue.
-
-     POR QUÉ NO ESTÁ EN LA NAVEGACIÓN NI EN EL PIE
-       Porque no es un destino. Nadie busca «momentos» en un menú; se lo
-       encuentra al bajar. Meterla en el menú la convertiría en una promesa
-       de contenido que esta sección no tiene intención de cumplir.
-     ========================================================================== -->
-<section id="momentos" class="seccion seccion--carbon momentos" aria-labelledby="momentos-titulo">
-  <div class="contenedor">
-
-    <!-- v3.4 · ESTA BANDA DEJA DE SER UNA SECCIÓN SUELTA
-         (DIRECTRICES-ANIMACION.md §1). #planes, #momentos y #colegios son un
-         solo capítulo, «Eventos y actividades», y esta banda es el RESPIRO
-         que va en medio: no es un corte entre capítulos.
-           · El eyebrow deja de ser «Momentos» y pasa al rótulo compartido de
-             los tres. La ocasión concreta la sigue diciendo el h2.
-           · El filete de apertura a todo lo ancho SALE de aquí (momentos.css
-             §1): lo lleva #planes y sólo #planes, porque es el que abre el
-             capítulo. Que esta cartela empiece sin línea es justamente lo que
-             dice «esto sigue siendo lo mismo».
-           · El h2 estrena .reveal-texto —la clase compartida de base.css
-             §v7—, SIN la variante persiana: ésa se gasta una vez por capítulo
-             y ya la lleva el titular de #planes.
-         El header pasa de .reveal a .reveal-secuencia por el mismo motivo que
-         en #planes: el titular necesita su propio .reveal y aquí los .reveal
-         no se anidan. El header ya no revela, sólo reparte tiempos. -->
-    <header class="seccion-encabezado momentos__encabezado reveal-secuencia">
-      <p class="eyebrow reveal">Eventos y actividades</p>
-      <h2
-        id="momentos-titulo"
-        class="titulo-seccion momentos__titulo reveal reveal-texto"
-      >
-        <span class="reveal-texto__linea">Aquí el día</span>
-        <span class="reveal-texto__linea">se toma su tiempo</span>
-      </h2>
-
-      <!-- v3.3 · LA MARIPOSA QUE SE DIBUJA -----------------------------------
-           La cartela deja a partir de 62em un tercio de ancho vacío a la
-           derecha del titular (el titular va acotado a 20ch). Ahí entra el
-           único trazo de toda la banda, y es el motivo que ya está en los
-           cuatro clips: una mariposa.
-
-           NO AÑADE NI UN HECHO. Va con `aria-hidden`, no lleva texto y no
-           afirma nada: esta sección es atmósfera pura y sigue sin poseer un
-           solo dato. Tampoco nombra el jardín de polinizadores, que es de
-           #colegios (ver el contrato al principio de este archivo).
-
-           FIRMA DEL MOTOR DE DIBUJADO, HORNEADA A MANO: `viewBox="0 0 24 24"`,
-           `fill="none"`, `stroke="currentColor"`, la clase `icono-traza` en el
-           elemento raíz y `pathLength="1"` en cada forma. Escrito en el HTML y no
-           puesto por js/app.js —que va con defer— para que el trazo nazca
-           oculto en el primer paint y no haya un fotograma de parpadeo.
-           Es el primer .icono-traza de esta sección, así que también es lo que
-           convierte #momentos en su propio disparador de dibujado.
-
-           SIETE FORMAS Y SIETE TIEMPOS (momentos.css §10). El orden importa y no
-           es simétrico: sale el ala superior izquierda, entra la superior
-           derecha cuando a la primera le queda un tercio, después las dos
-           inferiores, luego el cuerpo y al final las antenas, una detrás de
-           otra. Si las dos alas de un par salieran a la vez, el trazo se
-           leería como un logotipo desplegándose, no como algo dibujado.
-           Cada <path> lleva una sola `M` para que el guion pueda recorrerlo
-           de un tirón: un camino con varios trazos sueltos se ve
-           entrecortado porque el guion tiene que atravesar también los
-           saltos invisibles de un trazo al siguiente.                     -->
-      <svg class="icono-traza momentos__mariposa" viewBox="0 0 24 24"
-           fill="none" stroke="currentColor" stroke-width="0.9"
-           stroke-linecap="round" stroke-linejoin="round"
-           aria-hidden="true" focusable="false">
-        <path d="M11.6 8.6C10 5.4 7.4 3.3 4.9 3.6 2.6 3.9 1.9 6 3 8.6c1.1 2.6 3.3 3.9 8.6 3.4Z" pathLength="1"/>
-        <path d="M12.4 8.6c1.6-3.2 4.2-5.3 6.7-5 2.3.3 3 2.4 1.9 5-1.1 2.6-3.3 3.9-8.6 3.4Z" pathLength="1"/>
-        <path d="M11.6 12.6c-4.3-.9-7-.1-8 2.2-1 2.3.4 4.2 3.2 4.4 2.5.2 4.3-2 4.8-6.6Z" pathLength="1"/>
-        <path d="M12.4 12.6c4.3-.9 7-.1 8 2.2 1 2.3-.4 4.2-3.2 4.4-2.5.2-4.3-2-4.8-6.6Z" pathLength="1"/>
-        <path d="M12 7.8v9.4" pathLength="1"/>
-        <path d="M11.2 7.4 8.9 4.2" pathLength="1"/>
-        <path d="M12.8 7.4 15.1 4.2" pathLength="1"/>
-      </svg>
-    </header>
-
-    <!-- v4.0 · LA BANDA SE VUELVE MARQUESINA — pedido explícito del cliente
-         (chat, 23-ago-2026): «los videos que se vayan pasando de izquierda a
-         derecha por la pantalla de todos los dispositivos». Deja de ser una
-         composición fija con scroll manual y pasa a desplazarse SOLA, en
-         bucle, en cualquier tamaño de pantalla.
-
-         EL MECANISMO (documentado a fondo en momentos.css §2-§3): una PISTA
-         (`momentos__pista`) que contiene el set de piezas DOS VECES seguidas
-         — el truco estándar de marquesina sin salto — animada con
-         `translateX` puro (compositor, GPU) dentro de un visor con
-         `overflow: clip` (`momentos__visor`). Cuando la pista ha recorrido el
-         50 % de su ancho total, el segundo set ocupa exactamente el lugar
-         donde empezó el primero y el bucle reinicia sin que se note.
-
-         POR QUÉ EL SEGUNDO SET NO LLEVA <video>. Duplicar cuatro <video> con
-         el mismo `src` para el efecto de bucle es gratis en ANCHO DE BANDA
-         (el navegador cachea la respuesta) pero NO es gratis en CPU: dos
-         decodificadores de vídeo corriendo a la vez por clip duplican el
-         trabajo del hilo de compositor sin que se note en pantalla — el
-         segundo set casi siempre está fuera de vista o entrando. Por eso el
-         set duplicado usa el mismo fotograma fijo (`poster`) como <img>: es
-         el mismo archivo que ya se descargó para el `poster` del <video>
-         real, cero peticiones nuevas, y visualmente es indistinguible de un
-         fotograma del clip en movimiento salvo por una fracción de segundo.
-         Va con `aria-hidden="true"` y sin `alt`: es una copia visual pura,
-         el contenido real —con su texto— lo lee un lector de pantalla una
-         sola vez, en el primer set.
-
-         ORDEN Y POR QUÉ. Mismo orden de lectura que en v3 (naranja → viento →
-         contraluz → par), PERO la pieza 04 (mariposas-par, «dos naranjas
-         juntas») se separó del resto con un hueco propio
-         (`momentos__pieza--cuatro`, ver momentos.css §3): es la pieza que el
-         cliente señaló para moverse «más a la derecha» — es la última
-         miniatura del cuarteto y, en la composición v3, quedaba la más
-         escondida (sangrada fuera de pantalla, cortada por el borde). En la
-         pista corrediza gana un margen izquierdo propio que la separa del
-         trío anterior y la deja leerse SOLA, más a la derecha del grupo,
-         en vez de pegada al resto como una quinta rueda.                    -->
-    <div class="momentos__visor reveal reveal--velo">
-      <ul class="momentos__pista" role="list">
-
-        <!-- ---------------------------------------------------------- 01/04
-             PROTAGONISTA. Es el plano más abierto del cuarteto: sitúa al
-             espectador (las varas, el verde del fondo, la luz) antes de que
-             los otros tres se metan de cerca.                               -->
-        <li class="momentos__pieza momentos__pieza--uno">
-          <figure class="momentos__figura">
-            <div class="marco momentos__marco">
-              <video
-                class="momentos__video"
-                data-momento-video
-                muted
-                loop
-                playsinline
-                preload="none"
-                poster="img/video/mariposa-naranja.jpg"
-                width="720"
-                height="1280"
-                aria-hidden="true"
-                tabindex="-1"
-              >
-                <source src="video/mariposa-naranja.webm" type="video/webm" />
-                <source src="video/mariposa-naranja.mp4" type="video/mp4" />
-              </video>
-            </div>
-            <!-- El pie de la protagonista es un VERSO (momentos.css §5):
-                 mismo texto, otra voz. Sólo cambia la clase; el contrato de
-                 hechos queda intacto. -->
-            <figcaption class="momentos__pie momentos__pie--verso">
-              Una mariposa naranja se posa entre las varas moradas y sigue.
-            </figcaption>
-          </figure>
-        </li>
-
-        <!-- ---------------------------------------------------------- 02/04
-             El clip largo (6,2 s) y el único primer plano: aguanta el bucle
-             sin que se note el corte.                                       -->
-        <li class="momentos__pieza momentos__pieza--dos">
-          <figure class="momentos__figura">
-            <div class="marco momentos__marco">
-              <video
-                class="momentos__video"
-                data-momento-video
-                muted
-                loop
-                playsinline
-                preload="none"
-                poster="img/video/verbena-viento.jpg"
-                width="720"
-                height="1280"
-                aria-hidden="true"
-                tabindex="-1"
-              >
-                <source src="video/verbena-viento.webm" type="video/webm" />
-                <source src="video/verbena-viento.mp4" type="video/mp4" />
-              </video>
-            </div>
-            <figcaption class="momentos__pie">
-              El viento mueve las varas en flor y una parda no se suelta.
-            </figcaption>
-          </figure>
-        </li>
-
-        <!-- ---------------------------------------------------------- 03/04
-             Contraluz: el fondo se va a oscuro y la mariposa entra por el
-             borde izquierdo.                                                -->
-        <li class="momentos__pieza momentos__pieza--tres">
-          <figure class="momentos__figura">
-            <div class="marco momentos__marco">
-              <video
-                class="momentos__video"
-                data-momento-video
-                muted
-                loop
-                playsinline
-                preload="none"
-                poster="img/video/mariposa-amarilla.jpg"
-                width="720"
-                height="1280"
-                aria-hidden="true"
-                tabindex="-1"
-              >
-                <source src="video/mariposa-amarilla.webm" type="video/webm" />
-                <source src="video/mariposa-amarilla.mp4" type="video/mp4" />
-              </video>
-            </div>
-            <figcaption class="momentos__pie">
-              A contraluz, una amarilla asoma por el borde del encuadre.
-            </figcaption>
-          </figure>
-        </li>
-
-        <!-- ---------------------------------------------------------- 04/04
-             La pieza pequeña: dura dos segundos. Naranja sobre verde, que es
-             lo que aguanta el tamaño chico. MOVIDA MÁS A LA DERECHA (pedido
-             explícito): gana un hueco propio antes de ella en momentos.css
-             §3 para separarse del trío 01-03 y leerse sola.                 -->
-        <li class="momentos__pieza momentos__pieza--cuatro">
-          <figure class="momentos__figura">
-            <div class="marco momentos__marco">
-              <video
-                class="momentos__video"
-                data-momento-video
-                muted
-                loop
-                playsinline
-                preload="none"
-                poster="img/video/mariposas-par.jpg"
-                width="720"
-                height="1280"
-                aria-hidden="true"
-                tabindex="-1"
-              >
-                <source src="video/mariposas-par.webm" type="video/webm" />
-                <source src="video/mariposas-par.mp4" type="video/mp4" />
-              </video>
-            </div>
-            <figcaption class="momentos__pie">
-              Dos naranjas coinciden en la misma mata.
-            </figcaption>
-          </figure>
-        </li>
-
-      </ul>
-
-      <!-- SEGUNDO SET — copia visual para el bucle sin salto, ver la nota de
-           arriba. `aria-hidden` entero: nada de esto se anuncia dos veces. -->
-      <ul class="momentos__pista momentos__pista--copia" role="list" aria-hidden="true">
-
-        <li class="momentos__pieza momentos__pieza--uno">
-          <figure class="momentos__figura">
-            <div class="marco momentos__marco">
-              <img class="momentos__video momentos__video--eco" src="img/video/mariposa-naranja.jpg"
-                srcset="img/video/mariposa-naranja-400.jpg 400w, img/video/mariposa-naranja.jpg 720w"
-                sizes="(max-width: 47.99em) 70vw, 38vw" alt="" width="720" height="1280" loading="lazy" decoding="async" />
-            </div>
-            <figcaption class="momentos__pie momentos__pie--verso">
-              Una mariposa naranja se posa entre las varas moradas y sigue.
-            </figcaption>
-          </figure>
-        </li>
-
-        <li class="momentos__pieza momentos__pieza--dos">
-          <figure class="momentos__figura">
-            <div class="marco momentos__marco">
-              <img class="momentos__video momentos__video--eco" src="img/video/verbena-viento.jpg"
-                srcset="img/video/verbena-viento-400.jpg 400w, img/video/verbena-viento.jpg 720w"
-                sizes="(max-width: 47.99em) 61vw, 32vw" alt="" width="720" height="1280" loading="lazy" decoding="async" />
-            </div>
-            <figcaption class="momentos__pie">
-              El viento mueve las varas en flor y una parda no se suelta.
-            </figcaption>
-          </figure>
-        </li>
-
-        <li class="momentos__pieza momentos__pieza--tres">
-          <figure class="momentos__figura">
-            <div class="marco momentos__marco">
-              <img class="momentos__video momentos__video--eco" src="img/video/mariposa-amarilla.jpg"
-                srcset="img/video/mariposa-amarilla-400.jpg 400w, img/video/mariposa-amarilla.jpg 720w"
-                sizes="(max-width: 47.99em) 61vw, 32vw" alt="" width="720" height="1280" loading="lazy" decoding="async" />
-            </div>
-            <figcaption class="momentos__pie">
-              A contraluz, una amarilla asoma por el borde del encuadre.
-            </figcaption>
-          </figure>
-        </li>
-
-        <li class="momentos__pieza momentos__pieza--cuatro">
-          <figure class="momentos__figura">
-            <div class="marco momentos__marco">
-              <img class="momentos__video momentos__video--eco" src="img/video/mariposas-par.jpg"
-                srcset="img/video/mariposas-par-400.jpg 400w, img/video/mariposas-par.jpg 720w"
-                sizes="(max-width: 47.99em) 61vw, 32vw" alt="" width="720" height="1280" loading="lazy" decoding="async" />
-            </div>
-            <figcaption class="momentos__pie">
-              Dos naranjas coinciden en la misma mata.
-            </figcaption>
-          </figure>
-        </li>
-
-      </ul>
-    </div>
-
-  </div>
-
-  <script src="js/momentos-video.js?v=89e009b7" defer></script>
-</section>
-
-<!-- ==========================================================================
-     FRAGMENTO: SALIDAS PEDAGÓGICAS  ·  id="colegios"  ·  v2 «Vende la escapada»
-
-     ÁMBITO DE ESTA SECCIÓN — sólo lo que existe únicamente dentro de la
-     oferta escolar:
-       · el observatorio de aves como parada pedagógica
-       · el observatorio de plantas como parada pedagógica
-       · el jardín de polinizadores y el avistamiento de mariposas
-       · el formato de la jornada (llegada, grupos, docentes, cierre)
-
-     LO DEMÁS SE ENLAZA, NO SE DESCRIBE: los espacios del parque (#espacios),
-     el recorrido guiado (#naturaleza) y el vivero (#vivero) tienen sección
-     propia. Aquí no se repiten aforos, ni precios, ni cifras de especies.
-
-     CSS: styles/sections/colegios.css
-     FOTOS (abiertas con Read y verificadas una a una; ninguna se repite en
-     otra sección de la página — parque-20 ya es el mural de #nosotros):
-       img/parque/parque-19.jpg   900x1200   mural de aves en la fachada de la caseta
-       img/parque/parque-34.jpg   675x1200   hileras de plantas bajo malla de sombra
-       img/parque/parque-52.jpg   675x1200   franja florecida al borde del prado
-       img/eventos/infantil-1.jpg 844x1500   grupo sentado en círculo sobre el prado
-
-     v4 · FUERA LAS DOS FOTOS DE BORRADOR
-     Esta sección llevaba dos archivos `-TEMP`: imágenes generadas con IA a baja
-     resolución y estiradas (23 KB y 28 KB de JPEG contra los 240–425 KB de las
-     reales), que en pantalla se veían lavadas y sin grano. Las dos salen:
-
-       parque-34-TEMP  →  img/parque/parque-34.jpg
-         Es la MISMA foto que la cabecera de este fragmento ya declaraba como
-         verificada; el borrador sólo la estaba supliendo. Muestra literalmente
-         lo que dice el pie: dos camellones de plantas en bolsa con el pasillo
-         en medio. Archivo real, 243 KB.
-
-       parque-32-TEMP  →  img/eventos/infantil-1.jpg
-         La pieza dominante de la sección. Es la única fotografía del banco con
-         un grupo de niñas y niños sentados en círculo, y es además la de mayor
-         resolución que entra aquí (844×1500). El pie cambia porque la foto
-         cambia: ya no es «una charla bajo la zona techada» —eso lo mostraba el
-         borrador—, es el curso reunido sobre el prado.
-
-     NOTA DE COORDINACIÓN: `infantil-1.jpg` venía del carril de cumpleaños de
-     #planes y se libera allí. Si por lo que sea siguiera en uso en #planes,
-     el reemplazo directo y sin efectos secundarios es `img/parque/parque-26.jpg`
-     (675×1200): es el mismo momento y el mismo encuadre, un punto más cerrado.
-     Por eso no se usan las dos: puestas en la misma sección se leerían como la
-     misma foto repetida.
-
-     COMPOSICIÓN (v3.1) — LA SECCIÓN TIPOGRÁFICA DEL SITIO
-     Es la sección más corta, así que es la que puede permitirse ser la más
-     tipográfica, y la que menos necesita fotografía grande para sostenerse:
-
-       1 · .col-portada — el titular más grande de la página después del hero,
-           con la entradilla descolgada en un carril estrecho a su derecha.
-           Nada centrado.
-       2 · .col-paradas — deja de ser una rejilla de tres tarjetas iguales y
-           pasa a ser lo que el texto dice que es: un ITINERARIO. Tres filas
-           apiladas separadas por filete, con la fotografía en un carril
-           estrecho a la izquierda y el titular grande a la derecha. Se lee
-           como un índice, no como un catálogo de producto.
-       3 · .col-jornada — la charla al lado y los cuatro hitos en escalera de
-           dos por dos, no en una columna de cuatro renglones.
-       4 · .col-cierre — sin cambios.
-
-     Ni una palabra del texto cambia, y la sección sigue SIN un solo dígito
-     que no sea una hora (ARQUITECTURA-V3 §10): los rótulos de parada siguen
-     escritos con letras («Primera», «Segunda», «Tercera») y no se numeran.
-
-     COMPOSICIÓN (v3.2) — TRES PARADAS QUE DEJAN DE MEDIR LO MISMO
-     v3.1 arregló el problema de #colegios por fuera —tres FILAS y no tres
-     tarjetas— pero por dentro las tres filas seguían siendo idénticas: mismo
-     carril de 13 rem, misma foto 4/5, mismo lado. Tres rectángulos iguales
-     seguidos se leen como una rejilla aunque no lo sean. En v3.2 cada parada
-     declara su propia caja, y la elección no es caprichosa: sale de la
-     proporción real del archivo, para que ninguna foto se recorte de más.
-
-       parada A · parque-19 (900×1200, 3:4) → carril ancho, foto 3/4, izquierda
-       parada B · parque-34 (675×1200, 9:16) → carril estrecho, foto 9/16,
-                  y la única que se va a la DERECHA
-       parada C · parque-52 (675×1200)       → carril medio, foto cuadrada,
-                  izquierda
-
-     Por eso las tres pierden `marco--retrato`: la proporción ya no es una
-     clase de sistema compartida, es una variable por parada (--col-ratio en
-     colegios.css §2). Y por eso cada una entra desde un lado distinto
-     (reveal--izq / reveal--der / reveal--izq): el movimiento acompaña a la
-     composición en vez de contradecirla.
-
-     LA FORMA DE LAS FOTOS. Las cuatro llevan HOJA: dos esquinas curvas en
-     diagonal y dos vivas, que es el motivo orgánico del sistema (la viñeta de
-     .lista-hojas en base.css §2) y ya la norma del sitio entero. Ninguna foto
-     de #colegios sangra fuera de pantalla —lo que cuelga del carril es el
-     titular, que es texto—, así que a ninguna le toca la excepción de dejar a
-     cero las esquinas del canto. Cada foto va a juego con la hoja del rótulo
-     de su parada y las diagonales se alternan bajando por la sección.
-     El resto de la curva orgánica —el labio de carbón del borde superior, los
-     remates de los filetes de la jornada y el bloque de cierre— vive también
-     en el CSS. Nada de esto necesita ni una etiqueta más aquí.
-
-     COMPOSICIÓN (v4) — UNA PIEZA MANDA Y LAS DEMÁS CALLAN
-     v3.2 dejó tres paradas de tamaños distintos, y eso estaba bien resuelto.
-     Lo que no había era JERARQUÍA: las cuatro fotos jugaban en la misma liga
-     de tamaño, así que el ojo no sabía por dónde entrar. En v4:
-
-       · la foto de la jornada pasa a ser la pieza DOMINANTE de la sección
-         (columna ancha, proporción 3/4, deriva ligada al scroll);
-       · los cuatro hitos se montan sobre ella en un panel de papel opaco que
-         la solapa y arranca más abajo —el contraste vive en el panel, nunca
-         sobre la fotografía—;
-       · las tres paradas bajan de carril y se quedan en registro de índice.
-
-     LOS TRES RÓTULOS SE DIBUJAN. La viñeta de hoja que abría cada parada era
-     un cuadradito de color; ahora es una silueta de trazo que se pinta sola al
-     entrar la sección (binoculares · hoja · mariposa), una por parada y en el
-     orden en que el texto las nombra. Usan la firma exacta que reconoce
-     herramientas/hornear-trazos.js —viewBox de 24, `fill="none"`,
-     `stroke="currentColor"`— y traen el `pathLength="1"` ESCRITO A MANO en el
-     propio HTML: el estado inicial nunca lo pone JavaScript, que es de donde
-     salía el parpadeo histórico de este sitio. La hoja no se pierde: sigue
-     rematando los cuatro filetes de la jornada.
-
-     Y el ave de la portada es la única figura grande: decorativa, `aria-hidden`,
-     detrás del texto y con deriva propia por scroll. Ni informa ni recibe foco.
-
-     Cada figura arranca en un momento distinto —los retardos los reparte
-     colegios.css §7—: nada de esta sección se mueve al mismo compás.
-     ========================================================================== -->
-
-<section id="colegios" class="seccion seccion--alt col" aria-labelledby="colegios-titulo">
-  <div class="contenedor contenedor--ancho">
-
-    <!-- v5 · ESTA SECCIÓN DEJA DE SER UNA ISLA
-         (DIRECTRICES-ANIMACION.md §1). «Un día de colegio que no cabe en un
-         aula» venía leyéndose como el titular de una sección aparte, y no lo
-         es: es el TERCER movimiento del capítulo «Eventos y actividades»,
-         detrás de #planes y del respiro de #momentos.
-           · El eyebrow deja de ser «Salidas pedagógicas» y pasa al rótulo
-             compartido de los tres. La ocasión concreta —el día de colegio—
-             ya la dice el titular, que es donde el tratamiento de capítulo
-             manda que viva.
-           · Sin filete de apertura y sin número de capítulo: los dos son del
-             primero de los tres, #planes.
-           · El titular estrena .reveal-texto (base.css §v7) SIN persiana: esa
-             variante se gasta una vez por capítulo y ya la lleva #planes.
-         La portada pasa de .reveal a .reveal-secuencia —ya no revela, sólo
-         reparte tiempos— porque el titular necesita su propio .reveal para
-         poder llevar .reveal-texto y en este sitio los .reveal no se anidan.
-         Es el mismo cambio que .col-jornada hizo en v4, por el mismo motivo. -->
-    <header class="col-portada reveal-secuencia">
-
-      <!-- Dos aves lejos. Decoración pura: sin texto, sin foco, sin contraste que
-           aportar, y colocadas en el hueco que queda entre el titular y la
-           entradilla, no encima de ninguno de los dos. Se dibujan solas al
-           entrar la sección y derivan con el scroll. A partir de 62em, que es
-           donde la portada abre su segunda columna y aparece ese hueco; por
-           debajo no se montan.
-
-           POR QUÉ DOS TRAZOS ABIERTOS Y NO UNA SILUETA CERRADA. Se probaron
-           primero un ave con las alas dibujadas y después una pluma: las dos,
-           ampliadas a doce veces su caja y bajadas al 26 % de opacidad, se leían
-           como una hoja. Un ave a distancia no tiene detalle —son dos arcos— y
-           por eso se reconoce sin ninguna ayuda. Dos, de tamaños distintos y a
-           alturas distintas, son cielo; una sola sería un logotipo. -->
-      <svg class="col-portada__ave icono-traza" viewBox="0 0 24 24" fill="none"
-           stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
-           aria-hidden="true" focusable="false">
-        <path d="M1.6 11.4c3.9.2 7-1.4 9.3-4.7.5-.7.9-1.1 1.2-1.1.3 0 .7.4 1.2 1.1 2.3 3.3 5.4 4.9 9.3 4.7" pathLength="1"/>
-        <path d="M8.4 19.1c2.4.1 4.4-.9 5.8-2.9.3-.5.6-.7.8-.7.2 0 .5.2.8.7 1.4 2 3.4 3 5.8 2.9" pathLength="1"/>
-      </svg>
-
-      <div class="col-portada__titulo">
-        <p class="eyebrow reveal">Eventos y actividades</p>
-        <h2
-          id="colegios-titulo"
-          class="titulo-seccion col-titular reveal reveal-texto"
-        >
-          <span class="reveal-texto__linea">Un día de colegio</span>
-          <span class="reveal-texto__linea">que no cabe en un aula</span>
-        </h2>
-      </div>
-      <!-- RECORTE (queja del cliente: «orden y poco texto»). Se va «Una
-           jornada fuera del aula», que decía otra vez lo que acaba de decir el
-           titular. NO se toca ni uno de los tres hechos: las tres paradas
-           siguen nombradas una a una, porque son de esta sección y de ninguna
-           otra. -->
-      <p class="entradilla col-portada__entradilla reveal">
-        De la llegada al regreso del bus, con tres paradas pensadas para un curso: el
-        observatorio de aves, el de plantas y el jardín de polinizadores.
-      </p>
-    </header>
-
-    <!-- ---------- Las tres paradas, en fila india ---------- -->
-    <ul class="col-paradas reveal-secuencia" role="list">
-
-      <li class="col-parada col-parada--a reveal reveal--izq">
-        <figure>
-          <div class="marco">
-            <img
-              src="img/parque/parque-19.jpg"
-              width="900"
-              height="1200"
-              alt="Mural pintado en la fachada de la caseta: un barranquero de pecho verde posado sobre una rama con flores naranjas y, debajo, un ave azul entre las hojas. Delante, el prado, un círculo de gravilla y matas de heliconia."
-              loading="lazy"
-              decoding="async"
-            />
-          </div>
-          <figcaption>La parada de aves, frente al mural de la caseta</figcaption>
-        </figure>
-        <p class="col-parada__etiqueta">
-          <svg class="col-parada__icono icono-traza" viewBox="0 0 24 24" fill="none"
-               stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
-               aria-hidden="true" focusable="false">
-            <path d="M6.5 8a3 3 0 0 1 3 3v6a3 3 0 0 1-6 0v-6a3 3 0 0 1 3-3Z" pathLength="1"/>
-            <path d="M17.5 8a3 3 0 0 1 3 3v6a3 3 0 0 1-6 0v-6a3 3 0 0 1 3-3Z" pathLength="1"/>
-            <path d="M9.5 13.4h5" pathLength="1"/>
-            <path d="M5 8.2V5.7A1.7 1.7 0 0 1 6.7 4h1.1a1.7 1.7 0 0 1 1.7 1.7v2.5" pathLength="1"/>
-            <path d="M19 8.2V5.7A1.7 1.7 0 0 0 17.3 4h-1.1a1.7 1.7 0 0 0-1.7 1.7v2.5" pathLength="1"/>
-          </svg>
-          <!-- v6 · FOLIO EDITORIAL: la palabra ordinal se envuelve para poder
-               tratarla como folio serif en CSS (§3 de colegios.css). Ni una
-               letra del texto cambia y sigue escrita con palabras, no con
-               dígitos (ARQUITECTURA-V3 §10). -->
-          <span class="col-parada__ordinal">Primera</span> parada
-        </p>
-        <h3 class="titulo-seccion titulo-seccion--sm">Bajar la voz y levantar la mirada</h3>
-        <p>
-          Lo primero del pajareo: escuchar antes de mirar. Cada quien anota lo que oye,
-          busca de dónde viene y lo compara con las aves del mural.
-        </p>
-      </li>
-
-      <li class="col-parada col-parada--b reveal reveal--der">
-        <figure>
-          <div class="marco">
-            <img
-              src="img/parque/parque-34.jpg"
-              width="675"
-              height="1200"
-              alt="Dos camellones de plantas sembradas en bolsa, uno frente al otro, con un pasillo de hierba en medio; encima, la malla de sombra tendida entre postes, y al fondo el follaje de los árboles."
-              loading="lazy"
-              decoding="async"
-            />
-          </div>
-          <figcaption>Las plantas, en hilera y al alcance de la mano</figcaption>
-        </figure>
-        <p class="col-parada__etiqueta">
-          <svg class="col-parada__icono icono-traza" viewBox="0 0 24 24" fill="none"
-               stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
-               aria-hidden="true" focusable="false">
-            <path d="M20.5 3.5C10.6 3.9 4 7.4 4 13.2c0 4 2.6 7.3 6.5 7.3 5.9 0 10-6.5 10-17Z" pathLength="1"/>
-            <path d="M20 4C13.6 8.1 9.3 13.8 7.3 20.3" pathLength="1"/>
-            <path d="M16.4 8.3 12.3 7" pathLength="1"/>
-            <path d="M13 12.4 9.2 11.4" pathLength="1"/>
-          </svg>
-          <span class="col-parada__ordinal">Segunda</span> parada
-        </p>
-        <h3 class="titulo-seccion titulo-seccion--sm">Que una mata deje de ser «una mata»</h3>
-        <p>
-          Se aprende a mirar una hoja: la forma, el borde, la nervadura, el olor. Se van
-          con nombres propios donde antes sólo veían verde.
-        </p>
-      </li>
-
-      <li class="col-parada col-parada--c reveal reveal--izq">
-        <figure>
-          <div class="marco">
-            <img
-              src="img/parque/parque-52.jpg"
-              width="675"
-              height="1200"
-              alt="Franja de plantas florecidas —buganvillas rosadas, flores naranjas y lilas en materas de barro— al borde del prado, con la zona techada al fondo."
-              loading="lazy"
-              decoding="async"
-            />
-          </div>
-          <figcaption>Las floraciones donde se hace el avistamiento</figcaption>
-        </figure>
-        <p class="col-parada__etiqueta">
-          <svg class="col-parada__icono icono-traza" viewBox="0 0 24 24" fill="none"
-               stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
-               aria-hidden="true" focusable="false">
-            <path d="M12 7.2C10.2 4.7 6.9 3 4.9 4.2 2.7 5.5 3.3 8.6 5 10.1c-1.9 1-2.5 3.9-.8 5.4 1.9 1.6 5.4.2 7.8-3.2" pathLength="1"/>
-            <path d="M12 7.2c1.8-2.5 5.1-4.2 7.1-3 2.2 1.3 1.6 4.4-.1 5.9 1.9 1 2.5 3.9.8 5.4-1.9 1.6-5.4.2-7.8-3.2" pathLength="1"/>
-            <path d="M12 7.2v9.9" pathLength="1"/>
-            <path d="M12 7.2 9.9 3.9" pathLength="1"/>
-            <path d="M12 7.2 14.1 3.9" pathLength="1"/>
-          </svg>
-          <span class="col-parada__ordinal">Tercera</span> parada
-        </p>
-        <h3 class="titulo-seccion titulo-seccion--sm">Sentarse a esperar una mariposa</h3>
-        <p>
-          La parada más quieta del día: sentarse frente a las floraciones del jardín de
-          polinizadores y esperar. Se anota quién visita cada flor.
-        </p>
-      </li>
-
-    </ul>
-
-    <!-- ---------- El formato de la jornada ----------------------------------
-         LA PIEZA DOMINANTE. La foto ya no ilustra el bloque: lo sostiene. Y el
-         panel de los hitos la solapa desde la derecha, así que las dos piezas
-         se traban en vez de quedar una al lado de la otra.
-
-         EL TEXTO NUNCA VA SOBRE LA FOTO: el panel es papel opaco
-         (--color-superficie-solida), de modo que el contraste es el de tinta
-         sobre papel y no depende de un píxel de la fotografía.
-
-         Foto y panel entran por separado —dos `.reveal` con dirección, retardo
-         y duración distintos— y por eso el contenedor pasa de `.reveal` a
-         `.reveal-secuencia`: ya no revela, sólo reparte tiempos.
-         --------------------------------------------------------------------- -->
-    <div class="col-jornada reveal-secuencia">
-
-      <figure class="col-jornada__foto reveal reveal--izq">
-        <div class="marco">
-          <img
-            src="img/eventos/infantil-1.jpg"
-            width="844"
-            height="1500"
-            alt="Un grupo de niñas y niños sentados en círculo sobre una manta verde en el prado, acompañados por dos monitoras; arriba, entre las ramas de los árboles, cuelga una guirnalda de flecos de papel de colores."
-            loading="lazy"
-            decoding="async"
-          />
-        </div>
-
-        <!-- LA CAJA DONDE VUELA LA FAUNA AMBIENTE (DIRECTRICES §2). Vacía,
-             decorativa y `aria-hidden`: las piezas las crea el módulo
-             compartido js/fauna-ambiente.js y el movimiento vive en base.css
-             §v7. Esta sección no escribe una sola mariposa propia.
-
-             POR QUÉ SOBRE LA PIEZA DOMINANTE Y POR QUÉ POR LA IZQUIERDA.
-             La regla del módulo es que la caja caiga sobre foto o color plano
-             y nunca sobre un párrafo. La foto de la jornada es la única
-             superficie de #colegios que es fotografía grande en TODOS los
-             anchos —las tres paradas son miniaturas de índice— y su mitad
-             izquierda queda siempre libre: desde 62em es el panel de los
-             hitos el que entra por la derecha, así que ése es justo el lado
-             que no se puede ocupar. Va en el tercio alto, por encima del
-             corro de niñas y niños, que es lo que hay que ver de esa foto. -->
-        <div class="col__aire" aria-hidden="true"></div>
-
-        <figcaption>El curso, reunido en círculo sobre el prado</figcaption>
-      </figure>
-
-      <div class="col-jornada__texto reveal reveal--der">
-        <h3 class="titulo-seccion titulo-seccion--sm">Así transcurre el día</h3>
-
-        <ol class="col-hitos">
-          <li class="col-hito">
-            <p class="col-hito__nombre">La llegada</p>
-            <p>
-              Baja el bus y el grupo se acomoda a la sombra. Charla corta: dónde están,
-              qué van a ver y qué no se toca.
-            </p>
-          </li>
-          <li class="col-hito">
-            <p class="col-hito__nombre">Los grupos</p>
-            <p>
-              El curso se divide y rota por las tres paradas. De a pocos se observa
-              mejor.
-            </p>
-          </li>
-          <li class="col-hito">
-            <p class="col-hito__nombre">Los docentes</p>
-            <p>
-              Cada docente camina con su grupo. Ellos conocen a sus estudiantes;
-              nosotros, el terreno.
-            </p>
-          </li>
-          <li class="col-hito">
-            <p class="col-hito__nombre">El cierre</p>
-            <p>
-              Antes del bus se juntan otra vez y cada grupo cuenta lo que vio. Nadie se
-              sube con la mitad del día.
-            </p>
-          </li>
-        </ol>
-
-        <p class="nota col-enlaces">
-          La jornada se alarga con
-          <a href="#usos">los espacios del parque</a>, con
-          <a href="#naturaleza">el Sendero Ecovital</a> o con una vuelta por
-          <a href="#vivero">el vivero</a>.
-        </p>
-      </div>
-
-    </div>
-
-    <!-- ---------- Cierre y CTA ---------- -->
-    <div class="col-cierre reveal">
-      <div class="col-cierre__bloque">
-        <h3 class="titulo-seccion titulo-seccion--sm">¿Vienes con un curso?</h3>
-        <p>
-          Cuéntanos el nombre del colegio, cuántos estudiantes vienen y la fecha
-          tentativa, y armamos la ruta del día.
-        </p>
-      </div>
-      <a
-        class="btn btn-whatsapp btn-grande"
-        href="https://wa.me/573166758362?text=Hola%2C%20vengo%20con%20mi%20curso%20a%20Vegas%20del%20Verde.%20Colegio%3A%20___%20%C2%B7%20Estudiantes%3A%20___%20%C2%B7%20Fecha%20tentativa%3A%20___"
-        target="_blank"
-        rel="noopener"
-      >
-        <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" focusable="false">
-          <path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.46 1.32 4.96L2 22l5.25-1.38a9.87 9.87 0 0 0 4.79 1.22h.01c5.46 0 9.91-4.45 9.91-9.91 0-2.65-1.03-5.14-2.9-7.01A9.82 9.82 0 0 0 12.04 2Zm0 18.02h-.01a8.2 8.2 0 0 1-4.19-1.15l-.3-.18-3.12.82.83-3.04-.2-.31a8.19 8.19 0 0 1-1.26-4.38c0-4.54 3.7-8.24 8.25-8.24 2.2 0 4.27.86 5.83 2.42a8.2 8.2 0 0 1 2.41 5.83c0 4.54-3.7 8.23-8.24 8.23Z"/>
-          <path d="M17.47 14.38c-.3-.15-1.76-.87-2.03-.97-.27-.1-.47-.15-.67.15-.2.3-.77.97-.94 1.17-.17.2-.35.22-.65.07-.3-.15-1.26-.46-2.4-1.48-.89-.79-1.49-1.77-1.66-2.07-.17-.3-.02-.46.13-.61.13-.13.3-.35.45-.52.15-.17.2-.3.3-.5.1-.2.05-.37-.02-.52-.08-.15-.67-1.61-.92-2.21-.24-.58-.49-.5-.67-.51h-.57c-.2 0-.52.07-.79.37-.27.3-1.04 1.01-1.04 2.47s1.06 2.87 1.21 3.07c.15.2 2.1 3.2 5.08 4.49.71.31 1.26.49 1.69.63.71.23 1.36.19 1.87.12.57-.09 1.76-.72 2.01-1.41.25-.69.25-1.29.17-1.41-.07-.12-.27-.2-.57-.35Z"/>
-        </svg>
-        Vengo con mi curso
-      </a>
-    </div>
-
-  </div>
-
-  <!-- ====================================================================
-       EL MONTAJE DE LA FAUNA AMBIENTE
-       Densidad `minima` (2 piezas) y semilla 3: reparto acordado en la tabla
-       del §2 del documento del director de arte, no una decisión de esta
-       zona. La semilla cambia la composición respecto a la de #planes, que
-       usa la 2, para que las dos secciones del capítulo no repitan la misma
-       escena. Sin colibrí: ese gesto sale una sola vez en toda la página, en
-       #naturaleza.
-       El cerrojo de `prefers-reduced-motion` va aquí además de dentro del
-       módulo, para no descargar ni el archivo. El `.catch()` vacío deja la
-       sección exactamente como está si el módulo falta o falla.
-       ==================================================================== -->
-  <script type="module">
-    if (!matchMedia('(prefers-reduced-motion: reduce)').matches) {
-      import('./js/fauna-ambiente.js?v=b8a9a1c8')
-        .then((m) =>
-          m.montarFaunaAmbiente(
-            document.querySelector('#colegios .col__aire'),
-            { densidad: 'abundante', especies: ['mariposa', 'ave'], semilla: 3 },
-          ),
-        )
         .catch(() => {});
     }
   </script>
@@ -5482,6 +4666,803 @@
     }
   </script>
 
+</section>
+
+<!-- ==========================================================================
+     FRAGMENTO: SALIDAS PEDAGÓGICAS  ·  id="colegios"  ·  v2 «Vende la escapada»
+
+     ÁMBITO DE ESTA SECCIÓN — sólo lo que existe únicamente dentro de la
+     oferta escolar:
+       · el observatorio de aves como parada pedagógica
+       · el observatorio de plantas como parada pedagógica
+       · el jardín de polinizadores y el avistamiento de mariposas
+       · el formato de la jornada (llegada, grupos, docentes, cierre)
+
+     LO DEMÁS SE ENLAZA, NO SE DESCRIBE: los espacios del parque (#espacios),
+     el recorrido guiado (#naturaleza) y el vivero (#vivero) tienen sección
+     propia. Aquí no se repiten aforos, ni precios, ni cifras de especies.
+
+     CSS: styles/sections/colegios.css
+     FOTOS (abiertas con Read y verificadas una a una; ninguna se repite en
+     otra sección de la página — parque-20 ya es el mural de #nosotros):
+       img/parque/parque-19.jpg   900x1200   mural de aves en la fachada de la caseta
+       img/parque/parque-34.jpg   675x1200   hileras de plantas bajo malla de sombra
+       img/parque/parque-52.jpg   675x1200   franja florecida al borde del prado
+       img/eventos/infantil-1.jpg 844x1500   grupo sentado en círculo sobre el prado
+
+     v4 · FUERA LAS DOS FOTOS DE BORRADOR
+     Esta sección llevaba dos archivos `-TEMP`: imágenes generadas con IA a baja
+     resolución y estiradas (23 KB y 28 KB de JPEG contra los 240–425 KB de las
+     reales), que en pantalla se veían lavadas y sin grano. Las dos salen:
+
+       parque-34-TEMP  →  img/parque/parque-34.jpg
+         Es la MISMA foto que la cabecera de este fragmento ya declaraba como
+         verificada; el borrador sólo la estaba supliendo. Muestra literalmente
+         lo que dice el pie: dos camellones de plantas en bolsa con el pasillo
+         en medio. Archivo real, 243 KB.
+
+       parque-32-TEMP  →  img/eventos/infantil-1.jpg
+         La pieza dominante de la sección. Es la única fotografía del banco con
+         un grupo de niñas y niños sentados en círculo, y es además la de mayor
+         resolución que entra aquí (844×1500). El pie cambia porque la foto
+         cambia: ya no es «una charla bajo la zona techada» —eso lo mostraba el
+         borrador—, es el curso reunido sobre el prado.
+
+     NOTA DE COORDINACIÓN: `infantil-1.jpg` venía del carril de cumpleaños de
+     #planes y se libera allí. Si por lo que sea siguiera en uso en #planes,
+     el reemplazo directo y sin efectos secundarios es `img/parque/parque-26.jpg`
+     (675×1200): es el mismo momento y el mismo encuadre, un punto más cerrado.
+     Por eso no se usan las dos: puestas en la misma sección se leerían como la
+     misma foto repetida.
+
+     COMPOSICIÓN (v3.1) — LA SECCIÓN TIPOGRÁFICA DEL SITIO
+     Es la sección más corta, así que es la que puede permitirse ser la más
+     tipográfica, y la que menos necesita fotografía grande para sostenerse:
+
+       1 · .col-portada — el titular más grande de la página después del hero,
+           con la entradilla descolgada en un carril estrecho a su derecha.
+           Nada centrado.
+       2 · .col-paradas — deja de ser una rejilla de tres tarjetas iguales y
+           pasa a ser lo que el texto dice que es: un ITINERARIO. Tres filas
+           apiladas separadas por filete, con la fotografía en un carril
+           estrecho a la izquierda y el titular grande a la derecha. Se lee
+           como un índice, no como un catálogo de producto.
+       3 · .col-jornada — la charla al lado y los cuatro hitos en escalera de
+           dos por dos, no en una columna de cuatro renglones.
+       4 · .col-cierre — sin cambios.
+
+     Ni una palabra del texto cambia, y la sección sigue SIN un solo dígito
+     que no sea una hora (ARQUITECTURA-V3 §10): los rótulos de parada siguen
+     escritos con letras («Primera», «Segunda», «Tercera») y no se numeran.
+
+     COMPOSICIÓN (v3.2) — TRES PARADAS QUE DEJAN DE MEDIR LO MISMO
+     v3.1 arregló el problema de #colegios por fuera —tres FILAS y no tres
+     tarjetas— pero por dentro las tres filas seguían siendo idénticas: mismo
+     carril de 13 rem, misma foto 4/5, mismo lado. Tres rectángulos iguales
+     seguidos se leen como una rejilla aunque no lo sean. En v3.2 cada parada
+     declara su propia caja, y la elección no es caprichosa: sale de la
+     proporción real del archivo, para que ninguna foto se recorte de más.
+
+       parada A · parque-19 (900×1200, 3:4) → carril ancho, foto 3/4, izquierda
+       parada B · parque-34 (675×1200, 9:16) → carril estrecho, foto 9/16,
+                  y la única que se va a la DERECHA
+       parada C · parque-52 (675×1200)       → carril medio, foto cuadrada,
+                  izquierda
+
+     Por eso las tres pierden `marco--retrato`: la proporción ya no es una
+     clase de sistema compartida, es una variable por parada (--col-ratio en
+     colegios.css §2). Y por eso cada una entra desde un lado distinto
+     (reveal--izq / reveal--der / reveal--izq): el movimiento acompaña a la
+     composición en vez de contradecirla.
+
+     LA FORMA DE LAS FOTOS. Las cuatro llevan HOJA: dos esquinas curvas en
+     diagonal y dos vivas, que es el motivo orgánico del sistema (la viñeta de
+     .lista-hojas en base.css §2) y ya la norma del sitio entero. Ninguna foto
+     de #colegios sangra fuera de pantalla —lo que cuelga del carril es el
+     titular, que es texto—, así que a ninguna le toca la excepción de dejar a
+     cero las esquinas del canto. Cada foto va a juego con la hoja del rótulo
+     de su parada y las diagonales se alternan bajando por la sección.
+     El resto de la curva orgánica —el labio de carbón del borde superior, los
+     remates de los filetes de la jornada y el bloque de cierre— vive también
+     en el CSS. Nada de esto necesita ni una etiqueta más aquí.
+
+     COMPOSICIÓN (v4) — UNA PIEZA MANDA Y LAS DEMÁS CALLAN
+     v3.2 dejó tres paradas de tamaños distintos, y eso estaba bien resuelto.
+     Lo que no había era JERARQUÍA: las cuatro fotos jugaban en la misma liga
+     de tamaño, así que el ojo no sabía por dónde entrar. En v4:
+
+       · la foto de la jornada pasa a ser la pieza DOMINANTE de la sección
+         (columna ancha, proporción 3/4, deriva ligada al scroll);
+       · los cuatro hitos se montan sobre ella en un panel de papel opaco que
+         la solapa y arranca más abajo —el contraste vive en el panel, nunca
+         sobre la fotografía—;
+       · las tres paradas bajan de carril y se quedan en registro de índice.
+
+     LOS TRES RÓTULOS SE DIBUJAN. La viñeta de hoja que abría cada parada era
+     un cuadradito de color; ahora es una silueta de trazo que se pinta sola al
+     entrar la sección (binoculares · hoja · mariposa), una por parada y en el
+     orden en que el texto las nombra. Usan la firma exacta que reconoce
+     herramientas/hornear-trazos.js —viewBox de 24, `fill="none"`,
+     `stroke="currentColor"`— y traen el `pathLength="1"` ESCRITO A MANO en el
+     propio HTML: el estado inicial nunca lo pone JavaScript, que es de donde
+     salía el parpadeo histórico de este sitio. La hoja no se pierde: sigue
+     rematando los cuatro filetes de la jornada.
+
+     Y el ave de la portada es la única figura grande: decorativa, `aria-hidden`,
+     detrás del texto y con deriva propia por scroll. Ni informa ni recibe foco.
+
+     Cada figura arranca en un momento distinto —los retardos los reparte
+     colegios.css §7—: nada de esta sección se mueve al mismo compás.
+     ========================================================================== -->
+
+<section id="colegios" class="seccion seccion--alt col" aria-labelledby="colegios-titulo">
+  <div class="contenedor contenedor--ancho">
+
+    <!-- v5 · ESTA SECCIÓN DEJA DE SER UNA ISLA
+         (DIRECTRICES-ANIMACION.md §1). «Un día de colegio que no cabe en un
+         aula» venía leyéndose como el titular de una sección aparte, y no lo
+         es: es el TERCER movimiento del capítulo «Eventos y actividades»,
+         detrás de #planes y del respiro de #momentos.
+           · El eyebrow deja de ser «Salidas pedagógicas» y pasa al rótulo
+             compartido de los tres. La ocasión concreta —el día de colegio—
+             ya la dice el titular, que es donde el tratamiento de capítulo
+             manda que viva.
+           · Sin filete de apertura y sin número de capítulo: los dos son del
+             primero de los tres, #planes.
+           · El titular estrena .reveal-texto (base.css §v7) SIN persiana: esa
+             variante se gasta una vez por capítulo y ya la lleva #planes.
+         La portada pasa de .reveal a .reveal-secuencia —ya no revela, sólo
+         reparte tiempos— porque el titular necesita su propio .reveal para
+         poder llevar .reveal-texto y en este sitio los .reveal no se anidan.
+         Es el mismo cambio que .col-jornada hizo en v4, por el mismo motivo. -->
+    <header class="col-portada reveal-secuencia">
+
+      <!-- Dos aves lejos. Decoración pura: sin texto, sin foco, sin contraste que
+           aportar, y colocadas en el hueco que queda entre el titular y la
+           entradilla, no encima de ninguno de los dos. Se dibujan solas al
+           entrar la sección y derivan con el scroll. A partir de 62em, que es
+           donde la portada abre su segunda columna y aparece ese hueco; por
+           debajo no se montan.
+
+           POR QUÉ DOS TRAZOS ABIERTOS Y NO UNA SILUETA CERRADA. Se probaron
+           primero un ave con las alas dibujadas y después una pluma: las dos,
+           ampliadas a doce veces su caja y bajadas al 26 % de opacidad, se leían
+           como una hoja. Un ave a distancia no tiene detalle —son dos arcos— y
+           por eso se reconoce sin ninguna ayuda. Dos, de tamaños distintos y a
+           alturas distintas, son cielo; una sola sería un logotipo. -->
+      <svg class="col-portada__ave icono-traza" viewBox="0 0 24 24" fill="none"
+           stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
+           aria-hidden="true" focusable="false">
+        <path d="M1.6 11.4c3.9.2 7-1.4 9.3-4.7.5-.7.9-1.1 1.2-1.1.3 0 .7.4 1.2 1.1 2.3 3.3 5.4 4.9 9.3 4.7" pathLength="1"/>
+        <path d="M8.4 19.1c2.4.1 4.4-.9 5.8-2.9.3-.5.6-.7.8-.7.2 0 .5.2.8.7 1.4 2 3.4 3 5.8 2.9" pathLength="1"/>
+      </svg>
+
+      <div class="col-portada__titulo">
+        <p class="eyebrow reveal">Eventos y actividades</p>
+        <h2
+          id="colegios-titulo"
+          class="titulo-seccion col-titular reveal reveal-texto"
+        >
+          <span class="reveal-texto__linea">Un día de colegio</span>
+          <span class="reveal-texto__linea">que no cabe en un aula</span>
+        </h2>
+      </div>
+      <!-- RECORTE (queja del cliente: «orden y poco texto»). Se va «Una
+           jornada fuera del aula», que decía otra vez lo que acaba de decir el
+           titular. NO se toca ni uno de los tres hechos: las tres paradas
+           siguen nombradas una a una, porque son de esta sección y de ninguna
+           otra. -->
+      <p class="entradilla col-portada__entradilla reveal">
+        De la llegada al regreso del bus, con tres paradas pensadas para un curso: el
+        observatorio de aves, el de plantas y el jardín de polinizadores.
+      </p>
+    </header>
+
+    <!-- v5 · SE RETIRAN LAS TRES TARJETAS DE PARADA (pedido directo del
+         cliente: «quita esto»). El bloque `.col-paradas` con las fotos de
+         aves/plantas/mariposas y sus tres fichas ("Bajar la voz y levantar
+         la mirada", "Que una mata deje de ser «una mata»", "Sentarse a
+         esperar una mariposa") desaparece del marcado; el CSS asociado
+         (colegios.css §2) queda huérfano hasta una limpieza aparte.
+         Los tres hechos (aves / plantas / polinizadores) NO se pierden: la
+         entradilla de arriba los sigue nombrando uno a uno, así que la
+         tabla de propiedad del validador no se rompe. -->
+
+    <!-- ---------- El formato de la jornada ----------------------------------
+         LA PIEZA DOMINANTE. La foto ya no ilustra el bloque: lo sostiene. Y el
+         panel de los hitos la solapa desde la derecha, así que las dos piezas
+         se traban en vez de quedar una al lado de la otra.
+
+         EL TEXTO NUNCA VA SOBRE LA FOTO: el panel es papel opaco
+         (--color-superficie-solida), de modo que el contraste es el de tinta
+         sobre papel y no depende de un píxel de la fotografía.
+
+         Foto y panel entran por separado —dos `.reveal` con dirección, retardo
+         y duración distintos— y por eso el contenedor pasa de `.reveal` a
+         `.reveal-secuencia`: ya no revela, sólo reparte tiempos.
+         --------------------------------------------------------------------- -->
+    <div class="col-jornada reveal-secuencia">
+
+      <figure class="col-jornada__foto reveal reveal--izq">
+        <div class="marco">
+          <img
+            src="img/eventos/infantil-1.jpg"
+            width="844"
+            height="1500"
+            alt="Un grupo de niñas y niños sentados en círculo sobre una manta verde en el prado, acompañados por dos monitoras; arriba, entre las ramas de los árboles, cuelga una guirnalda de flecos de papel de colores."
+            loading="lazy"
+            decoding="async"
+          />
+        </div>
+
+        <!-- LA CAJA DONDE VUELA LA FAUNA AMBIENTE (DIRECTRICES §2). Vacía,
+             decorativa y `aria-hidden`: las piezas las crea el módulo
+             compartido js/fauna-ambiente.js y el movimiento vive en base.css
+             §v7. Esta sección no escribe una sola mariposa propia.
+
+             POR QUÉ SOBRE LA PIEZA DOMINANTE Y POR QUÉ POR LA IZQUIERDA.
+             La regla del módulo es que la caja caiga sobre foto o color plano
+             y nunca sobre un párrafo. La foto de la jornada es la única
+             superficie de #colegios que es fotografía grande en TODOS los
+             anchos —las tres paradas son miniaturas de índice— y su mitad
+             izquierda queda siempre libre: desde 62em es el panel de los
+             hitos el que entra por la derecha, así que ése es justo el lado
+             que no se puede ocupar. Va en el tercio alto, por encima del
+             corro de niñas y niños, que es lo que hay que ver de esa foto. -->
+        <div class="col__aire" aria-hidden="true"></div>
+
+        <figcaption>El curso, reunido en círculo sobre el prado</figcaption>
+      </figure>
+
+      <div class="col-jornada__texto reveal reveal--der">
+        <h3 class="titulo-seccion titulo-seccion--sm">Así transcurre el día</h3>
+
+        <ol class="col-hitos">
+          <li class="col-hito">
+            <p class="col-hito__nombre">La llegada</p>
+            <p>
+              Baja el bus y el grupo se acomoda a la sombra. Charla corta: dónde están,
+              qué van a ver y qué no se toca.
+            </p>
+          </li>
+          <li class="col-hito">
+            <p class="col-hito__nombre">Los grupos</p>
+            <p>
+              El curso se divide y rota por las tres paradas. De a pocos se observa
+              mejor.
+            </p>
+          </li>
+          <li class="col-hito">
+            <p class="col-hito__nombre">Los docentes</p>
+            <p>
+              Cada docente camina con su grupo. Ellos conocen a sus estudiantes;
+              nosotros, el terreno.
+            </p>
+          </li>
+          <li class="col-hito">
+            <p class="col-hito__nombre">El cierre</p>
+            <p>
+              Antes del bus se juntan otra vez y cada grupo cuenta lo que vio. Nadie se
+              sube con la mitad del día.
+            </p>
+          </li>
+        </ol>
+
+        <p class="nota col-enlaces">
+          La jornada se alarga con
+          <a href="#usos">los espacios del parque</a>, con
+          <a href="#naturaleza">el Sendero Ecovital</a> o con una vuelta por
+          <a href="#vivero">el vivero</a>.
+        </p>
+      </div>
+
+    </div>
+
+    <!-- ---------- Cierre y CTA ---------- -->
+    <div class="col-cierre reveal">
+      <div class="col-cierre__bloque">
+        <h3 class="titulo-seccion titulo-seccion--sm">¿Vienes con un curso?</h3>
+        <p>
+          Cuéntanos el nombre del colegio, cuántos estudiantes vienen y la fecha
+          tentativa, y armamos la ruta del día.
+        </p>
+      </div>
+      <a
+        class="btn btn-whatsapp btn-grande"
+        href="https://wa.me/573166758362?text=Hola%2C%20vengo%20con%20mi%20curso%20a%20Vegas%20del%20Verde.%20Colegio%3A%20___%20%C2%B7%20Estudiantes%3A%20___%20%C2%B7%20Fecha%20tentativa%3A%20___"
+        target="_blank"
+        rel="noopener"
+      >
+        <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" focusable="false">
+          <path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.46 1.32 4.96L2 22l5.25-1.38a9.87 9.87 0 0 0 4.79 1.22h.01c5.46 0 9.91-4.45 9.91-9.91 0-2.65-1.03-5.14-2.9-7.01A9.82 9.82 0 0 0 12.04 2Zm0 18.02h-.01a8.2 8.2 0 0 1-4.19-1.15l-.3-.18-3.12.82.83-3.04-.2-.31a8.19 8.19 0 0 1-1.26-4.38c0-4.54 3.7-8.24 8.25-8.24 2.2 0 4.27.86 5.83 2.42a8.2 8.2 0 0 1 2.41 5.83c0 4.54-3.7 8.23-8.24 8.23Z"/>
+          <path d="M17.47 14.38c-.3-.15-1.76-.87-2.03-.97-.27-.1-.47-.15-.67.15-.2.3-.77.97-.94 1.17-.17.2-.35.22-.65.07-.3-.15-1.26-.46-2.4-1.48-.89-.79-1.49-1.77-1.66-2.07-.17-.3-.02-.46.13-.61.13-.13.3-.35.45-.52.15-.17.2-.3.3-.5.1-.2.05-.37-.02-.52-.08-.15-.67-1.61-.92-2.21-.24-.58-.49-.5-.67-.51h-.57c-.2 0-.52.07-.79.37-.27.3-1.04 1.01-1.04 2.47s1.06 2.87 1.21 3.07c.15.2 2.1 3.2 5.08 4.49.71.31 1.26.49 1.69.63.71.23 1.36.19 1.87.12.57-.09 1.76-.72 2.01-1.41.25-.69.25-1.29.17-1.41-.07-.12-.27-.2-.57-.35Z"/>
+        </svg>
+        Vengo con mi curso
+      </a>
+    </div>
+
+  </div>
+
+  <!-- ====================================================================
+       EL MONTAJE DE LA FAUNA AMBIENTE
+       Densidad `minima` (2 piezas) y semilla 3: reparto acordado en la tabla
+       del §2 del documento del director de arte, no una decisión de esta
+       zona. La semilla cambia la composición respecto a la de #planes, que
+       usa la 2, para que las dos secciones del capítulo no repitan la misma
+       escena. Sin colibrí: ese gesto sale una sola vez en toda la página, en
+       #naturaleza.
+       El cerrojo de `prefers-reduced-motion` va aquí además de dentro del
+       módulo, para no descargar ni el archivo. El `.catch()` vacío deja la
+       sección exactamente como está si el módulo falta o falla.
+       ==================================================================== -->
+  <script type="module">
+    if (!matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      import('./js/fauna-ambiente.js?v=b8a9a1c8')
+        .then((m) =>
+          m.montarFaunaAmbiente(
+            document.querySelector('#colegios .col__aire'),
+            { densidad: 'abundante', especies: ['mariposa', 'ave'], semilla: 3 },
+          ),
+        )
+        .catch(() => {});
+    }
+  </script>
+</section>
+
+<!-- ==========================================================================
+     FRAGMENTO: MOMENTOS  ·  id="momentos"
+     CSS propio: styles/sections/momentos.css
+     JS propio:  js/momentos-video.js   (reproducción perezosa de los clips)
+
+     QUÉ ES: una banda de carbón que corta la página crema entre #planes y
+     #colegios. Es la única pausa visual del recorrido: sirve para respirar,
+     no para informar. Desde v3.1 ya no es una rejilla de fotos: es un MURO
+     DE VÍDEO en vertical, metraje de móvil grabado en el predio.
+
+     QUÉ CAMBIÓ EN v3.2 — EL MARCADO
+       Sólo dos cosas, y ninguna toca el texto:
+         · La cabecera pierde la clase de tamaño y gana el trato de CARTELA
+           en la hoja (rótulo y titular en la misma línea de base, con filete
+           a todo lo ancho). No cambia el marcado.
+         · Cada pieza añade `reveal--velo` junto a `reveal`. Es la cortina de
+           clip-path que ya estaba escrita en base.css §6 y que no usaba
+           NINGUNA sección del sitio: la pieza se descubre de arriba abajo en
+           vez de aparecer con un fundido. Es el gesto que le corresponde a un
+           muro de vídeo, y al usarse sólo aquí no se gasta el recurso.
+       Todo lo demás de la composición (anchos, desfases, sangría por la
+       derecha, grano y viñeta) vive en momentos.css y no necesita marcado.
+
+     POR QUÉ VERTICAL Y POR QUÉ ESCALONADO
+       Los seis clips son 720×1280, retrato, sin pista de audio: son de
+       teléfono, no de banco de imágenes. Presentarlos en una rejilla regular
+       de recuadros iguales los devolvería al terreno del «genérico»: lo que
+       delata a un muro de archivo es la simetría. Aquí van CUATRO piezas de
+       anchos distintos (protagonista + tres menores) y con desfases
+       verticales desiguales, de modo que la línea de arriba nunca coincide
+       y la de abajo tampoco. La composición está en momentos.css §3.
+
+     QUÉ POSEE ESTA SECCIÓN (ARQUITECTURA-V3, «un hecho, un dueño»)
+       NADA. Ni un solo hecho. Esta sección es ATMÓSFERA PURA y por eso puede
+       borrarse entera sin que la página pierda un dato.
+
+     QUÉ TIENE PROHIBIDO DECIR
+       TODO hecho: aforos, precios, horarios, direcciones, superficies,
+       distancias, cifras de especies, condiciones de alquiler, nombres de
+       espacios y nombres de planes. Los pies describen LO QUE SE VE en el
+       clip y se paran ahí.
+       OJO ESPECIAL CON ESTOS CLIPS: el jardín de polinizadores es un hecho
+       de #colegios. Aquí se pueden VER mariposas y flores —son imagen—, pero
+       no se puede afirmar que exista un jardín ni describirlo como
+       instalación. Por eso ningún pie nombra «polinizadores», «jardín de
+       mariposas» ni «avistamiento»: se describe el encuadre, no el
+       equipamiento. Por lo mismo NO se usa el sexto clip disponible,
+       video/jardin-polinizadores.*: su ruta viaja en el atributo `poster`,
+       que herramientas/validar.py sí lee como texto, y colaría la palabra
+       «polinizador» dentro de una sección que no es su dueña.
+
+     LOS CUATRO CLIPS, EN ORDEN DE LECTURA
+       01  video/mariposa-naranja.*   3,6 s · plano abierto de las varas
+       02  video/verbena-viento.*     6,2 s · primer plano, la vara se mece
+       03  video/mariposa-amarilla.*  4,6 s · contraluz, amarilla al borde
+       04  video/mariposas-par.*      2,1 s · dos naranjas, la más pequeña
+       Cada <video> lleva el webm PRIMERO y el mp4 después (el webm pesa más
+       aquí, pero el orden lo decide el navegador por soporte, no por tamaño;
+       Safari cae al mp4). `width`/`height` son los del archivo y el marco
+       tiene `aspect-ratio`, así que no hay salto de layout.
+
+     EL PÓSTER ES EL SUELO, NO HAY <img> DEBAJO
+       Cada clip trae su propio fotograma en img/video/<mismo-nombre>.jpg.
+       Si el vídeo no carga, si no hay JS, si el navegador bloquea la
+       reproducción o si el usuario pide menos movimiento, se queda esa foto
+       fija: nunca un hueco negro. Poner además un <img> debajo duplicaría la
+       descarga para enseñar exactamente la misma imagen.
+       Los cuatro pósters (unos 600 kB en total) SÍ se descargan siempre, aunque
+       el visitante no llegue a esta altura de la página: `poster` no admite
+       carga diferida. Es el precio de que la sección nunca aparezca vacía, y se
+       paga a sabiendas. Los clips, que pesan varios megas, no se tocan hasta
+       que la banda entra en pantalla.
+
+     NO HAY ICONO DE PLAY, Y NO SE PONE
+       Los clips arrancan solos, en silencio y en bucle, cuando entran en
+       pantalla; se pausan al salir. No hay nada que pulsar, así que un
+       triángulo encima sería un control falso. Toda esa lógica —incluida la
+       de `prefers-reduced-motion`— vive en js/momentos-video.js.
+
+     POR QUÉ EL <script> VA AQUÍ DENTRO Y NO AL FINAL DEL <body>
+       herramientas/ensamblar.py copia tal cual la cola de index.html
+       (donde están app.js y mapa.js), así que un fragmento no puede añadir
+       nada allí. Se carga con `defer`, de modo que no bloquea el parseo y se
+       ejecuta con el DOM ya completo, igual que los otros dos. Si el
+       integrador prefiere tenerlo junto a los demás, puede moverlo a la cola
+       de index.html y borrar esta línea: el JS no depende de dónde se cargue.
+
+     POR QUÉ NO ESTÁ EN LA NAVEGACIÓN NI EN EL PIE
+       Porque no es un destino. Nadie busca «momentos» en un menú; se lo
+       encuentra al bajar. Meterla en el menú la convertiría en una promesa
+       de contenido que esta sección no tiene intención de cumplir.
+     ========================================================================== -->
+<section id="momentos" class="seccion seccion--carbon momentos" aria-labelledby="momentos-titulo">
+  <div class="contenedor">
+
+    <!-- v3.4 · ESTA BANDA DEJA DE SER UNA SECCIÓN SUELTA
+         (DIRECTRICES-ANIMACION.md §1). #planes, #momentos y #colegios son un
+         solo capítulo, «Eventos y actividades», y esta banda es el RESPIRO
+         que va en medio: no es un corte entre capítulos.
+           · El eyebrow deja de ser «Momentos» y pasa al rótulo compartido de
+             los tres. La ocasión concreta la sigue diciendo el h2.
+           · El filete de apertura a todo lo ancho SALE de aquí (momentos.css
+             §1): lo lleva #planes y sólo #planes, porque es el que abre el
+             capítulo. Que esta cartela empiece sin línea es justamente lo que
+             dice «esto sigue siendo lo mismo».
+           · El h2 estrena .reveal-texto —la clase compartida de base.css
+             §v7—, SIN la variante persiana: ésa se gasta una vez por capítulo
+             y ya la lleva el titular de #planes.
+         El header pasa de .reveal a .reveal-secuencia por el mismo motivo que
+         en #planes: el titular necesita su propio .reveal y aquí los .reveal
+         no se anidan. El header ya no revela, sólo reparte tiempos. -->
+    <header class="seccion-encabezado momentos__encabezado reveal-secuencia">
+      <p class="eyebrow reveal">Eventos y actividades</p>
+      <h2
+        id="momentos-titulo"
+        class="titulo-seccion momentos__titulo reveal reveal-texto"
+      >
+        <span class="reveal-texto__linea">Aquí el día</span>
+        <span class="reveal-texto__linea">se toma su tiempo</span>
+      </h2>
+
+      <!-- v4.1 · LA CARTELA DE LA DERECHA ------------------------------------
+           EL DIAGNÓSTICO QUE LA TRAE. El cliente comparó esta banda con el
+           muro del concurso de #naturaleza y la encontró menos terminada. Una
+           de las tres causas medidas —las otras dos son el corte a hueso de la
+           cinta contra el canto de la ventana y la falta de un tratamiento
+           tonal común, y se arreglan en momentos.css §2 y §4— era que aquí no
+           había NADA que sostuviera la banda: un titular, cuatro clips y
+           silencio. El muro del concurso, en cambio, cuelga de un bloque de
+           contexto (rótulo + cifra + nota + firma) que le da autoría y peso.
+           Esta cartela es el equivalente de #momentos, con su propio material.
+
+           NO SE INVENTA NINGUNA CIFRA. El «4» no es un dato del predio: es el
+           número de piezas que se están viendo, comprobable mirando la cinta,
+           igual que el «57» del concurso es el número de copias colgadas. Y la
+           nota describe cómo se grabaron los clips y cómo se comporta la
+           cinta; ni un aforo, ni un precio, ni una especie, ni un nombre de
+           espacio ni de plan. El contrato de hechos del principio de este
+           archivo queda intacto: la sección sigue sin poseer un solo dato.
+
+           LA MARIPOSA DEJA DE FLOTAR SOLA. Hasta v4.0 el trazo iba en posición
+           absoluta ocupando este mismo tercio derecho, que estaba vacío. Ahora
+           encabeza la cartela EN FLUJO, como la marca que remata un pie de
+           catálogo: mismo sitio en pantalla, misma decoración con
+           `aria-hidden`, pero ya no es un adorno suelto sobre el carbón sino
+           el arranque de un bloque.
+
+           NO AÑADE NI UN HECHO. Va con `aria-hidden`, no lleva texto y no
+           afirma nada. Tampoco nombra el jardín de polinizadores, que es de
+           #colegios (ver el contrato al principio de este archivo).
+
+           FIRMA DEL MOTOR DE DIBUJADO, HORNEADA A MANO: `viewBox="0 0 24 24"`,
+           `fill="none"`, `stroke="currentColor"`, la clase `icono-traza` en el
+           elemento raíz y `pathLength="1"` en cada forma. Escrito en el HTML y no
+           puesto por js/app.js —que va con defer— para que el trazo nazca
+           oculto en el primer paint y no haya un fotograma de parpadeo.
+           Es el primer .icono-traza de esta sección, así que también es lo que
+           convierte #momentos en su propio disparador de dibujado.
+
+           SIETE FORMAS Y SIETE TIEMPOS (momentos.css §10). El orden importa y no
+           es simétrico: sale el ala superior izquierda, entra la superior
+           derecha cuando a la primera le queda un tercio, después las dos
+           inferiores, luego el cuerpo y al final las antenas, una detrás de
+           otra. Si las dos alas de un par salieran a la vez, el trazo se
+           leería como un logotipo desplegándose, no como algo dibujado.
+           Cada <path> lleva una sola `M` para que el guion pueda recorrerlo
+           de un tirón: un camino con varios trazos sueltos se ve
+           entrecortado porque el guion tiene que atravesar también los
+           saltos invisibles de un trazo al siguiente.                     -->
+      <div class="momentos__cartela">
+        <svg class="icono-traza momentos__mariposa" viewBox="0 0 24 24"
+           fill="none" stroke="currentColor" stroke-width="0.9"
+           stroke-linecap="round" stroke-linejoin="round"
+           aria-hidden="true" focusable="false">
+        <path d="M11.6 8.6C10 5.4 7.4 3.3 4.9 3.6 2.6 3.9 1.9 6 3 8.6c1.1 2.6 3.3 3.9 8.6 3.4Z" pathLength="1"/>
+        <path d="M12.4 8.6c1.6-3.2 4.2-5.3 6.7-5 2.3.3 3 2.4 1.9 5-1.1 2.6-3.3 3.9-8.6 3.4Z" pathLength="1"/>
+        <path d="M11.6 12.6c-4.3-.9-7-.1-8 2.2-1 2.3.4 4.2 3.2 4.4 2.5.2 4.3-2 4.8-6.6Z" pathLength="1"/>
+        <path d="M12.4 12.6c4.3-.9 7-.1 8 2.2 1 2.3-.4 4.2-3.2 4.4-2.5.2-4.3-2-4.8-6.6Z" pathLength="1"/>
+        <path d="M12 7.8v9.4" pathLength="1"/>
+        <path d="M11.2 7.4 8.9 4.2" pathLength="1"/>
+        <path d="M12.8 7.4 15.1 4.2" pathLength="1"/>
+        </svg>
+
+        <!-- LA CIFRA. Mismo aparato tipográfico que el «57 · FOTOGRAFÍAS ·
+             20 AUTORES» del muro del concurso (naturaleza.css, .nat-galeria):
+             número en display y pie en sans micro versalita con tracking de
+             rótulo. Se repite el patrón A PROPÓSITO: es la forma que tiene este
+             sitio de presentar un conjunto, y usarla en las dos secciones es lo
+             que hace que se lean de la misma mano.
+             SIN `data-contador`: el motor de conteo de js/app.js está para
+             cifras que crecen al subir (101 especies, 347 registros); un
+             contador de cero a cuatro se lee como un tic, no como un dato. -->
+        <p class="momentos__dato">
+          <span class="momentos__cifra">4</span>
+          <span class="momentos__cifra-pie">Planos · sin sonido</span>
+        </p>
+
+        <p class="momentos__nota">
+          Cuatro planos cortos grabados con un teléfono, aquí dentro. Ninguno
+          lleva sonido y no hay nada que pulsar: la cinta pasa sola.
+        </p>
+
+        <!-- El colofón firmado, el mismo gesto de catálogo que el
+             `.nat-cinta__firma` del concurso: ancla la cinta como pieza propia
+             y no como un carrusel de plantilla. -->
+        <p class="momentos__firma">— Metraje propio, Vegas del Verde</p>
+      </div>
+    </header>
+
+    <!-- v4.0 · LA BANDA SE VUELVE MARQUESINA — pedido explícito del cliente
+         (chat, 23-ago-2026): «los videos que se vayan pasando de izquierda a
+         derecha por la pantalla de todos los dispositivos». Deja de ser una
+         composición fija con scroll manual y pasa a desplazarse SOLA, en
+         bucle, en cualquier tamaño de pantalla.
+
+         EL MECANISMO (documentado a fondo en momentos.css §2-§3): una PISTA
+         (`momentos__pista`) que contiene el set de piezas DOS VECES seguidas
+         — el truco estándar de marquesina sin salto — animada con
+         `translateX` puro (compositor, GPU) dentro de un visor con
+         `overflow: clip` (`momentos__visor`). Cuando la pista ha recorrido el
+         50 % de su ancho total, el segundo set ocupa exactamente el lugar
+         donde empezó el primero y el bucle reinicia sin que se note.
+
+         POR QUÉ EL SEGUNDO SET NO LLEVA <video>. Duplicar cuatro <video> con
+         el mismo `src` para el efecto de bucle es gratis en ANCHO DE BANDA
+         (el navegador cachea la respuesta) pero NO es gratis en CPU: dos
+         decodificadores de vídeo corriendo a la vez por clip duplican el
+         trabajo del hilo de compositor sin que se note en pantalla — el
+         segundo set casi siempre está fuera de vista o entrando. Por eso el
+         set duplicado usa el mismo fotograma fijo (`poster`) como <img>: es
+         el mismo archivo que ya se descargó para el `poster` del <video>
+         real, cero peticiones nuevas, y visualmente es indistinguible de un
+         fotograma del clip en movimiento salvo por una fracción de segundo.
+         Va con `aria-hidden="true"` y sin `alt`: es una copia visual pura,
+         el contenido real —con su texto— lo lee un lector de pantalla una
+         sola vez, en el primer set.
+
+         ORDEN Y POR QUÉ. Mismo orden de lectura que en v3 (naranja → viento →
+         contraluz → par), PERO la pieza 04 (mariposas-par, «dos naranjas
+         juntas») se separó del resto con un hueco propio
+         (`momentos__pieza--cuatro`, ver momentos.css §3): es la pieza que el
+         cliente señaló para moverse «más a la derecha» — es la última
+         miniatura del cuarteto y, en la composición v3, quedaba la más
+         escondida (sangrada fuera de pantalla, cortada por el borde). En la
+         pista corrediza gana un margen izquierdo propio que la separa del
+         trío anterior y la deja leerse SOLA, más a la derecha del grupo,
+         en vez de pegada al resto como una quinta rueda.                    -->
+    <!-- v4.1 · UNA CAJA MÁS, Y NO ES GRATUITA: `momentos__cinta`.
+         Hasta v4.0 un mismo elemento (`momentos__visor`) hacía tres cosas: se
+         recortaba, se revelaba al entrar y corría la marquesina. Eso son DOS
+         MOTORES DE ANIMACIÓN SOBRE UN MISMO ELEMENTO —la transición de
+         `clip-path` de `.reveal--velo` y la animación de `transform` de la
+         cinta—, que es justo lo que las directrices del proyecto prohíben; y
+         además dejaba sin sitio la pieza que más falta hacía: el DESVANECIDO DE
+         LOS CANTOS. Una máscara puesta sobre el elemento que se desplaza viaja
+         CON él, así que el degradado tiene que colgar de un padre quieto.
+         Reparto nuevo, un elemento un trabajo:
+           · `momentos__cinta`  — quieta. Recorta, sangra a todo el ancho de la
+                                  ventana, se revela al entrar y disuelve la
+                                  cinta contra el carbón por los dos cantos
+                                  (momentos.css §2).
+           · `momentos__visor`  — sólo se mueve: nada más que `transform`.
+         Por eso el `.reveal reveal--velo` sube a la caja de fuera. -->
+    <div class="momentos__cinta reveal reveal--velo">
+      <div class="momentos__visor">
+      <ul class="momentos__pista" role="list">
+
+        <!-- ---------------------------------------------------------- 01/04
+             PROTAGONISTA. Es el plano más abierto del cuarteto: sitúa al
+             espectador (las varas, el verde del fondo, la luz) antes de que
+             los otros tres se metan de cerca.                               -->
+        <li class="momentos__pieza momentos__pieza--uno">
+          <figure class="momentos__figura">
+            <div class="marco momentos__marco">
+              <video
+                class="momentos__video"
+                data-momento-video
+                muted
+                loop
+                playsinline
+                preload="none"
+                poster="img/video/mariposa-naranja.jpg"
+                width="720"
+                height="1280"
+                aria-hidden="true"
+                tabindex="-1"
+              >
+                <source src="video/mariposa-naranja.webm" type="video/webm" />
+                <source src="video/mariposa-naranja.mp4" type="video/mp4" />
+              </video>
+            </div>
+            <!-- El pie de la protagonista es un VERSO (momentos.css §5):
+                 mismo texto, otra voz. Sólo cambia la clase; el contrato de
+                 hechos queda intacto. -->
+            <figcaption class="momentos__pie momentos__pie--verso">
+              Una mariposa naranja se posa entre las varas moradas y sigue.
+            </figcaption>
+          </figure>
+        </li>
+
+        <!-- ---------------------------------------------------------- 02/04
+             El clip largo (6,2 s) y el único primer plano: aguanta el bucle
+             sin que se note el corte.                                       -->
+        <li class="momentos__pieza momentos__pieza--dos">
+          <figure class="momentos__figura">
+            <div class="marco momentos__marco">
+              <video
+                class="momentos__video"
+                data-momento-video
+                muted
+                loop
+                playsinline
+                preload="none"
+                poster="img/video/verbena-viento.jpg"
+                width="720"
+                height="1280"
+                aria-hidden="true"
+                tabindex="-1"
+              >
+                <source src="video/verbena-viento.webm" type="video/webm" />
+                <source src="video/verbena-viento.mp4" type="video/mp4" />
+              </video>
+            </div>
+            <figcaption class="momentos__pie">
+              El viento mueve las varas en flor y una parda no se suelta.
+            </figcaption>
+          </figure>
+        </li>
+
+        <!-- ---------------------------------------------------------- 03/04
+             Contraluz: el fondo se va a oscuro y la mariposa entra por el
+             borde izquierdo.                                                -->
+        <li class="momentos__pieza momentos__pieza--tres">
+          <figure class="momentos__figura">
+            <div class="marco momentos__marco">
+              <video
+                class="momentos__video"
+                data-momento-video
+                muted
+                loop
+                playsinline
+                preload="none"
+                poster="img/video/mariposa-amarilla.jpg"
+                width="720"
+                height="1280"
+                aria-hidden="true"
+                tabindex="-1"
+              >
+                <source src="video/mariposa-amarilla.webm" type="video/webm" />
+                <source src="video/mariposa-amarilla.mp4" type="video/mp4" />
+              </video>
+            </div>
+            <figcaption class="momentos__pie">
+              A contraluz, una amarilla asoma por el borde del encuadre.
+            </figcaption>
+          </figure>
+        </li>
+
+        <!-- ---------------------------------------------------------- 04/04
+             La pieza pequeña: dura dos segundos. Naranja sobre verde, que es
+             lo que aguanta el tamaño chico. MOVIDA MÁS A LA DERECHA (pedido
+             explícito): gana un hueco propio antes de ella en momentos.css
+             §3 para separarse del trío 01-03 y leerse sola.                 -->
+        <li class="momentos__pieza momentos__pieza--cuatro">
+          <figure class="momentos__figura">
+            <div class="marco momentos__marco">
+              <video
+                class="momentos__video"
+                data-momento-video
+                muted
+                loop
+                playsinline
+                preload="none"
+                poster="img/video/mariposas-par.jpg"
+                width="720"
+                height="1280"
+                aria-hidden="true"
+                tabindex="-1"
+              >
+                <source src="video/mariposas-par.webm" type="video/webm" />
+                <source src="video/mariposas-par.mp4" type="video/mp4" />
+              </video>
+            </div>
+            <figcaption class="momentos__pie">
+              Dos naranjas coinciden en la misma mata.
+            </figcaption>
+          </figure>
+        </li>
+
+      </ul>
+
+      <!-- SEGUNDO SET — copia visual para el bucle sin salto, ver la nota de
+           arriba. `aria-hidden` entero: nada de esto se anuncia dos veces. -->
+      <ul class="momentos__pista momentos__pista--copia" role="list" aria-hidden="true">
+
+        <li class="momentos__pieza momentos__pieza--uno">
+          <figure class="momentos__figura">
+            <div class="marco momentos__marco">
+              <img class="momentos__video momentos__video--eco" src="img/video/mariposa-naranja.jpg"
+                srcset="img/video/mariposa-naranja-400.jpg 400w, img/video/mariposa-naranja.jpg 720w"
+                sizes="(max-width: 47.99em) 70vw, 38vw" alt="" width="720" height="1280" loading="lazy" decoding="async" />
+            </div>
+            <figcaption class="momentos__pie momentos__pie--verso">
+              Una mariposa naranja se posa entre las varas moradas y sigue.
+            </figcaption>
+          </figure>
+        </li>
+
+        <li class="momentos__pieza momentos__pieza--dos">
+          <figure class="momentos__figura">
+            <div class="marco momentos__marco">
+              <img class="momentos__video momentos__video--eco" src="img/video/verbena-viento.jpg"
+                srcset="img/video/verbena-viento-400.jpg 400w, img/video/verbena-viento.jpg 720w"
+                sizes="(max-width: 47.99em) 61vw, 32vw" alt="" width="720" height="1280" loading="lazy" decoding="async" />
+            </div>
+            <figcaption class="momentos__pie">
+              El viento mueve las varas en flor y una parda no se suelta.
+            </figcaption>
+          </figure>
+        </li>
+
+        <li class="momentos__pieza momentos__pieza--tres">
+          <figure class="momentos__figura">
+            <div class="marco momentos__marco">
+              <img class="momentos__video momentos__video--eco" src="img/video/mariposa-amarilla.jpg"
+                srcset="img/video/mariposa-amarilla-400.jpg 400w, img/video/mariposa-amarilla.jpg 720w"
+                sizes="(max-width: 47.99em) 61vw, 32vw" alt="" width="720" height="1280" loading="lazy" decoding="async" />
+            </div>
+            <figcaption class="momentos__pie">
+              A contraluz, una amarilla asoma por el borde del encuadre.
+            </figcaption>
+          </figure>
+        </li>
+
+        <li class="momentos__pieza momentos__pieza--cuatro">
+          <figure class="momentos__figura">
+            <div class="marco momentos__marco">
+              <img class="momentos__video momentos__video--eco" src="img/video/mariposas-par.jpg"
+                srcset="img/video/mariposas-par-400.jpg 400w, img/video/mariposas-par.jpg 720w"
+                sizes="(max-width: 47.99em) 61vw, 32vw" alt="" width="720" height="1280" loading="lazy" decoding="async" />
+            </div>
+            <figcaption class="momentos__pie">
+              Dos naranjas coinciden en la misma mata.
+            </figcaption>
+          </figure>
+        </li>
+
+      </ul>
+      </div>
+    </div>
+
+  </div>
+
+  <script src="js/momentos-video.js?v=89e009b7" defer></script>
 </section>
 
 <!-- ==========================================================================

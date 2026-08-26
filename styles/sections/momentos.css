@@ -221,11 +221,49 @@
    SECCIÓN, no del visor — mismo argumento, misma regla, no se repite el
    riesgo). Sangra a todo el ancho de la ventana en los tres tamaños: una
    marquesina que respeta el margen del contenedor se ve con dos bordes
-   muertos a los lados; a pantalla completa se lee como una cinta de cine. */
-.momentos__visor {
+   muertos a los lados; a pantalla completa se lee como una cinta de cine.
+
+   -------------------------------------------------------------------------
+   v4.1 · EL CANTO DEJA DE SER UN CORTE A HUESO, Y ES LA MITAD DEL ARREGLO
+
+   Ésta era la diferencia más visible entre esta banda y el muro del concurso
+   de #naturaleza, que es la referencia que puso el cliente. Allí la cinta de
+   fotos se DISUELVE contra el negro de la sala por sus dos cantos
+   (naturaleza.css, `.nat-cinta__banda`: una máscara de degradado en el eje del
+   viaje). Aquí las piezas llegaban al borde de la ventana y se cortaban en
+   seco, con media mariposa colgando del filo. Un corte recto contra el canto
+   de la pantalla se lee como un desbordamiento que a nadie le dio tiempo a
+   arreglar; un desvanecido se lee como una cinta que sigue más allá del
+   encuadre. Es la misma imagen, y es la diferencia entera entre «se salió» y
+   «pasa por delante».
+
+   LA MÁSCARA VA AQUÍ Y NO EN EL VISOR, y no es una preferencia: el visor se
+   desplaza con `transform`, y una máscara sobre un elemento desplazado viaja
+   CON él —el degradado se pasearía por la cinta en vez de quedarse pegado a
+   los cantos de la ventana—. Tiene que colgar de un padre quieto, y esta caja
+   es ese padre. De paso deshace el apaño de v4.0, donde el mismo elemento
+   llevaba la animación de la marquesina y la transición de `clip-path` del
+   revelado: dos motores sobre un elemento, que es lo que el proyecto prohíbe.
+
+   OJO — ESTOS DOS #000 NO SON COLOR Y NO SE TOKENIZAN. Es exactamente la misma
+   nota que ya lleva `.nat-cinta__banda` en naturaleza.css: `mask-image` trabaja
+   en `mask-mode: alpha`, donde el negro significa opacidad 1 igual que
+   `transparent` significa 0. No se pinta nunca. Poner aquí un token de color no
+   cambiaría nada visible, pero mentiría sobre lo que hace e invitaría a que
+   alguien lo «ajustara» para descubrir que no pasa nada.
+
+   EL 7 % DE ENTRADA Y DE SALIDA se mide contra el ancho de la ventana, no
+   contra la pieza: en un teléfono son unos 26 px de fundido y en un monitor
+   unos 100, que en los dos casos es algo menos de un tercio de la pieza más
+   estrecha. Menos no se ve; más se come una pieza entera por cada lado. */
+.momentos__cinta {
   position: relative;
   overflow: clip;
   margin-inline: calc(50% - 50vw);
+  mask-image: linear-gradient(90deg,
+    transparent 0%, #000 7%, #000 93%, transparent 100%);
+  -webkit-mask-image: linear-gradient(90deg,
+    transparent 0%, #000 7%, #000 93%, transparent 100%);
 }
 
 /* ==========================================================================
@@ -326,15 +364,28 @@
      puntero o el foco están dentro. `animation-play-state`, no
      `animation-duration: 0` ni desmontar la animación: así retoma
      exactamente donde iba al soltar, en vez de reiniciar el recorrido. */
-  .momentos__visor:hover,
-  .momentos__visor:focus-within {
+  /* v4.1 · el gancho pasa a la caja quieta de fuera, porque el visor ya no es
+     el elemento que recibe el puntero: `.momentos__cinta` es quien tiene el
+     tamaño de la ventana y quien recorta. El comportamiento no cambia ni un
+     píxel —misma superficie, mismo efecto—, sólo el punto de escucha. */
+  .momentos__cinta:hover .momentos__visor,
+  .momentos__cinta:focus-within .momentos__visor {
     animation-play-state: paused;
   }
 }
 
+/* v4.1 · `center` y ya no `flex-start`. Desde §4 las cuatro piezas dejan de
+   tener el mismo encuadre —dos retratos plenos y dos recortes más bajos—, y
+   con alturas distintas la alineación decide qué se lee: colgadas por arriba
+   parecen una fila a la que le faltó cuadrar el pie; colgadas por su eje
+   parecen una tira de película, que es exactamente lo que son. Es la misma
+   decisión que en el muro del concurso hace que cada copia cuelgue a su
+   altura (naturaleza.css, `.nat-destacadas { align-items: start }`): allí el
+   desnivel va abajo porque el muro se lee en vertical, aquí va repartido
+   arriba y abajo porque la cinta se lee en horizontal. */
 .momentos__pista {
   display: flex;
-  align-items: flex-start;
+  align-items: center;
   list-style: none;
   margin: 0;
   padding-block: var(--esp-sm);
@@ -402,10 +453,12 @@
   }
 }
 
+/* v4.1 · La figura pasa a ser la CAJA del recuadro y nada más: el pie se
+   posiciona sobre ella (§5), así que ya no hay columna que repartir ni hueco
+   entre dos elementos apilados. Es lo que iguala por abajo la fila entera. */
 .momentos__figura {
-  display: flex;
-  flex-direction: column;
-  gap: var(--esp-sm);
+  position: relative;
+  display: block;
 }
 
 /* ==========================================================================
@@ -417,8 +470,25 @@
    exista: sin JS, sin red o con el vídeo bloqueado, el alto es el mismo y la
    página no da ningún salto.
    ========================================================================== */
+/* v4.1 · EL ENCUADRE DEJA DE SER EL MISMO PARA LAS CUATRO.
+   Los cuatro archivos son 720×1280, y hasta v4.0 las cuatro piezas se
+   presentaban en ese mismo 9/16: cuatro rectángulos verticales idénticos, del
+   mismo motivo y con la misma luz, uno detrás de otro. Eso —y no el metraje—
+   es lo que hacía que la cinta se leyera como plantilla. El muro del concurso
+   no tiene ese problema porque mezcla proporciones, y su hoja lo razona con
+   una frase que vale igual aquí: recortar a un encuadre fijo «es lo que se
+   hace al enmarcar una copia en grande». Así que dos piezas conservan el
+   retrato pleno y dos se recortan a una caja más baja.
+   CUÁLES SE RECORTAN, Y POR QUÉ ESAS DOS. La 02 es el único primer plano
+   —flores llenando el cuadro—, así que perder cielo y suelo no le quita
+   sujeto; la 04 dura dos segundos y es la más pequeña, y un 4/5 la acerca sin
+   sacar del cuadro a las dos mariposas. Las que NO se tocan son la 01, que es
+   el plano abierto que sitúa, y la 03, donde la mariposa entra por el borde
+   del encuadre: recortarlas sería tirar justo lo que las hace valer.
+   El valor sigue viviendo en el RECUADRO —no en el vídeo— para que el hueco
+   quede reservado antes de que exista el clip. */
 .momentos__marco {
-  aspect-ratio: 9 / 16;
+  aspect-ratio: var(--momentos-encuadre, 9 / 16);
   /* LA HOJA. Dos esquinas curvas en diagonal y dos vivas: el motivo orgánico
      del sistema, el mismo que la viñeta de .lista-hojas en base.css §2. El
      valor lo pone cada pieza en --momentos-hoja (justo debajo), porque la
@@ -451,6 +521,7 @@
 
 .momentos__pieza--dos {
   --momentos-hoja: var(--radio-lg) 0 var(--radio-lg) 0;
+  --momentos-encuadre: 3 / 4;
 }
 
 .momentos__pieza--tres {
@@ -459,19 +530,86 @@
 
 .momentos__pieza--cuatro {
   --momentos-hoja: var(--radio-md) 0 var(--radio-md) 0;
+  --momentos-encuadre: 4 / 5;
 }
 
-/* LA EXCEPCIÓN DE LA PIEZA QUE SALE DE CUADRO. Desde 64em —y sólo desde 64em,
-   porque es el mismo umbral en el que el muro empieza a sangrar (§2)— la
-   cuarta pieza es la última columna de una rejilla que llega al canto de la
-   ventana. Sus dos esquinas derechas se van a cero: una curva contra el borde
-   de la pantalla parece un error de recorte, no una decisión. Le queda la
-   curva superior izquierda, que es la que sigue contando que la pieza
-   pertenece a la misma familia que las otras tres. */
-@media (min-width: 64em) {
-  .momentos__pieza--cuatro {
-    --momentos-hoja: var(--radio-md) 0 0 0;
-  }
+/* SE VA LA EXCEPCIÓN DE LA PIEZA QUE SALÍA DE CUADRO. Hasta v3 el muro sangraba
+   por la derecha y la cuarta pieza quedaba cortada por el canto de la ventana,
+   así que sus dos esquinas derechas se ponían a cero: una curva contra el borde
+   de la pantalla parece un error de recorte. En la marquesina ya no hay ninguna
+   pieza pegada al canto —todas pasan por delante y ninguna se apoya en el
+   borde—, y desde v4.1 el canto además se desvanece (§2). La excepción se
+   queda sin motivo y se retira: las cuatro llevan su hoja entera. */
+
+/* ---- EL TRATAMIENTO TONAL, QUE ES LO QUE LAS HACE UNA FAMILIA ------------
+   LA CAUSA, MEDIDA. Los cuatro clips son metraje de teléfono grabado en
+   momentos distintos: cada uno trae su exposición, su blanco y su verde. Sobre
+   carbón, y sin nada encima, se ven como cuatro rectángulos brillantes de
+   cuatro luces distintas pegados al mismo fondo. El muro del concurso no tiene
+   ese problema y no es porque sus fotos sean mejores: es porque TODAS pasan por
+   el mismo tratamiento —un filete de crema al 20 % que da el canto de la copia
+   (`.nat-obra__disparador::after`) y un velo que hunde el negro por debajo
+   (`.nat-cinta__velo`)—. Cincuenta y siete copias distintas se leen como una
+   colección porque llevan el mismo marco y la misma penumbra.
+   Aquí se hace lo mismo con dos pseudoelementos y sin tocar el metraje:
+
+     ::before — EL VELO. Un degradado que sube desde el pie del recuadro y se
+                apaga a media altura. Hace dos trabajos a la vez: iguala por
+                abajo cuatro exposiciones que no coinciden, y le da suelo al pie
+                de foto, que desde §5 va DENTRO del cuadro. Usa
+                --negro-escena-rgb y no el carbón por el mismo motivo que lo usa
+                el velo del concurso: sobre fotografía, el negro puro apaga el
+                verde en vez de hundirlo.
+     ::after  — EL FILETE. Un pelo de crema al 20 % (--color-borde-inverso, el
+                mismo token y el mismo grosor que la copia del muro). Es lo que
+                convierte un vídeo pegado al fondo en una pieza enmarcada, y es
+                barato: no hay sombra, que sobre carbón sólo ensuciaría el
+                borde.
+
+   Los dos van DENTRO del marco, que ya tiene `overflow: hidden` y la hoja, así
+   que se recortan con la misma silueta que el clip. Los dos llevan
+   `pointer-events: none` para no comerse ningún puntero, y ninguno se anima.
+
+   LOS DOS LLEVAN --z-base, Y SIN ESO NO SE VE NINGUNO. Es la trampa de esta
+   sección y costó una pasada por el preview descubrirla: el ken-burns de §4 bis
+   le pone `transform` al clip, y un elemento transformado se pinta en la misma
+   pasada que los elementos posicionados, en ORDEN DE DOCUMENTO. El `::before`
+   es, por definición, el primer hijo del marco: va ANTES del <video> y por
+   tanto queda debajo de él. Con estas dos capas a --z-base y el clip sin
+   z-index, el orden vuelve a ser el que se ve en pantalla: clip, velo, filete y
+   —fuera del marco, sobre todo— el pie. */
+.momentos__marco::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: var(--z-base);
+  pointer-events: none;
+  /* LAS CUATRO PARADAS ESTÁN MEDIDAS EN PREVIEW, NO ELEGIDAS DE OÍDO. Con el
+     velo más suave que se probó primero (0,88 → 0,62 → 0,22 → 0) el pie se leía
+     bien sobre el clip a contraluz y se perdía sobre el más luminoso, que es el
+     de las varas al sol. Lo que hace falta no es un velo más oscuro en general
+     —eso apagaría los cuatro clips y acabaría con la banda—, sino que la FRANJA
+     DEL TEXTO llegue casi opaca y que el resto se apague igual de rápido: por
+     eso el primer tercio sube y el punto de apagado apenas se mueve. Por encima
+     del 78 % de la altura el clip se ve tal cual se grabó. */
+  background-image: linear-gradient(
+    to top,
+    rgb(var(--negro-escena-rgb) / 0.95) 0%,
+    rgb(var(--negro-escena-rgb) / 0.86) 18%,
+    rgb(var(--negro-escena-rgb) / 0.5) 42%,
+    rgb(var(--negro-escena-rgb) / 0.16) 62%,
+    rgb(var(--negro-escena-rgb) / 0) 78%
+  );
+}
+
+.momentos__marco::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: var(--z-base);
+  pointer-events: none;
+  border: 1px solid var(--color-borde-inverso);
+  border-radius: inherit;
 }
 
 /* El clip llena su recuadro. `display: block` quita la línea base de elemento
@@ -604,15 +742,53 @@
    hojas iguales seguidas. En menta sobre carbón mide 9,0:1, pero da igual:
    es decoración, no información, y el pie se entiende entero sin ella.
    ========================================================================== */
+/* v4.1 · EL PIE SE METE DENTRO DEL CUADRO, Y ARREGLA DOS COSAS DE UN GOLPE.
+   LA CAUSA. Colgando por fuera, cada pie medía lo que midiera su frase —una
+   línea, dos, y el verso de la protagonista cuatro—, así que las cuatro piezas
+   terminaban a alturas distintas y el canto inferior de la cinta quedaba
+   dentado. Es el detalle que hacía que la banda se viera sin rematar: no era el
+   metraje, era que la fila no cerraba por ningún sitio. Además, en una cinta
+   que se desplaza, un texto que va por fuera del cuadro se lee como una
+   etiqueta pegada al lado, no como el pie de una pieza.
+   EL ARREGLO. El pie se apoya en el pie del recuadro, sobre el velo de §4. La
+   fila termina exactamente donde termina cada encuadre, el texto viaja pegado a
+   su propia imagen y el desnivel que se conserva es el de los encuadres, que es
+   el que se buscaba.
+   EL CUERPO SUBE DE --fs-micro A --fs-pequeno. Micro es el suelo del sistema y
+   está pensado para créditos al margen; encima de una fotografía, y en
+   movimiento, se lee como una nota que a nadie le importa. Es el mismo escalón
+   que separa el archivo del concurso (micro, callado) de sus nueve destacadas
+   (pequeño, con voz).
+   CONTRASTE. Crema al 78 % sobre la parte baja del velo —negro de escena al
+   88 % sobre el fotograma— da holgadamente por encima del 4,5:1 de AA en las
+   cuatro piezas; el verso, en crema plena, más todavía. La franja del texto es
+   la más opaca del degradado a propósito: es donde hay que poder leer. */
 .momentos__pie {
+  position: absolute;
+  inset-inline: 0;
+  inset-block-end: 0;
+  z-index: var(--z-base);
   display: flex;
   align-items: flex-start;
   gap: 0.7em;
+  padding: var(--esp-sm);
   font-family: var(--fuente-cuerpo);
+  /* EL CUERPO SIGUE AL TAMAÑO DE LA PIEZA, como ya hace la curva de la hoja en
+     §4. En teléfono la pieza mide 13 rem y una frase de tres renglones en
+     --fs-pequeno se come media imagen: ahí manda --fs-micro, que es exactamente
+     lo que usa el archivo del concurso en sus celdas pequeñas. Desde 48em la
+     pieza crece a 16 rem y el pie recupera --fs-pequeno, que es el cuerpo de
+     las nueve destacadas. Ninguno de los dos baja del suelo del sistema. */
   font-size: var(--fs-micro);
-  line-height: var(--alto-linea-suelto);
+  line-height: var(--alto-linea-titulo);
   color: var(--color-texto-inverso-suave);
-  max-width: 46ch;
+}
+
+@media (min-width: 48em) {
+  .momentos__pie {
+    padding: var(--esp-md);
+    font-size: var(--fs-pequeno);
+  }
 }
 
 .momentos__pie::before {
@@ -648,27 +824,31 @@
    es bajar a --fs-h3 o a --fs-grande antes que devolverlo a rótulo. */
 .momentos__pie--verso {
   font-family: var(--fuente-display);
-  font-size: var(--fs-h4);
+  /* v4.1 · dentro del cuadro, --fs-h4 en un recuadro de 15 rem tapaba media
+     imagen. Arranca en cuerpo base y sólo recupera el tamaño de intertítulo
+     cuando la pieza mide 22 rem, que es desde 64em (§3). */
+  font-size: var(--fs-cuerpo);
   font-weight: var(--peso-display);
   font-variation-settings: var(--ejes-display-sobrio);
   letter-spacing: var(--tracking-display);
   line-height: var(--alto-linea-titulo);
   color: var(--color-texto-inverso);
-  max-width: 26ch;
-  /* Un punto más de aire que los pies menores respecto a su clip: se lee
-     como texto que acompaña, no como etiqueta pegada. Se suma al gap mayor
-     de la figura de la protagonista (justo debajo). */
-  margin-block-start: var(--esp-sm);
+  /* 24ch y no 20: medido en preview. A 20 la frase caía en cinco renglones muy
+     desiguales dentro de la pieza de 19 rem y el verso perdía el aire de
+     intertítulo que es lo que justifica su tamaño. */
+  max-width: 24ch;
+}
+
+@media (min-width: 64em) {
+  .momentos__pie--verso {
+    font-size: var(--fs-h4);
+  }
 }
 
 /* El verso no lleva hoja: la tipografía ES el ornamento, y una viñeta junto a
    Fraunces a --fs-h4 sería un bullet gigante. */
 .momentos__pie--verso::before {
   display: none;
-}
-
-.momentos__pieza--uno .momentos__figura {
-  gap: var(--esp-md);
 }
 
 /* ==========================================================================
@@ -851,56 +1031,20 @@
        `clip-path: none` a (0,2,0), y sin esta guarda estas reglas —más
        específicas— le volverían a poner una cortina encima.
    -------------------------------------------------------------------------- */
-/* LA TRAMPA QUE HACÍA INÚTIL TODO ESTO, Y SU ARREGLO. Poner `--reveal-delay`
-   no bastaba, y medirlo fue la única manera de verlo: el retardo salía en 0 s
-   en las cuatro piezas. El motivo está en base.css §6, donde `.js .reveal`
-   escribe `transition-delay: var(--reveal-delay, 0ms)` y, DOS REGLAS MÁS
-   ABAJO, `.js .reveal--velo` escribe el ATAJO
-   `transition: opacity …, clip-path …`. Las dos miden (0,2,0), así que gana
-   la última, y un atajo reinicia a su valor inicial todo lo que no nombra:
-   `transition-delay` volvía a 0 s. O sea que NINGÚN elemento con
-   `.reveal--velo` del sitio ha podido escalonarse nunca.
-   Se devuelve aquí, a (0,4,0), que le gana sin tocar base.css ni usar
-   !important. La duración no hacía falta rescatarla: la regla de arriba
-   (`.js .momentos .reveal`) ya mide (0,3,0) y por eso sí se aplicaba.       */
-.js .momentos .momentos__pieza.reveal {
-  transition-delay: var(--reveal-delay, 0ms);
-}
-
-.momentos__muro.reveal-secuencia > .momentos__pieza--uno    { --reveal-delay: 0ms; }
-.momentos__muro.reveal-secuencia > .momentos__pieza--dos    { --reveal-delay: calc(var(--dur-instant) * 2.9); }
-.momentos__muro.reveal-secuencia > .momentos__pieza--tres   { --reveal-delay: calc(var(--dur-instant) * 1.3); }
-.momentos__muro.reveal-secuencia > .momentos__pieza--cuatro { --reveal-delay: calc(var(--dur-instant) * 5.1); }
-
-.js .momentos .momentos__pieza--uno    { transition-duration: calc(var(--dur-lenta) * 1.45); }
-.js .momentos .momentos__pieza--dos    { transition-duration: calc(var(--dur-lenta) * 1.1);  }
-.js .momentos .momentos__pieza--tres   { transition-duration: calc(var(--dur-lenta) * 0.9);  }
-.js .momentos .momentos__pieza--cuatro { transition-duration: calc(var(--dur-lenta) * 0.68); }
-
-@media (prefers-reduced-motion: no-preference) {
-  /* Se descubre de ABAJO arriba: es la de más superficie y la que sitúa. */
-  .js .momentos .momentos__pieza--uno.reveal--velo:not(.visible) {
-    clip-path: inset(0 0 22% 0);
-  }
-
-  /* De IZQUIERDA a derecha: es la que va más baja y entra desde la calle
-     vacía que le deja la protagonista. */
-  .js .momentos .momentos__pieza--dos.reveal--velo:not(.visible) {
-    clip-path: inset(0 26% 0 0);
-  }
-
-  /* De ARRIBA abajo, al revés que la primera. Son las dos que comparten
-     borde en tableta: si se descubrieran igual, se leerían como una sola. */
-  .js .momentos .momentos__pieza--tres.reveal--velo:not(.visible) {
-    clip-path: inset(20% 0 0 0);
-  }
-
-  /* De DERECHA a izquierda: es la que sale de cuadro por el canto de la
-     pantalla, así que se descubre entrando desde fuera. */
-  .js .momentos .momentos__pieza--cuatro.reveal--velo:not(.visible) {
-    clip-path: inset(0 0 0 30%);
-  }
-}
+/* v4.1 · SE BORRAN VEINTE REGLAS QUE NO PINTABAN NADA, Y CONVIENE DEJAR DICHO
+   POR QUÉ. Todo lo que había aquí —cuatro retardos, cuatro duraciones y cuatro
+   direcciones de cortina, pieza a pieza— colgaba de dos selectores que dejaron
+   de existir en v4.0: `.momentos__muro`, que era la rejilla que sustituyó la
+   marquesina, y `.momentos__pieza.reveal`, que era la clase que llevaba cada
+   pieza cuando entraba por su cuenta. En la cinta las piezas ya no revelan una
+   a una: entra la CINTA ENTERA, de un gesto, y las piezas viajan dentro. Eran
+   reglas muertas desde hacía una versión y su única consecuencia era que la
+   próxima persona que abriera esta hoja creyera que hay cuatro telones donde
+   sólo hay uno.
+   Lo que sí sigue vivo es la regla de arriba (`.js .momentos .reveal`), que le
+   baja la duración al revelado, y el `.reveal--velo` que ahora lleva
+   `.momentos__cinta`: una cortina de clip-path que descubre la cinta de abajo
+   arriba, que es el gesto que le toca a un telón.                            */
 
 /* ==========================================================================
    8. MENOS MOVIMIENTO
@@ -965,16 +1109,19 @@
    El único trazo de toda la banda. Vive en el tercio derecho del encabezado,
    que a partir de 62em está vacío porque el titular va acotado a 20ch.
 
-   POR QUÉ EN POSICIÓN ABSOLUTA. Desde 62em la cartela es una rejilla de dos
-   pistas (rótulo | titular) alineadas por el pie: un tercer hijo en flujo
-   abriría una segunda fila y bajaría el muro entero. Absoluta no ocupa
-   ninguna pista y no mueve un píxel de la maqueta.
+   v4.1 · YA NO VA EN POSICIÓN ABSOLUTA, Y ES POR ALGO MEJOR QUE UN AJUSTE.
+   Hasta v4.0 este tercio derecho estaba vacío y el trazo flotaba encima, suelto
+   sobre el carbón. Ahora encabeza EN FLUJO la cartela de contexto (cifra, nota
+   y firma), que es la pieza que le faltaba a esta banda para sostenerse al lado
+   del muro del concurso. Ocupa el mismo sitio en pantalla y cuesta lo mismo,
+   pero pasa de adorno colgado a marca que abre un bloque, que es como se usa un
+   trazo en un pie de catálogo.
 
-   POR QUÉ SÓLO DESDE 62em. Por debajo, la cartela apila rótulo y titular y el
-   titular ocupa el ancho entero: no hay hueco donde poner nada sin taparlo.
-   Es decoración con `aria-hidden`; ocultarla no quita ni una palabra, y la
-   banda conserva en móvil sus otros tres relojes (los cuatro telones, el
-   grano y la luz).
+   POR QUÉ SÓLO DESDE 62em. Por debajo, el encabezado apila rótulo, titular y
+   cartela a ancho completo, y el trazo por delante del texto sería un adorno
+   robando la única columna que hay. Es decoración con `aria-hidden`; ocultarla
+   no quita ni una palabra —la cifra, la nota y la firma siguen ahí en móvil— y
+   la banda conserva sus otros tres relojes (el telón, el grano y la luz).
 
    CONTRASTE, MEDIDO Y ELEGIDO. Menta al 45 % sobre carbón compone #33674d y
    da 2,64:1. Está POR DEBAJO del 4,5:1 de AA a propósito y no es un descuido:
@@ -984,15 +1131,8 @@
    detrás de la cartela y se convertiría en un logotipo compitiendo con el
    titular. Si algún día se le mete texto dentro, hay que rehacer la cuenta.
    ========================================================================== */
-.momentos__encabezado {
-  position: relative;
-}
-
 .momentos__mariposa {
   display: none;
-  position: absolute;
-  inset-block-start: var(--esp-md);
-  inset-inline-end: 0;
   width: calc(var(--esp-4xl) * 0.95);
   height: auto;
   aspect-ratio: 1;
@@ -1003,6 +1143,128 @@
 @media (min-width: 62em) {
   .momentos__mariposa {
     display: block;
+  }
+}
+
+/* ==========================================================================
+   11. LA CARTELA DE CONTEXTO   (v4.1)
+   Cifra, nota y firma: el bloque que le da a esta banda el peso que el cliente
+   echaba de menos comparándola con el muro del concurso de #naturaleza.
+
+   POR QUÉ SE REPITE EL APARATO DEL CONCURSO Y NO SE INVENTA OTRO. La forma de
+   presentar un conjunto —número grande en display, pie en sans micro versalita,
+   nota corta debajo y un colofón firmado en itálica— ya está fijada en
+   naturaleza.css (`.nat-galeria__cifra`, `.nat-galeria__cifra-pie`,
+   `.nat-cinta__firma`). Reutilizarla aquí no es copiar la solución de al lado:
+   es usar el mismo tipo de rótulo dos veces, que es precisamente lo que hace
+   que dos secciones se lean del mismo estudio. Lo que NO se copia es la
+   solución de composición —allí es un rótulo centrado sobre negro dentro de una
+   escena con scroll; aquí es un bloque alineado a la izquierda en el tercio
+   libre de la cabecera— porque #momentos tiene su propia identidad y su propio
+   mecanismo, y la marquesina se conserva intacta.
+
+   LOS COLORES, MEDIDOS. La cifra en --color-destacado (amarillo) sobre carbón
+   da 9,4:1; el pie, la nota y la firma en crema al 78 % dan 11,1:1. Los cuatro
+   por encima de AAA, y la cifra es además el único punto amarillo de toda la
+   banda: sobre carbón, y con la menta de las hojas de los pies a la izquierda,
+   basta para que sea lo primero que se mire después del titular.
+
+   DÓNDE SE COLOCA, EN TRES TRAMOS
+     · Móvil y tableta — apilada bajo el titular, a ancho de lectura corta.
+     · Desde 62em      — sigue apilada, pero ya dentro de la rejilla de la
+                         cabecera, en la columna del titular: el ancho del
+                         titular está acotado a 20ch y el bloque no lo estorba.
+     · Desde 78em      — pasa a la tercera columna y se apoya en la misma línea
+                         de base que el rótulo y el titular. Es la disposición
+                         que se buscaba, y se retrasa hasta 78em a propósito:
+                         entre 62 y 78em, rótulo + 20ch de titular + cartela no
+                         caben sin apretar los tres.
+   ========================================================================== */
+.momentos__cartela {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--esp-sm);
+  margin-block-start: var(--esp-xl);
+  max-width: 34ch;
+}
+
+.momentos__dato {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--esp-3xs);
+  margin: 0;
+}
+
+/* Cifras tabulares y línea de base a 1: el número es un objeto tipográfico,
+   no un renglón de texto, y tiene que apoyarse en su pie sin colchón. */
+.momentos__cifra {
+  font-family: var(--fuente-display);
+  font-size: var(--fs-cifra);
+  font-weight: var(--peso-fuerte);
+  font-variant-numeric: tabular-nums;
+  font-optical-sizing: auto;
+  font-variation-settings: var(--ejes-display);
+  line-height: 1;
+  letter-spacing: var(--tracking-display);
+  color: var(--color-destacado);
+}
+
+.momentos__cifra-pie {
+  font-family: var(--fuente-titulo);
+  font-size: var(--fs-micro);
+  text-transform: uppercase;
+  letter-spacing: var(--tracking-rotulo);
+  color: var(--color-texto-inverso-suave);
+}
+
+.momentos__nota {
+  margin: 0;
+  font-size: var(--fs-pequeno);
+  line-height: var(--alto-linea-suelto);
+  color: var(--color-texto-inverso-suave);
+}
+
+/* El colofón: un renglón en micro e itálica, igual que el del concurso. Es lo
+   que cierra el bloque y lo que dice que esto es material propio. */
+.momentos__firma {
+  margin: 0;
+  font-size: var(--fs-micro);
+  font-style: italic;
+  color: var(--color-texto-inverso-suave);
+}
+
+/* Entre 62 y 78em la cartela viaja en la columna del titular, en una segunda
+   fila. Hay que colocar los tres hijos a mano: con el flujo automático de la
+   rejilla, el tercero caería en la columna del rótulo, que es la estrecha. */
+@media (min-width: 62em) {
+  .momentos__encabezado > .eyebrow {
+    grid-column: 1;
+    grid-row: 1;
+  }
+
+  .momentos__titulo {
+    grid-column: 2;
+    grid-row: 1;
+  }
+
+  .momentos__cartela {
+    grid-column: 2;
+    grid-row: 2;
+  }
+}
+
+@media (min-width: 78em) {
+  .momentos__encabezado {
+    grid-template-columns: auto minmax(0, 1fr) auto;
+  }
+
+  .momentos__cartela {
+    grid-column: 3;
+    grid-row: 1;
+    margin-block-start: 0;
+    max-width: 26ch;
   }
 }
 

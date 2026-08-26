@@ -1915,9 +1915,15 @@
       animation-range: entry 35% exit 55%;
     }
 
-    /* La capa RÁPIDA, sólo en escritorio ancho: la hoja flotante sube a
-       contramarcha del fondo, en el reloj del diorama entero. */
-    @media (min-width: 64em) {
+    /* La capa RÁPIDA: la hoja flotante sube a contramarcha del fondo, en el
+       reloj del diorama entero.
+       v2 · el umbral baja de 64em a 48em (pedido del cliente: «tenía un
+       efecto que subía y bajaba, ponselo como estaba»): la hoja ya cuelga
+       colgada/absoluta desde 48em (justo arriba), así que el paralaje corre
+       en todo el rango donde la pieza tiene sentido flotando, no sólo en
+       escritorio ancho. Por debajo de 48em la hoja sigue en flujo normal
+       (§11), donde animar un paralaje de posición absoluta no aplica. */
+    @media (min-width: 48em) {
       .planes-diorama {
         view-timeline-name: --planes-tl-diorama;
       }

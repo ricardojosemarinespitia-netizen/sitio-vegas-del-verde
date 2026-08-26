@@ -59,8 +59,10 @@ for t in trozos:
 # v14 · se pone al dia con validar.js: la segunda seccion es "usos" (lo era ya
 # desde hace varias versiones y aqui habia quedado el nombre viejo) y el
 # recorrido cierra con "compromiso", despues de #ubicacion y antes del pie.
-ESPERADO = ["inicio", "usos", "nosotros", "planes", "momentos", "colegios",
-            "naturaleza", "vivero", "ubicacion", "compromiso"]
+# v7 · #naturaleza reemplaza a #momentos justo tras #planes; #momentos y
+# #colegios se corren un puesto.
+ESPERADO = ["inicio", "usos", "nosotros", "planes", "naturaleza", "colegios",
+            "momentos", "vivero", "ubicacion", "compromiso"]
 
 print("=" * 74)
 print("0. ORDEN DEL <main>")

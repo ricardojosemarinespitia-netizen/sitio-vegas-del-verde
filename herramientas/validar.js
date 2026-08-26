@@ -54,8 +54,10 @@ for (const t of trozos) {
   regiones[m[1]] = t.slice(m.index);
 }
 
-const ESPERADO = ['inicio', 'usos', 'nosotros', 'planes', 'momentos',
-                  'colegios', 'naturaleza', 'vivero', 'ubicacion',
+const ESPERADO = ['inicio', 'usos', 'nosotros', 'planes',
+                  // v7 · #naturaleza reemplaza a #momentos justo tras
+                  // #planes; #momentos y #colegios se corren un puesto.
+                  'naturaleza', 'colegios', 'momentos', 'vivero', 'ubicacion',
                   // v14 · el compromiso cierra el recorrido, después de cómo
                   // llegar y justo antes del pie.
                   'compromiso'];

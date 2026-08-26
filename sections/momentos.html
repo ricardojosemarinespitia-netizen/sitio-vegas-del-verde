@@ -119,15 +119,34 @@
         <span class="reveal-texto__linea">se toma su tiempo</span>
       </h2>
 
-      <!-- v3.3 · LA MARIPOSA QUE SE DIBUJA -----------------------------------
-           La cartela deja a partir de 62em un tercio de ancho vacío a la
-           derecha del titular (el titular va acotado a 20ch). Ahí entra el
-           único trazo de toda la banda, y es el motivo que ya está en los
-           cuatro clips: una mariposa.
+      <!-- v4.1 · LA CARTELA DE LA DERECHA ------------------------------------
+           EL DIAGNÓSTICO QUE LA TRAE. El cliente comparó esta banda con el
+           muro del concurso de #naturaleza y la encontró menos terminada. Una
+           de las tres causas medidas —las otras dos son el corte a hueso de la
+           cinta contra el canto de la ventana y la falta de un tratamiento
+           tonal común, y se arreglan en momentos.css §2 y §4— era que aquí no
+           había NADA que sostuviera la banda: un titular, cuatro clips y
+           silencio. El muro del concurso, en cambio, cuelga de un bloque de
+           contexto (rótulo + cifra + nota + firma) que le da autoría y peso.
+           Esta cartela es el equivalente de #momentos, con su propio material.
+
+           NO SE INVENTA NINGUNA CIFRA. El «4» no es un dato del predio: es el
+           número de piezas que se están viendo, comprobable mirando la cinta,
+           igual que el «57» del concurso es el número de copias colgadas. Y la
+           nota describe cómo se grabaron los clips y cómo se comporta la
+           cinta; ni un aforo, ni un precio, ni una especie, ni un nombre de
+           espacio ni de plan. El contrato de hechos del principio de este
+           archivo queda intacto: la sección sigue sin poseer un solo dato.
+
+           LA MARIPOSA DEJA DE FLOTAR SOLA. Hasta v4.0 el trazo iba en posición
+           absoluta ocupando este mismo tercio derecho, que estaba vacío. Ahora
+           encabeza la cartela EN FLUJO, como la marca que remata un pie de
+           catálogo: mismo sitio en pantalla, misma decoración con
+           `aria-hidden`, pero ya no es un adorno suelto sobre el carbón sino
+           el arranque de un bloque.
 
            NO AÑADE NI UN HECHO. Va con `aria-hidden`, no lleva texto y no
-           afirma nada: esta sección es atmósfera pura y sigue sin poseer un
-           solo dato. Tampoco nombra el jardín de polinizadores, que es de
+           afirma nada. Tampoco nombra el jardín de polinizadores, que es de
            #colegios (ver el contrato al principio de este archivo).
 
            FIRMA DEL MOTOR DE DIBUJADO, HORNEADA A MANO: `viewBox="0 0 24 24"`,
@@ -148,7 +167,8 @@
            de un tirón: un camino con varios trazos sueltos se ve
            entrecortado porque el guion tiene que atravesar también los
            saltos invisibles de un trazo al siguiente.                     -->
-      <svg class="icono-traza momentos__mariposa" viewBox="0 0 24 24"
+      <div class="momentos__cartela">
+        <svg class="icono-traza momentos__mariposa" viewBox="0 0 24 24"
            fill="none" stroke="currentColor" stroke-width="0.9"
            stroke-linecap="round" stroke-linejoin="round"
            aria-hidden="true" focusable="false">
@@ -159,7 +179,32 @@
         <path d="M12 7.8v9.4" pathLength="1"/>
         <path d="M11.2 7.4 8.9 4.2" pathLength="1"/>
         <path d="M12.8 7.4 15.1 4.2" pathLength="1"/>
-      </svg>
+        </svg>
+
+        <!-- LA CIFRA. Mismo aparato tipográfico que el «57 · FOTOGRAFÍAS ·
+             20 AUTORES» del muro del concurso (naturaleza.css, .nat-galeria):
+             número en display y pie en sans micro versalita con tracking de
+             rótulo. Se repite el patrón A PROPÓSITO: es la forma que tiene este
+             sitio de presentar un conjunto, y usarla en las dos secciones es lo
+             que hace que se lean de la misma mano.
+             SIN `data-contador`: el motor de conteo de js/app.js está para
+             cifras que crecen al subir (101 especies, 347 registros); un
+             contador de cero a cuatro se lee como un tic, no como un dato. -->
+        <p class="momentos__dato">
+          <span class="momentos__cifra">4</span>
+          <span class="momentos__cifra-pie">Planos · sin sonido</span>
+        </p>
+
+        <p class="momentos__nota">
+          Cuatro planos cortos grabados con un teléfono, aquí dentro. Ninguno
+          lleva sonido y no hay nada que pulsar: la cinta pasa sola.
+        </p>
+
+        <!-- El colofón firmado, el mismo gesto de catálogo que el
+             `.nat-cinta__firma` del concurso: ancla la cinta como pieza propia
+             y no como un carrusel de plantilla. -->
+        <p class="momentos__firma">— Metraje propio, Vegas del Verde</p>
+      </div>
     </header>
 
     <!-- v4.0 · LA BANDA SE VUELVE MARQUESINA — pedido explícito del cliente
@@ -200,7 +245,24 @@
          pista corrediza gana un margen izquierdo propio que la separa del
          trío anterior y la deja leerse SOLA, más a la derecha del grupo,
          en vez de pegada al resto como una quinta rueda.                    -->
-    <div class="momentos__visor reveal reveal--velo">
+    <!-- v4.1 · UNA CAJA MÁS, Y NO ES GRATUITA: `momentos__cinta`.
+         Hasta v4.0 un mismo elemento (`momentos__visor`) hacía tres cosas: se
+         recortaba, se revelaba al entrar y corría la marquesina. Eso son DOS
+         MOTORES DE ANIMACIÓN SOBRE UN MISMO ELEMENTO —la transición de
+         `clip-path` de `.reveal--velo` y la animación de `transform` de la
+         cinta—, que es justo lo que las directrices del proyecto prohíben; y
+         además dejaba sin sitio la pieza que más falta hacía: el DESVANECIDO DE
+         LOS CANTOS. Una máscara puesta sobre el elemento que se desplaza viaja
+         CON él, así que el degradado tiene que colgar de un padre quieto.
+         Reparto nuevo, un elemento un trabajo:
+           · `momentos__cinta`  — quieta. Recorta, sangra a todo el ancho de la
+                                  ventana, se revela al entrar y disuelve la
+                                  cinta contra el carbón por los dos cantos
+                                  (momentos.css §2).
+           · `momentos__visor`  — sólo se mueve: nada más que `transform`.
+         Por eso el `.reveal reveal--velo` sube a la caja de fuera. -->
+    <div class="momentos__cinta reveal reveal--velo">
+      <div class="momentos__visor">
       <ul class="momentos__pista" role="list">
 
         <!-- ---------------------------------------------------------- 01/04
@@ -384,6 +446,7 @@
         </li>
 
       </ul>
+      </div>
     </div>
 
   </div>

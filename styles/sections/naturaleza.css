@@ -2436,7 +2436,16 @@
   color: var(--color-acento-texto);
 }
 
-@media (min-width: 62em) {
+/* v2 · EL UMBRAL BAJA A 48em EN RATÓN, mismo arreglo y mismo motivo que ya
+   se le hizo al carril 03 de #planes: una ventana de escritorio de entre
+   768 y 991px (portátil sin maximizar) caía en el hueco entre "móvil" y
+   "62em" y el cliente veía el rótulo fuera de la foto, sobre el papel, como
+   si el ajuste nunca se hubiera hecho. `pointer: fine` es la bisagra: con
+   ratón, cualquier ventana de escritorio de 48em para arriba mete la
+   cartela dentro de la foto; una tableta real —`pointer: coarse`— se queda
+   con el rótulo en flujo hasta los 62em, donde de verdad hay espacio de
+   sobra para posarlo encima sin que tape el ave. */
+@media (min-width: 48em) and (pointer: fine), (min-width: 62em) {
   .nat-portada__rotulo {
     position: absolute;
     inset-block-end: var(--nat-portada-base);

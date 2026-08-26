@@ -18,9 +18,12 @@ ORDEN = [
     ("usos",       "usos.html"),
     ("nosotros",   "nosotros.html"),
     ("planes",     "planes.html"),
-    ("momentos",   "momentos.html"),
-    ("colegios",   "colegios.html"),
+    # v7 · #naturaleza ("pajareo") ocupa el hueco que dejo #momentos, justo
+    # tras #planes -- pedido directo del cliente: "en su reemplazo pon
+    # pajareo".
     ("naturaleza", "naturaleza.html"),
+    ("colegios",   "colegios.html"),
+    ("momentos",   "momentos.html"),
     ("vivero",     "vivero.html"),
     ("ubicacion",  "ubicacion.html"),
     # v14 · «Nuestro compromiso» deja de ser un bloque dentro de #nosotros y
