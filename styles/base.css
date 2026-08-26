@@ -97,7 +97,82 @@ html {
 body {
   min-height: 100vh;
   min-height: 100svh;
+  /* EL PAPEL DEL SITIO YA NO ES UNA PLANCHA LISA — pedido directo del
+     cliente («un fondo de verdad, no un color crema»). La crema greige se
+     queda como TIERRA (el color de respaldo de abajo), y encima se compone
+     un papel botánico de seis capas, el mismo vocabulario que ya habla el
+     colchón del carril de talleres (planes.css §talleres), pero bajado a
+     volumen de fondo de página: esto vive DETRÁS de todo el sitio, así que
+     ninguna capa pasa del 6 % de tinta ni compite con texto o fotografía.
+     El par de texto más flojo del sistema (--color-texto-suave, 6,1:1 sobre
+     crema) sigue por encima de AA en el peor punto de la trama.
+
+     Las capas, de arriba abajo:
+     1-2 · HOJAS: dos retículas de elipses desfasadas media celda — la
+           misma célula de 90×120 del carril de talleres, a un tercio de
+           su alfa. De cerca son hojas; a distancia de lectura, un grano
+           de papel verdoso.
+     3   · LLUVIA DE LUZ: el rayado diagonal fino, más abierto que el del
+           carril (celda de 11 px) para que respire como veta, no como
+           pauta.
+     4-5 · POZAS DE CLARO: dos manchas radiales —una de --luz, otra de
+           salvia— que se repiten en vertical cada 1500 px alternando de
+           flanco. Son lo que evita que un scroll largo se sienta como el
+           mismo metro de papel repetido: la página tiene claros y umbrías,
+           como el sendero.
+     6   · LA BASE: una veladura diagonal salvia→crema→salvia que quita la
+           planitud absoluta sin llegar a leerse como degradado.
+
+     Todo es CSS puro sobre tokens (cero imágenes, cero literales) y nada
+     se anima: es papel, no efecto. Las secciones con fondo propio (bosque,
+     carbón, fotos) lo tapan; las que iban en crema plana (.usos, .nosotros)
+     pasan a transparente para que el papel corra continuo por debajo.     */
   background-color: var(--color-fondo);
+  background-image:
+    /* 1-2 · hojas: la retícula doble, a volumen de fondo de página */
+    radial-gradient(
+      ellipse 34px 21px at 30% 34%,
+      rgb(var(--verde-oliva-rgb) / 0.05),
+      rgb(var(--verde-oliva-rgb) / 0) 70%
+    ),
+    radial-gradient(
+      ellipse 34px 21px at 70% 66%,
+      rgb(var(--verde-oliva-rgb) / 0.05),
+      rgb(var(--verde-oliva-rgb) / 0) 70%
+    ),
+    /* 3 · lluvia de luz: veta diagonal fina */
+    repeating-linear-gradient(
+      115deg,
+      rgb(var(--verde-bosque-rgb) / 0.028) 0 1px,
+      rgb(var(--verde-bosque-rgb) / 0) 1px 11px
+    ),
+    /* 4 · poza de luz, entra por el flanco izquierdo */
+    radial-gradient(
+      58% 44% at 10% 22%,
+      rgb(var(--luz-rgb) / 0.55),
+      rgb(var(--luz-rgb) / 0) 70%
+    ),
+    /* 5 · poza de salvia, responde por el flanco derecho */
+    radial-gradient(
+      52% 40% at 90% 72%,
+      rgb(var(--salvia-rgb) / 0.5),
+      rgb(var(--salvia-rgb) / 0) 70%
+    ),
+    /* 6 · la base: veladura diagonal de los dos claros del sistema */
+    linear-gradient(
+      160deg,
+      rgb(var(--salvia-rgb) / 0.35),
+      rgb(var(--crema-rgb) / 0) 55%,
+      rgb(var(--salvia-rgb) / 0.28)
+    );
+  background-size:
+    90px 120px,
+    90px 120px,
+    auto,
+    100% 1500px,
+    100% 1500px,
+    auto;
+  background-repeat: repeat, repeat, repeat, repeat-y, repeat-y, no-repeat;
   color: var(--color-texto);
   font-family: var(--fuente-cuerpo);
   font-size: var(--fs-cuerpo);

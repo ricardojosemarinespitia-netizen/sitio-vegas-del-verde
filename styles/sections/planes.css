@@ -9,7 +9,9 @@
 
      01 fiesta    portada a sangre con marca de agua + díptico desfasado
      02 familia   texto primero, mosaico 55/45 y banda ancha de contexto
-     03 empresa   dossier partido: retrato a un lado, par apaisado al otro
+     03 empresa   banda de la carpa a sangre completa y el retrato del grupo
+                  montado encima como copia pequeña (en tableta sigue siendo
+                  el dossier partido en dos: §5 ter sólo vive de 64em arriba)
      04 bienestar banda a sangre en negativo + bloque verde entrado
      05 talleres  banda tipográfica entre filetes, sin una sola foto
 
@@ -283,7 +285,11 @@
      valor negativo), y el telón sigue subiendo por abajo.                   */
 .js .planes-carril--fiesta.reveal.visible,
 .js .planes-carril--familia.reveal.visible,
-.js .planes-noche.reveal.visible {
+/* v16 · el 03 entra en la lista: cuando el §11 le dio portada a sangre en
+   móvil, su sangrado quedó recortado por el inset(0) del revelado —medido:
+   la foto de 375 px se veía a 360—. Su zoom de entrada tampoco necesita
+   recorte, igual que los desplazamientos del 01 y el 02. */
+.js .planes-carril--empresa.reveal.visible {
   clip-path: none;
 }
 
@@ -641,12 +647,14 @@
     translate: 0 calc((1 - var(--texto)) * 28px);
   }
 
-  /* LA TARJETA SE POSA SOBRE LA FOTO EN TODOS LOS ANCHOS, y no es un capricho
-     de composición: dentro del escenario clavado (`overflow: clip`, alto de
-     una pantalla) una tarjeta en flujo normal quedaría DEBAJO del recorte,
-     es decir, invisible. Posarla es la condición para que la escena exista.
-     De base ocupa el ancho de la columna de lectura, con el sangrado devuelto
-     a cero por los dos flancos; el afinado de escritorio va justo debajo. */
+  /* LA TARJETA SE POSA SOBRE LA FOTO EN TODOS LOS ANCHOS DE ESCRITORIO, y no
+     es un capricho de composición: dentro del escenario clavado
+     (`overflow: clip`, alto de una pantalla) una tarjeta en flujo normal
+     quedaría DEBAJO del recorte, es decir, invisible. Posarla es la
+     condición para que la escena exista. De base ocupa el ancho de la
+     columna de lectura, con el sangrado devuelto a cero por los dos flancos;
+     el afinado de escritorio va justo debajo. En móvil/táctil esta regla no
+     importa: la tarjeta se oculta con `display: none` más abajo. */
   .js .planes-fiesta__escena .planes-portada__tarjeta {
     position: absolute;
     z-index: var(--z-elevado);
@@ -666,6 +674,190 @@
     inset-inline-start: auto;
     max-inline-size: calc(var(--planes-paso) * 5 - var(--gap));
   }
+}
+
+/* --------------------------------------------------------------------------
+   3 ter. LA NOCHE QUE SE ENCIENDE — la guirnalda del carril 01
+   --------------------------------------------------------------------------
+   El titular promete que «la fiesta empieza cuando se encienden los
+   bombillos». Hasta ahora lo prometía y no lo cumplía: la foto llegaba con la
+   guirnalda ya encendida. Estos nueve resplandores lo cumplen. Van posados
+   sobre la curva visible de la guirnalda de la fotografía —arranca en el
+   alero izquierdo de la carpa (~33 % de alto), baja por el frente hasta su
+   punto más hondo hacia el centro (~43 %) y vuelve a subir hacia el árbol de
+   la derecha— y se ENCIENDEN uno tras otro, de izquierda a derecha, mientras
+   la lámina sube con el scroll.
+
+   CERO MOTORES NUEVOS, y es la decisión central del bloque. La lección del
+   diorama del carril 02 está escrita en su propio código: dos motores sobre
+   la misma pieza es el bug. Aquí ni `view()` ni IntersectionObserver: la
+   opacidad de cada bombillo se calcula CONTRA LA MISMA `--entrada` que ya
+   escribe js/escena-planes.js en `.planes-fiesta__escena` para abrir el
+   recorte de la foto. Cada bombillo lleva su umbral (`--umbral`, de 0 a
+   0,72 por :nth-child) y una ventana de 0,2: el primero termina de
+   encenderse cuando la lámina lleva un quinto de su apertura y el noveno
+   remata justo cuando la foto llega a sangre. Un solo motor, una sola
+   variable, y la secuencia sale gratis.
+
+   ESTADO ESTÁTICO RESUELTO, por la misma razón por la que `--entrada` nace
+   en 1: sin JS, la variable heredada vale 1 y los nueve puntos están
+   ENCENDIDOS y quietos. Con `prefers-reduced-motion: reduce` la escena
+   entera no se activa, `--entrada` se queda en su 1 de reserva y el
+   resultado es idéntico: bombillos encendidos, nada parpadea. Apagarlos
+   sería castigar al que pidió menos movimiento quitándole la foto tal cual
+   es —la carpa CON las luces—, que es lo contrario de reducir movimiento.
+
+   EL HALO RESPIRA EN UN PSEUDO, NO EN EL BOX-SHADOW. Animar un box-shadow
+   repinta; aquí el box-shadow del punto es ESTÁTICO y lo único que se anima
+   es la OPACIDAD del `::after` (un radial-gradient más ancho): compositor
+   puro. Es el segundo «motor» del bloque pero sobre OTRO elemento —el
+   pseudo—, nunca sobre el bombillo que ya gobierna `--entrada`; y sólo
+   existe dentro de `no-preference`, así que en movimiento reducido el halo
+   queda fijo en su opacidad de reposo. El delay negativo desfasa la
+   respiración de cada halo para que la guirnalda no lata al unísono como
+   un semáforo.
+
+   COORDENADAS EN %, no en tokens, y no es un descuido: son posiciones sobre
+   la fotografía (como los 34 %/7 % del clip-path de arriba), no medidas de
+   componente. Con `object-fit: cover` el recorte cambia según el alto de la
+   ventana, así que los puntos no clavan el bombillo físico píxel a píxel en
+   todos los anchos; clavan la ALTURA de la guirnalda y su curva, que es lo
+   que hace legible el gesto. Todo lo que sí es medida —diámetro, halos,
+   radios— sale de tokens.css.                                              */
+.planes-carril--fiesta .planes-portada__guirnalda {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+.planes-carril--fiesta .planes-portada__bombillo {
+  position: absolute;
+  inline-size: var(--esp-2xs);
+  block-size: var(--esp-2xs);
+  /* Centra el cuerpo del punto sobre su coordenada: la pareja inset de cada
+     :nth-child marca el CENTRO del bombillo, no su esquina. */
+  margin: calc(var(--esp-2xs) / -2);
+  border-radius: var(--radio-full);
+  /* El punto es la crema de luces del grading (--luz) y el halo corto tira
+     al amarillo del logo: mismo par cálido que los bombillos reales de la
+     foto, que suben a crema en el centro y amarillean en el aire. */
+  background-color: var(--luz);
+  box-shadow:
+    0 0 var(--esp-sm) var(--esp-3xs) rgb(var(--luz-rgb) / 0.85),
+    0 0 var(--esp-xl) var(--esp-2xs) rgb(var(--amarillo-rgb) / 0.35);
+  /* EL ENCENDIDO. `--entrada` la escribe js/escena-planes.js (0 → 1 en el
+     primer tramo del pin); sin escena vale 1 (reserva heredada de
+     `.planes-fiesta__escena`) y también aquí, por el segundo valor del var().
+     Cada bombillo pasa de 0 a 1 en la ventana [--umbral, --umbral + 0,2]:
+     eso es toda la secuencia. */
+  opacity: clamp(0, (var(--entrada, 1) - var(--umbral, 0)) / 0.2, 1);
+}
+
+/* El halo ancho: un radial cálido que desborda el punto. Su opacidad de
+   REPOSO es la que se ve en movimiento reducido y en el fotograma congelado:
+   un resplandor presente pero quieto. */
+.planes-carril--fiesta .planes-portada__bombillo::after {
+  content: "";
+  position: absolute;
+  inset: calc(var(--esp-lg) * -1);
+  border-radius: var(--radio-full);
+  background: radial-gradient(
+    closest-side,
+    rgb(var(--amarillo-rgb) / 0.4),
+    transparent 72%
+  );
+  opacity: 0.55;
+}
+
+/* La respiración, SÓLO si el visitante no pidió menos movimiento. Lentísima
+   —casi el doble del vuelo del mapa— y en alternate, para que sea un latido
+   y no un parpadeo: debe notarse al quedarse mirando, no al pasar. El delay
+   negativo (proporcional al umbral de encendido de cada punto) desfasa los
+   nueve halos: cada uno va por un punto distinto de su ciclo. */
+@media (prefers-reduced-motion: no-preference) {
+  .planes-carril--fiesta .planes-portada__bombillo::after {
+    animation: planes-halo-respira calc(var(--dur-vuelo) * 1.8) var(--ease)
+      infinite alternate;
+    animation-delay: calc(var(--umbral, 0) * var(--dur-vuelo) * -2);
+  }
+}
+
+@keyframes planes-halo-respira {
+  from {
+    opacity: 0.35;
+  }
+
+  to {
+    opacity: 0.7;
+  }
+}
+
+/* LA CURVA. Nueve centros siguiendo la guirnalda real de la foto: alero
+   izquierdo de la carpa → frente de la carpa (el punto más hondo hacia el
+   centro) → cuerda hacia el árbol de la derecha. El `--umbral` crece con la
+   posición horizontal: el encendido LEE de izquierda a derecha, igual que el
+   titular que tiene encima. */
+.planes-carril--fiesta .planes-portada__bombillo:nth-child(1) {
+  --umbral: 0;
+
+  inset-inline-start: 3%;
+  inset-block-start: 33%;
+}
+
+.planes-carril--fiesta .planes-portada__bombillo:nth-child(2) {
+  --umbral: 0.09;
+
+  inset-inline-start: 12%;
+  inset-block-start: 36%;
+}
+
+.planes-carril--fiesta .planes-portada__bombillo:nth-child(3) {
+  --umbral: 0.18;
+
+  inset-inline-start: 21%;
+  inset-block-start: 39%;
+}
+
+.planes-carril--fiesta .planes-portada__bombillo:nth-child(4) {
+  --umbral: 0.27;
+
+  inset-inline-start: 31%;
+  inset-block-start: 42%;
+}
+
+.planes-carril--fiesta .planes-portada__bombillo:nth-child(5) {
+  --umbral: 0.36;
+
+  inset-inline-start: 42%;
+  inset-block-start: 43%;
+}
+
+.planes-carril--fiesta .planes-portada__bombillo:nth-child(6) {
+  --umbral: 0.45;
+
+  inset-inline-start: 53%;
+  inset-block-start: 42%;
+}
+
+.planes-carril--fiesta .planes-portada__bombillo:nth-child(7) {
+  --umbral: 0.54;
+
+  inset-inline-start: 64%;
+  inset-block-start: 38%;
+}
+
+.planes-carril--fiesta .planes-portada__bombillo:nth-child(8) {
+  --umbral: 0.63;
+
+  inset-inline-start: 75%;
+  inset-block-start: 36%;
+}
+
+.planes-carril--fiesta .planes-portada__bombillo:nth-child(9) {
+  --umbral: 0.72;
+
+  inset-inline-start: 86%;
+  inset-block-start: 40%;
 }
 
 .planes-portada {
@@ -694,6 +886,23 @@
   /* Sube el encuadre: interesa el cielo de hora azul y la carpa, no el
      césped del primer término. */
   object-position: 50% 44%;
+}
+
+/* MÓVIL: EL ENCUADRE SE CORRE A LA DERECHA (pedido explícito del cliente,
+   agosto de 2026 — «en celular enfoca más la foto a tope al lado derecho
+   para que se vea el lado derecho»). En una ventana angosta `object-fit:
+   cover` recorta por los dos flancos para llenar el alto de la caja, y el
+   50 % horizontal de siempre deja el cincuenta luminoso —el elemento que más
+   vende de esta foto, y el mismo que nombra el carril— fuera de la ventana o
+   cortado por el borde derecho. Corriendo el foco al 82 % el recorte que se
+   pierde es el flanco IZQUIERDO, que en esta toma es sólo césped y sombra sin
+   ningún elemento que contar; el cincuenta queda dentro de cuadro. Sólo se
+   toca el eje horizontal: el vertical (44 %, cielo de hora azul y carpa) es
+   el mismo en los dos anchos. */
+@media (max-width: 47.9375em) {
+  .planes-portada__foto {
+    object-position: 82% 44%;
+  }
 }
 
 /* EL VELO, ACOTADO A LA BANDA DEL TEXTO. No es una veladura de toda la foto
@@ -950,39 +1159,17 @@
   box-shadow: var(--sombra-lg);
 }
 
-/* PORTADA PURA EN MÓVIL (pedido explícito del cliente viendo el celular):
-   por debajo de 768 px el carril 01 es sólo la foto a sangre con el titular
-   en blanco —el mismo tratamiento que ya lleva en escritorio—, sin la
-   tarjeta clara encima. El rótulo y el párrafo NO se borran del HTML: los
-   lee validar.js (tabla de propiedad, 'Rótulo «Atrévete a un plan
-   distinto»') y siguen presentes para lectores de pantalla vía el resto de
-   la maqueta; aquí sólo se retiran del lienzo visual con display:none, que
-   AT y buscadores tratan igual que "no está". De 768 px para arriba
-   reaparece exactamente como estaba: la regla siguiente NO se toca por el
-   otro agente que trabaja el contorno de `.planes-portada__renglon`. */
-/* DOS ARREGLOS SOBRE LA VERSIÓN ANTERIOR DE ESTA REGLA, los dos reportados:
-
-   1 · NO SURTÍA EFECTO EN EL TELÉFONO DEL CLIENTE. `max-width: 47.9375em` es
-       el mismo criterio que este archivo ya documentó como insuficiente dos
-       veces (ver la historia v3/v4 de `.planes-portada__renglon`): su
-       teléfono reporta del orden de 1160 px de ancho —letra del sistema
-       grande, modo «sitio de escritorio», horizontal—, así que la consulta no
-       llegaba a aplicarse y la tarjeta seguía viéndose. Se le suma la
-       condición de PUNTERO, que es la que sí distingue un dedo de un ratón:
-       cualquier pantalla táctil por debajo de 1024 px entra, vea el ancho que
-       vea. Ancho O (táctil y no-escritorio): las dos puertas, no una.
-
-   2 · SE LLEVABA POR DELANTE LA TARJETA DEL CIERRE NOCTURNO. La regla
-       apuntaba a `.planes-portada__tarjeta` a secas, y esa clase la comparten
-       la tarjeta del carril 01 y la del cierre `.planes-noche`, que es donde
-       vive el CTA «Aparta tu fecha». En móvil desaparecía también, es decir,
-       la sección se quedaba sin su llamada final. Ahora la regla está acotada
-       al carril 01 y la del cierre no se toca.
-
-   El HTML de la tarjeta NO se borra: lo lee herramientas/validar.js (tabla de
-   propiedad, rótulo «Atrévete a un plan distinto») y sigue entero. */
-@media (max-width: 47.9375em), (max-width: 63.9375em) and (pointer: coarse) {
-  .planes-carril--fiesta .planes-portada__tarjeta {
+/* v15 · LA TARJETA VUELVE A LA FOTO EN ESCRITORIO, Y DESAPARECE EN MÓVIL
+   (pedido definitivo del cliente, viendo una captura de escritorio: quería
+   la tarjeta otra vez superpuesta a la derecha, como el diseño original —
+   el intento anterior de bajarla al flujo, documentado más arriba en el
+   comentario del HTML, se descartó). En ESCRITORIO la posa `planes.css §3
+   bis` (`.js .planes-fiesta__escena .planes-portada__tarjeta`) con
+   `position: absolute`. En MÓVIL/TÁCTIL no hay sitio para una tarjeta
+   flotando sobre una foto a pantalla completa sin taparle el titular, así
+   que se oculta entera: la portada queda limpia, sólo foto + titular. */
+@media (max-width: 63.9375em) {
+  .planes-portada__tarjeta {
     display: none;
   }
 }
@@ -1015,67 +1202,54 @@
   }
 }
 
-/* De 1024 px para arriba la tarjeta se POSA sobre la foto, por el lado
-   contrario al que abre la marca de agua: la marca entra por la izquierda,
-   la tarjeta remata abajo a la derecha, y entre las dos cruzan la imagen en
-   diagonal. Por debajo de 1024 baja a bloque debajo de la foto: a esos
-   anchos, una tarjeta encima tapa la mitad del cuadro.                      */
-@media (min-width: 64em) {
-  .planes-fiesta__acto1 {
-    position: relative;
-  }
-
-  .planes-portada__tarjeta {
-    position: absolute;
-    z-index: var(--z-elevado);
-    inset-block-end: var(--gap-lg);
-    inset-inline-end: calc(var(--planes-sangrado) * -1);
-    max-inline-size: calc(var(--planes-paso) * 5 - var(--gap));
-  }
-}
-
-/* ACTO 2 · EL DÍPTICO ASIMÉTRICO
-   Cinco columnas contra siete, y ninguna de las dos fotos empieza ni acaba
-   donde la otra: la vertical DESBORDA el díptico por arriba y la apaisada se
-   pega al pie. El texto que remata el carril cae en el aire que deja ese
-   desfase, que es exactamente el hueco que antes no tenía dueño.            */
-.planes-fiesta__diptico {
-  display: grid;
-  gap: var(--gap);
-}
-
-.planes-fiesta__aire {
-  display: flex;
-  flex-direction: column;
-  gap: var(--gap);
-  justify-content: flex-end;
-}
-
+/* ACTO 2 · UNA SOLA FOTO, YA NO DÍPTICO (v15, pedido directo del cliente:
+   la segunda foto del díptico —boda-1.jpg, la carpa nocturna— repetía la
+   misma escena que la portada del carril, y sobraba).
+   En MÓVIL la vertical va a pantalla completa, como una portada más: sin
+   `aspect-ratio` fijo, ocupa el ancho de la ventana y se le da un alto
+   generoso en `dvh` para que se sienta pieza propia, no una miniatura.
+   En ESCRITORIO se recorta en ÓVALO —`border-radius: 50%` sobre una caja
+   rectangular da una elipse ajustada a su proporción, no un círculo— y
+   se queda FIJA: a diferencia de la portada de arriba (que expande su
+   silueta con el scroll, planes.css §3 bis), esta pieza no anima nada; es
+   la nota tranquila después del gesto grande del Acto 1.               */
+/* EL PESO DE LA SEGUNDA FOTO (agosto de 2026, pedido directo del cliente:
+   las dos fotos de boda deben pesar LO MISMO, no una dominando a la otra).
+   A 26rem la vertical quedaba como una miniatura debajo de una portada de
+   pantalla completa: acto grande, nota al pie. La medida sube a SEIS de las
+   doce columnas del carril —la mitad de la maqueta, misma aritmética de
+   pasos que usa la tarjeta del acto 1— para que el óvalo de escritorio se
+   lea como el segundo acto de verdad y no como un remate. Igualarla en
+   píxeles con una escena clavada de 100svh ni se puede ni se quiere; el
+   mismo peso aquí es el mismo rango: cada acto dueño de su pantalla (en
+   móvil la vertical ya lo era, con sus 80dvh a sangre). */
 .planes-fiesta__vertical {
-  aspect-ratio: 5 / 7;
+  aspect-ratio: 3 / 4;
+  /* El max() es el suelo: en tableta seis columnas del carril miden MENOS
+     que las 26rem que la pieza ya tenía, y subirle el rango en escritorio no
+     puede costarle rango donde ya lo tenía. */
+  max-inline-size: max(26rem, calc(var(--planes-paso) * 6 - var(--gap)));
+  margin-inline: auto;
 }
 
-.planes-fiesta__apaisada {
-  aspect-ratio: 4 / 3;
-}
-
-@media (min-width: 48em) {
-  .planes-fiesta__diptico {
-    grid-template-columns: 5fr 7fr;
-  }
-
-  /* La vertical se ancla ARRIBA y sube dos rem por encima de la línea del
-     díptico; la columna del aire se ancla ABAJO. Con las dos anclas opuestas
-     el desfase existe pase lo que pase con los altos reales de las fotos: no
-     depende de que los números cuadren. */
+@media (max-width: 47.9375em) {
   .planes-fiesta__vertical {
-    align-self: start;
-    margin-block-start: calc(var(--esp-lg) * -1);
+    aspect-ratio: auto;
+    max-inline-size: none;
+    /* CORRECCIÓN DE SIGNO (agosto de 2026). `--planes-sangrado` ya ES
+       negativo —así lo consume tal cual `.planes-portada` para irse a
+       sangre—; el `* -1` que había aquí lo volvía POSITIVO y en vez de
+       sacar la foto al borde de la ventana la ENCOGÍA dos sangrados
+       (301 px medidos a 375). Era justo la miniatura que el cliente
+       señalaba al pedir que las dos fotos de boda pesaran lo mismo. */
+    margin-inline: var(--planes-sangrado);
+    block-size: 80dvh;
   }
+}
 
-  .planes-fiesta__aire {
-    align-self: end;
-  }
+.planes-fiesta__remate {
+  margin-block-start: var(--gap);
+  text-align: center;
 }
 
 /* --------------------------------------------------------------------------
@@ -1173,6 +1347,582 @@
     grid-column: 4 / -1;
     margin-inline-end: var(--planes-sangrado);
   }
+
+  /* EL DIORAMA OCUPA EL ANCHO ENTERO Y SANGRA POR LA DERECHA, igual que el
+     mosaico de aquí abajo: el carril 02 siempre ha salido por ese lado y la
+     portada nueva no cambia la gramática del carril, sólo la abre. */
+  .planes-carril--familia .planes-diorama {
+    grid-column: 1 / -1;
+    margin-inline-end: var(--planes-sangrado);
+  }
+}
+
+/* --------------------------------------------------------------------------
+   4 bis. PORTADA POR SCROLL · «EL DIORAMA DEL CUMPLEAÑOS»  (v2)
+   --------------------------------------------------------------------------
+   Sustituye al prototipo A (el díptico de la costura), descartado por el
+   cliente. La lección de aquel intento queda escrita como regla dura de este
+   bloque: UN SOLO MOTOR DE ANIMACIÓN POR PIEZA. Todo el movimiento de scroll
+   es `animation-timeline: view()` nativo dentro de las dos guardas del §10
+   —movimiento no reducido y @supports— y NO hay respaldo de JavaScript ni de
+   transición: donde el nativo no exista, la escena queda quieta, abierta y
+   legible desde el CSS estático. Nunca dos relojes sobre el mismo elemento.
+
+   POR QUÉ SE SIENTE CARO, en tres decisiones concretas:
+   1. PROFUNDIDAD REAL: tres velocidades. El fondo va MÁS LENTO que la página
+      (paralaje clásico), la hoja flotante va MÁS RÁPIDO y en sentido
+      contrario, y el destello cruza a su propio compás. Dos planos a
+      velocidades opuestas es lo que el ojo lee como diorama; una sola foto
+      que se mueve es un banner.
+   2. LA APERTURA DE CINE. El marco arranca recortado en cinta apaisada
+      (18 % comido por arriba y por abajo, esquinas en --radio-xl) y se abre
+      a cuadro completo en el primer tramo de su entrada, con --ease-salida:
+      dos tercios del gesto se resuelven en el primer cuarto del recorrido y
+      el resto es asentamiento. Es recorte (clip-path), no tamaño: cero
+      maquetación recalculada.
+   3. EL DESTELLO. Una franja de luz crema en `screen` —el mismo modo de
+      mezcla que los claros de luz del hero en inicio.css, no un invento—
+      que atraviesa la foto UNA vez, atada al scroll. `screen` sólo puede
+      aclarar, y aclara más lo que ya estaba claro (las pompas, los flecos),
+      así que se lee como sol entre ramas y no como una veladura. Nada de
+      oscurecer la foto: el velo de legibilidad SÓLO existe en los anchos
+      donde el rótulo se posa dentro de ella (§11).
+
+   Y LAS MARIPOSAS DE TONOS NUEVOS. Cuatro SVG dibujados en el marcado —no
+   los recortes PNG fotográficos del enjambre del hero— teñidos con tokens
+   del logo que el enjambre no usa: amarillo, coral claro, teal y menta. La técnica de
+   vuelo sí es la del hero (inicio.css §1.c): aleteo como cierre de alas en
+   `scale` X, deriva que no cierra el camino y balanceo, cada compás en su
+   PROPIA propiedad (scale / translate / rotate) porque varias animaciones
+   sobre `transform` no se suman, se pisan. Duraciones de los tokens de
+   fauna; desfases negativos para que ninguna arranque en la misma postura.
+
+   Compositor puro: sólo `clip-path`, `transform` y `opacity`. Las líneas de
+   tiempo van CON NOMBRE sobre cajas del flujo (regla del §10: `view()` a
+   secas dentro de un `overflow` recortado da una animación muerta).
+   -------------------------------------------------------------------------- */
+.planes-diorama {
+  position: relative;
+}
+
+.planes-diorama__marco {
+  position: relative;
+  isolation: isolate;
+  overflow: clip;
+  background-color: var(--color-fondo-oscuro);
+  aspect-ratio: 4 / 5;
+  /* La arcada del carril (§8): hombros de medio punto arriba, pie recto.
+     Es el mismo motivo del par de abajo, no una silueta nueva. */
+  border-radius: 50% 50% var(--radio-md) var(--radio-md);
+}
+
+.planes-diorama__fondo {
+  position: absolute;
+  inset: 0;
+  inline-size: 100%;
+  block-size: 100%;
+  object-fit: cover;
+  /* El niño saltando y la mesa de picnic viven en la mitad BAJA de la
+     vertical original: en el recorte apaisado de escritorio el encuadre baja
+     al 74 % para que el gesto —los brazos en alto y las pompas— quede dentro
+     de cuadro y arriba sólo asome el borde de las ramas. */
+  object-position: 50% 74%;
+}
+
+/* EL DESTELLO. En reposo está fuera de cuadro por la izquierda: sin motor
+   nativo no se ve nunca, que es exactamente su estado correcto. */
+.planes-diorama__destello {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  mix-blend-mode: screen;
+  background-image: linear-gradient(
+    105deg,
+    transparent 38%,
+    rgb(var(--luz-rgb) / 0.34) 50%,
+    transparent 62%
+  );
+  transform: translate3d(-120%, 0, 0);
+}
+
+/* El velo de legibilidad del rótulo. Nace APAGADO: en escritorio el rótulo
+   vive fuera de la foto y la foto se ve limpia —la queja literal del intento
+   anterior fue «las fotos se ven oscurecidas»—. Sólo el §11 lo enciende, en
+   los anchos donde el rótulo se posa dentro. */
+.planes-diorama__velo {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background-image: linear-gradient(
+    to bottom,
+    transparent 42%,
+    var(--color-velo-modal) 82%
+  );
+  opacity: 0;
+}
+
+/* LA HOJA FLOTANTE — el primer término del diorama. */
+.planes-diorama__flotante {
+  aspect-ratio: 3 / 4;
+  box-shadow: var(--sombra-xl);
+}
+
+/* ---- escritorio y tableta: banda ancha + hoja colgando ------------------- */
+@media (min-width: 48em) {
+  .planes-diorama {
+    /* El aire por el que la hoja cuelga POR DEBAJO del marco: es lo que la
+       saca del plano del fondo. */
+    padding-block-end: var(--esp-2xl);
+  }
+
+  .planes-diorama__marco {
+    aspect-ratio: 21 / 10;
+  }
+
+  .planes-diorama__flotante {
+    position: absolute;
+    inset-block-end: 0;
+    inset-inline-start: var(--planes-paso);
+    inline-size: calc(var(--planes-paso) * 3 - var(--gap));
+    z-index: var(--z-base);
+    /* La diagonal contraria a la arcada del marco: dos vecinas nunca
+       comparten silueta (§8). */
+    border-radius: var(--radio-xl) var(--radio-xs) var(--radio-xl) var(--radio-xs);
+  }
+}
+
+/* ---- las pompas que siguen subiendo -------------------------------------- */
+/* La foto YA trae pompas: son píxeles, no piezas, y no se pueden mover sin
+   recortarlas. Así que no se anima lo fotografiado —se le da continuación—:
+   cinco pompas dibujadas que ascienden por la MISMA zona donde el niño salta
+   a atraparlas, para que el gesto congelado de la foto se lea como el
+   fotograma anterior de lo que sigue subiendo. Si flotaran en otra parte del
+   cuadro contradirían la foto en vez de continuarla.
+
+   Una pompa de jabón real no es un círculo de color: es un vidrio finísimo
+   que casi no tiñe (el degradado apenas se ve), con una LUZ EN EL BORDE
+   —donde la película se ve de canto y acumula espesor— y un punto de brillo
+   arriba a la izquierda, que es el reflejo de la fuente de luz. De ahí las
+   tres capas: relleno casi transparente, aro interior de luz y destello.
+
+   Compositor puro: `translate` y `opacity`, nunca `top`/`left`. Y UN SOLO
+   motor por pompa —subida, deriva y desvanecido viven en el mismo
+   fotograma—, que es la lección del prototipo A escrita arriba. */
+.planes-diorama__pompas {
+  /* v2 · reposicionada: las pompas dibujadas vivían a la izquierda de la
+     foto, donde no hay ninguna pompa real —el niño y sus manos levantadas
+     están centro-derecha del encuadre—. Ahora la caja arranca justo donde
+     empieza el racimo fotografiado, para que las cinco dibujadas se lean
+     como continuación de las que ya están en el JPG, no como una capa
+     aparte flotando en el aire vacío. */
+  position: absolute;
+  inset-block-start: 6%;
+  inset-inline-start: 34%;
+  inline-size: 60%;
+  block-size: 74%;
+  pointer-events: none;
+}
+
+.planes-diorama__pompa {
+  position: absolute;
+  aspect-ratio: 1;
+  border-radius: 50%;
+  /* El vidrio: un tinte de luz que se apaga hacia el centro (la pompa es
+     hueca) y se enciende en el filo. */
+  background-image: radial-gradient(
+    circle at 32% 28%,
+    rgb(var(--luz-rgb) / 0.5) 0%,
+    rgb(var(--luz-rgb) / 0.1) 34%,
+    rgb(var(--teal-rgb) / 0.08) 62%,
+    rgb(var(--luz-rgb) / 0.26) 100%
+  );
+  /* El aro de luz por dentro y el halo tibio por fuera: el borde es lo único
+     de una pompa que de verdad se ve. */
+  box-shadow:
+    inset 0 0 0 1px rgb(var(--luz-rgb) / 0.55),
+    inset 0 0 var(--esp-xs) rgb(var(--luz-rgb) / 0.3),
+    0 0 var(--esp-xs) rgb(var(--luz-rgb) / 0.18);
+  /* En reposo —y bajo `reduce`— quedan POSADAS y visibles, no ocultas: son
+     pompas quietas en el aire, no una capa que desaparece. */
+  opacity: 0.42;
+}
+
+/* El destello de la fuente de luz, arriba a la izquierda, como en las pompas
+   de la propia fotografía. */
+.planes-diorama__pompa::after {
+  content: "";
+  position: absolute;
+  inset-block-start: 16%;
+  inset-inline-start: 20%;
+  inline-size: 22%;
+  block-size: 22%;
+  border-radius: 50%;
+  background-color: rgb(var(--luz-rgb) / 0.72);
+}
+
+/* Cinco tamaños, cinco alturas de salida y cinco velocidades: ninguna
+   comparte compás con su vecina. Las grandes suben más lento —las de verdad
+   también—, y las pequeñas van más transparentes porque tienen menos filo
+   que encender. */
+.planes-diorama__pompa--a {
+  inline-size: 7%;
+  inset-inline-start: 14%;
+  inset-block-start: 64%;
+}
+
+.planes-diorama__pompa--b {
+  inline-size: 4.5%;
+  inset-inline-start: 38%;
+  inset-block-start: 78%;
+  opacity: 0.34;
+}
+
+.planes-diorama__pompa--c {
+  inline-size: 9%;
+  inset-inline-start: 56%;
+  inset-block-start: 70%;
+}
+
+.planes-diorama__pompa--d {
+  inline-size: 3.5%;
+  inset-inline-start: 70%;
+  inset-block-start: 86%;
+  opacity: 0.3;
+}
+
+.planes-diorama__pompa--e {
+  inline-size: 6%;
+  inset-inline-start: 28%;
+  inset-block-start: 90%;
+}
+
+/* ---- las mariposas ------------------------------------------------------- */
+/* La caja vuela sobre el tercio alto derecho: lejos del rótulo (que en móvil
+   cae abajo) y lejos del niño (centro-izquierda del encuadre). Decorativa,
+   `aria-hidden` en el marcado y sin puntero, como manda el módulo de fauna. */
+.planes-diorama__mariposas {
+  position: absolute;
+  inset-block-start: 4%;
+  inset-inline-end: 2%;
+  inline-size: 46%;
+  block-size: 52%;
+  pointer-events: none;
+}
+
+.planes-diorama__mariposa {
+  position: absolute;
+  opacity: 0.92;
+  filter: drop-shadow(0 2px 4px rgb(var(--sombra-rgb) / 0.35));
+}
+
+/* La forma es UNA; cada pieza la tiñe con sus tres variables. */
+.planes-diorama__ala {
+  fill: var(--planes-mp-ala);
+}
+
+.planes-diorama__ala-honda {
+  fill: var(--planes-mp-honda);
+}
+
+.planes-diorama__cuerpo {
+  fill: var(--planes-mp-cuerpo);
+}
+
+.planes-diorama__antenas {
+  fill: none;
+  stroke: var(--planes-mp-cuerpo);
+  stroke-width: 1;
+  stroke-linecap: round;
+}
+
+/* Los tres tonos NUEVOS, todos del logo vía tokens.css: el amarillo de los
+   círculos, el coral claro del acento inverso y el teal del lettering.
+   Ninguno repite los marrones fotográficos del enjambre del hero. */
+.planes-diorama__mariposa--sol {
+  --planes-mp-ala: var(--amarillo);
+  --planes-mp-honda: var(--coral);
+  --planes-mp-cuerpo: var(--verde-bosque-hondo);
+  inset-inline-start: 8%;
+  inset-block-start: 6%;
+  inline-size: 13%;
+}
+
+.planes-diorama__mariposa--coral {
+  --planes-mp-ala: var(--coral-claro);
+  --planes-mp-honda: var(--coral-hondo);
+  --planes-mp-cuerpo: var(--verde-bosque-hondo);
+  inset-inline-start: 56%;
+  inset-block-start: 30%;
+  inline-size: 10%;
+}
+
+.planes-diorama__mariposa--teal {
+  --planes-mp-ala: var(--teal);
+  --planes-mp-honda: var(--verde-bosque);
+  --planes-mp-cuerpo: var(--negro-escena);
+  inset-inline-start: 30%;
+  inset-block-start: 58%;
+  inline-size: 8%;
+}
+
+/* La CUARTA, la del verde menta de las hojas del logo: es el único color
+   literal del logo que las otras tres no habían usado (amarillo, coral y
+   teal ya estaban), así que la familia se completa sin inventar tinte
+   nuevo. Vuela abajo a la izquierda de la caja —el único cuadrante que las
+   otras tres dejaban vacío— y su ala honda va en oliva para que no se
+   confunda con el verde del follaje de la foto. */
+.planes-diorama__mariposa--menta {
+  --planes-mp-ala: var(--verde-menta);
+  --planes-mp-honda: var(--verde-oliva);
+  --planes-mp-cuerpo: var(--negro-escena);
+  inset-inline-start: 4%;
+  inset-block-start: 74%;
+  inline-size: 11%;
+}
+
+/* ---- el movimiento: un motor, dos guardas, cero respaldo ----------------- */
+@keyframes planes-diorama-abre {
+  from {
+    clip-path: inset(18% 4% 18% 4% round var(--radio-xl));
+  }
+  to {
+    clip-path: inset(0 0 0 0 round 0);
+  }
+}
+
+@keyframes planes-diorama-destella {
+  from {
+    transform: translate3d(-120%, 0, 0);
+  }
+  to {
+    transform: translate3d(120%, 0, 0);
+  }
+}
+
+@keyframes planes-diorama-flota {
+  from {
+    transform: translate3d(0, 14%, 0);
+  }
+  to {
+    transform: translate3d(0, -6%, 0);
+  }
+}
+
+@keyframes planes-diorama-aletea {
+  from {
+    scale: 1 1;
+  }
+  to {
+    scale: 0.62 1;
+  }
+}
+
+@keyframes planes-diorama-deriva {
+  from {
+    translate: 0 0;
+  }
+  25% {
+    translate: 26% -18%;
+  }
+  50% {
+    translate: -14% -32%;
+  }
+  75% {
+    translate: -30% -8%;
+  }
+  to {
+    translate: 12% 16%;
+  }
+}
+
+@keyframes planes-diorama-balancea {
+  from {
+    rotate: -8deg;
+  }
+  to {
+    rotate: 8deg;
+  }
+}
+
+/* LA SUBIDA DE LAS POMPAS. Todo en un solo fotograma: el ascenso, la deriva
+   lateral y el nacer/desvanecerse. Los porcentajes de `translate` son de la
+   propia pompa —que es pequeña—, por eso los valores son altos: -520 % de un
+   círculo del 7 % del ancho es, en pantalla, cruzar el alto del marco. */
+@keyframes planes-diorama-asciende {
+  from {
+    translate: 0 0;
+    opacity: 0;
+  }
+  12% {
+    opacity: 0.5;
+  }
+  40% {
+    translate: 46% -190%;
+  }
+  70% {
+    translate: -34% -350%;
+  }
+  88% {
+    opacity: 0.28;
+  }
+  to {
+    translate: 24% -520%;
+    opacity: 0;
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  /* LAS POMPAS SUBEN EN BUCLE, con reloj de tiempo como las mariposas: el
+     aire no espera a la rueda del ratón. Bajo `reduce` este bloque no se
+     declara y se quedan donde el CSS estático las dejó —posadas, visibles y
+     quietas—, que es la degradación pedida: detenerse, no desaparecer. */
+  .planes-diorama__pompa {
+    animation: planes-diorama-asciende var(--dur-pompa) linear infinite;
+    /* `linear` a propósito: una pompa que sube no acelera ni frena, la
+       empuja el aire a velocidad constante. La curva de autor haría un
+       gesto de interfaz, y esto es física. */
+  }
+
+  /* Compases primos entre sí y retardos negativos, para que las cinco estén
+     siempre en un punto distinto de su recorrido y ninguna nazca a la vez
+     que otra. */
+  .planes-diorama__pompa--a {
+    --dur-pompa: calc(var(--dur-vuelo) * 3.7);
+    animation-delay: calc(var(--dur-vuelo) * -1.1);
+  }
+
+  .planes-diorama__pompa--b {
+    --dur-pompa: calc(var(--dur-vuelo) * 2.3);
+    animation-delay: calc(var(--dur-vuelo) * -0.4);
+  }
+
+  .planes-diorama__pompa--c {
+    --dur-pompa: calc(var(--dur-vuelo) * 4.9);
+    animation-delay: calc(var(--dur-vuelo) * -2.9);
+  }
+
+  .planes-diorama__pompa--d {
+    --dur-pompa: calc(var(--dur-vuelo) * 1.9);
+    animation-delay: calc(var(--dur-vuelo) * -1.7);
+  }
+
+  .planes-diorama__pompa--e {
+    --dur-pompa: calc(var(--dur-vuelo) * 3.1);
+    animation-delay: calc(var(--dur-vuelo) * -2.3);
+  }
+
+  /* Las mariposas vuelan con reloj de TIEMPO, no de scroll: son aire, no un
+     gesto que haya que ganarse con la rueda. Bajo `reduce` este bloque no se
+     declara y las tres se quedan posadas y quietas: se detienen, no se van. */
+  .planes-diorama__mariposa {
+    animation:
+      planes-diorama-aletea var(--dur-aleteo) var(--ease-suave) infinite alternate,
+      planes-diorama-deriva var(--dur-deriva) var(--ease-suave) infinite alternate,
+      planes-diorama-balancea calc(var(--dur-reveal) * 2.6) var(--ease-suave)
+        infinite alternate;
+  }
+
+  /* Compases propios por pieza, con retardos NEGATIVOS: ninguna arranca en
+     la misma postura que su vecina y ningún ciclo es múltiplo de otro. */
+  .planes-diorama__mariposa--coral {
+    animation-duration: calc(var(--dur-aleteo) * 0.8), calc(var(--dur-deriva) * 1.3),
+      calc(var(--dur-reveal) * 3.1);
+    animation-delay: calc(var(--dur-media) * -1), calc(var(--dur-vuelo) * -0.7),
+      calc(var(--dur-lenta) * -1);
+  }
+
+  .planes-diorama__mariposa--teal {
+    animation-duration: calc(var(--dur-aleteo) * 1.15), calc(var(--dur-deriva) * 0.85),
+      calc(var(--dur-reveal) * 2.2);
+    animation-delay: calc(var(--dur-lenta) * -2), calc(var(--dur-vuelo) * -1.4),
+      calc(var(--dur-media) * -2);
+  }
+
+  /* La menta, la más lenta de las cuatro: vuela abajo, cerca del pasto, y
+     ahí el aire pesa. Sus tres compases no son múltiplo de los de ninguna
+     vecina y sus retardos negativos son primos entre sí. */
+  .planes-diorama__mariposa--menta {
+    animation-duration: calc(var(--dur-aleteo) * 1.37), calc(var(--dur-deriva) * 1.7),
+      calc(var(--dur-reveal) * 3.7);
+    animation-delay: calc(var(--dur-lenta) * -3), calc(var(--dur-vuelo) * -2.3),
+      calc(var(--dur-media) * -5);
+  }
+
+  @supports (animation-timeline: view()) {
+    /* La línea de tiempo del marco vive en el propio marco, que es una caja
+       del flujo; la del diorama sólo se declara donde la hoja flotante tiene
+       caja propia (≥64em: por debajo, el §11 disuelve el diorama con
+       `display: contents` y una línea de tiempo ahí sería una animación
+       congelada en su primer fotograma). */
+    .planes-diorama__marco {
+      view-timeline-name: --planes-tl-marco;
+      animation-name: planes-diorama-abre;
+      animation-duration: auto;
+      animation-fill-mode: both;
+      /* --ease-suave y no --ease-salida: en un reloj de SCROLL la curva de
+         salida resuelve el 98 % del gesto en la primera fracción del rango y
+         la apertura se leía como un parpadeo. Medido en pantalla: con la
+         suave, a mitad de entrada la cinta va por el 60 % de su recorrido y
+         el ojo alcanza a verla abrirse mientras el marco sube. */
+      animation-timing-function: var(--ease-suave);
+      animation-timeline: --planes-tl-marco;
+      animation-range: entry 0% entry 85%;
+      will-change: clip-path;
+    }
+
+    /* La capa LENTA: el fondo se posa desde un 14 % de más y deriva durante
+       todo el paso por la ventana. `scale` de guarda (§10) para que el
+       recorrido no descubra el borde del recorte. */
+    .planes-diorama__fondo {
+      --planes-esc: 1.14;
+      --planes-de: -4%;
+      --planes-a: 4%;
+      animation-name: planes-paralaje-y;
+      animation-duration: auto;
+      animation-fill-mode: both;
+      animation-timing-function: linear;
+      animation-timeline: --planes-tl-marco;
+      animation-range: entry 0% exit 100%;
+    }
+
+    .planes-diorama__destello {
+      animation-name: planes-diorama-destella;
+      animation-duration: auto;
+      animation-fill-mode: both;
+      animation-timing-function: var(--ease-suave);
+      animation-timeline: --planes-tl-marco;
+      animation-range: entry 35% exit 55%;
+    }
+
+    /* La capa RÁPIDA, sólo en escritorio ancho: la hoja flotante sube a
+       contramarcha del fondo, en el reloj del diorama entero. */
+    @media (min-width: 64em) {
+      .planes-diorama {
+        view-timeline-name: --planes-tl-diorama;
+      }
+
+      .planes-diorama__flotante {
+        animation-name: planes-diorama-flota;
+        animation-duration: auto;
+        animation-fill-mode: both;
+        animation-timing-function: linear;
+        animation-timeline: --planes-tl-diorama;
+        animation-range: entry 0% exit 100%;
+      }
+    }
+  }
+}
+
+/* Con `infantil-4` y `cumpleanos-1` ascendidas al diorama, en el mosaico
+   queda una sola figura y el par a dos columnas la dejaba a media medida.
+   Cuando es hija única ocupa la pista entera y suelta el escalón de línea de
+   base, que sólo tenía sentido habiendo con quién desnivelarse. */
+.planes-familia__par:has(> :only-child) {
+  grid-template-columns: minmax(0, 1fr);
+}
+
+.planes-familia__par:has(> :only-child) .planes-familia__alta {
+  margin-block-end: 0;
 }
 
 /* --------------------------------------------------------------------------
@@ -1208,21 +1958,234 @@
   }
 }
 
-/* La caja del 03: pega a la izquierda y se queda a DOS COLUMNAS del borde
-   derecho. Es el carril más callado de los tres claros, y la manera de
-   decirlo sin tocar ni una palabra es que no llegue al final del renglón.
-   Diez columnas de doce = diez pasos menos el gap sobrante del último.      */
-@media (min-width: 48em) {
+/* La caja del 03 EN TABLETA: pega a la izquierda y se queda a DOS COLUMNAS
+   del borde derecho. Diez columnas de doce = diez pasos menos el gap sobrante
+   del último. En ese ancho el reparto sigue siendo bueno: dos piezas a media
+   página y el texto debajo.
+
+   DE 64em PARA ARRIBA, YA NO — y el motivo está medido. Con el tope de diez
+   columnas y el reparto 7fr/5fr, a 1280 px de ventana las dos fotos caían en
+   una franja de unos 540 px: dos rectángulos de tamaño casi idéntico, uno al
+   lado del otro, y detrás del texto un vacío de dos columnas hasta el borde.
+   Eso no es un dossier, es un recorte de catálogo. En escritorio la caja se
+   abre al renglón entero y la composición cambia de gramática: §5 ter.      */
+@media (min-width: 48em) and (max-width: 63.9375em) {
   .planes-carril--empresa {
     max-width: calc(var(--planes-paso) * 10 - var(--gap));
   }
 }
 
+/* v16 · EL PAR SE QUEDA CON HIJA ÚNICA. Pedido del cliente: el carril 03
+   enseña DOS fotos y nada más —el grupo y la carpa de vidrio—, así que la
+   segunda hoja del par sale del HTML. Con una sola apaisada, dejarla en su
+   3:2 junto al retrato hacía la fila tan baja como ella y aplastaba al
+   grupo. La solución es la del mosaico del 02 (`:has(> :only-child)`): la
+   hija única suelta su proporción y se estira al alto de la fila, y el
+   retrato recupera el 3:4 que marca la altura del dossier. `object-fit:
+   cover` del marco recorta la carpa sin deformarla.
+   SÓLO en el contexto de dossier real: bajo el umbral del §11 el retrato es
+   portada a sangre con su propio 4:5, y estas dos reglas —que le ganarían en
+   peso— no deben existir ahí. La consulta era el complemento exacto de la
+   puerta doble del §11.
+   Y SÓLO EN TABLETA (v17): de 64em para arriba las dos piezas dejan de ser
+   dos columnas hermanas de una fila —pasan a lámina y satélite montados, con
+   proporciones y alturas propias (§5 ter)—, así que este estiramiento a la
+   altura de la fila sobra ahí y encima le ganaría en peso a lo nuevo. La
+   franja que queda es la que va del umbral del §11 a los 64em.             */
+@media (min-width: 48em) and (max-width: 63.9375em) and (pointer: fine) {
+  .planes-dossier:has(.planes-dossier__par > :only-child) .planes-dossier__retrato {
+    aspect-ratio: 3 / 4;
+  }
+
+  /* La fila única pasa de `auto` a `1fr`: contra una fila auto, el 100 % de
+     alto del marco es circular y colapsa al alto intrínseco de la foto. Con
+     1fr la fila toma el alto que el retrato le da a la rejilla del dossier
+     y el marco lo llena.                                                   */
+  .planes-dossier__par:has(> :only-child) {
+    grid-template-rows: minmax(0, 1fr);
+  }
+
+  .planes-dossier__par:has(> :only-child) > .marco {
+    aspect-ratio: auto;
+    block-size: 100%;
+  }
+}
+
+/* --------------------------------------------------------------------------
+   5 bis. CARRIL 03 · EL DOSSIER QUE SE ARMA — el filete
+   --------------------------------------------------------------------------
+   La identidad de este carril no es orgánica —nada de luces ni de aire—:
+   es un portafolio que se COMPAGINA. Cada foto lleva un filete fino por
+   dentro del marco, como la línea de corte de una lámina montada en
+   passe-partout; en §10 ter ese filete se TRAZA solo cuando la pieza se
+   asienta. Aquí abajo va únicamente el ESTADO RESUELTO: sin JS, sin soporte
+   de `animation-timeline` o con movimiento reducido, la línea está trazada
+   entera desde el primer pintado. Es la misma doctrina del bloque ASOMA
+   (§10): el estado estático nunca depende de que una animación llegue.
+
+   Va en ::before y no en ::after A PROPÓSITO: en móvil el retrato de este
+   carril se convierte en portada a sangre (§11) y su ::after ya es el velo
+   de legibilidad. Compartir pseudo lo pisaría sin síntoma. En esa misma
+   consulta, más abajo, el filete del retrato se APAGA: una línea de
+   passe-partout sobre una foto de canto a canto se lee como un error de
+   recorte, no como una lámina.
+
+   El z-index hace falta: el <img> de dentro lleva `transform` (paralaje en
+   el retrato, zoom de hover en el par) y un elemento transformado pinta por
+   encima de un posicionado con z automático. Con --z-base el filete queda
+   sobre la foto, que es donde está la línea de una lámina montada.         */
+.planes-carril--empresa .planes-dossier__retrato::before,
+.planes-carril--empresa .planes-dossier__par > .marco::before {
+  content: "";
+  position: absolute;
+  inset: var(--esp-2xs);
+  border: 1px solid var(--color-borde);
+  border-radius: inherit;
+  pointer-events: none;
+  z-index: var(--z-base);
+}
+
+@media (max-width: 47.9375em), (max-width: 63.9375em) and (pointer: coarse) {
+  .planes-carril--empresa .planes-carril__portada::before {
+    content: none;
+  }
+}
+
+/* --------------------------------------------------------------------------
+   5 ter. CARRIL 03 EN ESCRITORIO · LA BANDA Y LA COPIA MONTADA  (v18)
+   --------------------------------------------------------------------------
+   EL PROBLEMA, medido en pantalla a 1160-1280 px: las dos fotos del carril
+   caían en una franja de unos 540 px a la izquierda —dos rectángulos de
+   tamaño casi idéntico, uno al lado del otro— y detrás del texto quedaba un
+   vacío de dos columnas hasta el borde. Cada pieza estaba bien; la
+   composición no existía. Al lado del carril 02, que abre con un diorama de
+   tres velocidades, el 03 se leía como la plantilla de la que el resto de la
+   página se salió.
+
+   LA ORDEN DEL CLIENTE, literal: «pantalla completa, no fotos pequeñas». No
+   es un ajuste de tamaño: es un cambio de escala. La carpa deja de ser una
+   foto dentro de la maqueta y pasa a ser una BANDA DE BORDE A BORDE DE LA
+   VENTANA, con el mismo alto que la portada del carril 01 y la banda del 04
+   —--planes-portada-alto, que es --alto-hero— porque en este sitio «a
+   sangre» ya tiene una medida y no se inventa otra.
+
+   LO QUE NO SE HACE PARA CONSEGUIRLO. Nada de copiar el 02: ni capas de
+   paralaje, ni pompas, ni mariposas. Y nada de copiar a los otros dos
+   carriles a sangre: el 01 posa una TARJETA SÓLIDA sobre su portada y el 04
+   escribe EN NEGATIVO sobre la suya. Aquí el texto no se sube a la foto: se
+   queda abajo, sobre la crema, en su columna, porque la metáfora del 03 es
+   otra —un portafolio que se COMPAGINA (§5 bis)— y un dossier se lee sobre
+   la mesa, no encima de la lámina.
+
+   LA COMPOSICIÓN, tres piezas y ningún adorno:
+
+   1. LA BANDA. La carpa de vidrio —que es el montaje, o sea el argumento del
+      carril— ocupa el ancho entero de la ventana con `margin-inline:
+      var(--planes-sangrado)`, la misma técnica exacta de la portada del 01 y
+      de la banda del 04. Esquina viva, como manda §8 para todo lo que llega
+      al borde del navegador. Y su filete de passe-partout SE APAGA aquí: una
+      línea de corte sobre una foto de canto a canto se lee como un error de
+      recorte, que es la misma razón por la que ya se apagaba en móvil.
+
+   2. LA COPIA MONTADA. El retrato del grupo NO crece con ella: se queda como
+      una copia pequeña, con su marco de esquinas blandas (§8) y su filete
+      por dentro, clavada sobre la esquina inferior izquierda de la banda y
+      colgando por debajo de ella hacia la crema. El contraste es el que pide
+      el cliente: una foto se come la pantalla, la otra es una nota puesta
+      encima. Y es el contraste que la composición anterior no tenía, cuando
+      las dos medían casi lo mismo.
+      Se alinea con la COLUMNA 1 del contenedor —no con el borde de la
+      ventana—, así que su canto izquierdo cae exactamente sobre la misma
+      guía que el texto de abajo. Ese es el «clic» de la maqueta: la banda no
+      obedece a la retícula y la copia sí.
+
+   3. EL TEXTO, DEBAJO Y A LA DERECHA, de la columna 5 al final. Arranca
+      donde la copia deja de estorbar y llega hasta la guía derecha del
+      contenedor: no queda ni una columna de aire muerto al final del
+      renglón, que era la otra mitad de la queja.
+
+   LA PROFUNDIDAD ES QUIETA, cero animación nueva: el `outline` de crema
+   —literalmente el borde del passe-partout de una copia montada— y la sombra
+   larga de --sombra-xl. Sobre la crema del carril el aro no se ve; sólo
+   aparece donde la copia pisa la foto, que es justo donde hay que contarlo.
+
+   CÓMO SE MONTA SIN `position: absolute`. `.planes-dossier` pasa a
+   `display: contents` y sus dos hijas suben a ser hijas de la rejilla del
+   carril —el mismo mecanismo que usa el §11 en móvil para posar el rótulo
+   dentro de la foto—. Las dos van a la MISMA fila, se reparten por
+   `grid-column`, y la copia cuelga con un margen inferior negativo. Apilado
+   por rejilla: cada caja mide lo que mide su contenido y nada se escapa a un
+   sistema de coordenadas propio (la lección del §0 ter).
+
+   `z-index` y no orden del DOM: el <img> de la copia lleva paralaje (§10) y
+   un elemento transformado pinta por encima de sus hermanos con z
+   automático. Sin declararlo, la banda podría acabar encima de la copia
+   según qué se esté moviendo. Con --z-base el montaje es siempre el mismo.
+   -------------------------------------------------------------------------- */
 @media (min-width: 64em) {
   .planes-carril--empresa {
-    grid-template-columns: 7fr 5fr;
-    align-items: center;
-    gap: var(--gap-lg);
+    /* La caja deja de tener tope: la banda de dentro es la que manda y llega
+       al borde de la ventana. La retícula de doce es la misma de #espacios y
+       la del carril 02, así que la copia y el texto caen sobre las guías de
+       siempre. */
+    max-width: none;
+    grid-template-columns: repeat(12, 1fr);
+    column-gap: var(--gap);
+    row-gap: var(--gap-lg);
+    align-items: start;
+  }
+
+  /* El dossier se disuelve: la banda y la copia pasan a ser hijas directas de
+     la rejilla del carril y pueden compartir fila. */
+  .planes-carril--empresa .planes-dossier {
+    display: contents;
+  }
+
+  /* --- LA BANDA -------------------------------------------------------- */
+  .planes-carril--empresa .planes-dossier__par {
+    grid-column: 1 / -1;
+    grid-row: 1;
+    align-self: start;
+    /* Salirse del contenedor hasta el borde de la ventana. El sobrante lo
+       recorta el `overflow-x: clip` de la sección (§1 bis): no abre scroll. */
+    margin-inline: var(--planes-sangrado);
+  }
+
+  .planes-carril--empresa .planes-dossier__par > .marco {
+    /* La proporción la suelta: manda el alto, que es el de las otras dos
+       piezas a sangre del sitio. */
+    aspect-ratio: auto;
+    block-size: var(--planes-portada-alto);
+    /* A sangre no se redondea (§8). */
+    border-radius: 0;
+  }
+
+  /* El filete de §5 bis no vale sobre una foto de canto a canto. */
+  .planes-carril--empresa .planes-dossier__par > .marco::before {
+    content: none;
+  }
+
+  /* --- LA COPIA MONTADA ------------------------------------------------- */
+  .planes-carril--empresa .planes-dossier__retrato {
+    grid-column: 1 / span 4;
+    grid-row: 1;
+    align-self: end;
+    /* Cuelga por debajo de la banda. El hueco que deja lo ocupa el texto de
+       la fila de abajo, que empieza cuatro columnas más a la derecha. */
+    margin-block-end: calc(var(--esp-3xl) * -1);
+    aspect-ratio: 4 / 5;
+    z-index: var(--z-base);
+    /* El passe-partout. Mismo grosor que la sangría del filete de §5 bis: la
+       copia queda con una línea por dentro y un borde de montaje por fuera,
+       que es como está montada una lámina de verdad. */
+    outline: var(--esp-2xs) solid var(--color-fondo);
+    box-shadow: var(--sombra-xl);
+  }
+
+  /* --- EL TEXTO --------------------------------------------------------- */
+  .planes-carril--empresa .planes-carril__texto {
+    grid-column: 5 / -1;
+    grid-row: 2;
   }
 }
 
@@ -1396,6 +2359,93 @@
   inline-size: 30%;
   block-size: 60%;
   pointer-events: none;
+}
+
+/* --------------------------------------------------------------------------
+   6 ter. LA RESPIRACIÓN — la identidad de la portada del 04
+   --------------------------------------------------------------------------
+   La foto es un corro de personas abriendo los brazos a la vez: el único
+   fotograma del sitio en el que un grupo entero INHALA. La identidad de esta
+   portada no es un gesto que se vea —eso ya lo intentó el icono de ondas que
+   se descartó por leerse como un icono de wifi— sino un COMPÁS que se sienta:
+   mientras la banda está en pantalla, la foto se expande y se contrae al
+   ritmo de una respiración lenta, y el velo direccional aclara y oscurece en
+   el mismo compás, como el pecho que sube y baja.
+
+   POR QUÉ NO HAY ONDAS CONCÉNTRICAS (se consideraron y se descartaron):
+   sobre esta banda ya pintan cuatro capas —foto, velo, fauna ambiente por la
+   derecha y rótulo con el loto por la izquierda—. Unos anillos expandiéndose
+   desde el centro serían la quinta, cruzarían por detrás del rótulo y
+   repetirían además la figura del icono descartado. La calma se defiende
+   quitando, no sumando.
+
+   EL MOTOR, y por qué es ÉSTE y no `animation-timeline: view()`:
+   la respiración es un ciclo TEMPORAL —sigue su compás aunque la rueda no se
+   mueva— y `view()` ata el progreso a la posición de scroll, así que con la
+   página quieta la foto dejaría de respirar: el patrón equivocado para este
+   gesto. En su lugar: `@keyframes` de reloj, encendidos por la clase
+   `.respirando` que pone y quita js/respiracion-bienestar.js con un
+   IntersectionObserver. UN SOLO MOTOR POR PIEZA es la lección del diorama
+   del 02, y por eso la foto se RETIRÓ del paralaje de scroll de §10 al
+   entrar aquí: paralaje y respiración sobre el mismo `transform` sería
+   exactamente ese bug. El rótulo y el trío conservan sus entradas de §10
+   porque son piezas distintas.
+
+   LAS MEDIDAS DEL COMPÁS:
+   · Duración: calc(var(--dur-vuelo) * 2) = 9 s por ciclo. No existe token
+     más largo que --dur-vuelo (4,5 s) y una respiración consciente completa
+     ronda los 8–10 s (inhalar ~4 s, exhalar ~5 s); el doble del vuelo cae
+     justo ahí y sigue el mismo criterio con el que la fauna deriva sus
+     duraciones largas (--dur-deriva, --dur-cruce en tokens.css §fauna).
+   · Escala: 1 → 1.012 → 1. A 1280 px de ancho son ~7 px de crecimiento por
+     lado: se siente, no se ve. Se probó 1.03 y ya era zoom, no respiración.
+   · Velo: opacity 1 → 0.9 → 1. En el punto más claro el velo modal (0,74)
+     queda en ~0,67 efectivo, que según la medición de §6 sigue dejando la
+     mediana del tercio del rótulo cerca de 10:1; el mínimo puntual baja un
+     instante y vuelve, y el texto nunca se acerca al límite AA.
+   · Curva --ease-suave y keyframe simétrico (0/50/100): la ida y la vuelta
+     son igual de lentas, sin el golpe de rebote de --ease-salida.
+
+   `prefers-reduced-motion`: el bloque entero vive dentro de `no-preference`,
+   así que quien pidió menos movimiento no recibe NI la declaración (y el
+   script ni se descarga: el cerrojo de planes.html). Su estado de reposo es
+   scale(1) y velo pleno — dentro de un ciclo de ±1,2 % eso ES el estado
+   medio a efectos visibles, y es además el fotograma con mejor contraste.
+   -------------------------------------------------------------------------- */
+@keyframes bienestar-respira-foto {
+  0%,
+  100% {
+    transform: scale(1);
+  }
+
+  50% {
+    transform: scale(1.012);
+  }
+}
+
+@keyframes bienestar-respira-velo {
+  0%,
+  100% {
+    opacity: 1;
+  }
+
+  50% {
+    opacity: 0.9;
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  /* Con `.js` delante: sin script no aparece `.respirando` jamás, y la regla
+     tampoco; la banda queda quieta y legible desde el primer pintado. */
+  .js .planes-bienestar__banda.respirando .planes-bienestar__foto {
+    animation: bienestar-respira-foto calc(var(--dur-vuelo) * 2)
+      var(--ease-suave) infinite;
+  }
+
+  .js .planes-bienestar__banda.respirando .planes-bienestar__velo {
+    animation: bienestar-respira-velo calc(var(--dur-vuelo) * 2)
+      var(--ease-suave) infinite;
+  }
 }
 
 /* La caja del 04: espejo de la del 03. El bloque ENTRA dos columnas por la
@@ -1653,16 +2703,46 @@
     transition: stroke-dashoffset var(--dur-traza) var(--ease-traza);
   }
 
+  /* EL ASENTADO. El trazo de 22 px con este color sobre el cristal oscuro se
+     nota poco a ojo: la línea es fina y el gesto, lento. Para que el ojo lo
+     capte aunque no esté mirando fijo el icono, el glifo COMPLETO —no el
+     trazo, el <svg> entero— nace un poco encogido y apagado y se asienta en
+     su tamaño con un opacity de acompañamiento justo cuando el contorno
+     termina de dibujarse: el trazo hace el dibujo, el asentado hace que se
+     note que ya está. Sólo transform/opacity, así que sigue siendo
+     compositor puro y no compite con el motor de stroke-dashoffset de
+     arriba, que es el único que dibuja. */
+  .js .planes .planes-bienestar__bloque .planes-bienestar__lista > li:not(.visible) .icono-traza {
+    transform: scale(0.8);
+    opacity: 0.5;
+  }
+
+  .js .planes .planes-bienestar__bloque .planes-bienestar__lista > li.visible .icono-traza {
+    transform: scale(1);
+    opacity: 1;
+    transition:
+      transform var(--dur-rapida) var(--ease-traza),
+      opacity var(--dur-rapida) var(--ease);
+  }
+
   /* Siete pares retardo/duración y ninguno se repite: es la regla dura de la
      sección —nada empieza a la vez y nada va al mismo compás— aplicada a la
      escala más pequeña que tiene. Ni un tiempo literal: todos son tokens de
      movimiento por un factor, igual que hace base.css con el retardo de los
      detalles de trazo. Van DESPUÉS de la regla de arriba a propósito: el
      atajo `transition` de aquélla reinicia el retardo a cero, y empatados en
-     especificidad gana la última declarada. */
+     especificidad gana la última declarada.
+
+     El retardo del asentado de cada icono es el mismo retardo del trazo MÁS
+     su propia duración: así el glifo se asienta justo en el fotograma en que
+     el contorno se termina de dibujar, nunca antes. */
   .js .planes .planes-bienestar__bloque .planes-bienestar__lista > li:nth-child(1) .icono-traza > * {
     transition-delay: 0ms;
     transition-duration: var(--dur-traza);
+  }
+
+  .js .planes .planes-bienestar__bloque .planes-bienestar__lista > li:nth-child(1) .icono-traza {
+    transition-delay: var(--dur-traza);
   }
 
   .js .planes .planes-bienestar__bloque .planes-bienestar__lista > li:nth-child(2) .icono-traza > * {
@@ -1670,9 +2750,17 @@
     transition-duration: calc(var(--dur-traza) * 0.85);
   }
 
+  .js .planes .planes-bienestar__bloque .planes-bienestar__lista > li:nth-child(2) .icono-traza {
+    transition-delay: calc(var(--dur-rapida) * 1.2 + var(--dur-traza) * 0.85);
+  }
+
   .js .planes .planes-bienestar__bloque .planes-bienestar__lista > li:nth-child(3) .icono-traza > * {
     transition-delay: calc(var(--dur-media) * 1.5);
     transition-duration: calc(var(--dur-traza) * 1.2);
+  }
+
+  .js .planes .planes-bienestar__bloque .planes-bienestar__lista > li:nth-child(3) .icono-traza {
+    transition-delay: calc(var(--dur-media) * 1.5 + var(--dur-traza) * 1.2);
   }
 
   .js .planes .planes-bienestar__bloque .planes-bienestar__lista > li:nth-child(4) .icono-traza > * {
@@ -1680,9 +2768,17 @@
     transition-duration: calc(var(--dur-traza) * 0.95);
   }
 
+  .js .planes .planes-bienestar__bloque .planes-bienestar__lista > li:nth-child(4) .icono-traza {
+    transition-delay: calc(var(--dur-lenta) * 1.3 + var(--dur-traza) * 0.95);
+  }
+
   .js .planes .planes-bienestar__bloque .planes-bienestar__lista > li:nth-child(5) .icono-traza > * {
     transition-delay: calc(var(--dur-media) * 3.1);
     transition-duration: calc(var(--dur-traza) * 1.35);
+  }
+
+  .js .planes .planes-bienestar__bloque .planes-bienestar__lista > li:nth-child(5) .icono-traza {
+    transition-delay: calc(var(--dur-media) * 3.1 + var(--dur-traza) * 1.35);
   }
 
   .js .planes .planes-bienestar__bloque .planes-bienestar__lista > li:nth-child(6) .icono-traza > * {
@@ -1690,9 +2786,17 @@
     transition-duration: calc(var(--dur-traza) * 0.9);
   }
 
+  .js .planes .planes-bienestar__bloque .planes-bienestar__lista > li:nth-child(6) .icono-traza {
+    transition-delay: calc(var(--dur-lenta) * 2.2 + var(--dur-traza) * 0.9);
+  }
+
   .js .planes .planes-bienestar__bloque .planes-bienestar__lista > li:nth-child(7) .icono-traza > * {
     transition-delay: calc(var(--dur-lenta) * 2.7);
     transition-duration: calc(var(--dur-traza) * 1.1);
+  }
+
+  .js .planes .planes-bienestar__bloque .planes-bienestar__lista > li:nth-child(7) .icono-traza {
+    transition-delay: calc(var(--dur-lenta) * 2.7 + var(--dur-traza) * 1.1);
   }
 }
 
@@ -1755,17 +2859,143 @@
 }
 
 /* --- LA TARJETA ------------------------------------------------------------
-   El `padding` de la tarjeta pasa a ser el MARCO DE FOTOGRAFÍA: es la única
-   franja donde la imagen se ve sin cristal delante, y por eso no puede ser
-   fino. El aire interior lo pone ahora la lámina.                          */
+   El `padding` de la tarjeta pasa a ser el MARCO: es la única franja donde el
+   fondo se ve sin cristal delante, y por eso no puede ser fino. El aire
+   interior lo pone ahora la lámina.
+
+   EL COLCHÓN DE LA FOTO (revisión de agosto de 2026).
+   La foto SIGUE SIENDO el fondo del carril; lo que se corrige aquí es el
+   crema plano que se veía debajo y alrededor de ella —mientras carga, si el
+   AVIF/WebP/JPG falla, y en la franja del marco—. Un plano no da de comer al
+   cristal: sin nada que desenfocar, el liquid glass desaparece. Así que el
+   color base pasa a ser un fondo COMPUESTO EN CSS, cinco capas de degradado
+   sobre crema, todas en tokens de la paleta, con la metáfora del carril:
+   LUZ FILTRADA POR EL FOLLAJE. (Estas capas hicieron un segundo servicio
+   como velo ENCIMA de la fotografía; el cliente pidió la foto limpia y ese
+   velo se retiró —ver la nota en su antiguo sitio, más abajo—. El colchón
+   de AQUÍ DEBAJO no se ve con la foto cargada y por eso se queda.)
+
+     1. Las HOJAS. Dos retículas de elipses oliva idénticas y desfasadas media
+        celda: donde se cruzan, los dos alfas se suman y aparece sola la forma
+        de lente —la hoja— sin un solo trazo dibujado. Es la capa que le da
+        materia al desenfoque del cristal.
+     2. La LLUVIA DE LUZ. Un rayado fino a 115° que cruza la tarjeta; una línea
+        de bosque casi transparente cada 9 px. Da grano, no dibujo.
+     3. El SOL, arriba a la izquierda: un radial cálido en amarillo con una
+        pizca de coral, que es de donde entra la luz en toda la sección.
+     4. La SOMBRA, abajo a la derecha, en verde bosque: el peso que hace que el
+        conjunto tenga profundidad y no parezca papel pintado.
+     5. La BASE: diagonal salvia → crema, los dos claros del sistema.
+
+   ORDEN Y TAMAÑO. `background-image` pinta la primera capa arriba del todo,
+   así que la lista va de detalle a masa; los `background-size` de la retícula
+   se declaran en el mismo orden. Todo son porcentajes o píxeles fijos: en
+   móvil la tarjeta se estrecha y la retícula NO se estira —conserva la
+   escala de la hoja— mientras el sol y la sombra, que van en porcentaje, se
+   recolocan solos en las esquinas.
+
+   LEGIBILIDAD DE ESTA CAPA (método de §3 y §6 ter). El píxel más oscuro que
+   puede producir la suma de las cinco es el cruce de las dos hojas + una línea
+   del rayado + el corazón de la sombra: rgb(160 173 149). Pasado por el
+   `saturate(1.4)` que lleva --blur-vidrio y bajo el cristal —ahora al 0,80 en
+   crema, ver el bloque de la lámina más abajo— compone rgb(222 219 211), y
+   contra los colores que caen encima da:
+       tinta      (--color-texto)          11,14:1
+       coral      (--color-acento-texto)    4,26:1
+   Sin desenfoque, con el relleno de respaldo al 0,96, sube a 12,25 · 4,68.
+   O sea: el estado sin foto pasa AA (4,5:1) en su PEOR punto con la tinta que
+   ahora lleva todo el texto de la lámina, y el coral del «05» pasa de sobra
+   el 3:1 del texto grande. La medida CON la foto va en el bloque de la
+   lámina, más abajo.                                                       */
 .planes-carril--talleres {
+  /* v3 · A PANTALLA COMPLETA, ORDEN DIRECTA DEL CLIENTE («pantalla completa
+     aquí con esta foto, sin eso crema»). El carril era una tarjeta con
+     margen, esquinas redondeadas y un colchón de degradados crema visible
+     alrededor de la foto: dos anillos de relleno entre la imagen y el borde
+     de la ventana. Ahora sale del contenedor por los dos flancos con la
+     misma técnica de la portada del 01 (`margin-inline: var(--planes-sangrado)`,
+     que YA es negativo — ver la corrección de signo del §4), pierde el
+     redondeo —una esquina redondeada contra el borde del navegador se lee
+     como foto mal pegada, la misma regla del §8— y se le da alto de
+     ventana para que la fotografía mande.
+     El colchón de degradados se queda SÓLO como respaldo: no se ve con la
+     foto cargada, y es lo que sostiene el contraste si el JPG fallara. */
   position: relative;
   overflow: hidden;
   display: block;
+  margin-inline: var(--planes-sangrado);
   padding: var(--esp-sm);
-  border-radius: var(--radio-md) var(--radio-xl) var(--radio-md) var(--radio-xl);
-  /* Se ve mientras la foto todavía no ha llegado; nunca un hueco gris. */
-  background-color: rgb(var(--verde-oliva-rgb) / 0.07);
+  min-block-size: 82svh;
+  border-radius: 0;
+  /* Se ve mientras el navegador compone las capas; nunca un hueco gris. */
+  background-color: var(--crema);
+  background-image:
+    /* 1 · hojas: dos retículas de elipses desfasadas media celda */
+    radial-gradient(
+      ellipse 34px 21px at 30% 34%,
+      rgb(var(--verde-oliva-rgb) / 0.09),
+      rgb(var(--verde-oliva-rgb) / 0) 70%
+    ),
+    radial-gradient(
+      ellipse 34px 21px at 70% 66%,
+      rgb(var(--verde-oliva-rgb) / 0.09),
+      rgb(var(--verde-oliva-rgb) / 0) 70%
+    ),
+    /* 2 · lluvia de luz: rayado fino en diagonal */
+    repeating-linear-gradient(
+      115deg,
+      rgb(var(--verde-bosque-rgb) / 0.045) 0 1px,
+      rgb(var(--verde-bosque-rgb) / 0) 1px 9px
+    ),
+    /* 3 · el sol, por la esquina alta izquierda */
+    radial-gradient(
+      120% 90% at 4% -10%,
+      rgb(var(--amarillo-rgb) / 0.22),
+      rgb(var(--coral-rgb) / 0.09) 42%,
+      rgb(var(--amarillo-rgb) / 0) 72%
+    ),
+    /* 4 · la sombra, por la esquina baja derecha */
+    radial-gradient(
+      95% 85% at 108% 112%,
+      rgb(var(--verde-bosque-rgb) / 0.22),
+      rgb(var(--verde-bosque-rgb) / 0) 68%
+    ),
+    /* 5 · la base: los dos claros del sistema en diagonal */
+    linear-gradient(
+      152deg,
+      rgb(var(--salvia-rgb) / 0.85),
+      rgb(var(--crema-rgb) / 0.95) 58%,
+      rgb(var(--salvia-rgb) / 0.7)
+    );
+  background-size:
+    72px 96px,
+    72px 96px,
+    auto,
+    auto,
+    auto,
+    auto;
+  background-position:
+    0 0,
+    0 0,
+    0 0,
+    0 0,
+    0 0,
+    0 0;
+}
+
+/* En pantalla ancha la tarjeta gana altura y la hoja puede crecer con ella:
+   la misma retícula un 25 % más grande, para que no se lea como trama de
+   impresión. Nada más cambia. */
+@media (min-width: 48em) {
+  .planes-carril--talleres {
+    background-size:
+      90px 120px,
+      90px 120px,
+      auto,
+      auto,
+      auto,
+      auto;
+  }
 }
 
 @media (min-width: 48em) {
@@ -1791,29 +3021,64 @@
   object-position: 50% 62%;
 }
 
+/* --- EL VELO DE FOLLAJE · RETIRADO (agosto de 2026, orden del cliente) -----
+   Aquí hubo un velo de cinco capas en claro sobre la fotografía
+   (`.planes-carril--talleres::after`, las mismas retículas del colchón en
+   crema/luz/salvia). El cliente lo vio como un tinte crema sobre la foto y
+   pidió LA FOTO LIMPIA, así que se retira entero: sobre la imagen no queda
+   ninguna capa de color; el único tratamiento encima es el cristal
+   (`.planes-vidrio`), que no se toca.
+   La legibilidad NO dependía del velo: la medida de la foto DESNUDA está en
+   el bloque del cristal, justo abajo, y pasa AA por sí sola. Si alguien
+   quiere devolver un velo, que vuelva a medir primero.                     */
+
 /* LA LÁMINA DE ESTE CARRIL — cristal en CREMA, no en verde hondo.
    Va en claro porque el 04 es «el único carril en negativo del sitio» y esa
    regla no se rompe por añadir una foto: el texto de aquí sigue siendo tinta
    sobre claro, exactamente el mismo que había sobre el lavado de oliva.
 
+   EL BUG QUE ARRASTRÓ ESTE CARRIL (corregido en agosto de 2026).
+   `.planes-vidrio` está bien escrito: el @supports SÍ baja la opacidad cuando
+   hay `backdrop-filter`. Lo que estaba mal eran los DOS NÚMEROS de aquí
+   abajo: --vidrio-alfa (el estado CON desenfoque, la mejora) valía 0,92 y
+   --vidrio-alfa-plano (el respaldo SIN desenfoque) 0,96. O sea que la mejora
+   y el respaldo eran prácticamente el mismo relleno, y el cristal de este
+   carril se veía como lo que el cliente reportó tres veces: UN CUADRO CREMA
+   SÓLIDO. Compárese con el 04 (§6 ter), que hace bien el salto: 0,50 con
+   desenfoque contra 0,86 sin él. Aquí el salto pasa a ser 0,80 · 0,96, y el
+   0,80 —no menos— lo fija la medida de abajo, no el gusto.
+
+   POR QUÉ EL TEXTO CAMBIA DE COLOR AL BAJAR EL RELLENO.
+   Con la foto asomando, el crema deja de ser un fondo plano y los dos colores
+   FLOJOS del sistema se caen: el verde gris (--color-texto-suave) y el coral
+   a cuerpo pequeño. El coral pequeño, de hecho, YA NO PASABA a 0,92 (4,05:1,
+   por debajo del 4,5 que pide AA): el bug de contraste venía de antes. Así
+   que dentro de ESTA lámina —y sólo aquí— el cuerpo, la nota, el rótulo y el
+   CTA pasan a tinta. El coral se queda donde sí aguanta: el «05» a --paso-4,
+   que es texto grande y le basta 3:1.
+
    LA LEGIBILIDAD, MEDIDA Y NO ESTIMADA (método de §3 y §6 ter).
-   Se compuso píxel a píxel el JPG real ya publicado —promediado a la escala
-   que deja el desenfoque, y con la saturación de --blur-vidrio aplicada— bajo
-   el relleno del cristal al 0,92, y se midió contra los tres colores que caen
-   encima:
-       tinta      (--color-texto)          mínimo 10,58:1   mediana 12,4:1
-       verde gris (--color-texto-suave)    mínimo  4,64:1   mediana  4,99:1
-       coral      (--color-acento-texto)   mínimo  4,05:1   mediana  4,4:1
-   El cuerpo pasa AA (4,5:1) en el PEOR píxel de la foto, no de media; el
-   coral sólo lo lleva el «05», a --paso-4, que es texto grande y le basta
-   3:1. Sin desenfoque el relleno sube a 0,96 y el mínimo del cuerpo se va a
-   5,06:1. Bajar el 0,92 exige volver a medir los tres: a 0,90 el cuerpo cae
-   a 4,44:1 y ya no pasa.
+   Se compuso píxel a píxel el JPG real ya publicado —recortado al encuadre
+   de la tarjeta, con la saturación 1,4 y el desenfoque de 14 px de
+   --blur-vidrio aplicados— bajo el relleno del cristal al 0,80, y se midió
+   contra los colores que caen encima:
+       tinta      (--color-texto)          mínimo  8,22:1   mediana 9,82:1
+       coral      (--color-acento-texto)   mínimo  3,14:1   mediana 3,76:1
+   La tinta pasa AA (4,5:1) en el PEOR píxel de la foto, no de media —0 % de
+   píxeles por debajo del umbral—; el coral pasa el 3:1 del texto grande en su
+   peor píxel. Sin desenfoque el relleno sube a 0,96 y todo se va casi al
+   crema plano (tinta mínimo 11,58:1, coral mínimo 4,43:1), que es el respaldo
+   de siempre y sigue siendo el estado MÁS legible de los dos.
+   Bajar más el 0,80 exige volver a medir: a 0,72 el coral del «05» cae a
+   2,60:1 y ya no pasa ni como texto grande.
    Y aguanta con el fotograma congelado: aquí no hay una sola animación que
    sostenga el contraste.                                                    */
 .planes-talleres__vidrio {
   --vidrio-rgb: var(--crema-rgb);
-  --vidrio-alfa: 0.92;
+  /* CON desenfoque: translúcido de verdad, se ve el corro de niños detrás. */
+  --vidrio-alfa: 0.8;
+  /* SIN desenfoque: el respaldo REAL, casi opaco, porque sin blur no hay
+     promediado que sostenga el contraste. No se toca. */
   --vidrio-alfa-plano: 0.96;
 
   display: grid;
@@ -1828,17 +3093,45 @@
 @media (min-width: 48em) {
   .planes-talleres__vidrio {
     padding: var(--gap-lg) var(--esp-xl);
+    /* v3 · con la banda a sangre de ventana, el cristal NO se estira con
+       ella: se acota a la medida de lectura y se queda a la izquierda, de
+       modo que la fotografía respira a su derecha en vez de quedar tapada
+       de canto a canto por la lámina. */
+    max-inline-size: calc(var(--planes-paso) * 6);
   }
 }
 
-/* La caja del 05: vuelve a pegar a la izquierda —la página tiene que
-   recuperar su margen antes de que entre #momentos— pero ocupa sólo OCHO de
-   las doce columnas. La tablilla se acorta con ella, y una tablilla que no
-   llega al borde es exactamente lo que distingue un colofón de una banda de
-   sección.                                                                   */
+/* EL TEXTO DE ESTA LÁMINA, EN TINTA — la contrapartida de bajar el relleno.
+   Con el cristal translúcido, el verde gris de --color-texto-suave y el coral
+   a cuerpo pequeño se caen del umbral AA sobre la foto (medida arriba). Se
+   suben a tinta las cuatro piezas afectadas: el rótulo «05 · Talleres», el
+   cuerpo, la nota de dónde se hace —con sus dos enlaces— y el CTA. No se
+   inventa color: es el mismo --color-texto que ya llevan el titular y la
+   lista de talleres, así que la lámina queda a UNA sola voz.
+   El coral NO desaparece del carril: se queda en el «05» (--paso-4, texto
+   grande, 3,14:1 medido) y en el punto medio separador de la lista, que es
+   puntuación decorativa y no texto que haya que leer.                       */
+.planes-talleres__vidrio .planes-carril__ocasion,
+.planes-talleres__vidrio .planes-talleres__copy,
+.planes-talleres__vidrio .planes-carril__donde,
+.planes-talleres__vidrio .planes-carril__donde a,
+.planes-talleres__vidrio .planes-carril__cta {
+  color: var(--color-texto);
+}
+
+/* v3 · EL TOPE DE OCHO COLUMNAS SE RETIRA. Aquí el carril se quedaba en
+   ocho de las doce «para que un colofón no se lea como banda de sección»,
+   y ese era justo el efecto que el cliente rechazó: con el sangrado nuevo,
+   un ancho capado dejaba la foto flotando con relleno a la derecha. El 05
+   pasa a banda de ventana completa, como el 01. Lo que lo sigue
+   distinguiendo del resto no es el ancho sino que es el único donde el
+   texto va SOBRE la foto, dentro del cristal.
+   En escritorio el cristal no se estira con la banda: se acota por su
+   propio `max-width` (más abajo), que es lo que evita renglones de línea
+   larguísima sobre una foto de 1400 px.                                    */
 @media (min-width: 48em) {
   .planes-carril--talleres {
-    max-width: calc(var(--planes-paso) * 8 - var(--gap));
+    padding: var(--esp-lg);
   }
 }
 
@@ -1886,69 +3179,69 @@
   color: var(--color-texto-suave);
 }
 
-/* --------------------------------------------------------------------------
-   7 bis. EL CIERRE NOCTURNO — .planes-noche
-   --------------------------------------------------------------------------
-   La banda que remata la sección con la foto real de un evento de noche.
-   REUSA el sistema completo de la portada del carril 01 (§3): comparte
-   .planes-portada, el velo, la marca contorneada, la tarjeta y todo el
-   movimiento de §10 —incluida la línea de tiempo, porque
-   `view-timeline-name` se declara sobre la CLASE .planes-portada y cada
-   elemento con esa clase publica la suya propia; los descendientes de cada
-   banda resuelven contra su ancestro más cercano, así que las dos portadas
-   no se pisan—. Aquí sólo vive lo que es distinto:
-     · la caja (separación de la pila y ancla para la tarjeta absoluta);
-     · el encuadre de la foto: lo que vende está en la mitad baja —la carpa,
-       la gente, el cincuenta luminoso— y arriba basta una franja de copas y
-       cielo azul para la marca;
-     · la sangría del segundo renglón de la única versión de la marca (las
-       reglas de §3 sangran por nth-child sobre --ancha/--corta y esta marca
-       no las usa);
-     · la tarjeta SEMIOPACA: crema al 90 %. Sobre la zona más oscura de la
-       foto la superficie compuesta queda prácticamente en el crema sólido
-       (mezcla con píxeles casi negros), así que los contrastes medidos de
-       la tarjeta del carril 01 se conservan con margen.
-   -------------------------------------------------------------------------- */
-.planes-noche {
-  display: grid;
-  gap: var(--gap);
-  margin-block-start: var(--esp-3xl);
-}
+/* --- LA LISTA QUE SE ANOTA · LA IDENTIDAD DEL 05 --------------------------
+   Cada portada del capítulo tiene un gesto nacido de SU foto. La de este
+   carril es un corro de niños escuchando un CUENTO: una página abierta y
+   alguien aprendiendo de ella. De ahí sale el ÚNICO gesto del carril —es el
+   colofón del capítulo y se queda en voz baja, sin diorama, sin guirnalda,
+   sin ensamblaje—: los tres talleres se revelan de izquierda a derecha, uno
+   tras otro, como renglones que alguien va escribiendo en un cuaderno.
+   (Hubo un segundo gesto —un resplandor cálido creciendo desde el libro de
+   la foto— y se retiró junto con el velo de follaje: el cliente pidió la
+   fotografía LIMPIA, sin ninguna capa de color encima, y un radial ámbar lo
+   es. La identidad queda en el gesto que no toca ni un píxel de la foto.)
 
-.planes-portada--noche .planes-portada__foto {
-  object-position: 50% 58%;
-}
+   EL MOTOR, y por qué es ÉSTE y no `animation-timeline: view()`: el carril
+   entero ya lleva `.reveal`, o sea que el IntersectionObserver del sitio YA
+   pone la clase `.visible` en el momento exacto en que la tarjeta asoma. El
+   gesto es una TRANSICIÓN colgada de esa clase: un solo motor, el que ya
+   existía, y cero JavaScript nuevo. Darle además una línea `view()` a estas
+   piezas sería el bug de los dos motores que documenta el diorama del 02.
 
-.planes-portada__marca--noche .planes-portada__version > :nth-child(2) {
-  margin-inline-start: 0.45em;
-}
+   LAS GUARDAS, las mismas de todo el sitio:
+     `.js`            — sin script no hay `.visible`, así que el estado
+                        inicial (renglones sin escribir) sólo se declara
+                        cuando el script existe. Sin JS, la lista nace ENTERA.
+     `no-preference`  — quien pidió menos movimiento tampoco recibe el estado
+                        inicial: el bloque de abajo no llega a declararse y
+                        además los tokens de duración ya valen 1 ms.
+     contraste        — la lista sólo se recorta a sí misma con `clip-path`:
+                        ni su color ni su fondo cambian en ningún fotograma,
+                        así que las medidas del cristal valen tal cual.
 
-.planes-portada__tarjeta--noche {
-  background-color: rgb(var(--crema-rgb) / 0.9);
-}
+   Los renglones: `inset(0 100% 0 0)` esconde cada taller por la derecha y
+   la transición lo destapa de izquierda a derecha, la dirección en la que
+   se escribe. El escalonado va en `calc()` sobre tokens —ningún literal— y
+   el retardo de `--dur-media` deja que el `.reveal` del carril termine de
+   posarse antes de que empiece la primera línea: dos gestos a la vez se
+   leerían como uno solo mal hecho. `clip-path` está en la lista blanca del
+   proyecto junto a `transform` y `opacity` (ver planes-traza-filete, §10).
+   El estado sin script o con movimiento reducido es la lista ENTERA: esto
+   describe el camino, nunca el destino.                                    */
+@media (prefers-reduced-motion: no-preference) {
+  .js .planes-carril--talleres .planes-talleres__lista > li {
+    clip-path: inset(0 100% 0 0);
+    transition: clip-path var(--dur-lenta) var(--ease-salida);
+  }
 
-.planes-noche__linea {
-  margin: 0;
-  max-width: var(--medida);
-}
+  .js .planes-carril--talleres .planes-talleres__lista > li:nth-child(1) {
+    transition-delay: calc(var(--dur-media) + var(--dur-lenta) * 0);
+  }
 
-.planes-noche__linea--remate {
-  font-family: var(--fuente-titulo);
-  font-weight: var(--peso-medio);
-}
+  .js .planes-carril--talleres .planes-talleres__lista > li:nth-child(2) {
+    transition-delay: calc(var(--dur-media) + var(--dur-lenta) * 0.55);
+  }
 
-/* El ancla de la tarjeta: el mismo gesto que .planes-fiesta__acto1 en §3.
-   De 1024 px para arriba la tarjeta se posa sobre la foto (la regla absoluta
-   de §3 aplica a las dos tarjetas por clase compartida) y necesita que ESTA
-   caja sea su bloque contenedor. */
-@media (min-width: 64em) {
-  .planes-noche {
-    position: relative;
+  .js .planes-carril--talleres .planes-talleres__lista > li:nth-child(3) {
+    transition-delay: calc(var(--dur-media) + var(--dur-lenta) * 1.1);
+  }
+
+  .js .planes-carril--talleres.visible .planes-talleres__lista > li {
+    clip-path: inset(0 0 0 0);
   }
 }
 
 /* --------------------------------------------------------------------------
-   8. LAS SILUETAS DE LAS FOTOS
    --------------------------------------------------------------------------
    HISTORIA DE ESTE BLOQUE, porque va por la cuarta vuelta:
      v2  `border-radius: var(--radio-md)` en las trece. El redondeo de
@@ -1982,17 +3275,30 @@
   border-radius: var(--radio-lg);
 }
 
-/* ---- 01 fiesta · dos hojas encontradas ------------------------------------
-   La vertical abre por una diagonal y la apaisada por la contraria: puestas
-   una al lado de la otra, las puntas se miran. La tarjeta que flota sobre la
-   portada lleva la misma diagonal que la apaisada, así que la columna
-   izquierda del carril nunca repite forma con la derecha.                   */
-.planes-carril--fiesta .planes-fiesta__vertical {
-  border-radius: var(--radio-xl) var(--radio-xs) var(--radio-xl) var(--radio-xs);
+/* A sangre de canto a canto: la vertical del carril 01 en móvil ya perdió
+   el margen del contenedor (arriba, §3), así que el --radio-lg que
+   hereda de `.planes .marco` se lee como un recorte accidental. Empata
+   en peso de selector (0,2,0) con la regla de arriba y va DESPUÉS en el
+   archivo para ganarle en cascada (ver "NOTA DE PESO" más abajo). */
+@media (max-width: 47.9375em) {
+  .planes-carril--fiesta .planes-fiesta__vertical {
+    border-radius: 0;
+  }
 }
 
-.planes-carril--fiesta .planes-fiesta__apaisada {
-  border-radius: var(--radio-xs) var(--radio-xl) var(--radio-xs) var(--radio-xl);
+/* ---- 01 fiesta · óvalo fijo, sólo en escritorio ---------------------------
+   v15 · ya no hay dos hojas encontradas (la apaisada salió, ver §ACTO 2):
+   una silueta de hoja sobre una caja tan alta como esta —80dvh en móvil—
+   se leería como un recorte accidental, no como una decisión, así que la
+   forma cambia por completo en vez de heredar la del resto del carril.
+   `border-radius: 50%` sobre una caja NO cuadrada da una ELIPSE ajustada
+   a su proporción (no un círculo): es justo el "óvalo" que se pidió, sin
+   necesitar un `clip-path` aparte. Sólo en escritorio: en móvil la foto es
+   pantalla completa y un óvalo ahí se comería media imagen por los lados. */
+@media (min-width: 48em) {
+  .planes-carril--fiesta .planes-fiesta__vertical {
+    border-radius: 50%;
+  }
 }
 
 /* ---- 02 familia · la arcada -----------------------------------------------
@@ -2035,9 +3341,8 @@
   border-radius: var(--radio-xl) var(--radio-xs) var(--radio-xl) var(--radio-xs);
 }
 
-.planes-dossier__par > :nth-child(2) {
-  border-radius: var(--radio-md) var(--radio-lg) var(--radio-md) var(--radio-lg);
-}
+/* (v16: la segunda hoja del par salió del HTML —dos fotos y nada más, pedido
+   del cliente— y su silueta :nth-child(2) se fue con ella.) */
 
 /* ---- 04 bienestar · los dos círculos --------------------------------------
    Los dos cuadrados pequeños del trío pasan a CÍRCULOS. Es la única forma
@@ -2118,7 +3423,9 @@
                                         .reveal no se anidan en este sitio
      contexto 02  entry 0 → exit 100    deriva horizontal, el único eje X de
                                         una foto en toda la sección
-     banda 04     entry 0 → exit 100    paralaje vertical
+     banda 04     — sin paralaje —      la foto respira con reloj propio (§6
+                                        ter); dársela también a este bloque
+                                        sería el bug de los dos motores
      rótulo 04    entry 35 → entry 85   entra desde el margen izquierdo
      trío 04      entry 20 / 30 / 40    tres entradas, y la primera además
                                         crece un punto porque es la ancha
@@ -2182,6 +3489,21 @@
   }
 }
 
+/* TRAZA-FILETE — el filete del dossier del 03 (§5 bis) se dibuja solo.
+   Colapsado en la esquina superior izquierda y soltado en diagonal: los dos
+   lados «se tiran» a la vez, que es como se lee una línea de corte y no un
+   telón. Sólo `clip-path`, que está en la lista blanca del proyecto junto a
+   `transform` y `opacity`. El estado sin animación es la línea ENTERA
+   (§5 bis): esto sólo describe el camino, nunca el destino. */
+@keyframes planes-traza-filete {
+  from {
+    clip-path: inset(0 100% 100% 0);
+  }
+  to {
+    clip-path: inset(0 0 0 0);
+  }
+}
+
 @media (prefers-reduced-motion: no-preference) {
   @supports (animation-timeline: view()) {
 
@@ -2189,15 +3511,12 @@
     .planes-portada__foto,
     .planes-portada__marca,
     .planes-portada__tarjeta,
-    .planes-fiesta__vertical > img,
-    .planes-fiesta__apaisada > img,
     .planes-fiesta__remate,
     .planes-familia__protagonista,
     .planes-familia__alta,
     .planes-familia__baja,
     .planes-familia__contexto > img,
     .planes-dossier__retrato > img,
-    .planes-bienestar__foto,
     .planes-bienestar__rotulo,
     .planes-bienestar__trio > * {
       animation-duration: auto;
@@ -2236,14 +3555,6 @@
       view-timeline-name: --planes-tl-portada;
     }
 
-    .planes-fiesta__vertical {
-      view-timeline-name: --planes-tl-vertical;
-    }
-
-    .planes-fiesta__apaisada {
-      view-timeline-name: --planes-tl-apaisada;
-    }
-
     .planes-familia__contexto {
       view-timeline-name: --planes-tl-contexto;
     }
@@ -2262,14 +3573,6 @@
       animation-timeline: --planes-tl-portada;
     }
 
-    .planes-fiesta__vertical > img {
-      animation-timeline: --planes-tl-vertical;
-    }
-
-    .planes-fiesta__apaisada > img {
-      animation-timeline: --planes-tl-apaisada;
-    }
-
     .planes-familia__contexto > img {
       animation-timeline: --planes-tl-contexto;
     }
@@ -2278,7 +3581,6 @@
       animation-timeline: --planes-tl-retrato;
     }
 
-    .planes-bienestar__foto,
     .planes-bienestar__rotulo {
       animation-timeline: --planes-tl-banda;
     }
@@ -2300,25 +3602,10 @@
     }
 
     /* ---- carril 01, acto 2 ------------------------------------------- */
-    /* Las dos fotos del díptico se desplazan en sentidos opuestos y no
-       arrancan a la vez: es lo que hace que el desfase de la maqueta se
-       note también en movimiento. */
-    .planes-fiesta__vertical > img {
-      --planes-esc: 1.07;
-      --planes-de: 3%;
-      --planes-a: -3%;
-      animation-name: planes-paralaje-y;
-      animation-range: entry 0% exit 100%;
-    }
-
-    .planes-fiesta__apaisada > img {
-      --planes-esc: 1.07;
-      --planes-de: -3%;
-      --planes-a: 3%;
-      animation-name: planes-paralaje-y;
-      animation-range: entry 8% exit 92%;
-    }
-
+    /* v15 · YA NO LLEVA PARALAJE. Pedido explícito: la vertical es el
+       óvalo fijo del cierre, "sin efecto" — a propósito, para que se sienta
+       la nota tranquila después del gesto grande del acto 1. Sólo el texto
+       de remate sigue con su entrada suave. */
     .planes-fiesta__remate {
       --planes-entra-y: var(--esp-md);
       animation-name: planes-asoma;
@@ -2357,7 +3644,77 @@
       animation-range: entry 0% exit 100%;
     }
 
-    /* ---- carril 03 ---------------------------------------------------- */
+    /* ---- carril 03 · EL DOSSIER QUE SE ARMA ---------------------------
+       La identidad de este carril: un portafolio que se COMPAGINA. Nada
+       orgánico —eso es del 02—: las dos piezas entran desde direcciones
+       opuestas, con un desfase claro entre ellas, en el mismo orden en que
+       se monta una lámina de verdad: primero la hoja grande, después la
+       copia que se pega encima. Y cuando cada una se asienta, su filete de
+       passe-partout (§5 bis) se TRAZA solo, de la esquina superior izquierda
+       hacia fuera (§10 ter, más abajo, porque el pseudo no entra en el pulso
+       común de arriba).
+       v17 · LOS RECORRIDOS CRECEN. Con la maqueta nueva (§5 ter) las dos
+       piezas son grandes y desiguales, y el desplazamiento de 1rem que
+       tenían se perdía dentro de ellas: se veía como un temblor, no como un
+       ensamblaje. El del satélite pasa a --esp-xl y el de la lámina a
+       --esp-md, y se invierte quién llega antes.
+
+       UN SOLO MOTOR POR ELEMENTO, auditado pieza a pieza:
+         · la FIGURA del retrato lleva planes-asoma (transform) — su <img>
+           de dentro conserva el paralaje: son dos elementos distintos y
+           cada uno tiene exactamente una animación;
+         · las FIGURAS del par llevan planes-asoma — su zoom de hover (§9)
+           vive en el <img>, otra vez otro elemento;
+         · los ::before llevan el trazado (clip-path) — un pseudo es su
+           propia caja, y no toca `transform` ni compite con nadie.
+       No hay respaldo JS que desactivar: como todo este bloque, sólo
+       existe bajo `@supports (animation-timeline: view())`, y fuera de él
+       las piezas están montadas y trazadas de origen (§5 bis).
+
+       Las tres figuras usan `view()` a secas —como las del mosaico 02—
+       porque el elemento animado es la CAJA del marco, que está en el
+       flujo; la regla de las líneas con nombre (§10) aplica a lo de DENTRO
+       de un recorte, no a esto. Distancias en tokens de espaciado y rangos
+       cortos con --ease-salida: recorrido breve resuelto pronto es lo que
+       se lee como un gesto seco y no como una flotación.                 */
+    .planes-carril--empresa .planes-dossier__retrato,
+    .planes-carril--empresa .planes-dossier__par > :nth-child(1) {
+      animation-name: planes-asoma;
+      animation-duration: auto;
+      animation-fill-mode: both;
+      animation-timeline: view();
+      animation-timing-function: var(--ease-salida);
+    }
+
+    /* LA LÁMINA GRANDE ASIENTA PRIMERO. Es la base del montaje —la hoja
+       sobre la que después se pega la copia—, así que llega antes. En
+       tableta entra desde la derecha, que es el borde al que ella llega, con
+       punto y medio de escala de más para que «se pose» en vez de
+       deslizarse. En escritorio, donde es una banda a sangre, el
+       desplazamiento se retira y sólo queda la escala: el bloque del final
+       del §10 explica por qué.
+       (v16: eran dos apaisadas en escalón; la segunda salió del HTML por
+       pedido del cliente —dos fotos y nada más— y su regla con ella.)   */
+    .planes-carril--empresa .planes-dossier__par > :nth-child(1) {
+      --planes-entra-x: var(--esp-md);
+      --planes-entra-esc: 1.015;
+      animation-range: entry 6% entry 38%;
+    }
+
+    /* Y EL SATÉLITE SE MONTA ENCIMA, medio compás después y a contramano:
+       sube desde abajo a la izquierda hasta clavarse en la esquina de la
+       lámina. Recorrido largo a propósito —tres veces el de v16, que era
+       de 1rem y se perdía—: es EL gesto del carril, el «clic, montada», y
+       un gesto que no se nota no está diseñado, está disimulado.
+       Sigue siendo un solo motor por elemento: `planes-asoma` resuelve las
+       dos direcciones y la escala en un único `transform`, y el paralaje de
+       este carril vive en el <img> de dentro, que es otro elemento.      */
+    .planes-carril--empresa .planes-dossier__retrato {
+      --planes-entra-x: calc(var(--esp-xl) * -1);
+      --planes-entra-y: var(--esp-md);
+      animation-range: entry 20% entry 54%;
+    }
+
     /* Paralaje suave del retrato, a contramarcha de la banda del 04 que
        viene debajo (ella baja -4→4; éste sube 2,5→-2,5) y con un rango
        propio que no repite el del díptico del 01: nada queda quieto en la
@@ -2371,14 +3728,60 @@
       animation-range: entry 5% exit 95%;
     }
 
-    /* ---- carril 04 ---------------------------------------------------- */
-    .planes-bienestar__foto {
-      --planes-esc: 1.1;
-      --planes-de: -4%;
-      --planes-a: 4%;
-      animation-name: planes-paralaje-y;
-      animation-range: entry 0% exit 100%;
+    /* ---- carril 03 · §10 ter — EL FILETE SE TRAZA ---------------------
+       El estado final —línea entera— es el que declara §5 bis y vale en
+       todo navegador. Aquí sólo se anima CÓMO aparece: un inset que
+       colapsa el filete en su esquina superior izquierda y lo suelta en
+       diagonal, medio compás DESPUÉS de que su lámina se asiente, como la
+       cuchilla que remata el montaje. `clip-path` está en la lista blanca
+       de propiedades del proyecto y --ease-traza es la curva que ya usan
+       los trazos dibujados del sitio.
+       Peor caso con la línea de tiempo inactiva (doctrina ASOMA): el
+       filete no llega a dibujarse. Es decoración pura sobre una foto que
+       sí se ve; contenido invisible no hay.
+
+       Y LA LECCIÓN DEL §10 APLICA TAMBIÉN A LOS PSEUDOS, verificado en el
+       navegador antes de entregar: el ::before es hijo de un `.marco` con
+       `overflow: hidden`, así que `view()` a secas se le ata AL PROPIO
+       MARCO —una caja que no desplaza nada nunca— y el trazado queda
+       muerto sin síntoma. La corrección es la de siempre: línea de tiempo
+       POR NOMBRE en la figura (que sí cruza la ventana) y el pseudo la
+       usa. El retrato ya tenía la suya (--planes-tl-retrato, §10); las
+       dos láminas del par estrenan la propia.                            */
+    .planes-carril--empresa .planes-dossier__par > :nth-child(1) {
+      view-timeline-name: --planes-tl-lamina-a;
     }
+
+    .planes-carril--empresa .planes-dossier__retrato::before,
+    .planes-carril--empresa .planes-dossier__par > .marco::before {
+      animation-name: planes-traza-filete;
+      animation-duration: auto;
+      animation-fill-mode: both;
+      animation-timing-function: var(--ease-traza);
+    }
+
+    /* Cada filete va DETRÁS de su propia pieza, no en un orden fijo: la
+       lámina asienta en el 38 % y su línea de corte se tira del 34 al 62; el
+       satélite se monta en el 54 y la suya del 50 al 78. Así el trazado se
+       lee como el remate de cada montaje y nunca como una tercera cosa que
+       pasa por su cuenta.                                                 */
+    .planes-carril--empresa .planes-dossier__par > :nth-child(1)::before {
+      animation-timeline: --planes-tl-lamina-a;
+      animation-range: entry 34% entry 62%;
+    }
+
+    .planes-carril--empresa .planes-dossier__retrato::before {
+      animation-timeline: --planes-tl-retrato;
+      animation-range: entry 50% entry 78%;
+    }
+
+    /* ---- carril 04 ---------------------------------------------------- */
+    /* La foto de la banda NO está aquí a propósito: su único motor es la
+       respiración de reloj de §6 ter (`bienestar-respira-foto`). Tuvo el
+       mismo paralaje vertical que la portada del 01 hasta que la portada
+       ganó identidad propia; devolvérselo pondría dos animaciones sobre el
+       mismo `transform` — el bug de los dos motores documentado en el
+       diorama del 02. El rótulo y el trío sí siguen aquí: son otras piezas. */
 
     .planes-bienestar__rotulo {
       --planes-entra-x: calc(var(--esp-lg) * -1);
@@ -2407,6 +3810,29 @@
       animation-name: planes-asoma;
       animation-range: entry 40% entry 86%;
       animation-timing-function: var(--ease-salida);
+    }
+  }
+}
+
+/* LA BANDA DEL 03 NO SE DESLIZA — SÓLO DE ESCRITORIO PARA ARRIBA.
+   De 64em en adelante la carpa deja de ser una lámina dentro de la maqueta y
+   pasa a ser una banda de borde a borde de la VENTANA (§5 ter). Un
+   desplazamiento horizontal de entrada sobre una pieza a sangre descubre la
+   crema por el canto del navegador —el mismo motivo por el que el §11 apaga
+   la entrada del retrato cuando se vuelve portada—, así que aquí el gesto
+   cambia de eje sin cambiar de motor: `planes-asoma` sigue siendo su única
+   animación y lo único que se retoca son las variables que lee. El recorrido
+   pasa a ser SÓLO de escala, y hacia dentro (empieza al 104 % y se asienta al
+   100 %): una banda que se posa nunca destapa un borde, porque durante todo
+   el recorrido es más grande que su caja.
+   El contragesto se mantiene: la banda se asienta, y encima de ella se monta
+   después la copia, que sí llega deslizándose desde la izquierda porque está
+   dentro de la maqueta y tiene crema a los dos lados.                       */
+@media (prefers-reduced-motion: no-preference) and (min-width: 64em) {
+  @supports (animation-timeline: view()) {
+    .planes-carril--empresa .planes-dossier__par > :nth-child(1) {
+      --planes-entra-x: 0px;
+      --planes-entra-esc: 1.04;
     }
   }
 }
@@ -2595,12 +4021,52 @@
     margin-block-end: var(--esp-md);
   }
 
-  .planes-carril--familia .planes-familia__par {
+  /* --- EL DIORAMA HACE DE PORTADA DEL CARRIL 02 (v2) --------------------
+     El §11 apila la foto de cabeza y el rótulo en la MISMA celda de rejilla.
+     El diorama se DISUELVE (`display: contents`) y sus dos piezas entran en
+     ese mecanismo por separado: el MARCO es la portada de la celda 1 —a
+     sangre, esquina viva (§8)— y la hoja flotante baja al flujo como figura
+     normal, porque una tarjeta colgando sobre una foto de pantalla completa
+     taparía justo al niño que hay que ver. Disolver el diorama mata su línea
+     de tiempo (`view-timeline` de un elemento sin caja), y por eso §4 bis
+     sólo declara la animación de la hoja de 64em para arriba: aquí abajo la
+     hoja está QUIETA a propósito, nunca congelada a mitad de recorrido. */
+  .planes-carril--familia .planes-diorama {
+    display: contents;
+  }
+
+  .planes-diorama__marco {
+    grid-row: 1;
+    grid-column: 1;
+    margin-inline: var(--planes-sangrado);
+    aspect-ratio: 4 / 5;
+    /* A sangre no se redondea (§8): la arcada vuelve en tableta ancha. */
+    border-radius: 0;
+  }
+
+  /* El velo del rótulo SE ENCIENDE sólo aquí, que es donde el rótulo se posa
+     dentro de la foto. Mismo degradado por abajo que las otras portadas del
+     §11; en escritorio queda a opacidad 0 y la foto se ve limpia. */
+  .planes-diorama__velo {
+    opacity: 1;
+  }
+
+  /* La hoja flotante, al flujo: pieza propia entre el CTA y el par. */
+  .planes-diorama__flotante {
+    position: static;
     grid-row: 5;
+    grid-column: 1;
+    inline-size: auto;
+    margin-block-start: var(--gap-sm);
+  }
+
+  .planes-carril--familia .planes-familia__par {
+    grid-row: 6;
+    margin-block-start: var(--gap-sm);
   }
 
   .planes-carril--familia .planes-familia__contexto {
-    grid-row: 6;
+    grid-row: 7;
     margin-block-start: var(--gap-sm);
   }
 
@@ -2647,5 +4113,21 @@
       animation-timeline: --planes-tl-carril;
       animation-range: entry 0% exit 100%;
     }
+  }
+}
+
+/* EL RETRATO-PORTADA DEL 03 NO SE COMPAGINA. En el umbral del §11 el retrato
+   del dossier es la portada a sangre del carril, y una portada de canto a
+   canto no puede llegar deslizándose 1rem desde la izquierda: descubriría el
+   fondo por el borde de la ventana. Es la misma decisión que ya tomó el §11
+   con la entrada del mosaico («animation-name: none» sobre la portada), pero
+   aquella regla pesa (0,1,0) y la del ensamblaje del §10 pesa (0,2,0), así
+   que aquí se repite el apagado con el mismo peso y DESPUÉS en el archivo
+   para que gane la cascada. El gesto del retrato en móvil es el paralaje de
+   portada de aquí arriba (que vive en su <img>); las dos apaisadas del par sí
+   conservan su entrada, porque siguen siendo láminas dentro de la maqueta. */
+@media (max-width: 47.9375em), (max-width: 63.9375em) and (pointer: coarse) {
+  .planes-carril--empresa .planes-dossier__retrato {
+    animation-name: none;
   }
 }

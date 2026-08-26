@@ -206,163 +206,199 @@
 }
 
 /* ==========================================================================
-   2. EL MURO
-   Una sola rejilla de TRECE columnas para los tres tamaños de pantalla. Trece
-   y no doce a propósito: con doce, cuatro piezas de anchos 4+3+3+2 suman
-   exactamente doce y el aire entre ellas queda idéntico —vuelve la sensación
-   de tabla—. Con trece sobra una columna, que se deja VACÍA entre la primera
-   y la segunda pieza: es el hueco que desiguala el ritmo horizontal.
+   2. EL VISOR
+   v4.0 · pedido explícito del cliente (chat, 23-ago-2026): «los videos que se
+   vayan pasando de izquierda a derecha por la pantalla de todos los
+   dispositivos». La composición fija en rejilla escalonada de v3 (grid de 13
+   columnas + desfases) se sustituye por una MARQUESINA: una pista horizontal
+   que corre sola, sin que nadie tenga que arrastrarla, en cualquier ancho de
+   pantalla — móvil incluido, que es justo donde antes el muro se quedaba
+   quieto y el visitante tenía que deslizar con el dedo.
 
-   `align-items: start` es obligatorio: sin él las piezas se estiran hasta la
-   altura de la fila y los desfases dejan de verse.
-   ========================================================================== */
-.momentos__muro {
-  display: grid;
-  grid-template-columns: repeat(13, minmax(0, 1fr));
-  align-items: start;
-  column-gap: var(--gap-sm);
-  row-gap: var(--esp-xl);
-  list-style: none;
-  margin: 0;
-  padding: 0;
-}
-
-@media (min-width: 48em) {
-  .momentos__muro {
-    column-gap: var(--gap);
-    row-gap: var(--esp-2xl);
-  }
-}
-
-/* ---- LA SANGRÍA POR LA DERECHA -------------------------------------------
-   El muro es hijo de .contenedor, así que su bloque contenedor mide justo el
-   ancho del contenido. `50% - 50vw` es la mitad de esa caja menos la mitad
-   del viewport: un número NEGATIVO que estira el muro exactamente hasta el
-   borde derecho de la pantalla. La cuarta pieza deja de estar «a la derecha»
-   y pasa a estar SALIENDO DE CUADRO, que es lo que se buscaba.
-
-   Sobre el viejo aviso de naturaleza.css («ojo con 100vw, incluye la barra de
-   scroll»): aquí el desbordamiento es de media barra (~8 px) y se absorbe con
-   el padding de la derecha, que es mayor. Y no aparece scroll horizontal
-   porque el overflow-x:hidden del body se propaga al viewport.
-
-   El relleno de la derecha es --esp-sm y no --padding-contenedor a propósito:
-   con el margen de página completo la pieza no llegaría a tocar el borde y no
-   habría sangría, sólo una banda un poco más ancha. Con 16 px la pieza roza
-   el canto de la pantalla y el pie de foto sigue sin riesgo de recorte.
-
-   Sólo desde 64em. Por debajo el muro se queda dentro del contenedor: un
-   vertical sangrado en un móvil no es cine, es un recorte.               */
-@media (min-width: 64em) {
-  .momentos__muro {
-    margin-inline-end: calc(50% - 50vw);
-    padding-inline-end: var(--esp-sm);
-  }
+   `overflow: clip` y no `hidden` por el mismo motivo que §0: no crear un
+   contenedor de scroll propio (aquí no hay animación de línea de tiempo de
+   scroll que dependa de ello, pero sí las de §6/§9, que cuelgan de la
+   SECCIÓN, no del visor — mismo argumento, misma regla, no se repite el
+   riesgo). Sangra a todo el ancho de la ventana en los tres tamaños: una
+   marquesina que respeta el margen del contenedor se ve con dos bordes
+   muertos a los lados; a pantalla completa se lee como una cinta de cine. */
+.momentos__visor {
+  position: relative;
+  overflow: clip;
+  margin-inline: calc(50% - 50vw);
 }
 
 /* ==========================================================================
-   3. LA COMPOSICIÓN ESCALONADA   (v3.1 · intacta)
-   Cada pieza declara DÓNDE empieza y cuánto ocupa (`grid-column`) y CUÁNTO
-   baja respecto a sus vecinas (`--desfase`). El desfase es un margen
-   superior, no un `transform`: así el muro reserva la altura que ocupa y no
-   se solapa con el pie de la sección.
+   3. LA PISTA
+   `display: flex` con las piezas en fila; cada pieza fija su ancho en rem
+   (no en %) para que la duración de la animación —fijada en segundos en §7—
+   recorra siempre la MISMA distancia física en cualquier pantalla y la
+   velocidad aparente no cambie entre un móvil de 360 px y un monitor de
+   1600 px.
 
-   Los desfases NO son progresivos (0, 1, 2, 3…) sino desordenados a
-   conciencia: si crecieran en escalera, la escalera sería el patrón nuevo.
+   DOS PISTAS IDÉNTICAS UNA DETRÁS DE OTRA (`momentos__pista` +
+   `momentos__pista--copia`, ambas dentro de `.momentos__visor`, puestas en
+   fila por `display:flex` en el visor) es el truco estándar de marquesina
+   sin salto: cuando la animación de §7 ha desplazado el visor exactamente el
+   50 % de su ancho total, la copia ocupa el lugar donde arrancó el original
+   y el bucle reinicia sin que se note el corte. La copia usa <img> con el
+   mismo `poster` en vez de <video> — ver la nota larga en momentos.html: cero
+   descargas nuevas, cero decodificadores de vídeo duplicados.
    -------------------------------------------------------------------------- */
+.momentos__visor {
+  display: flex;
+  width: max-content;
+}
+
+/* ==========================================================================
+   3 bis. EL MOVIMIENTO — la marquesina anda sola
+   Pedido explícito del cliente (chat, 23-ago-2026): la cinta se desplaza de
+   izquierda a derecha* SIN que nadie la arrastre, en cualquier tamaño de
+   pantalla. (*El desplazamiento VISUAL de las piezas es hacia la izquierda
+   —es lo que hace que algo entre por la derecha y salga por la izquierda,
+   la lectura natural de una cinta que avanza—; es la misma cinemática que
+   pidió el cliente al describir vídeos «pasando» por la pantalla.)
+
+   EL TRUCO DEL 50 %. `.momentos__visor` contiene DOS pistas idénticas en
+   fila (§3 arriba). Animar su propio `transform` de `translateX(0)` a
+   `translateX(-50%)` recorre exactamente el ancho de la PRIMERA pista: en
+   el fotograma final, la segunda pista ocupa pixel por pixel el sitio
+   donde arrancó la primera, así que `animation-iteration-count: infinite`
+   reinicia el recorrido sin que se note ningún salto ni parpadeo.
+
+   SÓLO TRANSFORM. Es la única propiedad que se anima aquí: la mueve el
+   compositor, no el layout, y no hay relayout que pagar por cuadro por
+   grande que sea la pista.
+
+   POR QUÉ TRES DURACIONES, UNA POR ANCHO DE PANTALLA. §3 fija el ancho de
+   cada pieza en rem —a propósito, para que la distancia física no cambie
+   con el ancho de la ventana—, pero esas mismas rem CRECEN en los saltos de
+   48em y 64em (piezas más anchas en escritorio que en móvil). Si la
+   duración fuera una sola, la cinta de escritorio —más larga— tendría que
+   recorrerse en el mismo tiempo que la de móvil y se vería visiblemente
+   más rápida. Subir la duración en cada salto, en la misma proporción en
+   que crecen las piezas, es lo que mantiene la MISMA velocidad aparente
+   en los tres tamaños.
+
+   PAUSA AL HOVER Y AL FOCO. Es el pedido de accesibilidad del proyecto: si
+   la cinta no se detiene, nadie puede leer un pie de foto ni pulsar sobre
+   un clip sin que el suelo se mueva debajo. `:focus-within` cubre el caso
+   —hoy no hay nada enfocable dentro del visor, los `<video>` llevan
+   `tabindex="-1"` a propósito— de que algún día se añada un control real.
+
+   MENOS MOVIMIENTO. Toda la regla vive dentro de
+   `prefers-reduced-motion: no-preference`: quien pide menos movimiento no
+   recibe `animation-name` en absoluto y la cinta se queda quieta en
+   `translateX(0)`, mostrando el primer set completo — nunca a medio
+   recorrido ni con un salto congelado a mitad de bucle. */
+@media (prefers-reduced-motion: no-preference) {
+  @keyframes momentos-marquesina {
+    from {
+      transform: translateX(0);
+    }
+
+    to {
+      transform: translateX(-50%);
+    }
+  }
+
+  .momentos__visor {
+    animation-name: momentos-marquesina;
+    animation-timing-function: linear;
+    animation-iteration-count: infinite;
+    animation-duration: calc(var(--dur-vuelo) * 8);
+    will-change: transform;
+  }
+
+  @media (min-width: 48em) {
+    .momentos__visor {
+      animation-duration: calc(var(--dur-vuelo) * 9);
+    }
+  }
+
+  @media (min-width: 64em) {
+    .momentos__visor {
+      animation-duration: calc(var(--dur-vuelo) * 10);
+    }
+  }
+
+  /* Pausa completa: ni un fotograma de la marquesina avanza mientras el
+     puntero o el foco están dentro. `animation-play-state`, no
+     `animation-duration: 0` ni desmontar la animación: así retoma
+     exactamente donde iba al soltar, en vez de reiniciar el recorrido. */
+  .momentos__visor:hover,
+  .momentos__visor:focus-within {
+    animation-play-state: paused;
+  }
+}
+
+.momentos__pista {
+  display: flex;
+  align-items: flex-start;
+  list-style: none;
+  margin: 0;
+  padding-block: var(--esp-sm);
+  gap: var(--gap-sm);
+}
+
+@media (min-width: 48em) {
+  .momentos__pista {
+    gap: var(--gap);
+  }
+}
+
 .momentos__pieza {
-  margin-block-start: var(--desfase, 0);
+  flex: none;
+  width: 13rem;
 }
 
-/* --------------------------------------------------------------------------
-   3.1 MÓVIL — tres filas, ninguna alineada con la anterior
-   La protagonista deja libres las dos últimas columnas por la derecha; las
-   dos piezas centrales se reparten la fila con anchos distintos y una de las
-   dos cae más abajo; la última entra sangrada por la izquierda. Ninguna pieza
-   llega a ancho completo: un vertical a 375 px de ancho mide más de 660 px de
-   alto y se comería la pantalla entera él solo.
-   -------------------------------------------------------------------------- */
+@media (min-width: 48em) {
+  .momentos__pieza {
+    width: 16rem;
+  }
+}
+
+@media (min-width: 64em) {
+  .momentos__pieza {
+    width: 19rem;
+  }
+}
+
+/* La protagonista (verso + clip más largo de lectura) se deja un poco más
+   ancha que sus tres compañeras: sigue siendo la pieza que sitúa, aunque ya
+   no abra la fila de una rejilla fija. */
 .momentos__pieza--uno {
-  grid-column: 1 / 12;
-  --desfase: 0;
+  width: 15rem;
 }
 
-.momentos__pieza--dos {
-  grid-column: 1 / 8;
-  --desfase: 0;
-}
-
-.momentos__pieza--tres {
-  grid-column: 8 / -1;
-  --desfase: var(--esp-lg);
-}
-
-.momentos__pieza--cuatro {
-  grid-column: 4 / 12;
-  --desfase: 0;
-}
-
-/* --------------------------------------------------------------------------
-   3.2 TABLETA — dos filas de dos, cruzadas
-   Las cuatro piezas miden distinto (6 / 4 / 5 / 3 columnas): en cuanto dos de
-   ellas coincidieron en ancho —pasó con la primera versión de este bloque—,
-   la fila de arriba se leyó como un par de tarjetas gemelas y el muro volvió
-   a parecer una rejilla. Ninguna comparte borde superior ni inferior, y las
-   dos de abajo entran desplazadas hacia dentro respecto a las de arriba.
-   -------------------------------------------------------------------------- */
 @media (min-width: 48em) {
   .momentos__pieza--uno {
-    grid-column: 1 / 7;
-  }
-
-  .momentos__pieza--dos {
-    grid-column: 8 / 12;
-    --desfase: var(--esp-3xl);
-  }
-
-  .momentos__pieza--tres {
-    grid-column: 2 / 7;
-    --desfase: 0;
-  }
-
-  .momentos__pieza--cuatro {
-    grid-column: 8 / 11;
-    --desfase: var(--esp-lg);
+    width: 19rem;
   }
 }
 
-/* --------------------------------------------------------------------------
-   3.3 ESCRITORIO — una sola banda de cuatro, en diagonal
-   Aquí es donde la composición hace su trabajo: cuatro piezas seguidas de
-   anchos 4 / 3 / 3 / 2 columnas, la columna 5 vacía como respiro, y desfases
-   de 0 → mucho → poco → muchísimo. El borde superior sube y baja; el
-   inferior desciende hacia la derecha. Nada se alinea con nada.
-   -------------------------------------------------------------------------- */
 @media (min-width: 64em) {
-  /* v3.5 · Red de seguridad de aire: sólo actúa si el muro rompe a dos filas
-     en anchos intermedios; en la banda de cuatro no cambia nada. */
-  .momentos__muro {
-    row-gap: var(--esp-3xl);
-  }
-
   .momentos__pieza--uno {
-    grid-column: 1 / 5;
-    --desfase: 0;
+    width: 22rem;
   }
+}
 
-  .momentos__pieza--dos {
-    grid-column: 6 / 9;
-    --desfase: var(--esp-3xl);
-  }
+/* LA PIEZA MOVIDA MÁS A LA DERECHA — pedido explícito del cliente.
+   De las cuatro miniaturas es la que señaló para reposicionar: es la última
+   del cuarteto (mariposas-par, «dos naranjas juntas») y en la composición v3
+   quedaba la más escondida de las cuatro, sangrada fuera de la pantalla y
+   cortada por el borde derecho en escritorio (v3 §2). En la pista corrediza
+   se le da un margen izquierdo propio —el doble del hueco normal entre
+   piezas— para que se separe visualmente del trío 01-03 y se lea sola, más a
+   la derecha del grupo, en vez de pegada como una quinta rueda al final de
+   la fila. */
+.momentos__pieza--cuatro {
+  margin-inline-start: var(--esp-2xl);
+}
 
-  .momentos__pieza--tres {
-    grid-column: 9 / 12;
-    --desfase: var(--esp-lg);
-  }
-
+@media (min-width: 48em) {
   .momentos__pieza--cuatro {
-    grid-column: 12 / -1;
-    --desfase: var(--esp-4xl);
+    margin-inline-start: var(--esp-4xl);
   }
 }
 

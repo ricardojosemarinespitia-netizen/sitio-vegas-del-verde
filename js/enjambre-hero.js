@@ -77,9 +77,6 @@ const MARIPOSAS = [
   { n: 15, x: 40, y: 85, w: 9,  movil: false },
 ];
 
-/** El colibrí entra tarde: cuando el enjambre ya está puesto y el titular ya
- *  se leyó. 2,4 s medidos desde que arranca el vuelo, no desde la carga. */
-const ESPERA_COLIBRI = 2400;
 
 const dos = (n) => (n < 10 ? '0' + n : String(n));
 
@@ -131,18 +128,6 @@ export function montarEnjambre(caja) {
     piezas.push(img);
   });
 
-  const colibri = document.createElement('img');
-  colibri.className = 'inicio__bicho inicio__colibri';
-  colibri.src = 'img/plan-vecino/colibri.png';
-  colibri.alt = '';
-  colibri.setAttribute('aria-hidden', 'true');
-  colibri.decoding = 'async';
-  colibri.loading = 'lazy';
-  colibri.style.top = '26%';
-  colibri.style.right = '0%';
-  colibri.style.width = estrecho ? '38%' : '26%';
-  colibri.style.setProperty('--espera', ESPERA_COLIBRI + 'ms');
-  piezas.push(colibri);
 
   const fragmento = document.createDocumentFragment();
   piezas.forEach((p) => fragmento.appendChild(p));

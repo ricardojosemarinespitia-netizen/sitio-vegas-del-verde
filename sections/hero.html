@@ -159,7 +159,7 @@
     </svg>
 
     <!-- EL ENJAMBRE — la caja vacía donde js/enjambre-hero.js suelta nueve
-         mariposas y un colibrí. Va VACÍA en el HTML a propósito: las piezas se
+         mariposas. Va VACÍA en el HTML a propósito: las piezas se
          crean después del decode() de la portada, así que no hay ni un byte
          de PNG compitiendo con el LCP, y como no existen al primer pintado no
          hay ningún estado inicial que pueda parpadear.
@@ -352,7 +352,7 @@
              uno de los dos módulos falla, el otro sigue vivo. Los PNG de las
              mariposas no se piden hasta aquí, así que no compiten con el LCP
              ni por red ni por decodificación. */
-          import('./js/enjambre-hero.js?v=0594b6cd')
+          import('./js/enjambre-hero.js?v=21a60875')
             .then((m) => m?.montarEnjambre(document.querySelector('.inicio__enjambre')))
             .catch(() => {}),
         ]))

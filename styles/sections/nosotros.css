@@ -72,7 +72,10 @@
    ========================================================================== */
 
 .nosotros {
-  background-color: var(--color-fondo);
+  /* Iba en crema plana; ahora el papel botánico del sitio vive en <body>
+     (base.css) y esta sección se hace transparente para que corra continuo
+     por debajo. Su mancha radial propia (abajo) se queda: suma encima. */
+  background-color: transparent;
   /* v9 «editorial» — EL AIRE DE ENTRADA SUBE AL COMPÁS LARGO. El lujo
      editorial se mide en papel vacío antes del primer titular: la coda de la
      portada abre con más respiración que el compás común de .seccion. Sólo el
@@ -410,8 +413,26 @@
 }
 
 .nosotros__quien:nth-child(4) .nosotros__quien-icono {
-  border-radius: 0 var(--radio-lg) 0 var(--radio-full);
+  border-radius: 0 var(--radio-full) 0 var(--radio-full);
 }
+
+/* v13 · UNA SOLA FAMILIA DE HOJA A DOS ESCALAS — pedido directo del cliente
+   («las dos formas de hoja desentonan»). Hasta v12 esta insignia grande
+   alternaba SOLO entre las dos diagonales a --radio-full (correcto), pero la
+   insignia pequeña de «Lo básico, resuelto» dos pasos más abajo mezclaba esa
+   misma diagonal con --radio-lg en dos de sus cuatro piezas —una esquina
+   menos redondeada que las otras tres—. El ojo lee dos gramáticas de esquina
+   distintas puestas una al lado de la otra y las siente en conflicto, aunque
+   el color (terracota aquí, oliva allá) ya bastaba para separar los grupos.
+
+   La corrección no es iguala tamaños: es sacar el --radio-lg de la ecuación
+   por completo y dejar que las DOS familias compartan la misma silueta —el
+   mismo remate de .lista-hojas en base.css, dos esquinas a --radio-full en
+   diagonal y dos vivas— cada una a su escala. El tamaño y el color siguen
+   haciendo TODO el trabajo de jerarquía (grande+terracota = a quién se
+   alquila; pequeño+oliva = qué hay puesto); la forma deja de competir y pasa
+   a confirmar que son parientes. Ver también nosotros__servicio-icono más
+   abajo, donde se retira el mismo --radio-lg de las piezas 3 y 4. */
 
 /* Retardos desiguales, mismo criterio que la tira de servicios: la escalera
    regular de base.css se leería como un barrido de cuatro piezas idénticas.
@@ -835,13 +856,20 @@
 }
 
 .nosotros__servicio:nth-child(3) .nosotros__servicio-icono {
-  border-radius: 0 var(--radio-lg) 0 var(--radio-full);
+  border-radius: 0 var(--radio-full) 0 var(--radio-full);
 }
 
+/* v13 · SE RETIRA --radio-lg de esta pieza (y de la de arriba): era la única
+   esquina de las ocho insignias de la sección —cuatro aquí, cuatro en «Se
+   alquila a»— que no cerraba a --radio-full, y esa única esquina distinta es
+   lo que hacía que la hoja pequeña se leyera como una forma prima, no
+   hermana, de la hoja grande. Ver nota completa en nosotros__quien-icono
+   más arriba. El tamaño (0.9 del módulo) y la diagonal alternada se quedan:
+   siguen siendo la cuarta pieza, siguen sin repetir a su vecina. */
 .nosotros__servicio:nth-child(4) .nosotros__servicio-icono {
   width: calc(var(--tam-insignia) * 0.9);
   height: calc(var(--tam-insignia) * 0.9);
-  border-radius: var(--radio-full) 0 var(--radio-lg) 0;
+  border-radius: var(--radio-full) 0 var(--radio-full) 0;
 }
 
 /* Las dos que se levantan. `margin-bottom` y no `transform`: la tira envuelve

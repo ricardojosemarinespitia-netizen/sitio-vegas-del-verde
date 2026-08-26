@@ -1231,33 +1231,6 @@
    enjambre ya está puesto y el titular ya se leyó, atraviesa la portada y se
    va. Una sola vez por entrada en pantalla: un colibrí que da vueltas en
    bucle es un banner. */
-.en-vuelo .inicio__colibri {
-  animation: inicio-colibri-cruza var(--dur-cruce) var(--ease-suave)
-    var(--espera) both;
-}
-
-/* El recorrido va en vw y no en porcentaje de la propia pieza: así el cruce
-   mide lo mismo —la ventana entera— tanto si el colibrí se pinta a 150 px como
-   si se pinta a 60 px. Sube mientras cruza, que es como se va un colibrí. */
-@keyframes inicio-colibri-cruza {
-  from {
-    opacity: 0;
-    transform: translate3d(20vw, 9vw, 0) scale(0.75) rotate(8deg);
-  }
-
-  14% {
-    opacity: 1;
-  }
-
-  70% {
-    opacity: 1;
-  }
-
-  to {
-    opacity: 0;
-    transform: translate3d(-52vw, -7vw, 0) scale(1) rotate(-6deg);
-  }
-}
 
 /* Con movimiento reducido el módulo NI SE MONTA (lo comprueba el <script> del
    fragmento antes de importar), así que aquí no hay nada que apagar. La regla
@@ -1270,9 +1243,6 @@
     animation: none;
   }
 
-  .inicio__colibri {
-    display: none;
-  }
 }
 
 /* v6 · EL PLANO-ÍNDICE (el aéreo con las cuatro anclas superpuestas) SE
