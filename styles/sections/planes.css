@@ -2240,7 +2240,13 @@
      primeras cuatro columnas. Mismo principio que la tarjeta del carril 01:
      el texto se posa sobre la fotografía, no al lado. */
   .planes-carril--empresa .planes-carril__texto {
-    grid-column: 6 / -1;
+    /* v23 · A LA IZQUIERDA, no a la derecha (pedido del cliente: "está muy
+       atravesado"). Vive en las mismas columnas 1-8 que ocupa la copia
+       montada de abajo, pero arriba (`align-self: start`) mientras la copia
+       cuelga del borde inferior (`align-self: end`): ambas comparten
+       columna sin tocarse porque una vive arriba y la otra abajo de la
+       misma fila. */
+    grid-column: 1 / 8;
     grid-row: 1;
     /* v21 · ARRIBA, no abajo (pedido del cliente, corrección inmediata):
        con `end` el bloque se estiraba casi toda la altura de la banda y se
@@ -2280,10 +2286,11 @@
     inset: 0;
     z-index: var(--z-base);
     pointer-events: none;
-    /* v21 · el texto sube arriba: el lavado vertical se voltea con él (antes
-       oscurecía el pie de la foto, donde ya no vive ni una letra). La foto
-       en sí no se recorta ni un píxel —sigue midiendo --planes-portada-alto
-       completo—, sólo se oscurece más su tercio superior derecho. */
+    /* v23 · el texto pasa a la izquierda: el lavado horizontal se voltea con
+       él (antes oscurecía la derecha). El vertical (arriba/abajo) no
+       cambia: el texto sigue arriba, sólo se movió de lado. La foto no se
+       recorta ni un píxel —sigue midiendo --planes-portada-alto completo—,
+       sólo se oscurece más su tercio superior izquierdo. */
     background-image:
       linear-gradient(
         to bottom,
@@ -2292,7 +2299,7 @@
         transparent 62%
       ),
       linear-gradient(
-        to left,
+        to right,
         rgb(var(--negro-escena-rgb) / 0.55) 0%,
         rgb(var(--negro-escena-rgb) / 0.3) 30%,
         transparent 55%
