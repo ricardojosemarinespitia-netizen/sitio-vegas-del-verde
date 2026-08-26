@@ -2142,8 +2142,21 @@
    un elemento transformado pinta por encima de sus hermanos con z
    automático. Sin declararlo, la banda podría acabar encima de la copia
    según qué se esté moviendo. Con --z-base el montaje es siempre el mismo.
-   -------------------------------------------------------------------------- */
-@media (min-width: 64em) {
+
+   v19 · EL UMBRAL BAJA A 48em EN RATÓN (pedido repetido del cliente). El
+   límite de 64em copiaba el de la portada del 01 —la sangre completa del
+   sitio— pero ahí asumía «de escritorio para arriba» sin distinguir tableta
+   de PC. El cliente ve la caja de §5 en una VENTANA de escritorio de entre
+   768 y 1023px —portátiles sin maximizar, con la barra lateral del sistema
+   restando ancho— y la lee como el bug que ya se había corregido, no como
+   la gramática de tableta que es. La condición de puntero es la bisagra:
+   `pointer: fine` es un ratón, así que cualquier ventana de escritorio de
+   48em para arriba entra en la banda a sangre. Una tableta real de verdad
+   —`pointer: coarse`— se queda con la caja de §5 hasta los 64em, que es
+   donde de verdad hace falta la mano para tocar cada foto por separado.
+   De 64em en adelante entra CUALQUIER dispositivo, toque o ratón: ahí ya no
+   hay ambigüedad de ancho.                                                */
+@media (min-width: 48em) and (pointer: fine), (min-width: 64em) {
   .planes-carril--empresa {
     /* La caja deja de tener tope: la banda de dentro es la que manda y llega
        al borde de la ventana. La retícula de doce es la misma de #espacios y
@@ -2154,6 +2167,13 @@
     column-gap: var(--gap);
     row-gap: var(--gap-lg);
     align-items: start;
+    /* v22 · CLARO EXTRA ABAJO. La copia montada cuelga por debajo de la
+       banda con un `margin-block-end` negativo mayor que el `gap` de la
+       lista de carriles (§1): a esta anchura llegaba a pisar 32px la foto
+       del carril 04 de abajo —«se unen esas fotos», pedido del cliente—.
+       Este margen extra sólo agranda el hueco por debajo de ESTE carril,
+       sin tocar el `gap` general ni el vuelo de la copia. */
+    margin-block-end: var(--esp-xl);
   }
 
   /* El dossier se disuelve: la banda y la copia pasan a ser hijas directas de
@@ -2170,6 +2190,8 @@
     /* Salirse del contenedor hasta el borde de la ventana. El sobrante lo
        recorta el `overflow-x: clip` de la sección (§1 bis): no abre scroll. */
     margin-inline: var(--planes-sangrado);
+    /* Ancla el velo del texto (más abajo) que ahora se posa encima. */
+    position: relative;
   }
 
   .planes-carril--empresa .planes-dossier__par > .marco {
@@ -2204,10 +2226,71 @@
     box-shadow: var(--sombra-xl);
   }
 
-  /* --- EL TEXTO --------------------------------------------------------- */
+  /* --- EL TEXTO, DENTRO DE LA FOTO --------------------------------------
+     v20 · pedido directo del cliente: el texto pasa de vivir DEBAJO de la
+     banda (fila 2, sobre el papel crema) a vivir DENTRO de ella (misma
+     fila 1 que la banda y la copia), anclado a la esquina inferior derecha
+     — el hueco libre que deja la copia montada, que ocupa sólo las
+     primeras cuatro columnas. Mismo principio que la tarjeta del carril 01:
+     el texto se posa sobre la fotografía, no al lado. */
   .planes-carril--empresa .planes-carril__texto {
-    grid-column: 5 / -1;
-    grid-row: 2;
+    grid-column: 6 / -1;
+    grid-row: 1;
+    /* v21 · ARRIBA, no abajo (pedido del cliente, corrección inmediata):
+       con `end` el bloque se estiraba casi toda la altura de la banda y se
+       leía como un cartel encimado a la foto entera. `start` lo deja
+       compacto, pegado al borde superior, con la carpa respirando debajo. */
+    align-self: start;
+    z-index: var(--z-elevado);
+    padding: var(--gap-lg);
+    color: var(--color-texto-inverso);
+  }
+
+  .planes-carril--empresa .planes-carril__texto .planes-carril__ocasion,
+  .planes-carril--empresa .planes-carril__texto .titulo-seccion {
+    color: var(--color-texto-inverso);
+  }
+
+  .planes-carril--empresa .planes-carril__texto .planes-carril__copy {
+    color: var(--color-texto-inverso-suave);
+  }
+
+  .planes-carril--empresa .planes-carril__texto .planes-carril__donde,
+  .planes-carril--empresa .planes-carril__texto .planes-carril__donde a {
+    color: var(--color-texto-inverso-suave);
+  }
+
+  .planes-carril--empresa .planes-carril__texto .enlace-flecha {
+    color: var(--color-texto-inverso);
+  }
+
+  /* El velo que sostiene la lectura: sólo bajo el texto, no sobre la foto
+     entera —la carpa de vidrio es la protagonista y no hay que apagarla—.
+     Mismo recurso de dos capas (vertical + horizontal) que ya usan el hero
+     y el carril 05, acotado al cuarto inferior derecho donde cae la letra. */
+  .planes-carril--empresa .planes-dossier__par::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: var(--z-base);
+    pointer-events: none;
+    /* v21 · el texto sube arriba: el lavado vertical se voltea con él (antes
+       oscurecía el pie de la foto, donde ya no vive ni una letra). La foto
+       en sí no se recorta ni un píxel —sigue midiendo --planes-portada-alto
+       completo—, sólo se oscurece más su tercio superior derecho. */
+    background-image:
+      linear-gradient(
+        to bottom,
+        rgb(var(--negro-escena-rgb) / 0.7) 0%,
+        rgb(var(--negro-escena-rgb) / 0.42) 32%,
+        transparent 62%
+      ),
+      linear-gradient(
+        to left,
+        rgb(var(--negro-escena-rgb) / 0.55) 0%,
+        rgb(var(--negro-escena-rgb) / 0.3) 30%,
+        transparent 55%
+      );
   }
 }
 
@@ -2719,85 +2802,93 @@
   }
 }
 
-/* ---- EL TRAZO, YA HECHO DESDE EL PRIMER FOTOGRAMA ----------------------
-   Estas siete viñetas usaban DOS motores a la vez sobre el mismo glifo: el
-   trazado (`stroke-dashoffset` recorriendo el contorno, el mecanismo común
-   de `.icono-traza` en todo el sitio — base.css:859-867) y el asentado
-   (scale/opacity del <svg> completo, más abajo). El cliente los vio
-   competir y pidió UN SOLO efecto: el asentado. El trazado se apaga aquí,
-   pero sólo para `.planes-bienestar__glifo` — el resto de usos de
-   `.icono-traza` en el sitio (bombillo del carril 01, loto y demás siluetas
-   de nosotros.html, espacios.html, colegios.html, etc.) no se toca.
+/* ---- LOS SIETE GLIFOS SE DIBUJAN, UNO DETRÁS DE OTRO (v11) -------------
+   HISTORIA CORTA DE ESTA REGLA. Estas viñetas tuvieron primero DOS motores
+   encima del mismo glifo —el trazado (`stroke-dashoffset`) y un asentado de
+   escala/opacidad del <svg> entero— y el cliente los vio competir: pidió un
+   solo efecto. Se dejó el asentado, 0.8 → 1 en 180 ms, y el resultado fue el
+   contrario del buscado: tan corto y tan pequeño que no se percibe que haya
+   pasado nada. Un gesto invisible no es sobriedad, es una animación que no
+   está.
 
-   Especificidad: la regla de base.css que hay que superar,
-   `.js .traza-lista .icono-traza > :not([stroke-dasharray]):not([data-traza="detalle"])`,
-   mide (0,5,0). El selector de aquí abajo encadena cinco clases propias del
-   carril —.js, .planes, .planes-bienestar__bloque, .planes-bienestar__lista,
-   .planes-bienestar__glifo— más los mismos dos `:not()` de atributo, así que
-   mide (0,7,0) y gana sin depender del orden de `@import`. El resultado: el
-   trazo nace ya en `stroke-dashoffset: 0`, sin `transition`, visible por
-   completo desde que el glifo entra en pantalla. */
-.js .planes .planes-bienestar__bloque .planes-bienestar__lista .planes-bienestar__glifo > :not([stroke-dasharray]):not([data-traza="detalle"]) {
-  stroke-dashoffset: 0;
-  transition: none;
-}
+   LO QUE HAY AHORA: el otro motor, el trazado, y SÓLO él. Es el mecanismo de
+   la casa —`.icono-traza`, base.css:859-867, el mismo del bombillo del carril
+   01 y de las siluetas de nosotros.html— y tiene una virtud que la escala no
+   tiene a 22 px: la línea NACE, se ve crecer punta adelante. No hay forma de
+   confundirlo con una imagen quieta ni en una captura a medias. Duración
+   generosa (fracciones altas de --dur-traza, entre 1,4 s y 2,0 s) y las siete
+   entrando escalonadas: el ojo recorre la lista mientras se escribe sola.
 
-/* ---- EL ASENTADO, ÚNICO EFECTO QUE QUEDA -------------------------------
-   El glifo COMPLETO —no el trazo, el <svg> entero— nace un poco encogido y
-   apagado y se asienta en su tamaño y opacidad al entrar la viñeta en
-   pantalla. Sólo transform/opacity: compositor puro. Como ya no hay trazado
-   que sincronizar, el retardo de cada icono no depende de ninguna duración
-   ajena: es un solo `transition-delay` por viñeta.
+   POR QUÉ EL DISPARADOR ES EL <li> Y NO LA SECCIÓN. El observador de trazos
+   de js/app.js vigila la SECCIÓN (`section#planes`) con `threshold: 0`, y
+   #planes es larguísima: para cuando el carril 04 asoma, `.traza-lista` se
+   puso hace rato y estos siete se habrían dibujado fuera de pantalla. Por eso
+   el estado lo manda aquí el `.visible` que el reveal pone en cada <li>, que
+   sí llega en el momento en que la viñeta se ve.
 
-   Y TODO VIVE DENTRO DE `no-preference`: sin movimiento manda base.css y el
-   glifo aparece ya asentado y quieto (ver regla `.js .icono-traza > *` de
-   reduced-motion en base.css:892-901, que también deja el trazo estático). */
+   ESPECIFICIDAD. Hay que ganarle a `.js .traza-lista .icono-traza > :not(…)`
+   de base.css, que mide (0,5,0) y ya estará puesta. Los selectores de abajo
+   encadenan seis clases del carril más los dos `:not()` de atributo: miden
+   (0,8,0) y ganan sin depender del orden de los `@import`.
+
+   TODO VIVE DENTRO DE `no-preference`. Sin movimiento manda base.css tal
+   cual: el glifo nace en `stroke-dashoffset: 0`, entero, visible y quieto
+   (base.css:892-901). Aquí no se toca ni una propiedad en ese caso. */
 @media (prefers-reduced-motion: no-preference) {
-  .js .planes .planes-bienestar__bloque .planes-bienestar__lista > li:not(.visible) .icono-traza {
-    transform: scale(0.8);
-    opacity: 0.5;
+  /* Antes de que la viñeta se vea: el contorno recogido y la transición
+     apagada, para que el punto de partida sea siempre el mismo aunque
+     `.traza-lista` ya ande puesta por la sección entera. */
+  .js .planes .planes-bienestar__bloque .planes-bienestar__lista > li:not(.visible) .planes-bienestar__glifo > :not([stroke-dasharray]):not([data-traza="detalle"]) {
+    stroke-dashoffset: 1;
+    transition: none;
   }
 
-  .js .planes .planes-bienestar__bloque .planes-bienestar__lista > li.visible .icono-traza {
-    transform: scale(1);
-    opacity: 1;
-    transition:
-      transform var(--dur-rapida) var(--ease-traza),
-      opacity var(--dur-rapida) var(--ease);
+  /* Al verse: el trazo se recoge hasta cero y la forma se escribe. Un solo
+     motor, una sola propiedad animada. */
+  .js .planes .planes-bienestar__bloque .planes-bienestar__lista > li.visible .planes-bienestar__glifo > :not([stroke-dasharray]):not([data-traza="detalle"]) {
+    stroke-dashoffset: 0;
+    transition: stroke-dashoffset var(--dur-traza) var(--ease-traza);
   }
 
-  /* Siete retardos y ninguno se repite: la regla dura de la sección —nada
-     empieza a la vez y nada va al mismo compás— aplicada a la escala más
-     pequeña que tiene. Ni un tiempo literal: todos son tokens de movimiento
-     por un factor. Van DESPUÉS de la regla de arriba a propósito: el atajo
-     `transition` de aquélla reinicia el retardo a cero, y empatados en
-     especificidad gana la última declarada. */
-  .js .planes .planes-bienestar__bloque .planes-bienestar__lista > li:nth-child(1) .icono-traza {
+  /* Siete pares duración/retardo y ninguno se repite: la regla dura de la
+     sección —nada empieza a la vez y nada va al mismo compás— aplicada a la
+     escala más pequeña que tiene. Ni un tiempo literal: todos son tokens de
+     movimiento por un factor. Van DESPUÉS de la regla de arriba a propósito:
+     el atajo `transition` de aquélla reinicia duración y retardo, y empatados
+     en especificidad gana la última declarada. */
+  .js .planes .planes-bienestar__bloque .planes-bienestar__lista > li:nth-child(1) .planes-bienestar__glifo > :not([stroke-dasharray]):not([data-traza="detalle"]) {
+    transition-duration: calc(var(--dur-traza) * 0.62);
     transition-delay: 0ms;
   }
 
-  .js .planes .planes-bienestar__bloque .planes-bienestar__lista > li:nth-child(2) .icono-traza {
-    transition-delay: calc(var(--dur-rapida) * 1.2);
+  .js .planes .planes-bienestar__bloque .planes-bienestar__lista > li:nth-child(2) .planes-bienestar__glifo > :not([stroke-dasharray]):not([data-traza="detalle"]) {
+    transition-duration: calc(var(--dur-traza) * 0.72);
+    transition-delay: calc(var(--dur-media) * 0.6);
   }
 
-  .js .planes .planes-bienestar__bloque .planes-bienestar__lista > li:nth-child(3) .icono-traza {
-    transition-delay: calc(var(--dur-media) * 1.5);
+  .js .planes .planes-bienestar__bloque .planes-bienestar__lista > li:nth-child(3) .planes-bienestar__glifo > :not([stroke-dasharray]):not([data-traza="detalle"]) {
+    transition-duration: calc(var(--dur-traza) * 0.8);
+    transition-delay: calc(var(--dur-lenta) * 0.7);
   }
 
-  .js .planes .planes-bienestar__bloque .planes-bienestar__lista > li:nth-child(4) .icono-traza {
-    transition-delay: calc(var(--dur-lenta) * 1.3);
+  .js .planes .planes-bienestar__bloque .planes-bienestar__lista > li:nth-child(4) .planes-bienestar__glifo > :not([stroke-dasharray]):not([data-traza="detalle"]) {
+    transition-duration: calc(var(--dur-traza) * 0.58);
+    transition-delay: calc(var(--dur-lenta) * 1.1);
   }
 
-  .js .planes .planes-bienestar__bloque .planes-bienestar__lista > li:nth-child(5) .icono-traza {
-    transition-delay: calc(var(--dur-media) * 3.1);
+  .js .planes .planes-bienestar__bloque .planes-bienestar__lista > li:nth-child(5) .planes-bienestar__glifo > :not([stroke-dasharray]):not([data-traza="detalle"]) {
+    transition-duration: calc(var(--dur-traza) * 0.75);
+    transition-delay: calc(var(--dur-media) * 2.6);
   }
 
-  .js .planes .planes-bienestar__bloque .planes-bienestar__lista > li:nth-child(6) .icono-traza {
-    transition-delay: calc(var(--dur-lenta) * 2.2);
+  .js .planes .planes-bienestar__bloque .planes-bienestar__lista > li:nth-child(6) .planes-bienestar__glifo > :not([stroke-dasharray]):not([data-traza="detalle"]) {
+    transition-duration: calc(var(--dur-traza) * 0.85);
+    transition-delay: calc(var(--dur-lenta) * 1.7);
   }
 
-  .js .planes .planes-bienestar__bloque .planes-bienestar__lista > li:nth-child(7) .icono-traza {
-    transition-delay: calc(var(--dur-lenta) * 2.7);
+  .js .planes .planes-bienestar__bloque .planes-bienestar__lista > li:nth-child(7) .planes-bienestar__glifo > :not([stroke-dasharray]):not([data-traza="detalle"]) {
+    transition-duration: calc(var(--dur-traza) * 0.68);
+    transition-delay: calc(var(--dur-lenta) * 2.1);
   }
 }
 
