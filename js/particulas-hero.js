@@ -358,7 +358,18 @@ export function montarParticulas(contenedor, img) {
   function medir() {
     if (!contenedor.clientWidth || !contenedor.clientHeight) return false;
 
-    const dpr = Math.min(window.devicePixelRatio || 1, 2);
+    /* EL TECHO DE DENSIDAD DEL LIENZO, MÁS BAJO EN TELÉFONO.
+       El lienzo ocupa la portada entera y se repinta completo en cada cuadro,
+       así que su coste sube con el CUADRADO de este número: a DPR 2 son
+       cuatro veces los píxeles de DPR 1, y encima las motas se dibujan con
+       `globalCompositeOperation = 'lighter'`, que en GPU de gama media es de
+       lo más caro que hay. Un teléfono de 390 px con DPR 3 pintaría 1170 px
+       de ancho de bokeh para una capa que es, literalmente, manchas
+       desenfocadas: 1,5 no se distingue de 2 a simple vista sobre formas sin
+       borde duro, y recorta el relleno casi a la mitad. En escritorio se
+       mantiene 2, donde ni el presupuesto de batería ni el de GPU aprietan. */
+    const techoDpr = window.matchMedia('(max-width: 47.99em)').matches ? 1.5 : 2;
+    const dpr = Math.min(window.devicePixelRatio || 1, techoDpr);
     anchoCss = contenedor.clientWidth;
     altoCss = contenedor.clientHeight;
     lienzo.width = Math.round(anchoCss * dpr);

@@ -129,15 +129,30 @@
 
   /* 1. PRECARGA. `rootMargin` en px y no en %: el % de rootMargin se mide
      contra la raíz, y aquí se quiere una distancia de recorrido estable, no
-     una que dependa del alto de la ventana del visitante. 1200 px son, en
-     cualquier móvil, más de una pantalla de aviso. */
+     una que dependa del alto de la ventana del visitante.
+
+     LA DISTANCIA NO ES LA MISMA EN TELÉFONO QUE EN ESCRITORIO. 1200 px son
+     más de dos pantallas de teléfono, y los cuatro clips juntos pesan varios
+     megas: en datos móviles eso es bajarse la banda entera —en paralelo con
+     las fotos de #planes— para un visitante que puede no llegar nunca a
+     verla. 600 px siguen siendo más de media pantalla de aviso, que es de
+     sobra para que el búfer llegue lleno; lo que se recorta es la apuesta,
+     no el margen. En escritorio, donde la conexión suele ser fija y la
+     pantalla más alta, se mantiene el 1200 de siempre.
+
+     Y si el visitante ha pedido ahorro de datos, no se precarga nada: el
+     clip se descargará cuando de verdad asome, que es lo que él pidió. */
+  const estrecho = window.matchMedia('(max-width: 47.99em)').matches;
+  const ahorroDatos = !!(navigator.connection && navigator.connection.saveData);
+  const margenPrecarga = estrecho ? '600px 0px' : '1200px 0px';
+
   const observadorPrecarga = new IntersectionObserver((entradas) => {
     entradas.forEach((entrada) => {
-      if (entrada.isIntersecting && !menosMovimiento.matches) {
+      if (entrada.isIntersecting && !menosMovimiento.matches && !ahorroDatos) {
         precargar(entrada.target);
       }
     });
-  }, { rootMargin: '1200px 0px' });
+  }, { rootMargin: margenPrecarga });
 
   /* 2. REPRODUCCIÓN. Con que asome se considera en pantalla. */
   const observador = new IntersectionObserver((entradas) => {

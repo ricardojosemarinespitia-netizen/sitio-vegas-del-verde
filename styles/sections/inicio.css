@@ -592,19 +592,61 @@
    lugar de un verde un paso más claro. Como --negro-escena sólo puede ser
    MÁS oscuro que el bosque-hondo, los contrastes medidos (suelo de 4,21:1
    en el titular) se conservan o mejoran; no hay que volver a medir. */
+/* v11 · LAS MISMAS PARADAS MEDIDAS, PERO CON LAS ESQUINAS REDONDEADAS.
+   Un degradado de tres topes tiene DOS esquinas: el punto donde la pendiente
+   cambia de golpe (45 % en el horizontal, 42 % y 72 % en el vertical) y el
+   punto donde la rampa se corta contra el cero. El ojo no ve el valor del
+   alfa, ve su DERIVADA: en cada esquina aparece una banda de Mach —una raya
+   fantasma que no está en los píxeles pero se percibe— y por eso el velo se
+   leía como una lámina puesta encima en vez de como luz.
+
+   QUÉ SE HIZO. Se conservan INTACTAS todas las paradas medidas (0,6 / 0,45 en
+   el horizontal; 0,72 / 0,68 / 0,32 / 0,22 en el vertical, en sus mismos
+   porcentajes) y se añaden topes intermedios que redondean cada esquina,
+   más una cola que lleva el horizontal al cero en el 90 % en vez de cortarlo
+   en el 78 %.
+
+   LA REGLA QUE SE IMPUSO PARA NO TENER QUE VOLVER A MEDIR: cada tope nuevo
+   queda IGUAL O POR ENCIMA del alfa que la recta anterior daba en ese mismo
+   punto. Comprobado uno a uno (horizontal 18 %: 0,57 contra 0,54 · 34 %: 0,50
+   contra 0,487 · 57 %: 0,33 contra 0,286 · vertical 52 %: 0,62 contra 0,56 ·
+   60 %: 0,50 contra 0,464 · 68 %: 0,38 contra 0,368 · 80 %: 0,30 contra
+   0,291 · 90 %: 0,26 contra 0,256). Como el velo sólo puede tapar MÁS, los
+   contrastes de v6 —suelo de 4,21:1 en el titular— se conservan o mejoran en
+   todos los píxeles. Nada de lo medido baja. */
   background-image:
     linear-gradient(
       to right,
       rgb(var(--negro-escena-rgb) / 0.6) 0%,
+      rgb(var(--negro-escena-rgb) / 0.57) 18%,
+      rgb(var(--negro-escena-rgb) / 0.5) 34%,
       rgb(var(--negro-escena-rgb) / 0.45) 45%,
-      transparent 78%
+      rgb(var(--negro-escena-rgb) / 0.33) 57%,
+      rgb(var(--negro-escena-rgb) / 0.19) 68%,
+      rgb(var(--negro-escena-rgb) / 0.07) 79%,
+      rgb(var(--negro-escena-rgb) / 0) 90%
     ),
     linear-gradient(
       to top,
       rgb(var(--negro-escena-rgb) / 0.72) 0%,
+      rgb(var(--negro-escena-rgb) / 0.705) 25%,
       rgb(var(--negro-escena-rgb) / 0.68) 42%,
-      rgb(var(--negro-escena-rgb) / 0.62) 72%,
-      rgb(var(--negro-escena-rgb) / 0.56) 100%
+      rgb(var(--negro-escena-rgb) / 0.62) 52%,
+      rgb(var(--negro-escena-rgb) / 0.5) 60%,
+      rgb(var(--negro-escena-rgb) / 0.38) 68%,
+      /* v10 · EL AVE SE APRECIA MÁS QUE EL TEXTO (pedido directo del
+         cliente). Los dos topes de arriba —donde vive el ave, no el
+         titular— bajan de 0.62/0.56 a 0.32/0.22: el mismo lavado vertical
+         que sostiene la lectura abajo (0%/42% intactos) se retira casi del
+         todo en el tercio alto de la foto. El titular no pierde nada de su
+         contraste medido: sigue en la mitad baja, protegida por los mismos
+         topes de siempre. */
+      rgb(var(--negro-escena-rgb) / 0.32) 72%,
+      /* v11 · la cola también se redondea: sin estos dos topes, el 72 % era
+         un codo y se veía una raya horizontal cruzando el bokeh. */
+      rgb(var(--negro-escena-rgb) / 0.3) 80%,
+      rgb(var(--negro-escena-rgb) / 0.26) 90%,
+      rgb(var(--negro-escena-rgb) / 0.22) 100%
     );
 }
 
@@ -762,9 +804,21 @@
    ventana (7,4vw de pendiente) en vez de quedarse quieto mientras la
    fotografía se estira, que es lo que aplanaba la primera pantalla.
    Sigue en caja alta y baja: la escala es la que hace la presencia, no las
-   mayúsculas, que CONTRATO-V2 §3 prohíbe por encima de 24 px. */
+   mayúsculas, que CONTRATO-V2 §3 prohíbe por encima de 24 px.
+
+   v14 · EL TITULAR CEDE PROTAGONISMO AL AVE, pedido directo del cliente. Con
+   --fs-portada (tope 6 rem) la masa de letras competía con el pájaro de la
+   fotografía —el mismo problema que ya resolvió el velo del lado de la luz—.
+   --fs-portada es un token COMPARTIDO (lo usa también la marca de agua de
+   #planes, ver planes.css línea ~1100 vía `min()`), así que en vez de bajarlo
+   ahí se define --inicio-fs-titular, una variable LOCAL de esta sección que
+   no toca el token global: un clamp más contenido, con el mismo piso
+   proporcional (2,3 rem en vez de 2,9) y un techo bastante menor (4,4 rem en
+   vez de 6) para que el segundo renglón —a --fs-h2— siga leyéndose como una
+   voz más chica dentro de la misma frase y no como el mismo cuerpo. */
 .inicio__titulo {
-  font-size: var(--fs-portada);
+  --inicio-fs-titular: clamp(2.3rem, 1.3rem + 4.6vw, 4.4rem);
+  font-size: var(--inicio-fs-titular);
   line-height: var(--alto-linea-apretado);
   max-width: 22ch;
   overflow-wrap: break-word;
@@ -845,6 +899,17 @@
   color: var(--color-texto-inverso-suave);
   max-width: 38ch;
   margin-top: var(--esp-md);
+}
+
+/* v11 · MÁS PEQUEÑA EN MÓVIL. Pedido del cliente: en pantalla angosta el
+   bloque de texto competía con el ave por espacio y protagonismo —el mismo
+   ajuste que ya se le hizo al `<h1>` con `--inicio-fs-titular`, aquí para la
+   entradilla—. Sólo por debajo del punto donde el titular ya usa su escala
+   contenida: en escritorio la entradilla se queda como estaba. */
+@media (max-width: 47.9375em) {
+  .inicio__portada .entradilla {
+    font-size: var(--fs-cuerpo);
+  }
 }
 
 .inicio__acciones {

@@ -197,6 +197,8 @@
             <img
               class="planes-portada__foto"
               src="img/eventos/boda-carpa-50-nocturna.jpg"
+              srcset="img/eventos/boda-carpa-50-nocturna-400.jpg 400w, img/eventos/boda-carpa-50-nocturna-600.jpg 600w, img/eventos/boda-carpa-50-nocturna-800.jpg 800w, img/eventos/boda-carpa-50-nocturna-1200.jpg 1200w, img/eventos/boda-carpa-50-nocturna.jpg 1600w"
+              sizes="100vw"
               width="1600"
               height="1200"
               loading="lazy"
@@ -338,6 +340,8 @@
         <figure class="marco planes-fiesta__vertical">
           <img
             src="img/eventos/boda-2.jpg"
+            srcset="img/eventos/boda-2-400.jpg 400w, img/eventos/boda-2-600.jpg 600w, img/eventos/boda-2.jpg 844w"
+            sizes="(max-width: 47.99em) 100vw, 51vw"
             width="844"
             height="1500"
             loading="lazy"
@@ -422,6 +426,8 @@
             <img
               class="planes-diorama__fondo"
               src="img/eventos/infantil-4.jpg"
+              srcset="img/eventos/infantil-4-400.jpg 400w, img/eventos/infantil-4-600.jpg 600w, img/eventos/infantil-4-800.jpg 800w, img/eventos/infantil-4.jpg 1125w"
+              sizes="100vw"
               width="1125"
               height="1500"
               loading="lazy"
@@ -580,6 +586,8 @@
           <figure class="marco planes-dossier__retrato planes-carril__portada">
             <img
               src="img/parque/parque-21.jpg"
+              srcset="img/parque/parque-21-400.jpg 400w, img/parque/parque-21-600.jpg 600w, img/parque/parque-21.jpg 900w"
+              sizes="(max-width: 47.99em) 100vw, 36vw"
               width="900"
               height="1200"
               loading="lazy"
@@ -592,6 +600,8 @@
             <figure class="marco marco--3-2">
               <img
                 src="img/parque/empresa-carpa-vidrio-dia.jpg"
+                srcset="img/parque/empresa-carpa-vidrio-dia-400.jpg 400w, img/parque/empresa-carpa-vidrio-dia-600.jpg 600w, img/parque/empresa-carpa-vidrio-dia-800.jpg 800w, img/parque/empresa-carpa-vidrio-dia-1200.jpg 1200w, img/parque/empresa-carpa-vidrio-dia.jpg 1600w"
+                sizes="(max-width: 47.99em) 96vw, 46vw"
                 width="1600"
                 height="1066"
                 loading="lazy"
@@ -660,6 +670,8 @@
           <img
             class="planes-bienestar__foto"
             src="img/eventos/yoga-2.jpg"
+            srcset="img/eventos/yoga-2-400.jpg 400w, img/eventos/yoga-2-600.jpg 600w, img/eventos/yoga-2-800.jpg 800w, img/eventos/yoga-2-1200.jpg 1200w, img/eventos/yoga-2.jpg 1500w"
+            sizes="100vw"
             width="1500"
             height="844"
             loading="lazy"
@@ -747,6 +759,8 @@
           <img
             class="planes-bienestar__fondo"
             src="img/parque/parque-48.jpg"
+            srcset="img/parque/parque-48-400.jpg 400w, img/parque/parque-48.jpg 675w"
+            sizes="(max-width: 47.99em) 98vw, 85vw"
             width="675"
             height="1200"
             loading="lazy"
@@ -973,16 +987,17 @@
           <source srcset="img/eventos/taller-educativo-cuento.webp" type="image/webp" />
           <img
             src="img/eventos/taller-educativo-cuento.jpg"
+            srcset="img/eventos/taller-educativo-cuento-400.jpg 400w, img/eventos/taller-educativo-cuento-600.jpg 600w, img/eventos/taller-educativo-cuento-800.jpg 800w, img/eventos/taller-educativo-cuento-1200.jpg 1200w, img/eventos/taller-educativo-cuento.jpg 1600w"
+            sizes="100vw"
             width="1600"
             height="1600"
-            sizes="(min-width: 64em) 640px, 100vw"
             loading="lazy"
             decoding="async"
             alt="Taller al aire libre sobre el césped: un corro de niños sentados escucha a una monitora que les muestra las páginas de un cuento ilustrado, con otra acompañante a un lado, aros de colores repartidos en la hierba y el prado arbolado del predio al fondo."
           />
         </picture>
 
-        <div class="planes-vidrio planes-talleres__vidrio">
+        <div class="planes-talleres__vidrio">
 
         <p class="planes-carril__ocasion">
           <span class="planes-carril__indice">05</span> Talleres
@@ -991,6 +1006,38 @@
         <h3 class="titulo-seccion titulo-seccion--sm planes-talleres__titulo">
           Un taller donde la mesa está afuera
         </h3>
+
+        <!-- EL SUBRAYADO QUE ALGUIEN DIBUJA (ver planes.css §7 bis).
+             Decorativo puro: lo que dice ya lo dice el titular, así que va
+             aria-hidden y sin texto alternativo.
+             OJO CON LA FIRMA: este SVG lleva `fill` y `stroke` en las FORMAS
+             y no en el elemento raíz, y su viewBox no es el cuadrado de 24.
+             Es deliberado: así herramientas/hornear-trazos.js no lo reconoce
+             como icono y no le añade `icono-traza` en una pasada futura, que
+             es lo que le colgaría encima el motor de base.css además del
+             suyo — el bug de los dos motores. El `pathLength="1"` sí está
+             horneado a mano, igual que en los glifos de espacios.html. -->
+        <svg
+          class="planes-talleres__traza"
+          viewBox="0 0 96 24"
+          preserveAspectRatio="xMinYMid meet"
+          aria-hidden="true"
+          focusable="false"
+        >
+          <path
+            class="planes-talleres__traza-linea"
+            pathLength="1"
+            d="M1 16C10.5 12.6 20 19.4 29.5 16C39 12.6 48.5 19.4 58 16C61.7 14.7 66 14 70 13.5C70 6 76 2 84 2C84 9 78 13.5 70 13.5"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="1.4"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          />
+          <circle class="planes-talleres__mota planes-talleres__mota--1" cx="13" cy="8" r="1.1" />
+          <circle class="planes-talleres__mota planes-talleres__mota--2" cx="35" cy="6.5" r="0.8" />
+          <circle class="planes-talleres__mota planes-talleres__mota--3" cx="51" cy="21" r="0.95" />
+        </svg>
 
         <ul class="planes-talleres__lista">
           <li>Talleres educativos</li>

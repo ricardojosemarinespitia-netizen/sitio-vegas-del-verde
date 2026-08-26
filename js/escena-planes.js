@@ -41,23 +41,67 @@ function escenaPorScroll(pista, guion) {
   const suave = (t) => t * t * (3 - 2 * t);
   let pendiente = false;
 
+  /* MEDIR UNA VEZ, NO SESENTA VECES POR SEGUNDO.
+     Antes cada cuadro leía `pista.offsetHeight` y `getBoundingClientRect()`,
+     y las dos obligan al navegador a rehacer estilo y maqueta antes de poder
+     contestar. Con una pista de 300 svh y el resto de la página por debajo,
+     en un teléfono de gama media eso es el gasto más caro de todo el scroll.
+     Ninguno de los dos datos cambia al desplazarse: alto y posición sólo se
+     mueven al redimensionar. Se cachean aquí y el cuadro pasa a leer sólo
+     `window.scrollY`, que no cuesta maqueta. Es el mismo patrón que ya usan
+     js/concurso-cinta.js y js/foto-focus.js. */
+  let techo = 0;
+  let recorrido = 0;
+
+  function medir() {
+    let y = 0;
+    for (let n = pista; n; n = n.offsetParent) y += n.offsetTop;
+    techo = y;
+    recorrido = pista.offsetHeight - window.innerHeight;
+  }
+
+  /* Y SÓLO MIENTRAS LA ESCENA ESTÉ CERCA.
+     Sin este cerrojo el manejador corría durante TODO el recorrido de la
+     página —también con #planes seis pantallas más arriba o más abajo—
+     escribiendo dos variables CSS que invalidan el clip-path de la escena.
+     El margen holgado es para que la escena llegue ya resuelta al borde de
+     la pantalla, nunca a medio dibujar. Se CONMUTA, nunca se desobserva:
+     bajar y volver a subir tiene que volver a levantarla (§7). */
+  let cerca = true;
+
   function cuadro() {
     pendiente = false;
-    const recorrido = pista.offsetHeight - window.innerHeight;
     if (recorrido <= 0) return;
-    const p = limitar(-pista.getBoundingClientRect().top / recorrido);
+    const p = limitar((window.scrollY - techo) / recorrido);
     const tramo = (a, b) => suave(limitar((p - a) / (b - a)));
     guion(tramo, pista);
   }
 
   const alDesplazar = () => {
-    if (pendiente) return;
+    if (!cerca || pendiente) return;
     pendiente = true;
     requestAnimationFrame(cuadro);
   };
 
+  const alRedimensionar = () => {
+    medir();
+    alDesplazar();
+  };
+
+  medir();
+
+  if ('IntersectionObserver' in window) {
+    new IntersectionObserver((entradas) => {
+      cerca = entradas[0].isIntersecting;
+      if (cerca) alDesplazar();
+    }, { rootMargin: '100% 0px' }).observe(pista);
+  }
+
   addEventListener('scroll', alDesplazar, { passive: true });
-  addEventListener('resize', alDesplazar);
+  addEventListener('resize', alRedimensionar);
+  // La maqueta puede cambiar de alto cuando aterrizan las fotos de la pista:
+  // sin volver a medir, el recorrido se quedaría con el valor de antes.
+  addEventListener('load', alRedimensionar);
   alDesplazar();
 }
 

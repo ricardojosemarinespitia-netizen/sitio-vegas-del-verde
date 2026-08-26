@@ -206,10 +206,27 @@
   inset: 0;
   z-index: var(--z-fondo);
   pointer-events: none;
+/* v15 · SE REDONDEA EL CODO DEL 45 %, QUE ES LO ÚNICO QUE SE VEÍA.
+   Las tres paradas medidas de v14 (0,88 / 0,82 / 0,72) se quedan donde están;
+   lo que cambia es que entre ellas la pendiente ya no salta de golpe. En el
+   45 % el degradado pasaba de perder 0,0013 de alfa por punto a perder
+   0,0018, y ese cambio brusco de derivada dibuja una banda de Mach: una raya
+   horizontal fantasma a media altura de la foto, justo por encima de los
+   iconos. Con dos topes a cada lado la curva entra y sale del 45 % sin codo.
+
+   NO HAY QUE VOLVER A MEDIR: cada tope nuevo queda por ENCIMA del alfa que la
+   recta de v14 daba en ese punto (22 %: 0,865 contra 0,8507 · 33 %: 0,845
+   contra 0,836 · 58 %: 0,80 contra 0,7964 · 80 %: 0,76 contra 0,7564). El
+   velo sólo puede tapar más, nunca menos, así que el suelo de 6,9:1 sobre
+   blanco puro y el 3:1 de los iconos se conservan. */
   background: linear-gradient(
     to top,
     rgb(var(--verde-bosque-hondo-rgb) / 0.88) 0%,
+    rgb(var(--verde-bosque-hondo-rgb) / 0.865) 22%,
+    rgb(var(--verde-bosque-hondo-rgb) / 0.845) 33%,
     rgb(var(--verde-bosque-hondo-rgb) / 0.82) 45%,
+    rgb(var(--verde-bosque-hondo-rgb) / 0.8) 58%,
+    rgb(var(--verde-bosque-hondo-rgb) / 0.76) 80%,
     rgb(var(--verde-bosque-hondo-rgb) / 0.72) 100%
   );
 }

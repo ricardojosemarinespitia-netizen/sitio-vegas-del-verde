@@ -346,7 +346,7 @@
       foto.decode().catch(() => {})
         .then(() => new Promise((r) => setTimeout(r, 150)))
         .then(() => Promise.all([
-          import('./js/particulas-hero.js?v=b09ed560')
+          import('./js/particulas-hero.js?v=d63cd1a9')
             .then((m) => m?.montarParticulas(portada, foto))
             .catch(() => {}),
           /* El enjambre va DESPUÉS del mismo cerrojo y en su propia rama: si
