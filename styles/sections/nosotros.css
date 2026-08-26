@@ -125,13 +125,18 @@
    la portada sin tocar tamaño ni fuente. Misma especificidad (0,1,0) que la
    regla de base y esta hoja carga después: gana por cascada.
 
-   v17 · EL COLOR YA NO SE DECLARA AQUÍ. `.titulo-seccion` no trae color propio
-   y el h2 vive ahora dentro de `.nosotros__escena`, que ya pone
-   `color: var(--color-texto-inverso)` (crema, 10,7:1 sobre bosque) para todo
-   el discurso: el titular hereda ese mismo blanco roto sin declarar nada por
-   su cuenta, igual que ya hacía la entradilla un renglón más abajo. */
+   v17 · EL COLOR SÍ HAY QUE DECLARARLO, Y NO ES UN DESCUIDO PODERLO OMITIR.
+   `.nosotros__escena` pone `color: var(--color-texto-inverso)` para todo el
+   discurso, pero eso es HERENCIA —la prioridad más baja que existe en CSS— y
+   base.css ya le puso a todo `h1,h2,h3,h4` un `color: var(--color-texto)`
+   EXPLÍCITO (tinta oscura, pensada para el papel crema). Una declaración
+   explícita en el propio elemento siempre gana sobre lo heredado, sin
+   importar la especificidad: sin esta regla el titular se leería en tinta
+   oscura sobre la foto, casi invisible. Se sube a crema a mano, la misma
+   variable que ya trae `.nosotros__escena`. */
 .nosotros__titulo {
   font-variation-settings: var(--ejes-display-sobrio);
+  color: var(--color-texto-inverso);
 }
 
 /* ---- v13 · LA ESCENA -----------------------------------------------------
