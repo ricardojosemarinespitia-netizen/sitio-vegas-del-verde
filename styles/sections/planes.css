@@ -2233,12 +2233,14 @@
     grid-column: 1 / span 4;
     grid-row: 1;
     align-self: end;
-    /* Cuelga por debajo de la banda. El hueco que deja lo ocupa el texto de
-       la fila de abajo, que empieza cuatro columnas más a la derecha.
-       v2 · un poco más abajo (pedido del cliente): de --esp-3xl a --esp-4xl. */
-    margin-block-end: calc(var(--esp-4xl) * -1);
+    /* v3 · ENCIMA, no colgando por debajo (pedido del cliente). Hasta la v2
+       un margen negativo la hacía sobresalir de la banda y quedaba
+       mordida por el borde de la sección siguiente. Ahora se apoya
+       ENTERA sobre la fotografía, pegada a su borde inferior, sin
+       invadir la crema de abajo. */
+    margin-block-end: var(--esp-lg);
     aspect-ratio: 4 / 5;
-    z-index: var(--z-base);
+    z-index: var(--z-elevado);
     /* El passe-partout. Mismo grosor que la sangría del filete de §5 bis: la
        copia queda con una línea por dentro y un borde de montaje por fuera,
        que es como está montada una lámina de verdad. */
