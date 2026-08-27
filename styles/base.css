@@ -142,7 +142,72 @@ body {
      se anima: es papel, no efecto. Las secciones con fondo propio (bosque,
      carbón, fotos) lo tapan; las que iban en crema plana (.usos, .nosotros)
      pasan a transparente para que el papel corra continuo por debajo.     */
+  /* v3 · el dibujo del papel se mudó a `body::before` (ver más abajo).
+     Aquí sólo queda el color sólido de respaldo: lo primero que pinta el
+     navegador, antes de que exista ningún pseudo-elemento, y lo que se ve
+     si algún día el papel se retira entero. */
   background-color: var(--color-fondo);
+  color: var(--color-texto);
+  font-family: var(--fuente-cuerpo);
+  font-size: var(--fs-cuerpo);
+  font-weight: var(--peso-normal);
+  line-height: var(--alto-linea-base);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+  /* CAUSA RAÍZ DEL MURO DEL CONCURSO SIN STICKY (26-ago) · Esto era
+     `overflow-x: hidden`. Por la regla de CSS Overflow "si un eje es
+     `visible` y el otro no, el eje `visible` se recalcula a `auto`", tener
+     `overflow-x: hidden` aquí sin tocar el eje Y fuerza a que
+     `overflow-y` compute como `auto` — invisible en el layout (el body
+     nunca desborda su propio contenido, así que no aparece scrollbar ni
+     cambia nada a simple vista), pero convierte a <body> en "contenedor de
+     scroll" a efectos de `position: sticky`: los `.nat-cinta__escena`,
+     `.rs-escena` y cualquier otro sticky del sitio pasan a anclarse contra
+     el scrollport de <body> (que nunca se mueve, porque <body> no scrollea
+     de verdad) en vez de contra el viewport real. El resultado es un
+     sticky que nunca se pega: la escena de 100svh flota en su posición
+     normal de documento y se desplaza con la página como si `position`
+     fuera `relative`. Esto llevaba tiempo así — no lo causó el traslado
+     reciente del muro del concurso, solo lo hizo visible tan arriba de la
+     página que quedó imposible de no ver.
+     `html` ya resuelve exactamente este mismo problema con `overflow-x:
+     clip` en vez de `hidden` (ver el comentario de esa regla, arriba): con
+     `clip` el eje X se recorta sin forzar el eje Y a `auto`, así que
+     `html` NUNCA se vuelve contenedor de scroll y el `position: sticky`
+     de cualquier descendiente queda intacto. Aquí se aplica la misma
+     solución. */
+  overflow-x: clip;
+  /* v3 · el pseudo-elemento de abajo se posiciona respecto al viewport
+     (`position: fixed`) sin que este `overflow-x: clip` se lo clave: clip
+     recorta la CAJA de <body>, no la ventana, y un descendiente `fixed`
+     pinta contra el viewport salvo que algún ancestro cree su propio
+     bloque de contención (transform/filter/perspective/will-change). Nada
+     de eso vive en <body> ni en <html> en este sitio. Verificado en
+     preview: el papel no se corta en los bordes en ningún ancho. */
+  position: relative;
+}
+
+/* v3 · EL PAPEL SE MUDA A UN PSEUDO-ELEMENTO FIJO — pedido del cliente:
+   «en celular se está moviendo el fondo, no es estático como el del PC».
+   La v2 usaba `background-attachment: fixed` sobre <body>, y esa
+   propiedad NO existe en iOS Safari (se degrada a `scroll` en silencio,
+   sin error ni warning) — el motivo por el que el papel viajaba con la
+   página sólo en celular. `position: fixed` en cambio SÍ lo soporta iOS
+   Safari desde siempre: es el workaround estándar para fondos fijos en
+   móvil, y es justo lo que hace este pseudo-elemento — las mismas seis
+   capas de antes, ahora pintadas en un rectángulo del tamaño del viewport
+   que no se mueve un píxel, sea cual sea el motor de scroll. `z-index: -1`
+   (mismo recurso que ya usa `.cabecera::before`, sin token nuevo) lo deja
+   por debajo de TODO el contenido, incluida cualquier pieza en
+   `--z-fondo` (0). `pointer-events: none` porque es decoración pura y no
+   puede robarle un solo evento a lo que hay encima. */
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
   background-image:
     /* 1-2 · hojas: la retícula doble, a volumen de fondo de página */
     radial-gradient(
@@ -187,50 +252,14 @@ body {
     100% 1500px,
     100% 1500px,
     auto;
-  background-repeat: repeat, repeat, repeat, repeat-y, repeat-y, no-repeat;
-  /* v2 · FIJA AL VIEWPORT — pedido directo del cliente: «quiero que la
-     trama del fondo sea estática, que no se mueva». Sin esto el papel viaja
-     con la página (el `attachment` por defecto es `scroll`) y en un scroll
-     largo se nota el patrón desplazándose detrás del texto. Con `fixed`
-     queda clavado a la ventana: el contenido pasa por encima, el papel no
-     se mueve un píxel. Efecto secundario asumido: las dos pozas de claro
-     que alternan cada 1500px de scroll (capas 4-5, arriba) dejan de variar
-     —siempre se ve el mismo tramo del papel—, que es justo la lectura de
-     «estático» que pidió el cliente. iOS Safari no soporta `background-
-     attachment: fixed` y lo trata como `scroll` sin avisar: ahí el papel
-     seguirá viajando con la página, degradación silenciosa y aceptable. */
-  background-attachment: fixed;
-  color: var(--color-texto);
-  font-family: var(--fuente-cuerpo);
-  font-size: var(--fs-cuerpo);
-  font-weight: var(--peso-normal);
-  line-height: var(--alto-linea-base);
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-rendering: optimizeLegibility;
-  /* CAUSA RAÍZ DEL MURO DEL CONCURSO SIN STICKY (26-ago) · Esto era
-     `overflow-x: hidden`. Por la regla de CSS Overflow "si un eje es
-     `visible` y el otro no, el eje `visible` se recalcula a `auto`", tener
-     `overflow-x: hidden` aquí sin tocar el eje Y fuerza a que
-     `overflow-y` compute como `auto` — invisible en el layout (el body
-     nunca desborda su propio contenido, así que no aparece scrollbar ni
-     cambia nada a simple vista), pero convierte a <body> en "contenedor de
-     scroll" a efectos de `position: sticky`: los `.nat-cinta__escena`,
-     `.rs-escena` y cualquier otro sticky del sitio pasan a anclarse contra
-     el scrollport de <body> (que nunca se mueve, porque <body> no scrollea
-     de verdad) en vez de contra el viewport real. El resultado es un
-     sticky que nunca se pega: la escena de 100svh flota en su posición
-     normal de documento y se desplaza con la página como si `position`
-     fuera `relative`. Esto llevaba tiempo así — no lo causó el traslado
-     reciente del muro del concurso, solo lo hizo visible tan arriba de la
-     página que quedó imposible de no ver.
-     `html` ya resuelve exactamente este mismo problema con `overflow-x:
-     clip` en vez de `hidden` (ver el comentario de esa regla, arriba): con
-     `clip` el eje X se recorta sin forzar el eje Y a `auto`, así que
-     `html` NUNCA se vuelve contenedor de scroll y el `position: sticky`
-     de cualquier descendiente queda intacto. Aquí se aplica la misma
-     solución. */
-  overflow-x: clip;
+  /* v3 · las capas 4-5 (las pozas de claro) pasan de `repeat-y` a
+     `no-repeat`: colgadas de un pseudo-elemento del tamaño del viewport
+     ya no hay «1500px de scroll» donde repetirse — antes esa repetición
+     vertical era lo que dejaba ver una poza distinta más abajo en la
+     página; ahora el pseudo mide un viewport y la variación entre tramos
+     de scroll ya no aplica. Es la misma lectura de «estático» que pidió
+     el cliente en la v2, ahora cumplida también en iOS. */
+  background-repeat: repeat, repeat, repeat, no-repeat, no-repeat, no-repeat;
 }
 
 img,
