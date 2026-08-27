@@ -210,7 +210,19 @@ def marcar(texto):
 # porqué. Los dos listados tienen que cambiar a la vez: marcar un fragmento
 # cuyos derivados no se generaron dejaría un srcset apuntando a archivos que
 # no existen.
-ALCANCE = ("hero.html", "nosotros.html", "planes.html", "momentos.html")
+#
+# v18 · ENTRA usos.html, por el tercer pedido del cliente sobre la foto del
+# evento nocturno bajo la carpa («SOLUCIONAR EL LAGEO DE ESTA FOTO YA EN
+# CELULAR»). El porqué medido está en la cabecera de derivar-imagenes.py.
+#
+# AQUÍ NO HACE FALTA REPETIR LA LISTA DE EXCLUIDAS. Las cinco fotos de tarjeta
+# de #usos van a 100dvh con `object-fit: cover` y su `sizes` no se puede
+# deducir del ancho del elemento (allá se explica). Basta con que allá no se
+# les generen peldaños: `atributos()` devuelve None cuando no encuentra ni un
+# derivado en disco, así que este script las salta solo. Una sola lista, en un
+# solo sitio, y las dos mitades no pueden desincronizarse.
+ALCANCE = ("hero.html", "nosotros.html", "planes.html", "momentos.html",
+           "usos.html")
 
 
 def main():

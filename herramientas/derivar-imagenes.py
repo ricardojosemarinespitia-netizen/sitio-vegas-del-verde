@@ -74,7 +74,36 @@ RE_DERIVADO = re.compile(r"-(?:%s)\.jpg$" % "|".join(str(a) for a in ANCHOS))
 # no mezclar en un mismo commit trabajo revisado con trabajo no revisado.
 # Cuando toque ampliar, se añaden aquí los fragmentos y se vuelve a correr:
 # el script es idempotente y no rehace lo que ya existe.
-ALCANCE = ("hero.html", "nosotros.html", "planes.html", "momentos.html")
+#
+# v18 · ENTRA usos.html. Tercer pedido del cliente sobre la MISMA fotografía
+# —la del evento nocturno bajo la carpa—: «SOLUCIONAR EL LAGEO DE ESTA FOTO
+# YA EN CELULAR», después de que los dos arreglos anteriores de esta tanda
+# (el arco de `.usos-tarjeta` a `animation-timeline: view()`, §ARCO de
+# styles/sections/usos.css, y la auditoría de compositor de js/app.js) ya
+# estuvieran publicados y el cliente siguiera viendo el tirón.
+#
+# LO QUE SE MIDIÓ EN PRODUCCIÓN, en vegasdelverde.co con emulación de 375×812,
+# antes de tocar nada. Ninguna de las 20 fotos de #usos llevaba `srcset`: la
+# sección estaba fuera de ESTE alcance desde el principio, así que el trabajo
+# de rendimiento nunca la alcanzó. img/eventos/noche-evento-1.jpg —la foto del
+# pedido, la única que aparece TRES veces en el fragmento— se bajaba y se
+# decodificaba a 1800×1350 (2,43 Mpx, 591 kB, 9,3 MB de mapa de bits en
+# memoria) para pintarse en una caja de 338×225 CSS px. Son 8 veces los
+# píxeles necesarios a DPR 2 y 32 veces a DPR 1. Cronometrada la decodificación
+# en este equipo de escritorio: 47,2 ms — la más cara de toda la sección, por
+# delante de boda-arbol.jpg (25,0 ms) y de alameda-2.jpg (27,0 ms). 47 ms es
+# casi el triple del presupuesto de un cuadro (16,7 ms) EN ESCRITORIO; en un
+# teléfono de gama media, con el factor 5-6× habitual, son 250 ms de hilo
+# principal robados de golpe.
+#
+# Y AHÍ ES DONDE ENCAJA CON EL ARREGLO ANTERIOR. La cabecera de §ARCO ya había
+# identificado al ladrón de cuadros y lo había dejado escrito con todas las
+# letras: «cada cuadro que el hilo principal perdía —decodificando la foto de
+# la tarjeta siguiente…— era un cuadro en el que la FOTO se movía y el BORDE
+# DEL ARCO se quedaba quieto». Aquel arreglo blindó al ARCO contra esa pérdida
+# de cuadros, pero no quitó la pérdida. Éste quita la pérdida.
+ALCANCE = ("hero.html", "nosotros.html", "planes.html", "momentos.html",
+           "usos.html")
 
 # LAS DOS FOTOS DE LA PORTADA NO LLEVAN ESCALERA DE JPG.
 # Son el LCP y ya se sirven por <picture> en AVIF y WebP, con una rama propia
@@ -82,7 +111,31 @@ ALCANCE = ("hero.html", "nosotros.html", "planes.html", "momentos.html")
 # móvil pesa 60 kB: menos que cualquier JPG que se pudiera derivar de ellas.
 # El .jpg que queda en el `src` es sólo el respaldo del navegador que no
 # entienda ninguno de los dos formatos, y a ése hay que darle la foto entera.
-SIN_DERIVAR = {"img/hero-ave-flor.jpg", "img/hero-ave-rosada.jpg"}
+#
+# LAS CINCO FOTOS DE TARJETA DE #usos TAMPOCO, Y LA RAZÓN NO ES LA MISMA.
+# `.usos-tarjeta__foto` ocupa una caja de 100dvh con `object-fit: cover`
+# (styles/sections/usos.css). En una caja mucho más alta que ancha, el recorte
+# de `cover` escala la foto POR EL ALTO, no por el ancho: alameda-2.jpg
+# (1500×844) se dibuja a 812 px de alto, o sea a 1443 px de ancho, y de ahí se
+# recortan los 375 visibles. El ancho del elemento —los 375 px que
+# MEDIDAS-FOTOS.json anotó midiendo `getBoundingClientRect()`— es la mitad del
+# dato que hace falta, y `marcar-responsivas.py` calcula el `sizes` justo a
+# partir de ese ancho. Escribirles la escalera les serviría un peldaño de 800w
+# para pintarlos a 1443 px y el cliente cambiaría un tirón por cinco fotos
+# blandas a pantalla completa. Con sus 1500-1600 px de origen ya están
+# prácticamente en la medida correcta: no sobra casi nada que recortar y no hay
+# ahorro que perseguir. Se quedan como están, a propósito.
+#
+# El pedido era el LAGEO DE ESA FOTO, no una pasada general por la sección: lo
+# que se optimiza es lo que se decodifica de más, que son las 15 miniaturas de
+# los paneles —las tres de noche-evento-1.jpg entre ellas—, no las portadas.
+SIN_DERIVAR = {
+    "img/hero-ave-flor.jpg", "img/hero-ave-rosada.jpg",
+    "img/espacios/alameda-2.jpg", "img/espacios/taller-1.jpg",
+    "img/eventos/vega-horizontal.jpg", "img/eventos/vega-vertical.jpg",
+    "img/eventos/boda-4.jpg",
+    "img/eventos/cancha-horizontal.jpg", "img/eventos/cancha-vertical.jpg",
+}
 
 
 def fuentes():
