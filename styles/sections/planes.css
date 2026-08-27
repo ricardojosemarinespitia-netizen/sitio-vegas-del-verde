@@ -2262,6 +2262,14 @@
     grid-column: 6 / -1;
     grid-row: 1;
     align-self: end;
+    /* v25 · pedido del cliente: el texto tapaba demasiada foto en ventanas
+       angostas —a esta anchura la columna 6/-1 es más de la mitad del
+       ancho—. Un tope en medida propia (no ligado a la pista) deja que la
+       caja de texto se quede compacta y compañía aunque la columna sea
+       ancha: sólo crece hasta donde el texto necesita, nunca hasta donde
+       la rejilla le da permiso. */
+    max-width: var(--medida-corta);
+    margin-inline-start: auto;
     z-index: var(--z-elevado);
     padding: var(--gap-lg);
     color: var(--color-texto-inverso);
