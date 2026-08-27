@@ -637,6 +637,20 @@
     );
     transform: translateY(calc((1 - var(--entrada)) * 9%))
       scale(calc(1 + (1 - var(--entrada)) * 0.05));
+  }
+
+  /* EL `will-change` SE SEPARA Y SE CUELGA DE LA VISIBILIDAD (agosto 2026).
+     Estaba dentro de la regla de arriba, es decir activo desde el primer
+     pintado y hasta que se cierra la pestaña: capa de compositor reservada
+     para una fotografía a pantalla completa durante toda la visita, con
+     #planes seis pantallas más abajo. Mismo criterio que `.reveal` en
+     base.css §6 y que la banda de naturaleza.css: se pide capa para lo que
+     se está animando AHORA, no para lo que se animará alguna vez.
+     `.en-pantalla` la pone el observador de secciones de js/app.js con medio
+     viewport de holgura —la promoción llega antes que el primer cuadro del
+     recorte—, y sin JavaScript no aparece y el efecto sigue igual: la escena
+     entera ya depende del script. */
+  .en-pantalla .planes-fiesta__escena .planes-portada__foto {
     will-change: clip-path, transform;
   }
 
@@ -1902,6 +1916,15 @@
       animation-timing-function: var(--ease-suave);
       animation-timeline: --planes-tl-marco;
       animation-range: entry 0% entry 85%;
+    }
+
+    /* El `will-change` sale de la regla de arriba por lo mismo que el de la
+       portada del Acto 1 y el de la banda de naturaleza.css: colgado del
+       selector a secas reservaba capa para el marco del diorama desde el
+       primer pintado y para siempre. Colgado de `.en-pantalla` —que pone el
+       observador de secciones de js/app.js con medio viewport de holgura—
+       se pide justo cuando el marco va a empezar a abrirse. */
+    .en-pantalla .planes-diorama__marco {
       will-change: clip-path;
     }
 

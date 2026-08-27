@@ -68,16 +68,169 @@
      pidió. `overflow: hidden` de aquí arriba es lo que la hace efectiva —
      recorta foto, velo, marco Y la pastilla de aforo por igual.
 
-     ESTE ES EL ARCO EN REPOSO, Y ES EL ÚNICO QUE SE DECLARA AQUÍ
-     (js/usos-arco.js): con el scroll, el script releva a este
-     `border-radius` por un `clip-path: path(...)` en línea sobre ESTA MISMA
-     caja, que dibuja el mismo arco a mayor tamaño hasta que sus bordes
-     salen de la pantalla y sólo queda la fotografía. En el momento del
-     relevo las dos siluetas coinciden píxel a píxel —el script lee de aquí
-     el radio de las esquinas de abajo y deduce los de arriba de la caja—,
-     así que no hay salto. Sin JavaScript, o con `prefers-reduced-motion:
-     reduce`, manda esta regla y la tarjeta se queda en su arco pequeño. */
+     ESTE ES EL ARCO EN REPOSO EN SU VERSIÓN MÁS TERCA: la que sobrevive sin
+     `clip-path`, sin líneas de tiempo de scroll y sin JavaScript. El arco
+     que CRECE vive más abajo, en §ARCO, y ya no lo dibuja un script. */
   border-radius: 50% 50% var(--radio-md) var(--radio-md);
+}
+
+/* ---- §ARCO · EL ARCO QUE CRECE ------------------------------------------
+   v17 · SE RETIRA js/usos-arco.js ENTERO. Pedido del cliente sobre la
+   tarjeta de la foto nocturna bajo la carpa: «ESTA IMAGEN EN CELULAR SE
+   LAGUE APEGA BRINCOS MINIS» — en celular el scroll sobre la tarjeta se
+   traba y da micro-saltos.
+
+   QUÉ SE MIDIÓ, ANTES DE TOCAR NADA. La sospecha razonable era que el
+   `path()` de siete comandos que el script reescribía por cuadro saturase
+   el hilo principal. Medido en el navegador con la emulación de 375×812,
+   construyendo la cadena, escribiéndola y forzando el recálculo de estilo y
+   maqueta: 0,021 ms por tarjeta y por cuadro. Aun multiplicado por seis
+   —un teléfono de gama media frente a este equipo— son 0,13 ms de un
+   presupuesto de 16,7. Y al neutralizar sólo el efecto visual
+   (`clip-path: none`) dejando correr el mismo JavaScript, las estadísticas
+   de cuadro salieron idénticas hasta la décima. EL CÁLCULO NO ERA EL
+   PROBLEMA: la cabecera del script viejo culpaba a `clip-path` de no ser
+   compositor puro, y en eso el coste medible resultó ser cero.
+
+   LO QUE SÍ ERA. El efecto se gobernaba desde un listener de `scroll`, o
+   sea desde el HILO PRINCIPAL. En un teléfono el scroll no lo mueve el hilo
+   principal: lo mueve el compositor, que desplaza la fotografía en cada
+   cuadro sin preguntarle a JavaScript. La silueta, en cambio, sólo se movía
+   en los cuadros en que el hilo principal alcanzaba a correr, y con un
+   cuadro de retraso como mínimo (evento de scroll → rAF → estilo →
+   composición). Cada cuadro que el hilo principal perdía —decodificando la
+   foto de 100dvh de la tarjeta siguiente, atendiendo las otras líneas de
+   tiempo, el pulso de WhatsApp— era un cuadro en el que la FOTO se movía y
+   el BORDE DEL ARCO se quedaba quieto. Ese desfase, sobre una frontera de
+   alto contraste entre crema y fotografía puesta justo en el centro de la
+   mirada, es exactamente lo que el cliente describe como «brincos minis».
+   Por eso no se ve en escritorio: allí el hilo principal no pierde cuadros.
+
+   EL ARREGLO ES QUITAR EL INTERMEDIARIO, no hacerlo más rápido: la silueta
+   pasa a `animation-timeline: view()`, la misma línea de tiempo de scroll
+   que ya cronometra `.usos-tarjeta__marco` aquí al lado y el paralaje de
+   #inicio y la deriva de #momentos. Sin listener, sin rAF, sin medición:
+   el motor lee el desplazamiento del propio cuadro que va a componer, así
+   que la silueta y la fotografía no pueden desincronizarse — es la misma
+   fuente de verdad para las dos.
+
+   POR QUÉ `inset()` Y NO `path()`. La opción evidente era animar el mismo
+   `path()` entre dos fotogramas. No se puede: `path()` sólo admite números
+   en unidades de usuario, y las tarjetas miden 100dvh —una medida que sólo
+   se conoce en tiempo de ejecución—, así que un `path()` en @keyframes
+   obligaría a volver a medir con JS y estaríamos donde empezamos. Se
+   comprobó en el navegador: `CSS.supports('clip-path', 'path("M 0% 0% ...")')`
+   devuelve `false`; el `<length-percentage>` dentro de `path()` todavía no
+   está.
+
+   Pero resulta que este arco no necesitaba un `path()` NUNCA. La geometría
+   del script viejo era «escalar el arco por `s` alrededor del centro de su
+   borde inferior», y ese arco es un rectángulo con medio punto arriba: un
+   rectángulo redondeado. Escalarlo así da otro rectángulo redondeado, y
+   ése sí se escribe con `inset()`, que admite porcentajes, admite valores
+   negativos (el recorte se sale de la caja, que es justo lo que se quiere)
+   e interpola de fábrica. Comprobado esquina por esquina contra la
+   aritmética del script retirado, con s = 1,35 sobre la caja real de
+   375×812: mismo borde superior (−284,20 px), mismos costados (−65,63 y
+   440,63), mismo suelo (812), mismos radios (253,13 × 548,10). Idénticos,
+   no parecidos.
+
+   Y sale gratis una segunda mejora: un `path()` arbitrario obliga a Skia a
+   fabricar una máscara; un rectángulo redondeado es su camino rápido
+   analítico. En este equipo los dos miden lo mismo —la GPU de escritorio no
+   se entera— pero en la GPU de un teléfono no son el mismo trabajo.
+
+   LAS CUENTAS, para que nadie tenga que rehacerlas:
+   · La escala máxima sigue siendo 1,7, el mismo `S_MAX` del script retirado
+     (el arco cubre la esquina de la ventana a partir de 1,25; 1,7 la llena
+     con holgura y la mantiene llena mientras la tarjeta cruza el centro).
+   · Borde superior: −alto × (s − 1) = −70 % del alto de la caja.
+   · Costados: −(ancho / 2) × (s − 1) = −35 % del ancho, a cada lado.
+   · Suelo: 0. El borde recto se queda clavado y el arco no «flota», que es
+     lo que hacía la fórmula vieja al escalar alrededor de (ancho/2, alto).
+   · Radios de arriba: siguen siendo `50% 50%`. No es una casualidad
+     afortunada: los porcentajes de `round` se resuelven contra el
+     rectángulo YA desplazado, que mide ancho × s por alto × s, así que el
+     medio punto se escala solo. Por eso este fotograma no lleva ni un
+     número medido.
+   · Radios de abajo: `--radio-md` × 1,7, el único que sí hay que escalar a
+     mano porque está en una longitud absoluta.
+
+   EL RELEVO DEL `border-radius`, QUE ANTES HACÍA EL SCRIPT EN LÍNEA, ahora
+   lo hace la hoja: con `overflow: hidden` activo, un `border-radius` de
+   medio punto seguiría recortando la caja al arco pequeño y el crecimiento
+   no se vería. Se pone a 0 y la silueta pasa a tener un solo dueño, el
+   `clip-path`. Va dentro del @supports para que el navegador que no tenga
+   `inset()` con `round` conserve el arco de `border-radius` de arriba en
+   vez de quedarse con una tarjeta rectangular.
+
+   TRES ESTADOS, TODOS LEGIBLES Y TODOS QUIETOS:
+   1. Sin `clip-path` con `round` → manda el `border-radius` de arriba.
+   2. Con `clip-path` pero sin `view()`, o con `prefers-reduced-motion:
+      reduce` → manda este `clip-path` estático, que dibuja el MISMO arco de
+      reposo, píxel a píxel. No hay parpadeo posible porque el fotograma de
+      partida de la animación es literalmente esta misma declaración.
+   3. Con todo → el arco crece y vuelve.
+
+   El @media de movimiento reducido es obligatorio y va aquí, no en el
+   bloque global de base.css: ese bloque sólo acorta duraciones, y una
+   animación con línea de tiempo de scroll no tiene duración en tiempo.
+   Sin este guardia seguiría creciendo. */
+@supports (clip-path: inset(0 round 50% 50% 1px 1px)) {
+  .usos-tarjeta {
+    border-radius: 0;
+    clip-path: inset(0 0 0 0 round 50% 50% var(--radio-md) var(--radio-md));
+  }
+}
+
+/* Se escriben las longhands y NO el atajo `animation:`, por lo mismo que
+   explica #momentos: el atajo reinicia `animation-duration`, y una animación
+   con línea de tiempo de scroll necesita `auto` para repartirse a lo largo
+   del recorrido.
+
+   EL RANGO REPRODUCE LA CURVA DEL SCRIPT RETIRADO, no una nueva. Aquel
+   calculaba un progreso que nacía con el borde superior de la tarjeta a
+   media ventana, culminaba con la tarjeta centrada y volvía al reposo con
+   ese borde media ventana por encima. En el rango `cover` de una tarjeta
+   que mide lo mismo que la ventana, el borde superior recorre linealmente
+   de +100 % a −100 % del alto de la ventana; media ventana por debajo es
+   el 25 % y media ventana por encima el 75 %. De ahí `cover 25%` a
+   `cover 75%`, con el máximo en el 50 %: el centro exacto, igual que antes.
+
+   Fuera del rango, `animation-fill-mode: both` deja la tarjeta clavada en
+   un fotograma declarado —y los dos extremos son el arco de reposo—, nunca
+   en un estado sin definir.
+
+   `--ease` (cubic-bezier(0.4, 0, 0.2, 1)) hace de suavizado simétrico en
+   cada mitad del triángulo, que es el papel que cumplía el `smoothstep`
+   aritmético del script. Es la curva de la casa más cercana a esa forma;
+   no se escribe un cubic-bezier suelto para clavar el decimal. */
+@supports (animation-timeline: view()) {
+  @media (prefers-reduced-motion: no-preference) {
+    .usos-tarjeta {
+      animation-name: usos-arco-crece;
+      animation-duration: auto;
+      animation-timing-function: var(--ease);
+      animation-fill-mode: both;
+      animation-timeline: view();
+      animation-range: cover 25% cover 75%;
+    }
+  }
+}
+
+@keyframes usos-arco-crece {
+  from {
+    clip-path: inset(0 0 0 0 round 50% 50% var(--radio-md) var(--radio-md));
+  }
+
+  50% {
+    clip-path: inset(-70% -35% 0 -35% round 50% 50%
+      calc(var(--radio-md) * 1.7) calc(var(--radio-md) * 1.7));
+  }
+
+  to {
+    clip-path: inset(0 0 0 0 round 50% 50% var(--radio-md) var(--radio-md));
+  }
 }
 
 .usos-tarjeta::-webkit-details-marker {
@@ -96,10 +249,9 @@
   object-fit: cover;
   object-position: 50% 38%;
   /* Sin recorte propio, ni estático ni animado: la foto llena su caja y
-     quien la recorta es SIEMPRE `.usos-tarjeta` con la silueta de arco (en
-     reposo por `border-radius`, con el scroll por el `clip-path` que
-     escribe js/usos-arco.js). Una sola silueta para toda la tarjeta —foto,
-     velo, texto y pastilla de aforo entran y salen del arco a la vez. */
+     quien la recorta es SIEMPRE `.usos-tarjeta` con la silueta de arco
+     (§ARCO más arriba). Una sola silueta para toda la tarjeta —foto, velo,
+     texto y pastilla de aforo entran y salen del arco a la vez. */
 }
 
 /* Alameda: boda-arbol.jpg es retrato (1400×1920), a diferencia del resto de
@@ -263,12 +415,13 @@
       silueta además deja más foto «respirando» arriba —el medio punto no
       recorta esa zona— así que es donde mejor se lee una pastilla clara
       sobre foto oscura.
-   2. NO SE APAGA CON EL SCROLL. `.usos-tarjeta__marco` es el elemento cuya
-      opacidad anima `usos-arco.js`; el dato de aforo es información, no
-      un gesto decorativo, así que queda fuera de ese elemento y de su
-      animación — el aforo se mantiene legible en todo el recorrido de
-      scroll, cuando el arco ya llenó la pantalla y el resto del texto se
-      apagó.
+   2. NO SE APAGA CON EL SCROLL. `.usos-tarjeta__marco` lleva su propia
+      animación de entrada; el dato de aforo es información, no un gesto
+      decorativo, así que queda fuera de ese elemento y de su animación — el
+      aforo se mantiene legible en todo el recorrido de scroll, también
+      cuando el arco ya llenó la pantalla. (Desde la v16 el marco tampoco se
+      apaga; este punto se mantiene porque la razón de fondo —la información
+      no se anima— sigue valiendo.)
    3. EL PANEL DEJA DE REPETIR LA CIFRA (ver el HTML: `.usos-panel__aforo`
       se retiró de las 5 tarjetas): con la pastilla ya visible en la
       portada de la tarjeta, repetirla dentro del panel que se abre debajo

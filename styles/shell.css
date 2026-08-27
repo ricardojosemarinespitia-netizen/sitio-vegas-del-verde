@@ -25,8 +25,6 @@
   inset: 0;
   z-index: -1;
   background-color: rgb(var(--crema-rgb) / 0.78);
-  backdrop-filter: var(--blur-vidrio);
-  -webkit-backdrop-filter: var(--blur-vidrio);
   border-bottom: 1px solid rgb(var(--verde-oliva-rgb) / 0.09);
   transition:
     background-color var(--transicion),
@@ -39,6 +37,44 @@
   background-color: rgb(var(--crema-rgb) / 0.94);
   box-shadow: var(--sombra-header);
   border-bottom-color: rgb(var(--verde-oliva-rgb) / 0.14);
+}
+
+/* EL VIDRIO ES DE ESCRITORIO. ÉSTA ES LA CORRECCIÓN DE AGOSTO DE 2026 Y ES
+   LA CAUSA SITEWIDE DEL TARTAMUDEO EN CELULAR.
+
+   Hasta ahora `backdrop-filter: saturate(140%) blur(14px)` colgaba de esta
+   capa SIEMPRE y en TODOS los anchos. Un `backdrop-filter` sobre una barra
+   `position: fixed` no es un adorno estático: obliga al compositor a releer
+   la franja de página que queda DETRÁS de la cabecera y a desenfocarla otra
+   vez EN CADA CUADRO DE SCROLL, porque el fondo cambia con cada píxel que
+   sube la página. Es la única pieza de todo el sitio que está en pantalla en
+   el 100 % del recorrido —y en las cinco páginas—, así que su coste no se
+   siente en una sección: se siente «por todas partes», que es literalmente
+   como lo reportó el cliente.
+
+   POR QUÉ SE PUEDE QUITAR EN MÓVIL SIN PERDER NADA. La barra ya vive casi
+   opaca: 0,78 de crema en reposo y 0,94 en cuanto se hace scroll —que es el
+   estado en el que se pasa el 99 % de la visita—. A 0,94 el desenfoque
+   aporta un matiz que no se distingue a un palmo de la cara en una pantalla
+   de 375 px. La prueba está en esta misma hoja desde el principio: el
+   respaldo para navegadores sin `backdrop-filter` es subir la crema a 0,97 y
+   nadie ha notado nunca la diferencia. Debajo de 64em se aplica ese mismo
+   respaldo, que ya estaba escrito y ya estaba aprobado.
+
+   64em es el umbral de la casa —el mismo con el que foto-focus.js cambia de
+   modo y con el que espacios.css y nosotros.css deciden si promocionan a
+   capa—, no un número nuevo. */
+@media (min-width: 64em) {
+  .cabecera::before {
+    backdrop-filter: var(--blur-vidrio);
+    -webkit-backdrop-filter: var(--blur-vidrio);
+  }
+}
+
+@media (max-width: 63.999em) {
+  .cabecera::before {
+    background-color: rgb(var(--crema-rgb) / 0.97);
+  }
 }
 
 @supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {

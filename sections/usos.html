@@ -1,10 +1,12 @@
 <!-- ==========================================================================
      FRAGMENTO: USOS  ·  ancla #usos
      CSS propio: styles/sections/usos.css
-     JS propio: js/usos-arco.js (el arco de la tarjeta crece hasta llenar
-     la pantalla + apagado del texto
-     ligados al progreso de scroll de cada tarjeta; ver cabecera del
-     archivo). El <script defer> va al final del fragmento.
+     JS propio: NINGUNO. v17 · se retiró js/usos-arco.js: el arco que crece
+     con el scroll pasó a `animation-timeline: view()` dentro de usos.css
+     (§ARCO), porque gobernarlo desde un listener de scroll lo dejaba un
+     cuadro por detrás de la fotografía en celular —el «SE LAGUE APEGA
+     BRINCOS MINIS» que reportó el cliente—. Toda la explicación y las
+     mediciones están en la cabecera de §ARCO en usos.css.
 
      QUÉ ES Y POR QUÉ EXISTE. Entre la portada y la ficha técnica de
      #espacios (aforos, botón de WhatsApp, condiciones) faltaba una pregunta
@@ -326,7 +328,5 @@
     </li>
 
   </ul>
-
-  <script src="js/usos-arco.js" defer></script>
 
 </section>

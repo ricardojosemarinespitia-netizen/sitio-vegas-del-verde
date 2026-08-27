@@ -69,12 +69,12 @@
 
 <link rel="stylesheet" href="styles/tokens.css?v=84276b65">
 <link rel="stylesheet" href="styles/base.css?v=6f931080">
-<link rel="stylesheet" href="styles/shell.css?v=e2eb0d62">
+<link rel="stylesheet" href="styles/shell.css?v=1ae31c86">
 <link rel="stylesheet" href="styles/sections/inicio.css?v=d9b9fe2c">
-<link rel="stylesheet" href="styles/sections/usos.css?v=88c81cc1">
+<link rel="stylesheet" href="styles/sections/usos.css?v=347db49e">
 <link rel="stylesheet" href="styles/sections/nosotros.css?v=b775831b">
-<link rel="stylesheet" href="styles/sections/planes.css?v=a99e5652">
-<link rel="stylesheet" href="styles/sections/naturaleza.css?v=511017bf">
+<link rel="stylesheet" href="styles/sections/planes.css?v=7d7684c5">
+<link rel="stylesheet" href="styles/sections/naturaleza.css?v=2bfb85db">
 <link rel="stylesheet" href="styles/sections/vivero.css?v=39ecab57">
 <link rel="stylesheet" href="styles/sections/sendero.css?v=753458ee">
 <link rel="stylesheet" href="styles/sections/ubicacion.css?v=bf46fe0a">
@@ -621,10 +621,12 @@
 <!-- ==========================================================================
      FRAGMENTO: USOS  ·  ancla #usos
      CSS propio: styles/sections/usos.css
-     JS propio: js/usos-arco.js (el arco de la tarjeta crece hasta llenar
-     la pantalla + apagado del texto
-     ligados al progreso de scroll de cada tarjeta; ver cabecera del
-     archivo). El <script defer> va al final del fragmento.
+     JS propio: NINGUNO. v17 · se retiró js/usos-arco.js: el arco que crece
+     con el scroll pasó a `animation-timeline: view()` dentro de usos.css
+     (§ARCO), porque gobernarlo desde un listener de scroll lo dejaba un
+     cuadro por detrás de la fotografía en celular —el «SE LAGUE APEGA
+     BRINCOS MINIS» que reportó el cliente—. Toda la explicación y las
+     mediciones están en la cabecera de §ARCO en usos.css.
 
      QUÉ ES Y POR QUÉ EXISTE. Entre la portada y la ficha técnica de
      #espacios (aforos, botón de WhatsApp, condiciones) faltaba una pregunta
@@ -946,8 +948,6 @@
     </li>
 
   </ul>
-
-  <script src="js/usos-arco.js?v=4755334b" defer></script>
 
 </section>
 
@@ -6586,7 +6586,7 @@
 
   </div>
 </footer>
-<script src="js/app.js?v=c090e9a7" defer></script>
+<script src="js/app.js?v=d2757e52" defer></script>
 <script src="js/mapa.js?v=d689bff8" defer></script>
 </body>
 </html>

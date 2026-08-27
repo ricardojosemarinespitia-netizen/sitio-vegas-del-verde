@@ -2264,7 +2264,22 @@
     transparent 0%, #000 12%, #000 88%, transparent 100%);
 }
 
-.cinta-lista .nat-cinta__banda {
+/* EL `will-change` SÓLO MIENTRAS LA SECCIÓN ESTÉ A LA VISTA (agosto 2026).
+
+   Antes colgaba de `.cinta-lista` a secas, que es una clase que js/
+   concurso-cinta.js pone UNA VEZ al montar y no vuelve a quitar: el
+   navegador reservaba capa de compositor para una banda de 100svh con 24
+   fotografías clonadas durante TODA la visita, también con #naturaleza trece
+   mil píxeles más arriba. Es el mismo error que se corrigió en `.reveal` en
+   base.css §6 —pedir capa para lo que no se está animando ahora mismo— sólo
+   que aquí la capa es enorme.
+
+   `.en-pantalla` la pone el observador de secciones de js/app.js con medio
+   viewport de holgura, así que la promoción llega ANTES de que la banda
+   asome y el primer cuadro del recorte ya la encuentra en capa. Sin
+   JavaScript la clase no aparece nunca y no se pierde nada: `will-change` es
+   una sugerencia de rendimiento, no parte del efecto. */
+.en-pantalla .cinta-lista .nat-cinta__banda {
   will-change: clip-path, transform;
 }
 

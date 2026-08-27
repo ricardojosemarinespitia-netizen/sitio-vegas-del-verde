@@ -384,4 +384,140 @@
       }
     });
   }
+
+  /* ---------------------------------------------------------------------
+     LAS ANIMACIONES DE BUCLE SE DUERMEN FUERA DE PANTALLA
+
+     QUÉ SE MIDIÓ (agosto de 2026, emulación de 375×812 sobre index.html).
+     `document.getAnimations()` devolvía 38 animaciones INFINITAS corriendo a
+     la vez, y el recuento era IDÉNTICO en y=0, y=6000, y=13000, y=20000 y
+     y=27000: 36 de las 38 estaban fuera de la ventana en todo momento y aun
+     así seguían latiendo. Nueve halos de bombillo de #planes, cinco avisos
+     de #usos, diecisiete piezas del diorama, las dos columnas de la cinta de
+     #naturaleza —que arrastran 24 fotografías clonadas—, el pulso de
+     #ubicacion y los dos claros de luz de #inicio. Ninguna estaba atada a la
+     visibilidad: se declaran en CSS y arrancan con la hoja.
+
+     POR QUÉ IMPORTA AUNQUE TODAS SEAN «BARATAS». Cada una de esas
+     animaciones es compositor-pura (opacity/translate/scale/rotate, se
+     verificó una por una con `getKeyframes()`), así que ninguna repinta.
+     Pero cada una obliga al navegador a MANTENER SU CAPA promocionada y a
+     avanzar su reloj en cada cuadro, esté donde esté la ventana. En un
+     teléfono de gama media eso es memoria de GPU reservada durante toda la
+     visita para píxeles que nadie está mirando, y es la parte del gasto que
+     no se nota en una sección concreta sino EN TODA LA PÁGINA: exactamente
+     el síntoma que reportó el cliente.
+
+     POR QUÉ EN JAVASCRIPT Y NO CON UNA REGLA CSS. Un
+     `animation-play-state: paused` colgado de una clase alcanzaría también a
+     las animaciones de RELOJ DE SCROLL (`animation-timeline: view()`), que
+     este sitio usa por decenas: pausar una de ésas la congela en el progreso
+     que tuviera y deja la pieza a medio abrir. Aquí se filtra por
+     `a.timeline === document.timeline` —sólo las de reloj propio— y las de
+     scroll no se tocan.
+
+     POR QUÉ SÓLO SE REANUDA LO QUE ESTE BLOQUE PAUSÓ. `momentos-video.js` ya
+     pausa sus clips por su cuenta con `animation-play-state` desde el CSS, y
+     un `play()` de la API web MANDA sobre esa declaración. Se guarda el
+     conjunto de lo pausado aquí y no se despierta nada más: quien ya estaba
+     detenido por otro motivo sigue detenido.
+     --------------------------------------------------------------------- */
+  if ('IntersectionObserver' in window && document.getAnimations) {
+    /* Sólo las secciones de <main>. Fuera quedan a propósito la cabecera, el
+       pie y el botón flotante de WhatsApp: son piezas `fixed` o siempre
+       presentes, y dormirlas por la posición de la ventana sería apagarlas
+       delante del lector. */
+    /* Un margen de media pantalla por arriba y por abajo: la pieza despierta
+       ANTES de asomar, así que nunca se ve un bucle arrancar a destiempo
+       delante del lector. Es el mismo criterio de holgura que usan los
+       cerrojos de `cerca` en escena-planes.js y concurso-cinta.js, sólo que
+       más corto porque aquí despertar no cuesta maqueta. */
+    const HOLGURA = { rootMargin: '50% 0px' };
+
+    /* (a) LA CLASE `en-pantalla` EN LA SECCIÓN.
+       La usan las tres reglas de `will-change` que antes colgaban
+       permanentemente de un selector estático —la portada del Acto 1 y el
+       marco del diorama en planes.css, la banda de la cinta en
+       naturaleza.css—: capa de compositor sólo mientras la sección esté a
+       tiro, nunca durante toda la visita.
+
+       Fuera quedan a propósito la cabecera, el pie y el botón flotante de
+       WhatsApp: son piezas `fixed` o siempre presentes. */
+    const secciones = document.querySelectorAll('main section');
+    if (secciones.length) {
+      const ioSeccion = new IntersectionObserver(entradas => {
+        entradas.forEach(e => e.target.classList.toggle('en-pantalla', e.isIntersecting));
+      }, HOLGURA);
+      secciones.forEach(s => ioSeccion.observe(s));
+    }
+
+    /* (b) EL SUEÑO DE LOS BUCLES, PIEZA A PIEZA Y NO SECCIÓN A SECCIÓN.
+       El primer intento observaba la sección, y se midió que no bastaba:
+       #planes mide 6.898 px —ocho pantallas y media— así que entrar por su
+       borde superior despertaba de golpe los nueve bombillos y las
+       diecisiete piezas del diorama, que viven seis mil píxeles más abajo.
+       Observando el objetivo de cada animación la granularidad es exacta y
+       el coste no sube: un IntersectionObserver con cuarenta objetivos no
+       trabaja en el hilo principal ni por cuadro.
+
+       Lo que durmió ESTE bloque se apunta en un WeakSet. Sin ese registro no
+       hay forma de distinguir «pausado porque salió de pantalla» de «pausado
+       por otro»: momentos-video.js detiene sus clips desde el CSS con
+       `animation-play-state`, y un `play()` de la API web MANDA sobre esa
+       declaración. Sólo se despierta lo que se durmió aquí. */
+    const dormidas = new WeakSet();
+    const vigilados = new WeakSet();
+
+    const ioBucles = new IntersectionObserver(entradas => {
+      entradas.forEach(entrada => {
+        const pieza = entrada.target;
+        /* `{ subtree: true }` Y NO `getAnimations()` A SECAS. Medido: los
+           dieciocho bucles que se resistían a dormirse —los nueve halos de
+           bombillo, los cinco avisos de #usos, los dos claros de #inicio, el
+           pulso del pin de #ubicacion— viven todos en un `::after` o un
+           `::before`, y la llamada sin opciones NO devuelve las animaciones
+           de pseudo-elemento. Se filtra por `effect.target === pieza` para
+           que el subárbol no arrastre bucles de los hijos, que tienen su
+           propia entrada en el observador. */
+        pieza.getAnimations({ subtree: true }).forEach(a => {
+          if (a.effect.target !== pieza) return;
+          if (a.timeline !== document.timeline) return; // reloj de scroll: no se toca
+          let infinita = false;
+          try { infinita = a.effect.getTiming().iterations === Infinity; } catch (e) { return; }
+          if (!infinita) return;
+          if (entrada.isIntersecting) {
+            if (dormidas.has(a)) { dormidas.delete(a); a.play(); }
+          } else if (a.playState === 'running') {
+            dormidas.add(a);
+            a.pause();
+          }
+        });
+      });
+    }, HOLGURA);
+
+    /* El censo se pasa dos veces —ahora y en `load`— y no una sola: las 24
+       fotografías clonadas de la cinta de #naturaleza y las piezas que monta
+       cada módulo estrenan sus bucles bastante después de que corra este
+       archivo, y un censo único al arrancar las dejaría fuera para siempre.
+       `vigilados` evita volver a observar lo que ya se observa. */
+    const censar = () => {
+      document.getAnimations().forEach(a => {
+        if (a.timeline !== document.timeline) return;
+        let infinita = false;
+        try { infinita = a.effect.getTiming().iterations === Infinity; } catch (e) { return; }
+        if (!infinita) return;
+        const pieza = a.effect.target;
+        /* Sin objetivo, ya vigilado, o pieza clavada al viewport: el botón
+           flotante de WhatsApp late siempre y dormirlo por la posición de la
+           página sería apagarlo delante del lector. */
+        if (!pieza || !pieza.isConnected || vigilados.has(pieza)) return;
+        if (getComputedStyle(pieza).position === 'fixed') return;
+        vigilados.add(pieza);
+        ioBucles.observe(pieza);
+      });
+    };
+
+    censar();
+    window.addEventListener('load', censar);
+  }
 })();
