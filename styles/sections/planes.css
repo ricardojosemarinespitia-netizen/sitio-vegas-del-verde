@@ -2254,19 +2254,14 @@
      primeras cuatro columnas. Mismo principio que la tarjeta del carril 01:
      el texto se posa sobre la fotografía, no al lado. */
   .planes-carril--empresa .planes-carril__texto {
-    /* v23 · A LA IZQUIERDA, no a la derecha (pedido del cliente: "está muy
-       atravesado"). Vive en las mismas columnas 1-8 que ocupa la copia
-       montada de abajo, pero arriba (`align-self: start`) mientras la copia
-       cuelga del borde inferior (`align-self: end`): ambas comparten
-       columna sin tocarse porque una vive arriba y la otra abajo de la
-       misma fila. */
-    grid-column: 1 / 8;
+    /* v24 · ESQUINA INFERIOR DERECHA (pedido del cliente). La copia montada
+       de la retrato-card vive abajo a la izquierda (.planes-dossier__retrato,
+       §3), así que el texto se acota a las columnas 6-12 —mitad derecha— y
+       cuelga del borde inferior: las dos piezas quedan en esquinas opuestas
+       de la misma foto y no se tocan. */
+    grid-column: 6 / -1;
     grid-row: 1;
-    /* v21 · ARRIBA, no abajo (pedido del cliente, corrección inmediata):
-       con `end` el bloque se estiraba casi toda la altura de la banda y se
-       leía como un cartel encimado a la foto entera. `start` lo deja
-       compacto, pegado al borde superior, con la carpa respirando debajo. */
-    align-self: start;
+    align-self: end;
     z-index: var(--z-elevado);
     padding: var(--gap-lg);
     color: var(--color-texto-inverso);
@@ -2300,20 +2295,20 @@
     inset: 0;
     z-index: var(--z-base);
     pointer-events: none;
-    /* v23 · el texto pasa a la izquierda: el lavado horizontal se voltea con
-       él (antes oscurecía la derecha). El vertical (arriba/abajo) no
-       cambia: el texto sigue arriba, sólo se movió de lado. La foto no se
-       recorta ni un píxel —sigue midiendo --planes-portada-alto completo—,
-       sólo se oscurece más su tercio superior izquierdo. */
+    /* v24 · el texto pasa a la esquina inferior derecha: los dos lavados se
+       voltean con él. El vertical ahora oscurece desde ABAJO (antes desde
+       arriba) y el horizontal desde la DERECHA (antes desde la izquierda).
+       La foto no se recorta ni un píxel, sólo se oscurece más su tercio
+       inferior derecho, que es donde cae la letra ahora. */
     background-image:
       linear-gradient(
-        to bottom,
+        to top,
         rgb(var(--negro-escena-rgb) / 0.7) 0%,
         rgb(var(--negro-escena-rgb) / 0.42) 32%,
         transparent 62%
       ),
       linear-gradient(
-        to right,
+        to left,
         rgb(var(--negro-escena-rgb) / 0.55) 0%,
         rgb(var(--negro-escena-rgb) / 0.3) 30%,
         transparent 55%
