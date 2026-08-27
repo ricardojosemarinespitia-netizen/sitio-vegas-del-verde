@@ -1338,7 +1338,25 @@
   line-height: var(--alto-linea-apretado);
   letter-spacing: var(--tracking-display);
   text-wrap: balance;
+  /* Suelo si -webkit-text-stroke no existe: la palabra queda maciza en
+     crema. Mismo criterio de --nat-fs-censo hasta 5,4rem sobre --color-sala
+     ya mide 15,8:1 en el bloque §3 de arriba: sobra AAA de margen. */
   color: var(--color-texto-inverso);
+}
+
+/* v13 · CONTORNO, no relleno — pedido del cliente: quería «un texto
+   extravagante como el que usamos en pajareo» para este titular. Es el
+   mismo recurso EXACTO del contorno «Pajareo» de la portada (§1,
+   .nat-portada__contorno): -webkit-text-stroke con el color de relleno
+   puesto a transparent, cuando el navegador lo soporta. Mismo token de
+   grosor de trazo (--nat-contorno-trazo) para que las dos palabras huecas
+   de la sección — «Pajareo» arriba, «Aquí no solo hay aves» aquí — hablen
+   el mismo idioma tipográfico sin inventar un segundo valor. */
+@supports (-webkit-text-stroke: 1px currentColor) {
+  .nat-censo__titulo {
+    -webkit-text-stroke: var(--nat-contorno-trazo) var(--color-texto-inverso);
+    color: transparent;
+  }
 }
 
 .nat-censo__entradilla {
