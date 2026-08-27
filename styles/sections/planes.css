@@ -2798,14 +2798,43 @@
   }
 }
 
+/* EL VIDRIO ES DE ESCRITORIO — v19, AGOSTO DE 2026.
+   Es EXACTAMENTE la misma corrección que shell.css §cabecera ya aplicó al
+   `backdrop-filter` de la barra fija, y esta lámina se quedó fuera de
+   aquella pasada. Medido en producción con emulación táctil de 375x812:
+   `.planes-bienestar__vidrio` es la ÚNICA pieza de toda la página con
+   `backdrop-filter` activo cuyo área supera los 40 000 px² —177 310 px², o
+   sea una pantalla de teléfono entera— y estaba colgado en TODOS los anchos,
+   sin ninguna puerta.
+
+   POR QUÉ ESO SE SIENTE AL ARRASTRAR EL DEDO. Un `backdrop-filter` no es un
+   adorno estático: obliga al compositor a releer lo que queda DETRÁS del
+   elemento y a desenfocarlo otra vez en cada cuadro en que ese fondo cambia
+   —y al desplazarse cambia en cada píxel—. Sobre un bloque del tamaño de la
+   pantalla, con la fotografía del carril de bienestar por debajo, es el
+   desenfoque más caro del documento y cae justo en el recorrido de #planes,
+   que es donde el cliente reportó el tirón.
+
+   POR QUÉ SE PUEDE QUITAR EN MÓVIL SIN PERDER NADA. El respaldo ya está
+   escrito arriba y ya está aprobado por contraste: crema verde a 0,86 sin
+   desenfoque, que la cabecera de §6 documenta como AÚN MÁS legible que el
+   estado con desenfoque (el @supports baja a 0,50 precisamente porque el
+   blur compensa). Lo que ve el teléfono a partir de ahora es el mismo estado
+   que ya veía cualquier navegador sin soporte de `backdrop-filter`. El
+   contraste no baja: sube.
+
+   64em es el umbral de la casa —el mismo de shell.css, de foto-focus.js y de
+   espacios.css—, no un número nuevo. */
 @supports (backdrop-filter: blur(1px)) {
-  .planes-bienestar__vidrio {
-    /* --blur-vidrio es el token del sistema (el mismo de la cabecera, del
-       lightbox y de .btn-claro): saturación y desenfoque en una sola
-       declaración. Aquí no se inventa un valor propio. */
-    backdrop-filter: var(--blur-vidrio);
-    -webkit-backdrop-filter: var(--blur-vidrio);
-    background-color: rgb(var(--verde-bosque-hondo-rgb) / 0.5);
+  @media (min-width: 64em) {
+    .planes-bienestar__vidrio {
+      /* --blur-vidrio es el token del sistema (el mismo de la cabecera, del
+         lightbox y de .btn-claro): saturación y desenfoque en una sola
+         declaración. Aquí no se inventa un valor propio. */
+      backdrop-filter: var(--blur-vidrio);
+      -webkit-backdrop-filter: var(--blur-vidrio);
+      background-color: rgb(var(--verde-bosque-hondo-rgb) / 0.5);
+    }
   }
 }
 

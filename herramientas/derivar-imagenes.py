@@ -40,7 +40,7 @@ import re
 import sys
 import glob
 
-from PIL import Image
+from PIL import Image, ImageOps
 
 RAIZ = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 ESCRIBIR = "--escribir" in sys.argv
@@ -55,6 +55,30 @@ ANCHOS = (400, 600, 800, 1200)
 # Por debajo de este peso el derivado no compensa: la petición HTTP extra y
 # el byte de srcset cuestan más que lo que se ahorra.
 PESO_MINIMO = 80 * 1024
+
+# ...PERO EL PESO NO ES EL ÚNICO COSTE, Y EN v19 RESULTÓ SER EL QUE NO DOLÍA.
+# `PESO_MINIMO` se escribió pensando en BYTES —datos móviles ahorrados—, que
+# era el encargo de v17. La queja de v19 es otra cosa: el navegador se traba
+# mientras el dedo arrastra sobre las fotos. Eso no lo causa el peso del
+# archivo sino la DECODIFICACIÓN y el mapa de bits que queda en memoria, y
+# las dos escalan con los PÍXELES, no con los kB.
+#
+# Medido en el muro de aves, que es donde se vio: de las 58 fotos, 11 pesan
+# entre 35 y 79 kB y por eso las saltaba el filtro de arriba. Están tan
+# ligeras porque comprimen bien —follaje y fondos suaves—, no porque sean
+# pequeñas: ave-21-vegas.jpg pesa 35 kB y mide 1300x1107, o sea 1,44 Mpx que
+# se decodifican para pintarse en una caja de 163x139 CSS px. Son 15,9 veces
+# los píxeles necesarios a DPR 2, y 5,7 MB de mapa de bits descomprimido por
+# cada una. Un JPEG bien comprimido cuesta lo MISMO de decodificar que uno
+# gordo del mismo tamaño en píxeles; el kB sólo dice cuánto tarda en bajar.
+#
+# Así que el peso deja de ser suficiente para saltarse una foto: se salta
+# sólo la que es ligera Y ADEMÁS pequeña en píxeles. El umbral son 0,5 Mpx
+# porque la caja más grande que pinta estas miniaturas es de 175x148 CSS px
+# —0,10 Mpx a DPR 2—, así que por encima de 0,5 ya se está decodificando
+# cinco veces de más y el peldaño de 400w siempre gana. Por debajo, la foto
+# ya está en su medida y derivarla sería trabajo sin ahorro.
+MPX_MINIMO = 0.5
 
 # Un peldaño tiene que ahorrar al menos esto respecto al original para que
 # valga la pena servirlo. Por debajo, la petición HTTP extra y el riesgo de
@@ -102,8 +126,41 @@ RE_DERIVADO = re.compile(r"-(?:%s)\.jpg$" % "|".join(str(a) for a in ANCHOS))
 # la tarjeta siguiente…— era un cuadro en el que la FOTO se movía y el BORDE
 # DEL ARCO se quedaba quieto». Aquel arreglo blindó al ARCO contra esa pérdida
 # de cuadros, pero no quitó la pérdida. Éste quita la pérdida.
+# v19 · ENTRAN naturaleza.html, vivero.html Y sendero.html. Cuarto pedido del
+# cliente sobre lo mismo: «SIGO SCROLEANDO Y SE BUGUEAN MÁS QUE TODO CUANDO
+# PASO EL DEDO A DESLIZAR SOBRE LAS FOTOS». Esta vez la queja NO es de una
+# sección concreta: es de deslizar el dedo encima de CUALQUIER fotografía.
+#
+# LO QUE SE MIDIÓ EN PRODUCCIÓN, en vegasdelverde.co con emulación táctil de
+# 375x812 (maxTouchPoints 5), antes de tocar nada. Contando `srcset` presente
+# y `naturalWidth*naturalHeight` de cada <img> del documento:
+#
+#     #naturaleza   108 <img>   108 SIN srcset    89,3 Mpx    peor ratio 16,0x
+#     #vivero         8 <img>     8 SIN srcset                peor ratio  0,8x
+#     #sendero        6 <img>     6 SIN srcset                peor ratio  3,5x
+#     #planes        13 <img>     4 SIN srcset    (ya en alcance desde v17)
+#     #usos          20 <img>     5 SIN srcset    (ya en alcance desde v18)
+#
+# 89,3 Mpx en UNA sección son ~357 MB de mapa de bits descomprimido. En un
+# teléfono de 3-4 GB el caché de imágenes de Chrome no sostiene ni de lejos
+# esa cifra: descarta y VUELVE A DECODIFICAR mientras el dedo arrastra, que
+# es literalmente el síntoma reportado —la sección no tarda en aparecer, se
+# TRABA mientras se desliza sobre ella—. El muro de aves de `.nat-cinta`
+# pinta miniaturas de 175x148 CSS px con archivos de 1300 px de ancho: entre
+# 8x y 16x los píxeles necesarios a DPR 2, repetido 108 veces.
+#
+# Y EL AGRAVANTE DE v19: LAS SEIS FOTOS NUEVAS SON ORIGINALES DE TELÉFONO,
+# sin pasar por retoque, y son con diferencia lo más pesado del sitio:
+#
+#     img/sendero/sendero-hero.jpg        2400x4268   10,24 Mpx   2139 kB
+#     img/naturaleza-jardin-hero.jpg      2268x4032    9,14 Mpx    710 kB
+#     img/vivero/vivero-01..04.jpg        2000x3556    7,11 Mpx   1182-1878 kB
+#
+# Son 47,8 Mpx entre las seis (~191 MB de mapa de bits) para pintarse en
+# cajas de entre 168 y 386 CSS px de ancho. El resto del sitio vive entre
+# 1125 y 1800 px de ancho; éstas doblan eso y triplican el alto.
 ALCANCE = ("hero.html", "nosotros.html", "planes.html", "momentos.html",
-           "usos.html")
+           "usos.html", "naturaleza.html", "vivero.html", "sendero.html")
 
 # LAS DOS FOTOS DE LA PORTADA NO LLEVAN ESCALERA DE JPG.
 # Son el LCP y ya se sirven por <picture> en AVIF y WebP, con una rama propia
@@ -129,7 +186,28 @@ ALCANCE = ("hero.html", "nosotros.html", "planes.html", "momentos.html",
 # El pedido era el LAGEO DE ESA FOTO, no una pasada general por la sección: lo
 # que se optimiza es lo que se decodifica de más, que son las 15 miniaturas de
 # los paneles —las tres de noche-evento-1.jpg entre ellas—, no las portadas.
+#
+# Y UNA SOLA FOTO DE LAS QUE ENTRAN EN v19, POR LA MISMA RAZÓN QUE ELLAS.
+# Se comprobó UNA A UNA, en el navegador y con las 70 fotos ya cargadas, cuál
+# de las tres secciones nuevas cae en la trampa de `cover`: se comparó la
+# proporción de la CAJA con la proporción NATURAL de cada imagen, que es lo
+# que decide si `cover` escala por el ancho (y entonces el `sizes` por ancho
+# es correcto) o por el alto (y entonces se queda corto). De 70 fotos únicas,
+# 69 escalan por el ancho y una no:
+#
+#     img/naturaleza-milano.jpg   2000x1815 (1,10)   caja 401x501 (0,80)
+#     -> `cover` escala por el ALTO: se pinta a 552 px de ancho, no a 401.
+#
+# Escribirle el `sizes` calculado sobre los 401 px de la caja le serviría un
+# peldaño para 401 y el navegador lo estiraría a 552: foto blanda, que es
+# cambiar un tirón por un defecto visible. Se queda como está, a propósito.
+#
+# Las 57 miniaturas del muro de aves NO caen aquí: van con `object-fit: fill`
+# y su caja tiene EXACTAMENTE la proporción natural de cada foto (medido:
+# 188x281 contra 0,67 natural, 188x150 contra 1,25...), así que el ancho de
+# la caja es el ancho pintado y el `sizes` por ancho es exacto.
 SIN_DERIVAR = {
+    "img/naturaleza-milano.jpg",
     "img/hero-ave-flor.jpg", "img/hero-ave-rosada.jpg",
     "img/espacios/alameda-2.jpg", "img/espacios/taller-1.jpg",
     "img/eventos/vega-horizontal.jpg", "img/eventos/vega-vertical.jpg",
@@ -170,10 +248,37 @@ def main():
 
         peso = os.path.getsize(abs_ruta)
         if peso < PESO_MINIMO:
-            saltadas.append((rel, "pesa poco"))
-            continue
+            # Ligera, pero ¿también pequeña? Se mira el tamaño en píxeles
+            # antes de saltársela: es lo que cuesta decodificar (ver
+            # MPX_MINIMO). Abrir la cabecera no descomprime la imagen.
+            with Image.open(abs_ruta) as sonda:
+                mpx = (sonda.size[0] * sonda.size[1]) / 1e6
+            if mpx < MPX_MINIMO:
+                saltadas.append((rel, "pesa poco y mide poco"))
+                continue
 
         with Image.open(abs_ruta) as im:
+            # LA ORIENTACIÓN EXIF SE APLICA ANTES DE NADA, Y NO ES UN DETALLE.
+            # Un JPEG puede traer los píxeles guardados de lado y una etiqueta
+            # EXIF (0x0112) que le dice al navegador cuánto girarlos al
+            # pintar. Pillow NO la aplica al abrir y TAMPOCO la copia al
+            # guardar: sin esta línea, el derivado sale con los píxeles en la
+            # orientación ALMACENADA y sin la etiqueta que los enderezaba, así
+            # que el navegador lo pinta girado 90° respecto del original. El
+            # srcset serviría la misma foto tumbada en el teléfono y derecha
+            # en el escritorio, según el peldaño que tocara.
+            #
+            # Hasta ahora no había mordido porque las fotos del ALCANCE
+            # anterior venían de retoque, ya enderezadas y sin etiqueta. Las
+            # que entran en v19 son ORIGINALES DE TELÉFONO, que es justo de
+            # donde salen las etiquetas de orientación: medido sobre las 98
+            # fuentes de los ocho fragmentos, una sola la trae —
+            # img/aves/ortalis-columbiana-referencia.jpg, orientación 6,
+            # guardada 1570x1010 y mostrada 1010x1570— y está en
+            # naturaleza.html, que es uno de los fragmentos que entran aquí.
+            # `exif_transpose` deja los píxeles ya girados y quita la
+            # etiqueta, que es exactamente el estado que hay que guardar.
+            im = ImageOps.exif_transpose(im)
             im = im.convert("RGB")
             ancho_orig, alto_orig = im.size
             hechos = []

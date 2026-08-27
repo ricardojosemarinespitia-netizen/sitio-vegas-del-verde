@@ -347,10 +347,17 @@
     .snd-plano__figura {
       animation: snd-deriva linear both;
       animation-timeline: view();
-      /* Arranca cuando el plano ya entró un poco y termina cuando casi ha
-         salido: así el recorrido se reparte por todo el cruce y no se agota
-         en el primer palmo. */
-      animation-range: entry 15% exit 85%;
+      /* v2 · TODO EL TRÁNSITO, no sólo el tramo central (pedido del cliente:
+         "en PC al deslizar está muy rápido"). Con `entry 15% exit 85%` el
+         recorrido completo —de un extremo del --snd-deriva al otro— se
+         resolvía en el 70% central del cruce de la pieza por la ventana, que
+         en una fila corta (sin pista alta propia, a diferencia de las
+         escenas por scroll de #naturaleza/#planes) dura poco scroll real: se
+         sentía como un salto, no como una deriva. `entry 0% exit 100%`
+         reparte el mismo recorrido en el 100% del tránsito — mismo
+         --snd-deriva, mismo sentido por plano, sólo cambia la velocidad
+         aparente. */
+      animation-range: entry 0% exit 100%;
       will-change: transform;
     }
 

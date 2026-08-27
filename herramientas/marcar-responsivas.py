@@ -58,10 +58,65 @@ RE_IMG = re.compile(r"<img\b[^>]*?/?>", re.S)
 RE_COMENTARIO = re.compile(r"<!--.*?-->", re.S)
 
 
+def orientacion_exif(abs_ruta):
+    """Etiqueta EXIF de orientación (0x0112) del JPEG, o 1 si no la trae.
+
+    Se lee a mano —recorriendo el APP1 y su IFD0— para no obligar a este
+    script a depender de Pillow: `derivar-imagenes.py` sí lo necesita porque
+    reescala, éste sólo lee cabeceras y hasta ahora corría con la biblioteca
+    estándar. Sólo interesan los valores 5-8, que son los que INTERCAMBIAN
+    ancho y alto al pintar; los demás (espejos sin giro) no cambian la medida.
+    """
+    import struct
+    try:
+        with open(abs_ruta, "rb") as fh:
+            if fh.read(2) != b"\xff\xd8":
+                return 1
+            while True:
+                b = fh.read(1)
+                while b and b != b"\xff":
+                    b = fh.read(1)
+                while b == b"\xff":
+                    b = fh.read(1)
+                if not b or b[0] in (0xD9, 0xDA):  # fin de imagen / datos
+                    return 1
+                largo = struct.unpack(">H", fh.read(2))[0]
+                cuerpo = fh.read(largo - 2)
+                if b[0] != 0xE1 or not cuerpo.startswith(b"Exif\x00\x00"):
+                    continue
+                tiff = cuerpo[6:]
+                orden = ">" if tiff[:2] == b"MM" else "<"
+                desplazamiento = struct.unpack(orden + "I", tiff[4:8])[0]
+                n = struct.unpack(orden + "H", tiff[desplazamiento:desplazamiento + 2])[0]
+                for i in range(n):
+                    campo = desplazamiento + 2 + i * 12
+                    etiqueta = struct.unpack(orden + "H", tiff[campo:campo + 2])[0]
+                    if etiqueta == 0x0112:
+                        return struct.unpack(orden + "H", tiff[campo + 8:campo + 10])[0]
+                return 1
+    except Exception:
+        return 1  # cabecera rara: se trata como sin girar, nunca se rompe
+
+
 def ancho_real(ruta):
-    """Ancho en píxeles del .jpg original, leído de la cabecera JPEG."""
+    """Ancho en píxeles del .jpg original TAL Y COMO LO PINTA EL NAVEGADOR.
+
+    OJO CON LA ORIENTACIÓN EXIF. La cabecera SOF de abajo da el ancho de los
+    píxeles ALMACENADOS, que no es el ancho que se ve cuando la foto trae una
+    etiqueta de orientación: con orientación 5-8 el navegador la gira 90° y
+    ancho y alto quedan intercambiados. Este número acaba siendo el descriptor
+    `w` del original dentro del `srcset`, y un descriptor equivocado hace que
+    el navegador elija mal el peldaño en TODOS los anchos.
+
+    Medido sobre las 98 fuentes de los ocho fragmentos del ALCANCE, una sola
+    foto trae etiqueta: img/aves/ortalis-columbiana-referencia.jpg, orientación
+    6, guardada 1570x1010 y mostrada 1010x1570 — comprobado contra el
+    `naturalWidth` que reporta el navegador, que dice 1010. Es de
+    naturaleza.html, uno de los fragmentos que entran en v19.
+    """
     import struct
     abs_ruta = os.path.join(RAIZ, ruta.replace("/", os.sep))
+    girada = orientacion_exif(abs_ruta) in (5, 6, 7, 8)
     with open(abs_ruta, "rb") as fh:
         if fh.read(2) != b"\xff\xd8":
             return None
@@ -76,8 +131,8 @@ def ancho_real(ruta):
             if b[0] in (0xC0, 0xC1, 0xC2, 0xC3, 0xC5, 0xC6, 0xC7,
                         0xC9, 0xCA, 0xCB, 0xCD, 0xCE, 0xCF):
                 fh.read(3)
-                _alto, ancho = struct.unpack(">HH", fh.read(4))
-                return ancho
+                alto, ancho = struct.unpack(">HH", fh.read(4))
+                return alto if girada else ancho
             largo = struct.unpack(">H", fh.read(2))[0]
             fh.read(largo - 2)
 
@@ -221,8 +276,14 @@ def marcar(texto):
 # les generen peldaños: `atributos()` devuelve None cuando no encuentra ni un
 # derivado en disco, así que este script las salta solo. Una sola lista, en un
 # solo sitio, y las dos mitades no pueden desincronizarse.
+#
+# v19 · ENTRAN naturaleza.html, vivero.html y sendero.html, por el cuarto
+# pedido del cliente («se buguean cuando paso el dedo a deslizar SOBRE LAS
+# FOTOS»). Las cifras medidas en producción que lo justifican —108 <img> sin
+# `srcset` y 89,3 Mpx de decodificación en #naturaleza sola— están en la
+# cabecera de derivar-imagenes.py, junto a su ALCANCE.
 ALCANCE = ("hero.html", "nosotros.html", "planes.html", "momentos.html",
-           "usos.html")
+           "usos.html", "naturaleza.html", "vivero.html", "sendero.html")
 
 
 def main():
