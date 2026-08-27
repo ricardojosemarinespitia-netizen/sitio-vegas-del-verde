@@ -798,92 +798,217 @@
 }
 
 /* ==========================================================================
-   1 ter. LA ENDÉMICA — la sala de retrato de la Chachalaca Colombiana  (v11)
+   1 ter. LA ENDÉMICA — el pliego de la Chachalaca Colombiana  (v18)
 
-   POR QUÉ EXISTE ESTA BANDA. La chachalaca colombiana es la única especie
-   endémica de las 101 del registro: la única que no vive de forma silvestre
-   en ningún otro país del mundo. Hasta la v10 estaba dibujada como un apunte
-   más dentro de la rejilla de tres columnas de .nat-registro, con una foto de
-   11 rem al costado. Un dato que ninguna otra finca del Anillo Vial puede
-   copiar, dibujado igual que una nota al margen, es un dato desperdiciado.
+   POR QUÉ HAY UNA v18. La v16 dibujaba esta especie como una banda de verde
+   bosque con la foto enmarcada a un lado y el nombre al otro; el cliente
+   pidió «algo más premium». La v17 le fundió encima una cartela de museo a
+   todo el ancho y el veredicto fue textual: «QUEDO HORROROSAAAAAA […] QUIEOR
+   ALGO EDITORIAL NO ESTA ABERRACION». Las dos fallaban por la misma razón,
+   y no es la que parece: las dos eran un COMPONENTE. Una superficie de color
+   con una foto, un rótulo y una píldora dentro es una tarjeta, y una tarjeta
+   —por bien pintada que esté— se lee como interfaz. El pedido literal es
+   «algo editorial», así que lo que manda aquí ya no es la superficie: es la
+   tipografía y el aire.
 
-   LA SUPERFICIE. Verde bosque a todo el ancho (--color-fondo-oscuro). Es el
-   color dominante de la marca y en esta sección no se había usado NUNCA: la
-   sección va de crema, salvia y sala oscura (--color-sala, que es el cuarto
-   del concurso y no se toca). Una superficie nueva, usada una sola vez, es
-   la manera más barata que existe de decir «esto es otra cosa» sin inventar
-   un recurso. Y una banda oscura entre dos tramos de crema hace que la
-   fotografía se vea más luminosa, que es el mismo efecto galería que ya
-   buscaban los carbones de tokens.css.
+   QUÉ ES ESTA PIEZA AHORA. Un pliego de revista impresa:
 
-   POR QUÉ LA FOTO NO VA A SANGRE — la regla de honestidad, dibujada.
-   Las dos únicas planchas de la sección que tocan los cuatro cantos del
-   navegador (.nat-portada, .nat-mural) son fotografías TOMADAS EN EL PREDIO.
-   Ésta no lo es: es una imagen de referencia de la misma especie, hecha en
-   Rionegro. Darle el tratamiento reservado a lo propio sería mentir con la
-   maqueta aunque el pie dijera la verdad. Por eso va ENMARCADA, con radio de
-   hoja, apoyada dentro de la banda: se lee como una lámina colgada en una
-   pared, no como una ventana al predio. El rótulo lo dice; la maqueta lo
-   confirma.
+     · NO TIENE FONDO PROPIO. Se queda sobre la crema de la página. Eso es lo
+       primero que cambia y lo que más cambia: una banda de color es un
+       contenedor, y un contenedor con cosas dentro es una caja. El papel no
+       es una caja. De paso, la pieza gana el recurso que ninguna versión
+       anterior tenía —AIRE— sin pagar ni un píxel por él.
+     · Un FILETE FINO arriba y un antetítulo de folio: la entrada de un
+       artículo, no el borde de un panel. Va en --color-borde (gris-verde) y
+       no en --color-borde-fuerte, que es el que usa .nat-registro justo
+       debajo: dos filetes seguidos del mismo peso se leerían como una tabla.
+     · EL NOMBRE MANDA. Bodoni a --fs-hero cruzando los dos carriles, con el
+       binomio en cursiva pegado debajo. En una ficha el nombre es una
+       etiqueta; aquí es el titular, y por eso puede permitirse dejar medio
+       ancho de página vacío a su derecha.
+     · DOS CARRILES DESIGUALES debajo: la lámina a la izquierda con su pie de
+       foto, el texto a la derecha con capitular. Desiguales a propósito
+       (0,85 / 1,15): dos columnas iguales son una rejilla de interfaz.
+     · CERO CAJAS. Se van la banda de fondo, la píldora ámbar, la cartela
+       opaca sobre la foto y el recuadro del aviso. Lo único que queda
+       dibujado es la fotografía; todo lo demás es texto sobre papel.
 
-   RADIO. --nat-hoja-b. Las dos piezas vecinas en el flujo son la franja del
-   giro (sin radio) y el aviso de .nat-registro (--nat-hoja-d): ninguna
-   coincide, que es la regla del sistema de hojas.
+   DE DÓNDE SALE CADA GESTO. Ninguno es nuevo y todos están ya aprobados por
+   el cliente en esta misma sección: la capitular es la de
+   .nat-apertura__cuerpo (§1); el filete fino con tipografía pequeña es el de
+   .nat-registro (§2); el colofón con raya de firma es el de .nat-cinta__firma
+   (§5); el Bodoni a cuerpo grande es el de .nat-censo__titulo (§3). Es
+   vocabulario de la casa recompuesto, no un componente importado.
 
-   MOVIMIENTO. Ninguna animación nueva. La sección ya carga cuatro gestos
-   atados al scroll (la deriva de la apertura, el empuje de la portada, la
-   deriva del contorno y la del mural) y un quinto los abarata a todos.
-   Aquí lo que se pide es QUIETUD: es una sala de retrato. Lo único que se
-   mueve es la entrada, con el .reveal de siempre; el velo de la lámina
-   (.reveal--velo, clip-path) descubre el retrato de abajo arriba y la
-   cartela llega LA ÚLTIMA, como un sello que se estampa sobre la lámina ya
-   colgada. Ese retardo no es coreografía: es lo que lleva la mirada al
-   rótulo que tiene que leerse.
+   EL HECHO «ES ENDÉMICA» NO SE PIERDE al disolverse la píldora: vive en el
+   antetítulo («La única endémica del registro») y en el primer párrafo, que
+   además explica qué significa endémica y que sólo vive en Colombia. Se
+   cambió un chip por una línea de prensa; el dato queda más explicado que
+   antes, no menos.
 
-   CONTRASTE, todo sobre verde bosque #1e3d2f (o sobre las dos superficies
-   que se componen encima de él). Medido sobre el color plano, no sobre una
-   foto, así que no hay «peor píxel» que perseguir:
-     · nombre y cartela-clave, crema #ede6e2 sobre bosque ...... 9,6:1  (AAA)
-     · entradilla, crema al 78 % sobre bosque .................. 6,5:1  (AA)
-     · científico, coral claro #f0a072 sobre bosque ............ 5,7:1  (AA)
-       (el oliva de .nat-ficha__cientifico NO sirve aquí: sobre bosque se
-        queda muy por debajo de AA. Cambia de color al cambiar de suelo,
-        igual que ya hace .nat-obra__autor sobre la sala.)
-     · aviso, crema al 78 % sobre --color-superficie-oscura
-       (crema al 7 % compuesta sobre bosque) .................... 5,6:1  (AA)
-     · cartela-detalle, crema al 78 % sobre --color-fondo-hondo . 8,1:1  (AAA)
+   EL RÓTULO DE HONESTIDAD deja de ser un sello encima de la fotografía y
+   pasa a ser el PIE DE FOTO, que es donde un lector de revista lo busca. La
+   frase que importa va en tinta plena y en el mismo cuerpo que el resto del
+   pie: no es letra pequeña escondida. Y como está sobre papel y no sobre
+   follaje moteado, no hay «peor píxel» que pueda apagarla — que es, de paso,
+   un argumento a favor de sacarla de la foto y no sólo una consecuencia.
+
+   POR QUÉ LA FOTO SIGUE SIN IR A SANGRE. Las planchas de esta sección que
+   tocan los cuatro cantos del navegador (.nat-portada) son fotografías
+   TOMADAS EN EL PREDIO. Ésta no lo es. Darle el tratamiento reservado a lo
+   propio sería mentir con la maqueta aunque el pie dijera la verdad. Va
+   enmarcada, con radio de hoja, reproducida dentro de una página.
+
+   RADIO. Sigue en --nat-hoja-b. Las dos piezas vecinas en el flujo son la
+   franja del giro (sin radio) y el apunte de .nat-registro (--nat-hoja-d):
+   ninguna coincide, que es la regla del sistema de hojas.
+
+   MOVIMIENTO. Ninguna animación nueva y ningún motor nuevo: la sección ya
+   carga cuatro gestos atados al scroll y un quinto los abarata a todos. Aquí
+   se pide QUIETUD, que además es lo que hace «premium» a una página impresa.
+   Lo único que se mueve es la entrada, con el .reveal de siempre; la lámina
+   usa .reveal--velo (clip-path) y el titular y la columna escalonan con
+   .reveal-secuencia. Un solo motor por elemento, como manda el contrato.
+
+   CONTRASTE, todo medido sobre la crema #ede6e2 — color plano, sin foto
+   debajo, así que estos números son el peor caso y no una mediana:
+     · nombre y frase clave del pie, tinta #16281f ............ 13,9:1 (AAA)
+     · cuerpo con capitular, tinta #16281f ................... 13,9:1 (AAA)
+     · binomio, terracota #a8452a (--color-acento-texto) ....... 5,3:1 (AA)
+     · capitular, terracota #a8452a — además es texto grande ... 5,3:1 (AA)
+     · folio y resto del pie, gris #4f5f53 ..................... 6,1:1 (AA)
+     · colofón, gris #4f5f53 .................................. 6,1:1 (AA)
+   Los colores inversos de la v16 (crema sobre bosque, coral claro) se
+   retiran con la banda: aquí no hay superficie oscura que los justifique.
+
+   ---------------------------------------------------------------------------
+   ARCHIVO DE LA v11–v16, la sala de retrato que ya no existe:
+   ========================================================================== */
+   La v11 le dio a esta especie una banda de verde bosque a todo el ancho —el
+   color dominante de la marca, sin usar hasta entonces en la sección— con el
+   retrato enmarcado a un lado y el nombre en grande al otro, más una cartela
+   opaca estampada sobre la fotografía. El razonamiento de la superficie era
+   correcto (una banda oscura entre dos tramos de crema hace que la foto se
+   vea más luminosa) y el de la cartela también (un rótulo opaco no depende
+   del follaje que tenga debajo). Lo que ninguno de los dos vio es que la
+   suma de banda + foto enmarcada + píldora + cartela + caja de aviso es,
+   dibujada, una TARJETA. Por eso se cae entera y no se parchea.
+   Lo único que sobrevive intacto es la regla de honestidad: la foto no va a
+   sangre, porque las que sí van son las tomadas en el predio.
    ========================================================================== */
 .nat-endemica {
+  /* SIN FONDO PROPIO. Es el cambio de fondo de la v18: la pieza se queda
+     sobre la crema de la página. No declara background-color a propósito —no
+     es un olvido— porque una banda de color convierte cualquier contenido en
+     el interior de una caja, y lo que se pidió es una PÁGINA.
+     El margen superior es de sección entera: el aire es aquí un material,
+     no un sobrante. Por abajo lo pone .nat-registro con su propio filete. */
   margin-block: var(--esp-seccion) 0;
-  padding-block: var(--esp-seccion);
-  /* A sangre por los dos lados sin trucos de vw: es hijo directo de la
-     <section>, así que ya nace con el ancho de la página. El .contenedor de
-     dentro devuelve el texto a la línea vertical del resto. */
-  background-color: var(--color-fondo-oscuro);
 }
 
-.nat-endemica__cuerpo {
+/* EL PLIEGO. Una sola rejilla para el titular a todo lo ancho y los dos
+   carriles de abajo. En móvil no hace falta declarar nada: una columna y el
+   orden del marcado ya son la lectura correcta (folio → nombre → binomio →
+   lámina → texto). */
+.nat-endemica__pliego {
   display: grid;
   gap: var(--gap-lg);
-  align-items: center;
+  /* LA ENTRADA DEL ARTÍCULO: filete fino y aire. Va en --color-borde
+     (gris-verde) y no en --color-borde-fuerte, que es el que lleva
+     .nat-registro cincuenta líneas más abajo: dos filetes seguidos del mismo
+     peso encima de dos bloques sobre el mismo papel se leen como una tabla. */
+  padding-block-start: var(--esp-xl);
+  border-block-start: 1px solid var(--color-borde);
 }
 
 @media (min-width: 62em) {
-  .nat-endemica__cuerpo {
-    /* DESIGUAL, y a favor del texto. El retrato es vertical (1010×1570) y con
-       más de un tercio del ancho se convierte en una torre que aplasta el
-       nombre; el nombre es la pieza. */
-    grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.2fr);
-    gap: var(--gap-lg);
+  .nat-endemica__pliego {
+    /* DESIGUALES A PROPÓSITO. Dos columnas iguales son una rejilla de
+       interfaz; 0,85 contra 1,15 es una maqueta de página. La lámina es
+       vertical (1010×1570) y no necesita más: con más ancho se vuelve una
+       torre que compite con el titular en vez de ilustrarlo. */
+    grid-template-columns: minmax(0, 0.85fr) minmax(0, 1.15fr);
+    column-gap: var(--gap-lg);
+    row-gap: var(--esp-xl);
+    /* Las dos columnas arrancan de la MISMA línea de arriba. Centrarlas
+       —lo que hacía la v16— desalinea el pie de foto respecto al texto y
+       deshace la pauta horizontal, que es de lo que vive una página. */
+    align-items: start;
   }
+
+  .nat-endemica__titular {
+    grid-column: 1 / -1;
+  }
+}
+
+/* ---- El titular: folio, nombre y binomio como un solo bloque ------------- */
+/* Los tres son el MISMO rótulo —de qué se habla, cómo se llama y cómo se
+   llama en latín—, así que se componen juntos y con su propio ritmo interno,
+   no repartidos por el aire de la rejilla. */
+.nat-endemica__titular {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--esp-xs);
+}
+
+/* El antetítulo hace de folio de revista y es donde ATERRIZA el hecho que
+   antes llevaba la píldora ámbar: «la única endémica del registro». El resto
+   del dato —qué significa endémica, y que sólo vive en Colombia— lo cuenta el
+   primer párrafo. Un chip se mira; un folio se lee. */
+.nat-endemica__folio {
+  margin-block: 0;
+}
+
+/* EL NOMBRE ES EL TITULAR, no una etiqueta. Sube de --fs-h1 (donde estaba en
+   la v16, compitiendo de tú a tú con el retrato que tenía al lado) a
+   --fs-hero: el paso más alto de la escala, el mismo cuerpo con el que abre
+   cualquier sección de la página. Cruza los dos carriles y deja medio ancho
+   de papel vacío a su derecha; ese vacío es el que hace que la pieza se lea
+   como una apertura de artículo y no como una ficha.
+   No declara font-family —hereda el Bodoni de base.css— pero sí los ejes y
+   el peso de display. */
+.nat-endemica__nombre {
+  margin: 0;
+  /* Fuerza el corte en dos renglones incluso a 1440: un titular Bodoni de una
+     sola línea larguísima es un banner; en dos, es una portada. */
+  max-inline-size: 14ch;
+  font-size: var(--fs-hero);
+  font-weight: var(--peso-display);
+  font-optical-sizing: auto;
+  font-variation-settings: var(--ejes-display);
+  line-height: var(--alto-linea-apretado);
+  /* Tracking NEGATIVO (--track-display) y no el positivo de .titulo-seccion:
+     a este cuerpo —hasta 84 px— un Didone pide cerrar, no abrir. El positivo
+     está calibrado para titulares de --fs-h2 hacia abajo. */
+  letter-spacing: var(--track-display);
+  color: var(--color-texto);
+  text-wrap: balance;
+}
+
+/* El binomio va PEGADO al nombre (gap del titular, no del pliego) porque los
+   dos son el mismo rótulo. La cursiva la pone .nat-cientifico, que es la
+   regla de nomenclatura binomial que ya usa el muro; aquí además sube a la
+   serifa del display y a cuerpo de subtítulo, que es como se compone un
+   binomio en una lámina de historia natural. Cursiva por NOMENCLATURA, no
+   por adorno: ésa es la diferencia con el eyebrow en cursiva que el cliente
+   rechazó en la v17. */
+.nat-endemica__binomio {
+  margin: 0;
+  font-family: var(--fuente-display);
+  font-size: var(--fs-h3);
+  font-weight: var(--peso-display);
+  font-optical-sizing: auto;
+  font-variation-settings: var(--ejes-display-sobrio);
+  line-height: var(--alto-linea-titulo);
+  color: var(--color-acento-texto);
 }
 
 /* ---- La lámina ----------------------------------------------------------- */
 .nat-endemica__lamina {
-  position: relative;
   margin: 0;
   /* Tope de ancho: sin él, a 1280 px la lámina pasa de 26 rem y el retrato
-     compite con el nombre en vez de acompañarlo. */
+     compite con el titular en vez de acompañarlo. */
   max-inline-size: min(100%, 24rem);
 }
 
@@ -897,9 +1022,12 @@
      justo el rasgo por el que se reconoce a la especie. */
   aspect-ratio: 2 / 3;
   border-radius: var(--nat-hoja-b);
-  /* Suelo mientras la imagen perezosa no ha bajado: nunca un rectángulo
-     claro dentro de la banda oscura. */
-  background-color: var(--color-fondo-hondo);
+  /* v18 · Suelo mientras la imagen perezosa no ha bajado. Cambia de color al
+     desaparecer la banda: sobre el papel, un rectángulo de verde bosque hondo
+     sería el elemento más oscuro de la página durante medio segundo y después
+     un salto de luminancia. La salvia —el mismo claro que ya usa la franja de
+     .nat-giro justo encima— entra y sale sin que se note. */
+  background-color: var(--color-fondo-alt);
 }
 
 .nat-endemica__foto {
@@ -913,128 +1041,135 @@
   object-position: 50% 45%;
 }
 
-/* ---- La cartela: el rótulo de referencia ---------------------------------
-   Superficie SÓLIDA y no un velo degradado. Un velo se calibra contra los
-   píxeles que tiene debajo, y aquí el fondo es follaje moteado —luces
-   quemadas entre hojas y sombras muy hondas en el mismo centímetro—: la
-   única manera de garantizar el contraste en cualquier punto es no depender
-   de lo que haya debajo. Además, un rótulo opaco se lee como algo APLICADO
-   a la lámina, que es exactamente el gesto que se busca: un sello de
-   archivo, no un pie de foto.
+/* ---- EL PIE DE FOTO — donde vive ahora la regla de honestidad ------------
+   La v16/v17 estampaban este rótulo ENCIMA de la fotografía: primero como
+   sello opaco, después como cartela fundida a todo el ancho. Las dos
+   decisiones tenían un argumento razonable (un rótulo pegado a la foto no se
+   puede recortar de la foto) y las dos producían el mismo efecto en pantalla:
+   una etiqueta aplicada sobre una imagen, que es el gesto de una interfaz.
+   En una revista, el pie va DEBAJO, en el papel, y nadie lo confunde con
+   otra cosa. Aquí también.
 
-   Va dentro del retrato y no debajo por una razón que no es estética: un
-   rótulo que se puede leer sin la foto es un rótulo que se puede recortar
-   de la foto. Aquí van pegados.
+   Y hay un argumento técnico que juega a favor, no sólo el editorial: sobre
+   papel plano el contraste es un número fijo y medible; sobre follaje moteado
+   —luces quemadas entre hojas y sombras hondas en el mismo centímetro— hay
+   que ir a buscar el peor píxel y blindarlo con una superficie opaca. El sitio
+   más seguro para el texto que NO se puede malinterpretar es el que no
+   depende de ninguna fotografía.
+
+   ORDEN: primero el hecho (en tinta plena, 13,9:1), después la procedencia
+   (en el gris de nota, 6,1:1). Los dos en el mismo cuerpo —--fs-pequeno, con
+   suelo de 13,4 px— porque «visible y legible de un vistazo» no admite letra
+   pequeña. El crédito completo (Félix Uribe, CC BY-SA 2.0, vía Wikimedia)
+   vive en el alt y en el comentario del HTML: es obligación de licencia, no
+   información que el visitante necesite para no equivocarse.
    -------------------------------------------------------------------------- */
-.nat-endemica__cartela {
-  /* Llega la última: la lámina primero, el sello después. */
-  --reveal-delay: var(--dur-media);
-  position: absolute;
-  inset-block-end: var(--esp-md);
-  inset-inline-start: var(--esp-md);
-  max-inline-size: calc(100% - var(--esp-xl));
-  display: flex;
-  flex-direction: column;
-  gap: var(--esp-3xs);
-  padding: var(--esp-2xs) var(--esp-sm);
-  border: 1px solid var(--color-borde-inverso);
-  border-radius: var(--radio-sm);
-  background-color: var(--color-fondo-hondo);
+.nat-endemica__pie {
+  margin-block-start: var(--esp-sm);
+  /* La medida corta es la del pie de foto, no la del cuerpo: un pie que corre
+     más ancho que su fotografía deja de leerse como pie. */
+  max-inline-size: var(--medida-corta);
+  font-size: var(--fs-pequeno);
+  /* Cursiva de PIE DE FOTO, la convención de revista, y en la sans del cuerpo
+     —no en el Bodoni—: una cursiva Didone a 14 px adelgaza los trazos justo
+     donde hace falta que no adelgacen. */
+  font-style: italic;
+  line-height: var(--alto-linea-base);
+  color: var(--color-texto-suave);
 }
 
-.nat-endemica__cartela-clave {
-  font-family: var(--fuente-titulo);
-  font-size: var(--fs-micro);
-  font-weight: var(--peso-medio);
-  text-transform: uppercase;
-  letter-spacing: var(--tracking-rotulo);
-  line-height: var(--alto-linea-titulo);
-  color: var(--color-texto-inverso);
-}
-
-.nat-endemica__cartela-detalle {
-  font-family: var(--fuente-cuerpo);
-  font-size: var(--fs-micro);
-  line-height: var(--alto-linea-titulo);
-  color: var(--color-texto-inverso-suave);
+.nat-endemica__pie-clave {
+  /* Sin negrita y sin caps: lo que la destaca es la TINTA PLENA contra el
+     gris del resto del pie. Un peso fuerte aquí se leería como una alerta y
+     esto no es una alerta: es un dato de procedencia. */
+  color: var(--color-texto);
 }
 
 /* ---- La columna de texto ------------------------------------------------- */
-.nat-endemica__texto {
+.nat-endemica__columna {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  gap: var(--esp-sm);
+  gap: var(--esp-md);
   min-width: 0;
 }
 
-/* La píldora sobre bosque. base.css ya resuelve esta inversión para
-   .seccion--oscura, pero esta banda no es una sección oscura entera —es un
-   bloque oscuro DENTRO de una sección clara—, así que la regla no le llega.
-   Se repite aquí con los mismos valores y los mismos motivos que documenta
-   base.css: sobre bosque el amarillo pasa de relleno a TEXTO (5,6:1),
-   porque mezclar el relleno ámbar de la versión clara con el texto de la
-   oscura se quedaba en 4,1:1 y no pasaba AA. Sin !important: gana por
-   especificidad de contexto, que es el mismo recurso que usa base.css. */
-.nat-endemica__pildora {
-  background-color: rgb(var(--amarillo-rgb) / 0.12);
-  border-color: rgb(var(--amarillo-rgb) / 0.4);
-  color: var(--color-destacado);
+/* LA COLUMNA SE ESTIRA HASTA EL PIE DE LA LÁMINA, y el colofón se va al
+   fondo. Medido en preview a 1440: la lámina mide 36 rem de alto y el texto
+   cinco renglones, así que con la columna pegada arriba quedaban ~600 px de
+   papel muerto debajo del colofón y la mancha se leía descuadrada por abajo
+   —el defecto clásico de una maqueta a dos carriles sin pie común—. Estirando
+   la columna y repartiendo con space-between, el pie de foto y el colofón
+   caen a la misma altura y la página cierra con una línea horizontal
+   imaginaria en vez de con un escalón. El `align-self` es lo que le gana al
+   `align-items: start` del pliego, que sigue mandando en la lámina: la que
+   tiene que arrancar arriba a toda costa es la fotografía. */
+@media (min-width: 62em) {
+  .nat-endemica__columna {
+    align-self: stretch;
+    justify-content: space-between;
+  }
 }
 
-/* EL NOMBRE ES LA PIEZA. Sube de --fs-h2 (donde estaba como ficha) a
-   --fs-h1: en esta banda no compite con ningún otro texto y tiene que
-   pesar más que el retrato que tiene al lado. No declara font-family
-   —hereda Bodoni de base.css— pero sí los ejes y el peso de display, igual
-   que hacía .nat-ficha__titulo. */
-.nat-endemica__nombre {
+/* EL CUERPO. Va a --fs-grande y en tinta plena, no en el gris de entradilla:
+   en un pliego con dos elementos de texto, el que lleva la explicación es el
+   que manda, y aquí carga el hecho que sostiene la pieza entera —qué
+   significa endémica y que es la única del registro—. */
+.nat-endemica__cuerpo {
   margin: 0;
   max-inline-size: var(--medida-corta);
-  font-size: var(--fs-h1);
+  font-size: var(--fs-grande);
+  font-weight: var(--peso-ligero);
+  line-height: var(--alto-linea-base);
+  color: var(--color-texto);
+}
+
+/* CAPITULAR. Exactamente la misma pieza que abre el cuerpo de .nat-apertura
+   (§1) y con la misma pareja de reglas: la aproximación a mano con float
+   primero, y `initial-letter` donde exista, que es la única propiedad que
+   sabe encajar la letra en un número EXACTO de renglones. Es el gesto más
+   reconociblemente EDITORIAL que tiene el sitio, y ésta es la segunda vez que
+   aparece en toda la página: dos usos es un sistema, cinco sería una
+   plantilla. */
+.nat-endemica__cuerpo::first-letter {
+  float: left;
+  margin-inline-end: 0.1em;
+  font-family: var(--fuente-display);
+  font-size: var(--paso-5);
   font-weight: var(--peso-display);
   font-optical-sizing: auto;
   font-variation-settings: var(--ejes-display);
-  line-height: var(--alto-linea-titulo);
-  letter-spacing: var(--tracking-display);
-  color: var(--color-texto-inverso);
-  text-wrap: balance;
+  line-height: 0.74;
+  color: var(--color-acento-texto);
 }
 
-/* El binomio va pegado al nombre —no lleva el --esp-sm del contenedor— porque
-   los dos son el MISMO rótulo: nombre común y nombre científico de la misma
-   ave. La cursiva la pone .nat-cientifico, que es la regla de nomenclatura
-   que ya usa el muro. */
-.nat-endemica__cientifico {
-  margin: calc(var(--esp-sm) * -1) 0 0;
-  font-family: var(--fuente-cuerpo);
-  font-size: var(--fs-cuerpo);
-  font-weight: var(--peso-ligero);
-  color: var(--color-acento-inverso);
+@supports (initial-letter: 2) or (-webkit-initial-letter: 2) {
+  .nat-endemica__cuerpo::first-letter {
+    -webkit-initial-letter: 2;
+    initial-letter: 2;
+    float: none;
+    margin-inline-end: 0.12em;
+    font-size: inherit;
+    line-height: inherit;
+  }
 }
 
-.nat-endemica__entradilla {
+/* EL COLOFÓN. Conserva el papel que tenía la caja de aviso de la v16 —decir
+   que la fotografía propia todavía no existe— y pierde la caja. Lleva la
+   misma raya de firma que .nat-cinta__firma (§5), que es el gesto que el
+   cliente ya aprobó para cerrar el muro del concurso: una nota del editor al
+   pie de la columna, no un recuadro de alerta.
+   El filete de arriba es el único dibujo que queda en toda la columna y va
+   en --color-borde-suave, un punto más callado que el de la entrada del
+   pliego: en una página, el filete de cierre nunca pesa como el de apertura. */
+.nat-endemica__nota {
   margin: 0;
   max-inline-size: var(--medida-corta);
-  font-size: var(--fs-cuerpo);
-  line-height: var(--alto-linea-base);
-  color: var(--color-texto-inverso-suave);
-}
-
-/* El aviso conserva su papel de v10 —el aparte más callado de la pieza, el
-   que reconoce que la foto propia todavía no existe— pero cambia de suelo:
-   sobre bosque, la salvia de --color-fondo-alt sería una caja CLARA dentro
-   de una banda oscura, o sea el elemento más ruidoso en vez del más
-   discreto. --color-superficie-oscura (crema al 7 %) hace el mismo trabajo
-   en el sentido correcto: un punto más claro que el fondo, no un parche. */
-.nat-endemica__aviso {
-  margin: 0;
-  max-inline-size: var(--medida-corta);
-  padding: var(--esp-sm) var(--esp-md);
-  border-radius: var(--nat-hoja-d);
-  background-color: var(--color-superficie-oscura);
+  padding-block-start: var(--esp-sm);
+  border-block-start: 1px solid var(--color-borde-suave);
   font-size: var(--fs-pequeno);
   line-height: var(--alto-linea-base);
-  color: var(--color-texto-inverso-suave);
+  color: var(--color-texto-suave);
 }
 
 /* ==========================================================================

@@ -4625,11 +4625,13 @@
        falta —el arranque, para que la copia cuelgue al ras del margen del
        contenedor— y el otro se anula explícito en vez de dejarlo heredado. */
     margin-inline: var(--planes-sangrado) 0;
-    /* Cuelga por debajo del canto de la banda, igual que en escritorio
-       (§5 ter). El recorrido es menor porque aquí no hay columnas de sobra
-       donde esconder el hueco: la regla de más abajo separa el rótulo lo
-       justo para que el satélite nunca le tape una letra. */
-    margin-block-end: calc(var(--esp-lg) * -1);
+    /* v2 · ENCIMA, no colgando por debajo (pedido del cliente, ya aplicado
+       en escritorio en §5 ter: «quiero todas las funciones que hay en PC
+       que te pedí en celular»). Hasta la v1 un margen negativo la hacía
+       sobresalir del canto de la banda hacia el rótulo de abajo. Ahora se
+       apoya ENTERA dentro de la fotografía, con el mismo aire hasta su
+       borde inferior que en escritorio. */
+    margin-block-end: var(--esp-md);
     border-radius: var(--radio-xs) var(--radio-xl) var(--radio-xs) var(--radio-xl);
     background-color: transparent;
     /* El passe-partout, mismo token que en escritorio (§5 ter): una línea de
@@ -4639,7 +4641,7 @@
        lo es. */
     outline: var(--esp-2xs) solid var(--color-fondo);
     box-shadow: var(--sombra-xl);
-    z-index: var(--z-base);
+    z-index: var(--z-elevado);
   }
 
   /* El velo de legibilidad del §11 protegía el rótulo que vivía encima de
