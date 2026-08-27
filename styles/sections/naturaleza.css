@@ -61,14 +61,12 @@
    concurso pesaba lo mismo que la más movida, y un muro sin jerarquía nivela
    la sección —y el sitio— hacia abajo. Se miraron las 57 una a una y:
 
-     · Las NUEVE de mejor factura (nitidez, pose, luz) cuelgan en
-       .nat-destacadas: una rejilla de doce carriles con UNA pieza dominante
-       a media pared y dos filas de acompañamiento a tres tamaños distintos,
-       colgadas al principio de su fila —no estiradas— y con dos descuelgues
-       para que el canto inferior no haga regla. Cada pieza recorta su
-       fotografía a un encuadre propio (aspect-ratio + object-fit), como se
-       encuadra una copia para enmarcarla.
-     · Las CUARENTA Y OCHO restantes pasan enteras al archivo plegado
+     · Las NUEVE de mejor factura (nitidez, pose, luz) colgaban en
+       .nat-destacadas, una rejilla de doce carriles con UNA pieza dominante.
+       RETIRADA EN v10 por pedido del cliente —en la interfaz de pajareo
+       queda sólo la cinta—; las nueve pasaron al archivo, que vuelve a ser
+       de 57. Ver la nota «LA CURADURÍA: RETIRADA» más abajo.
+     · Las CINCUENTA Y SIETE pasan enteras al archivo plegado
        (.nat-muro), que se vuelve mosaico compacto: más columnas, celda
        pequeña, rótulo en cuerpo micro y el mismo sistema de hojas a escala
        menor (--nat-hoja-mini-*). Es el tratamiento callado de un archivo,
@@ -115,8 +113,25 @@
   --nat-solape: clamp(1.25rem, 7%, 3.25rem);      /* aire para el inserto    */
   --nat-alto-apertura: clamp(26rem, 46vw, 40rem); /* alto de la foto a sangre */
   --nat-alto-habitat: clamp(15rem, 30vw, 19rem);
-  --nat-alto-habitat-ancho: clamp(17rem, 32vw, 23rem);
   --nat-col-video: clamp(15rem, 24vw, 21rem);     /* ancho de la columna 9:16 */
+
+  /* v11/v12 · LA SALA DEL CENSO ---------------------------------------------
+     --nat-alto-diptico es el alto EXACTO de las dos mitades del díptico (la
+     plancha del jardín y la columna de vídeo): el mismo token en las dos, para
+     que no haya forma de que una cuelgue más que la otra. Va en `svh` y no en
+     `vw` —al revés que --nat-alto-habitat, que gobernaba una tarjeta apaisada
+     en una rejilla— porque lo que tiene que llenar es la PANTALLA, no el
+     ancho: a 52svh, el díptico más el título más la nota de procedencia pasan
+     de largo de una pantalla y la sala se lee como sala. Los topes existen
+     para que no se estire en un monitor de 1440 de alto ni se desplome en un
+     portátil bajo.
+     --nat-fs-censo es el cuerpo del título. No hay paso de la escala que
+     sirva: --paso-6 (5,25 rem de tope) está calibrado para un titular sobre
+     papel y aquí el titular es la pieza dominante de una plancha oscura de una
+     pantalla; --fs-portada pertenece al hero de #inicio y repetirlo aquí lo
+     gastaría. Se deriva su propia clamp, entre los dos. */
+  --nat-alto-diptico: clamp(19rem, 52svh, 32rem);
+  --nat-fs-censo: clamp(2.4rem, 1rem + 5.6vw, 5.4rem);
 
   /* LA PIEZA-CIFRA DOMINANTE: el cuerpo del «101» del titular. La fundación
      no tiene ningún paso por encima de --paso-6, y pedir un token nuevo para
@@ -783,16 +798,253 @@
 }
 
 /* ==========================================================================
-   2. LA NOTA AL MARGEN — endémica + migratorias
-   Sin foto a propósito: no existe fotografía propia de la Chachalaca, y
-   ponerle al lado el retrato de otro pájaro sería mentir con una imagen.
+   1 ter. LA ENDÉMICA — la sala de retrato de la Chachalaca Colombiana  (v11)
 
-   v3.1: SIN CAJAS. Eran dos tarjetas con borde, relleno y fondo, del mismo
-   tamaño que todo lo demás de la sección; a esa altura de la página el
-   visitante ya ha visto tres rejillas de tarjetas y ésta no aportaba ninguna
-   jerarquía nueva. Ahora son tres columnas desiguales colgando de un único
-   filete: el rótulo en un carril estrecho, la endémica ancha y el dato
-   migratorio en un carril fino separado por su propio filete vertical.
+   POR QUÉ EXISTE ESTA BANDA. La chachalaca colombiana es la única especie
+   endémica de las 101 del registro: la única que no vive de forma silvestre
+   en ningún otro país del mundo. Hasta la v10 estaba dibujada como un apunte
+   más dentro de la rejilla de tres columnas de .nat-registro, con una foto de
+   11 rem al costado. Un dato que ninguna otra finca del Anillo Vial puede
+   copiar, dibujado igual que una nota al margen, es un dato desperdiciado.
+
+   LA SUPERFICIE. Verde bosque a todo el ancho (--color-fondo-oscuro). Es el
+   color dominante de la marca y en esta sección no se había usado NUNCA: la
+   sección va de crema, salvia y sala oscura (--color-sala, que es el cuarto
+   del concurso y no se toca). Una superficie nueva, usada una sola vez, es
+   la manera más barata que existe de decir «esto es otra cosa» sin inventar
+   un recurso. Y una banda oscura entre dos tramos de crema hace que la
+   fotografía se vea más luminosa, que es el mismo efecto galería que ya
+   buscaban los carbones de tokens.css.
+
+   POR QUÉ LA FOTO NO VA A SANGRE — la regla de honestidad, dibujada.
+   Las dos únicas planchas de la sección que tocan los cuatro cantos del
+   navegador (.nat-portada, .nat-mural) son fotografías TOMADAS EN EL PREDIO.
+   Ésta no lo es: es una imagen de referencia de la misma especie, hecha en
+   Rionegro. Darle el tratamiento reservado a lo propio sería mentir con la
+   maqueta aunque el pie dijera la verdad. Por eso va ENMARCADA, con radio de
+   hoja, apoyada dentro de la banda: se lee como una lámina colgada en una
+   pared, no como una ventana al predio. El rótulo lo dice; la maqueta lo
+   confirma.
+
+   RADIO. --nat-hoja-b. Las dos piezas vecinas en el flujo son la franja del
+   giro (sin radio) y el aviso de .nat-registro (--nat-hoja-d): ninguna
+   coincide, que es la regla del sistema de hojas.
+
+   MOVIMIENTO. Ninguna animación nueva. La sección ya carga cuatro gestos
+   atados al scroll (la deriva de la apertura, el empuje de la portada, la
+   deriva del contorno y la del mural) y un quinto los abarata a todos.
+   Aquí lo que se pide es QUIETUD: es una sala de retrato. Lo único que se
+   mueve es la entrada, con el .reveal de siempre; el velo de la lámina
+   (.reveal--velo, clip-path) descubre el retrato de abajo arriba y la
+   cartela llega LA ÚLTIMA, como un sello que se estampa sobre la lámina ya
+   colgada. Ese retardo no es coreografía: es lo que lleva la mirada al
+   rótulo que tiene que leerse.
+
+   CONTRASTE, todo sobre verde bosque #1e3d2f (o sobre las dos superficies
+   que se componen encima de él). Medido sobre el color plano, no sobre una
+   foto, así que no hay «peor píxel» que perseguir:
+     · nombre y cartela-clave, crema #ede6e2 sobre bosque ...... 9,6:1  (AAA)
+     · entradilla, crema al 78 % sobre bosque .................. 6,5:1  (AA)
+     · científico, coral claro #f0a072 sobre bosque ............ 5,7:1  (AA)
+       (el oliva de .nat-ficha__cientifico NO sirve aquí: sobre bosque se
+        queda muy por debajo de AA. Cambia de color al cambiar de suelo,
+        igual que ya hace .nat-obra__autor sobre la sala.)
+     · aviso, crema al 78 % sobre --color-superficie-oscura
+       (crema al 7 % compuesta sobre bosque) .................... 5,6:1  (AA)
+     · cartela-detalle, crema al 78 % sobre --color-fondo-hondo . 8,1:1  (AAA)
+   ========================================================================== */
+.nat-endemica {
+  margin-block: var(--esp-seccion) 0;
+  padding-block: var(--esp-seccion);
+  /* A sangre por los dos lados sin trucos de vw: es hijo directo de la
+     <section>, así que ya nace con el ancho de la página. El .contenedor de
+     dentro devuelve el texto a la línea vertical del resto. */
+  background-color: var(--color-fondo-oscuro);
+}
+
+.nat-endemica__cuerpo {
+  display: grid;
+  gap: var(--gap-lg);
+  align-items: center;
+}
+
+@media (min-width: 62em) {
+  .nat-endemica__cuerpo {
+    /* DESIGUAL, y a favor del texto. El retrato es vertical (1010×1570) y con
+       más de un tercio del ancho se convierte en una torre que aplasta el
+       nombre; el nombre es la pieza. */
+    grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.2fr);
+    gap: var(--gap-lg);
+  }
+}
+
+/* ---- La lámina ----------------------------------------------------------- */
+.nat-endemica__lamina {
+  position: relative;
+  margin: 0;
+  /* Tope de ancho: sin él, a 1280 px la lámina pasa de 26 rem y el retrato
+     compite con el nombre en vez de acompañarlo. */
+  max-inline-size: min(100%, 24rem);
+}
+
+.nat-endemica__marco {
+  position: relative;
+  overflow: hidden;
+  /* 2/3 es casi la proporción nativa del archivo tal como lo pinta el
+     navegador (1010×1570 = 0,643): enseña el 96 % del alto y el 100 % del
+     ancho, o sea que el ave entra entera —cresta arriba, cola larga abajo—
+     con recorte casi nulo. Un 4/5 o un 1/1 le cortarían la cola, que es
+     justo el rasgo por el que se reconoce a la especie. */
+  aspect-ratio: 2 / 3;
+  border-radius: var(--nat-hoja-b);
+  /* Suelo mientras la imagen perezosa no ha bajado: nunca un rectángulo
+     claro dentro de la banda oscura. */
+  background-color: var(--color-fondo-hondo);
+}
+
+.nat-endemica__foto {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  /* El 4 % que sobra se recorta por abajo, que es donde sólo hay rama y
+     follaje: la cabeza conserva su aire. */
+  object-position: 50% 45%;
+}
+
+/* ---- La cartela: el rótulo de referencia ---------------------------------
+   Superficie SÓLIDA y no un velo degradado. Un velo se calibra contra los
+   píxeles que tiene debajo, y aquí el fondo es follaje moteado —luces
+   quemadas entre hojas y sombras muy hondas en el mismo centímetro—: la
+   única manera de garantizar el contraste en cualquier punto es no depender
+   de lo que haya debajo. Además, un rótulo opaco se lee como algo APLICADO
+   a la lámina, que es exactamente el gesto que se busca: un sello de
+   archivo, no un pie de foto.
+
+   Va dentro del retrato y no debajo por una razón que no es estética: un
+   rótulo que se puede leer sin la foto es un rótulo que se puede recortar
+   de la foto. Aquí van pegados.
+   -------------------------------------------------------------------------- */
+.nat-endemica__cartela {
+  /* Llega la última: la lámina primero, el sello después. */
+  --reveal-delay: var(--dur-media);
+  position: absolute;
+  inset-block-end: var(--esp-md);
+  inset-inline-start: var(--esp-md);
+  max-inline-size: calc(100% - var(--esp-xl));
+  display: flex;
+  flex-direction: column;
+  gap: var(--esp-3xs);
+  padding: var(--esp-2xs) var(--esp-sm);
+  border: 1px solid var(--color-borde-inverso);
+  border-radius: var(--radio-sm);
+  background-color: var(--color-fondo-hondo);
+}
+
+.nat-endemica__cartela-clave {
+  font-family: var(--fuente-titulo);
+  font-size: var(--fs-micro);
+  font-weight: var(--peso-medio);
+  text-transform: uppercase;
+  letter-spacing: var(--tracking-rotulo);
+  line-height: var(--alto-linea-titulo);
+  color: var(--color-texto-inverso);
+}
+
+.nat-endemica__cartela-detalle {
+  font-family: var(--fuente-cuerpo);
+  font-size: var(--fs-micro);
+  line-height: var(--alto-linea-titulo);
+  color: var(--color-texto-inverso-suave);
+}
+
+/* ---- La columna de texto ------------------------------------------------- */
+.nat-endemica__texto {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--esp-sm);
+  min-width: 0;
+}
+
+/* La píldora sobre bosque. base.css ya resuelve esta inversión para
+   .seccion--oscura, pero esta banda no es una sección oscura entera —es un
+   bloque oscuro DENTRO de una sección clara—, así que la regla no le llega.
+   Se repite aquí con los mismos valores y los mismos motivos que documenta
+   base.css: sobre bosque el amarillo pasa de relleno a TEXTO (5,6:1),
+   porque mezclar el relleno ámbar de la versión clara con el texto de la
+   oscura se quedaba en 4,1:1 y no pasaba AA. Sin !important: gana por
+   especificidad de contexto, que es el mismo recurso que usa base.css. */
+.nat-endemica__pildora {
+  background-color: rgb(var(--amarillo-rgb) / 0.12);
+  border-color: rgb(var(--amarillo-rgb) / 0.4);
+  color: var(--color-destacado);
+}
+
+/* EL NOMBRE ES LA PIEZA. Sube de --fs-h2 (donde estaba como ficha) a
+   --fs-h1: en esta banda no compite con ningún otro texto y tiene que
+   pesar más que el retrato que tiene al lado. No declara font-family
+   —hereda Bodoni de base.css— pero sí los ejes y el peso de display, igual
+   que hacía .nat-ficha__titulo. */
+.nat-endemica__nombre {
+  margin: 0;
+  max-inline-size: var(--medida-corta);
+  font-size: var(--fs-h1);
+  font-weight: var(--peso-display);
+  font-optical-sizing: auto;
+  font-variation-settings: var(--ejes-display);
+  line-height: var(--alto-linea-titulo);
+  letter-spacing: var(--tracking-display);
+  color: var(--color-texto-inverso);
+  text-wrap: balance;
+}
+
+/* El binomio va pegado al nombre —no lleva el --esp-sm del contenedor— porque
+   los dos son el MISMO rótulo: nombre común y nombre científico de la misma
+   ave. La cursiva la pone .nat-cientifico, que es la regla de nomenclatura
+   que ya usa el muro. */
+.nat-endemica__cientifico {
+  margin: calc(var(--esp-sm) * -1) 0 0;
+  font-family: var(--fuente-cuerpo);
+  font-size: var(--fs-cuerpo);
+  font-weight: var(--peso-ligero);
+  color: var(--color-acento-inverso);
+}
+
+.nat-endemica__entradilla {
+  margin: 0;
+  max-inline-size: var(--medida-corta);
+  font-size: var(--fs-cuerpo);
+  line-height: var(--alto-linea-base);
+  color: var(--color-texto-inverso-suave);
+}
+
+/* El aviso conserva su papel de v10 —el aparte más callado de la pieza, el
+   que reconoce que la foto propia todavía no existe— pero cambia de suelo:
+   sobre bosque, la salvia de --color-fondo-alt sería una caja CLARA dentro
+   de una banda oscura, o sea el elemento más ruidoso en vez del más
+   discreto. --color-superficie-oscura (crema al 7 %) hace el mismo trabajo
+   en el sentido correcto: un punto más claro que el fondo, no un parche. */
+.nat-endemica__aviso {
+  margin: 0;
+  max-inline-size: var(--medida-corta);
+  padding: var(--esp-sm) var(--esp-md);
+  border-radius: var(--nat-hoja-d);
+  background-color: var(--color-superficie-oscura);
+  font-size: var(--fs-pequeno);
+  line-height: var(--alto-linea-base);
+  color: var(--color-texto-inverso-suave);
+}
+
+/* ==========================================================================
+   2. LA NOTA AL MARGEN — el apunte de las migratorias
+   v11 · la endémica se mudó a su propia banda (§1 ter) y este bloque se
+   queda con un solo apunte. Pasa de tres columnas desiguales a dos: el
+   rótulo en el carril estrecho y el dato migratorio en su carril fino,
+   separado por su propio filete vertical. El carril central desaparece con
+   su inquilina; ensancharlos para «rellenar» habría convertido una nota al
+   margen en un bloque de sección, que es justo lo que no es.
    ========================================================================== */
 .nat-registro {
   display: grid;
@@ -815,10 +1067,15 @@
 
 @media (min-width: 62em) {
   .nat-registro {
+    /* v11 · dos carriles, no tres. Los anchos relativos del rótulo y del dato
+       se conservan tal cual estaban (0,55 y 0,85); lo que se retira es el
+       carril central de 1,45fr, que era el de la endémica. El hueco que
+       queda a la derecha es deliberado: una nota al margen que llega hasta el
+       borde deja de leerse como nota al margen. */
     grid-template-columns:
       minmax(0, 0.55fr)
-      minmax(0, 1.45fr)
-      minmax(0, 0.85fr);
+      minmax(0, 0.85fr)
+      minmax(0, 1.45fr);
     align-items: start;
     gap: var(--gap-lg);
     /* v9 · más aire arriba y abajo: el apunte se lee como INTERLUDIO entre
@@ -878,7 +1135,14 @@
   }
 }
 
-/* v9 · «Chachalaca Colombiana» sube a --fs-h2 con el traje de display: en un
+/* OJO ANTES DE BORRAR NADA DE AQUÍ ABAJO. Desde la v11 la versión castellana
+   ya no usa .nat-ficha__titulo, __cientifico, __referencia, __referencia-pie
+   ni __aviso: la endémica se mudó a .nat-endemica (§1 ter). Pero en/index.html
+   —que se mantiene a mano, no se ensambla desde sections/— SÍ los sigue
+   consumiendo. Estas reglas se quedan hasta que la página en inglés se porte
+   al módulo nuevo; retirarlas antes deja la ficha inglesa sin tipografía.
+
+   v9 · «Chachalaca Colombiana» sube a --fs-h2 con el traje de display: en un
    bloque sin fotografía, el nombre propio ES la pieza — tipografía como
    protagonista, la convención del cuaderno de campo. El científico baja a
    --fs-pequeno para acompañar sin competir. */
@@ -908,6 +1172,35 @@
   color: var(--color-texto-suave);
 }
 
+/* v10 · LA FOTO DE REFERENCIA. Chica y contenida a propósito: esta ficha
+   sigue siendo tipografía primero (--nat-ficha__titulo manda), la foto es
+   apoyo, no protagonista —si creciera al ancho completo competiría con las
+   fotografías propias y acreditadas del muro de arriba, que sí son del
+   predio—. Radio de hoja para que hable el mismo idioma visual que el resto
+   de la sección, no una caja nueva. */
+.nat-ficha__referencia {
+  margin: 0;
+  inline-size: min(100%, 11rem);
+}
+
+.nat-ficha__referencia img {
+  display: block;
+  inline-size: 100%;
+  block-size: auto;
+  border-radius: var(--nat-hoja-c);
+}
+
+/* El rótulo va en itálica y --fs-micro: se lee como una nota al pie de
+   fotografía de archivo, no como el crédito de autor propio que llevan las
+   fichas del muro (esas van en romana, tamaño normal). La distinción
+   tipográfica es a propósito: dos gestos distintos para dos cosas distintas. */
+.nat-ficha__referencia-pie {
+  margin-top: var(--esp-3xs);
+  font-size: var(--fs-micro);
+  font-style: italic;
+  color: var(--color-texto-suave);
+}
+
 /* Aclaración honesta: el muro todavía no la tiene.
    Deja de ser un filete recto y pasa a ser la única superficie tintada del
    bloque, con radio de hoja. Sigue siendo el elemento más callado de la
@@ -932,96 +1225,202 @@
 }
 
 /* ==========================================================================
-   3. LA VIDA — el censo a la izquierda, la columna de vídeo a sangre derecha
+   3. LA SALA DEL CENSO — «Aquí no solo hay aves»  (v12)
+
+   QUÉ ERA Y QUÉ ES. Hasta la v10 este movimiento era una rejilla de cuatro
+   tarjetas apaisadas sobre la crema, con el título en cuerpo de subtítulo
+   (--fs-h3): el bloque que publica el censo del predio pesaba en pantalla
+   menos que la cartela de una fotografía. Ahora es una SALA: plancha a sangre
+   por los cuatro cantos, oscura, de una pantalla de alto como mínimo, con el
+   título en escala propia y la cifra como protagonista.
+
+   POR QUÉ NO ES UNA ESCENA POR SCROLL. Se consideró y se descartó con motivo:
+   esta sección ya clava una escena (.nat-cinta, 200svh de pista) y la sección
+   anterior otra (#planes). Una tercera pista pegada a las otras dos es
+   exactamente la queja que el cliente ya puso dos veces —«se demoran mucho en
+   salir deslizando»— y que obligó a ACORTAR las dos existentes (ver el bloque
+   LA CINTA de este archivo y planes.css §3). El efecto de pantalla completa
+   aquí lo da la forma: sangrado, sala oscura, 100svh y tipografía descomunal.
+   Cero JavaScript nuevo; cero scroll secuestrado.
+
+   v12 · DE CUATRO TARJETAS A UN DÍPTICO. Pedido directo del cliente: se
+   retiran enteras las tres tarjetas de «18 · anfibios», «23 · reptiles» y
+   «3 · mamíferos». No ocultas, no plegadas: borradas del marcado y del hecho
+   correspondiente en herramientas/validar.js y validar.py. El motivo es el que
+   ya obligaba a poner un aviso debajo de ellas: de esas tres cifras no existe
+   en ningún archivo del proyecto el dato de QUÉ especies son, así que en
+   pantalla eran tres números sueltos. Se conserva «El jardín · 347 · especies
+   de plantas · 20 familias botánicas», que sí tiene respaldo documental.
+
+   Lo que queda se recompone como DÍPTICO y no como rejilla descabalada:
+     · Dos piezas, dos pesos. La plancha del jardín se lleva el ancho que sobra
+       (1fr) y el vídeo su columna fija de 9:16 — dos tercios contra un tercio.
+       Dos mitades iguales serían un par; desiguales, una composición.
+     · MISMA ALTURA EXACTA, del mismo token (--nat-alto-diptico) en las dos.
+       Una colgando más que la otra se leería como el resto de una rejilla.
+     · La plancha del jardín pasa de vertical a APAISADA: la fotografía sigue
+       siendo vertical (900×1200), pero la pieza ocupa ahora dos tercios del
+       ancho de la página y el encuadre lo resuelve --foco-medio.
+
+   SE CONSERVA EL SANGRADO POR LA DERECHA, que es la identidad declarada de
+   este movimiento en la cabecera del fragmento y el contrapeso de .nat-apertura
+   (que sangra por la izquierda): el díptico arranca en el margen de página y
+   se sale por el canto derecho con la columna de vídeo. El FONDO de la sala sí
+   sangra por los cuatro; las dos piezas, no.
+
+   CONTRASTE, MEDIDO CONTRA LA SALA REAL (--color-sala = #0b0d0c):
+     crema #ede6e2 (--color-texto-inverso)          15,8:1   AAA
+     crema al 78 % (--color-texto-inverso-suave)     9,6:1   AAA
+     amarillo #e4cb3a (--color-destacado)           12,1:1   AAA
+     coral claro #f0a072 (--color-acento-inverso)    9,3:1   AAA
+   Los cuatro por encima de AA con margen ancho: el mismo cuarto oscuro de la
+   cinta es también el fondo más generoso que tiene la sección. El texto que va
+   ENCIMA DE FOTOGRAFÍA no depende de estos números: lo sigue sosteniendo el
+   velo de bosque hondo del ::after de la plancha (88–94 % de alfa donde cae
+   el texto, o sea crema por encima de 8:1 y amarillo por encima de 6:1 sea
+   cual sea la foto de debajo). Ese velo no se ha tocado.
    ========================================================================== */
 .nat-vida {
+  /* A sangre por los cuatro cantos: la sección no lleva relleno lateral —lo
+     ponen .contenedor o --nat-margen, según el bloque—, así que basta con no
+     poner ninguno aquí. El margen de página lo reponen los hijos. */
   display: grid;
+  align-content: center;
   gap: var(--gap-lg);
-  margin-top: var(--esp-seccion);
-  padding-inline: var(--nat-margen);
+  min-block-size: 100svh;
+  margin-block: var(--esp-seccion);
+  padding-block: var(--esp-seccion);
+  /* La misma sala que la cinta del concurso, y a propósito: la sección tiene
+     ya un cuarto oscuro y no necesita un segundo. Ver §LA CINTA. */
+  background-color: var(--color-sala);
 }
 
-/* El sangrado entra tarde (72em) porque por debajo de ese ancho la columna de
-   vídeo dejaría al censo menos de 32rem y sus fichas de ambiente se
-   estrangulan. Hasta ahí, apilado: censo y después vídeo. */
-@media (min-width: 72em) {
-  .nat-vida {
-    grid-template-columns: minmax(0, 1fr) var(--nat-col-video);
-    align-items: start;
-    gap: var(--gap-lg);
-    padding-inline-end: 0;
-  }
-}
-
+/* ---- La cabecera de la sala ---------------------------------------------- */
 .nat-censo {
+  display: grid;
+  gap: var(--gap);
   min-width: 0;
 }
 
-.nat-censo__titulo {
-  margin: 0 0 var(--gap);
-}
-
-.nat-habitats {
+/* OJO CON EL MARGEN DE PÁGINA: --nat-margen va de MARGEN y no de relleno.
+   Puesto como padding, el ancho máximo de la caja incluiría los dos márgenes
+   de página (120 px por lado a 1440) y la medida de lectura real se quedaría
+   en la mitad de lo declarado. Como margen, --ancho-md es lo que dice ser: el
+   ancho del texto. El valor calculado es idéntico —el porcentaje se resuelve
+   contra el mismo bloque contenedor en los dos casos—, cambia dónde cae. */
+.nat-censo__cabecera {
   display: grid;
-  gap: var(--gap);
+  gap: var(--esp-sm);
+  max-inline-size: var(--ancho-md);
+  margin-inline: var(--nat-margen);
+}
+
+/* Coral claro, no terracota: sobre la sala el terracota de fondo claro se
+   apaga. Es el mismo token que ya usa el rótulo de la cinta. */
+.nat-censo__cabecera .eyebrow {
+  color: var(--color-acento-inverso);
+}
+
+/* El título deja de llevar .titulo-seccion —cuyo cuerpo tope es --fs-h2— y
+   pasa a declarar la familia display entera con su propia clamp. Interlínea
+   apretada porque a 5,4 rem la interlínea de titular abre demasiado. */
+.nat-censo__titulo {
   margin: 0;
-  padding: 0;
-  list-style: none;
+  /* No se le fija ancho propio: manda el --ancho-md de la cabecera. En un
+     monitor ancho la frase entra en un solo renglón de 5,4 rem cruzando la
+     sala, que es el gesto que se busca; en cuanto no cabe, `text-wrap:
+     balance` la parte en dos renglones parejos en vez de dejar «aves» sola. */
+  font-family: var(--fuente-display);
+  font-size: var(--nat-fs-censo);
+  font-weight: var(--peso-display);
+  font-optical-sizing: auto;
+  font-variation-settings: var(--ejes-display);
+  line-height: var(--alto-linea-apretado);
+  letter-spacing: var(--tracking-display);
+  text-wrap: balance;
+  color: var(--color-texto-inverso);
 }
 
-@media (min-width: 40em) {
-  .nat-habitats {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
+.nat-censo__entradilla {
+  margin: 0;
+  max-inline-size: var(--medida-corta);
+  font-size: var(--fs-grande);
+  line-height: var(--alto-linea-base);
+  color: var(--color-texto-inverso-suave);
+}
+
+/* EL BARRIDO DEL TÍTULO — la firma de movimiento de este bloque.
+   La sección tiene la regla de que nada se mueve al mismo compás: la foto de
+   la apertura baja, la del mural sube, el contorno «Pajareo» deriva en
+   diagonal y la banda de la cinta se despliega con clip-path atado al JS.
+   Aquí el gesto es distinto de los cuatro: el título se DESCUBRE de abajo
+   arriba, como se lee, recortado por clip-path y sin que nada más se mueva.
+   Se anima clip-path y transform: compositor puro, cero JavaScript.
+
+   El título NO lleva .reveal, y es deliberado: dos motores sobre el mismo
+   elemento se pisan (aquí serían transform contra transform). El escalonado
+   de la cabecera lo llevan el eyebrow y la entradilla, que sí son .reveal.
+
+   Estado final horneado en la propia regla de arriba: si el navegador no
+   entiende animation-timeline, o si se pide menos movimiento, el título sale
+   escrito y quieto desde el primer pintado. Nunca a medias, nunca invisible.
+   Va envuelto en prefers-reduced-motion porque una animación de línea de
+   tiempo de scroll IGNORA animation-duration y la anulación global de
+   base.css no la alcanzaría. */
+@keyframes nat-censo-barrido {
+  from {
+    clip-path: inset(0 0 100% 0);
+    transform: translate3d(0, 0.14em, 0);
   }
 
-  .nat-habitat--ancho {
-    grid-column: span 2;
+  to {
+    clip-path: inset(0 0 0 0);
+    transform: translate3d(0, 0, 0);
   }
 }
 
-/* A dos columnas sobran cuatro fichas para tres huecos y la última se quedaba
-   sola ocupando media fila, con el otro medio vacío: el hueco leía como un
-   error de maquetación. Se le deja cruzar entera y el censo pasa a ser
-   ancha-dos-ancha, que además alterna el ritmo en vez de repetirlo. */
-@media (min-width: 40em) and (max-width: 77.99em) {
-  .nat-habitat:nth-child(4) {
-    grid-column: span 2;
+@media (prefers-reduced-motion: no-preference) {
+  @supports (animation-timeline: view()) {
+    .nat-censo__titulo {
+      animation: nat-censo-barrido linear both;
+      animation-timeline: view();
+      /* Cierra dentro de la ENTRADA, no a lo largo de todo el recorrido: el
+         título tiene que quedar entero mucho antes de que la sala llegue al
+         centro de la pantalla, o se leería a medias justo cuando se mira. */
+      animation-range: entry 12% entry 78%;
+    }
   }
 }
 
-/* El paso a tres columnas se retrasa de 64em a 78em: con la columna de vídeo
-   a la derecha, el censo mide bastante menos que la página y a 64em las tres
-   fichas caían por debajo de 15rem cada una. */
-@media (min-width: 78em) {
-  .nat-habitats {
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-    /* SIN `stretch`. Éste es el cambio que desmonta la tabla: por defecto las
-       tres fichas de la segunda fila se igualaban al alto de la más alta y
-       salían tres rectángulos idénticos en fila, que es exactamente el aspecto
-       de una ficha técnica. Alineadas al principio, cada una puede medir lo
-       suyo y colgar a su altura. */
+/* ---- EL DÍPTICO: la plancha del jardín + la columna de vídeo --------------
+   v12 · De cuatro planchas a dos, por pedido directo del cliente (se retiran
+   las tarjetas de 18 anfibios, 23 reptiles y 3 mamíferos: de esas cifras no
+   existe en ningún archivo del proyecto el dato de qué especies son). Lo que
+   queda NO es la rejilla de antes con tres celdas vacías: se recompone como
+   díptico, que es una figura cerrada y no un resto.
+
+   Las dos reglas del díptico:
+     · MISMA ALTURA. Las dos piezas miden --nat-alto-diptico exactas; si una
+       colgara más que la otra se leería como la sobra de una rejilla.
+     · PESOS DISTINTOS. La plancha del jardín se lleva el ancho que sobra
+       (1fr) y el vídeo su columna fija de 9:16 — dos tercios contra un
+       tercio. Dos piezas iguales serían un par; desiguales, una composición.
+   -------------------------------------------------------------------------- */
+.nat-censo__corte {
+  display: grid;
+  gap: var(--gap-sm);
+  padding-inline: var(--nat-margen);
+}
+
+/* El sangrado y las dos columnas entran a 62em —diez menos que en la v11—
+   porque ahora sólo hay dos piezas: donde antes cuatro planchas más el vídeo
+   se estrangulaban por debajo de 72em, un díptico respira de sobra. */
+@media (min-width: 62em) {
+  .nat-censo__corte {
+    grid-template-columns: minmax(0, 1fr) var(--nat-col-video);
     align-items: start;
-  }
-
-  .nat-habitat--ancho {
-    grid-column: span 3;
-  }
-
-  /* Tres alturas distintas y dos descuelgues: el bloque deja de ser una banda
-     recta y pasa a ser una composición colgada. Los desfases son múltiplos
-     del propio ritmo de la rejilla (--gap-sm / --gap-lg), no números sueltos,
-     así que se mueven con ella al cambiar el ancho. */
-  .nat-habitat:nth-child(2) {
-    min-height: calc(var(--nat-alto-habitat) * 1.22);
-  }
-
-  .nat-habitat:nth-child(3) {
-    margin-top: var(--gap-lg);
-  }
-
-  .nat-habitat:nth-child(4) {
-    min-height: calc(var(--nat-alto-habitat) * 1.1);
-    margin-top: var(--gap-sm);
+    /* A SANGRE POR LA DERECHA: el vídeo se sale por el canto. */
+    padding-inline-end: 0;
   }
 }
 
@@ -1031,36 +1430,25 @@
   align-items: flex-end;
   min-height: var(--nat-alto-habitat);
   overflow: hidden;
-  /* Los cuatro ambientes siguen siendo fotografía con el dato encima, no
-     tarjetas: sin sombra, y el límite contra la crema lo sigue dando el velo
-     de bosque hondo del ::after. Lo que cambia en v4 es la esquina. Cuatro
-     rectángulos de radio cero, del mismo alto y en fila, se leen como las
-     cuatro celdas de una tabla —y esto es justamente lo que NO puede parecer
-     una tabla—. Cada ficha lleva ahora una hoja distinta; las cuatro se
-     asignan una a una porque son cuatro y el orden importa: la ancha abre
-     hacia dentro y las tres pequeñas alternan la diagonal. */
+  /* Sigue siendo fotografía con el dato encima, no una tarjeta: sin sombra, y
+     el límite contra la sala lo da el velo de bosque hondo del ::after. La
+     esquina es una HOJA del sistema de la sección —radio asimétrico, dos
+     esquinas abiertas y dos cerradas—; la del vídeo abre por la diagonal
+     contraria para que las dos piezas del díptico no compartan silueta. */
   border-radius: var(--nat-hoja-c);
   box-shadow: none;
   isolation: isolate;
+  margin: 0;
 }
 
-.nat-habitat:nth-child(2) {
-  border-radius: var(--nat-hoja-a);
-}
-
-.nat-habitat:nth-child(3) {
-  border-radius: var(--nat-hoja-b);
-}
-
-.nat-habitat:nth-child(4) {
-  border-radius: var(--nat-hoja-d);
-}
-
-/* El jardín (347 plantas) es el dato grande del censo y ocupa toda la fila:
-   se le da más alto que a los otros tres para que la diferencia se vea antes
-   de leer la cifra. */
-.nat-habitat--ancho {
-  min-height: var(--nat-alto-habitat-ancho);
+/* La plancha del jardín es apaisada y no vertical. La fotografía original sí
+   es vertical (900×1200), pero la pieza ocupa ahora dos tercios del ancho de
+   la página: en vertical habría que estirarla o dejar la mitad del díptico
+   vacía. El recorte lo gobierna --foco-medio, más abajo. */
+@media (min-width: 62em) {
+  .nat-habitat--mayor {
+    min-height: var(--nat-alto-diptico);
+  }
 }
 
 .nat-habitat__foto {
@@ -1091,19 +1479,12 @@
   );
 }
 
-/* Encuadre: las fotos son verticales y la tarjeta es apaisada, así que hay
-   que decirle a cada una qué franja del original tiene que enseñar. Sin
-   esto el recorte por el centro deja fuera justo lo que nombra el rótulo. */
-.nat-habitat--foco-alto .nat-habitat__foto {
-  object-position: center 25%;
-}
-
+/* Encuadre: la foto es vertical y la plancha apaisada, así que hay que decirle
+   qué franja del original enseñar. Al 58 % caen las losas del camino, las
+   bromelias y los bastones del emperador, que es exactamente lo que el rótulo
+   nombra; recortada por el centro se quedaría en el cielo entre las copas. */
 .nat-habitat--foco-medio .nat-habitat__foto {
   object-position: center 58%;
-}
-
-.nat-habitat--foco-bajo .nat-habitat__foto {
-  object-position: center 72%;
 }
 
 .nat-habitat:hover .nat-habitat__foto {
@@ -1121,10 +1502,12 @@
   color: var(--color-texto-inverso);
 }
 
-@media (min-width: 40em) {
-  .nat-habitat--ancho .nat-habitat__cuerpo {
+/* Ya no compite con tres planchas al lado: la de ahora es la única pieza con
+   texto del díptico y puede permitirse el aire de una cartela. */
+@media (min-width: 62em) {
+  .nat-habitat__cuerpo {
     padding: var(--esp-lg);
-    max-width: var(--ancho-xs);
+    max-inline-size: var(--ancho-xs);
   }
 }
 
@@ -1143,10 +1526,16 @@
   color: var(--color-texto-inverso-suave);
 }
 
+/* v12 · La cifra sube al paso más alto de la escala (--paso-6, hasta 5,25 rem):
+   es la ÚNICA que queda en la sala y la que el título anuncia. En la v10 se
+   leía a --paso-5 y competía con otras tres; ahora no compite con ninguna, y
+   una sala de una pantalla con un número mediano en una esquina sería una sala
+   a medio ocupar. No se le da --nat-fs-cifra-dominante: ése es el cuerpo del
+   «101» del titular de la apertura y repetirlo aquí lo gastaría. */
 .nat-habitat__cifra {
   margin: 0;
   font-family: var(--fuente-display);
-  font-size: var(--paso-4);
+  font-size: var(--paso-6);
   font-weight: var(--peso-fuerte);
   /* El 347 lo cuenta js/app.js al entrar en pantalla; con cifras de ancho
      fijo el número no baila mientras sube. */
@@ -1158,63 +1547,53 @@
   color: var(--color-destacado);
 }
 
-.nat-habitat--ancho .nat-habitat__cifra {
-  font-size: var(--paso-5);
-}
-
 .nat-habitat__etiqueta {
   margin: 0;
-  font-family: var(--fuente-titulo);
   font-size: var(--fs-pequeno);
+  font-family: var(--fuente-titulo);
   color: var(--color-texto-inverso);
 }
 
+/* v12 · SE RETIRA EL REVELADO POR HOVER de este párrafo. Se escondió en la v9
+   por un motivo que ya no existe: eran cuatro planchas con cuatro párrafos
+   compitiendo sobre cuatro fotos. Ahora es la única prosa de la sala, y
+   esconder la única línea descriptiva detrás de un gesto que no existe en
+   táctil sería esconderla y ya. Queda siempre visible, en las dos entradas. */
 .nat-habitat__texto {
   margin: 0;
+  max-inline-size: var(--medida-corta);
   font-size: var(--fs-micro);
   line-height: var(--alto-linea-base);
   color: var(--color-texto-inverso-suave);
 }
-
-/* v9 · En reposo la ficha queda en tres datos limpios (lugar + cifra +
-   etiqueta) y el párrafo descriptivo se revela al pasar por encima o al
-   enfocar: menos texto compitiendo sobre foto. SOLO donde existe hover real
-   y no se pidió menos movimiento — en táctil (hover: none) y bajo
-   prefers-reduced-motion el párrafo queda SIEMPRE visible, porque el estado
-   por defecto de arriba es el visible: nada se esconde si esta media query
-   no aplica. Estado inicial horneado en CSS, cero JS; solo opacity y la
-   propiedad `translate` (no pisa el transform de nadie). */
-@media (hover: hover) and (prefers-reduced-motion: no-preference) {
-  .nat-habitat__texto {
-    opacity: 0;
-    translate: 0 var(--desplazamiento-linea);
-    transition:
-      opacity var(--transicion),
-      translate var(--transicion);
-  }
-
-  .nat-habitat:hover .nat-habitat__texto,
-  .nat-habitat:focus-within .nat-habitat__texto {
-    opacity: 1;
-    translate: 0 0;
-  }
-}
-
+/* La aclaración CIERRA la sala: da la PROCEDENCIA del 347 —el inventario
+   biológico del predio— y por eso no puede faltar. Cambia de gris de fondo
+   claro a crema rebajado (9,6:1 sobre la sala): .nota está escrita para papel
+   y aquí el papel es negro. */
 .nat-censo__aclaracion {
-  margin-top: var(--esp-md);
-  max-width: var(--medida);
+  /* Margen y no relleno, por el mismo motivo que la cabecera: como relleno,
+     los 68ch de --medida se los comían los dos márgenes de página y la nota
+     se leía a 30ch, en una columna estrecha contra el canto izquierdo. */
+  margin: 0 var(--nat-margen);
+  max-inline-size: var(--medida);
+  color: var(--color-texto-inverso-suave);
 }
 
-/* ---- LA COLUMNA DE VÍDEO -------------------------------------------------
+/* ---- LA QUINTA PLANCHA: LA COLUMNA DE VÍDEO ------------------------------
    Metraje propio, vertical (720×1280) y sin pista de audio. No es un
    reproductor: no lleva controles, no lleva icono de play y no se puede
    pausar a mano. Es una fotografía que respira, y por eso se trata con las
-   mismas reglas que una foto: esquina viva, sin sombra y pie debajo.
+   mismas reglas que la plancha del jardín que tiene al lado.
 
    El width/height del atributo reserva la caja antes de que baje un byte, así
    que el layout no salta. El póster es el suelo: si la red falla, si el
    navegador bloquea la reproducción automática o si el visitante pide menos
    movimiento, lo que queda es esa imagen fija y la composición no cambia.
+
+   v11 · SE LE RETIRA EL `position: sticky`. Tenía sentido cuando el vídeo
+   acompañaba a un censo largo que se recorría scrolleando; ahora es la mitad
+   de un díptico que se ve entero de un vistazo, y una mitad que se queda
+   clavada mientras la otra se va sería la pieza rota de la composición.
    -------------------------------------------------------------------------- */
 .nat-video {
   min-width: 0;
@@ -1224,13 +1603,9 @@
   width: min(100%, 17rem);
 }
 
-@media (min-width: 72em) {
+@media (min-width: 62em) {
   .nat-video {
     width: auto;
-    /* Se queda a la vista mientras se recorre el censo, que es largo. No es
-       una animación: es posición. Con el header fijo descontado. */
-    position: sticky;
-    top: calc(var(--alto-header) + var(--esp-md));
   }
 }
 
@@ -1238,9 +1613,9 @@
   display: block;
   width: 100%;
   height: auto;
-  /* La columna de vídeo cae al lado de la ficha 4, que lleva --nat-hoja-d:
-     ésta abre por la diagonal contraria para que las dos piezas vecinas no
-     compartan silueta. Sigue sin sombra: no está encima de nada. */
+  /* La plancha del jardín lleva --nat-hoja-c; ésta abre por la diagonal
+     contraria para que las dos mitades del díptico no compartan silueta.
+     Sigue sin sombra: no está encima de nada. */
   border-radius: var(--nat-hoja-a);
   box-shadow: none;
   /* Mientras el póster carga, el hueco es del mismo gris verdoso que usa
@@ -1249,115 +1624,47 @@
   object-fit: cover;
 }
 
+/* LA REGLA DEL DÍPTICO: las dos mitades miden exactamente lo mismo. Una
+   colgando más que la otra se leería como el resto de una rejilla, que es
+   justo lo que dejó de ser. */
+@media (min-width: 62em) {
+  .nat-video__pieza {
+    height: var(--nat-alto-diptico);
+  }
+}
+
 .nat-video__pie {
   margin-top: var(--esp-2xs);
   font-size: var(--fs-micro);
-  color: var(--color-texto-suave);
+  color: var(--color-texto-inverso-suave);
 }
 
-/* ==========================================================================
-   4. CONSERVACIÓN — Cedro y Guayacán Amarillo (CITES III)
-   v3.1: era una caja con borde, fondo propio y --esp-xl de relleno, o sea la
-   pieza con MÁS presencia visual de la sección… para el dato más pequeño que
-   contiene. Ahora es lo que es: el pie de la sección. Un filete, tres
-   columnas y nada más.
-   ========================================================================== */
-.nat-conservacion {
-  display: grid;
-  gap: var(--gap);
-  margin-top: var(--gap-lg);
-  padding-top: var(--esp-md);
-  border-top: 1px solid var(--color-borde-suave);
-}
-
-@media (min-width: 54em) {
-  .nat-conservacion {
-    grid-template-columns: minmax(0, 1.3fr) minmax(0, 0.7fr);
-    align-items: start;
-    gap: var(--gap-lg);
+/* La PLANCHA se sale por el canto derecho —ése es el gesto—, pero el PIE no:
+   una línea de texto que termina pegada al borde del navegador se lee como
+   texto cortado. Se le devuelve el aire mínimo del sistema, sólo donde hay
+   sangrado (de 62em para arriba); por debajo el díptico ya lleva su margen. */
+@media (min-width: 62em) {
+  .nat-video__pie {
+    padding-inline-end: var(--esp-md);
   }
 }
 
-.nat-conservacion__intro {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  gap: var(--esp-xs);
-}
-
-.nat-conservacion__intro h3 {
-  margin: 0;
-}
-
-.nat-conservacion__intro .nota {
-  margin: 0;
-}
-
-.nat-especies {
-  display: grid;
-  gap: var(--esp-md);
-  margin: 0;
-  padding: 0;
-  list-style: none;
-}
-
-/* Los dos nombres van uno al lado del otro en cuanto hay sitio: son dos
-   rótulos cortos y apilados dejaban un carril medio vacío. */
-@media (min-width: 30em) {
-  .nat-especies {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: var(--gap-sm);
-  }
-}
-
-/* Los dos nombres cuelgan de una hoja, no de un filete. La forma es la MISMA
-   que base.css le da a la viñeta de .lista-hojas —dos esquinas a --radio-full
-   en diagonal—, sólo que a mayor tamaño y espejada entre los dos: es el gesto
-   orgánico que ya tiene el sistema, reutilizado en vez de inventado. */
-.nat-especie {
-  position: relative;
-  padding-left: var(--esp-lg);
-  font-family: var(--fuente-display);
-  /* v9 · sube de --fs-h4 a --fs-h3: el pie de sección vive de dos nombres
-     propios bien compuestos, no del titular explicativo. La jerarquía se
-     invierte a la editorial — nombres grandes, explicación en nota. */
-  font-size: var(--fs-h3);
-  font-weight: var(--peso-display);
-  font-optical-sizing: auto;
-  font-variation-settings: var(--ejes-display);
-  line-height: var(--alto-linea-titulo);
-  color: var(--color-texto);
-}
-
-.nat-especie::before {
-  content: "";
-  position: absolute;
-  left: 0;
-  top: 0.4em;
-  width: 0.7em;
-  height: 0.7em;
-  border-radius: 0 var(--radio-full) 0 var(--radio-full);
-  background-color: var(--color-acento-alt);
-}
-
-/* La segunda hoja se gira: dos iguales seguidas volverían a ser una lista. */
-.nat-especie:nth-child(2)::before {
-  border-radius: var(--radio-full) 0 var(--radio-full) 0;
-}
-
-.nat-conservacion__pie {
-  grid-column: 1 / -1;
-  margin: 0;
-}
+/* v11 · Se retiró aquí el bloque §4 CONSERVACIÓN (Cedro y Guayacán Amarillo,
+   CITES III) — pedido directo del cliente. El hecho ya no vive en
+   herramientas/validar.js ni validar.py. Las clases .nat-conservacion*,
+   .nat-especies y .nat-especie no se usan en ningún otro sitio del sitio. */
 
 /* ==========================================================================
    5. EL MURO DEL CONCURSO — curado en v5
    Banda salvia a todo el ancho que llega hasta el borde inferior de la
    sección (de ahí el margen negativo, que compensa el padding de .seccion).
-   Dos movimientos: .nat-destacadas (nueve piezas en grande, con jerarquía
-   real) y .nat-muro (el archivo completo en mosaico compacto, plegado).
+   v10 · UN SOLO MOVIMIENTO EN LA INTERFAZ. Hasta la v9 eran dos: .nat-cinta
+   (la escena en negro con el rótulo del concurso) y, al seguir bajando,
+   .nat-destacadas (nueve piezas colgadas en grande). El cliente pidió dejar
+   sólo la primera, así que lo que se ve ahora es la cinta y, debajo, el botón
+   del archivo plegado (.nat-muro) con las 57 copias en mosaico compacto.
    Los créditos de los fotógrafos no se mueven de donde están: visibles
-   siempre, debajo de cada copia, en las dos escalas.
+   siempre, debajo de cada copia.
    ========================================================================== */
 .nat-muro-banda {
   position: relative;
@@ -1400,6 +1707,16 @@
   height: clamp(2.25rem, 5vw, 5rem);
   fill: var(--color-fondo);
   pointer-events: none;
+}
+
+/* LA CRESTA DEL PIE. Mismo SVG, mismo path: se reubica al borde inferior y
+   se invierte en el eje vertical para que la curva salga hacia la crema de
+   abajo en vez de hacia la sala oscura. Nada de un segundo trazado a mano
+   que pueda desincronizarse del de la cabecera con el tiempo. */
+.nat-cresta--pie {
+  inset-block-start: auto;
+  inset-block-end: 0;
+  transform: scaleY(-1);
 }
 
 .nat-galeria__intro {
@@ -1464,217 +1781,23 @@
   color: var(--color-texto-suave);
 }
 
-/* ---- LA CURADURÍA: las nueve destacadas ----------------------------------
-   Rejilla de doce carriles con UNA pieza dominante (la primera: media pared
-   y dos filas de alto) y ocho piezas de acompañamiento a tres anchos
-   distintos. `align-items: start` es la misma decisión que desmontó la tabla
-   del censo: cada pieza cuelga a su altura en vez de estirarse a la de la
-   más alta, y dos descuelgues (6ª y 9ª) evitan que el canto inferior de
-   cada fila haga regla.
+/* ---- LA CURADURÍA: RETIRADA (v10) ---------------------------------------
+   Aquí vivían las reglas de .nat-destacadas: la rejilla de doce carriles con
+   UNA pieza dominante y ocho de acompañamiento, que colgaba en grande las
+   nueve mejores copias del concurso justo debajo de la cinta.
 
-   Aquí cada fotografía SÍ se recorta a un encuadre fijo (aspect-ratio +
-   object-fit: cover): es lo que se hace al enmarcar una copia en grande, y
-   es lo que permite que la rejilla componga en vez de apilarse. La caja
-   queda reservada por el aspect-ratio antes de que baje un byte de imagen,
-   así que no hay salto de maquetación. El archivo de abajo, en cambio,
-   conserva la proporción real de cada copia: allí mandan las fotos.
-   -------------------------------------------------------------------------- */
-.nat-destacadas {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  /* `dense` sólo trabaja en móvil: la 8ª pieza es apaisada y cruza las dos
-     columnas, y sin él la 9ª dejaría un hueco al lado de la 7ª. */
-  grid-auto-flow: row dense;
-  /* v9 · un escalón más de aire (--gap-sm → --gap): las piezas enmarcadas
-     piden pared entre ellas; el archivo compacto de abajo conserva su celda
-     apretada, que es lo que hace grande a la curaduría. */
-  gap: var(--gap);
-  margin-bottom: var(--gap-lg);
-}
+   Se retiró entera por pedido directo del cliente: en la interfaz de pajareo
+   debe quedar SOLO la primera composición —la cinta con el rótulo del
+   concurso—, y esta segunda pared era lo que aparecía al seguir bajando. Con
+   el marcado fuera (sections/naturaleza.html), doscientas líneas de rejilla
+   sin un solo elemento que las use no son historia: son lastre, y además
+   estilo que el navegador sigue cotejando en cada recálculo.
 
-/* v9 · Pies de pared de galería: más aire respecto a la copia y la especie
-   en serif itálica de display — la convención exacta de cartela de museo.
-   Solo en las nueve destacadas; el archivo sigue callado en sans micro. */
-.nat-destacadas .nat-obra__pie {
-  margin-top: var(--esp-3xs);
-}
-
-.nat-destacadas .nat-obra__especie {
-  font-family: var(--fuente-display);
-  font-size: var(--fs-pequeno);
-  font-weight: var(--peso-display);
-  font-style: italic;
-  font-optical-sizing: auto;
-  font-variation-settings: var(--ejes-display);
-}
-
-.nat-destacadas .nat-obra {
-  margin: 0;
-}
-
-/* El encuadre por defecto de la galería es vertical 3:4; las piezas que
-   piden otro (las apaisadas, la dominante) lo declaran más abajo. */
-.nat-destacadas .nat-obra__disparador {
-  aspect-ratio: 3 / 4;
-}
-
-.nat-destacadas .nat-obra__disparador > img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-}
-
-/* En móvil, la dominante y las dos apaisadas cruzan el par de columnas;
-   el resto va en parejas. */
-.nat-destacadas .nat-obra:nth-child(1),
-.nat-destacadas .nat-obra:nth-child(4),
-.nat-destacadas .nat-obra:nth-child(8) {
-  grid-column: 1 / -1;
-}
-
-.nat-destacadas .nat-obra:nth-child(4) .nat-obra__disparador,
-.nat-destacadas .nat-obra:nth-child(8) .nat-obra__disparador {
-  aspect-ratio: 3 / 2;
-}
-
-/* El barranquero dominante: el encuadre se apoya abajo para que la raqueta
-   de la cola —lo que hace inconfundible a la especie— no se recorte nunca;
-   lo que cede es el follaje de la parte alta. */
-.nat-destacadas .nat-obra:nth-child(1) .nat-obra__disparador > img {
-  object-position: center 60%;
-}
-
-/* El gavilán va en celda 4:5 sobre un original 2:3: el encuadre sube para
-   que el recorte coma cielo y ramas por abajo, no la cabeza. */
-.nat-destacadas .nat-obra:nth-child(9) .nat-obra__disparador > img {
-  object-position: center 30%;
-}
-
-/* La ficha dominante habla un punto más alto que las demás: sólo el nombre
-   de la especie sube a cuerpo base. El crédito no cambia: el crédito es
-   crédito en todas las escalas. */
-.nat-destacadas .nat-obra:nth-child(1) .nat-obra__especie {
-  font-size: var(--fs-cuerpo);
-}
-
-/* Las hojas de las destacadas se asignan una a una —son nueve y el orden
-   importa— de modo que dos piezas vecinas, en horizontal o en vertical,
-   nunca compartan silueta. La 1ª y la 6ª heredan la hoja A del propio
-   .nat-obra__disparador; la 9ª NO puede heredarla, aunque no toque a la 1ª:
-   en escritorio cae bajo la 6ª (solapan en los carriles 8 y 9) y en móvil
-   queda justo debajo de ella cuando `dense` la sube junto a la 7ª. Se le da
-   la B, que no choca ni con la 7ª (C) ni con la 8ª (D) en ninguno de los
-   dos modos. */
-.nat-destacadas .nat-obra:nth-child(2) .nat-obra__disparador {
-  border-radius: var(--nat-hoja-b);
-}
-
-.nat-destacadas .nat-obra:nth-child(3) .nat-obra__disparador {
-  border-radius: var(--nat-hoja-c);
-}
-
-.nat-destacadas .nat-obra:nth-child(4) .nat-obra__disparador {
-  border-radius: var(--nat-hoja-d);
-}
-
-.nat-destacadas .nat-obra:nth-child(5) .nat-obra__disparador {
-  border-radius: var(--nat-hoja-b);
-}
-
-.nat-destacadas .nat-obra:nth-child(7) .nat-obra__disparador {
-  border-radius: var(--nat-hoja-c);
-}
-
-.nat-destacadas .nat-obra:nth-child(8) .nat-obra__disparador {
-  border-radius: var(--nat-hoja-d);
-}
-
-.nat-destacadas .nat-obra:nth-child(9) .nat-obra__disparador {
-  border-radius: var(--nat-hoja-b);
-}
-
-@media (min-width: 62em) {
-  .nat-destacadas {
-    grid-template-columns: repeat(12, minmax(0, 1fr));
-    grid-auto-flow: row;
-    align-items: start;
-    /* v9 · un escalón más (--gap → --gap-lg): aire de pared de galería. */
-    gap: var(--gap-lg);
-  }
-
-  /* 1 · LA DOMINANTE. Media pared, dos filas de alto. Necesita estirarse
-     ella sola (align-self) porque la rejilla alinea todo al principio, y
-     su botón crece a lo que midan las dos filas de al lado. */
-  .nat-destacadas .nat-obra:nth-child(1) {
-    grid-column: 1 / 7;
-    grid-row: 1 / 3;
-    align-self: stretch;
-  }
-
-  .nat-destacadas .nat-obra:nth-child(1) .nat-obra__disparador {
-    flex: 1;
-    aspect-ratio: auto;
-    min-height: var(--nat-alto-apertura);
-  }
-
-  /* 2 y 3 · las dos escoltas verticales, arriba a la derecha. */
-  .nat-destacadas .nat-obra:nth-child(2) {
-    grid-column: 7 / 10;
-  }
-
-  .nat-destacadas .nat-obra:nth-child(3) {
-    grid-column: 10 / 13;
-  }
-
-  /* 4 · la apaisada bajo las escoltas, casi en su proporción real
-     (1300×1039 ≈ 5:4): aquí no hace falta recortar casi nada. */
-  .nat-destacadas .nat-obra:nth-child(4) {
-    grid-column: 7 / 13;
-    grid-row: 2;
-  }
-
-  .nat-destacadas .nat-obra:nth-child(4) .nat-obra__disparador {
-    aspect-ratio: 5 / 4;
-  }
-
-  /* Segunda fila de acompañamiento: tres anchos distintos (5, 4 y 3
-     carriles), no tres celdas iguales. La mediana se descuelga un paso. */
-  .nat-destacadas .nat-obra:nth-child(5) {
-    grid-column: 1 / 6;
-  }
-
-  .nat-destacadas .nat-obra:nth-child(5) .nat-obra__disparador {
-    aspect-ratio: 4 / 5;
-  }
-
-  .nat-destacadas .nat-obra:nth-child(6) {
-    grid-column: 6 / 10;
-    margin-top: var(--esp-md);
-  }
-
-  .nat-destacadas .nat-obra:nth-child(7) {
-    grid-column: 10 / 13;
-  }
-
-  /* Cierre: la apaisada grande (3:2 es su proporción real exacta) y el
-     gavilán descolgado a su lado. */
-  .nat-destacadas .nat-obra:nth-child(8) {
-    grid-column: 1 / 8;
-  }
-
-  .nat-destacadas .nat-obra:nth-child(8) .nat-obra__disparador {
-    aspect-ratio: 3 / 2;
-  }
-
-  .nat-destacadas .nat-obra:nth-child(9) {
-    grid-column: 8 / 13;
-    margin-top: var(--esp-lg);
-  }
-
-  .nat-destacadas .nat-obra:nth-child(9) .nat-obra__disparador {
-    aspect-ratio: 4 / 5;
-  }
-}
+   LAS NUEVE FOTOGRAFÍAS NO SE PERDIERON: pasaron al archivo de aquí abajo,
+   que las viste con la misma celda callada que a las otras cuarenta y ocho.
+   Por eso el archivo vuelve a ser de 57 y el contador del rótulo sigue
+   diciendo la verdad.
+   ------------------------------------------------------------------------ */
 
 /* ---- EL ARCHIVO: mosaico compacto de columnas ----------------------------
    Cada copia conserva su proporción real, como en una hoja de contactos —
@@ -1892,7 +2015,7 @@
        un script llegue a tiempo.
      · js/concurso-cinta.js, al arrancar (y solo si el visitante no pidió
        movimiento reducido), clona los grupos para el loop y añade
-       .cinta-lista a la pista: recién ahí nacen los 300svh, el sticky,
+       .cinta-lista a la pista: recién ahí nacen los 200svh, el sticky,
        el clip de entrada y las dos variables. La clase llega con el
        defer, muy por debajo del primer pantallazo, así que el salto de
        altura nunca se ve.
@@ -1926,11 +2049,25 @@
   background: var(--color-sala);
 }
 
-/* La pista solo existe con la clase que pone el JS. */
+/* La pista solo existe con la clase que pone el JS.
+
+   v10 · ACORTADA A DOS PANTALLAS, la misma corrección que ya se le hizo al
+   carril 01 de #planes (planes.css §3, «v2 · ACORTADA») y por la misma queja
+   del cliente: «se demoran mucho en salir deslizando». Con 300svh el guion
+   —despliegue de la banda, pausa, entrada del velo y la cifra— no cerraba
+   hasta el 80 % de TRES pantallas, es decir 2,4 pantallas de rueda para un
+   gesto que se lee en una. A 200svh el guion entero cierra a las 1,6
+   pantallas y sigue quedando pin de sobra para que la banda reine sola el
+   tramo del medio, que es la razón de ser de la escena.
+
+   Los TRAMOS del guion no se tocan (js/concurso-cinta.js: 0–34 % entrada,
+   55–80 % texto): son porcentajes del recorrido, así que acortar la pista los
+   acorta a todos en la misma proporción y el ritmo relativo se conserva
+   exacto. Cambiar aquí la altura es lo único que hace falta. */
 .cinta-lista {
   --entrada: 0;
   --texto: 0;
-  height: 300svh;
+  height: 200svh;
 }
 
 .cinta-lista .nat-cinta__escena {
@@ -2474,155 +2611,31 @@
   }
 }
 
+/* v11 · Se retiró aquí el bloque §6 EL CIERRE (el mural del barranquero,
+   figure.nat-mural) — pedido directo del cliente. img/parque/parque-62.jpg
+   queda sin usar en el <main>. Las clases .nat-mural* no se usan en ningún
+   otro sitio del sitio. */
+
 /* ==========================================================================
-   6. EL CIERRE — el mural del barranquero  (v6)
-   La rima: arriba entra el ave viva; aquí sale la misma ave pintada en la
-   pared del predio. Plancha a sangre, esquina viva, y debajo una cartela con
-   el aire de una ficha de museo. No lleva contorno gigante: ese gesto es de
-   la portada y repetirlo a cuatro pantallas de distancia lo gastaría.
+   v16 · EL ENCABEZADO DE LA SECCIÓN (antes «el giro»)
+   La franja de salvia dejó de ser una bisagra entre el sendero y las aves
+   —el sendero se mudó a #sendero, que cierra la página— y pasó a ser el
+   ENCABEZADO de #naturaleza: es donde vive ahora el <h2 id="naturaleza-titulo">
+   con la pieza-cifra del «101». Ver la cabecera de sections/naturaleza.html.
 
-   No lleva margen inferior negativo: la cartela es lo último que se lee y
-   necesita el relleno de .seccion para no chocar con la sección siguiente.
+   LO ÚNICO QUE HACE FALTA es soltarle la medida corta al titular. .nat-giro__titulo
+   la llevaba porque era un LETRERO de tránsito de dos renglones cortos; la
+   pieza-cifra mide 143 px de alto en escritorio y con 46ch de tope el «101» y
+   «especies» se parten en dos renglones distintos. La medida se devuelve a los
+   hijos, que es donde de verdad hace falta: la frase de arriba sigue midiendo
+   lo que medía y la línea de la cifra se compone libre.
+   Este bloque va al FINAL de la hoja a propósito: no toca ninguna de las
+   reglas de arriba y así el diff no se cruza con nadie.
    ========================================================================== */
-.nat-mural {
-  position: relative;
+.nat-giro__titulo.nat-cifra-dominante {
+  max-width: none;
 }
 
-.nat-mural__plancha {
-  position: relative;
-  overflow: hidden;
-  /* La fotografía es vertical (900×1200) y el mural pintado ocupa sólo el
-     11 % de su ancho, así que en móvil publicarla entera lo dejaría en 37 px
-     y sería exactamente la miniatura que hay que evitar. Con 9/16 el recorte
-     es HORIZONTAL —se ve el 75 % del ancho— y el mural gana un tercio de
-     tamaño sin ampliar ni un píxel: el archivo se sigue reduciendo (500 px
-     de ancho renderizado contra 900 de original), así que no pierde nitidez.
-     Y la plancha pasa a 667 px de alto en un móvil de 375: una pieza. */
-  aspect-ratio: 9 / 16;
-  border-radius: 0;
-  background-color: var(--color-fondo-hondo);
-}
-
-@media (min-width: 40em) {
-  .nat-mural__plancha {
-    aspect-ratio: 4 / 3;
-  }
-}
-
-@media (min-width: 62em) {
-  .nat-mural__plancha {
-    aspect-ratio: 3 / 2;
-  }
-}
-
-.nat-mural__foto {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  /* El eje X sólo manda en móvil, que es donde el recorte es horizontal:
-     45 % deja el mural (35–46 % del ancho) dentro de la ventana con aire y
-     conserva casi todas las heliconias del primer plano. */
-  object-position: 45% 50%;
-}
-
-@media (min-width: 40em) {
-  .nat-mural__foto {
-    /* Con el recorte apaisado la ventana cae en la franja central: el mural
-       pintado, el techo de la enramada y el primer plano de heliconias. */
-    object-position: 44% 55%;
-  }
-}
-
-/* Deriva de fondo del mural. Va al REVÉS que la de .nat-apertura —allí la
-   foto baja (de -12 % a 0), aquí sube (de 0 a -10 %)— porque son las dos
-   únicas fotografías con paralaje de la sección y con la misma dirección
-   parecerían la misma pieza repetida. Sólo transform. Y va envuelta en
-   prefers-reduced-motion: no-preference porque una animación de línea de
-   tiempo de scroll IGNORA animation-duration, así que la anulación global de
-   base.css no la alcanzaría. */
-@keyframes nat-mural-deriva {
-  from {
-    transform: translate3d(0, 0, 0);
-  }
-
-  to {
-    transform: translate3d(0, -10%, 0);
-  }
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  @supports (animation-timeline: view()) {
-    .nat-mural__foto {
-      /* 111 % de alto: el 11 % sobrante es justo el recorrido, así que en
-         ningún instante queda una franja vacía por abajo. */
-      height: 111%;
-      animation: nat-mural-deriva linear both;
-      animation-timeline: view();
-      animation-range: entry 0% exit 100%;
-    }
-  }
-}
-
-/* ---- La cartela del mural ------------------------------------------------ */
-.nat-mural__pie {
-  /* Mismo motivo que en la cartela de la portada: entrada vertical, y el
-     desfase por retardo. Éste es más largo que aquél —300 ms contra 180— para
-     que las dos cartelas de la sección no compartan compás. */
-  --reveal-delay: var(--dur-media);
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  gap: var(--esp-2xs);
-  margin-top: var(--gap);
-  padding-inline: var(--nat-margen);
-  color: var(--color-texto);
-}
-
-.nat-mural__titulo,
-.nat-mural__texto {
-  margin: 0;
-  max-inline-size: var(--medida-corta);
-}
-
-.nat-mural__titulo {
-  color: var(--color-texto);
-}
-
-.nat-mural__ave {
-  inline-size: var(--nat-ave-icono);
-  block-size: auto;
-  flex: none;
-  margin-bottom: var(--esp-3xs);
-  color: var(--color-borde-fuerte);
-}
-
-/* La silueta se dibuja atada al scroll y NO con el motor de app.js, que
-   observa la SECCIÓN entera: colgada al final, con aquel disparador se habría
-   dibujado sola mientras seguía fuera de pantalla. Aquí el trazo nace y
-   termina donde llega quien lee.
-   Estado inicial (stroke-dasharray) y animación viven en el MISMO bloque
-   condicional: o se aplican los dos o no se aplica ninguno. Si el navegador
-   no entiende animation-timeline, o si se pide menos movimiento, el pájaro
-   sale dibujado entero desde el primer pintado. Nunca a medias. */
-@keyframes nat-mural-traza {
-  from {
-    stroke-dashoffset: 1;
-  }
-
-  to {
-    stroke-dashoffset: 0;
-  }
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  @supports (animation-timeline: view()) {
-    .nat-mural__ave > path {
-      stroke-dasharray: 1;
-      animation: nat-mural-traza linear both;
-      animation-timeline: view();
-      animation-range: entry 25% cover 45%;
-    }
-  }
+.nat-giro__titulo.nat-cifra-dominante .nat-cifra-dominante__frase {
+  max-width: var(--medida-corta);
 }

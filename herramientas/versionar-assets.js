@@ -36,7 +36,8 @@ const RAIZ = path.dirname(__dirname);
 const ESCRIBIR = process.argv.includes('--escribir');
 
 const PAGINAS = [
-  'index.html', 'plan-vecino.html', 'condiciones-de-alquiler.html',
+  'index.html', 'plan-vecino.html', 'colegios.html',
+  'condiciones-de-alquiler.html',
   'politica-de-datos.html', 'terminos.html', '404.html',
   // Fragmentos que traen su propia dependencia de js/: el <script src> de
   // momentos/naturaleza/espacios/nosotros y el import() dinámico de hero.

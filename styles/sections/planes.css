@@ -409,6 +409,20 @@
   margin-top: var(--esp-2xs);
 }
 
+/* v2 · EL SUPLINK A #colegios. El rótulo pierde su margen (el filete de
+   .planes-carril__donde ya lo separa del copy de arriba) y el enlace-flecha
+   gana uno propio, mayor que el genérico: tiene que leerse como su propio
+   CTA y no como el pie de la frase que lo precede. Sin tocar el CTA de
+   WhatsApp de más abajo, que sigue siendo el cierre del carril. */
+.planes-carril__donde--colegios {
+  margin-top: var(--esp-sm);
+}
+
+.planes-carril__cta--colegios {
+  margin-top: var(--esp-3xs);
+  margin-bottom: var(--esp-sm);
+}
+
 /* v9 · EL CORAL SE DOSIFICA. Cuatro botones coral idénticos apilados es
    lenguaje de catálogo; los CTA de los carriles 03 y 05 pasan en el HTML a
    .enlace-flecha —mismo rótulo, mismo destino— y quedan DOS botones coral
@@ -3111,7 +3125,12 @@
 
 /* LA FOTO, A SANGRE DE LA TARJETA.
    `object-position` al 62 %: el corro de niños y la monitora viven en la
-   mitad baja de la cuadrada, y el tercio alto es copa de árbol y cielo. */
+   mitad baja de la cuadrada, y el tercio alto es copa de árbol y cielo.
+   En MÓVIL la tarjeta es más alta que ancha (`min-block-size: 82svh` contra
+   un ancho de una sola columna), así que `cover` recorta por el EJE
+   HORIZONTAL —usa el alto entero de la foto— y este `object-position`
+   vertical no mueve un solo píxel del encuadre: por eso el 62 % de base es
+   inofensivo ahí y no hace falta duplicar la regla por breakpoint. */
 .planes-talleres__fondo {
   position: absolute;
   inset: 0;
@@ -3124,6 +3143,26 @@
   block-size: 100%;
   object-fit: cover;
   object-position: 50% 62%;
+}
+
+/* v8 · EN ESCRITORIO EL CORRO QUEDABA DESLUCIDO (agosto de 2026, foto
+   aportada por el cliente: «en PC no se aprecia bien esta foto, pon este
+   que se aprecie más»). A partir de aquí la tarjeta es una banda ANCHA y
+   BAJA (`min-block-size: 82svh` contra el ancho completo de ventana), así
+   que `cover` pasa a recortar por el EJE VERTICAL —la foto cuadrada se
+   escala al ancho y sobra alto que hay que cortar—, y con el 62 % de base
+   el corro de niños con el cuento quedaba apretado en la franja baja del
+   encuadre, con la copa de árbol ocupando casi todo el resto. Subir el
+   punto de referencia al 84 % desplaza el recorte hacia arriba: se pierde
+   más cielo y más copa, y el corro —que es el sujeto real de la
+   fotografía— pasa a ocupar buena parte de la altura visible en vez de un
+   borde. El velo de contraste (`.planes-carril--talleres::after`, más abajo)
+   no se toca: sigue siendo el mismo degradado ya medido, y ahora cae sobre
+   más foto útil en vez de sobre más copa de árbol. */
+@media (min-width: 48em) {
+  .planes-talleres__fondo > img {
+    object-position: 50% 84%;
+  }
 }
 
 /* --- EL VELO DE FOLLAJE · RETIRADO (agosto de 2026, orden del cliente) -----

@@ -198,95 +198,22 @@
          entradilla de arriba los sigue nombrando uno a uno, así que la
          tabla de propiedad del validador no se rompe. -->
 
-    <!-- ---------- El formato de la jornada ----------------------------------
-         LA PIEZA DOMINANTE. La foto ya no ilustra el bloque: lo sostiene. Y el
-         panel de los hitos la solapa desde la derecha, así que las dos piezas
-         se traban en vez de quedar una al lado de la otra.
-
-         EL TEXTO NUNCA VA SOBRE LA FOTO: el panel es papel opaco
-         (--color-superficie-solida), de modo que el contraste es el de tinta
-         sobre papel y no depende de un píxel de la fotografía.
-
-         Foto y panel entran por separado —dos `.reveal` con dirección, retardo
-         y duración distintos— y por eso el contenedor pasa de `.reveal` a
-         `.reveal-secuencia`: ya no revela, sólo reparte tiempos.
-         --------------------------------------------------------------------- -->
-    <div class="col-jornada reveal-secuencia">
-
-      <figure class="col-jornada__foto reveal reveal--izq">
-        <div class="marco">
-          <img
-            src="img/eventos/infantil-1.jpg"
-            width="844"
-            height="1500"
-            alt="Un grupo de niñas y niños sentados en círculo sobre una manta verde en el prado, acompañados por dos monitoras; arriba, entre las ramas de los árboles, cuelga una guirnalda de flecos de papel de colores."
-            loading="lazy"
-            decoding="async"
-          />
-        </div>
-
-        <!-- LA CAJA DONDE VUELA LA FAUNA AMBIENTE (DIRECTRICES §2). Vacía,
-             decorativa y `aria-hidden`: las piezas las crea el módulo
-             compartido js/fauna-ambiente.js y el movimiento vive en base.css
-             §v7. Esta sección no escribe una sola mariposa propia.
-
-             POR QUÉ SOBRE LA PIEZA DOMINANTE Y POR QUÉ POR LA IZQUIERDA.
-             La regla del módulo es que la caja caiga sobre foto o color plano
-             y nunca sobre un párrafo. La foto de la jornada es la única
-             superficie de #colegios que es fotografía grande en TODOS los
-             anchos —las tres paradas son miniaturas de índice— y su mitad
-             izquierda queda siempre libre: desde 62em es el panel de los
-             hitos el que entra por la derecha, así que ése es justo el lado
-             que no se puede ocupar. Va en el tercio alto, por encima del
-             corro de niñas y niños, que es lo que hay que ver de esa foto. -->
-        <div class="col__aire" aria-hidden="true"></div>
-
-        <figcaption>El curso, reunido en círculo sobre el prado</figcaption>
-      </figure>
-
-      <div class="col-jornada__texto reveal reveal--der">
-        <h3 class="titulo-seccion titulo-seccion--sm">Así transcurre el día</h3>
-
-        <ol class="col-hitos">
-          <li class="col-hito">
-            <p class="col-hito__nombre">La llegada</p>
-            <p>
-              Baja el bus y el grupo se acomoda a la sombra. Charla corta: dónde están,
-              qué van a ver y qué no se toca.
-            </p>
-          </li>
-          <li class="col-hito">
-            <p class="col-hito__nombre">Los grupos</p>
-            <p>
-              El curso se divide y rota por las tres paradas. De a pocos se observa
-              mejor.
-            </p>
-          </li>
-          <li class="col-hito">
-            <p class="col-hito__nombre">Los docentes</p>
-            <p>
-              Cada docente camina con su grupo. Ellos conocen a sus estudiantes;
-              nosotros, el terreno.
-            </p>
-          </li>
-          <li class="col-hito">
-            <p class="col-hito__nombre">El cierre</p>
-            <p>
-              Antes del bus se juntan otra vez y cada grupo cuenta lo que vio. Nadie se
-              sube con la mitad del día.
-            </p>
-          </li>
-        </ol>
-
-        <p class="nota col-enlaces">
-          La jornada se alarga con
-          <a href="#usos">los espacios del parque</a>, con
-          <a href="#naturaleza">el Sendero Ecovital</a> o con una vuelta por
-          <a href="#vivero">el vivero</a>.
-        </p>
-      </div>
-
-    </div>
+    <!-- v6 · SE RETIRA `.col-jornada` ENTERO (foto + panel de hitos «Así
+         transcurre el día»). Pedido directo y repetido del cliente: fuera de
+         la ventana principal, y en su lugar sólo el párrafo de enlaces que
+         ya existía dentro del bloque (`.col-enlaces`), ahora suelto. Ningún
+         hecho de la tabla de propiedad vivía en los hitos —«observatorio» y
+         «jardín de polinizadores» siguen enteros en la entradilla de
+         arriba—, así que el retiro no rompe validar.js. El CSS asociado
+         (.col-jornada, .col-jornada__foto, .col-hitos, .col-hito, .col__aire)
+         queda huérfano en colegios.css hasta una limpieza aparte.
+         img/eventos/infantil-1.jpg sigue en uso en #usos. -->
+    <p class="nota col-enlaces reveal">
+      La jornada se alarga con
+      <a href="#usos">los espacios del parque</a>, con
+      <a href="#naturaleza">el Sendero Ecovital</a> o con una vuelta por
+      <a href="#vivero">el vivero</a>.
+    </p>
 
     <!-- ---------- Cierre y CTA ---------- -->
     <div class="col-cierre reveal">

@@ -1,0 +1,187 @@
+<!doctype html>
+<html lang="es" class="no-js">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Salidas escolares · Vegas del Verde</title>
+  <meta name="description" content="Un día de colegio que no cabe en un aula: de la llegada al regreso del bus, con tres paradas pensadas para un curso —el observatorio de aves, el de plantas y el jardín de polinizadores— en Vegas del Verde." />
+  <link rel="canonical" href="https://vegasdelverde.co/colegios.html" />
+  <link rel="icon" href="img/logo/simbolo-vegas.png" type="image/png" />
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="Salidas escolares · Vegas del Verde" />
+  <meta property="og:description" content="Un día de colegio que no cabe en un aula. Tres paradas pensadas para un curso, a diez minutos de Bucaramanga." />
+  <meta property="og:url" content="https://vegasdelverde.co/colegios.html" />
+  <meta property="og:image" content="https://vegasdelverde.co/img/eventos/infantil-1.jpg" />
+  <!-- fuentes-propias: Fraunces y DM Sans viven en styles/fonts/ y se declaran
+       por @font-face en base.css — no hay <link> a fonts.googleapis.com,
+       ni preconnect a Google. La precarga es lo único que sigue haciendo
+       falta: hace que el navegador pida el woff2 desde el primer instante,
+       en paralelo a parsear el CSS, en vez de esperar a descubrir el
+       @font-face durante el layout. Con display: optional (en base.css) y
+       el archivo del propio dominio, la fuente casi siempre llega dentro de
+       la ventana corta que el navegador le da antes de resignarse a la del
+       sistema — sin swap visible. Se regenera con
+       herramientas/precargar-fuentes.js. -->
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="styles/fonts/dm-sans-latin.woff2?v=89c7ce3a">
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="styles/fonts/fraunces-latin.woff2?v=e75e106b">
+  <link rel="stylesheet" href="styles/tokens.css?v=84276b65" />
+  <link rel="stylesheet" href="styles/base.css?v=d0fc7ca0" />
+  <link rel="stylesheet" href="styles/shell.css?v=e2eb0d62" />
+  <!-- La hoja de la sección se conserva TAL CUAL: al salir de index.html el
+       bloque no cambia de marcado ni de clases, sólo de página. Por eso
+       colegios.css deja de ir en CSS_SECCIONES del ensamblador y pasa a
+       enlazarse aquí, que es el único sitio donde ya se usa. -->
+  <link rel="stylesheet" href="styles/sections/colegios.css?v=ac6625ca" />
+  <script>document.documentElement.classList.remove('no-js');document.documentElement.classList.add('js');</script>
+</head>
+<body>
+
+  <a class="saltar-contenido" href="#contenido">Saltar al contenido</a>
+
+  <!-- Misma cabecera compacta que plan-vecino.html y condiciones-de-alquiler.html:
+       marca a la izquierda, salida a la derecha. La salida no vuelve al inicio
+       a secas, vuelve al carril 05 del taller de #planes, que es de donde
+       llega casi todo el tráfico de esta página. -->
+  <header class="cabecera cabecera--compacta">
+    <div class="cabecera__interior contenedor contenedor--ancho">
+      <a class="marca" href="index.html" aria-label="Vegas del Verde, ir al inicio">
+        <img class="marca__logo" src="img/logo/logo-vegas-barra.png" width="1390" height="356" alt="Vegas del Verde" decoding="async" />
+      </a>
+      <a class="btn btn-secundario btn-pequeno" href="index.html#planes">Volver a los planes</a>
+    </div>
+  </header>
+
+  <!-- ==========================================================================
+       PÁGINA: SALIDAS PEDAGÓGICAS  ·  antes sections/colegios.html (#colegios)
+
+       v7 · SALE DE LA VENTANA PRINCIPAL. Pedido directo y repetido del cliente:
+       esto no va en el scroll de index.html. Ya no es el tercer movimiento del
+       capítulo «Eventos y actividades», es una página aparte a la que se entra
+       por el enlace del carril 05 (talleres) de #planes y por el nav.
+       El marcado del bloque no cambia —mismas clases, misma hoja de estilos—
+       para no reabrir la composición: sólo cambia de contenedor.
+
+       QUÉ CAMBIA AL MUDARSE, y por qué:
+         · el titular sube de <h2> a <h1>: aquí es el título de la página, no
+           el de una sección dentro de otra. El cierre sube de <h3> a <h2> para
+           no dejar un salto de nivel. Ninguna de las dos clases cambia, así
+           que el dibujo es exactamente el mismo.
+         · el eyebrow deja de decir «Eventos y actividades» —ese rótulo era el
+           del capítulo compartido con #planes y #momentos, y aquí ya no hay
+           capítulo— y dice de qué va la página.
+         · los tres enlaces del pie de la jornada pasan de anclas locales
+           (#usos, #naturaleza, #vivero) a anclas de index.html: las tres
+           secciones siguen viviendo allá.
+         · se retira el <script> de fauna-ambiente. Montaba sobre
+           `#colegios .col__aire`, que era un hijo de `.col-jornada`, y
+           `.col-jornada` ya no existe desde v6: el módulo se descargaba para
+           no encontrar nada.
+
+       ÁMBITO — sólo lo que existe únicamente dentro de la oferta escolar:
+       el observatorio de aves, el de plantas, el jardín de polinizadores y el
+       formato de la jornada. Lo demás se ENLAZA, no se describe: los espacios
+       del parque, el recorrido guiado y el vivero tienen sección propia en
+       index.html. Aquí no se repiten aforos, ni precios, ni cifras de especies.
+
+       CSS: styles/sections/colegios.css
+       ========================================================================== -->
+  <main id="contenido">
+    <section id="colegios" class="seccion seccion--alt col" aria-labelledby="colegios-titulo">
+      <div class="contenedor contenedor--ancho">
+
+        <header class="col-portada reveal-secuencia">
+
+          <!-- Dos aves lejos. Decoración pura: sin texto, sin foco, sin contraste que
+               aportar, y colocadas en el hueco que queda entre el titular y la
+               entradilla, no encima de ninguno de los dos. Se dibujan solas al
+               entrar la sección y derivan con el scroll. A partir de 62em, que es
+               donde la portada abre su segunda columna y aparece ese hueco; por
+               debajo no se montan.
+
+               POR QUÉ DOS TRAZOS ABIERTOS Y NO UNA SILUETA CERRADA. Se probaron
+               primero un ave con las alas dibujadas y después una pluma: las dos,
+               ampliadas a doce veces su caja y bajadas al 26 % de opacidad, se leían
+               como una hoja. Un ave a distancia no tiene detalle —son dos arcos— y
+               por eso se reconoce sin ninguna ayuda. Dos, de tamaños distintos y a
+               alturas distintas, son cielo; una sola sería un logotipo. -->
+          <svg class="col-portada__ave icono-traza" viewBox="0 0 24 24" fill="none"
+               stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
+               aria-hidden="true" focusable="false">
+            <path d="M1.6 11.4c3.9.2 7-1.4 9.3-4.7.5-.7.9-1.1 1.2-1.1.3 0 .7.4 1.2 1.1 2.3 3.3 5.4 4.9 9.3 4.7" pathLength="1"/>
+            <path d="M8.4 19.1c2.4.1 4.4-.9 5.8-2.9.3-.5.6-.7.8-.7.2 0 .5.2.8.7 1.4 2 3.4 3 5.8 2.9" pathLength="1"/>
+          </svg>
+
+          <div class="col-portada__titulo">
+            <p class="eyebrow reveal">Salidas pedagógicas</p>
+            <!-- .reveal-texto SIN persiana: la variante con persiana se gasta una
+                 vez por capítulo y la lleva #planes, en index.html. Aquí el gesto
+                 se hereda igual para que la página no se sienta de otro sitio. -->
+            <h1
+              id="colegios-titulo"
+              class="titulo-seccion col-titular reveal reveal-texto"
+            >
+              <span class="reveal-texto__linea">Un día de colegio</span>
+              <span class="reveal-texto__linea">que no cabe en un aula</span>
+            </h1>
+          </div>
+          <p class="entradilla col-portada__entradilla reveal">
+            De la llegada al regreso del bus, con tres paradas pensadas para un curso: el
+            observatorio de aves, el de plantas y el jardín de polinizadores.
+          </p>
+        </header>
+
+        <p class="nota col-enlaces reveal">
+          La jornada se alarga con
+          <a href="index.html#usos">los espacios del parque</a>, con
+          <a href="index.html#naturaleza">el Sendero Ecovital</a> o con una vuelta por
+          <a href="index.html#vivero">el vivero</a>.
+        </p>
+
+        <!-- ---------- Cierre y CTA ---------- -->
+        <div class="col-cierre reveal">
+          <div class="col-cierre__bloque">
+            <h2 class="titulo-seccion titulo-seccion--sm">¿Vienes con un curso?</h2>
+            <p>
+              Cuéntanos el nombre del colegio, cuántos estudiantes vienen y la fecha
+              tentativa, y armamos la ruta del día.
+            </p>
+          </div>
+          <a
+            class="btn btn-whatsapp btn-grande"
+            href="https://wa.me/573166758362?text=Hola%2C%20vengo%20con%20mi%20curso%20a%20Vegas%20del%20Verde.%20Colegio%3A%20___%20%C2%B7%20Estudiantes%3A%20___%20%C2%B7%20Fecha%20tentativa%3A%20___"
+            target="_blank"
+            rel="noopener"
+          >
+            <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" focusable="false">
+              <path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.46 1.32 4.96L2 22l5.25-1.38a9.87 9.87 0 0 0 4.79 1.22h.01c5.46 0 9.91-4.45 9.91-9.91 0-2.65-1.03-5.14-2.9-7.01A9.82 9.82 0 0 0 12.04 2Zm0 18.02h-.01a8.2 8.2 0 0 1-4.19-1.15l-.3-.18-3.12.82.83-3.04-.2-.31a8.19 8.19 0 0 1-1.26-4.38c0-4.54 3.7-8.24 8.25-8.24 2.2 0 4.27.86 5.83 2.42a8.2 8.2 0 0 1 2.41 5.83c0 4.54-3.7 8.23-8.24 8.23Z"/>
+              <path d="M17.47 14.38c-.3-.15-1.76-.87-2.03-.97-.27-.1-.47-.15-.67.15-.2.3-.77.97-.94 1.17-.17.2-.35.22-.65.07-.3-.15-1.26-.46-2.4-1.48-.89-.79-1.49-1.77-1.66-2.07-.17-.3-.02-.46.13-.61.13-.13.3-.35.45-.52.15-.17.2-.3.3-.5.1-.2.05-.37-.02-.52-.08-.15-.67-1.61-.92-2.21-.24-.58-.49-.5-.67-.51h-.57c-.2 0-.52.07-.79.37-.27.3-1.04 1.01-1.04 2.47s1.06 2.87 1.21 3.07c.15.2 2.1 3.2 5.08 4.49.71.31 1.26.49 1.69.63.71.23 1.36.19 1.87.12.57-.09 1.76-.72 2.01-1.41.25-.69.25-1.29.17-1.41-.07-.12-.27-.2-.57-.35Z"/>
+            </svg>
+            Vengo con mi curso
+          </a>
+        </div>
+
+      </div>
+    </section>
+  </main>
+
+  <!-- app.js es quien enciende los .reveal (IntersectionObserver) y quien pinta
+       los trazos de .icono-traza. Sin él la página se lee entera igual: los
+       estados iniciales viven en CSS con el cerrojo de .js. -->
+  <script src="js/app.js?v=c090e9a7" defer></script>
+
+
+<a
+  class="whatsapp-flotante"
+  href="https://wa.me/573166758362?text=Hola%2C%20quiero%20informaci%C3%B3n%20sobre%20Vegas%20del%20Verde"
+  target="_blank"
+  rel="noopener"
+  aria-label="Escribir por WhatsApp a Vegas del Verde"
+>
+  <span class="whatsapp-flotante__pulso" aria-hidden="true"></span>
+  <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" focusable="false">
+    <path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.46 1.32 4.96L2 22l5.25-1.38a9.87 9.87 0 0 0 4.79 1.22h.01c5.46 0 9.91-4.45 9.91-9.91 0-2.65-1.03-5.14-2.9-7.01A9.82 9.82 0 0 0 12.04 2Zm0 18.02h-.01a8.2 8.2 0 0 1-4.19-1.15l-.3-.18-3.12.82.83-3.04-.2-.31a8.19 8.19 0 0 1-1.26-4.38c0-4.54 3.7-8.24 8.25-8.24 2.2 0 4.27.86 5.83 2.42a8.2 8.2 0 0 1 2.41 5.83c0 4.54-3.7 8.23-8.24 8.23Z"/>
+    <path d="M17.47 14.38c-.3-.15-1.76-.87-2.03-.97-.27-.1-.47-.15-.67.15-.2.3-.77.97-.94 1.17-.17.2-.35.22-.65.07-.3-.15-1.26-.46-2.4-1.48-.89-.79-1.49-1.77-1.66-2.07-.17-.3-.02-.46.13-.61.13-.13.3-.35.45-.52.15-.17.2-.3.3-.5.1-.2.05-.37-.02-.52-.08-.15-.67-1.61-.92-2.21-.24-.58-.49-.5-.67-.51h-.57c-.2 0-.52.07-.79.37-.27.3-1.04 1.01-1.04 2.47s1.06 2.87 1.21 3.07c.15.2 2.1 3.2 5.08 4.49.71.31 1.26.49 1.69.63.71.23 1.36.19 1.87.12.57-.09 1.76-.72 2.01-1.41.25-.69.25-1.29.17-1.41-.07-.12-.27-.2-.57-.35Z"/>
+  </svg>
+</a>
+</body>
+</html>

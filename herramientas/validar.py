@@ -61,8 +61,13 @@ for t in trozos:
 # recorrido cierra con "compromiso", despues de #ubicacion y antes del pie.
 # v7 · #naturaleza reemplaza a #momentos justo tras #planes; #momentos y
 # #colegios se corren un puesto.
-ESPERADO = ["inicio", "usos", "nosotros", "planes", "naturaleza", "colegios",
-            "momentos", "vivero", "ubicacion", "compromiso"]
+# v15 · #colegios sale del <main>: es la pagina suelta colegios.html, que este
+# validador no cubre (igual que plan-vecino.html o condiciones-de-alquiler.html).
+# v16 · #momentos sale del <main>: sus cuatro clips son ahora el hero de
+# #sendero, que es seccion propia y CIERRA el recorrido justo debajo de
+# #vivero (pedido directo del cliente).
+ESPERADO = ["inicio", "usos", "nosotros", "planes", "naturaleza",
+            "vivero", "sendero", "ubicacion", "compromiso"]
 
 print("=" * 74)
 print("0. ORDEN DEL <main>")
@@ -110,20 +115,28 @@ HECHOS = [
  ("Sillas y mesas Rimax", [NADIE], [r"\brimax\b"], False),
  ("No incluye sonido / catering externo", [NADIE],
   [r"\bcatering\b", r"no incluye sonido"], False),
- ("Observatorios como parada pedagogica", ["colegios"],
+ # v15 · los tres hechos de la oferta escolar cambian de dueno a NADIE, no de
+ # contenido: viven enteros en colegios.html, que es una pagina suelta y este
+ # validador solo lee index.html. Se quedan en la tabla —en vez de borrarse—
+ # para que siga vigilada la otra mitad de la regla: que ninguna seccion de
+ # index.html los vuelva a escribir.
+ ("Observatorios como parada pedagogica", [NADIE],
   [r"observatorio"], True),
  # «mariposa» a secas se retiro del patron: el mural pintado en el muro
  # turquesa de img/parque/parque-11.jpg lleva mariposas, y describirlo en el
  # alt no es afirmar que exista el jardin. Un escape real del hecho tendria
  # que nombrar a los polinizadores o el avistamiento, y eso si se sigue
  # cazando. Se prefiere un patron que no obligue a mentir en un alt.
- ("Jardin de polinizadores y mariposas", ["colegios"],
+ ("Jardin de polinizadores y mariposas", [NADIE],
   [r"polinizador", r"avistamiento de mariposas", r"jard[ií]n de mariposas"], True),
- ("Sendero Ecovital (descrito)", ["naturaleza"],
+  # v16 · los tres hechos del Sendero cambian de DUENO, no de contenido: el
+ # bloque se mudo entero a la seccion #sendero, que cierra el <main> debajo
+ # de #vivero. Siguen escritos una sola vez en todo el sitio.
+ ("Sendero Ecovital (descrito)", ["sendero"],
   [r"sendero"], True),
- ("Entrada $15.000 (unico precio publicado)", ["naturaleza"],
+ ("Entrada $15.000 (unico precio publicado)", ["sendero"],
   [r"15\.000", r"15000"], False),
- ("Quebrada Aranzoque y riachuelo La Florida", ["naturaleza"],
+ ("Quebrada Aranzoque y riachuelo La Florida", ["sendero"],
   [r"aranzoque", r"riachuelo"], False),
  ("101 especies de aves", ["naturaleza"], [r"\b101\b"], False),
  ("Chachalaca Colombiana endemica", ["naturaleza"],
@@ -132,10 +145,6 @@ HECHOS = [
   [r"\b(7|siete) especies migratorias\b", r"migratorias boreales"], False),
  ("347 plantas y 20 familias botanicas", ["naturaleza"],
   [r"\b347\b", r"\b20 familias\b"], False),
- ("18 anfibios / 23 reptiles / 3 mamiferos", ["naturaleza"],
-  [r"\b18 anfibios\b", r"\b23 reptiles\b", r"\b3 mamiferos\b"], False),
- ("Cedro y Guayacan Amarillo (CITES III)", ["naturaleza"],
-  [r"\bcites\b", r"guayacan"], False),
  ("Concurso: 57 fotografias de 20 autores", ["naturaleza"],
   [r"\b57 (fotografias|imagenes|obras)\b", r"\b20 autores\b"], False),
  ("Vivero: produccion y venta de plantas / abonos", ["vivero"],
@@ -175,8 +184,8 @@ HECHOS = [
  ("Rotulo «Ver eventos y actividades»",    ["nosotros"],   [r"ver eventos y actividades"], False),
  ("Rotulo «Quiero este plan»",             ["espacios"],   [r"quiero este plan"], False),
  ("Rotulo «Atrevete a un plan distinto»",  ["planes","espacios"], [r"atrevete a un plan distinto"], False),
- ("Rotulo «Vengo con mi curso»",           ["colegios"],   [r"vengo con mi curso"], False),
- ("Rotulo «Atrevete al sendero»",          ["naturaleza"], [r"atrevete al sendero"], False),
+ ("Rotulo «Vengo con mi curso»",           [NADIE],        [r"vengo con mi curso"], False),
+ ("Rotulo «Atrevete al sendero»",          ["sendero"],    [r"atrevete al sendero"], False),
  ("Rotulo «Quiero plantas del vivero»",    ["vivero"],     [r"quiero plantas del vivero"], False),
  ("Rotulo «Hablemos por WhatsApp»",        ["ubicacion"],  [r"hablemos por whatsapp"], False),
  ("Rotulo «Escribenos por WhatsApp»",      ["cabecera"],   [r"escribenos por whatsapp"], False),

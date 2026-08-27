@@ -1057,6 +1057,13 @@
   flex: 1 1 var(--ancho-xs);
 }
 
+/* v15 · el selector deja de depender del nivel del encabezado. Al mudarse el
+   bloque a la página suelta colegios.html, el titular de la sección subió a
+   <h1> y este cierre a <h2> para no dejar un salto de nivel; atado sólo a h3,
+   el texto perdía el color inverso y quedaba verde oscuro sobre verde oscuro.
+   Se listan los dos niveles en vez de escribir `.col-cierre__bloque :is(h2,h3)`
+   para no cambiar la especificidad de la regla. */
+.col-cierre__bloque h2,
 .col-cierre__bloque h3 {
   margin: 0;
   color: var(--color-texto-inverso);

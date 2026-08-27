@@ -4,16 +4,33 @@
      #aves y #biodiversidad (esas dos anclas ya no existen).
 
      Qué posee esta sección y nadie más (ARQUITECTURA-V3 §9):
-       el Sendero Ecovital y su entrada, el único precio publicado del sitio ·
-       las dos corrientes de agua · el registro de aves, la especie endémica
-       y las migratorias · el censo de flora y de fauna menuda · los dos
-       árboles de CITES · el muro completo del concurso con sus créditos.
+       el registro de aves y sus 101 especies, la especie endémica y las
+       migratorias · el censo de flora · el muro completo del concurso con
+       sus créditos.
+       (v11: los dos árboles de CITES —Cedro y Guayacán Amarillo— y el mural
+       del barranquero se retiraron de la página; pedido directo del cliente.)
+
+     v16 · TRES HECHOS SALIERON DE AQUÍ, y no de la página: cambian de DUEÑO.
+       El Sendero Ecovital descrito, la entrada de $15.000 —el único precio
+       publicado del sitio— y las dos corrientes de agua (Quebrada Aranzoque y
+       riachuelo La Florida) son ahora de la sección #sendero, que cierra el
+       recorrido después de #vivero. Pedido directo del cliente (agosto 2026):
+       «el sendero ecovital es lo último, va debajo de vivero». Con él se
+       mudaron el bloque .nat-apertura entero, el rótulo «Atrévete al sendero»
+       y el montaje de fauna-ambiente, que colgaba de su caja de aire.
+       Mismo patrón que el movimiento del muro del concurso (agosto 2026) y
+       que el de «Nuestro compromiso» (v14): el hecho sigue escrito UNA sola
+       vez en todo el sitio y la tabla HECHOS de herramientas/validar.js y
+       validar.py se actualizó en paralelo.
+       El «101 especies» NO se movió: es el dato del registro de aves, no del
+       camino, y es lo que titula esta sección desde el encabezado (antes «el
+       giro»), que heredó el id="naturaleza-titulo" de la apertura mudada.
 
      Qué NO dice esta sección, por ser de otra (se enlaza, no se describe):
-       las paradas pedagógicas y el jardín de insectos, de #colegios ·
-       el horario y el número escrito, de #ubicacion · las capacidades,
-       de #espacios · el tamaño del predio y su cercanía a la ciudad,
-       de #inicio.
+       el sendero, su precio y sus dos quebradas, de #sendero · las paradas
+       pedagógicas y el jardín de insectos, de #colegios · el horario y el
+       número escrito, de #ubicacion · las capacidades, de #espacios · el
+       tamaño del predio y su cercanía a la ciudad, de #inicio.
 
      CSS propio: styles/sections/naturaleza.css
      JS esperado: reveal global (.reveal / .reveal-secuencia) y lightbox
@@ -286,210 +303,210 @@
 
     <div class="contenedor contenedor--ancho">
 
-      <!-- LA CURADURÍA. Las cincuenta y siete copias llevaban la misma celda,
-           la misma esquina rotada y el mismo tamaño: un archivo plano donde la
-           mejor fotografía del concurso pesaba lo mismo que la más movida. Se
-           miraron las 57 una a una y las nueve de mejor factura —nitidez, pose,
-           luz— cuelgan ahora en grande, con una pieza dominante y dos filas de
-           acompañamiento desiguales; las cuarenta y ocho restantes pasan al
-           archivo plegado de abajo, en celdas pequeñas y calladas. Es lo que
-           hace un curador con una pared buena: no cuelga todo al mismo alto.
-           Ninguna ficha pierde su crédito y el archivo sigue completo. -->
-      <div class="nat-destacadas reveal-secuencia">
-        <figure class="nat-obra reveal">
-          <button
-            type="button"
-            class="nat-obra__disparador"
-            data-lightbox="muro-aves"
-            data-lightbox-caption="Momotus subrufescens — Foto: Leyner Lozano"
-          >
-            <img
-              src="img/aves/ave-46-momotus-subrufescens.jpg"
-              width="867"
-              height="1300"
-              loading="lazy"
-              decoding="async"
-              alt="Momotus subrufescens en el arbolado de Vegas del Verde, fotografía de Leyner Lozano"
-            />
-          </button>
-          <figcaption class="nat-obra__pie">
-            <span class="nat-obra__especie nat-cientifico">Momotus subrufescens</span>
-            <span class="nat-obra__autor">Foto: Leyner Lozano</span>
-          </figcaption>
-        </figure>
-        <figure class="nat-obra reveal">
-          <button
-            type="button"
-            class="nat-obra__disparador"
-            data-lightbox="muro-aves"
-            data-lightbox-caption="Eufonia piquigruesa — Foto: Francheska Salazar"
-          >
-            <img
-              src="img/aves/ave-34-eufonia-piquigruesa.jpg"
-              width="1040"
-              height="1300"
-              loading="lazy"
-              decoding="async"
-              alt="Eufonia piquigruesa en el arbolado de Vegas del Verde, fotografía de Francheska Salazar"
-            />
-          </button>
-          <figcaption class="nat-obra__pie">
-            <span class="nat-obra__especie">Eufonia piquigruesa</span>
-            <span class="nat-obra__autor">Foto: Francheska Salazar</span>
-          </figcaption>
-        </figure>
-        <figure class="nat-obra reveal">
-          <button
-            type="button"
-            class="nat-obra__disparador"
-            data-lightbox="muro-aves"
-            data-lightbox-caption="Amazilia tzacatl — Foto: Jaime Suarez"
-          >
-            <img
-              src="img/aves/ave-35-amaziliatzacatl.jpg"
-              width="1040"
-              height="1300"
-              loading="lazy"
-              decoding="async"
-              alt="Amazilia tzacatl en el arbolado de Vegas del Verde, fotografía de Jaime Suarez"
-            />
-          </button>
-          <figcaption class="nat-obra__pie">
-            <span class="nat-obra__especie nat-cientifico">Amazilia tzacatl</span>
-            <span class="nat-obra__autor">Foto: Jaime Suarez</span>
-          </figcaption>
-        </figure>
-        <figure class="nat-obra reveal">
-          <button
-            type="button"
-            class="nat-obra__disparador"
-            data-lightbox="muro-aves"
-            data-lightbox-caption="Azulejo palmero — Foto: Francheska Salazar"
-          >
-            <img
-              src="img/aves/ave-04-azulejo-palmero.jpg"
-              width="1300"
-              height="1039"
-              loading="lazy"
-              decoding="async"
-              alt="Azulejo palmero en el arbolado de Vegas del Verde, fotografía de Francheska Salazar"
-            />
-          </button>
-          <figcaption class="nat-obra__pie">
-            <span class="nat-obra__especie">Azulejo palmero</span>
-            <span class="nat-obra__autor">Foto: Francheska Salazar</span>
-          </figcaption>
-        </figure>
-        <figure class="nat-obra reveal">
-          <button
-            type="button"
-            class="nat-obra__disparador"
-            data-lightbox="muro-aves"
-            data-lightbox-caption="Thraupis episcopus — Foto: Fernando Caceres"
-          >
-            <img
-              src="img/aves/ave-03-thraupis-episcopus.jpg"
-              width="1040"
-              height="1300"
-              loading="lazy"
-              decoding="async"
-              alt="Thraupis episcopus en el arbolado de Vegas del Verde, fotografía de Fernando Caceres"
-            />
-          </button>
-          <figcaption class="nat-obra__pie">
-            <span class="nat-obra__especie nat-cientifico">Thraupis episcopus</span>
-            <span class="nat-obra__autor">Foto: Fernando Caceres</span>
-          </figcaption>
-        </figure>
-        <figure class="nat-obra reveal">
-          <button
-            type="button"
-            class="nat-obra__disparador"
-            data-lightbox="muro-aves"
-            data-lightbox-caption="Piaya cayana — Foto: Jonathan Layton Avila"
-          >
-            <img
-              src="img/aves/ave-06-piaya-cayana.jpg"
-              width="1040"
-              height="1300"
-              loading="lazy"
-              decoding="async"
-              alt="Piaya cayana en el arbolado de Vegas del Verde, fotografía de Jonathan Layton Avila"
-            />
-          </button>
-          <figcaption class="nat-obra__pie">
-            <span class="nat-obra__especie nat-cientifico">Piaya cayana</span>
-            <span class="nat-obra__autor">Foto: Jonathan Layton Avila</span>
-          </figcaption>
-        </figure>
-        <figure class="nat-obra reveal">
-          <button
-            type="button"
-            class="nat-obra__disparador"
-            data-lightbox="muro-aves"
-            data-lightbox-caption="Todirostrum cinereum — Foto: Jonathan Layton Avila"
-          >
-            <img
-              src="img/aves/ave-41-todirostrum-cinereum.jpg"
-              width="1040"
-              height="1300"
-              loading="lazy"
-              decoding="async"
-              alt="Todirostrum cinereum en el arbolado de Vegas del Verde, fotografía de Jonathan Layton Avila"
-            />
-          </button>
-          <figcaption class="nat-obra__pie">
-            <span class="nat-obra__especie nat-cientifico">Todirostrum cinereum</span>
-            <span class="nat-obra__autor">Foto: Jonathan Layton Avila</span>
-          </figcaption>
-        </figure>
-        <figure class="nat-obra reveal">
-          <button
-            type="button"
-            class="nat-obra__disparador"
-            data-lightbox="muro-aves"
-            data-lightbox-caption="Tityra inquisitor · macho — Foto: Daniel Arango"
-          >
-            <img
-              src="img/aves/ave-16-tytira-inquisitor-macho.jpg"
-              width="1300"
-              height="867"
-              loading="lazy"
-              decoding="async"
-              alt="Tityra inquisitor · macho en el arbolado de Vegas del Verde, fotografía de Daniel Arango"
-            />
-          </button>
-          <figcaption class="nat-obra__pie">
-            <span class="nat-obra__especie nat-cientifico">Tityra inquisitor · macho</span>
-            <span class="nat-obra__autor">Foto: Daniel Arango</span>
-          </figcaption>
-        </figure>
-        <figure class="nat-obra reveal">
-          <button
-            type="button"
-            class="nat-obra__disparador"
-            data-lightbox="muro-aves"
-            data-lightbox-caption="Chondrohierax uncinatus — Foto: Leyner Lozano"
-          >
-            <img
-              src="img/aves/ave-45-chondrohierax-uncinatus.jpg"
-              width="867"
-              height="1300"
-              loading="lazy"
-              decoding="async"
-              alt="Chondrohierax uncinatus en el arbolado de Vegas del Verde, fotografía de Leyner Lozano"
-            />
-          </button>
-          <figcaption class="nat-obra__pie">
-            <span class="nat-obra__especie nat-cientifico">Chondrohierax uncinatus</span>
-            <span class="nat-obra__autor">Foto: Leyner Lozano</span>
-          </figcaption>
-        </figure>
-      </div>
-
       <details class="nat-mas">
         <summary class="btn btn-secundario nat-mas__boton">Abrir el archivo completo</summary>
         <div class="nat-muro nat-muro--resto">
+          <!-- v10 · LAS NUEVE QUE COLGABAN EN GRANDE. Hasta la v9 estas nueve
+               fotografías abrían el muro en una composición propia
+               (.nat-destacadas) puesta justo debajo de la cinta. Pedido
+               directo del cliente: en la interfaz debe quedar SOLO la primera
+               composición —la cinta con el rótulo del concurso—, así que la
+               segunda se retiró.
+               LAS NUEVE NO SE PIERDEN: pasan aquí, al archivo, cada una con su
+               especie y su crédito intactos. Es la condición para poder
+               retirar la composición sin mentir: «Abrir el archivo completo»
+               sigue abriendo las 57 que anuncia el rótulo de la cinta, y no
+               48, y ninguna autora ni ningún autor desaparece de la página.
+               -->
+          <figure class="nat-obra">
+            <button
+              type="button"
+              class="nat-obra__disparador"
+              data-lightbox="muro-aves"
+              data-lightbox-caption="Momotus subrufescens — Foto: Leyner Lozano"
+            >
+              <img
+                src="img/aves/ave-46-momotus-subrufescens.jpg"
+                width="867"
+                height="1300"
+                loading="lazy"
+                decoding="async"
+                alt="Momotus subrufescens en el arbolado de Vegas del Verde, fotografía de Leyner Lozano"
+              />
+            </button>
+            <figcaption class="nat-obra__pie">
+              <span class="nat-obra__especie nat-cientifico">Momotus subrufescens</span>
+              <span class="nat-obra__autor">Foto: Leyner Lozano</span>
+            </figcaption>
+          </figure>
+          <figure class="nat-obra">
+            <button
+              type="button"
+              class="nat-obra__disparador"
+              data-lightbox="muro-aves"
+              data-lightbox-caption="Eufonia piquigruesa — Foto: Francheska Salazar"
+            >
+              <img
+                src="img/aves/ave-34-eufonia-piquigruesa.jpg"
+                width="1040"
+                height="1300"
+                loading="lazy"
+                decoding="async"
+                alt="Eufonia piquigruesa en el arbolado de Vegas del Verde, fotografía de Francheska Salazar"
+              />
+            </button>
+            <figcaption class="nat-obra__pie">
+              <span class="nat-obra__especie">Eufonia piquigruesa</span>
+              <span class="nat-obra__autor">Foto: Francheska Salazar</span>
+            </figcaption>
+          </figure>
+          <figure class="nat-obra">
+            <button
+              type="button"
+              class="nat-obra__disparador"
+              data-lightbox="muro-aves"
+              data-lightbox-caption="Amazilia tzacatl — Foto: Jaime Suarez"
+            >
+              <img
+                src="img/aves/ave-35-amaziliatzacatl.jpg"
+                width="1040"
+                height="1300"
+                loading="lazy"
+                decoding="async"
+                alt="Amazilia tzacatl en el arbolado de Vegas del Verde, fotografía de Jaime Suarez"
+              />
+            </button>
+            <figcaption class="nat-obra__pie">
+              <span class="nat-obra__especie nat-cientifico">Amazilia tzacatl</span>
+              <span class="nat-obra__autor">Foto: Jaime Suarez</span>
+            </figcaption>
+          </figure>
+          <figure class="nat-obra">
+            <button
+              type="button"
+              class="nat-obra__disparador"
+              data-lightbox="muro-aves"
+              data-lightbox-caption="Azulejo palmero — Foto: Francheska Salazar"
+            >
+              <img
+                src="img/aves/ave-04-azulejo-palmero.jpg"
+                width="1300"
+                height="1039"
+                loading="lazy"
+                decoding="async"
+                alt="Azulejo palmero en el arbolado de Vegas del Verde, fotografía de Francheska Salazar"
+              />
+            </button>
+            <figcaption class="nat-obra__pie">
+              <span class="nat-obra__especie">Azulejo palmero</span>
+              <span class="nat-obra__autor">Foto: Francheska Salazar</span>
+            </figcaption>
+          </figure>
+          <figure class="nat-obra">
+            <button
+              type="button"
+              class="nat-obra__disparador"
+              data-lightbox="muro-aves"
+              data-lightbox-caption="Thraupis episcopus — Foto: Fernando Caceres"
+            >
+              <img
+                src="img/aves/ave-03-thraupis-episcopus.jpg"
+                width="1040"
+                height="1300"
+                loading="lazy"
+                decoding="async"
+                alt="Thraupis episcopus en el arbolado de Vegas del Verde, fotografía de Fernando Caceres"
+              />
+            </button>
+            <figcaption class="nat-obra__pie">
+              <span class="nat-obra__especie nat-cientifico">Thraupis episcopus</span>
+              <span class="nat-obra__autor">Foto: Fernando Caceres</span>
+            </figcaption>
+          </figure>
+          <figure class="nat-obra">
+            <button
+              type="button"
+              class="nat-obra__disparador"
+              data-lightbox="muro-aves"
+              data-lightbox-caption="Piaya cayana — Foto: Jonathan Layton Avila"
+            >
+              <img
+                src="img/aves/ave-06-piaya-cayana.jpg"
+                width="1040"
+                height="1300"
+                loading="lazy"
+                decoding="async"
+                alt="Piaya cayana en el arbolado de Vegas del Verde, fotografía de Jonathan Layton Avila"
+              />
+            </button>
+            <figcaption class="nat-obra__pie">
+              <span class="nat-obra__especie nat-cientifico">Piaya cayana</span>
+              <span class="nat-obra__autor">Foto: Jonathan Layton Avila</span>
+            </figcaption>
+          </figure>
+          <figure class="nat-obra">
+            <button
+              type="button"
+              class="nat-obra__disparador"
+              data-lightbox="muro-aves"
+              data-lightbox-caption="Todirostrum cinereum — Foto: Jonathan Layton Avila"
+            >
+              <img
+                src="img/aves/ave-41-todirostrum-cinereum.jpg"
+                width="1040"
+                height="1300"
+                loading="lazy"
+                decoding="async"
+                alt="Todirostrum cinereum en el arbolado de Vegas del Verde, fotografía de Jonathan Layton Avila"
+              />
+            </button>
+            <figcaption class="nat-obra__pie">
+              <span class="nat-obra__especie nat-cientifico">Todirostrum cinereum</span>
+              <span class="nat-obra__autor">Foto: Jonathan Layton Avila</span>
+            </figcaption>
+          </figure>
+          <figure class="nat-obra">
+            <button
+              type="button"
+              class="nat-obra__disparador"
+              data-lightbox="muro-aves"
+              data-lightbox-caption="Tityra inquisitor · macho — Foto: Daniel Arango"
+            >
+              <img
+                src="img/aves/ave-16-tytira-inquisitor-macho.jpg"
+                width="1300"
+                height="867"
+                loading="lazy"
+                decoding="async"
+                alt="Tityra inquisitor · macho en el arbolado de Vegas del Verde, fotografía de Daniel Arango"
+              />
+            </button>
+            <figcaption class="nat-obra__pie">
+              <span class="nat-obra__especie nat-cientifico">Tityra inquisitor · macho</span>
+              <span class="nat-obra__autor">Foto: Daniel Arango</span>
+            </figcaption>
+          </figure>
+          <figure class="nat-obra">
+            <button
+              type="button"
+              class="nat-obra__disparador"
+              data-lightbox="muro-aves"
+              data-lightbox-caption="Chondrohierax uncinatus — Foto: Leyner Lozano"
+            >
+              <img
+                src="img/aves/ave-45-chondrohierax-uncinatus.jpg"
+                width="867"
+                height="1300"
+                loading="lazy"
+                decoding="async"
+                alt="Chondrohierax uncinatus en el arbolado de Vegas del Verde, fotografía de Leyner Lozano"
+              />
+            </button>
+            <figcaption class="nat-obra__pie">
+              <span class="nat-obra__especie nat-cientifico">Chondrohierax uncinatus</span>
+              <span class="nat-obra__autor">Foto: Leyner Lozano</span>
+            </figcaption>
+          </figure>
           <figure class="nat-obra">
             <button
               type="button"
@@ -1506,214 +1523,71 @@
       </p>
 
     </div>
+
+    <!-- LA CRESTA DEL PIE. Mismo SVG de la cabecera, mismo path — sólo se
+         reubica al borde inferior y se invierte con transform: scaleY(-1).
+         Pedido del cliente: el cierre de la sala oscura hacia la crema de
+         abajo tiene que llevar la misma curva orgánica que la entrada, no
+         un corte recto. -->
+    <svg
+      class="nat-cresta nat-cresta--pie"
+      viewBox="0 0 1440 96"
+      preserveAspectRatio="none"
+      aria-hidden="true"
+      focusable="false"
+    >
+      <path d="M0 0 H1440 V18 C1268 66, 1146 22, 968 46 C782 71, 660 30, 470 58 C316 81, 178 44, 0 74 Z" />
+    </svg>
   </div>
 
   <!-- ======================================================================
-       1 · APERTURA A SANGRE POR LA IZQUIERDA
-       El encabezado de sección vive DENTRO de esta composición: la foto del
-       camino toca el borde de la pantalla y el titular arranca a su derecha.
-       Es lo principal de la sección y tiene que verse que lo es.
-       ====================================================================== -->
-  <div class="nat-apertura">
+       1 · EL ENCABEZADO DE LA SECCIÓN  (v16)
 
-    <div class="nat-apertura__media reveal reveal--izq">
-      <figure class="nat-apertura__principal">
-        <div class="marco marco--retrato">
-          <img
-            src="img/espacios/sendero-1.jpg"
-            width="844"
-            height="1500"
-            loading="lazy"
-            decoding="async"
-            alt="Camino de tierra y hojarasca del Sendero Ecovital, cubierto por el arco de las ramas y bordeado de setos y árboles jóvenes"
-          />
-        </div>
-      </figure>
-      <figure class="nat-apertura__inset">
-        <div class="marco marco--1-1">
-          <img
-            src="img/parque/parque-45.jpg"
-            width="675"
-            height="1200"
-            loading="lazy"
-            decoding="async"
-            alt="Cerramiento de cañas de guadua del predio, con orquídeas colgadas de una vara y materas de barro sobre la gravilla"
-          />
-        </div>
-        <figcaption class="credito nat-apertura__pie">Guadua del predio</figcaption>
-      </figure>
+       QUÉ ERA HASTA AYER. Esta franja de salvia era «el giro»: una bisagra que
+       decía en voz alta dónde terminaba el sendero y dónde empezaban los
+       pájaros («Hasta aquí, el camino. Ahora, lo que vive en él»), porque los
+       dos movimientos vivían dentro de esta misma sección y el cliente los
+       leía como una sola masa.
 
-      <!-- v8 · LA CAJA DE FAUNA AMBIENTE. Vacía, decorativa y con `position`
-           propia, como exige §2 del documento del director. Va AQUÍ, sobre la
-           fotografía del camino —el movimiento del sendero—, y no en la parte
-           de aves: allí ya vuelan pájaros de verdad, fotografiados en el
-           predio, y superponerles recortes genéricos sería competir con el
-           material bueno. Cae sobre foto, nunca sobre párrafo. -->
-      <div class="nat-apertura__aire" aria-hidden="true"></div>
-    </div>
+       POR QUÉ CAMBIA. El Sendero Ecovital ya no vive aquí: es la sección
+       #sendero, que cierra la página después de #vivero — pedido directo del
+       cliente, agosto 2026 («el sendero ecovital es lo último, va debajo de
+       vivero»). Con el camino fuera, una bisagra que anuncia un cambio de
+       tema que ya no ocurre es un letrero que apunta a un sitio vacío.
 
-    <div class="nat-apertura__texto reveal reveal--der">
+       QUÉ PASA A SER. El ENCABEZADO de #naturaleza, que es lo que la sección
+       perdió al mudarse la apertura del sendero: allí vivía el <h2> con el
+       `id="naturaleza-titulo"` al que apunta el `aria-labelledby` del
+       <section>. Ahora está aquí, con el mismo aparato tipográfico —la
+       pieza-cifra dominante— y con el dato que de verdad titula esta sección:
+       las 101 especies del registro de aves. Ese hecho NO se movió a #sendero
+       precisamente por eso: es del registro, no del camino.
 
-      <header class="nat-apertura__encabezado">
-        <!-- v8 · EL RÓTULO DE CAPÍTULO. Decía «Sendero Ecovital y
-             biodiversidad»: dos temas en un mismo renglón, que es justo lo
-             que el cliente lee como «está mezclado todo». Ahora el rótulo
-             trae el capítulo compartido con #vivero —«El bosque», §1 del
-             documento del director— y a continuación el nombre del PRIMER
-             movimiento, que es el sendero y sólo el sendero. Las aves tienen
-             su propio rótulo más abajo, en .nat-giro. -->
-        <p class="eyebrow">El bosque · El Sendero Ecovital</p>
-        <!-- LA PIEZA-CIFRA DOMINANTE. El «101» es el dato que distingue a
-             este predio de cualquier finca de eventos y no aparece en ningún
-             otro sitio de la página. Antes iba dentro de la frase como una
-             palabra más subida de peso; ahora el titular se compone alrededor
-             de él: la frase arriba, la cifra en cuerpo gigante debajo y la
-             unidad colgada de su línea base. La oración no cambia —el lector
-             de pantalla y el validador siguen leyendo «Camina donde cantan
-             101 especies»— y la cifra sigue apareciendo UNA sola vez en la
-             página. data-contador la cuenta al entrar en pantalla con el
-             motor global de js/app.js (el mismo del 347 y el 57); el 101 ya
-             está escrito en el HTML, así que sin JS —o antes de que el motor
-             dispare— no hay hueco ni parpadeo. -->
-        <!-- v8 · .reveal-texto sobre el titular de apertura del capítulo. Los
-             dos renglones ya existían como spans (la frase y la línea de la
-             cifra), así que sólo hay que marcarlos: cero marcado nuevo y cero
-             JS nuevo — lo dispara el mismo observador de js/app.js.
-             NO se usa la variante persiana: su `overflow: clip` por renglón
-             recortaría el «101» a 143 px, que es la pieza más grande de la
-             sección. El gesto caro se queda sin gastar aquí a propósito.
-             `display: block` de .reveal-texto__linea no pisa el `flex` de
-             .nat-cifra-dominante__linea: esta hoja se carga DESPUÉS de
-             base.css y las dos reglas tienen la misma especificidad. -->
-        <h2 id="naturaleza-titulo" class="titulo-seccion nat-apertura__titulo nat-cifra-dominante reveal reveal-texto">
-          <span class="nat-cifra-dominante__frase reveal-texto__linea">Camina donde cantan</span>
-          <span class="nat-cifra-dominante__linea reveal-texto__linea">
-            <span class="nat-cifra-dominante__numero" data-contador="101">101</span>
-            <span class="nat-cifra-dominante__unidad">especies</span>
-          </span>
-        </h2>
-        <p class="entradilla">
-          El recorrido guiado que sigue la quebrada, y el censo de lo que vive alrededor.
-          Es la única visita suelta con un precio publicado.
-        </p>
-      </header>
+       LA FRANJA DE SALVIA SE QUEDA, y ahora hace más trabajo que antes: es lo
+       que separa el muro del concurso —sala oscura— del censo de más abajo, y
+       le da a la sección la puerta que un encabezado tiene que ser. Sigue sin
+       llevar cresta SVG ni fauna: la cresta es el gesto de entrada del muro y
+       gastarla dos veces en la misma sección la anula.
 
-      <div class="nat-apertura__cuerpo">
-        <h3 class="titulo-seccion titulo-seccion--xs nat-apertura__antetitulo">
-          Se camina despacio y con alguien que sabe mirar
-        </h3>
-
-        <p>
-          Es pajareo y observación de plantas a la vez: se anda poco y se para mucho.
-          Vas con guía, así que lo que oyes tiene nombre.
-        </p>
-
-        <!-- El cauce entre los dos puntos era un filete recto de 1 px. Un
-             filete recto es lo que dibuja una tabla; una quebrada serpentea.
-             El trazo es SVG y es decoración pura (aria-hidden): los dos
-             nombres ya están escritos al lado y el orden lo da el flujo. -->
-        <p class="nat-ruta">
-          <span class="nat-ruta__punto">Quebrada Aranzoque</span>
-          <svg
-            class="nat-ruta__cauce"
-            viewBox="0 0 16 64"
-            preserveAspectRatio="none"
-            aria-hidden="true"
-            focusable="false"
-          >
-            <path
-              d="M1 0 C 13 12, 1 22, 8 34 C 15 46, 3 54, 1 64"
-              stroke-width="1.4"
-              stroke-linecap="round"
-              vector-effect="non-scaling-stroke"
-            />
-          </svg>
-          <span class="nat-ruta__punto">Riachuelo La Florida</span>
-        </p>
-
-        <p>
-          El camino sigue la quebrada hasta su encuentro con el riachuelo. Las dos
-          corrientes de agua rodean el terreno arbolado.
-        </p>
-
-<!-- v9 · Era una lista de viñetas de hoja (lista-hojas): tres renglones de
-             folleto en la columna más leída de la sección. Ahora es UNA línea
-             de registro separada por interpunto — ficha de expedición, no
-             lista de beneficios. Micro-etiqueta (<24px), caps permitidos. -->
-        <p class="nat-apertura__notas">
-          Guaduas a lado y lado · Búcaro y Caracolí · Recorrido guiado de pajareo
-        </p>
-      </div>
-
-      <!-- El único precio publicado del sitio, y el CTA a su lado: dos
-           columnas desiguales cerradas por filete arriba y abajo. -->
-      <div class="nat-oferta">
-        <div class="nat-precio">
-          <p class="nat-precio__etiqueta">Entrada al Sendero Ecovital</p>
-          <p class="nat-precio__valor">
-            <span class="nat-precio__simbolo">$</span>15.000
-            <span class="nat-precio__moneda">COP</span>
-          </p>
-          <p class="nat-precio__unidad">por persona</p>
-        </div>
-
-        <div class="nat-oferta__accion">
-          <div class="grupo-botones">
-            <a
-              class="btn btn-whatsapp btn-grande"
-              href="https://wa.me/573166758362?text=Hola%2C%20quiero%20reservar%20un%20recorrido%20guiado%20por%20el%20Sendero%20Ecovital.%20Vamos%20___%20personas%20y%20nos%20gustar%C3%ADa%20ir%20el%20___."
-              target="_blank"
-              rel="noopener"
-            >
-              Atrévete al sendero
-            </a>
-            <!-- El contrapunto del precio de al lado: esa entrada es para
-                 venir una vez; el Plan vecino es para volver. Vive en su
-                 propia página porque tiene tarifas, condiciones y beneficios
-                 que aquí obligarían a repetir media sección. -->
-            <a class="btn btn-secundario btn-grande" href="plan-vecino.html">
-              Ven todo el año
-            </a>
-          </div>
-
-          <p class="nota nat-oferta__nota">
-            Escribe con cuántos vienen y qué día les sirve.
-            <a href="#ubicacion">Cómo llegar</a>.
-          </p>
-        </div>
-      </div>
-
-    </div>
-
-  </div>
-
-  <!-- ======================================================================
-       1 bis · EL GIRO — la bisagra entre el sendero y los pájaros (v8)
-       El cliente lee esta sección como una sola masa: «por sección de pájaros
-       en un lado, sendero en otro, está mezclado todo». No lo está en el
-       contenido —el sendero se cuenta entero arriba y las aves enteras
-       abajo—, pero NADA lo señalaba: los dos movimientos comparten fondo
-       crema, ancho de contenedor y tamaño de rótulo, así que la vista los
-       cuenta como un mismo bloque largo.
-
-       Esta banda es el letrero que faltaba. Es lo mínimo que hace evidente el
-       cambio de tema sin fracturar el capítulo «El bosque» (que sigue con
-       #vivero): una franja de salvia a todo el ancho —el mismo recurso de
-       franja alterna que ya usa el sitio, no un recurso nuevo—, con el rótulo
-       del segundo movimiento y dos renglones que dicen en voz alta dónde
-       termina una cosa y empieza la otra.
-
-       Deliberadamente NO lleva cresta SVG ni fauna: la cresta es el gesto de
-       entrada del muro del concurso, cien líneas más abajo, y gastarla dos
-       veces en la misma sección la anula. Aquí basta el cambio de suelo.
+       EL «101» sigue apareciendo UNA sola vez en toda la página y ya está
+       escrito en el HTML: `data-contador` sólo lo cuenta al entrar en pantalla
+       con el motor global de js/app.js. Sin JS no hay hueco ni parpadeo.
+       NO se usa la variante persiana de .reveal-texto: su `overflow: clip` por
+       renglón recortaría la cifra, que es la pieza más grande del bloque.
        ====================================================================== -->
   <div class="nat-giro">
     <div class="contenedor nat-giro__cuerpo">
-      <p class="eyebrow nat-giro__eyebrow">Las aves y el censo</p>
-      <h3 class="titulo-seccion titulo-seccion--sm nat-giro__titulo reveal reveal-texto">
-        <span class="reveal-texto__linea">Hasta aquí, el camino.</span>
-        <span class="reveal-texto__linea">Ahora, lo que vive en él.</span>
-      </h3>
+      <p class="eyebrow nat-giro__eyebrow">El bosque · Las aves y el censo</p>
+      <h2
+        id="naturaleza-titulo"
+        class="titulo-seccion nat-giro__titulo nat-cifra-dominante reveal reveal-texto"
+      >
+        <span class="nat-cifra-dominante__frase reveal-texto__linea">Aquí cantan</span>
+        <span class="nat-cifra-dominante__linea reveal-texto__linea">
+          <span class="nat-cifra-dominante__numero" data-contador="101">101</span>
+          <span class="nat-cifra-dominante__unidad">especies</span>
+        </span>
+      </h2>
       <p class="nat-giro__texto">
         El registro de aves, los ambientes del predio y el muro del concurso.
       </p>
@@ -1721,30 +1595,103 @@
   </div>
 
   <!-- ======================================================================
+       1 ter · LA ENDÉMICA — el retrato de la Chachalaca Colombiana (v11)
+
+       POR QUÉ SALE DE LA REJILLA. Hasta la v10 esta especie vivía como una
+       ficha más dentro de .nat-registro, en el carril central de una rejilla
+       de tres columnas, con una foto de 11rem al lado del texto. Y es la
+       ÚNICA especie endémica del predio: la única de las 101 que no vive de
+       forma silvestre en ningún otro país del mundo. Un dato que no se puede
+       copiar dibujado igual que un apunte al margen es un dato desperdiciado.
+       Ahora tiene sala propia: una banda de verde bosque a todo el ancho —el
+       color dominante de la marca, que en esta sección no se había usado
+       nunca— con el retrato a un lado y el nombre en grande al otro.
+
+       POR QUÉ LA FOTO NO VA A SANGRE, y esto es lo importante. Las dos
+       planchas que tocan los cuatro cantos del navegador en esta sección
+       —la portada del milano y el mural del barranquero— son fotografías
+       TOMADAS EN EL PREDIO. Darle ese mismo tratamiento a una imagen que no
+       lo es sería mentir con la maqueta aunque el pie dijera la verdad. Por
+       eso aquí la fotografía va ENMARCADA, con radio de hoja, apoyada dentro
+       de la banda: se lee como una lámina colgada en una pared, que es
+       exactamente lo que es. La honestidad se dibuja, no sólo se escribe.
+
+       LA FOTO. Es de la misma especie, tomada en Rionegro (Antioquia, mismo
+       departamento, hábitat equivalente), con licencia CC BY-SA 2.0, y
+       créditada a su autor real: Félix Uribe, vía Wikimedia Commons. Ese
+       crédito completo vive en el alt y en este comentario; el rótulo
+       visible lleva lo único que el visitante tiene que entender de un
+       vistazo —que no es del predio—. No entra al muro del concurso ni
+       cuenta para el «57 · 20 autores»: ese número sigue siendo sólo
+       fotografía propia de los participantes.
+
+       OJO CON EL ARCHIVO: ortalis-columbiana-referencia.jpg mide 1570×1010
+       en disco pero lleva una marca EXIF de rotación, así que TODO navegador
+       moderno lo pinta en vertical, 1010×1570. Los atributos width/height
+       declaran lo que se pinta, que es lo que evita el salto de maqueta; el
+       marco manda de todos modos por aspect-ratio. Queda pendiente hornear
+       la rotación en los píxeles para que disco y pantalla coincidan.
+       ====================================================================== -->
+  <!-- <div> y no <section>: herramientas/validar.js trocea el <main> partiendo
+       por `</section>` a principio de línea para saber qué sección posee qué
+       hecho, y una etiqueta anidada de más ahí dentro es una bomba de relojería
+       para esa cuenta. El rótulo accesible ya lo da el h3 que va dentro. -->
+  <div class="nat-endemica">
+    <div class="contenedor nat-endemica__cuerpo">
+
+      <figure class="nat-endemica__lamina reveal reveal--velo">
+        <div class="nat-endemica__marco">
+          <img
+            class="nat-endemica__foto"
+            src="img/aves/ortalis-columbiana-referencia.jpg"
+            width="1010"
+            height="1570"
+            loading="lazy"
+            decoding="async"
+            alt="Chachalaca colombiana (Ortalis columbiana) posada en una rama con musgo entre el follaje. Fotografía de referencia de Félix Uribe tomada en Rionegro, Antioquia, con licencia CC BY-SA 2.0 — no fue tomada en el predio de Vegas del Verde"
+          />
+        </div>
+        <!-- LA CARTELA. Va DENTRO del retrato y no debajo, porque un rótulo
+             que se puede leer sin la foto se puede citar sin la foto. Aquí
+             van pegados. -->
+        <figcaption class="nat-endemica__cartela reveal">
+          <span class="nat-endemica__cartela-clave">Imagen de referencia</span>
+          <span class="nat-endemica__cartela-detalle">No tomada en el predio</span>
+        </figcaption>
+      </figure>
+
+      <div class="nat-endemica__texto reveal-secuencia">
+        <p class="pildora pildora--destacada nat-endemica__pildora reveal">
+          Endémica de Colombia
+        </p>
+        <h3 class="nat-endemica__nombre reveal">Chachalaca Colombiana</h3>
+        <p class="nat-endemica__cientifico nat-cientifico reveal">Ortalis columbiana</p>
+        <p class="nat-endemica__entradilla reveal">
+          Endémica quiere decir que no vive de forma silvestre en ningún otro país
+          del mundo. Está en el registro de este predio.
+        </p>
+        <p class="nat-endemica__aviso reveal">
+          Todavía no hay una fotografía suya tomada aquí, en el predio.
+          Ese es justamente el plan.
+        </p>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ======================================================================
        2 · LA NOTA AL MARGEN
-       Tres columnas desiguales, sin caja: el rótulo estrecho a la izquierda,
-       la endémica ancha en el centro y el dato migratorio en un carril fino.
+       Dos columnas desiguales, sin caja: el rótulo estrecho a la izquierda y
+       el dato migratorio en un carril fino separado por su propio filete.
+       v11 · la endémica ya no vive aquí (subió a su propia banda, arriba), y
+       por eso el rótulo deja de anunciar «dos apuntes»: queda uno.
        ====================================================================== -->
   <div class="contenedor">
     <div class="nat-registro reveal-secuencia">
 
       <h3 class="titulo-seccion titulo-seccion--xs nat-registro__titulo reveal">
-        Dos apuntes del registro de aves
+        Otro apunte del registro de aves
       </h3>
-
-      <article class="nat-ficha nat-ficha--endemica reveal">
-        <p class="pildora pildora--destacada">Endémica de Colombia</p>
-        <h4 class="nat-ficha__titulo">Chachalaca Colombiana</h4>
-        <p class="nat-ficha__cientifico">Ortalis columbiana</p>
-        <p class="nat-ficha__texto">
-          Endémica quiere decir que no vive de forma silvestre en ningún otro país
-          del mundo. Está en el registro de este predio.
-        </p>
-        <p class="nat-ficha__aviso">
-          Todavía no hay una fotografía suya en el muro de aquí abajo.
-          Ese es justamente el plan.
-        </p>
-      </article>
 
       <article class="nat-ficha nat-ficha--dato reveal">
         <p class="cifra">7</p>
@@ -1759,21 +1706,94 @@
   </div>
 
   <!-- ======================================================================
-       3 · A SANGRE POR LA DERECHA: el censo y la columna de vídeo
-       Contrapeso de la apertura. El vídeo es metraje propio, vertical y mudo;
-       el póster es el suelo si la red falla.
+       3 · LA SALA DEL CENSO — «Aquí no solo hay aves»  (v11)
+
+       QUÉ CAMBIA Y POR QUÉ. Hasta la v10 este movimiento era una rejilla de
+       cuatro tarjetas de ambiente puesta sobre la crema, con el título en
+       cuerpo de subtítulo (--fs-h3): el bloque que anuncia el censo del predio
+       pesaba en pantalla MENOS que la cartela de una fotografía. Ahora es lo
+       que dice ser: una SALA a sangre por los cuatro cantos, oscura, de una
+       pantalla larga, con el título en escala de portada y la cifra como
+       protagonista.
+
+       LA SALA ES LA MISMA QUE LA DE LA CINTA, a propósito: --color-sala, el
+       mismo cuarto oscuro del concurso de arriba. La sección tiene ya dos
+       apariciones del negro (la cinta y el velo del muro) y esta es la
+       tercera y última; no se inventa un fondo nuevo. Sobre ese fondo el
+       crema da 15,8:1 y el amarillo destacado 12,1:1 (medidos abajo, en el
+       CSS).
+
+       POR QUÉ NO ES UNA ESCENA POR SCROLL. Se consideró y se descartó con
+       motivo escrito: esta misma sección ya CLAVA una escena (.nat-cinta,
+       200svh de pista) y la sección anterior otra (#planes, js/escena-planes).
+       Una tercera pista pegada a las otras dos es exactamente la queja que el
+       cliente ya puso dos veces —«se demoran mucho en salir deslizando»— y que
+       obligó a acortar las dos pistas existentes (ver planes.css §3 y el
+       bloque LA CINTA de naturaleza.css). El efecto de pantalla completa aquí
+       lo da la FORMA —sangrado, sala oscura, una pantalla de alto, tipografía
+       descomunal—, no el secuestro del scroll.
+
+       v12 · SE RETIRAN TRES DE LAS CUATRO TARJETAS. Pedido directo y explícito
+       del cliente: fuera «La hojarasca · 18 · anfibios», «La piedra al sol ·
+       23 · reptiles» y «El dosel · 3 · mamíferos». El motivo es el mismo que ya
+       obligó a poner un aviso debajo de ellas: de esas tres cifras no existe en
+       ningún archivo del proyecto —tampoco en BRIEF.md— el dato de QUÉ especies
+       son, así que en pantalla eran tres números sueltos sin nada detrás. Se
+       borran enteras: no ocultas, no plegadas, no recortadas. El hecho sale
+       también de la tabla de propiedad de herramientas/validar.js y validar.py.
+       SE CONSERVA «El jardín · 347 · especies de plantas · 20 familias», que sí
+       tiene respaldo documental y es dueño declarado de su hecho.
+
+       LO QUE QUEDA ES UN DÍPTICO, Y ESTÁ COMPUESTO COMO TAL. No es la rejilla
+       de antes con tres huecos: son dos piezas de peso parejo y de la misma
+       altura —la plancha del jardín y la columna de vídeo—, la primera quieta y
+       la segunda viva. La plancha del jardín deja de ser vertical y pasa a ser
+       apaisada, que es la proporción que pide una pieza que ahora ocupa dos
+       tercios del ancho de la página.
+
+       SE CONSERVA EL SANGRADO POR LA DERECHA, que es la identidad declarada de
+       este movimiento en la cabecera del fragmento: el díptico entra desde el
+       margen izquierdo y se sale por el canto derecho con la columna de vídeo.
+       El fondo de la sala sí sangra por los cuatro.
+
+       LA FOTOGRAFÍA NO CAMBIA. Es la del jardín del predio —losas, bromelias,
+       bastones del emperador— y muestra exactamente lo que la cifra cuenta:
+       plantas. No se añade ninguna fotografía de animal a esta sala; no había
+       ninguna antes y no la hay ahora.
+
+       EL VÍDEO es metraje propio, vertical y mudo; el póster es el suelo si la
+       red falla. Pasa a leerse como la quinta plancha del corte —la única
+       viva— y su pie cambia de color al entrar en la sala.
        ====================================================================== -->
   <div class="nat-vida">
 
     <div class="nat-censo">
 
-      <h3 class="titulo-seccion titulo-seccion--sm nat-censo__titulo reveal">
-        Aquí no solo hay aves
-      </h3>
+      <div class="nat-censo__cabecera reveal-secuencia">
+        <p class="eyebrow reveal">El censo del predio</p>
+        <!-- Sin .reveal: este título lleva su propio motor (el barrido atado
+             al scroll del CSS) y dos motores sobre el mismo elemento se pisan.
+             Sin soporte de animation-timeline, o con movimiento reducido, sale
+             escrito y quieto desde el primer pintado. -->
+        <h3 class="nat-censo__titulo">Aquí no solo hay aves</h3>
+        <p class="nat-censo__entradilla reveal">
+          El registro no se acaba en el aire. A ras de suelo, el predio tiene su
+          propio inventario.
+        </p>
+      </div>
 
-      <ul class="nat-habitats reveal-secuencia">
+      <!-- EL DÍPTICO. Dos piezas y nada más: la plancha del jardín, con la
+           única cifra que queda, y la columna de vídeo pegada al canto derecho.
+           No es una rejilla a la que le faltan celdas: son dos piezas de peso
+           parejo, a la misma altura, una quieta y una viva.
 
-        <li class="nat-habitat nat-habitat--ancho nat-habitat--foco-medio reveal">
+           Ya no es una <ul>: una lista de un solo elemento se anuncia como
+           «lista, 1 elemento» y eso es ruido. Es lo que siempre fue —una
+           fotografía con su rótulo—, así que es un <figure> con su
+           <figcaption>, igual que la columna de vídeo de al lado. -->
+      <div class="nat-censo__corte reveal-secuencia">
+
+        <figure class="nat-habitat nat-habitat--mayor nat-habitat--foco-medio reveal">
           <img
             class="nat-habitat__foto"
             src="img/parque/parque-61.jpg"
@@ -1783,7 +1803,7 @@
             decoding="async"
             alt="Huella de losas de piedra entre bromelias y bastones del emperador en flor, bajo los árboles grandes del predio"
           />
-          <div class="nat-habitat__cuerpo">
+          <figcaption class="nat-habitat__cuerpo">
             <p class="nat-habitat__lugar">El jardín</p>
             <p class="nat-habitat__cifra" data-contador="347">347</p>
             <p class="nat-habitat__etiqueta">Especies de plantas · 20 familias botánicas</p>
@@ -1791,75 +1811,19 @@
               Bromelias, bastones del emperador y árboles altos compartiendo el mismo
               tramo de camino.
             </p>
-          </div>
-        </li>
+          </figcaption>
+        </figure>
 
-        <li class="nat-habitat nat-habitat--foco-bajo reveal">
-          <img
-            class="nat-habitat__foto"
-            src="img/parque/parque-60.jpg"
-            width="675"
-            height="1200"
-            loading="lazy"
-            decoding="async"
-            alt="Árbol grande de hoja ancha dando sombra sobre el camino de gravilla, con matas de hoja grande y hojarasca a su pie"
-          />
-          <div class="nat-habitat__cuerpo">
-            <p class="nat-habitat__lugar">La hojarasca</p>
-            <p class="nat-habitat__cifra">18</p>
-            <p class="nat-habitat__etiqueta">Especies de anfibios</p>
-            <p class="nat-habitat__texto">Donde la hoja caída guarda humedad todo el día.</p>
-          </div>
-        </li>
-
-        <li class="nat-habitat nat-habitat--foco-bajo reveal">
-          <img
-            class="nat-habitat__foto"
-            src="img/parque/parque-13.jpg"
-            width="800"
-            height="1200"
-            loading="lazy"
-            decoding="async"
-            alt="Cactus al sol sobre piso de piedra y arena, delante de la pérgola de guadua y caña del predio"
-          />
-          <div class="nat-habitat__cuerpo">
-            <p class="nat-habitat__lugar">La piedra al sol</p>
-            <p class="nat-habitat__cifra">23</p>
-            <p class="nat-habitat__etiqueta">Especies de reptiles</p>
-            <p class="nat-habitat__texto">Piedra caliente, cactus y bordes secos: su sitio.</p>
-          </div>
-        </li>
-
-        <li class="nat-habitat nat-habitat--foco-alto reveal">
-          <img
-            class="nat-habitat__foto"
-            src="img/parque/parque-09.jpg"
-            width="675"
-            height="1200"
-            loading="lazy"
-            decoding="async"
-            alt="Copa amplia de un árbol grande abriéndose sobre el prado segado del predio, con el seto de fondo"
-          />
-          <div class="nat-habitat__cuerpo">
-            <p class="nat-habitat__lugar">El dosel</p>
-            <p class="nat-habitat__cifra">3</p>
-            <p class="nat-habitat__etiqueta">Especies de mamíferos</p>
-            <p class="nat-habitat__texto">Arriba, entre las ramas gruesas, lejos del camino.</p>
-          </div>
-        </li>
-
-      </ul>
-
-      <p class="nota nat-censo__aclaracion">
-        Las fotografías muestran los ambientes del predio, no las especies: no hay
-        fotografía propia de anfibios, reptiles ni mamíferos. Las cifras vienen del
-        inventario biológico del lugar.
-      </p>
-
-    </div>
-
-    <!-- ---- La columna de vídeo, pegada al borde derecho -------------------- -->
-    <figure class="nat-video reveal reveal--der">
+      <!-- ---- La segunda pieza del díptico: la columna de vídeo, pegada al
+           canto derecho. Es la única pieza viva de la sala, y ahí es donde
+           se lee. ------------------------------------------------------------ -->
+      <!-- Entra en VERTICAL y no con .reveal--der, exactamente por el mismo
+           motivo que .nat-portada__rotulo (ver naturaleza.css, LA CARTELA DE LA
+           PORTADA): --der desplaza 28 px hacia fuera y esta pieza vive pegada
+           al canto derecho, así que serían 28 px de desbordamiento horizontal
+           real durante toda la entrada. El desfase con la plancha del jardín lo
+           da el escalonado de .reveal-secuencia, no la dirección. -->
+      <figure class="nat-video reveal">
       <video
         class="nat-video__pieza"
         width="720"
@@ -1878,100 +1842,38 @@
       <figcaption class="nat-video__pie">
         Una mariposa parda descansa en lo alto de una vara en flor.
       </figcaption>
-    </figure>
+      </figure>
+
+      </div><!-- /.nat-censo__corte -->
+
+      <!-- La procedencia del número, que es la parte que no se puede callar:
+           el 347 no es una estimación de folleto, sale del inventario biológico
+           del predio. Mismo contrato de honestidad que ya cumplen la ficha de
+           la chachalaca («Imagen de referencia — no tomada en el predio») y el
+           muro del concurso (cada foto con el nombre de quien la tomó).
+           v12 · Aquí decía además que no hay fotografía propia de anfibios,
+           reptiles ni mamíferos. Ese aviso existía porque existían las tres
+           tarjetas de 18 / 23 / 3, y esas tarjetas se retiraron por pedido
+           directo del cliente: de esas especies sólo había la cifra suelta, sin
+           un solo dato de cuáles son, ni en BRIEF.md ni en ningún archivo del
+           proyecto. Retirado el dato, sobra el aviso sobre el dato. -->
+      <p class="nota nat-censo__aclaracion reveal">
+        La cifra sale del inventario biológico del predio.
+      </p>
+
+    </div><!-- /.nat-censo -->
 
   </div>
 
-  <!-- ======================================================================
-       4 · PIE DE LA SECCIÓN: los dos árboles de CITES
-       Ya no es una caja: es un filete y tipografía. Es un dato de archivo,
-       no una tarjeta, y no puede pesar lo mismo que el sendero.
-       ====================================================================== -->
-  <div class="contenedor">
-    <aside class="nat-conservacion reveal" aria-labelledby="conservacion-titulo">
-      <div class="nat-conservacion__intro">
-        <p class="pildora">CITES · Apéndice III</p>
-        <h3 id="conservacion-titulo" class="titulo-seccion titulo-seccion--xs">
-          Dos árboles que no se talan a la ligera
-        </h3>
-        <p class="nota">
-          Esa es la lista de especies cuyo comercio internacional se controla.
-          Los dos son valiosos para conservación y los dos crecen dentro del predio.
-        </p>
-      </div>
-
-      <ul class="nat-especies">
-        <li class="nat-especie">Cedro</li>
-        <li class="nat-especie">Guayacán Amarillo</li>
-      </ul>
-
-      <p class="credito nat-conservacion__pie">
-        Todavía no hay fotografía propia de estos dos árboles. Cuando la haya, estará aquí.
-      </p>
-    </aside>
-  </div>
-
-  <!-- ======================================================================
-       6 · EL CIERRE — el mural del barranquero (v6)
-       La rima que cierra la sección: arriba entra el ave viva, fotografiada
-       en la rama; aquí sale la misma ave pintada sobre la pared del predio.
-       Se cuelga entera, no como miniatura: plancha a sangre por los cuatro
-       lados, esquinas rectas, y el pie debajo, en la línea del contenedor,
-       con el aire y la letra de una cartela de museo. No lleva contorno
-       gigante: ese gesto es de la portada y repetirlo lo gastaría.
-
-       LA FOTOGRAFÍA ya estaba en el repositorio y no se usaba en ninguna
-       parte (img/parque/parque-62.jpg). Es vertical, así que en móvil se
-       publica entera —proporción 3:4, sin recorte— y en pantallas anchas se
-       encuadra por el centro, donde caen el mural, la enramada y las
-       heliconias del primer plano.
-       ====================================================================== -->
-  <figure class="nat-mural">
-
-    <div class="nat-mural__plancha">
-      <img
-        class="nat-mural__foto"
-        src="img/parque/parque-62.jpg"
-        width="900"
-        height="1200"
-        loading="lazy"
-        decoding="async"
-        alt="Mural de un barranquero de cola larga pintado sobre la pared lateral del predio, junto al techo de la enramada, con heliconias y hojas grandes en primer plano y el prado con su círculo de gravilla delante"
-      />
-    </div>
-
-    <figcaption class="nat-mural__pie reveal">
-      <!-- Esta silueta NO entra en el sistema de hornear-trazos —su viewBox no
-           es el de 24— y es deliberado: el disparador de aquel observa la
-           SECCIÓN entera, así que un icono colgado al final se dibujaría solo
-           mientras todavía está fuera de pantalla. Éste se dibuja atado al
-           scroll con animation-timeline: view(), o sea justo cuando la cartela
-           llega. Dos siluetas, dos relojes distintos. -->
-      <svg
-        class="nat-mural__ave"
-        viewBox="0 0 48 48"
-        fill="none"
-        stroke="currentColor"
-        stroke-width="1.5"
-        stroke-linecap="round"
-        stroke-linejoin="round"
-        aria-hidden="true"
-        focusable="false"
-      >
-        <path pathLength="1" d="M10.8 19.6 C13.6 18 16 17.2 18.4 16.6 C20 13.8 23 12 26.4 12 C30.8 12 34.4 14.8 35.8 18.8 C37.6 22.8 38.8 26 40 28.8 C41.8 30.8 43.4 32.8 44.8 35.2 C42 35.2 39.4 34.4 37.2 32.8 C35.2 35.2 31.8 36.8 28 36.8 C21.2 36.8 15.8 31.8 15.8 25.6 C15.8 24.2 16 23 16.4 21.8 C14.4 21.4 12.4 20.6 10.8 19.6 Z" />
-      </svg>
-
-      <p class="eyebrow">El mural del predio</p>
-      <h3 class="titulo-seccion titulo-seccion--sm nat-mural__titulo">
-        El mismo pájaro, pintado en la pared
-      </h3>
-      <p class="nota nat-mural__texto">
-        Es un barranquero, la misma ave que abre el muro de aquí arriba.
-        Está pintado sobre la pared, con las heliconias delante.
-      </p>
-    </figcaption>
-
-  </figure>
+  <!-- v11 · Se retiraron aquí los dos árboles de CITES (Cedro y Guayacán
+       Amarillo) y el mural del barranquero — pedido directo del cliente
+       («quita esto de la página»). El hecho «Cedro y Guayacán Amarillo
+       (CITES III)» se retiró también de la tabla de HECHOS en
+       herramientas/validar.js y validar.py: ya no vive en ninguna sección.
+       El mural no tenía hecho propio en la tabla —era la única superficie
+       decorativa que repetía al barranquero del muro de arriba—, así que su
+       retiro no toca la tabla. img/parque/parque-62.jpg queda sin usar en
+       el <main>. -->
 
   <!-- El vídeo de arriba necesita su propio script. Va DENTRO del fragmento a
        propósito: index.html se ensambla con herramientas/ensamblar.py, que
@@ -1984,26 +1886,17 @@
   <!-- El motor de la cinta del concurso: mismo criterio que el del vídeo —
        el fragmento se lleva su comportamiento consigo—. Sin este archivo la
        escena queda resuelta y estática, y no se rompe nada. -->
-  <script src="js/concurso-cinta.js?v=331c4210" defer></script>
+  <script src="js/concurso-cinta.js?v=5e5b8553" defer></script>
 
-  <!-- v8 · FAUNA AMBIENTE. Un solo montaje en toda la sección, con las cifras
-       que fija la tabla de reparto de §2 del documento del director:
-       densidad `viva`, mariposas Y colibrí, semilla 4. Es la única sección de
-       la página que monta el colibrí —pesa 88 kB y el gesto se gasta una vez
-       sola—, y le toca a ésta. El módulo baja solo un escalón de densidad en
-       pantalla estrecha y ahí no monta el colibrí nunca, así que en móvil no
-       se descarga.
-       El cerrojo de prefers-reduced-motion es el mismo de sections/hero.html:
-       quien pide menos movimiento no llega ni a pedir el módulo por red. -->
-  <script type="module">
-    if (!matchMedia('(prefers-reduced-motion: reduce)').matches) {
-      import('./js/fauna-ambiente.js?v=b8a9a1c8')
-        .then((m) => m.montarFaunaAmbiente(
-          document.querySelector('#naturaleza .nat-apertura__aire'),
-          { densidad: 'abundante', especies: ['mariposa', 'ave', 'colibri'], semilla: 4 }
-        ))
-        .catch(() => {});
-    }
-  </script>
+  <!-- v16 · FAUNA AMBIENTE SE MUDÓ. El único montaje de la página colgaba de
+       .nat-apertura__aire, la caja vacía que va sobre la fotografía del
+       camino, y esa caja se fue con el sendero: ahora vive en
+       sections/sendero.html, con el mismo módulo, las mismas cifras
+       (densidad `abundante`, mariposa + ave + colibrí, semilla 4) y el mismo
+       cerrojo de prefers-reduced-motion. Sigue habiendo UN solo montaje en
+       toda la página, que es la regla: el colibrí pesa 88 kB y el gesto se
+       gasta una vez sola. Aquí no se sustituye por nada — esta sección ya
+       tiene pájaros de verdad, fotografiados en el predio, y superponerles
+       recortes genéricos sería competir con el material bueno. -->
 
 </section>

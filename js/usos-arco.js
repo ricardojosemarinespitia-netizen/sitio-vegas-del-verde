@@ -103,7 +103,7 @@
 
   const piezas = [];
   document.querySelectorAll('.usos-tarjeta').forEach((tarjeta) => {
-    piezas.push({ tarjeta, top: 0, ancho: 1, alto: 1, base: 0 });
+    piezas.push({ tarjeta, top: 0, ancho: 1, alto: 1, base: 0, relevada: false });
   });
   if (!piezas.length) return;
 
@@ -121,6 +121,7 @@
     for (const pieza of piezas) {
       pieza.tarjeta.style.clipPath = '';
       pieza.tarjeta.style.borderRadius = '';
+      pieza.relevada = false;
     }
   };
 
@@ -201,8 +202,16 @@
       const s = S_MIN + (S_MAX - S_MIN) * e;
       pieza.tarjeta.style.clipPath = arco(pieza.ancho, pieza.alto, pieza.base, s);
       /* El relevo: mientras el `path()` manda, el arco de `border-radius`
-         estorbaría recortando la caja al tamaño de reposo. */
-      pieza.tarjeta.style.borderRadius = '0';
+         estorbaría recortando la caja al tamaño de reposo. SE HACE UNA SOLA
+         VEZ por tarjeta, no por cuadro: escribir el mismo `0` sesenta veces
+         por segundo invalida igual el estilo de una tarjeta de pantalla
+         completa aunque el valor no cambie, y eso se sumaba al `clip-path`
+         que sí tiene que reescribirse. La bandera se borra en `limpiar()`,
+         que es lo único que devuelve el `border-radius` de la hoja. */
+      if (!pieza.relevada) {
+        pieza.tarjeta.style.borderRadius = '0';
+        pieza.relevada = true;
+      }
     }
   };
 

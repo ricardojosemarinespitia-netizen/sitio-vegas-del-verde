@@ -831,6 +831,25 @@ a:hover {
    6. ANIMACIÓN DE ENTRADA POR SCROLL
    Sin JS todo queda visible; el script añade .js al <html> y .visible a
    cada elemento cuando entra en pantalla (IntersectionObserver).
+
+   AQUÍ NO VA `will-change`, Y ES LA CORRECCIÓN DE AGOSTO DE 2026.
+   Hasta ahora el estado de REPOSO declaraba `will-change: opacity, transform`
+   y `.visible` lo devolvía a `auto`. El razonamiento era correcto —avisar
+   antes de animar— pero la aritmética no: el reposo es el estado de TODOS los
+   `.reveal` que aún no han entrado, y el observador de js/app.js los desobserva
+   uno a uno según se alcanzan. Medido en la página real, eso deja 82 elementos
+   —muchos de ellos fotografías a pantalla completa— pidiendo capa propia de
+   compositor A LA VEZ, desde el primer pintado y durante todo el recorrido.
+   Es exactamente el abuso contra el que advierte la propia especificación:
+   pasado el presupuesto de capas, el navegador las crea y destruye a
+   destiempo y el scroll se entrecorta. El síntoma sólo se hizo visible cuando
+   `overflow-x: clip` devolvió la vida a los `position: sticky` (§0) y las
+   escenas pasaron a componer de verdad en cada cuadro.
+
+   No hace falta el aviso: `opacity` y `transform` son propiedades de
+   compositor y el navegador promociona la pieza SOLO durante los ~700 ms que
+   dura su transición, que es justo lo que se quería. Sin la declaración, el
+   coste existe mientras la entrada corre y no un segundo más.
    ========================================================================== */
 .js .reveal {
   opacity: 0;
@@ -839,7 +858,6 @@ a:hover {
     opacity var(--transicion-reveal),
     transform var(--transicion-reveal);
   transition-delay: var(--reveal-delay, 0ms);
-  will-change: opacity, transform;
 }
 
 .js .reveal--izq {
@@ -867,11 +885,13 @@ a:hover {
   transition-delay: var(--reveal-delay, 0ms);
 }
 
+/* Sin `will-change: auto` de vuelta: ya no hay nada que devolver (ver la
+   cabecera del §6). Dejarlo sería un recordatorio de una declaración que ya
+   no existe. */
 .js .reveal.visible {
   opacity: 1;
   transform: none;
   clip-path: inset(0 0 0 0);
-  will-change: auto;
 }
 
 /* ==========================================================================
@@ -1573,13 +1593,15 @@ figcaption {
   transform: none;
   clip-path: none;
   transition: none;
-  will-change: auto;
 }
 
 .reveal-texto__linea {
   display: block;
 }
 
+/* Tampoco aquí `will-change`, por el mismo motivo que el §6: cada titular
+   partido en renglones multiplica por seis u ocho las piezas en reposo, y
+   éstos son los `.reveal` más numerosos de la página. */
 .js .reveal.reveal-texto .reveal-texto__linea {
   opacity: 0;
   transform: translate3d(0, var(--desplazamiento-linea), 0);
@@ -1587,13 +1609,11 @@ figcaption {
     opacity var(--transicion-reveal),
     transform var(--transicion-reveal);
   transition-delay: var(--retardo-linea-propio, 0ms);
-  will-change: opacity, transform;
 }
 
 .js .reveal.reveal-texto.visible .reveal-texto__linea {
   opacity: 1;
   transform: none;
-  will-change: auto;
 }
 
 /* El escalonado. Ocho renglones es el techo: un titular de nueve líneas no

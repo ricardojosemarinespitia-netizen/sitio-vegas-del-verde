@@ -1078,20 +1078,31 @@
           <a href="#usos">Teatrino</a>.
         </p>
 
-        <!-- EL ENLACE A #colegios (agosto de 2026). Un carril nuevo, no: un
-             hecho, un dueño (ARQUITECTURA-V3) — la jornada pedagógica con
-             colegios y la salida para particulares que quieren un curso
-             viven enteras en #colegios, y aquí sólo se NOMBRA el destino y
-             se enlaza, igual que .planes-carril__donde enlaza a #usos sin
-             repetir el aforo. Reutiliza la clase .nota y .planes-carril__donde
-             a propósito: hereda el mismo texto inverso suave del bloque de
-             cristal (planes.css §7, regla de `.planes-talleres__vidrio
-             .planes-carril__donde a`) sin declarar un color nuevo, y entra
-             en el mismo `gap` de la rejilla sin margen propio. -->
-        <p class="nota planes-carril__donde">
+        <!-- EL ENLACE A #colegios (agosto de 2026; v2 «suplink»). Un carril
+             nuevo, no: un hecho, un dueño (ARQUITECTURA-V3) — la jornada
+             pedagógica con colegios y la salida para particulares que
+             quieren un curso viven enteras en #colegios, aquí sólo se NOMBRA
+             el destino y se enlaza. Hasta la v1 era un link de una palabra
+             metido dentro de la frase — el cliente lo pidió más visible:
+             ahora la pregunta queda como rótulo aparte y el enlace pasa a
+             .enlace-flecha, el mismo componente de CTA con flecha que ya usa
+             el botón de WhatsApp de abajo. Reutiliza .planes-carril__cta a
+             propósito: hereda su color inverso dentro del cristal
+             (planes.css §7, `.planes-talleres__vidrio .planes-carril__cta`)
+             y su alto de 44px de dedo, sin declarar ni un token nuevo.
+             v3 (v15 del sitio) · el destino deja de ser un ancla de esta
+             misma página y pasa a ser colegios.html: la sección salió del
+             <main> por pedido del cliente. Este enlace es ahora la puerta
+             principal a esa página. -->
+        <p class="nota planes-carril__donde planes-carril__donde--colegios">
           ¿Vienes con un colegio o buscas un curso para ti?
-          <a href="#colegios">Ver los cursos</a>.
         </p>
+        <a
+          class="enlace-flecha planes-carril__cta planes-carril__cta--colegios"
+          href="colegios.html"
+        >
+          Ver los cursos para colegios
+        </a>
 
         <a
           class="enlace-flecha planes-carril__cta"

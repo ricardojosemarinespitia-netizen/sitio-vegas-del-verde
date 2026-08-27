@@ -57,7 +57,14 @@ for (const t of trozos) {
 const ESPERADO = ['inicio', 'usos', 'nosotros', 'planes',
                   // v7 · #naturaleza reemplaza a #momentos justo tras
                   // #planes; #momentos y #colegios se corren un puesto.
-                  'naturaleza', 'colegios', 'momentos', 'vivero', 'ubicacion',
+                  // v15 · #colegios sale del <main>: es la página suelta
+                  // colegios.html, que este validador no cubre (igual que
+                  // plan-vecino.html o condiciones-de-alquiler.html).
+                  // v16 · #momentos sale del <main>: sus cuatro clips son
+                  // ahora el hero de #sendero, que es sección propia y CIERRA
+                  // el recorrido justo debajo de #vivero (pedido directo del
+                  // cliente).
+                  'naturaleza', 'vivero', 'sendero', 'ubicacion',
                   // v14 · el compromiso cierra el recorrido, después de cómo
                   // llegar y justo antes del pie.
                   'compromiso'];
@@ -93,17 +100,23 @@ const HECHOS = [
  ['Alquiler base de 4 horas / hora adicional', [NADIE], ['\\b(cuatro|4) horas\\b','hora adicional'], false],
  ['Sillas y mesas Rimax', [NADIE], ['\\brimax\\b'], false],
  ['No incluye sonido / catering externo', [NADIE], ['\\bcatering\\b','no incluye sonido'], false],
- ['Observatorios como parada pedagogica', ['colegios'], ['observatorio'], true],
- ['Jardin de polinizadores y mariposas', ['colegios'], ['polinizador','avistamiento de mariposas','jardin de mariposas'], true],
- ['Sendero Ecovital (descrito)', ['naturaleza'], ['sendero'], true],
- ['Entrada $15.000 (unico precio publicado)', ['naturaleza'], ['15\\.000','15000'], false],
- ['Quebrada Aranzoque y riachuelo La Florida', ['naturaleza'], ['aranzoque','riachuelo'], false],
+ // v15 · los tres hechos de la oferta escolar cambian de dueno a NADIE, no de
+ // contenido: viven enteros en colegios.html, que es una pagina suelta y este
+ // validador solo lee index.html. Se quedan en la tabla —en vez de borrarse—
+ // para que siga vigilada la otra mitad de la regla: que ninguna seccion de
+ // index.html los vuelva a escribir.
+ ['Observatorios como parada pedagogica', [NADIE], ['observatorio'], true],
+ ['Jardin de polinizadores y mariposas', [NADIE], ['polinizador','avistamiento de mariposas','jardin de mariposas'], true],
+  // v16 · los tres hechos del Sendero cambian de DUENO, no de contenido:
+ // el bloque se mudo entero a la seccion #sendero, que cierra el <main>
+ // debajo de #vivero. Siguen escritos una sola vez en todo el sitio.
+ ['Sendero Ecovital (descrito)', ['sendero'], ['sendero'], true],
+ ['Entrada $15.000 (unico precio publicado)', ['sendero'], ['15\\.000','15000'], false],
+ ['Quebrada Aranzoque y riachuelo La Florida', ['sendero'], ['aranzoque','riachuelo'], false],
  ['101 especies de aves', ['naturaleza'], ['\\b101\\b'], false],
  ['Chachalaca Colombiana endemica', ['naturaleza'], ['chachalaca','ortalis columbiana'], false],
  ['7 especies migratorias boreales', ['naturaleza'], ['\\b(7|siete) especies migratorias\\b','migratorias boreales'], false],
  ['347 plantas y 20 familias botanicas', ['naturaleza'], ['\\b347\\b','\\b20 familias\\b'], false],
- ['18 anfibios / 23 reptiles / 3 mamiferos', ['naturaleza'], ['\\b18 anfibios\\b','\\b23 reptiles\\b','\\b3 mamiferos\\b'], false],
- ['Cedro y Guayacan Amarillo (CITES III)', ['naturaleza'], ['\\bcites\\b','guayacan'], false],
  ['Concurso: 57 fotografias de 20 autores', ['naturaleza'], ['\\b57 (fotografias|imagenes|obras)\\b','\\b20 autores\\b'], false],
  ['Vivero: produccion y venta de plantas / abonos', ['vivero'], ['\\babonos?\\b'], false],
  ['Mantenimiento de jardines y poda', ['vivero'], ['poda de arboles'], false],
@@ -125,8 +138,8 @@ const HECHOS = [
  ['Rotulo «Ver eventos y actividades»', ['nosotros'], ['ver eventos y actividades'], false],
  ['Rotulo «Quiero este plan»', [NADIE], ['quiero este plan'], false],
  ['Rotulo «Atrevete a un plan distinto»', ['planes'], ['atrevete a un plan distinto'], false],
- ['Rotulo «Vengo con mi curso»', ['colegios'], ['vengo con mi curso'], false],
- ['Rotulo «Atrevete al sendero»', ['naturaleza'], ['atrevete al sendero'], false],
+ ['Rotulo «Vengo con mi curso»', [NADIE], ['vengo con mi curso'], false],
+ ['Rotulo «Atrevete al sendero»', ['sendero'], ['atrevete al sendero'], false],
  ['Rotulo «Quiero plantas del vivero»', ['vivero'], ['quiero plantas del vivero'], false],
  ['Rotulo «Hablemos por WhatsApp»', ['ubicacion'], ['hablemos por whatsapp'], false],
  ['Rotulo «Escribenos por WhatsApp»', ['cabecera'], ['escribenos por whatsapp'], false],

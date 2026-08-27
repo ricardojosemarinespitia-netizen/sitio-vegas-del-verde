@@ -22,9 +22,29 @@ ORDEN = [
     # tras #planes -- pedido directo del cliente: "en su reemplazo pon
     # pajareo".
     ("naturaleza", "naturaleza.html"),
-    ("colegios",   "colegios.html"),
-    ("momentos",   "momentos.html"),
+    # v15 · #colegios SALE del <main>. Pedido directo y repetido del cliente:
+    # no quiere las salidas escolares en el scroll de la ventana principal. El
+    # bloque vive ahora en la pagina suelta colegios.html (raiz), que enlaza su
+    # propia hoja; se entra por el carril 05 de #planes y por el nav.
+    # sections/colegios.html se conserva como fuente historica pero YA NO SE
+    # ENSAMBLA.
+    # v16 · #momentos SALE del <main>. Era una banda de carbon de atmosfera pura
+    # --no poseia ni un solo hecho-- con cuatro clips de mariposas. El cliente la
+    # senalo con nombre propio ("ese hero de los videos es asqueroso") y pidio
+    # integrar ese metraje en el Sendero. Los cuatro clips viven ahora en el
+    # hero de sections/sendero.html; ninguno se pierde y ninguno se duplica.
+    # sections/momentos.html y styles/sections/momentos.css se conservan como
+    # fuente historica pero YA NO SE ENSAMBLAN.
     ("vivero",     "vivero.html"),
+    # v16 · #sendero: el Sendero Ecovital deja de ser el primer movimiento de
+    # #naturaleza y pasa a CERRAR el recorrido, justo debajo de #vivero. Pedido
+    # directo del cliente (agosto 2026): "el sendero ecovital es lo ultimo, va
+    # debajo de vivero". Las secciones del <main> son bloques contiguos, asi que
+    # la unica forma de que aparezca fisicamente despues de #vivero es que sea
+    # seccion propia con su entrada aqui. Se lleva tres hechos de #naturaleza
+    # (sendero descrito, entrada $15.000, las dos corrientes de agua); la tabla
+    # HECHOS de validar.js y validar.py se actualizo en paralelo.
+    ("sendero",    "sendero.html"),
     ("ubicacion",  "ubicacion.html"),
     # v14 · «Nuestro compromiso» deja de ser un bloque dentro de #nosotros y
     # pasa a ser la ULTIMA seccion del <main>, justo antes del pie. Pedido
@@ -40,10 +60,16 @@ CSS_SECCIONES = [
     "styles/sections/usos.css",
     "styles/sections/nosotros.css",
     "styles/sections/planes.css",
-    "styles/sections/momentos.css",
-    "styles/sections/colegios.css",
+    # v16 · momentos.css sale del <head> con su seccion (ver ORDEN).
+    # v15 · colegios.css sale del <head> de index.html con su seccion: ahora se
+    # enlaza directo desde colegios.html, la unica pagina que lo usa.
     "styles/sections/naturaleza.css",
     "styles/sections/vivero.css",
+    # v16 · sendero.css DESPUES de naturaleza.css, y no es indiferente: la
+    # seccion #sendero reutiliza tal cual el bloque .nat-apertura de la hoja de
+    # naturaleza, asi que si alguna vez hay que matizar una regla heredada se
+    # hace desde aqui, sin subir especificidad y sin un solo !important.
+    "styles/sections/sendero.css",
     "styles/sections/ubicacion.css",
     "styles/sections/pie.css",
 ]

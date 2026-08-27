@@ -1,0 +1,402 @@
+/* ==========================================================================
+   VEGAS DEL VERDE · SECCIÓN #sendero — «El Sendero Ecovital»
+   Fragmento: sections/sendero.html
+   Depende de: styles/tokens.css, styles/base.css y —a propósito—
+   styles/sections/naturaleza.css, de donde esta sección reutiliza SIN COPIAR
+   el bloque .nat-apertura / .nat-ruta / .nat-oferta / .nat-precio y los
+   tokens locales de la clase `.nat` (--nat-margen, --nat-solape,
+   --nat-alto-apertura). Por eso el <section> lleva las dos clases: `nat` para
+   heredar esos tokens y `sendero` para lo suyo.
+   ORDEN DE CARGA: esta hoja va DESPUÉS de naturaleza.css en CSS_SECCIONES, de
+   modo que si alguna vez hiciera falta matizar una regla heredada se puede
+   hacer aquí sin subir especificidad y sin un solo !important.
+
+   REGLA DE LA CASA, sin excepciones en este archivo: ningún color, tamaño,
+   radio, sombra ni duración se escribe suelto. Todo sale de un var(--token).
+   Se anima únicamente `transform` y `opacity`.
+   ========================================================================== */
+
+/* ==========================================================================
+   0. TOKENS LOCALES DE LA SECCIÓN
+   Lo que la fundación no cubre, declarado una vez y consumido por nombre.
+   ========================================================================== */
+.sendero {
+  /* El ancho de un plano vertical del carril. Los clips son 720×1280 (9:16):
+     por debajo de 13rem la mariposa deja de leerse y el pie se parte en cuatro
+     renglones; por encima de 19rem los cuatro no caben en el carril sin
+     empujar la cartela fuera de su medida. */
+  --snd-plano-ancho: clamp(11.5rem, 17vw, 15.5rem);
+
+  /* EL DESFASE VERTICAL. Es el token que impide que esto parezca un muro de
+     archivo: los cuatro planos no arrancan a la misma altura ni terminan a la
+     misma altura. Cada plano consume un múltiplo distinto y ninguno repite
+     (ver §3). Va en clamp para que en pantallas bajas el escalonado no gaste
+     media pantalla de aire. */
+  --snd-desfase: clamp(1rem, 3.2vw, 3rem);
+
+  /* EL RECORRIDO DE LA DERIVA POR SCROLL (§4). Deliberadamente corto: lo que
+     tiene que leerse es que el carril se DESORDENA al pasar, no que los
+     planos vuelan. Más de 2rem y el pie de un plano se cruza con el marco del
+     vecino. */
+  --snd-deriva: clamp(0.75rem, 1.6vw, 1.75rem);
+
+  /* El radio grande del canto abierto de cada plano. Es la misma silueta de
+     hoja de la sección hermana —dos esquinas abiertas y dos cerradas— y se
+     declara aquí para que las cuatro variantes de §3 sean una sola cuenta. */
+  --snd-hoja: var(--radio-xl);
+}
+
+/* ==========================================================================
+   1. LA BANDA DEL HERO — verde bosque, a sangre por los cuatro cantos
+
+   POR QUÉ EL MARGEN NEGATIVO DE ARRIBA. La banda tiene que empezar pegada a
+   lo que viene antes (#vivero), sin la franja de crema que dejaría el relleno
+   de .seccion. Se come ese relleno con un margen negativo del mismo token: es
+   el mismo recurso, ya usado por .nat-portada y .nat-muro-banda en la sección
+   hermana, y no un valor inventado.
+
+   POR QUÉ VERDE BOSQUE Y NO CARBÓN. La versión anterior de estos clips vivía
+   sobre --color-fondo-carbon: un gris neutro debajo de cuatro planos de
+   vegetación. El bosque es el color dominante de la marca y recoge el metraje
+   en vez de contradecirlo. Además libera el negro: la única sala oscura del
+   sitio sigue siendo la del concurso de #naturaleza (--color-sala), y este
+   hero no la repite.
+   ========================================================================== */
+.snd-hero {
+  margin-block-start: calc(var(--esp-seccion) * -1);
+  margin-block-end: var(--esp-seccion);
+  padding-block: var(--esp-seccion);
+  background-color: var(--color-fondo-oscuro);
+  color: var(--color-texto-inverso);
+  /* `clip` y no `hidden`: hidden crea contexto de scroll y mata cualquier
+     sticky de la página (convención del proyecto). Recorta el sangrado del
+     cuarto plano por el canto derecho. */
+  overflow-x: clip;
+}
+
+.snd-hero__cuerpo {
+  display: grid;
+  gap: var(--gap-lg);
+  /* En móvil no hay sangrado lateral: una columna con el margen de página. */
+  padding-inline: var(--nat-margen);
+}
+
+@media (min-width: 62em) {
+  .snd-hero__cuerpo {
+    /* DESIGUAL A PROPÓSITO, igual que la apertura de abajo: la cartela pide
+       una medida corta de lectura y el carril pide todo lo que sobre. Con
+       1fr/1fr la cartela se estira hasta el doble de su medida cómoda y el
+       carril se queda sin sitio para sangrar. */
+    grid-template-columns: minmax(0, 1fr) minmax(0, 2fr);
+    align-items: center;
+    gap: var(--gap-lg);
+    /* El carril SE SALE por el canto derecho: el margen de página sólo se
+       aplica por la izquierda. El carril no termina, se sale. */
+    padding-inline: var(--nat-margen) 0;
+  }
+}
+
+/* ==========================================================================
+   2. LA CARTELA — fondo SÓLIDO, y esa es la decisión
+
+   Texto claro sobre fotografía en movimiento no da AA nunca: el peor píxel
+   cambia en cada fotograma, así que no hay contraste que se pueda medir y
+   garantizar. Es la misma lección que ya está escrita en la cartela del
+   milano de naturaleza.css. Aquí el rótulo se apoya en verde bosque hondo,
+   OPACO, y el contraste es constante y comprobable:
+     · crema (--color-texto-inverso) sobre verde bosque: 10,7:1 — y sobre el
+       hondo de la cartela, todavía más. Muy por encima de AAA.
+     · crema al 78 % (--color-texto-inverso-suave), que es la nota y la firma:
+       7,2:1 sobre bosque. AAA para texto normal.
+     · amarillo (--color-destacado) para el rótulo: 7,3:1 sobre bosque.
+   Ninguno de los tres depende de qué esté pasando en el vídeo de al lado.
+   ========================================================================== */
+.snd-hero__cartela {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--esp-xs);
+  max-width: var(--medida-corta);
+  padding: var(--esp-lg);
+  background-color: var(--color-fondo-hondo);
+  /* La misma silueta de hoja del carril, en espejo: la cartela y los planos
+     que tiene al lado se leen como piezas de la misma familia. */
+  border-start-start-radius: var(--snd-hoja);
+  border-end-end-radius: var(--snd-hoja);
+  border-start-end-radius: var(--radio-xs);
+  border-end-start-radius: var(--radio-xs);
+}
+
+.snd-hero__eyebrow {
+  color: var(--color-destacado);
+}
+
+.snd-hero__titulo {
+  margin: 0;
+  color: var(--color-texto-inverso);
+}
+
+/* El segundo renglón baja de peso, no de cuerpo: los dos siguen siendo el
+   mismo titular y no un titular con subtítulo pegado. Mismo gesto que
+   .nat-giro__titulo, que es de donde viene la voz de esta sección. */
+.snd-hero__titulo .reveal-texto__linea:nth-child(2) {
+  font-weight: var(--peso-ligero);
+}
+
+.snd-hero__nota {
+  margin: var(--esp-2xs) 0 0;
+  font-size: var(--fs-pequeno);
+  line-height: var(--alto-linea-base);
+  color: var(--color-texto-inverso-suave);
+}
+
+.snd-hero__firma {
+  margin: 0;
+  font-size: var(--fs-micro);
+  letter-spacing: var(--tracking-display);
+  color: var(--color-texto-inverso-suave);
+}
+
+/* ==========================================================================
+   3. EL CARRIL DE CUATRO PLANOS
+
+   EN MÓVIL es una tira que se arrastra con el dedo, con anclaje: cuatro
+   verticales de 9:16 no caben de otra forma en 375 px sin quedar en tamaño de
+   sello. `scroll-snap` hace que siempre haya un plano bien encuadrado, y el
+   sangrado por los dos cantos avisa de que hay más a los lados.
+
+   EN ESCRITORIO son cuatro columnas en fila, quietas, sin scroll. Lo que se
+   mueve es lo que hay DENTRO de cada plano.
+
+   CUATRO ALTURAS Y CUATRO RADIOS, NINGUNO REPETIDO. Cuatro rectángulos
+   idénticos alineados es la firma de un muro de archivo; es exactamente lo
+   que hacía que la banda anterior se leyera como plantilla. Cada plano entra
+   a una altura distinta —múltiplos 0, 1.6, 0.6 y 2.3 del desfase: ni
+   creciente ni simétrico— y lleva su propia diagonal de esquinas abiertas.
+   ========================================================================== */
+.snd-hero__carril {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-auto-flow: column;
+  grid-auto-columns: var(--snd-plano-ancho);
+  gap: var(--gap-sm);
+  align-items: start;
+}
+
+@media (max-width: 61.99em) {
+  /* `ul.` y no `.` a secas, y esto NO es adorno: base.css §reset lleva
+     `ul[class], ol[class] { padding: 0 }`, que es (0,1,1) de especificidad y
+     le gana a una clase suelta (0,1,0) por muy tarde que cargue esta hoja. Con
+     el selector de clase pelado el relleno de abajo se quedaba en 0 y el
+     primer plano salía pegado al canto de la pantalla, con su pie cortado
+     —medido en preview—. Añadir el tipo iguala la cuenta y, al ir después en
+     el orden de carga, gana. Cero !important. */
+  ul.snd-hero__carril {
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    /* EL SANGRADO ES SÓLO POR LA DERECHA, y está medido en preview: con el
+       margen negativo por los dos lados el primer plano acababa a hueso
+       contra el canto izquierdo —y su pie, cortado— en vez de alinearse con
+       la cartela de arriba. La tira arranca en la línea del texto, como todo
+       lo demás de la página, y se sale por donde tiene que salirse: por
+       delante. El relleno del final le devuelve el margen al cuarto plano
+       cuando el visitante llega arrastrando hasta el fondo.
+       OJO CON EL TOKEN: aquí NO sirve --nat-margen, que es el que usa el
+       resto de la sección. Ese token es un max() con un porcentaje dentro, y
+       en un `padding` el porcentaje se resuelve contra el bloque contenedor:
+       el navegador acababa dando 0. Por debajo de 62em los dos valores
+       coinciden de todos modos —--nat-margen se resuelve siempre a
+       --padding-contenedor en pantallas estrechas—, así que se escribe el que
+       no depende del porcentaje. */
+    margin-inline-end: calc(var(--padding-contenedor) * -1);
+    padding-inline-end: var(--padding-contenedor);
+    padding-block-end: var(--esp-2xs);
+    /* Sin barra visible: la tira se arrastra, no se opera. */
+    scrollbar-width: none;
+  }
+
+  .snd-hero__carril::-webkit-scrollbar {
+    display: none;
+  }
+
+  .snd-plano {
+    scroll-snap-align: start;
+  }
+}
+
+.snd-plano {
+  margin: 0;
+}
+
+/* Las cuatro alturas de entrada. El cuarto es el que más baja: es el plano
+   corto y el que sangra por el canto derecho, así que cuelga del carril en
+   vez de alinearse con él. En móvil el escalonado se apaga (§3 bis): en una
+   tira que se arrastra, un desfase vertical sólo roba alto. */
+@media (min-width: 62em) {
+  .snd-plano--dos {
+    margin-block-start: calc(var(--snd-desfase) * 1.6);
+  }
+
+  .snd-plano--tres {
+    margin-block-start: calc(var(--snd-desfase) * 0.6);
+  }
+
+  .snd-plano--cuatro {
+    margin-block-start: calc(var(--snd-desfase) * 2.3);
+  }
+}
+
+.snd-plano__figura {
+  margin: 0;
+}
+
+.snd-plano__marco {
+  /* Los clips son 720×1280. El aspect-ratio evita el salto de maqueta antes
+     de que el póster decodifique: CLS cero por diseño. */
+  aspect-ratio: 9 / 16;
+  background-color: var(--color-superficie-oscura);
+}
+
+/* LA SILUETA DE HOJA, CUATRO VECES Y NUNCA IGUAL. Dos esquinas abiertas y dos
+   casi rectas, alternando la diagonal plano a plano. Al repetirse variado se
+   lee como sistema; al repetirse idéntico se leería como una plantilla de
+   tarjetas redondeadas. */
+.snd-plano--uno .snd-plano__marco {
+  border-start-start-radius: var(--snd-hoja);
+  border-end-end-radius: var(--snd-hoja);
+  border-start-end-radius: var(--radio-xs);
+  border-end-start-radius: var(--radio-xs);
+}
+
+.snd-plano--dos .snd-plano__marco {
+  border-start-end-radius: var(--snd-hoja);
+  border-end-start-radius: var(--snd-hoja);
+  border-start-start-radius: var(--radio-xs);
+  border-end-end-radius: var(--radio-xs);
+}
+
+.snd-plano--tres .snd-plano__marco {
+  border-start-start-radius: var(--snd-hoja);
+  border-end-start-radius: var(--snd-hoja);
+  border-start-end-radius: var(--radio-xs);
+  border-end-end-radius: var(--radio-xs);
+}
+
+.snd-plano--cuatro .snd-plano__marco {
+  border-end-end-radius: var(--snd-hoja);
+  border-end-start-radius: var(--snd-hoja);
+  border-start-start-radius: var(--radio-xs);
+  border-start-end-radius: var(--radio-xs);
+}
+
+.snd-plano__video {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* EL PIE. Va debajo del plano y no encima: superpuesto sobre el vídeo no
+   habría contraste medible (misma razón que la cartela de §2). Sobre el verde
+   bosque, la crema al 78 % da 7,2:1. */
+.snd-plano__pie {
+  margin-top: var(--esp-2xs);
+  max-width: var(--snd-plano-ancho);
+  font-size: var(--fs-micro);
+  line-height: var(--alto-linea-base);
+  color: var(--color-texto-inverso-suave);
+  text-wrap: pretty;
+}
+
+/* El pie del plano protagonista es un VERSO: mismo texto, otra voz. Es la
+   única cursiva del carril y por eso señala cuál es la pieza que abre. */
+.snd-plano__pie--verso {
+  font-family: var(--fuente-display);
+  font-size: var(--fs-pequeno);
+  font-style: italic;
+  color: var(--color-texto-inverso);
+}
+
+/* ==========================================================================
+   4. LA DERIVA POR SCROLL — CSS puro, cero JS
+
+   Cada plano se desplaza unos pocos puntos en vertical a medida que el carril
+   cruza la pantalla, y cada uno a distinta velocidad y en distinto sentido:
+   al bajar, la fila se desordena como la maleza al pasar caminando. Es la
+   traducción literal de la metáfora de la sección —andar el sendero— y no un
+   efecto de catálogo.
+
+   POR QUÉ animation-timeline: view() Y NO UN IntersectionObserver. Esto corre
+   entero en el compositor, sin un byte de JavaScript y sin un solo listener
+   de scroll. Va envuelto en @supports, así que en un navegador sin soporte no
+   pasa absolutamente nada: los planos se quedan donde los deja el layout, con
+   su escalonado de §3, que ya es la composición buena.
+
+   POR QUÉ ADEMÁS DENTRO DE prefers-reduced-motion: no-preference. Este es el
+   caso en el que la regla de la casa —duración .01ms conservando el estado
+   final— no basta: el estado final de esta animación NO es el estado de
+   reposo, es el plano desplazado. Con movimiento reducido la animación no se
+   declara siquiera, y el layout de §3 es exactamente lo que se ve.
+
+   Sólo `transform`. Nada más.
+   ========================================================================== */
+@media (prefers-reduced-motion: no-preference) {
+  @supports (animation-timeline: view()) {
+    .snd-plano__figura {
+      animation: snd-deriva linear both;
+      animation-timeline: view();
+      /* Arranca cuando el plano ya entró un poco y termina cuando casi ha
+         salido: así el recorrido se reparte por todo el cruce y no se agota
+         en el primer palmo. */
+      animation-range: entry 15% exit 85%;
+      will-change: transform;
+    }
+
+    /* Sentidos y amplitudes distintos por plano. El tercero va AL REVÉS que
+       los otros tres: si todos derivaran en el mismo sentido, el carril se
+       leería como un bloque que se desliza —que es justo la marquesina que se
+       retiró—, no como cuatro piezas sueltas. */
+    .snd-plano--dos .snd-plano__figura {
+      --snd-deriva-factor: 1.7;
+    }
+
+    .snd-plano--tres .snd-plano__figura {
+      --snd-deriva-factor: -1.15;
+    }
+
+    .snd-plano--cuatro .snd-plano__figura {
+      --snd-deriva-factor: 2.4;
+    }
+  }
+}
+
+@keyframes snd-deriva {
+  from {
+    transform: translate3d(
+      0,
+      calc(var(--snd-deriva) * var(--snd-deriva-factor, 1)),
+      0
+    );
+  }
+
+  to {
+    transform: translate3d(
+      0,
+      calc(var(--snd-deriva) * var(--snd-deriva-factor, 1) * -1),
+      0
+    );
+  }
+}
+
+/* ==========================================================================
+   5. LA APERTURA, DEBAJO DEL HERO
+   El bloque .nat-apertura entero se estiliza desde naturaleza.css y aquí no
+   se toca ni una declaración. Lo único que hace falta es el aire entre el
+   hero y él, que ya lo pone el margin-block-end de §1, y quitarle al primer
+   párrafo del cuerpo la deuda que tenía con un encabezado que ya no está:
+   la capitular de naturaleza.css cuelga de `p:first-of-type`, y ese párrafo
+   sigue siendo el mismo. No hay nada que corregir. Esta nota existe para que
+   nadie busque aquí las reglas de la apertura y crea que faltan.
+   ========================================================================== */
