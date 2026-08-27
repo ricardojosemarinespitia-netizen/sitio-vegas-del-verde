@@ -74,10 +74,10 @@
 <link rel="stylesheet" href="styles/sections/usos.css?v=347db49e">
 <link rel="stylesheet" href="styles/sections/nosotros.css?v=b775831b">
 <link rel="stylesheet" href="styles/sections/planes.css?v=7d7684c5">
-<link rel="stylesheet" href="styles/sections/naturaleza.css?v=2bfb85db">
-<link rel="stylesheet" href="styles/sections/vivero.css?v=39ecab57">
-<link rel="stylesheet" href="styles/sections/sendero.css?v=753458ee">
-<link rel="stylesheet" href="styles/sections/ubicacion.css?v=bf46fe0a">
+<link rel="stylesheet" href="styles/sections/naturaleza.css?v=6903d27f">
+<link rel="stylesheet" href="styles/sections/vivero.css?v=b539196f">
+<link rel="stylesheet" href="styles/sections/sendero.css?v=6d8d2c1e">
+<link rel="stylesheet" href="styles/sections/ubicacion.css?v=db721229">
 <link rel="stylesheet" href="styles/sections/pie.css?v=8015512b">
 <link rel="stylesheet" href="styles/lightbox.css?v=92a48a1f">
 
@@ -4493,21 +4493,29 @@
        SE CONSERVA «El jardín · 347 · especies de plantas · 20 familias», que sí
        tiene respaldo documental y es dueño declarado de su hecho.
 
-       LO QUE QUEDA ES UN DÍPTICO, Y ESTÁ COMPUESTO COMO TAL. No es la rejilla
-       de antes con tres huecos: son dos piezas de peso parejo y de la misma
-       altura —la plancha del jardín y la columna de vídeo—, la primera quieta y
-       la segunda viva. La plancha del jardín deja de ser vertical y pasa a ser
-       apaisada, que es la proporción que pide una pieza que ahora ocupa dos
-       tercios del ancho de la página.
+       v14 · EL DÍPTICO SE DESHIZO. Duró de la v12 a la v13: el cliente lo vio
+       en pantalla y pidió, verbatim, «TE DIJE UN HERO FOTO COMPLETA PREMIUM
+       CORRIGE». Ahora la sala tiene UNA protagonista: la plancha de la
+       verbena a sangre de canto a canto, con la cartela del 347 en su velo.
+       La columna de vídeo baja a coda —pequeña, pegada al canto derecho, que
+       era el sangrado identitario del movimiento— y el fondo de la sala sigue
+       sangrando por los cuatro.
 
-       SE CONSERVA EL SANGRADO POR LA DERECHA, que es la identidad declarada de
-       este movimiento en la cabecera del fragmento: el díptico entra desde el
-       margen izquierdo y se sale por el canto derecho con la columna de vídeo.
-       El fondo de la sala sí sangra por los cuatro.
-
-       LA FOTOGRAFÍA NO CAMBIA. Es la del jardín del predio —losas, bromelias,
-       bastones del emperador— y muestra exactamente lo que la cifra cuenta:
-       plantas. No se añade ninguna fotografía de animal a esta sala; no había
+       LA FOTOGRAFÍA (v13). Pedido directo del cliente: «crea una portada
+       imagen completa… ponla de hero de aquí no solo hay aves… la foto,
+       animaciones y demás». Sale parque-61 (las losas del camino) y entra
+       img/naturaleza-jardin-hero.jpg: fotografía PROPIA del cliente, la
+       verbena morada del jardín a pleno sol, retrato 2268×4032. Es la planta
+       en primer plano —lo que la cifra cuenta— y no un plano general, así que
+       la plancha pasa de paisaje de ambiente a HERO con protagonista. El
+       recorte apaisado se gobierna con --foco-flor: la espiga en flor vive en
+       el tercio alto del original y el centro geométrico la decapitaría.
+       Y COMO ES HERO, SE MUEVE: la foto gana la deriva de paralaje de la casa
+       (animation-timeline: view(), compositor puro), el MISMO motor que ya
+       usan la apertura del sendero y la foto principal del vivero — no se
+       inventa un motor nuevo. El detalle y el porqué del apagado del zoom de
+       hover en esta plancha están en naturaleza.css, §LA SALA DEL CENSO.
+       No se añade ninguna fotografía de animal a esta sala; no había
        ninguna antes y no la hay ahora.
 
        EL VÍDEO es metraje propio, vertical y mudo; el póster es el suelo si la
@@ -4531,47 +4539,62 @@
         </p>
       </div>
 
-      <!-- EL DÍPTICO. Dos piezas y nada más: la plancha del jardín, con la
-           única cifra que queda, y la columna de vídeo pegada al canto derecho.
-           No es una rejilla a la que le faltan celdas: son dos piezas de peso
-           parejo, a la misma altura, una quieta y una viva.
+      <!-- v14 · EL DÍPTICO SE DESHACE: LA FOTO ES EL HERO. Pedido directo del
+           cliente, viendo el díptico en pantalla: «TE DIJE UN HERO FOTO
+           COMPLETA PREMIUM CORRIGE». La verbena deja de compartir la sala con
+           la columna de vídeo y pasa a PLANCHA A SANGRE de canto a canto —el
+           mismo gesto de portada que .nat-portada, la otra plancha completa
+           de la sección—, con la cartela del 347 apoyada en su velo, al pie.
+           El vídeo NO se pierde: baja a pieza secundaria, más pequeña y
+           pegada al canto derecho (que era la identidad de sangrado de este
+           movimiento), después de la cifra. Una sala, una protagonista.
 
-           Ya no es una <ul>: una lista de un solo elemento se anuncia como
-           «lista, 1 elemento» y eso es ruido. Es lo que siempre fue —una
-           fotografía con su rótulo—, así que es un <figure> con su
-           <figcaption>, igual que la columna de vídeo de al lado. -->
+           Sigue sin ser <ul>: es una fotografía con su rótulo, un <figure>
+           con su <figcaption>. -->
       <div class="nat-censo__corte reveal-secuencia">
 
-        <figure class="nat-habitat nat-habitat--mayor nat-habitat--foco-medio reveal">
+        <figure class="nat-habitat nat-habitat--mayor nat-habitat--foco-flor reveal">
           <img
             class="nat-habitat__foto"
-            src="img/parque/parque-61.jpg"
-            width="900"
-            height="1200"
+            src="img/naturaleza-jardin-hero.jpg"
+            width="2268"
+            height="4032"
             loading="lazy"
             decoding="async"
-            alt="Huella de losas de piedra entre bromelias y bastones del emperador en flor, bajo los árboles grandes del predio"
+            alt="Espiga de verbena con flores moradas a contraluz, en primer plano y a pleno sol, con el jardín del predio florecido y desenfocado detrás"
           />
           <figcaption class="nat-habitat__cuerpo">
             <p class="nat-habitat__lugar">El jardín</p>
             <p class="nat-habitat__cifra" data-contador="347">347</p>
             <p class="nat-habitat__etiqueta">Especies de plantas · 20 familias botánicas</p>
             <p class="nat-habitat__texto">
-              Bromelias, bastones del emperador y árboles altos compartiendo el mismo
-              tramo de camino.
+              Una verbena en flor del jardín del predio, con el resto del inventario
+              creciendo detrás.
             </p>
           </figcaption>
         </figure>
 
-      <!-- ---- La segunda pieza del díptico: la columna de vídeo, pegada al
-           canto derecho. Es la única pieza viva de la sala, y ahí es donde
-           se lee. ------------------------------------------------------------ -->
-      <!-- Entra en VERTICAL y no con .reveal--der, exactamente por el mismo
-           motivo que .nat-portada__rotulo (ver naturaleza.css, LA CARTELA DE LA
-           PORTADA): --der desplaza 28 px hacia fuera y esta pieza vive pegada
-           al canto derecho, así que serían 28 px de desbordamiento horizontal
-           real durante toda la entrada. El desfase con la plancha del jardín lo
-           da el escalonado de .reveal-secuencia, no la dirección. -->
+      </div><!-- /.nat-censo__corte -->
+
+      <!-- La procedencia del número, que es la parte que no se puede callar:
+           el 347 no es una estimación de folleto, sale del inventario biológico
+           del predio. Mismo contrato de honestidad que ya cumplen la ficha de
+           la chachalaca («Imagen de referencia — no tomada en el predio») y el
+           muro del concurso (cada foto con el nombre de quien la tomó). -->
+      <p class="nota nat-censo__aclaracion reveal">
+        La cifra sale del inventario biológico del predio.
+      </p>
+
+      <!-- ---- v14 · LA PIEZA VIVA, EN VOZ BAJA. La columna de vídeo del
+           antiguo díptico, reubicada como coda de la sala: pequeña, pegada
+           al canto derecho —conserva el sangrado que era la identidad del
+           movimiento— y después de la cifra, para no disputarle la entrada
+           a la plancha. Mismo metraje, mismo motor (js/naturaleza-video.js),
+           ni un atributo cambiado.
+           Entra en VERTICAL y no con .reveal--der, por el mismo motivo que
+           .nat-portada__rotulo: --der desplaza 28 px hacia fuera y esta pieza
+           vive pegada al canto derecho — serían 28 px de desbordamiento real
+           durante toda la entrada. -->
       <figure class="nat-video reveal">
       <video
         class="nat-video__pieza"
@@ -4592,23 +4615,6 @@
         Una mariposa parda descansa en lo alto de una vara en flor.
       </figcaption>
       </figure>
-
-      </div><!-- /.nat-censo__corte -->
-
-      <!-- La procedencia del número, que es la parte que no se puede callar:
-           el 347 no es una estimación de folleto, sale del inventario biológico
-           del predio. Mismo contrato de honestidad que ya cumplen la ficha de
-           la chachalaca («Imagen de referencia — no tomada en el predio») y el
-           muro del concurso (cada foto con el nombre de quien la tomó).
-           v12 · Aquí decía además que no hay fotografía propia de anfibios,
-           reptiles ni mamíferos. Ese aviso existía porque existían las tres
-           tarjetas de 18 / 23 / 3, y esas tarjetas se retiraron por pedido
-           directo del cliente: de esas especies sólo había la cifra suelta, sin
-           un solo dato de cuáles son, ni en BRIEF.md ni en ningún archivo del
-           proyecto. Retirado el dato, sobra el aviso sobre el dato. -->
-      <p class="nota nat-censo__aclaracion reveal">
-        La cifra sale del inventario biológico del predio.
-      </p>
 
     </div><!-- /.nat-censo -->
 
@@ -4669,14 +4675,24 @@
      (sections/_footer.html) y el bloque que lo repetía —la ficha 07 de
      sections/experiencias.html— ya no se ensambla. Comprobado con el validador.
 
-     Fotos verificadas en disco, abiertas una a una con Read:
-       parque-44 (675×1200) EL PASILLO DEL VIVERO CON LA JARDINERA — la pieza
-                            dominante de la sección: persona real trabajando y
-                            producto real en el mismo encuadre
-       parque-35 (675×1200) caladios de hoja rosada en producción
-       parque-12 (900×1200) la enramada de esterilla y las materas de barro
-       parque-42 (675×1200) cícada y lantana al borde del camellón
-       parque-49 (675×1200) materas de barro listas para llevar
+     v9 · LAS FOTOS DEL VIVERO SON DEL VIVERO. Pedido del cliente (agosto
+     2026): «seguido ya algunas fotos que quiero esta con el nombre vivero…
+     en estos últimos hay mucho texto, resume, más fotos menos texto sobrante
+     que las personas ya no leen». Salen las cinco genéricas del banco del
+     parque (parque-44, -35, -12, -42, -49) y entran las CUATRO fotografías
+     propias de la carpeta img/vivero/, verificadas una a una con Read
+     (retrato, ~2000×3556):
+       vivero-02  LA TRABAJADORA DEL VIVERO, gorra con el logo de Vegas del
+                  Verde y esquejes en la mano, entre camellones bajo la malla
+                  de sombra — la pieza dominante: persona real Y producto
+                  real en el mismo encuadre, el mismo criterio de v5
+       vivero-01  materas de terracota contra el muro de guadua, en flor
+       vivero-03  el follaje rojo y rosado de la iresine, en producción
+       vivero-04  la planta variegada verde y amarilla en bolsa de vivero
+     Con cuatro piezas el mosaico de dos por dos de v5 pierde una celda y se
+     recompone (§2 de vivero.css): dos verticales arriba y una pieza APAISADA
+     cerrando abajo, que es la composición que cuatro fotos piden en vez de
+     un hueco disimulado.
 
      v5 · SALE LA ÚLTIMA FOTO DE BORRADOR, Y NACE LA JERARQUÍA
      `parque-40-TEMP.jpg` era una imagen generada con IA a baja resolución y
@@ -4770,9 +4786,12 @@
         <span class="reveal-texto__linea">Te llevas a casa</span>
         <span class="reveal-texto__linea">lo que crece aquí</span>
       </h2>
+      <!-- v9 · Recorte de texto, pedido del cliente: «resume, más fotos menos
+           texto sobrante que las personas ya no leen». La entradilla queda en
+           una sola frase; la enumeración casa/oficina/evento ya la dice el
+           catálogo de abajo y no se repite. -->
       <p class="entradilla">
-        Sale de aquí lo que ves plantado afuera. También sale lo que puedes plantar
-        en tu casa, en tu oficina o en tu evento.
+        Lo que ves plantado afuera sale de aquí. Y también lo que te llevas.
       </p>
     </header>
 
@@ -4801,15 +4820,15 @@
       <figure>
         <div class="marco">
           <img
-            src="img/parque/parque-44.jpg"
-            width="675"
-            height="1200"
-            alt="Pasillo del vivero entre dos camellones bajo la malla de sombra: filodendros de hoja recortada y crotones rojos sembrados en bolsa negra a lado y lado y, al fondo del pasillo, una jardinera con sombrero, delantal y botas caminando entre las plantas."
+            src="img/vivero/vivero-02.jpg"
+            width="2000"
+            height="3556"
+            alt="Una trabajadora del vivero con gorra de Vegas del Verde, guantes y botas, sonriendo con un manojo de esquejes en la mano junto a un camellón de filodendros y acalifas rojizas sembrados en bolsa, bajo la malla de sombra."
             loading="lazy"
             decoding="async"
           />
         </div>
-        <figcaption>El vivero, por dentro</figcaption>
+        <figcaption>El vivero, en manos de quien lo trabaja</figcaption>
       </figure>
     </li>
 
@@ -4817,15 +4836,15 @@
       <figure>
         <div class="marco">
           <img
-            src="img/parque/parque-35.jpg"
-            width="675"
-            height="1200"
-            alt="Caladios de hoja rosada y verde en producción bajo la polisombra del vivero, sembrados en bolsa negra frente a un macizo de platanillos."
+            src="img/vivero/vivero-01.jpg"
+            width="2000"
+            height="3556"
+            alt="Materas de terracota con palmas, lengua de suegra, buganvilias rosadas y flores rojas sobre la gravilla, contra el cerramiento de guadua del vivero."
             loading="lazy"
             decoding="async"
           />
         </div>
-        <figcaption>Caladios en producción</figcaption>
+        <figcaption>Materas listas para llevar</figcaption>
       </figure>
     </li>
 
@@ -4833,15 +4852,15 @@
       <figure>
         <div class="marco">
           <img
-            src="img/parque/parque-12.jpg"
-            width="900"
-            height="1200"
-            alt="Enramada de esterilla sobre estructura de madera, con materas de barro sembradas de crotones y cactus repartidas por el piso de losas; al fondo, una construcción con un mural pintado y una hilera de materas contra la pared."
+            src="img/vivero/vivero-03.jpg"
+            width="2000"
+            height="3556"
+            alt="Camellón de iresines de hoja roja y rosada en producción bajo la malla de sombra del vivero, con el resto del cultivo verde al fondo."
             loading="lazy"
             decoding="async"
           />
         </div>
-        <figcaption>La enramada, con el mural al fondo</figcaption>
+        <figcaption>Iresine en producción</figcaption>
       </figure>
     </li>
 
@@ -4849,31 +4868,15 @@
       <figure>
         <div class="marco">
           <img
-            src="img/parque/parque-42.jpg"
-            width="675"
-            height="1200"
-            alt="Una cícada sembrada en matera grande junto a una lantana en flor, al borde del camellón de bolsas del vivero, bajo la malla de sombra."
+            src="img/vivero/vivero-04.jpg"
+            width="2000"
+            height="3556"
+            alt="Una pandanácea variegada de hojas verdes y amarillas sembrada en bolsa negra de vivero, entre el follaje del cultivo bajo la malla de sombra."
             loading="lazy"
             decoding="async"
           />
         </div>
-        <figcaption>Lista para sembrar</figcaption>
-      </figure>
-    </li>
-
-    <li class="viv-foto viv-foto--d reveal">
-      <figure>
-        <div class="marco">
-          <img
-            src="img/parque/parque-49.jpg"
-            width="675"
-            height="1200"
-            alt="Materas de barro con plantas de interior de hoja ancha frente a un cerramiento de guadua, listas para llevar a una casa, una oficina o un evento."
-            loading="lazy"
-            decoding="async"
-          />
-        </div>
-        <figcaption>Materas listas para llevar</figcaption>
+        <figcaption>En bolsa, para sembrar</figcaption>
       </figure>
     </li>
   </ul>
@@ -4901,17 +4904,16 @@
       <!-- ---------- Lo que sale del vivero: el catálogo ---------- -->
       <div class="viv-oferta reveal">
 
-        <!-- v8 · El lead se parte en dos voces: la frase de venta se queda a
-             cuerpo de entradilla y la generalización baja a nota. Ni una
-             palabra cambia; sólo el reparto. SIN .reveal-texto: ese gesto es
-             del titular que abre el capítulo (base.css §v7) y aquí ya lo
-             lleva el <h2>. -->
+        <!-- v9 · El lead queda en UNA voz: la frase de venta. La nota que lo
+             seguía («Lo mismo para una sala que para una oficina…») se
+             recorta entera por pedido del cliente —«resume, más fotos menos
+             texto sobrante»—: era generalización, y el destino de la planta
+             ya lo cuentan las fotos y el catálogo. SIN .reveal-texto: ese
+             gesto es del titular que abre el capítulo y aquí ya lo lleva
+             el <h2>. -->
         <p class="viv-lead">
           Escoges la planta en el camellón y te la llevas: en bolsa para sembrar o
           en matera para poner.
-        </p>
-        <p class="viv-lead__nota">
-          Lo mismo para una sala que para una oficina o el montaje de un evento.
         </p>
 
         <!-- v8 · El catálogo pasa a índice editorial: el sustantivo principal
@@ -4946,9 +4948,12 @@
       <!-- ---------- Lo que da confianza: el aula, el sello y el botón ------- -->
       <div class="viv-respaldo reveal reveal--der">
 
+        <!-- v9 · Recortado a la mitad por el mismo pedido: se conserva el
+             hecho (el vivero apoya los talleres) y el enlace que lo amplía;
+             la paráfrasis «espacio de aprendizaje… de conexión con la
+             naturaleza» sobraba porque #planes ya lo cuenta entero. -->
         <p class="viv-aula">
-          El vivero es además un espacio de aprendizaje: apoya los talleres de
-          conexión con la naturaleza que se hacen en el parque.
+          El vivero también es aula: apoya los talleres del parque.
           <a class="enlace-flecha" href="#planes">Ver los talleres</a>
         </p>
 
@@ -5142,10 +5147,12 @@
           <span class="reveal-texto__linea">Se anda poco,</span>
           <span class="reveal-texto__linea">se para mucho</span>
         </h2>
+        <!-- v2 · Recortada por pedido del cliente («resume, más fotos menos
+             texto sobrante»): queda lo que el visitante necesita saber —son
+             planos de aquí y no hay nada que operar—. -->
         <p class="snd-hero__nota reveal">
-          Cuatro planos cortos grabados con un teléfono, aquí dentro. Ninguno
-          lleva sonido y no hay nada que pulsar: se mueven solos y se paran
-          solos.
+          Planos cortos grabados aquí dentro, sin sonido. No hay nada que
+          pulsar: se mueven solos.
         </p>
         <!-- El colofón firmado: el mismo gesto de catálogo que el
              .nat-cinta__firma del concurso. Ancla el carril como pieza propia
@@ -5298,15 +5305,22 @@
   <div class="nat-apertura">
 
     <div class="nat-apertura__media reveal reveal--izq">
+      <!-- v2 · LA FOTO PROTAGONISTA ES LA NUEVA DEL CLIENTE. Pedido directo:
+           «de sendero ecovital usa la que te pedí ahí». Sale sendero-1 (el
+           túnel de ramas) y entra img/sendero/sendero-hero.jpg: fotografía
+           propia, retrato 2400×4268, el camino de pasto entre el seto y los
+           crotones con el cielo despejado arriba. El encuadre bueno —camino,
+           crotones, sombra— vive en la mitad BAJA del original; el ajuste de
+           object-position está en sendero.css §5, no aquí. -->
       <figure class="nat-apertura__principal">
         <div class="marco marco--retrato">
           <img
-            src="img/espacios/sendero-1.jpg"
-            width="844"
-            height="1500"
+            src="img/sendero/sendero-hero.jpg"
+            width="2400"
+            height="4268"
             loading="lazy"
             decoding="async"
-            alt="Camino de tierra y hojarasca del Sendero Ecovital, cubierto por el arco de las ramas y bordeado de setos y árboles jóvenes"
+            alt="El camino de pasto del Sendero Ecovital entre el seto y una hilera de crotones de hoja roja y amarilla, bajo árboles altos y cielo despejado"
           />
         </div>
       </figure>
@@ -5341,10 +5355,21 @@
            entradilla. Un <header> de un solo párrafo anuncia una cabecera que
            no existe. Conserva la clase porque de ella cuelga el aire de la
            columna. -->
+      <!-- v2 · RECORTE DE TEXTO, pedido del cliente: «en estos últimos hay
+           mucho texto, resume, más fotos menos texto sobrante que las
+           personas ya no leen». Se conservan enteros los tres hechos que la
+           tabla HECHOS de herramientas/validar.js le exige a esta sección
+           —el Sendero descrito, el precio de $15.000 y las dos corrientes de
+           agua (Quebrada Aranzoque · riachuelo La Florida)— y el rótulo
+           «Atrévete al sendero». Lo que se recorta es prosa que repetía lo
+           que la foto o el resto de la columna ya cuentan: la entradilla
+           queda en una frase, y el párrafo que narraba el encuentro de las
+           dos corrientes se condensa en una línea bajo el cauce, porque los
+           dos nombres con el trazo serpenteante ya dibujan el recorrido. -->
       <div class="nat-apertura__encabezado">
         <p class="entradilla">
-          El recorrido guiado que sigue la quebrada, y el censo de lo que vive alrededor.
-          Es la única visita suelta con un precio publicado.
+          El recorrido guiado junto a la quebrada: la única visita suelta con
+          un precio publicado.
         </p>
       </div>
 
@@ -5382,8 +5407,7 @@
         </p>
 
         <p>
-          El camino sigue la quebrada hasta su encuentro con el riachuelo. Las dos
-          corrientes de agua rodean el terreno arbolado.
+          Las dos corrientes de agua rodean el terreno arbolado.
         </p>
 
         <!-- Una línea de registro separada por interpunto — ficha de
@@ -5664,9 +5688,34 @@
         target="_blank"
         rel="noopener"
       >
-        <svg class="icono-traza" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true" focusable="false">
-          <path d="M12 21.5s7-6.1 7-11a7 7 0 1 0-14 0c0 4.9 7 11 7 11Z"  pathLength="1"/>
-          <circle cx="12" cy="10.4" r="2.6"  pathLength="1"/>
+        <!-- v10 · «AGREGAR EL LOGO REALES DE MAPS Y WACE [Waze] EN LA
+             UBICACION» (pedido del cliente). El icono que había aquí era un
+             PIN GENÉRICO: no decía Google Maps, decía «ubicación» — el mismo
+             dibujo que usan medio millón de sitios para cualquier cosa.
+
+             POR QUÉ NO VA EL LOGOTIPO A COLOR. El glifo oficial de Maps es
+             policromo (rojo, verde, amarillo, azul) y en este proyecto NINGÚN
+             color se escribe literal: sólo var(--token) (y herramientas/
+             validar.js §g cuenta los hexadecimales del <body> precisamente
+             para que eso no se cuele). Meter cuatro hex de marca aquí rompería
+             la regla dura por un icono de 20 px.
+
+             LO QUE SÍ SE HACE. La FORMA reconocible de Maps —mapa cuadrado de
+             esquinas blandas + vía en diagonal + pin encima— dibujada en el
+             mismo trazo `icono-traza`/`currentColor`/`pathLength="1"` que ya
+             usan el reloj, el correo, Instagram y la cordillera de esta misma
+             sección. Se identifica a qué app lleva el enlace, que es el uso
+             legítimo de una marca ajena, y no se pega un logotipo de otro
+             sistema visual encima del nuestro. Sin tipografía de marca y a
+             cuerpo de icono, nunca de protagonista.
+
+             stroke-width baja de 1.6 a 1.4: son tres figuras anidadas en 24
+             unidades y a 1.6 se empastaban entre ellas. -->
+        <svg class="icono-traza" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+          <rect x="2.7" y="2.7" width="18.6" height="18.6" rx="3.6"  pathLength="1"/>
+          <path d="M2.9 18.5c3-.7 5.1-2.3 6.4-4.8 1-1.9 2-3.7 3.1-5.3"  pathLength="1"/>
+          <path d="M15.6 15.6s3.7-3.6 3.7-6.1a3.7 3.7 0 1 0-7.4 0c0 2.5 3.7 6.1 3.7 6.1Z"  pathLength="1"/>
+          <circle cx="15.6" cy="9.4" r="1.35"  pathLength="1"/>
         </svg>
         Llegar con Google Maps
       </a>
@@ -5677,8 +5726,27 @@
         target="_blank"
         rel="noopener"
       >
-        <svg class="icono-traza" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true" focusable="false">
-          <path d="M3.5 12.2 20.4 4.6a.55.55 0 0 1 .74.72l-7.4 16.6a.55.55 0 0 1-1.03-.09l-1.6-6.2a.55.55 0 0 0-.39-.4l-6.2-1.6a.55.55 0 0 1-.02-1.43Z"  pathLength="1"/>
+        <!-- v10 · Misma corrección que en el botón de al lado, y aquí el
+             desajuste era peor: el icono que había era un AVIÓN DE PAPEL —el
+             glifo universal de «enviar»—, que no tiene absolutamente nada que
+             ver con Waze. Un enlace que promete Waze y enseña un botón de
+             enviar es una promesa rota antes del clic.
+
+             Waze se reconoce por LA CARA: burbuja redonda con cola, dos ojos,
+             sonrisa y los dos mechones de la coronilla. Eso es lo que se
+             dibuja, en el trazo de la casa —mismas reglas que el glifo de
+             Maps: `currentColor`, `pathLength="1"`, sin un solo color de
+             marca literal—. Los ojos van macizos porque a 20 px dos aros de
+             1,4 de trazo se cierran y la cara pierde la mirada; el precedente
+             de forma maciza dentro de un `icono-traza` es el punto del glifo
+             de Instagram, doce filas más abajo en este mismo archivo. -->
+        <svg class="icono-traza" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+          <path d="M12 3.4a8.1 8.1 0 0 1 8.1 8.1c0 4.1-3 7.5-6.9 8l-3.5 2.3a.5.5 0 0 1-.77-.45l.08-2.5A8.1 8.1 0 0 1 3.9 11.5 8.1 8.1 0 0 1 12 3.4Z"  pathLength="1"/>
+          <path d="M8.6 13.7c.85 1.15 1.98 1.73 3.4 1.73s2.55-.58 3.4-1.73"  pathLength="1"/>
+          <path d="M6.9 4.6 5.7 2.9"  pathLength="1"/>
+          <path d="M17.1 4.6 18.3 2.9"  pathLength="1"/>
+          <circle cx="9.4" cy="10.3" r="1.05" fill="currentColor" stroke="none"  pathLength="1"/>
+          <circle cx="14.6" cy="10.3" r="1.05" fill="currentColor" stroke="none"  pathLength="1"/>
         </svg>
         Llegar con Waze
       </a>
@@ -5699,40 +5767,115 @@
     </div>
     </div>
 
-    <!-- ================= 4 · PUNTOS DE REFERENCIA ============================
-         v9 · SALE LA FIGURA DUPLICADA. La foto aérea que iba aquí era
-         exactamente el mismo archivo (img/mapa-ubicacion.jpg) que ya se ve
-         como respaldo del mapa a sangre dos pantallas arriba, y sus sitios
-         están señalados en el mapa interactivo: una foto contada dos veces es
-         lo contrario de editorial. El bloque queda a una sola columna
-         tipográfica (modificador --solo en el CSS) y los ocho chips-pastilla
-         pasan a leerse como una frase corrida de lugares con punto medio. -->
-    <div class="ubi-bloque ubi-bloque--solo reveal">
-      <div class="ubi-bloque__encabezado">
-        <h3 class="titulo-seccion titulo-seccion--xs">Puntos de referencia</h3>
-        <p class="nota">Si te suena alguno de estos sitios, ya sabes llegar.</p>
-        <!-- v5 · LOS OCHO CHIPS ENTRAN DE UNO EN UNO, NO EN BLOQUE.
-             Ocho pastillas idénticas apareciendo a la vez son una mancha; una
+    <!-- ========= 4 · DESDE EL PREDIO — REFERENCIAS Y DISTANCIAS ==============
+         v10 · «DISEÑAR MEJOR ESA PARTE DE LA UBICACION Y LOS PUNTOS DE
+         REFERENCIA Y DISTANCIAS DESDE EL PREDIO» (pedido del cliente).
+
+         QUÉ ESTABA MAL. Hasta v9 esto eran DOS bloques consecutivos con el
+         mismo filete de apertura, el mismo aire, el mismo rótulo
+         `titulo-seccion--xs` y la misma retícula de dos columnas, contando las
+         dos mitades de UNA SOLA idea: respecto a qué está el predio. Dos cajas
+         gemelas seguidas es exactamente el tic de plantilla que esta sección
+         lleva tres revisiones quitándose (v4 §4 lo dice con esas palabras) y
+         se había vuelto a colar entre las dos únicas piezas que sí eran lo
+         mismo. Encima, la lista de referencias era una FRASE CORRIDA de ocho
+         nombres separados por punto medio: bonita de leer, pero incapaz de
+         sostener un dato al lado del nombre — que es justo lo que el cliente
+         pide poder poner.
+
+         QUÉ SE HACE. Un capítulo, un filete, un titular —«Desde el predio»— y
+         dentro dos movimientos con rótulo propio en registro de eyebrow, que
+         ya no compiten con el titular del capítulo:
+           · «Lo que tienes al lado»   — los ocho sitios reconocibles.
+           · «Lo que queda a un viaje» — los siete destinos con su cifra.
+
+         LA DIFERENCIA ENTRE LOS DOS MOVIMIENTOS ES UN DATO, NO UN ADORNO.
+         Las ocho referencias llevan una barra de guía TODAS DEL MISMO LARGO,
+         porque de ellas no hay distancia publicada; las siete distancias
+         llevan barra VARIABLE, porque de ellas sí la hay. El instrumento es
+         el mismo —mismo carril, mismo degradado menta→oliva— y quien mire el
+         bloque medio segundo ya sabe cuál de las dos listas MIDE y cuál sólo
+         NOMBRA. La honestidad se dibuja, no se escribe en una nota al pie.
+
+         NI UN DATO NUEVO. Los ocho nombres y las siete cifras son literalmente
+         los de BRIEF.md líneas 52-55; no se ha inventado ni un kilómetro ni un
+         minuto. FALTA PEDIR AL CLIENTE las distancias o tiempos reales de los
+         sitios cercanos: cuando lleguen, entran en el <span class="ubi-ref__dato">
+         que ya está previsto en el CSS y la guía fija se sustituye por barra
+         proporcional, sin tocar el marcado de alrededor.
+         ====================================================================== -->
+    <div class="ubi-desde">
+
+      <header class="ubi-desde__encabezado reveal">
+        <p class="eyebrow">Puntos de referencia y distancias</p>
+        <h3 class="titulo-seccion titulo-seccion--xs">Desde el predio</h3>
+        <p class="nota">
+          Dos escalas: los sitios que ya te sabes y tienes al lado, y los destinos
+          a los que se sale desde aquí.
+        </p>
+      </header>
+
+      <!-- ---- 4a · MOVIMIENTO CERCANO ------------------------------------- -->
+      <div class="ubi-bloque ubi-bloque--solo ubi-mov reveal">
+        <div class="ubi-bloque__encabezado">
+          <h4 class="ubi-mov__titulo">Lo que tienes al lado</h4>
+          <p class="nota">Si te suena alguno de estos sitios, ya sabes llegar.</p>
+        </div>
+
+        <!-- v5 · LOS OCHO ENTRAN DE UNO EN UNO, NO EN BLOQUE.
+             Ocho filas idénticas apareciendo a la vez son una mancha; una
              detrás de otra son una lista de sitios que alguien va nombrando.
              Cada <li> es su propio .reveal dentro de una .reveal-secuencia, y
-             los ocho retardos los reparte ubicacion.css §9 —desiguales, no en
-             escalera de 90 en 90—. base.css sólo trae seis escalones
-             distintos y a partir del séptimo repite: aquí hacen falta ocho. -->
+             los ocho retardos los reparte ubicacion.css §12b.1 —desiguales, no
+             en escalera de 90 en 90—. base.css sólo trae seis escalones
+             distintos y a partir del séptimo repite: aquí hacen falta ocho.
+             SIGUEN SIENDO OCHO <li> Y EN EL MISMO ORDEN: esa nube de retardos
+             se direcciona por :nth-child() y se rompería al añadir o mover uno.
+
+             v10 · Cae `reveal--zoom` y queda el .reveal de base. El zoom se
+             eligió en v5 porque eran pastillas sueltas en un flex envolvente y
+             un desplazamiento horizontal podía empujar el borde de la pantalla;
+             ahora cada referencia es una FILA de ancho completo dentro de su
+             columna, así que el desplazamiento vertical del sistema no desborda
+             por ningún lado y una fila que se escala se lee como un temblor. -->
         <ul class="ubi-refs reveal-secuencia">
-          <li class="ubi-ref reveal reveal--zoom">Anillo Vial Floridablanca&ndash;Girón</li>
-          <li class="ubi-ref reveal reveal--zoom">Conjunto Natura</li>
-          <li class="ubi-ref reveal reveal--zoom">Alkosto · Makro · PriceSmart</li>
-          <li class="ubi-ref reveal reveal--zoom">Mediterráneo Fútbol Park</li>
-          <li class="ubi-ref reveal reveal--zoom">Mediterráneo Royal</li>
-          <li class="ubi-ref reveal reveal--zoom">C.C. Cañaveral</li>
-          <li class="ubi-ref reveal reveal--zoom">C.C. La Florida</li>
-          <li class="ubi-ref reveal reveal--zoom">C.C. Caracolí</li>
+          <li class="ubi-ref reveal">
+            <span class="ubi-ref__lugar">Anillo Vial Floridablanca&ndash;Girón</span>
+            <span class="ubi-ref__guia" aria-hidden="true"></span>
+          </li>
+          <li class="ubi-ref reveal">
+            <span class="ubi-ref__lugar">Conjunto Natura</span>
+            <span class="ubi-ref__guia" aria-hidden="true"></span>
+          </li>
+          <li class="ubi-ref reveal">
+            <span class="ubi-ref__lugar">Alkosto · Makro · PriceSmart</span>
+            <span class="ubi-ref__guia" aria-hidden="true"></span>
+          </li>
+          <li class="ubi-ref reveal">
+            <span class="ubi-ref__lugar">Mediterráneo Fútbol Park</span>
+            <span class="ubi-ref__guia" aria-hidden="true"></span>
+          </li>
+          <li class="ubi-ref reveal">
+            <span class="ubi-ref__lugar">Mediterráneo Royal</span>
+            <span class="ubi-ref__guia" aria-hidden="true"></span>
+          </li>
+          <li class="ubi-ref reveal">
+            <span class="ubi-ref__lugar">C.C. Cañaveral</span>
+            <span class="ubi-ref__guia" aria-hidden="true"></span>
+          </li>
+          <li class="ubi-ref reveal">
+            <span class="ubi-ref__lugar">C.C. La Florida</span>
+            <span class="ubi-ref__guia" aria-hidden="true"></span>
+          </li>
+          <li class="ubi-ref reveal">
+            <span class="ubi-ref__lugar">C.C. Caracolí</span>
+            <span class="ubi-ref__guia" aria-hidden="true"></span>
+          </li>
         </ul>
       </div>
-    </div>
 
-    <!-- ================= 5 · DISTANCIAS ====================================== -->
-    <div class="ubi-bloque ubi-dist reveal" role="group" aria-labelledby="ubicacion-distancias-titulo">
+      <!-- ---- 4b · MOVIMIENTO LEJANO -------------------------------------- -->
+      <div class="ubi-bloque ubi-dist ubi-mov reveal" role="group" aria-labelledby="ubicacion-distancias-titulo">
       <!-- <header> Y NO <div>, Y NO ES COSMÉTICO ------------------------------
            js/app.js dispara el dibujado de los iconos por el ANCESTRO más
            cercano que sea `section`, `footer` o `header`. #ubicacion es una
@@ -5746,9 +5889,13 @@
            de tipo «banner» cuando su ancestro más cercano es <body>, y éste
            vive dentro de <section id="ubicacion">. Aquí es genérico.       -->
       <header class="ubi-bloque__encabezado">
-        <h3 class="titulo-seccion titulo-seccion--xs" id="ubicacion-distancias-titulo">
-          Distancias desde el predio
-        </h3>
+        <!-- v10 · Baja de <h3> a <h4> y de titular a rótulo: el titular del
+             capítulo es ahora «Desde el predio», y este es uno de sus dos
+             movimientos. El id NO cambia — lo apunta el aria-labelledby del
+             grupo— y el orden de encabezados queda h2 → h3 → h4, sin saltos. -->
+        <h4 class="ubi-mov__titulo" id="ubicacion-distancias-titulo">
+          Lo que queda a un viaje
+        </h4>
         <p class="nota">
           Pegados a la ciudad y en la puerta del Santander que se visita. Distancias
           aproximadas por carretera.
@@ -5816,7 +5963,9 @@
           <span class="ubi-dist__km">120,6 km</span>
         </li>
       </ol>
-    </div>
+      </div>
+
+    </div><!-- /.ubi-desde -->
 
     <!-- ================= 5b · EL FINAL DEL CAMINO ===========================
          v5 · POR QUÉ ENTRA UNA FOTO EN LA SECCIÓN MÁS SECA DEL SITIO

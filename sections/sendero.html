@@ -124,10 +124,12 @@
           <span class="reveal-texto__linea">Se anda poco,</span>
           <span class="reveal-texto__linea">se para mucho</span>
         </h2>
+        <!-- v2 · Recortada por pedido del cliente («resume, más fotos menos
+             texto sobrante»): queda lo que el visitante necesita saber —son
+             planos de aquí y no hay nada que operar—. -->
         <p class="snd-hero__nota reveal">
-          Cuatro planos cortos grabados con un teléfono, aquí dentro. Ninguno
-          lleva sonido y no hay nada que pulsar: se mueven solos y se paran
-          solos.
+          Planos cortos grabados aquí dentro, sin sonido. No hay nada que
+          pulsar: se mueven solos.
         </p>
         <!-- El colofón firmado: el mismo gesto de catálogo que el
              .nat-cinta__firma del concurso. Ancla el carril como pieza propia
@@ -280,15 +282,22 @@
   <div class="nat-apertura">
 
     <div class="nat-apertura__media reveal reveal--izq">
+      <!-- v2 · LA FOTO PROTAGONISTA ES LA NUEVA DEL CLIENTE. Pedido directo:
+           «de sendero ecovital usa la que te pedí ahí». Sale sendero-1 (el
+           túnel de ramas) y entra img/sendero/sendero-hero.jpg: fotografía
+           propia, retrato 2400×4268, el camino de pasto entre el seto y los
+           crotones con el cielo despejado arriba. El encuadre bueno —camino,
+           crotones, sombra— vive en la mitad BAJA del original; el ajuste de
+           object-position está en sendero.css §5, no aquí. -->
       <figure class="nat-apertura__principal">
         <div class="marco marco--retrato">
           <img
-            src="img/espacios/sendero-1.jpg"
-            width="844"
-            height="1500"
+            src="img/sendero/sendero-hero.jpg"
+            width="2400"
+            height="4268"
             loading="lazy"
             decoding="async"
-            alt="Camino de tierra y hojarasca del Sendero Ecovital, cubierto por el arco de las ramas y bordeado de setos y árboles jóvenes"
+            alt="El camino de pasto del Sendero Ecovital entre el seto y una hilera de crotones de hoja roja y amarilla, bajo árboles altos y cielo despejado"
           />
         </div>
       </figure>
@@ -323,10 +332,21 @@
            entradilla. Un <header> de un solo párrafo anuncia una cabecera que
            no existe. Conserva la clase porque de ella cuelga el aire de la
            columna. -->
+      <!-- v2 · RECORTE DE TEXTO, pedido del cliente: «en estos últimos hay
+           mucho texto, resume, más fotos menos texto sobrante que las
+           personas ya no leen». Se conservan enteros los tres hechos que la
+           tabla HECHOS de herramientas/validar.js le exige a esta sección
+           —el Sendero descrito, el precio de $15.000 y las dos corrientes de
+           agua (Quebrada Aranzoque · riachuelo La Florida)— y el rótulo
+           «Atrévete al sendero». Lo que se recorta es prosa que repetía lo
+           que la foto o el resto de la columna ya cuentan: la entradilla
+           queda en una frase, y el párrafo que narraba el encuentro de las
+           dos corrientes se condensa en una línea bajo el cauce, porque los
+           dos nombres con el trazo serpenteante ya dibujan el recorrido. -->
       <div class="nat-apertura__encabezado">
         <p class="entradilla">
-          El recorrido guiado que sigue la quebrada, y el censo de lo que vive alrededor.
-          Es la única visita suelta con un precio publicado.
+          El recorrido guiado junto a la quebrada: la única visita suelta con
+          un precio publicado.
         </p>
       </div>
 
@@ -364,8 +384,7 @@
         </p>
 
         <p>
-          El camino sigue la quebrada hasta su encuentro con el riachuelo. Las dos
-          corrientes de agua rodean el terreno arbolado.
+          Las dos corrientes de agua rodean el terreno arbolado.
         </p>
 
         <!-- Una línea de registro separada por interpunto — ficha de

@@ -392,11 +392,25 @@
 
 /* ==========================================================================
    5. LA APERTURA, DEBAJO DEL HERO
-   El bloque .nat-apertura entero se estiliza desde naturaleza.css y aquí no
-   se toca ni una declaración. Lo único que hace falta es el aire entre el
-   hero y él, que ya lo pone el margin-block-end de §1, y quitarle al primer
-   párrafo del cuerpo la deuda que tenía con un encabezado que ya no está:
-   la capitular de naturaleza.css cuelga de `p:first-of-type`, y ese párrafo
-   sigue siendo el mismo. No hay nada que corregir. Esta nota existe para que
-   nadie busque aquí las reglas de la apertura y crea que faltan.
+   El bloque .nat-apertura entero se estiliza desde naturaleza.css y aquí casi
+   no se toca. El aire entre el hero y él ya lo pone el margin-block-end de
+   §1, y la capitular de naturaleza.css cuelga de `p:first-of-type`, que
+   sigue siendo el mismo párrafo.
+
+   LO ÚNICO PROPIO ES EL ENCUADRE DE LA FOTO NUEVA (v2). La fotografía del
+   cliente (img/sendero/sendero-hero.jpg, retrato 2400×4268) lleva medio
+   encuadre de cielo: el camino de pasto, los crotones y la sombra viven en
+   la mitad BAJA del original. El `center 62%` que naturaleza.css le daba a
+   la foto anterior en escritorio se queda corto aquí —dejaba media plancha
+   de cielo—, así que se baja el foco al 74 % EN TODOS LOS ANCHOS, no sólo
+   en escritorio: en móvil el marco retrato recorta menos, pero el centro
+   geométrico sigue cayendo en el follaje y no en el camino.
+   El prefijo .sendero acota la regla a esta sección y le da una clase más
+   que a la de naturaleza.css, así que gana en cascada sin depender del
+   orden de carga y sin !important. La deriva de
+   paralaje de naturaleza.css (nat-deriva, height 118 %) no se toca: anima
+   transform y convive con cualquier object-position.
    ========================================================================== */
+.sendero .nat-apertura__principal .marco > img {
+  object-position: center 74%;
+}

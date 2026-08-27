@@ -279,8 +279,9 @@
 
    Su proporción es 4/5 y no la 9/16 del archivo: a 9/16 la foto medía 667 px
    de alto en un móvil de 375 y se comía la pantalla entera. Recortada a 4/5
-   se conserva el 70 % central del original, que es donde están el pasillo y la
-   jardinera; lo que se va es cielo por arriba y bolsas por abajo. */
+   se conserva el 70 % central del original de vivero-02, que es donde están
+   la trabajadora y el camellón; lo que se va es malla por arriba y gravilla
+   por abajo. */
 /* OJO CON --viv-margen: su fórmula lleva un `100%`, y un porcentaje dentro de
    una variable se resuelve DONDE SE USA, no donde se declara. En la banda
    (un <ul> a ancho completo de la sección) ese 100% es el ancho útil de la
@@ -303,16 +304,31 @@
   padding-inline: var(--padding-contenedor);
 }
 
-/* Las cuatro del mosaico, con su proporción medida contra el archivo real para
-   que el recorte no invente nada:
-     a · parque-35 (675×1200) 3/4  el plano más abierto: caladios y platanillos
-     b · parque-12 (900×1200) 4/5  la enramada pide aire horizontal
-     c · parque-42 (675×1200) 5/8  la cícada es la más alta de las cuatro
-     d · parque-49 (675×1200) 1/1  las materas están en el tercio bajo         */
+/* v9 · EL MOSAICO PASA DE CUATRO PIEZAS A TRES — pedido del cliente: fotos
+   propias del vivero (img/vivero/), que son cuatro en total y no cinco. No se
+   deja un hueco en el dos por dos de v5: se recompone. Dos verticales arriba
+   (a y b) y una pieza APAISADA cerrando abajo (c), que con tres piezas es una
+   figura terminada y no una rejilla a la que le falta una celda.
+   Las proporciones, medidas contra los archivos reales (todos retrato
+   2000×3556 ≈ 9/16):
+     a · vivero-01  3/4  las materas contra la guadua: las piezas viven en el
+                         tercio bajo y el 3/4 conserva materas Y cerramiento
+     b · vivero-03  5/8  la iresine es textura vertical: aguanta el corte alto
+     c · vivero-04  8/5  la variegada abre en abanico: el recorte apaisado se
+                         queda con el abanico y suelta la bolsa y la malla    */
 .viv .viv-foto--a .marco { aspect-ratio: 3 / 4; }
-.viv .viv-foto--b .marco { aspect-ratio: 4 / 5; }
-.viv .viv-foto--c .marco { aspect-ratio: 5 / 8; }
-.viv .viv-foto--d .marco { aspect-ratio: 1 / 1; }
+.viv .viv-foto--b .marco { aspect-ratio: 5 / 8; }
+.viv .viv-foto--c .marco { aspect-ratio: 8 / 5; }
+
+/* Encuadres: los tres originales son verticales y dos huecos no lo son del
+   todo, así que se declara qué franja enseñar. Materas en el tercio bajo del
+   original (65 %); el abanico de la variegada, en la franja media-alta. */
+.viv .viv-foto--a .marco > img { object-position: center 62%; }
+.viv .viv-foto--c .marco > img { object-position: center 42%; }
+
+/* La apaisada cierra el tablero cruzando las dos columnas, en móvil y sólo en
+   móvil: en tableta y escritorio tiene su propia celda (abajo). */
+.viv .viv-foto--c { grid-column: 1 / -1; }
 
 /* LA HOJA — norma del sitio, arbitrada por el director de arte.
    Dos esquinas curvas en diagonal y dos vivas; dos piezas vecinas nunca con la
@@ -323,31 +339,28 @@
      diagonal A ..... R 0 R 0     curva arriba-izquierda y abajo-derecha
      diagonal B ..... 0 R 0 R     curva arriba-derecha y abajo-izquierda
 
-   En el tablero de móvil —a·b arriba, c·d abajo— la alternancia queda
-   B · A / A · B, así que ninguna toca a otra con su misma diagonal ni de lado
-   ni por encima. */
+   En el tablero de móvil —a·b arriba, la apaisada c cruzando abajo— la
+   alternancia queda B · A / B, así que ninguna toca a otra con su misma
+   diagonal ni de lado ni por encima. */
 .viv .viv-foto--a .marco { border-radius: 0 var(--viv-hoja) 0 var(--viv-hoja); }
 .viv .viv-foto--b .marco { border-radius: var(--viv-hoja) 0 var(--viv-hoja) 0; }
-.viv .viv-foto--c .marco { border-radius: var(--viv-hoja) 0 var(--viv-hoja) 0; }
-.viv .viv-foto--d .marco { border-radius: 0 var(--viv-hoja) 0 var(--viv-hoja); }
+.viv .viv-foto--c .marco { border-radius: 0 var(--viv-hoja) 0 var(--viv-hoja); }
 
 /* ---- TABLETA (48rem – 62rem) --------------------------------------------
    La banda entera pierde los márgenes y toca los dos bordes de la pantalla.
    La principal se queda arriba, a lo ancho y en 4/3 —el recorte apaisado que
    mejor aguanta un original vertical: conserva el 42 % central, que es la
-   banda donde están el pasillo y la jardinera—, y el mosaico baja debajo en
-   una fila de cuatro columnas desiguales.
-
-   Los anchos 1.1 / 0.86 / 0.78 / 1.06 no son capricho: con cuatro columnas
-   idénticas la fila vuelve a ser una rejilla, y con los extremos algo más
-   anchos la fila tiene principio y final. */
+   banda donde están la trabajadora y el camellón—, y el mosaico baja debajo
+   en una fila de tres columnas desiguales. */
 @media (min-width: 48rem) {
+  /* v9 · Tres columnas y no cuatro: son tres piezas de acompañamiento. La de
+     la derecha es la apaisada y por eso su columna es la más ancha; con tres
+     idénticas la fila volvería a ser una rejilla. */
   .viv .viv-friso {
     grid-template-columns:
-      minmax(0, 1.1fr)
-      minmax(0, 0.86fr)
-      minmax(0, 0.78fr)
-      minmax(0, 1.06fr);
+      minmax(0, 0.95fr)
+      minmax(0, 0.8fr)
+      minmax(0, 1.25fr);
     align-items: start;
     padding-inline: 0;
   }
@@ -366,25 +379,26 @@
     padding-inline: var(--esp-2xs) 0;
   }
 
+  /* En fila, la apaisada vuelve a su celda propia. */
+  .viv .viv-foto--c { grid-column: auto; }
+
   /* LA HOJA CONTRA EL CANTO DE LA VENTANA — la excepción de la norma.
-     La foto `a` toca el borde izquierdo y la `d` el derecho. Las esquinas que
+     La foto `a` toca el borde izquierdo y la `c` el derecho. Las esquinas que
      TOCAN EL BORDE se quedan a cero: una curva contra el canto de la ventana
      deja una cuña de fondo que se lee como un fallo de recorte, no como una
-     forma. Cada extrema conserva media hoja, la del lado de dentro.
-     En fila, la secuencia queda B · A · B · A y ningún par contiguo repite. */
+     forma. Cada extrema conserva media hoja, la del lado de dentro; la `b`,
+     que va entera por dentro, lleva la diagonal completa. */
   .viv .viv-foto--a .marco { border-radius: 0 var(--viv-hoja-ancha) 0 0; }
   .viv .viv-foto--b .marco { border-radius: var(--viv-hoja) 0 var(--viv-hoja) 0; }
-  .viv .viv-foto--c .marco { border-radius: 0 var(--viv-hoja) 0 var(--viv-hoja); }
-  .viv .viv-foto--d .marco { border-radius: var(--viv-hoja-ancha) 0 0 0; }
+  .viv .viv-foto--c .marco { border-radius: var(--viv-hoja-ancha) 0 0 0; }
 
-  /* Las alturas de arranque: cuatro, y ninguna igual. Va en `margin-block-start`
+  /* Las alturas de arranque: tres, y ninguna igual. Va en `margin-block-start`
      y no en `transform`, que es como estaba en v4: así el desnivel es
      composición estática —la fila crece con él y nadie desborda— y el
      `transform` de cada foto queda libre para el revelado de entrada. */
   .viv .viv-foto--a { margin-block-start: 0; }
   .viv .viv-foto--b { margin-block-start: var(--esp-xl); }
   .viv .viv-foto--c { margin-block-start: var(--esp-sm); }
-  .viv .viv-foto--d { margin-block-start: var(--esp-2xl); }
 }
 
 /* ---- ESCRITORIO (desde 62rem) -------------------------------------------
@@ -457,22 +471,23 @@
     height: 100%;
   }
 
+  /* v9 · El dos por dos pasa a «dos arriba, una cruzando abajo»: las dos
+     verticales en la fila alta y la apaisada cerrando las dos columnas por
+     debajo. Es la misma figura que en móvil, girada a la derecha de la
+     principal, así que el friso cuenta lo mismo en todos los anchos. */
   .viv .viv-foto--a { grid-column: 2; grid-row: 1; align-self: start; }
   .viv .viv-foto--b { grid-column: 3; grid-row: 1; align-self: start; }
-  .viv .viv-foto--c { grid-column: 2; grid-row: 2; align-self: start; }
-  .viv .viv-foto--d { grid-column: 3; grid-row: 2; align-self: start; }
+  .viv .viv-foto--c { grid-column: 2 / -1; grid-row: 2; align-self: start; }
 
   .viv .viv-foto--a .marco { border-radius: 0 var(--viv-hoja) 0 var(--viv-hoja); }
   .viv .viv-foto--b .marco { border-radius: var(--viv-hoja) 0 0 0; }
-  .viv .viv-foto--c .marco { border-radius: var(--viv-hoja) 0 var(--viv-hoja) 0; }
-  .viv .viv-foto--d .marco { border-radius: 0 0 0 var(--viv-hoja); }
+  .viv .viv-foto--c .marco { border-radius: 0 0 0 var(--viv-hoja); }
 
   /* En el mosaico los desniveles se reparten distinto que en la fila de
      tableta: aquí lo que hay que romper es la línea superior de cada fila. */
   .viv .viv-foto--a { margin-block-start: 0; }
   .viv .viv-foto--b { margin-block-start: var(--esp-2xl); }
   .viv .viv-foto--c { margin-block-start: var(--esp-lg); }
-  .viv .viv-foto--d { margin-block-start: 0; }
 }
 
 .viv-foto > figure {
@@ -488,7 +503,7 @@
     padding-inline-start: var(--esp-2xs);
   }
 
-  .viv .viv-foto--d figcaption {
+  .viv .viv-foto--c figcaption {
     padding-inline-end: var(--esp-2xs);
   }
 }
@@ -873,19 +888,18 @@
    (0,2,0), así que con (0,3,0) sobra.
 
    La PRINCIPAL entra la primera y despacio —es la que hay que mirar—; las
-   cuatro del mosaico entran detrás, con retardos que no guardan ninguna
-   proporción entre sí y con cuatro duraciones distintas. */
+   tres del mosaico entran detrás, con retardos que no guardan ninguna
+   proporción entre sí y con tres duraciones distintas. (v9: la pieza --d
+   salió con la foto que la ocupaba; sus reglas se retiran con ella.) */
 .viv .viv-friso > .viv-foto--principal { --reveal-delay: 0ms; }
 .viv .viv-friso > .viv-foto--a { --reveal-delay: calc(var(--dur-rapida) * 1.2); }
 .viv .viv-friso > .viv-foto--b { --reveal-delay: calc(var(--dur-media) * 1.45); }
 .viv .viv-friso > .viv-foto--c { --reveal-delay: calc(var(--dur-media) * 0.85); }
-.viv .viv-friso > .viv-foto--d { --reveal-delay: calc(var(--dur-lenta) * 1.05); }
 
 .js .viv .viv-foto--principal { transition-duration: calc(var(--dur-reveal) * 1.15); }
 .js .viv .viv-foto--a { transition-duration: calc(var(--dur-lenta) * 1.35); }
 .js .viv .viv-foto--b { transition-duration: var(--dur-lenta); }
 .js .viv .viv-foto--c { transition-duration: calc(var(--dur-lenta) * 1.6); }
-.js .viv .viv-foto--d { transition-duration: calc(var(--dur-lenta) * 1.15); }
 
 /* El cuerpo entra después de la banda, y sus dos columnas por separado: la
    oferta primero —es lo que se vende— y el panel de respaldo detrás. */

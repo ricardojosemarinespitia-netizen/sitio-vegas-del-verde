@@ -652,15 +652,6 @@
   }
 }
 
-/* --- Referencias ----------------------------------------------------------
-   v9 · LA FRASE DE LUGARES. La figura duplicada salió (era el mismo archivo
-   que el respaldo del mapa, dos pantallas arriba) y el bloque queda a una
-   sola columna tipográfica; los ocho chips-pastilla dejan la piel de píldora
-   y pasan a una línea corrida de sitios separados por punto medio, en cuerpo
-   grande y peso ligero — tipografía como protagonista, ocho elementos que se
-   leen como una sola frase. La nube de retardos de §12b.1 se conserva tal
-   cual: mismos <li> .reveal reveal--zoom, sólo cambia su piel, y la entrada
-   se lee ahora como palabras que van cayendo en la frase.                  */
 @media (min-width: 62em) {
   .ubi-bloque--solo {
     grid-template-columns: minmax(0, 1fr);
@@ -671,28 +662,151 @@
   }
 }
 
-.ubi-refs {
+/* ==========================================================================
+   9 bis. EL CAPÍTULO «DESDE EL PREDIO»   (v10)
+   «DISEÑAR MEJOR ESA PARTE DE LA UBICACION Y LOS PUNTOS DE REFERENCIA Y
+   DISTANCIAS DESDE EL PREDIO» (pedido del cliente).
+
+   Referencias y distancias dejan de ser dos bloques gemelos consecutivos y
+   pasan a ser dos MOVIMIENTOS de un mismo capítulo: un filete de apertura, un
+   titular y, dentro, dos rótulos pequeños. El razonamiento largo está en
+   sections/ubicacion.html §4; aquí sólo van las medidas.
+   ========================================================================== */
+.ubi-desde {
+  margin-top: var(--esp-seccion-sm);
+  padding-top: var(--esp-lg);
+  border-top: 1px solid var(--color-borde-suave);
+}
+
+.ubi-desde__encabezado {
   display: flex;
-  flex-wrap: wrap;
-  align-items: baseline;
-  gap: var(--esp-3xs) 0;
+  flex-direction: column;
+  gap: var(--esp-xs);
+  max-width: var(--medida);
+}
+
+/* Los dos movimientos YA NO ABREN CAPÍTULO: el filete y el aire de apertura
+   son del capítulo entero, no de cada mitad — que es justamente el filete
+   repetido que hacía que las dos piezas se leyeran como plantilla. El patrón
+   .ubi-bloque no se toca (lo usan otros bloques de la sección): se neutraliza
+   sólo aquí dentro, por descendencia (0,2,0) contra (0,1,0). Sin !important.
+   El aire entre movimientos (--esp-xl) es MENOR que el de apertura del
+   capítulo (--esp-seccion-sm): así se ve que son hermanos y no vecinos.    */
+.ubi-desde .ubi-bloque {
+  margin-top: var(--esp-xl);
+  padding-top: 0;
+  border-top: 0;
+}
+
+/* El rótulo de movimiento vive en el registro de eyebrow —no en el de
+   titular— para no competir con «Desde el predio», que manda en el capítulo.
+   Es <h4> de verdad: el orden de encabezados de la sección queda h2 → h3 →
+   h4 sin saltos, y el de distancias lo apunta un aria-labelledby.          */
+.ubi-mov__titulo {
+  margin: 0;
+  font-family: var(--fuente-titulo);
+  font-size: var(--fs-eyebrow);
+  font-weight: var(--peso-medio);
+  line-height: var(--alto-linea-titulo);
+  text-transform: uppercase;
+  letter-spacing: var(--tracking-rotulo);
+  color: var(--color-acento-alt);
+}
+
+/* --- Referencias ----------------------------------------------------------
+   v10 · DE FRASE CORRIDA A LISTA CON CARRIL.
+   v9 los dejó como una línea de ocho nombres separados por punto medio. Se
+   leía bien y no informaba de nada: un nombre suelto no admite un dato al
+   lado, y un dato al lado es exactamente lo que el cliente pide poder poner.
+
+   Ahora cada referencia es una FILA con regla —dos columnas de filas desde
+   48em, que es donde caben ocho sin hacer una escalera de media pantalla— en
+   el mismo registro tipográfico que .ubi-dist__lugar del movimiento de abajo:
+   las dos listas se leen como un solo instrumento con dos escalas.         */
+.ubi-refs {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
   margin: 0;
   padding: 0;
   list-style: none;
+  min-width: 0;
+  border-top: 1px solid var(--color-borde-suave);
 }
 
+@media (min-width: 48em) {
+  .ubi-refs {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    column-gap: var(--gap-lg);
+  }
+}
+
+/* LA FILA COPIA LA MANIOBRA DE .ubi-dist__item, Y NO POR AHORRAR CÓDIGO: las
+   dos listas tienen que rimar A TODOS LOS ANCHOS o el paralelismo entre «lo
+   que nombra» y «lo que mide» sólo se ve en escritorio. Por debajo de 40em el
+   carril baja a su propio renglón y ocupa el ancho entero —igual que la barra
+   de distancia—; desde 40em vuelve a la derecha del nombre. Mismo umbral que
+   §10, a propósito.                                                         */
 .ubi-ref {
-  font-size: var(--fs-grande);
-  font-weight: var(--peso-ligero);
-  line-height: var(--alto-linea-base);
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  align-items: center;
+  gap: var(--esp-2xs) var(--esp-sm);
+  padding-block: var(--esp-sm);
+  border-bottom: 1px solid var(--color-borde-suave);
+}
+
+@media (min-width: 40em) {
+  .ubi-ref {
+    grid-template-columns: minmax(0, 1fr) minmax(var(--esp-2xl), var(--esp-3xl));
+  }
+}
+
+.ubi-ref__lugar {
+  font-family: var(--fuente-titulo);
+  font-size: var(--fs-pequeno);
+  letter-spacing: var(--track-titulo);
   color: var(--color-texto);
 }
 
-/* El separador es tinta de la frase, no caja: punto medio en oliva. */
-.ubi-ref:not(:last-child)::after {
-  content: "·";
-  color: var(--color-acento-alt);
-  padding-inline: var(--esp-2xs);
+/* LA GUÍA: EL CARRIL DE LA BARRA DE DISTANCIA, PERO DE LÍNEA ROTA.
+   Ocupa el mismo sitio y el mismo alto que .ubi-dist__barra del movimiento de
+   abajo —por eso las dos listas riman y se leen como un solo instrumento—,
+   pero NO ES UNA BARRA: es una línea de puntos.
+
+   Y ESO ES UNA DECISIÓN DE HONESTIDAD, NO DE GUSTO. El primer intento fue un
+   relleno macizo de largo constante en las ocho filas; se veía bien y se leía
+   fatal: ocho barras iguales de color pleno parecen ocho medidas que dan lo
+   mismo, o sea un dato inventado. La línea rota dice lo que de verdad pasa —de
+   estos ocho sitios el proyecto tiene el NOMBRE y no la CIFRA— y no se puede
+   confundir con una medición. Abajo, donde sí hay cifra publicada, la barra es
+   maciza y varía. Un vistazo basta para saber cuál de las dos listas mide y
+   cuál sólo nombra, sin nota al pie y sin fingir un número que nadie ha dado.
+
+   NO SE ANIMA, a propósito: la fila entera ya entra con su .reveal y meterle
+   un segundo motor a un hijo serían dos relojes sobre la misma pieza — la
+   prohibición de §12b. `aria-hidden` en el HTML: no afirma nada, y la lista se
+   lee entera sin ella.
+
+   CUANDO EL CLIENTE ENTREGUE TIEMPOS O DISTANCIAS REALES de estos ocho sitios:
+   la cifra entra en un <span class="ubi-ref__dato"> como tercera columna y
+   esta guía se sustituye por el par .ubi-dist__barra/.ubi-dist__relleno con su
+   --ubi-pct. El resto del marcado no se toca.
+
+   El punto va en oliva al 45 % sobre la salvia de la sección: es decoración
+   con `aria-hidden`, sin texto y sin función de interfaz, así que no le aplican
+   1.4.3 ni 1.4.11 — el mismo razonamiento, y la misma prudencia, que la nota
+   de contraste de la cordillera en §12b.3.                                  */
+.ubi-ref__guia {
+  display: block;
+  height: var(--esp-3xs);
+  background-repeat: repeat-x;
+  background-position: left center;
+  background-size: var(--esp-2xs) var(--esp-3xs);
+  background-image: radial-gradient(
+    circle at center,
+    rgb(var(--verde-oliva-rgb) / 0.45) 34%,
+    transparent 36%
+  );
 }
 
 /* ==========================================================================
@@ -1236,11 +1350,15 @@ a.ubi-canal--destacado:focus-visible {
 .ubi-refs.reveal-secuencia > .ubi-ref:nth-child(7) { --reveal-delay: calc(var(--dur-instant) * 3.2); }
 .ubi-refs.reveal-secuencia > .ubi-ref:nth-child(8) { --reveal-delay: calc(var(--dur-instant) * 2.7); }
 
-/* El chip entra con `reveal--zoom` (sólo escala, no desplaza): la lista va en
-   flex con envolvimiento y un desplazamiento horizontal de 28 px en la última
-   pastilla de una fila puede empujar el borde de la pantalla. Escalar no
-   desborda nunca. La duración baja de los 900 ms del sistema a --dur-lenta:
-   una pastilla es una pieza pequeña y a 900 ms se arrastra.                */
+/* v10 · LA FILA ENTRA CON EL .reveal DE BASE, SIN `--zoom`. El zoom se puso
+   en v5 porque eran pastillas sueltas en un flex envolvente y 28 px de
+   desplazamiento horizontal en la última de una fila podían empujar el borde
+   de la pantalla. Desde v10 cada referencia es una fila de ancho completo
+   dentro de su columna de la rejilla: el desplazamiento del sistema es
+   vertical y no desborda por ningún lado, mientras que escalar una fila de
+   texto se lee como un temblor. La duración sí sigue bajando de los 900 ms
+   del sistema a --dur-lenta: son ocho piezas pequeñas y a 900 ms se
+   arrastran.                                                               */
 .js .ubi-refs .ubi-ref.reveal {
   transition-duration: var(--dur-lenta);
 }

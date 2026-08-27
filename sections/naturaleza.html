@@ -1786,21 +1786,29 @@
        SE CONSERVA «El jardín · 347 · especies de plantas · 20 familias», que sí
        tiene respaldo documental y es dueño declarado de su hecho.
 
-       LO QUE QUEDA ES UN DÍPTICO, Y ESTÁ COMPUESTO COMO TAL. No es la rejilla
-       de antes con tres huecos: son dos piezas de peso parejo y de la misma
-       altura —la plancha del jardín y la columna de vídeo—, la primera quieta y
-       la segunda viva. La plancha del jardín deja de ser vertical y pasa a ser
-       apaisada, que es la proporción que pide una pieza que ahora ocupa dos
-       tercios del ancho de la página.
+       v14 · EL DÍPTICO SE DESHIZO. Duró de la v12 a la v13: el cliente lo vio
+       en pantalla y pidió, verbatim, «TE DIJE UN HERO FOTO COMPLETA PREMIUM
+       CORRIGE». Ahora la sala tiene UNA protagonista: la plancha de la
+       verbena a sangre de canto a canto, con la cartela del 347 en su velo.
+       La columna de vídeo baja a coda —pequeña, pegada al canto derecho, que
+       era el sangrado identitario del movimiento— y el fondo de la sala sigue
+       sangrando por los cuatro.
 
-       SE CONSERVA EL SANGRADO POR LA DERECHA, que es la identidad declarada de
-       este movimiento en la cabecera del fragmento: el díptico entra desde el
-       margen izquierdo y se sale por el canto derecho con la columna de vídeo.
-       El fondo de la sala sí sangra por los cuatro.
-
-       LA FOTOGRAFÍA NO CAMBIA. Es la del jardín del predio —losas, bromelias,
-       bastones del emperador— y muestra exactamente lo que la cifra cuenta:
-       plantas. No se añade ninguna fotografía de animal a esta sala; no había
+       LA FOTOGRAFÍA (v13). Pedido directo del cliente: «crea una portada
+       imagen completa… ponla de hero de aquí no solo hay aves… la foto,
+       animaciones y demás». Sale parque-61 (las losas del camino) y entra
+       img/naturaleza-jardin-hero.jpg: fotografía PROPIA del cliente, la
+       verbena morada del jardín a pleno sol, retrato 2268×4032. Es la planta
+       en primer plano —lo que la cifra cuenta— y no un plano general, así que
+       la plancha pasa de paisaje de ambiente a HERO con protagonista. El
+       recorte apaisado se gobierna con --foco-flor: la espiga en flor vive en
+       el tercio alto del original y el centro geométrico la decapitaría.
+       Y COMO ES HERO, SE MUEVE: la foto gana la deriva de paralaje de la casa
+       (animation-timeline: view(), compositor puro), el MISMO motor que ya
+       usan la apertura del sendero y la foto principal del vivero — no se
+       inventa un motor nuevo. El detalle y el porqué del apagado del zoom de
+       hover en esta plancha están en naturaleza.css, §LA SALA DEL CENSO.
+       No se añade ninguna fotografía de animal a esta sala; no había
        ninguna antes y no la hay ahora.
 
        EL VÍDEO es metraje propio, vertical y mudo; el póster es el suelo si la
@@ -1824,47 +1832,62 @@
         </p>
       </div>
 
-      <!-- EL DÍPTICO. Dos piezas y nada más: la plancha del jardín, con la
-           única cifra que queda, y la columna de vídeo pegada al canto derecho.
-           No es una rejilla a la que le faltan celdas: son dos piezas de peso
-           parejo, a la misma altura, una quieta y una viva.
+      <!-- v14 · EL DÍPTICO SE DESHACE: LA FOTO ES EL HERO. Pedido directo del
+           cliente, viendo el díptico en pantalla: «TE DIJE UN HERO FOTO
+           COMPLETA PREMIUM CORRIGE». La verbena deja de compartir la sala con
+           la columna de vídeo y pasa a PLANCHA A SANGRE de canto a canto —el
+           mismo gesto de portada que .nat-portada, la otra plancha completa
+           de la sección—, con la cartela del 347 apoyada en su velo, al pie.
+           El vídeo NO se pierde: baja a pieza secundaria, más pequeña y
+           pegada al canto derecho (que era la identidad de sangrado de este
+           movimiento), después de la cifra. Una sala, una protagonista.
 
-           Ya no es una <ul>: una lista de un solo elemento se anuncia como
-           «lista, 1 elemento» y eso es ruido. Es lo que siempre fue —una
-           fotografía con su rótulo—, así que es un <figure> con su
-           <figcaption>, igual que la columna de vídeo de al lado. -->
+           Sigue sin ser <ul>: es una fotografía con su rótulo, un <figure>
+           con su <figcaption>. -->
       <div class="nat-censo__corte reveal-secuencia">
 
-        <figure class="nat-habitat nat-habitat--mayor nat-habitat--foco-medio reveal">
+        <figure class="nat-habitat nat-habitat--mayor nat-habitat--foco-flor reveal">
           <img
             class="nat-habitat__foto"
-            src="img/parque/parque-61.jpg"
-            width="900"
-            height="1200"
+            src="img/naturaleza-jardin-hero.jpg"
+            width="2268"
+            height="4032"
             loading="lazy"
             decoding="async"
-            alt="Huella de losas de piedra entre bromelias y bastones del emperador en flor, bajo los árboles grandes del predio"
+            alt="Espiga de verbena con flores moradas a contraluz, en primer plano y a pleno sol, con el jardín del predio florecido y desenfocado detrás"
           />
           <figcaption class="nat-habitat__cuerpo">
             <p class="nat-habitat__lugar">El jardín</p>
             <p class="nat-habitat__cifra" data-contador="347">347</p>
             <p class="nat-habitat__etiqueta">Especies de plantas · 20 familias botánicas</p>
             <p class="nat-habitat__texto">
-              Bromelias, bastones del emperador y árboles altos compartiendo el mismo
-              tramo de camino.
+              Una verbena en flor del jardín del predio, con el resto del inventario
+              creciendo detrás.
             </p>
           </figcaption>
         </figure>
 
-      <!-- ---- La segunda pieza del díptico: la columna de vídeo, pegada al
-           canto derecho. Es la única pieza viva de la sala, y ahí es donde
-           se lee. ------------------------------------------------------------ -->
-      <!-- Entra en VERTICAL y no con .reveal--der, exactamente por el mismo
-           motivo que .nat-portada__rotulo (ver naturaleza.css, LA CARTELA DE LA
-           PORTADA): --der desplaza 28 px hacia fuera y esta pieza vive pegada
-           al canto derecho, así que serían 28 px de desbordamiento horizontal
-           real durante toda la entrada. El desfase con la plancha del jardín lo
-           da el escalonado de .reveal-secuencia, no la dirección. -->
+      </div><!-- /.nat-censo__corte -->
+
+      <!-- La procedencia del número, que es la parte que no se puede callar:
+           el 347 no es una estimación de folleto, sale del inventario biológico
+           del predio. Mismo contrato de honestidad que ya cumplen la ficha de
+           la chachalaca («Imagen de referencia — no tomada en el predio») y el
+           muro del concurso (cada foto con el nombre de quien la tomó). -->
+      <p class="nota nat-censo__aclaracion reveal">
+        La cifra sale del inventario biológico del predio.
+      </p>
+
+      <!-- ---- v14 · LA PIEZA VIVA, EN VOZ BAJA. La columna de vídeo del
+           antiguo díptico, reubicada como coda de la sala: pequeña, pegada
+           al canto derecho —conserva el sangrado que era la identidad del
+           movimiento— y después de la cifra, para no disputarle la entrada
+           a la plancha. Mismo metraje, mismo motor (js/naturaleza-video.js),
+           ni un atributo cambiado.
+           Entra en VERTICAL y no con .reveal--der, por el mismo motivo que
+           .nat-portada__rotulo: --der desplaza 28 px hacia fuera y esta pieza
+           vive pegada al canto derecho — serían 28 px de desbordamiento real
+           durante toda la entrada. -->
       <figure class="nat-video reveal">
       <video
         class="nat-video__pieza"
@@ -1885,23 +1908,6 @@
         Una mariposa parda descansa en lo alto de una vara en flor.
       </figcaption>
       </figure>
-
-      </div><!-- /.nat-censo__corte -->
-
-      <!-- La procedencia del número, que es la parte que no se puede callar:
-           el 347 no es una estimación de folleto, sale del inventario biológico
-           del predio. Mismo contrato de honestidad que ya cumplen la ficha de
-           la chachalaca («Imagen de referencia — no tomada en el predio») y el
-           muro del concurso (cada foto con el nombre de quien la tomó).
-           v12 · Aquí decía además que no hay fotografía propia de anfibios,
-           reptiles ni mamíferos. Ese aviso existía porque existían las tres
-           tarjetas de 18 / 23 / 3, y esas tarjetas se retiraron por pedido
-           directo del cliente: de esas especies sólo había la cifra suelta, sin
-           un solo dato de cuáles son, ni en BRIEF.md ni en ningún archivo del
-           proyecto. Retirado el dato, sobra el aviso sobre el dato. -->
-      <p class="nota nat-censo__aclaracion reveal">
-        La cifra sale del inventario biológico del predio.
-      </p>
 
     </div><!-- /.nat-censo -->
 

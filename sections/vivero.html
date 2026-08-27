@@ -17,14 +17,24 @@
      (sections/_footer.html) y el bloque que lo repetía —la ficha 07 de
      sections/experiencias.html— ya no se ensambla. Comprobado con el validador.
 
-     Fotos verificadas en disco, abiertas una a una con Read:
-       parque-44 (675×1200) EL PASILLO DEL VIVERO CON LA JARDINERA — la pieza
-                            dominante de la sección: persona real trabajando y
-                            producto real en el mismo encuadre
-       parque-35 (675×1200) caladios de hoja rosada en producción
-       parque-12 (900×1200) la enramada de esterilla y las materas de barro
-       parque-42 (675×1200) cícada y lantana al borde del camellón
-       parque-49 (675×1200) materas de barro listas para llevar
+     v9 · LAS FOTOS DEL VIVERO SON DEL VIVERO. Pedido del cliente (agosto
+     2026): «seguido ya algunas fotos que quiero esta con el nombre vivero…
+     en estos últimos hay mucho texto, resume, más fotos menos texto sobrante
+     que las personas ya no leen». Salen las cinco genéricas del banco del
+     parque (parque-44, -35, -12, -42, -49) y entran las CUATRO fotografías
+     propias de la carpeta img/vivero/, verificadas una a una con Read
+     (retrato, ~2000×3556):
+       vivero-02  LA TRABAJADORA DEL VIVERO, gorra con el logo de Vegas del
+                  Verde y esquejes en la mano, entre camellones bajo la malla
+                  de sombra — la pieza dominante: persona real Y producto
+                  real en el mismo encuadre, el mismo criterio de v5
+       vivero-01  materas de terracota contra el muro de guadua, en flor
+       vivero-03  el follaje rojo y rosado de la iresine, en producción
+       vivero-04  la planta variegada verde y amarilla en bolsa de vivero
+     Con cuatro piezas el mosaico de dos por dos de v5 pierde una celda y se
+     recompone (§2 de vivero.css): dos verticales arriba y una pieza APAISADA
+     cerrando abajo, que es la composición que cuatro fotos piden en vez de
+     un hueco disimulado.
 
      v5 · SALE LA ÚLTIMA FOTO DE BORRADOR, Y NACE LA JERARQUÍA
      `parque-40-TEMP.jpg` era una imagen generada con IA a baja resolución y
@@ -118,9 +128,12 @@
         <span class="reveal-texto__linea">Te llevas a casa</span>
         <span class="reveal-texto__linea">lo que crece aquí</span>
       </h2>
+      <!-- v9 · Recorte de texto, pedido del cliente: «resume, más fotos menos
+           texto sobrante que las personas ya no leen». La entradilla queda en
+           una sola frase; la enumeración casa/oficina/evento ya la dice el
+           catálogo de abajo y no se repite. -->
       <p class="entradilla">
-        Sale de aquí lo que ves plantado afuera. También sale lo que puedes plantar
-        en tu casa, en tu oficina o en tu evento.
+        Lo que ves plantado afuera sale de aquí. Y también lo que te llevas.
       </p>
     </header>
 
@@ -149,15 +162,15 @@
       <figure>
         <div class="marco">
           <img
-            src="img/parque/parque-44.jpg"
-            width="675"
-            height="1200"
-            alt="Pasillo del vivero entre dos camellones bajo la malla de sombra: filodendros de hoja recortada y crotones rojos sembrados en bolsa negra a lado y lado y, al fondo del pasillo, una jardinera con sombrero, delantal y botas caminando entre las plantas."
+            src="img/vivero/vivero-02.jpg"
+            width="2000"
+            height="3556"
+            alt="Una trabajadora del vivero con gorra de Vegas del Verde, guantes y botas, sonriendo con un manojo de esquejes en la mano junto a un camellón de filodendros y acalifas rojizas sembrados en bolsa, bajo la malla de sombra."
             loading="lazy"
             decoding="async"
           />
         </div>
-        <figcaption>El vivero, por dentro</figcaption>
+        <figcaption>El vivero, en manos de quien lo trabaja</figcaption>
       </figure>
     </li>
 
@@ -165,15 +178,15 @@
       <figure>
         <div class="marco">
           <img
-            src="img/parque/parque-35.jpg"
-            width="675"
-            height="1200"
-            alt="Caladios de hoja rosada y verde en producción bajo la polisombra del vivero, sembrados en bolsa negra frente a un macizo de platanillos."
+            src="img/vivero/vivero-01.jpg"
+            width="2000"
+            height="3556"
+            alt="Materas de terracota con palmas, lengua de suegra, buganvilias rosadas y flores rojas sobre la gravilla, contra el cerramiento de guadua del vivero."
             loading="lazy"
             decoding="async"
           />
         </div>
-        <figcaption>Caladios en producción</figcaption>
+        <figcaption>Materas listas para llevar</figcaption>
       </figure>
     </li>
 
@@ -181,15 +194,15 @@
       <figure>
         <div class="marco">
           <img
-            src="img/parque/parque-12.jpg"
-            width="900"
-            height="1200"
-            alt="Enramada de esterilla sobre estructura de madera, con materas de barro sembradas de crotones y cactus repartidas por el piso de losas; al fondo, una construcción con un mural pintado y una hilera de materas contra la pared."
+            src="img/vivero/vivero-03.jpg"
+            width="2000"
+            height="3556"
+            alt="Camellón de iresines de hoja roja y rosada en producción bajo la malla de sombra del vivero, con el resto del cultivo verde al fondo."
             loading="lazy"
             decoding="async"
           />
         </div>
-        <figcaption>La enramada, con el mural al fondo</figcaption>
+        <figcaption>Iresine en producción</figcaption>
       </figure>
     </li>
 
@@ -197,31 +210,15 @@
       <figure>
         <div class="marco">
           <img
-            src="img/parque/parque-42.jpg"
-            width="675"
-            height="1200"
-            alt="Una cícada sembrada en matera grande junto a una lantana en flor, al borde del camellón de bolsas del vivero, bajo la malla de sombra."
+            src="img/vivero/vivero-04.jpg"
+            width="2000"
+            height="3556"
+            alt="Una pandanácea variegada de hojas verdes y amarillas sembrada en bolsa negra de vivero, entre el follaje del cultivo bajo la malla de sombra."
             loading="lazy"
             decoding="async"
           />
         </div>
-        <figcaption>Lista para sembrar</figcaption>
-      </figure>
-    </li>
-
-    <li class="viv-foto viv-foto--d reveal">
-      <figure>
-        <div class="marco">
-          <img
-            src="img/parque/parque-49.jpg"
-            width="675"
-            height="1200"
-            alt="Materas de barro con plantas de interior de hoja ancha frente a un cerramiento de guadua, listas para llevar a una casa, una oficina o un evento."
-            loading="lazy"
-            decoding="async"
-          />
-        </div>
-        <figcaption>Materas listas para llevar</figcaption>
+        <figcaption>En bolsa, para sembrar</figcaption>
       </figure>
     </li>
   </ul>
@@ -249,17 +246,16 @@
       <!-- ---------- Lo que sale del vivero: el catálogo ---------- -->
       <div class="viv-oferta reveal">
 
-        <!-- v8 · El lead se parte en dos voces: la frase de venta se queda a
-             cuerpo de entradilla y la generalización baja a nota. Ni una
-             palabra cambia; sólo el reparto. SIN .reveal-texto: ese gesto es
-             del titular que abre el capítulo (base.css §v7) y aquí ya lo
-             lleva el <h2>. -->
+        <!-- v9 · El lead queda en UNA voz: la frase de venta. La nota que lo
+             seguía («Lo mismo para una sala que para una oficina…») se
+             recorta entera por pedido del cliente —«resume, más fotos menos
+             texto sobrante»—: era generalización, y el destino de la planta
+             ya lo cuentan las fotos y el catálogo. SIN .reveal-texto: ese
+             gesto es del titular que abre el capítulo y aquí ya lo lleva
+             el <h2>. -->
         <p class="viv-lead">
           Escoges la planta en el camellón y te la llevas: en bolsa para sembrar o
           en matera para poner.
-        </p>
-        <p class="viv-lead__nota">
-          Lo mismo para una sala que para una oficina o el montaje de un evento.
         </p>
 
         <!-- v8 · El catálogo pasa a índice editorial: el sustantivo principal
@@ -294,9 +290,12 @@
       <!-- ---------- Lo que da confianza: el aula, el sello y el botón ------- -->
       <div class="viv-respaldo reveal reveal--der">
 
+        <!-- v9 · Recortado a la mitad por el mismo pedido: se conserva el
+             hecho (el vivero apoya los talleres) y el enlace que lo amplía;
+             la paráfrasis «espacio de aprendizaje… de conexión con la
+             naturaleza» sobraba porque #planes ya lo cuenta entero. -->
         <p class="viv-aula">
-          El vivero es además un espacio de aprendizaje: apoya los talleres de
-          conexión con la naturaleza que se hacen en el parque.
+          El vivero también es aula: apoya los talleres del parque.
           <a class="enlace-flecha" href="#planes">Ver los talleres</a>
         </p>
 

@@ -1394,8 +1394,8 @@
      · MISMA ALTURA EXACTA, del mismo token (--nat-alto-diptico) en las dos.
        Una colgando más que la otra se leería como el resto de una rejilla.
      · La plancha del jardín pasa de vertical a APAISADA: la fotografía sigue
-       siendo vertical (900×1200), pero la pieza ocupa ahora dos tercios del
-       ancho de la página y el encuadre lo resuelve --foco-medio.
+       siendo vertical (v13: la verbena, 2268×4032), pero la pieza ocupa dos
+       tercios del ancho de la página y el encuadre lo resuelve --foco-flor.
 
    SE CONSERVA EL SANGRADO POR LA DERECHA, que es la identidad declarada de
    este movimiento en la cabecera del fragmento y el contrapeso de .nat-apertura
@@ -1559,22 +1559,16 @@
        (1fr) y el vídeo su columna fija de 9:16 — dos tercios contra un
        tercio. Dos piezas iguales serían un par; desiguales, una composición.
    -------------------------------------------------------------------------- */
+/* v14 · EL CORTE YA NO ES DÍPTICO: es el marco de la plancha a sangre.
+   Pedido del cliente, verbatim: «TE DIJE UN HERO FOTO COMPLETA PREMIUM
+   CORRIGE». Sin relleno lateral en ningún ancho —la fotografía toca los dos
+   cantos de la ventana, igual que .nat-portada— y sin rejilla: dentro sólo
+   vive la plancha. El vídeo, que era la otra columna, baja a coda de la sala
+   (ver §LA PIEZA VIVA, más abajo). */
 .nat-censo__corte {
   display: grid;
   gap: var(--gap-sm);
-  padding-inline: var(--nat-margen);
-}
-
-/* El sangrado y las dos columnas entran a 62em —diez menos que en la v11—
-   porque ahora sólo hay dos piezas: donde antes cuatro planchas más el vídeo
-   se estrangulaban por debajo de 72em, un díptico respira de sobra. */
-@media (min-width: 62em) {
-  .nat-censo__corte {
-    grid-template-columns: minmax(0, 1fr) var(--nat-col-video);
-    align-items: start;
-    /* A SANGRE POR LA DERECHA: el vídeo se sale por el canto. */
-    padding-inline-end: 0;
-  }
+  padding-inline: 0;
 }
 
 .nat-habitat {
@@ -1594,13 +1588,21 @@
   margin: 0;
 }
 
-/* La plancha del jardín es apaisada y no vertical. La fotografía original sí
-   es vertical (900×1200), pero la pieza ocupa ahora dos tercios del ancho de
-   la página: en vertical habría que estirarla o dejar la mitad del díptico
-   vacía. El recorte lo gobierna --foco-medio, más abajo. */
+/* v14 · LA PLANCHA MAYOR ES UNA PORTADA. A sangre de canto a canto: las
+   esquinas que tocan la ventana no se redondean (norma del sitio: nada se
+   curva contra el canto), así que la hoja de radio asimétrico se apaga aquí
+   y se queda para las piezas que viven dentro de la maqueta. La altura es de
+   HERO —una pantalla en escritorio, tres cuartos en móvil, con un tope en rem
+   para que un monitor vertical no la estire hasta el absurdo—. El recorte
+   vertical del original (2268×4032) lo gobierna --foco-flor, más abajo. */
+.nat-habitat--mayor {
+  border-radius: 0;
+  min-height: min(74svh, 34rem);
+}
+
 @media (min-width: 62em) {
   .nat-habitat--mayor {
-    min-height: var(--nat-alto-diptico);
+    min-height: min(100svh, 52rem);
   }
 }
 
@@ -1632,16 +1634,57 @@
   );
 }
 
-/* Encuadre: la foto es vertical y la plancha apaisada, así que hay que decirle
-   qué franja del original enseñar. Al 58 % caen las losas del camino, las
-   bromelias y los bastones del emperador, que es exactamente lo que el rótulo
-   nombra; recortada por el centro se quedaría en el cielo entre las copas. */
-.nat-habitat--foco-medio .nat-habitat__foto {
-  object-position: center 58%;
+/* Encuadre (v13): la foto nueva del jardín —la verbena morada, retrato
+   2268×4032— lleva la espiga en flor en el tercio ALTO del original, así que
+   la franja buena está arriba y no en medio: al 36 % la flor queda entera en
+   la plancha apaisada y el velo del pie cae sobre el tallo y el follaje, no
+   sobre ella. Recortada por el centro, la flor se decapitaría. El modificador
+   se renombra de --foco-medio a --foco-flor porque el valor ya no describe
+   «la franja media»: describe dónde vive la flor. */
+.nat-habitat--foco-flor .nat-habitat__foto {
+  object-position: center 36%;
 }
 
-.nat-habitat:hover .nat-habitat__foto {
+/* v13 · EL ZOOM DE HOVER SE APAGA EN LA PLANCHA MAYOR, y no es un descuido:
+   desde que la foto del jardín lleva la deriva de paralaje de abajo, su
+   transform lo gobierna una animación de línea de tiempo de scroll, y una
+   animación le gana en cascada a cualquier declaración normal — el scale del
+   hover no se vería nunca, pero dejarlo escrito serían dos motores declarados
+   sobre la misma propiedad del mismo elemento, que es justo lo que la casa
+   prohíbe. El registro queda repartido como en #vivero (§8.3 de vivero.css):
+   la pieza dominante se mueve con el scroll, y el hover queda para las piezas
+   que no derivan. */
+.nat-habitat:not(.nat-habitat--mayor):hover .nat-habitat__foto {
   transform: scale(var(--escala-hover));
+}
+
+/* v13 · LA DERIVA DE HERO DE LA PLANCHA DEL JARDÍN — pedido del cliente:
+   «la foto, animaciones y demás». No se inventa un motor nuevo: es la misma
+   deriva de paralaje que ya usan la apertura del sendero (nat-deriva, arriba)
+   y la foto principal de #vivero, atada al scroll con animation-timeline:
+   view() — compositor puro, cero JS. Se reutiliza el @keyframes nat-deriva
+   tal cual; lo único propio es el sobrante de foto que se recorre (116 % del
+   alto de la plancha: al final del recorrido sigue tapándola entera, nunca
+   asoma una franja de sala).
+   Sólo desde 62em —donde la plancha va a la altura del díptico— y sólo con
+   movimiento no reducido: una animación de línea de tiempo ignora
+   animation-duration, así que la anulación global de base.css no la
+   alcanzaría y hay que no declararla siquiera. La duración va en longhand y
+   en `auto` por el motivo anotado en vivero.css §8.3: en una línea de tiempo
+   de progreso, `auto` es «el rango entero», y el atajo la dejaría en su valor
+   inicial, que cambió entre dos versiones de la especificación. */
+@media (prefers-reduced-motion: no-preference) and (min-width: 62em) {
+  @supports (animation-timeline: view()) {
+    .nat-habitat--mayor .nat-habitat__foto {
+      height: 116%;
+      animation-name: nat-deriva;
+      animation-duration: auto;
+      animation-timing-function: linear;
+      animation-fill-mode: both;
+      animation-timeline: view();
+      animation-range: entry 0% exit 100%;
+    }
+  }
 }
 
 .nat-habitat__cuerpo {
@@ -1655,11 +1698,24 @@
   color: var(--color-texto-inverso);
 }
 
-/* Ya no compite con tres planchas al lado: la de ahora es la única pieza con
-   texto del díptico y puede permitirse el aire de una cartela. */
+/* v14 · Sobre la plancha a sangre, la cartela se alinea con el margen de
+   página (--nat-margen), no con un relleno propio: el 347 cae en la misma
+   vertical que la cabecera de la sala y que el resto del texto del sitio,
+   que es lo que hace que la plancha se lea como portada compuesta y no como
+   foto con un rótulo flotando. */
+.nat-habitat--mayor .nat-habitat__cuerpo {
+  padding-inline: var(--nat-margen);
+}
+
 @media (min-width: 62em) {
   .nat-habitat__cuerpo {
-    padding: var(--esp-lg);
+    padding-block: var(--esp-lg);
+    max-inline-size: none;
+  }
+
+  /* El ancho de lectura se acota en el hijo y no en la caja: la caja llega
+     de canto a canto para que el velo del ::after la respalde entera. */
+  .nat-habitat__cuerpo > * {
     max-inline-size: var(--ancho-xs);
   }
 }
@@ -1732,33 +1788,38 @@
   color: var(--color-texto-inverso-suave);
 }
 
-/* ---- LA QUINTA PLANCHA: LA COLUMNA DE VÍDEO ------------------------------
+/* ---- v14 · LA PIEZA VIVA — la columna de vídeo, ahora coda de la sala ----
    Metraje propio, vertical (720×1280) y sin pista de audio. No es un
    reproductor: no lleva controles, no lleva icono de play y no se puede
-   pausar a mano. Es una fotografía que respira, y por eso se trata con las
-   mismas reglas que la plancha del jardín que tiene al lado.
+   pausar a mano. Es una fotografía que respira.
+
+   Desde que el díptico se deshizo (pedido del cliente: «un hero foto completa
+   premium»), el vídeo ya no es media sala: es la CODA, después de la cifra.
+   Pequeño —una columna vertical acotada— y pegado al canto DERECHO, que era
+   el sangrado identitario del movimiento y ahora vive aquí: la plancha sangra
+   por los dos lados, y esta pieza se descuelga por el derecho.
 
    El width/height del atributo reserva la caja antes de que baje un byte, así
    que el layout no salta. El póster es el suelo: si la red falla, si el
    navegador bloquea la reproducción automática o si el visitante pide menos
    movimiento, lo que queda es esa imagen fija y la composición no cambia.
-
-   v11 · SE LE RETIRA EL `position: sticky`. Tenía sentido cuando el vídeo
-   acompañaba a un censo largo que se recorría scrolleando; ahora es la mitad
-   de un díptico que se ve entero de un vistazo, y una mitad que se queda
-   clavada mientras la otra se va sería la pieza rota de la composición.
    -------------------------------------------------------------------------- */
 .nat-video {
   min-width: 0;
   /* En móvil el vertical no puede ocupar el ancho entero: a 375 px daría
-     667 px de alto y se comería la pantalla. Se acota y se queda a la
-     izquierda, alineado con el texto, no centrado. */
+     667 px de alto y se comería la pantalla. Se acota; el margen de página
+     lo pone --nat-margen, porque la sala ya no lleva relleno propio. */
   width: min(100%, 17rem);
+  margin-block-start: var(--gap);
+  margin-inline: var(--nat-margen);
 }
 
 @media (min-width: 62em) {
+  /* Al canto derecho, sin tocarlo: el pie necesita su aire (regla del pie,
+     abajo). El auto de la izquierda es lo que la empuja. */
   .nat-video {
-    width: auto;
+    width: var(--nat-col-video);
+    margin-inline: auto 0;
   }
 }
 
@@ -1777,14 +1838,9 @@
   object-fit: cover;
 }
 
-/* LA REGLA DEL DÍPTICO: las dos mitades miden exactamente lo mismo. Una
-   colgando más que la otra se leería como el resto de una rejilla, que es
-   justo lo que dejó de ser. */
-@media (min-width: 62em) {
-  .nat-video__pieza {
-    height: var(--nat-alto-diptico);
-  }
-}
+/* v14 · La regla del díptico («las dos mitades miden lo mismo») se retira
+   con el díptico: la pieza vuelve a su proporción natural de 9:16, que es la
+   del metraje, y no se estira a la altura de nadie. */
 
 .nat-video__pie {
   margin-top: var(--esp-2xs);
