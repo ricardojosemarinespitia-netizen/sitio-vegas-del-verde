@@ -167,11 +167,19 @@
   gap: var(--esp-sm);
 }
 
+/* v30 · VUELVE EL LOCKUP DE DOS PARTES, y `.pie-final__logo` (la placa
+   `logo-vegas-barra.png` de la v29, con símbolo y nombre horneados en un
+   solo PNG) desaparece. Motivo: el cliente rechazó esa placa —y también la
+   del header— por lo mismo, que el nombre viene DIBUJADO dentro de la
+   imagen y no calza con el texto tipografiado que tiene al lado.
+   Ahora el símbolo es `img/logo/simbolo-transparente.png` (recorte propio,
+   sin letras, transparencia real) y el nombre lo pone el HTML.
+   Se dimensiona por ALTO, no por ancho como la v28: el símbolo es apaisado
+   (744×351) y por ancho crecería fuera de la fila. */
 .pie-final__simbolo {
-  width: clamp(2.4rem, 2rem + 1.6vw, 3.2rem);
-  height: auto;
+  width: auto;
+  height: clamp(2.4rem, 2rem + 1.6vw, 3.2rem);
   flex: none;
-  color: var(--verde-texto);
 }
 
 /* La marca firma, no compite: baja de --fs-h3 a --fs-h4 para que la escala

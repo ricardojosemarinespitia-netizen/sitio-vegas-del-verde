@@ -67,13 +67,13 @@
 <link rel="preload" as="image" type="image/avif" fetchpriority="high"
       media="(min-width: 48em)" href="img/hero-ave-flor.avif">
 
-<link rel="stylesheet" href="styles/tokens.css?v=2bc1f74f">
+<link rel="stylesheet" href="styles/tokens.css?v=128cd142">
 <link rel="stylesheet" href="styles/base.css?v=a9f3ede7">
-<link rel="stylesheet" href="styles/shell.css?v=46c48e51">
+<link rel="stylesheet" href="styles/shell.css?v=f19aee9f">
 <link rel="stylesheet" href="styles/sections/inicio.css?v=04ff47a1">
 <link rel="stylesheet" href="styles/sections/home.css?v=094e714b">
 <link rel="stylesheet" href="styles/sections/nosotros.css?v=cb7b6df3">
-<link rel="stylesheet" href="styles/sections/pie.css?v=68c9b062">
+<link rel="stylesheet" href="styles/sections/pie.css?v=4bdf134d">
 <link rel="stylesheet" href="styles/lightbox.css?v=92a48a1f">
 
 <script type="application/ld+json">
@@ -124,25 +124,49 @@
          vivero.html o naturaleza.html un ancla suelta no lleva a ninguna
          parte. Desde la portada el navegador resuelve el ancla igual. -->
     <a class="marca" href="index.html#inicio" aria-label="Vegas del Verde, ir al inicio">
-      <!-- v27 · CAMBIA DE PIEZA: de `logo-vegas-barra.png` (símbolo+texto ya
-           resueltos en fila, sobre su propia placa verde horneada en el PNG)
-           a `logo-vegas-blanco.png` (símbolo ARRIBA, texto ABAJO, blanco
-           sobre transparente) — pedido directo del cliente. Esta variante no
-           trae fondo propio, así que necesita el chip verde de `.marca__chip`
-           (shell.css) para leerse sobre el papel claro de la cabecera; ver el
-           razonamiento de contraste junto a `--verde-logo-fondo` en
-           tokens.css. Las páginas sueltas (terminos.html, etc.) siguen con
-           `logo-vegas-barra.png` — no se tocan, no era el pedido. -->
-      <span class="marca__chip">
-        <img
-          class="marca__logo"
-          src="img/logo/logo-vegas-blanco.png"
-          width="1024"
-          height="705"
-          alt="Vegas del Verde"
-          decoding="async"
-        />
-      </span>
+      <!-- v30 · SE ACABA EL LOGO CON TEXTO HORNEADO. Historial: v12 usaba
+           `logo-vegas-barra.png` (placa verde con símbolo+texto en fila);
+           v27 pasó a `logo-vegas-blanco.png` (símbolo arriba, texto abajo,
+           blanco) metido en el chip verde de `.marca__chip`. El cliente
+           rechazó las dos, y la razón es la misma en ambas: el nombre
+           «VEGAS DEL VERDE» viene DIBUJADO DENTRO del PNG. A los ~44 px de
+           alto en que vive un logo de cabecera ese texto rasterizado se lee
+           borroso y ajeno al resto de la página, que compone con fuentes web
+           reales. No es un problema de resolución (los 8 PNG del cliente
+           están entre 1024×705 y 1390×356, nítidos al 100 %): es que texto
+           dibujado y texto tipografiado nunca calzan juntos.
+
+           La pieza pasa a ser un LOCKUP DE DOS PARTES:
+             · `img/logo/simbolo-transparente.png` — recorte nuevo, hecho por
+               bounding box real de píxeles no transparentes sobre la banda
+               superior de `logo-vegas-transparente.png` (744×351, RGBA con
+               transparencia de verdad). SÓLO la corona de hojas; sin una
+               letra. No se tocó ninguno de los 8 originales del cliente.
+             · el nombre en TEXTO HTML REAL, en --fuente-display (Josefin
+               Sans), que es geométrica igual que el lettering del logo
+               original: el lockup queda coherente y además es seleccionable,
+               traducible y nítido en cualquier densidad de pantalla.
+
+           SIN CHIP VERDE. El chip existía porque el logo BLANCO sobre crema
+           daba 1,3:1 —invisible—. Este símbolo es verde/rojo/amarillo sobre
+           papel y no es el que carga la identificación: el nombre va al lado
+           en texto real, así que el símbolo es decorativo (alt="") y no le
+           aplica el mínimo de 3:1 de gráficos esenciales. Meterlo en el chip
+           sería peor: las hojas son verdes y se perderían contra el verde de
+           la placa. Si alguien vuelve a proponer el chip, ese es el motivo
+           de que no esté.
+
+           Las páginas sueltas que no usan este fragmento siguen como estaban:
+           no era el pedido. -->
+      <img
+        class="marca__simbolo"
+        src="img/logo/simbolo-transparente.png"
+        width="744"
+        height="351"
+        alt=""
+        decoding="async"
+      />
+      <span class="marca__nombre">Vegas del Verde</span>
     </a>
 
     <nav class="nav" id="nav-principal" aria-label="Navegación principal">
@@ -2253,16 +2277,36 @@
 
     <div class="pie-final__fila">
 
+      <!-- Historial de esta firma, para que no dé otra vuelta completa:
+           v28 y anteriores · un garabato SVG dibujado a mano que no era el
+                logo real de la marca, junto al nombre en texto.
+           v29a · `simbolo-vegas.png`: descartado, no es transparente sino un
+                cuadrado blanco opaco que sobre el crema del pie se ve como
+                una caja gris.
+           v29b · `logo-vegas-barra.png`, la placa verde con símbolo+texto
+                horneados en una sola imagen. Al cliente le pareció PEOR que
+                el header, y con razón: el nombre dibujado dentro del PNG
+                nunca calza con el texto tipografiado que tiene alrededor.
+           v30 (esto) · vuelve el lockup de dos partes, ahora sí con el
+                símbolo correcto: `img/logo/simbolo-transparente.png`,
+                recortado por bounding box real de píxeles no transparentes
+                sobre la banda superior de `logo-vegas-transparente.png`
+                (744×351, RGBA con transparencia de verdad, sin una sola
+                letra). El nombre vuelve a ser TEXTO en --fuente-display
+                (Josefin Sans, geométrica como el lettering del logo).
+           El alt del símbolo va VACÍO: el nombre ya está aquí al lado en
+           texto real, así que la imagen es decorativa y repetirlo sería
+           leer «Vegas del Verde» dos veces con lector de pantalla. -->
       <div class="pie-final__marca">
-        <svg class="pie-final__simbolo" viewBox="0 0 64 64" width="64" height="64" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
-          <path d="M10 55c4-3 8-3 12 0s8 3 12 0 8-3 12 0 5 2 8 0"/>
-          <path d="M32 48V26"/>
-          <path d="M32 26c-5.5-5-5.5-13 0-18 5.5 5 5.5 13 0 18Z"/>
-          <path d="M32 42c-4-1-8-4-9.5-9"/>
-          <path d="M22.5 33c-6-1.5-9.5-6-10-12 6 .5 10.5 4 12 10-.5 1-1.3 1.7-2 2Z"/>
-          <path d="M32 42c4-1 8-4 9.5-9"/>
-          <path d="M41.5 33c6-1.5 9.5-6 10-12-6 .5-10.5 4-12 10 .5 1 1.3 1.7 2 2Z"/>
-        </svg>
+        <img
+          class="pie-final__simbolo"
+          src="img/logo/simbolo-transparente.png"
+          width="744"
+          height="351"
+          alt=""
+          loading="lazy"
+          decoding="async"
+        />
         <p class="pie-final__nombre">Vegas del Verde</p>
       </div>
 

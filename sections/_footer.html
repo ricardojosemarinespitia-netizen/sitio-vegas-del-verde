@@ -44,16 +44,36 @@
 
     <div class="pie-final__fila">
 
+      <!-- Historial de esta firma, para que no dé otra vuelta completa:
+           v28 y anteriores · un garabato SVG dibujado a mano que no era el
+                logo real de la marca, junto al nombre en texto.
+           v29a · `simbolo-vegas.png`: descartado, no es transparente sino un
+                cuadrado blanco opaco que sobre el crema del pie se ve como
+                una caja gris.
+           v29b · `logo-vegas-barra.png`, la placa verde con símbolo+texto
+                horneados en una sola imagen. Al cliente le pareció PEOR que
+                el header, y con razón: el nombre dibujado dentro del PNG
+                nunca calza con el texto tipografiado que tiene alrededor.
+           v30 (esto) · vuelve el lockup de dos partes, ahora sí con el
+                símbolo correcto: `img/logo/simbolo-transparente.png`,
+                recortado por bounding box real de píxeles no transparentes
+                sobre la banda superior de `logo-vegas-transparente.png`
+                (744×351, RGBA con transparencia de verdad, sin una sola
+                letra). El nombre vuelve a ser TEXTO en --fuente-display
+                (Josefin Sans, geométrica como el lettering del logo).
+           El alt del símbolo va VACÍO: el nombre ya está aquí al lado en
+           texto real, así que la imagen es decorativa y repetirlo sería
+           leer «Vegas del Verde» dos veces con lector de pantalla. -->
       <div class="pie-final__marca">
-        <svg class="pie-final__simbolo" viewBox="0 0 64 64" width="64" height="64" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
-          <path d="M10 55c4-3 8-3 12 0s8 3 12 0 8-3 12 0 5 2 8 0"/>
-          <path d="M32 48V26"/>
-          <path d="M32 26c-5.5-5-5.5-13 0-18 5.5 5 5.5 13 0 18Z"/>
-          <path d="M32 42c-4-1-8-4-9.5-9"/>
-          <path d="M22.5 33c-6-1.5-9.5-6-10-12 6 .5 10.5 4 12 10-.5 1-1.3 1.7-2 2Z"/>
-          <path d="M32 42c4-1 8-4 9.5-9"/>
-          <path d="M41.5 33c6-1.5 9.5-6 10-12-6 .5-10.5 4-12 10 .5 1 1.3 1.7 2 2Z"/>
-        </svg>
+        <img
+          class="pie-final__simbolo"
+          src="img/logo/simbolo-transparente.png"
+          width="744"
+          height="351"
+          alt=""
+          loading="lazy"
+          decoding="async"
+        />
         <p class="pie-final__nombre">Vegas del Verde</p>
       </div>
 
