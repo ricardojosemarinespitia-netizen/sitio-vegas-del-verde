@@ -3,13 +3,13 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Salidas escolares · Vegas del Verde</title>
-  <meta name="description" content="Un día de colegio que no cabe en un aula: de la llegada al regreso del bus, con tres paradas pensadas para un curso —el observatorio de aves, el de plantas y el jardín de polinizadores— en Vegas del Verde." />
+  <title>Alianza Educativa · Pases por jornadas · Vegas del Verde</title>
+  <meta name="description" content="Alianza Educativa Vegas del Verde: pases por jornadas para colegios. Cinco aulas vivas —vivero, Sendero Ecovital, jardín de polinizadores, taller y cancha— en 40.000 m² de bosque para aprender haciendo. Pase Semilla, Pase Bosque y Pase Sede." />
   <link rel="canonical" href="https://vegasdelverde.co/colegios.html" />
   <link rel="icon" href="img/logo/simbolo-vegas.png" type="image/png" />
   <meta property="og:type" content="website" />
-  <meta property="og:title" content="Salidas escolares · Vegas del Verde" />
-  <meta property="og:description" content="Un día de colegio que no cabe en un aula. Tres paradas pensadas para un curso, a diez minutos de Bucaramanga." />
+  <meta property="og:title" content="Alianza Educativa · Pases por jornadas · Vegas del Verde" />
+  <meta property="og:description" content="Un día de colegio que no cabe en un aula. Cinco aulas vivas en 40.000 m² de bosque, a diez minutos de Bucaramanga." />
   <meta property="og:url" content="https://vegasdelverde.co/colegios.html" />
   <meta property="og:image" content="https://vegasdelverde.co/img/eventos/infantil-1.jpg" />
   <!-- fuentes-propias: Josefin Sans y DM Sans viven en styles/fonts/ y se declaran
@@ -31,8 +31,23 @@
        bloque no cambia de marcado ni de clases, sólo de página. Por eso
        colegios.css deja de ir en CSS_SECCIONES del ensamblador y pasa a
        enlazarse aquí, que es el único sitio donde ya se usa. -->
-  <link rel="stylesheet" href="styles/sections/colegios.css?v=81e08edf" />
+  <link rel="stylesheet" href="styles/sections/colegios.css?v=3a0cca2c" />
   <script>document.documentElement.classList.remove('no-js');document.documentElement.classList.add('js');</script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Product",
+    "name": "Alianza Educativa · Pases por jornadas · Vegas del Verde",
+    "description": "Pases por jornadas de cuatro horas para colegios en las cinco aulas vivas de Vegas del Verde. Cada pase incluye 40 estudiantes por jornada; pago de contado, validez de un año.",
+    "brand": { "@type": "Brand", "name": "Vegas del Verde" },
+    "url": "https://vegasdelverde.co/colegios.html",
+    "offers": [
+      { "@type": "Offer", "name": "Pase Semilla · 1 jornada", "price": "400000", "priceCurrency": "COP", "availability": "https://schema.org/InStock" },
+      { "@type": "Offer", "name": "Pase Bosque · 2 jornadas", "price": "750000", "priceCurrency": "COP", "availability": "https://schema.org/InStock" },
+      { "@type": "Offer", "name": "Pase Sede · 4 jornadas", "price": "1400000", "priceCurrency": "COP", "availability": "https://schema.org/InStock" }
+    ]
+  }
+  </script>
 </head>
 <body>
 
@@ -52,38 +67,33 @@
   </header>
 
   <!-- ==========================================================================
-       PÁGINA: SALIDAS PEDAGÓGICAS  ·  antes sections/colegios.html (#colegios)
+       PÁGINA: ALIANZA EDUCATIVA · PASES POR JORNADAS  ·  v8 «el cuaderno de campo»
 
-       v7 · SALE DE LA VENTANA PRINCIPAL. Pedido directo y repetido del cliente:
-       esto no va en el scroll de index.html. Ya no es el tercer movimiento del
-       capítulo «Eventos y actividades», es una página aparte a la que se entra
-       por el enlace del carril 05 (talleres) de #planes y por el nav.
-       El marcado del bloque no cambia —mismas clases, misma hoja de estilos—
-       para no reabrir la composición: sólo cambia de contenedor.
+       QUÉ ES. El flyer «Alianza Educativa Vegas del Verde · Pases por Jornadas»
+       integrado en la página de salidas escolares. La fuente de verdad de
+       cada dato es el flyer: cinco aulas vivas, la nota sobre el
+       acompañamiento pedagógico, cuatro opciones de servicio social, tres
+       pases con su precio, los valores agregados con costo aparte y el plan
+       de fidelización Puntos Verdes. No se inventa ninguna cifra ni se
+       redondea ninguna.
 
-       QUÉ CAMBIA AL MUDARSE, y por qué:
-         · el titular sube de <h2> a <h1>: aquí es el título de la página, no
-           el de una sección dentro de otra. El cierre sube de <h3> a <h2> para
-           no dejar un salto de nivel. Ninguna de las dos clases cambia, así
-           que el dibujo es exactamente el mismo.
-         · el eyebrow deja de decir «Eventos y actividades» —ese rótulo era el
-           del capítulo compartido con #planes y #momentos, y aquí ya no hay
-           capítulo— y dice de qué va la página.
-         · los tres enlaces del pie de la jornada pasan de anclas locales
-           (#usos, #naturaleza, #vivero) a anclas de index.html: las tres
-           secciones siguen viviendo allá.
-         · se retira el <script> de fauna-ambiente. Montaba sobre
-           `#colegios .col__aire`, que era un hijo de `.col-jornada`, y
-           `.col-jornada` ya no existe desde v6: el módulo se descargaba para
-           no encontrar nada.
+       UN HECHO, UN DUEÑO — dentro de esta página:
+         · 40.000 m², 4 horas por jornada, 5 aulas  → la fila de cifras
+         · 40 estudiantes por jornada, contado, 1 año → cabecera de los pases
+         · los tres precios                           → cada uno en su placa
+         · lúdica $8.000 · refrigerio $12.000–18.000  → valores agregados
+         · dirección                                  → el pie de la página
+       La tabla HECHOS de herramientas/validar.js y validar.py vigila que
+       ninguna sección de index.html los vuelva a escribir.
 
-       ÁMBITO — sólo lo que existe únicamente dentro de la oferta escolar:
-       el observatorio de aves, el de plantas, el jardín de polinizadores y el
-       formato de la jornada. Lo demás se ENLAZA, no se describe: los espacios
-       del parque, el recorrido guiado y el vivero tienen sección propia en
-       index.html. Aquí no se repiten aforos, ni precios, ni cifras de especies.
+       LA ANIMACIÓN es la de plan-vecino.html en intención, no en técnica:
+       allá un enjambre nace y sube; aquí un margen de cuaderno se dibuja
+       con el scroll, cada lámina se apoya desde su lado, los iconos se
+       trazan, la cifra cuenta y los sellos se estampan. Todo en CSS
+       (styles/sections/colegios.css) menos la cifra y el respaldo de la
+       línea (js/colegios.js).
 
-       CSS: styles/sections/colegios.css
+       CSS: styles/sections/colegios.css · JS: js/colegios.js + js/app.js
        ========================================================================== -->
   <main id="contenido">
     <section id="colegios" class="seccion seccion--alt col" aria-labelledby="colegios-titulo">
@@ -96,14 +106,7 @@
                entradilla, no encima de ninguno de los dos. Se dibujan solas al
                entrar la sección y derivan con el scroll. A partir de 62em, que es
                donde la portada abre su segunda columna y aparece ese hueco; por
-               debajo no se montan.
-
-               POR QUÉ DOS TRAZOS ABIERTOS Y NO UNA SILUETA CERRADA. Se probaron
-               primero un ave con las alas dibujadas y después una pluma: las dos,
-               ampliadas a doce veces su caja y bajadas al 26 % de opacidad, se leían
-               como una hoja. Un ave a distancia no tiene detalle —son dos arcos— y
-               por eso se reconoce sin ninguna ayuda. Dos, de tamaños distintos y a
-               alturas distintas, son cielo; una sola sería un logotipo. -->
+               debajo no se montan. -->
           <svg class="col-portada__ave icono-traza" viewBox="0 0 24 24" fill="none"
                stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
                aria-hidden="true" focusable="false">
@@ -112,10 +115,7 @@
           </svg>
 
           <div class="col-portada__titulo">
-            <p class="eyebrow reveal">Salidas pedagógicas</p>
-            <!-- .reveal-texto SIN persiana: la variante con persiana se gasta una
-                 vez por capítulo y la lleva #planes, en index.html. Aquí el gesto
-                 se hereda igual para que la página no se sienta de otro sitio. -->
+            <p class="eyebrow reveal">Alianza Educativa · Pases por jornadas</p>
             <h1
               id="colegios-titulo"
               class="titulo-seccion col-titular reveal reveal-texto"
@@ -125,11 +125,321 @@
             </h1>
           </div>
           <p class="entradilla col-portada__entradilla reveal">
-            De la llegada al regreso del bus, con tres paradas pensadas para un curso: el
-            observatorio de aves, el de plantas y el jardín de polinizadores.
+            Bosque vivo para aprender haciendo. El colegio compra un pase por
+            jornadas y trae a su curso a cinco aulas que no tienen paredes.
           </p>
         </header>
 
+        <!-- ---------- Las tres cifras de cabecera ---------- -->
+        <ul class="col-cifras reveal-secuencia" aria-label="Cifras de la alianza">
+          <li class="col-cifra reveal">
+            <span class="col-cifra__valor"><span data-cifra="40000">40.000</span> <span class="col-cifra__unidad">m²</span></span>
+            <span class="col-cifra__rotulo">de bosque vivo</span>
+          </li>
+          <li class="col-cifra reveal">
+            <span class="col-cifra__valor">4 <span class="col-cifra__unidad">horas</span></span>
+            <span class="col-cifra__rotulo">dura cada jornada</span>
+          </li>
+          <li class="col-cifra reveal">
+            <span class="col-cifra__valor">5 <span class="col-cifra__unidad">aulas</span></span>
+            <span class="col-cifra__rotulo">vivas, en un solo pase</span>
+          </li>
+        </ul>
+
+        <!-- ==========================================================
+             LAS CINCO AULAS VIVAS
+             Una lámina por aula: foto + placa opaca apoyada encima. La
+             línea del margen (.col-ruta) se dibuja con el scroll y el punto
+             de cada aula (::before del <li>) se posa al entrar la lámina.
+             La dirección de entrada de cada placa la pone el marcado:
+             reveal--der en las impares (la placa está a la derecha de la
+             foto en escritorio), reveal--izq en las pares.
+             ========================================================== -->
+        <div class="col-aulas">
+          <div class="col-aulas__cabecera reveal">
+            <h2 class="titulo-seccion titulo-seccion--sm">Cinco aulas vivas</h2>
+            <p>Todas dentro del pase. Cada jornada las recorre en el orden que el profesor decida.</p>
+          </div>
+
+          <ol class="col-aulas__lista">
+
+            <!-- El margen del cuaderno. Un solo trazo vertical, de arriba abajo
+                 de la lista. pathLength="1" para que el guion cubra el camino
+                 entero sin importar la altura real. No lleva .icono-traza:
+                 tiene su propio reloj (el del scroll) y no debe dibujarse con
+                 los iconos al entrar la sección. -->
+            <svg class="col-ruta" viewBox="0 0 8 1000" preserveAspectRatio="none" aria-hidden="true" focusable="false">
+              <path d="M4 0v1000" pathLength="1"/>
+            </svg>
+
+            <li class="col-aula col-aula--1 reveal-secuencia">
+              <figure class="col-aula__foto reveal">
+                <div class="marco">
+                  <img
+                    src="img/vivero/vivero-01-1200.jpg"
+                    srcset="img/vivero/vivero-01-600.jpg 600w, img/vivero/vivero-01-800.jpg 800w, img/vivero/vivero-01-1200.jpg 1200w"
+                    sizes="(min-width: 62em) 40vw, (min-width: 34rem) 34rem, 100vw"
+                    width="1200" height="2134"
+                    alt="Materas de terracota con plantas en flor contra el muro de guadua del vivero."
+                    loading="lazy" decoding="async"
+                  />
+                </div>
+              </figure>
+              <div class="placa col-aula__placa reveal reveal--der">
+                <svg class="col-aula__icono icono-traza" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                     stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+                  <path d="M12 19.4v-7" pathLength="1"/>
+                  <path d="M12 12.4c0-3 2.2-5.4 5.2-5.4 0 3-2.2 5.4-5.2 5.4Z" pathLength="1"/>
+                  <path d="M12 14.2C12 11.7 10 9.7 7.4 9.7c0 2.5 2 4.5 4.6 4.5Z" pathLength="1"/>
+                  <path d="M6.4 19.4c1.4-1.1 3.3-1.7 5.6-1.7s4.2.6 5.6 1.7" pathLength="1"/>
+                </svg>
+                <h3 class="col-aula__nombre">Vivero</h3>
+                <p class="col-aula__texto">Cultivo de plantas nativas y propagación en un vivero que funciona de verdad.</p>
+              </div>
+            </li>
+
+            <li class="col-aula col-aula--2 reveal-secuencia">
+              <figure class="col-aula__foto reveal">
+                <div class="marco">
+                  <img
+                    src="img/parque/parque-18.jpg"
+                    sizes="(min-width: 62em) 40vw, (min-width: 34rem) 34rem, 100vw"
+                    width="900" height="1200"
+                    alt="Camino de losas de piedra entre heliconias y árboles del bosque."
+                    loading="lazy" decoding="async"
+                  />
+                </div>
+              </figure>
+              <div class="placa placa--alterna col-aula__placa reveal reveal--izq">
+                <svg class="col-aula__icono icono-traza" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                     stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+                  <path d="M3.4 20.6c5.4-3.6 3-9.4 7.6-11.6s6.8 1.4 9.6-6.2" pathLength="1"/>
+                  <path d="M16.2 5.6h4.4v3.2h-4.4" pathLength="1"/>
+                  <path d="M16.2 4v6" pathLength="1"/>
+                </svg>
+                <h3 class="col-aula__nombre">Sendero Ecovital</h3>
+                <p class="col-aula__texto">Recorrido ecológico de aprendizaje ambiental por el bosque.</p>
+              </div>
+            </li>
+
+            <li class="col-aula col-aula--3 reveal-secuencia">
+              <figure class="col-aula__foto reveal">
+                <div class="marco">
+                  <img
+                    src="img/naturaleza-jardin-hero-1200.jpg"
+                    srcset="img/naturaleza-jardin-hero-600.jpg 600w, img/naturaleza-jardin-hero-800.jpg 800w, img/naturaleza-jardin-hero-1200.jpg 1200w"
+                    sizes="(min-width: 62em) 40vw, (min-width: 34rem) 34rem, 100vw"
+                    width="1200" height="2133"
+                    alt="Espiga de verbena morada a contraluz en el jardín de polinizadores."
+                    loading="lazy" decoding="async"
+                  />
+                </div>
+              </figure>
+              <div class="placa col-aula__placa reveal reveal--der">
+                <svg class="col-aula__icono icono-traza" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                     stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+                  <circle cx="12" cy="9.6" r="2.2" pathLength="1"/>
+                  <path d="M12 7.4c0-2 .9-3.4 2.6-3.4 0 1.9-.9 3.1-2.6 3.4Z" pathLength="1"/>
+                  <path d="M12 7.4c0-2-.9-3.4-2.6-3.4 0 1.9.9 3.1 2.6 3.4Z" pathLength="1"/>
+                  <path d="M14.2 9.6c1.9-.7 3.4-.2 4 1.5-1.8.7-3.2.2-4-1.5Z" pathLength="1"/>
+                  <path d="M9.8 9.6c-1.9-.7-3.4-.2-4 1.5 1.8.7 3.2.2 4-1.5Z" pathLength="1"/>
+                  <path d="M12.9 11.6c1.1 1.7 1 3.3-.5 4.4-1.2-1.5-1.1-3.1.5-4.4Z" pathLength="1"/>
+                  <path d="M11.1 11.6c-1.1 1.7-1 3.3.5 4.4 1.2-1.5 1.1-3.1-.5-4.4Z" pathLength="1"/>
+                  <path d="M12 16.6V21" pathLength="1"/>
+                </svg>
+                <h3 class="col-aula__nombre">Jardín de Polinizadores</h3>
+                <p class="col-aula__texto">Observación de aves y mariposas en su hábitat natural.</p>
+              </div>
+            </li>
+
+            <li class="col-aula col-aula--4 col-aula--apaisada reveal-secuencia">
+              <figure class="col-aula__foto reveal">
+                <div class="marco">
+                  <img
+                    src="img/parque/parque-32.jpg"
+                    srcset="img/parque/parque-32-400.jpg 400w, img/parque/parque-32-600.jpg 600w, img/parque/parque-32.jpg 900w"
+                    sizes="(min-width: 62em) 40vw, (min-width: 34rem) 34rem, 100vw"
+                    width="900" height="1200"
+                    alt="Un grupo en mesas de trabajo bajo la pérgola del taller, con el prado detrás."
+                    loading="lazy" decoding="async"
+                  />
+                </div>
+              </figure>
+              <div class="placa placa--alterna col-aula__placa reveal reveal--izq">
+                <svg class="col-aula__icono icono-traza" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                     stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+                  <rect x="3" y="4.4" width="18" height="11.6" rx="1.4" pathLength="1"/>
+                  <path d="M12 16v4.2M8.4 20.2h7.2" pathLength="1"/>
+                  <path d="M10 7.6v5.2l4.4-2.6Z" pathLength="1"/>
+                </svg>
+                <h3 class="col-aula__nombre">Taller con pantalla</h3>
+                <p class="col-aula__texto">Sala equipada para talleres, charlas y proyección audiovisual.</p>
+              </div>
+            </li>
+
+            <li class="col-aula col-aula--5 col-aula--apaisada reveal-secuencia">
+              <figure class="col-aula__foto reveal">
+                <div class="marco">
+                  <img
+                    src="img/eventos/cancha-horizontal.jpg"
+                    sizes="(min-width: 62em) 40vw, (min-width: 34rem) 34rem, 100vw"
+                    width="1600" height="900"
+                    alt="La cancha de fútbol sobre el prado, con los arcos blancos a la sombra de los árboles."
+                    loading="lazy" decoding="async"
+                  />
+                </div>
+              </figure>
+              <div class="placa col-aula__placa reveal reveal--der">
+                <svg class="col-aula__icono icono-traza" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                     stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+                  <circle cx="12" cy="12" r="8.6" pathLength="1"/>
+                  <path d="M12 7.2l3.6 2.6-1.4 4.2h-4.4L8.4 9.8Z" pathLength="1"/>
+                  <path d="M12 7.2V3.6M15.6 9.8l3.4-1.2M14.2 14l2.2 3M9.8 14l-2.2 3M8.4 9.8 5 8.6" pathLength="1"/>
+                </svg>
+                <h3 class="col-aula__nombre">Cancha de fútbol</h3>
+                <p class="col-aula__texto">Espacio deportivo para actividades recreativas y fútbol formativo, para principiantes.</p>
+              </div>
+            </li>
+
+          </ol>
+        </div>
+
+        <!-- ---------- La nota: se dice tal cual ---------- -->
+        <div class="placa placa--filete placa--alterna col-nota reveal">
+          <svg class="col-nota__icono" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+               stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+            <path d="M12 3.6 2.8 19.4h18.4Z"/>
+            <path d="M12 9.6v4.6M12 17.2v.2"/>
+          </svg>
+          <p>
+            <strong>El colegio aporta el diseño pedagógico y el profesor.</strong>
+            Vegas del Verde no ofrece acompañamiento pedagógico ni binoculares.
+          </p>
+        </div>
+
+        <!-- ---------- Servicio social ---------- -->
+        <div class="col-bloque">
+          <div class="col-bloque__cabecera reveal">
+            <h2 class="titulo-seccion titulo-seccion--sm">Servicio social</h2>
+            <p>Cuatro opciones para que las horas de servicio social del colegio se hagan en el bosque.</p>
+          </div>
+          <ul class="col-servicio reveal-secuencia">
+            <li class="col-servicio__item reveal">
+              <svg class="col-servicio__icono icono-traza" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                   stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+                <rect x="2.6" y="11" width="7.2" height="8.4" rx="2" pathLength="1"/>
+                <rect x="14.2" y="11" width="7.2" height="8.4" rx="2" pathLength="1"/>
+                <path d="M9.8 13.6h4.4M5.4 11V7.4a2 2 0 0 1 2-2h1M18.6 11V7.4a2 2 0 0 0-2-2h-1" pathLength="1"/>
+              </svg>
+              <h3>Taller de avistamiento de aves</h3>
+              <p>Observación e identificación de especies locales.</p>
+            </li>
+            <li class="col-servicio__item reveal">
+              <svg class="col-servicio__icono icono-traza" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                   stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+                <path d="M4 10.4h9.6v7.2a2.4 2.4 0 0 1-2.4 2.4H6.4A2.4 2.4 0 0 1 4 17.6Z" pathLength="1"/>
+                <path d="M13.6 12.4 19.4 8M8.8 10.4V8.6a2.4 2.4 0 0 0-2.4-2.4" pathLength="1"/>
+                <path d="M19.4 8c1.4 0 2 .8 2 1.8s-.8 1.6-2 1.6-2-.6-2-1.6.6-1.8 2-1.8Z" pathLength="1"/>
+              </svg>
+              <h3>Guardianes del vivero</h3>
+              <p>Cuidado y mantenimiento del vivero.</p>
+            </li>
+            <li class="col-servicio__item reveal">
+              <svg class="col-servicio__icono icono-traza" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                   stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+                <path d="M12 3.4 4.6 6.2v5.4c0 4.4 3 7.6 7.4 9.2 4.4-1.6 7.4-4.8 7.4-9.2V6.2Z" pathLength="1"/>
+                <path d="M12 16.4c0-3 1.6-5 4.4-5.6-.2 3.2-1.8 5.2-4.4 5.6Z" pathLength="1"/>
+                <path d="M12 16.4v1.8" pathLength="1"/>
+              </svg>
+              <h3>Guardianes polinizadores</h3>
+              <p>Protección de polinizadores y de sus hábitats.</p>
+            </li>
+            <li class="col-servicio__item reveal">
+              <svg class="col-servicio__icono icono-traza" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                   stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+                <circle cx="10.4" cy="10.4" r="6.2" pathLength="1"/>
+                <path d="M15 15l5.4 5.4" pathLength="1"/>
+                <path d="M10.4 7.6c1.2 0 2 .8 2 2M8.4 12.8c.6-1.4 1.6-2.2 2.8-2.2" pathLength="1"/>
+              </svg>
+              <h3>Científicos junior de mariposas</h3>
+              <p>Investigación y registro del ciclo de las mariposas.</p>
+            </li>
+          </ul>
+        </div>
+
+        <!-- ---------- Los pases ---------- -->
+        <div class="col-bloque" id="pases">
+          <div class="col-bloque__cabecera reveal">
+            <h2 class="titulo-seccion titulo-seccion--sm">Pases por jornada</h2>
+            <p>Cada pase incluye 40 estudiantes por jornada. Pago de contado, validez de un año.</p>
+          </div>
+          <ul class="col-pases reveal-secuencia">
+            <li class="placa col-pase reveal">
+              <h3 class="col-pase__nombre">Pase Semilla</h3>
+              <p class="col-pase__jornadas">1 jornada</p>
+              <p class="col-pase__precio">$400.000</p>
+            </li>
+            <li class="placa col-pase col-pase--alterna reveal">
+              <h3 class="col-pase__nombre">Pase Bosque</h3>
+              <p class="col-pase__jornadas">2 jornadas</p>
+              <p class="col-pase__precio">$750.000</p>
+            </li>
+            <li class="placa col-pase reveal">
+              <h3 class="col-pase__nombre">Pase Sede</h3>
+              <p class="col-pase__jornadas">4 jornadas</p>
+              <p class="col-pase__precio">$1.400.000</p>
+            </li>
+          </ul>
+          <p class="col-incluye reveal">
+            <strong>Incluye para los 40 estudiantes:</strong> uso del vivero, el sendero, el jardín, el taller y la cancha.
+          </p>
+
+          <ul class="col-extras reveal-secuencia" aria-label="Valores agregados, con costo aparte">
+            <li class="col-extra reveal"><span>Actividad lúdica</span><span class="col-extra__dato">$8.000 por estudiante</span></li>
+            <li class="col-extra reveal"><span>Refrigerio</span><span class="col-extra__dato">$12.000 a $18.000 por estudiante</span></li>
+            <li class="col-extra reveal"><span>WiFi de alta velocidad en la zona del taller</span><span class="col-extra__dato">incluido</span></li>
+            <li class="col-extra reveal"><span>Parqueadero</span><span class="col-extra__dato">pago, disponible</span></li>
+            <li class="col-extra reveal"><span>Póliza de responsabilidad civil contra terceros</span><span class="col-extra__dato">vigente</span></li>
+            <li class="col-extra reveal"><span>Vigilancia</span><span class="col-extra__dato">permanente</span></li>
+          </ul>
+        </div>
+
+        <!-- ---------- Puntos Verdes ---------- -->
+        <div class="col-bloque col-puntos">
+          <ol class="col-sellos reveal" aria-label="Doce puntos verdes; el duodécimo se cambia por un Pase Semilla">
+            <li class="col-sello">1</li>
+            <li class="col-sello">2</li>
+            <li class="col-sello">3</li>
+            <li class="col-sello">4</li>
+            <li class="col-sello">5</li>
+            <li class="col-sello">6</li>
+            <li class="col-sello">7</li>
+            <li class="col-sello">8</li>
+            <li class="col-sello">9</li>
+            <li class="col-sello">10</li>
+            <li class="col-sello">11</li>
+            <li class="col-sello col-sello--gratis">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+                <path d="M4 12.8 9.4 18.4 20 5.6"/>
+              </svg>
+              <span class="solo-lectores">Pase Semilla gratis</span>
+            </li>
+          </ol>
+          <div class="col-puntos__texto reveal">
+            <h2 class="titulo-seccion titulo-seccion--sm">Puntos Verdes</h2>
+            <p>El plan de fidelización de la alianza. Cada recarga suma, y a los doce puntos el bosque invita.</p>
+            <ul class="col-puntos__regla">
+              <li>Cada recarga = <strong>1 punto</strong></li>
+              <li>12 puntos = <strong>1 Pase Semilla gratis</strong></li>
+              <li>Vigencia de los puntos: <strong>3 meses</strong></li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- ---------- Dónde, y cierre ---------- -->
+        <p class="col-ubicacion reveal">
+          Vereda Río Frío, 500 m por la vía Carabineros desde Mediterráneo, frente al Anillo Vial · Floridablanca, Santander.
+        </p>
         <p class="nota col-enlaces reveal">
           La jornada se alarga con
           <a href="espacios.html">los espacios del parque</a>, con
@@ -137,18 +447,17 @@
           <a href="vivero.html">el vivero</a>.
         </p>
 
-        <!-- ---------- Cierre y CTA ---------- -->
         <div class="col-cierre reveal">
           <div class="col-cierre__bloque">
             <h2 class="titulo-seccion titulo-seccion--sm">¿Vienes con un curso?</h2>
             <p>
-              Cuéntanos el nombre del colegio, cuántos estudiantes vienen y la fecha
-              tentativa, y armamos la ruta del día.
+              Cuéntanos el nombre del colegio, qué pase te interesa y la fecha
+              tentativa de la primera jornada, y armamos la ruta del día.
             </p>
           </div>
           <a
             class="btn btn-whatsapp btn-grande"
-            href="https://wa.me/573166758362?text=Hola%2C%20vengo%20con%20mi%20curso%20a%20Vegas%20del%20Verde.%20Colegio%3A%20___%20%C2%B7%20Estudiantes%3A%20___%20%C2%B7%20Fecha%20tentativa%3A%20___"
+            href="https://wa.me/573166758362?text=Hola%2C%20vengo%20con%20mi%20curso%20a%20Vegas%20del%20Verde%20y%20quiero%20un%20pase%20por%20jornadas.%20Colegio%3A%20___%20%C2%B7%20Pase%3A%20___%20%C2%B7%20Fecha%20tentativa%3A%20___"
             target="_blank"
             rel="noopener"
           >
@@ -164,9 +473,11 @@
     </section>
   </main>
 
-  <!-- app.js es quien enciende los .reveal (IntersectionObserver) y quien pinta
-       los trazos de .icono-traza. Sin él la página se lee entera igual: los
-       estados iniciales viven en CSS con el cerrojo de .js. -->
+  <!-- app.js enciende los .reveal (IntersectionObserver) y pinta los trazos de
+       .icono-traza. colegios.js cuenta la cifra y respalda la línea del margen
+       donde no hay reloj de scroll. Sin ninguno de los dos la página se lee
+       entera igual: los estados iniciales viven en CSS con el cerrojo de .js. -->
+  <script src="js/colegios.js?v=78b774f4" defer></script>
   <script src="js/app.js?v=d2757e52" defer></script>
 
 

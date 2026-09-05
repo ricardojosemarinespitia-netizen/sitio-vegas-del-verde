@@ -147,6 +147,26 @@ const HECHOS = [
  ['Rotulo «Quiero plantas del vivero»', [NADIE], ['quiero plantas del vivero'], false],
  ['Rotulo «Hablemos por WhatsApp»', [NADIE], ['hablemos por whatsapp'], false],
  ['Rotulo «Escribenos por WhatsApp»', ['cabecera'], ['escribenos por whatsapp'], false],
+ // v19 · ALIANZA EDUCATIVA · PASES POR JORNADAS (flyer de septiembre 2026).
+ // Los hechos nuevos viven ENTEROS en colegios.html, pagina suelta que este
+ // validador no lee; el dueno `colegios` esta escrito para que quede dicho
+ // donde estan, y para vigilar la otra mitad de la regla: que ninguna
+ // seccion de index.html los vuelva a escribir. El «4 horas» de la jornada
+ // se vigila por su frase propia para no chocar con el hecho del alquiler
+ // («alquiler base de 4 horas»), que ya tiene su patron arriba.
+ ['Alianza Educativa · 40.000 m2 de bosque vivo', ['colegios'], ['40\\.000 ?m', '40000 ?m', 'bosque vivo'], false],
+ ['Jornada escolar = 4 horas', ['colegios'], ['dura cada jornada', 'jornada = 4', 'jornadas de cuatro horas'], false],
+ ['Cinco aulas vivas', ['colegios'], ['aulas? vivas?'], true],
+ ['40 estudiantes por jornada / contado / validez un ano', ['colegios'], ['\\b40 estudiantes\\b', 'pago de contado'], false],
+ ['Pase Semilla · 1 jornada · $400.000', ['colegios'], ['pase semilla', '\\$?400\\.000'], false],
+ ['Pase Bosque · 2 jornadas · $750.000', ['colegios'], ['pase bosque', '\\$?750\\.000'], false],
+ ['Pase Sede · 4 jornadas · $1.400.000', ['colegios'], ['pase sede', '\\$?1\\.400\\.000'], false],
+ ['Actividad ludica $8.000 por estudiante', ['colegios'], ['actividad ludica', '\\$?8\\.000 por estudiante'], false],
+ ['Refrigerio $12.000 a $18.000 por estudiante', ['colegios'], ['\\brefrigerio\\b', '12\\.000 a \\$?18\\.000'], false],
+ ['Nota: el colegio aporta el diseno pedagogico y el profesor', ['colegios'], ['diseno pedagogico', 'acompanamiento pedagogico', '\\bbinoculares\\b'], false],
+ ['Servicio social (cuatro opciones)', ['colegios'], ['servicio social', 'guardianes del vivero', 'guardianes polinizadores', 'cientificos junior'], false],
+ ['Puntos Verdes: 1 punto por recarga · 12 = Pase Semilla · 3 meses', ['colegios'], ['puntos verdes', '12 puntos', 'cada recarga'], false],
+ ['Direccion escolar: 500 m via Carabineros desde Mediterraneo', ['colegios'], ['\\bmediterraneo\\b', '500 ?m por la via'], false],
 ];
 
 // Atributos que no lee ninguna persona: son ganchos de CSS y JS. Sin retirarlos,

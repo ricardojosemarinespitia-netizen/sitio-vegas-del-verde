@@ -2155,9 +2155,14 @@
   inline-size: 100%;
   block-size: 100%;
   object-fit: cover;
-  /* Desplaza el encuadre a la izquierda: en el recorte de banda ancha es el
-     lado que conserva el corro entero. */
-  object-position: 42% 50%;
+  /* v6 · la pieza pasó a `yoga-3.jpg`, VERTICAL (1500×2667, ~9:16). En una
+     banda 4/3 (móvil) o 2/1 (tableta arriba) el `cover` escala por el ancho y
+     el recorte es sólo VERTICAL: el eje X ya no decide nada y vuelve al 50 %.
+     El eje Y sube al 55 % porque la figura ocupa del 39 % al 85 % de la altura
+     de origen y la ventana 2/1 sólo deja ver un 28 %: centrada en el 55 %
+     entran manos, cabeza, torso y muslos, y el corte cae en las rodillas
+     —encuadre de retrato normal— en vez de decapitar la postura. */
+  object-position: 50% 55%;
 }
 
 .planes-bienestar__velo {

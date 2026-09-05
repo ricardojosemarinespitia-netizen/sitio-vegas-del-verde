@@ -56,7 +56,13 @@
 <body>
   <main class="error-404">
     <div>
-      <img class="error-404__logo" src="/img/logo/simbolo-vegas.png" width="512" height="512" alt="Vegas del Verde">
+      <!-- v2 · `simbolo-vegas.png` no es transparente (cuadrado blanco
+           opaco): sobre el crema del fondo se veía como una caja gris,
+           el mismo defecto que ya se corrigió en el header/pie del sitio
+           principal (ver sections/_header.html v30). El cliente pidió
+           "el logo el mismo en todas partes" — pasa al mismo recorte
+           transparente que usa el resto del sitio. -->
+      <img class="error-404__logo" src="/img/logo/simbolo-transparente.png" width="744" height="351" alt="Vegas del Verde">
       <p class="error-404__codigo">404</p>
       <h1 class="error-404__titulo">Esta página se perdió en el bosque</h1>
       <p class="error-404__texto">

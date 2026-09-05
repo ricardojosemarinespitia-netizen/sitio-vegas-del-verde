@@ -198,6 +198,35 @@ HECHOS = [
  ("Rotulo «Quiero plantas del vivero»",    [NADIE],        [r"quiero plantas del vivero"], False),
  ("Rotulo «Hablemos por WhatsApp»",        [NADIE],        [r"hablemos por whatsapp"], False),
  ("Rotulo «Escribenos por WhatsApp»",      ["cabecera"],   [r"escribenos por whatsapp"], False),
+ # v19 · ALIANZA EDUCATIVA · PASES POR JORNADAS (flyer de septiembre 2026).
+ # Los hechos nuevos viven ENTEROS en colegios.html, pagina suelta que este
+ # validador no lee; el dueno `colegios` esta escrito para que quede dicho
+ # donde estan, y para vigilar la otra mitad de la regla: que ninguna
+ # seccion de index.html los vuelva a escribir. El «4 horas» de la jornada
+ # se vigila por su frase propia para no chocar con el hecho del alquiler
+ # («alquiler base de 4 horas»), que ya tiene su patron arriba.
+ ("Alianza Educativa · 40.000 m2 de bosque vivo", ["colegios"],
+  [r"40\.000 ?m", r"40000 ?m", r"bosque vivo"], False),
+ ("Jornada escolar = 4 horas", ["colegios"],
+  [r"dura cada jornada", r"jornada = 4", r"jornadas de cuatro horas"], False),
+ ("Cinco aulas vivas", ["colegios"], [r"aulas? vivas?"], True),
+ ("40 estudiantes por jornada / contado / validez un ano", ["colegios"],
+  [r"\b40 estudiantes\b", r"pago de contado"], False),
+ ("Pase Semilla · 1 jornada · $400.000", ["colegios"], [r"pase semilla", r"\$?400\.000"], False),
+ ("Pase Bosque · 2 jornadas · $750.000", ["colegios"], [r"pase bosque", r"\$?750\.000"], False),
+ ("Pase Sede · 4 jornadas · $1.400.000", ["colegios"], [r"pase sede", r"\$?1\.400\.000"], False),
+ ("Actividad ludica $8.000 por estudiante", ["colegios"],
+  [r"actividad ludica", r"\$?8\.000 por estudiante"], False),
+ ("Refrigerio $12.000 a $18.000 por estudiante", ["colegios"],
+  [r"\brefrigerio\b", r"12\.000 a \$?18\.000"], False),
+ ("Nota: el colegio aporta el diseno pedagogico y el profesor", ["colegios"],
+  [r"diseno pedagogico", r"acompanamiento pedagogico", r"\bbinoculares\b"], False),
+ ("Servicio social (cuatro opciones)", ["colegios"],
+  [r"servicio social", r"guardianes del vivero", r"guardianes polinizadores", r"cientificos junior"], False),
+ ("Puntos Verdes: 1 punto por recarga · 12 = Pase Semilla · 3 meses", ["colegios"],
+  [r"puntos verdes", r"12 puntos", r"cada recarga"], False),
+ ("Direccion escolar: 500 m via Carabineros desde Mediterraneo", ["colegios"],
+  [r"\bmediterraneo\b", r"500 ?m por la via"], False),
 ]
 
 # Atributos que NO llegan a ninguna persona: son ganchos para CSS y JS. Si no
