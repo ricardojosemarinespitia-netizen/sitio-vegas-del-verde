@@ -516,30 +516,28 @@
   pointer-events: none;
 }
 
-/* VELO DE LEGIBILIDAD — ÚNICA EXCEPCIÓN DEL SITIO a la regla "la foto es la
-   foto" (cero filtro/velo sobre fotografía), y es a propósito.
-
-   Historia completa, porque este elemento ya cambió tres veces:
+/* VELO DE LEGIBILIDAD — historial completo, porque este elemento ya cambió
+   CUATRO veces y cada vuelta fue una orden explícita del cliente:
      v11 — degradado OSCURO (verde bosque hondo), pedido original.
-     v15 — el cliente pide "no tonos oscuros": el velo gira a CLARO (--luz).
-     v16 — el cliente endurece el pedido — «no no imágenes sin filtro ni nada
-           te dije» — y el velo se apaga del todo; la legibilidad pasa a la
-           cartela sólida `.inicio__encabezado`.
-     v17 — visto el resultado (la cartela tapaba media foto), el cliente pide
-           lo contrario de v16 en un único punto: "rompe esa regla en el hero
-           y ponlo como estaba antes" — vuelve el velo, textual y explícito,
-           SOLO para esta sección. La cartela sólida ya se retiró (queda
-           `text-shadow` sobre el texto como refuerzo, ver más abajo); el
-           velo es lo que hace el trabajo principal de contraste.
-
-   Degradado CLARO (--luz), de v15: abajo, donde vive el bloque de texto,
-   0.66; arriba se abre a 0.30 para que la mitad superior de la fotografía
-   se siga viendo como fotografía y no como papel. Contra --color-texto-
-   inverso (crema) el peor caso queda resuelto por el --text-shadow ya
-   aplicado en el bloque de texto (§ más abajo); el velo por sí solo ya sube
-   el punto negro medido de la foto móvil muy por encima del piso de AA. */
+     v15 — "no tonos oscuros": el velo gira a CLARO (--luz).
+     v16 — "no no imágenes sin filtro ni nada te dije" — el velo se apaga
+           del todo; la legibilidad pasa a la cartela sólida
+           `.inicio__encabezado`.
+     v17 — visto el resultado (la cartela tapaba media foto), pide lo
+           contrario de v16: "rompe esa regla en el hero y ponlo como
+           estaba antes" — vuelve el velo claro de v15, sólo para esta
+           sección.
+     v32 (esto) — captura en mano, el cliente dice "quita este filtro
+           blanco de aquí": el velo claro vuelve a apagarse, esta vez de
+           forma explícita y con las cuatro vueltas anotadas para que a la
+           quinta nadie tenga que adivinar. La legibilidad queda sólo en
+           `--text-shadow` sobre el titular (§ más abajo), que ya estaba
+           puesto como refuerzo desde v16/v17 y no se toca.
+   Si el cliente pide un quinto cambio, este es el bloque a editar: no hace
+   falta tocar el marcado ni la pila de capas, sólo `display` y el
+   `background` de aquí abajo. */
 .inicio__portada-velo {
-  display: block;
+  display: none;
   position: absolute;
   inset: 0;
   background: linear-gradient(

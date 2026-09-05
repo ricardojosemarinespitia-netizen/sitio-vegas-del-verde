@@ -135,6 +135,44 @@
   display: block;
 }
 
+/* v24 · EL MARCO LLENA SU FILA, SIEMPRE. Corrección de un hueco que el
+   cliente vio en capturas de móvil, en la tarjeta «Celebrar» del bloque de
+   los cinco verbos: entre la fotografía y la placa quedaba una franja vacía
+   de más de cien píxeles, y de tamaño distinto en cada tarjeta.
+
+   LA CAUSA MEDIDA (Chrome, 375 px, dos columnas): la tarjeta mide 400 px
+   —su `min-height` fluido—, la fila de la foto es `minmax(0, 1fr)` y por
+   tanto la celda de la foto medía ~250 px… pero el `<span class="marco
+   marco--3-2">` medía 106 px. `aspect-ratio` (base.css) fija el alto contra
+   el ancho de columna —159 × 2/3 = 106— y ese alto GANA al estirado normal
+   del ítem de rejilla: `align-self: stretch` sólo estira cajas de alto
+   `auto`, y una caja con proporción declarada ya no lo tiene. El marco se
+   quedaba arriba de su celda y el resto de la fila era aire. Como el alto de
+   la fila lo manda la tarjeta más alta —la de la frase más larga— el hueco
+   era distinto tarjeta a tarjeta: 152 px en «Celebrar» contra 128 px en
+   «Reunir». Por eso se veía como un defecto de esa tarjeta y no del patrón.
+
+   EL ARREGLO: alto explícito del 100 % de la celda de rejilla. Un alto
+   declarado deja sin trabajo a `aspect-ratio` —la proporción sólo resuelve
+   ejes `auto`—, así que el marco pasa a medir exactamente lo que la fila,
+   toque o no la placa de la tarjeta vecina. El recorte lo sigue haciendo
+   `object-fit: cover` de `.home-tarjeta__foto`, de modo que la fotografía
+   llena sin deformarse. `min-height: 0` acompaña por lo mismo que en §1b:
+   sin él el mínimo automático de la fila lo pondría el contenido y la
+   tarjeta se desbordaría en las fotos en retrato.
+
+   NO SE TOCAN los otros tres selectores de arriba (`home-duo__medio`,
+   `home-muro__figura`, `home-tira`): ahí el marco NO es una fila de una
+   rejilla de alto compartido y su proporción fija es justo lo que se quiere.
+   Tampoco cambia nada en el bloque de los espacios, cuyo marco es
+   `.home-tarjeta__portada` —sin proporción, ya llenaba la fila— salvo que
+   ahora lo declara explícitamente en vez de depender del estirado. */
+.home-tarjeta > .marco {
+  height: 100%;
+  min-height: 0;
+  align-self: stretch;
+}
+
 .home-tarjeta__foto {
   display: block;
   width: 100%;

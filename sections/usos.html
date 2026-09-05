@@ -334,12 +334,20 @@
       <details class="usos-detalle">
         <summary class="usos-tarjeta">
           <picture>
-            <source media="(max-width: 47.99em)" srcset="img/eventos/cancha-vertical.jpg" />
+            <!-- v24 · SIN ART-DIRECTION. Hasta la v23 esta tarjeta tenía dos
+                 fotos: cancha-vertical.jpg por debajo de 48em y
+                 cancha-horizontal.jpg en escritorio. El cliente pidió
+                 —«quiero la de celular donde se ve la malla en todos los
+                 dispositivos»— dejar la vertical en todos los anchos, así que
+                 el <source> se retira y queda un solo <img>, como en las
+                 tarjetas 1, 3 y 4. width/height son los reales de la vertical
+                 (900×1600): dejar los 1600×900 de la horizontal reservaba un
+                 hueco con la proporción equivocada y saltaba el layout. -->
             <img
               class="usos-tarjeta__foto"
-              src="img/eventos/cancha-horizontal.jpg"
-              width="1600"
-              height="900"
+              src="img/eventos/cancha-vertical.jpg"
+              width="900"
+              height="1600"
               loading="lazy"
               decoding="async"
               alt=""

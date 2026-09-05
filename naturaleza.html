@@ -37,12 +37,12 @@
 
 <link rel="stylesheet" href="styles/tokens.css?v=128cd142">
 <link rel="stylesheet" href="styles/base.css?v=a9f3ede7">
-<link rel="stylesheet" href="styles/shell.css?v=f19aee9f">
+<link rel="stylesheet" href="styles/shell.css?v=66218bd2">
 <!-- Este bloque lo REESCRIBE herramientas/ensamblar.js a partir de PAGINAS.
      No lo edites a mano: la lista buena está allí. -->
-<link rel="stylesheet" href="styles/sections/home.css?v=094e714b">
+<link rel="stylesheet" href="styles/sections/home.css?v=cc008854">
 <link rel="stylesheet" href="styles/sections/naturaleza.css?v=503a9f84">
-<link rel="stylesheet" href="styles/sections/pie.css?v=4bdf134d">
+<link rel="stylesheet" href="styles/sections/pie.css?v=0a889dce">
 <link rel="stylesheet" href="styles/lightbox.css?v=92a48a1f">
 
 <script type="application/ld+json">
@@ -113,7 +113,16 @@
         alt=""
         decoding="async"
       />
-      <span class="marca__nombre">Vegas del Verde</span>
+      <!-- v31 · El nombre viene partido en dos <span> por una razón de layout,
+           no de semántica: por debajo de 23 em (≈368 px) «Vegas del Verde» no
+           cabe en una línea al lado del símbolo, y la única forma de que el
+           salto caiga SIEMPRE después de «del» —y no donde el navegador
+           decida según fuente, tracking o zoom— es marcarlo. Arriba de ese
+           ancho los dos span son inline y el espacio en blanco del HTML los
+           une en una sola línea, exactamente como antes. El nombre accesible
+           del enlace lo sigue fijando su aria-label, así que partirlo no
+           cambia lo que anuncia el lector de pantalla. -->
+      <span class="marca__nombre"><span class="marca__nombre-linea">Vegas del</span> <span class="marca__nombre-linea">Verde</span></span>
     </a>
 
     <nav class="nav" id="nav-principal" aria-label="Navegación principal">
@@ -248,6 +257,32 @@
     <path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.46 1.32 4.96L2 22l5.25-1.38a9.87 9.87 0 0 0 4.79 1.22h.01c5.46 0 9.91-4.45 9.91-9.91 0-2.65-1.03-5.14-2.9-7.01A9.82 9.82 0 0 0 12.04 2Zm0 18.02h-.01a8.2 8.2 0 0 1-4.19-1.15l-.3-.18-3.12.82.83-3.04-.2-.31a8.19 8.19 0 0 1-1.26-4.38c0-4.54 3.7-8.24 8.25-8.24 2.2 0 4.27.86 5.83 2.42a8.2 8.2 0 0 1 2.41 5.83c0 4.54-3.7 8.23-8.24 8.23Z"/>
     <path d="M17.47 14.38c-.3-.15-1.76-.87-2.03-.97-.27-.1-.47-.15-.67.15-.2.3-.77.97-.94 1.17-.17.2-.35.22-.65.07-.3-.15-1.26-.46-2.4-1.48-.89-.79-1.49-1.77-1.66-2.07-.17-.3-.02-.46.13-.61.13-.13.3-.35.45-.52.15-.17.2-.3.3-.5.1-.2.05-.37-.02-.52-.08-.15-.67-1.61-.92-2.21-.24-.58-.49-.5-.67-.51h-.57c-.2 0-.52.07-.79.37-.27.3-1.04 1.01-1.04 2.47s1.06 2.87 1.21 3.07c.15.2 2.1 3.2 5.08 4.49.71.31 1.26.49 1.69.63.71.23 1.36.19 1.87.12.57-.09 1.76-.72 2.01-1.41.25-.69.25-1.29.17-1.41-.07-.12-.27-.2-.57-.35Z"/>
   </svg>
+</a>
+
+<!-- ==========================================================================
+     VOLVER FLOTANTE — v1, pedido directo del cliente.
+     Mismo patrón que el WhatsApp flotante de arriba: fuera de la cabecera,
+     `position: fixed` al viewport, visible en cualquier punto del scroll.
+     Va en la esquina opuesta (abajo-IZQUIERDA) para no montarse con el de
+     WhatsApp. Éste SÍ se apaga por CSS en la portada y en las páginas que
+     no traen este fragmento (404, /en/): no tiene sentido «volver al
+     inicio» estando ya en el inicio. shell.css lo oculta con
+     `body:has(...)` contra selectores que sólo existen en páginas
+     interiores (`.pagina-encabezado`, `.pagina-interior`, `#colegios`,
+     `.pv-carrete`) — cero HTML por página que tocar, y como el detector
+     es la propia página, no se desincroniza si mañana se agrega una
+     página interior más con cualquiera de esas piezas ya puestas. -->
+<!-- v2 · El círculo con sólo la flecha no se entendía — el cliente lo vio
+     en captura y pidió "que sea entendible fácil". Se agrega la palabra
+     "Regresar" visible (además del aria-label, que ya la decía a quien usa
+     lector de pantalla): ahora el botón se explica solo, sin depender del
+     ícono. -->
+<a class="volver-flotante" href="index.html" aria-label="Volver al inicio de Vegas del Verde">
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+    <path d="M19 12H5"/>
+    <path d="M11 18l-6-6 6-6"/>
+  </svg>
+  Regresar
 </a>
 <main id="contenido">
 <!-- ==========================================================================
@@ -2482,7 +2517,13 @@
   <div class="contenedor contenedor--ancho">
 
     <div class="pie-final__cierre">
-      <p class="pie-final__antetitulo reveal"><span class="pie-final__filete" aria-hidden="true"></span>Oasis para la recreación y el bienestar</p>
+      <!-- v2 · Se quita el filete decorativo antes del texto — pedido
+           directo del cliente sobre una captura de esta franja del pie
+           ("quita esta línea en oasis..."). Se retira el <span> del
+           marcado (no sólo por CSS) porque no cumple ninguna función sin
+           su trazo visible: es puro adorno, y un elemento vacío que no se
+           ve no tiene por qué seguir en el DOM. -->
+      <p class="pie-final__antetitulo reveal">Oasis para la recreación y el bienestar</p>
       <p class="pie-final__titular reveal reveal-texto">
         <span class="reveal-texto__linea">El verde te está</span>
         <span class="reveal-texto__linea">esperando.</span>

@@ -23,7 +23,13 @@
   <div class="contenedor contenedor--ancho">
 
     <div class="pie-final__cierre">
-      <p class="pie-final__antetitulo reveal"><span class="pie-final__filete" aria-hidden="true"></span>Oasis para la recreación y el bienestar</p>
+      <!-- v2 · Se quita el filete decorativo antes del texto — pedido
+           directo del cliente sobre una captura de esta franja del pie
+           ("quita esta línea en oasis..."). Se retira el <span> del
+           marcado (no sólo por CSS) porque no cumple ninguna función sin
+           su trazo visible: es puro adorno, y un elemento vacío que no se
+           ve no tiene por qué seguir en el DOM. -->
+      <p class="pie-final__antetitulo reveal">Oasis para la recreación y el bienestar</p>
       <p class="pie-final__titular reveal reveal-texto">
         <span class="reveal-texto__linea">El verde te está</span>
         <span class="reveal-texto__linea">esperando.</span>

@@ -52,35 +52,19 @@
   gap: var(--esp-sm);
 }
 
+/* v2 · El filete corto que iba antes del texto (`.pie-final__filete`) se
+   quitó del marcado (_footer.html) — pedido directo del cliente sobre una
+   captura de esta franja. Sin el <span> que lo dibujaba, sus reglas de
+   abajo se retiran también: eran puramente suyas, nada más las reutilizaba. */
 .pie-final__antetitulo {
   display: inline-flex;
   align-items: center;
-  gap: var(--esp-sm);
   font-family: var(--fuente-titulo);
   font-size: var(--fs-eyebrow);
   font-weight: var(--peso-medio);
   text-transform: uppercase;
   letter-spacing: var(--track-eyebrow);
   color: var(--verde-texto);
-}
-
-/* Filete corto que se dibuja al entrar. Estado final horneado (scaleX(1));
-   sólo con JS, y sólo mientras el antetítulo aún no es visible, se pliega a
-   scaleX(0) — sin script el filete está puesto desde el primer fotograma.
-   La duración sale de --transicion-reveal y colapsa a 1 ms bajo
-   prefers-reduced-motion vía tokens. */
-.pie-final__filete {
-  inline-size: 4ch;
-  block-size: 1px;
-  flex: none;
-  background: var(--verde-texto);
-  transform: scaleX(1);
-  transform-origin: left;
-  transition: transform var(--transicion-reveal);
-}
-
-.js .pie-final__antetitulo:not(.visible) .pie-final__filete {
-  transform: scaleX(0);
 }
 
 /* Titular editorial: serif fina, sin mayúsculas (regla: nada de uppercase

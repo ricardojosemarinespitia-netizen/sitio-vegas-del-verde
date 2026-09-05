@@ -151,6 +151,13 @@
   line-height: var(--alto-linea-apretado);
   color: var(--verde-texto);
   white-space: nowrap;
+  min-width: 0;
+}
+
+/* Sólo tienen efecto en el modo apilado de más abajo (< 23 em). Aquí son
+   inline y el espacio del HTML los deja en una sola línea. */
+.marca__nombre-linea {
+  display: inline;
 }
 
 /* ---- Navegación ---------------------------------------------------------- */
@@ -419,6 +426,76 @@
   }
 }
 
+/* ---- Volver flotante --------------------------------------------------- */
+/* v1 · Mismo patrón que `.whatsapp-flotante`, esquina opuesta. Oculto por
+   defecto; sólo se enciende en páginas interiores, detectadas por una
+   pieza que YA vive en cada una de ellas — nunca por una clase nueva que
+   añadir página por página:
+     · `.pagina-encabezado` → espacios/planes/naturaleza/sendero/vivero/contacto
+     · `.pagina-interior`   → condiciones-de-alquiler/politica-de-datos/terminos
+     · `#colegios`          → colegios.html
+     · `.pv-carrete`        → plan-vecino.html
+   La portada (index.html) y las páginas que no traen este fragmento
+   (404.html, /en/*) no tienen ninguna de esas piezas, así que el botón
+   nunca aparece ahí — no hace falta excluirlas aparte. */
+.volver-flotante {
+  display: none;
+}
+
+/* v2 · Un círculo con sólo la flecha no se entendía — el cliente lo vio en
+   captura y pidió "que sea entendible fácil". Pasa de círculo a píldora con
+   la palabra "Regresar" al lado del ícono: mismo patrón de fondo sólido +
+   sombra que el círculo de antes, pero ahora se lee sin tener que
+   adivinar qué hace. */
+body:has(.pagina-encabezado) .volver-flotante,
+body:has(.pagina-interior) .volver-flotante,
+body:has(#colegios) .volver-flotante,
+body:has(.pv-carrete) .volver-flotante {
+  position: fixed;
+  left: var(--esp-md);
+  bottom: var(--esp-md);
+  z-index: calc(var(--z-menu) - 1);
+  display: flex;
+  align-items: center;
+  gap: var(--esp-2xs);
+  height: 3.25rem;
+  padding-inline: var(--esp-md) var(--esp-lg);
+  border-radius: var(--radio-full);
+  background-color: var(--color-superficie-solida);
+  color: var(--color-texto);
+  box-shadow: var(--sombra-md);
+  font-family: var(--fuente-titulo);
+  font-size: var(--fs-pequeno);
+  font-weight: var(--peso-medio);
+  text-transform: uppercase;
+  letter-spacing: var(--tracking-rotulo);
+  transition: transform var(--transicion-rapida), box-shadow var(--transicion-rapida);
+}
+
+.volver-flotante svg {
+  width: 1.5rem;
+  height: 1.5rem;
+  flex: none;
+}
+
+.volver-flotante:hover,
+.volver-flotante:focus-visible {
+  transform: scale(1.06);
+  box-shadow: var(--sombra-lg);
+}
+
+@media (max-width: 40em) {
+  body:has(.pagina-encabezado) .volver-flotante,
+  body:has(.pagina-interior) .volver-flotante,
+  body:has(#colegios) .volver-flotante,
+  body:has(.pv-carrete) .volver-flotante {
+    left: var(--esp-sm);
+    bottom: var(--esp-sm);
+    height: 3rem;
+    padding-inline: var(--esp-sm) var(--esp-md);
+  }
+}
+
 body.menu-abierto .velo-menu {
   opacity: 1;
   visibility: visible;
@@ -437,14 +514,46 @@ body.menu-abierto {
     display: inline-flex;
   }
 
-  /* v30 · El nombre en texto real se retira aquí, igual que
-     `.nav__item--secundario`: por debajo de 62 em la barra la comparten el
-     símbolo, el idioma y la hamburguesa, y una palabra de quince caracteres
-     empuja al idioma fuera de pantalla. No se pierde nada — la marca sigue
-     siendo el enlace (con su aria-label «Vegas del Verde, ir al inicio»), el
-     símbolo la firma, y el nombre está en el <title>, en el H1 y en el pie. */
+  /* v31 · EL NOMBRE VUELVE AL CELULAR. v30 lo escondía por debajo de 62 em
+     dando por supuesto que no cabía; el cliente lo rechazó —con razón: sin el
+     nombre la cabecera no dice de quién es el sitio, y el símbolo solo no
+     identifica nada a quien llega por primera vez—. Medido en el navegador,
+     el supuesto era falso en casi todo el rango. Con la cabecera real
+     (símbolo 67,8 px + selector de idioma ya colapsado + hamburguesa) queda
+     libre entre marca y acciones:
+
+         320 px →  89,8 px      414 px → 181,1 px
+         375 px → 144,7 px      768 px → 460,7 px
+
+     y «Vegas del Verde» en --fuente-display mide 101,6 px a 13 px de cuerpo
+     y 108,5 px a 14 px. O sea: desde ~368 px cabe entero en una línea con
+     holgura, y sólo el tramo 320-368 px se queda corto.
+
+     De ahí las dos capas: aquí el nombre se muestra en una línea, con un
+     cuerpo propio más chico que el de escritorio —clamp que sale de 14 px en
+     móvil y llega a ~21,6 px justo antes de 62 em, donde empalma con el
+     --fs-h4 de la barra ancha, así no hay salto visible al cruzar el
+     breakpoint—. Y más abajo, en < 23 em, se apila en dos líneas en vez de
+     desaparecer.
+
+     El alto del símbolo NO se toca aquí a propósito: se probó caparlo a
+     2,4 rem para dejarle sitio al nombre y resultó ser un cambio inútil y
+     caro. Inútil porque por debajo de 768 px el símbolo ya mide 30-32 px por
+     el `calc(--alto-header - --esp-lg)` y el tope ni se activa; caro porque
+     donde sí se activaba (768-991 px) sobran 300 px de barra y lo único que
+     conseguía era un salto visible de 38,4 a 44 px al cruzar los 62 em.
+     Quien cede ancho es el nombre —con un cuerpo menor— y, en el último
+     tramo, el modo apilado de < 23 em. */
   .marca__nombre {
-    display: none;
+    display: block;
+    font-size: clamp(0.875rem, 0.55rem + 1.4vw, 1.35rem);
+    /* No cede ancho: es lo que identifica el sitio. Quien cede es el símbolo
+       (max-height, abajo) y, si hiciera falta, el modo apilado de < 23 em. */
+    flex: none;
+  }
+
+  .marca {
+    gap: 0.55rem;
   }
 
   .cabecera__cta .btn__texto {
@@ -526,6 +635,62 @@ body.menu-abierto {
      muestran aquí, la cabecera desborda por debajo de 1280 px. */
   .nav__item--secundario {
     display: none;
+  }
+}
+
+/* v31 · MARCA APILADA — último tramo antes de que el nombre no quepa.
+
+   A 320 px (el ancho mínimo real que soporta el sitio) sólo quedan 89,8 px
+   libres entre el símbolo y las acciones, y «Vegas del Verde» en una línea
+   pide 101,6 px ya a 13 px de cuerpo. Bajar más el cuerpo lo dejaría por
+   debajo del suelo de legibilidad del sistema, y encoger el símbolo hasta
+   que la cuenta cerrara lo volvería un sello ilegible: ni una ruta ni la
+   otra cierra en una línea.
+
+   Antes que esconder el nombre —que es lo que hacía v30 y lo que el cliente
+   rechazó— el lockup se APILA: el nombre pasa a dos líneas («Vegas del» /
+   «Verde», el salto lo fija el marcado, no el navegador) con interlineado
+   apretado, y el símbolo baja a 30 px de alto. Cuentas a 320 px:
+
+       símbolo 63,5 + gap 8 + nombre 65,2  =  136,7 px
+       disponible (marca 67,8 + libre 89,8) = 157,6 px      → sobran ~21 px
+
+   Los tamaños van en min(rem, px) a propósito: este breakpoint está en em y
+   por tanto también lo cruza quien tiene la letra del sistema agrandada en
+   una pantalla que no es estrecha. Ahí los rem crecerían un 50 % y volverían
+   a desbordar la barra; el tope en px lo impide sin quitarle el mínimo táctil
+   a nadie (el nombre no es objetivo táctil propio: lo es el enlace .marca
+   entero, que sigue midiendo 44 px de alto).
+
+   23 em ≈ 368 px: se eligió con margen sobre el punto de corte medido
+   (≈355 px), no pegado a él.                                              */
+@media (max-width: 23em) {
+  .marca {
+    gap: min(0.5rem, 8px);
+  }
+
+  .marca__simbolo {
+    height: min(1.875rem, 30px);
+  }
+
+  .marca__nombre {
+    font-size: min(0.875rem, 14px);
+    line-height: 1.08;
+    white-space: normal;
+  }
+
+  /* `nowrap` en cada línea, y `flex: none` en el bloque: sin esto el nombre
+     es un ítem flex encogible y el cálculo de intrínseco del <img> —que
+     declara 744 px de ancho de atributo— lo comprimía a 70 px, partiendo
+     «Vegas del» en dos y dejando la marca en tres renglones. El salto lo
+     manda el marcado; el navegador no vuelve a opinar. */
+  .marca__nombre {
+    flex: none;
+  }
+
+  .marca__nombre-linea {
+    display: block;
+    white-space: nowrap;
   }
 }
 

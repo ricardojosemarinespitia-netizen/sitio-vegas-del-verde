@@ -447,8 +447,9 @@
      esquina viva por dentro —arriba a la derecha— pasa de remate a FORMA, la
      «hoja a tamaño de cartel» del mockup. Multiplicador sobre el token, nunca
      un literal; el resto de esquinas siguen a cero porque tocan el canto de la
-     ventana o el suelo de la banda (norma del sitio). Estático: no toca la
-     deriva de scroll del §8.3, que anima la imagen y no el marco. */
+     ventana o el suelo de la banda (norma del sitio). Estático, y desde
+     v-siguiente la imagen de dentro también: la deriva de scroll de esta foto
+     se retiró del §8.3 (ver allí el porqué). */
   .viv .viv-foto--principal .marco {
     flex: 1 1 auto;
     min-height: 0;
@@ -994,16 +995,38 @@
    La PRINCIPAL entra la primera y despacio —es la que hay que mirar—; las
    tres del mosaico entran detrás, con retardos que no guardan ninguna
    proporción entre sí y con tres duraciones distintas. (v9: la pieza --d
-   salió con la foto que la ocupaba; sus reglas se retiran con ella.) */
-.viv .viv-friso > .viv-foto--principal { --reveal-delay: 0ms; }
-.viv .viv-friso > .viv-foto--a { --reveal-delay: calc(var(--dur-rapida) * 1.2); }
-.viv .viv-friso > .viv-foto--b { --reveal-delay: calc(var(--dur-media) * 1.45); }
-.viv .viv-friso > .viv-foto--c { --reveal-delay: calc(var(--dur-media) * 0.85); }
+   salió con la foto que la ocupaba; sus reglas se retiran con ella.)
 
-.js .viv .viv-foto--principal { transition-duration: calc(var(--dur-reveal) * 1.15); }
-.js .viv .viv-foto--a { transition-duration: calc(var(--dur-lenta) * 1.35); }
-.js .viv .viv-foto--b { transition-duration: var(--dur-lenta); }
-.js .viv .viv-foto--c { transition-duration: calc(var(--dur-lenta) * 1.6); }
+   v-siguiente · LA BANDA DEJA DE «DESLIZARSE». El cliente no leía cuatro
+   entradas: leía cuatro fotos resbalando una detrás de otra. Tres cambios,
+   todos en el mismo sentido —menos recorrido, más tiempo, menos cola—:
+
+   · RECORRIDO: 28 px (token global) → 14 px, sólo dentro del friso. A la
+     mitad del viaje y con la misma curva expo-out, el gesto deja de leerse
+     como un desplazamiento y pasa a leerse como un enfoque: la foto aparece
+     asentándose, no entrando desde fuera.
+   · COLA: 0 · 216 · 435 · 255 ms → 0 · 120 · 240 · 180 ms. Se conserva la
+     desproporción deliberada entre las tres del mosaico (nada de compás
+     regular), pero la banda entera termina de armarse en un tercio menos de
+     espera, así que se lee como UNA respiración y no como una fila.
+   · DURACIÓN: 1035 · 742 · 550 · 880 ms → 1260 · 1125 · 1035 · 1170 ms, todas
+     colgadas de --dur-reveal. Recorrido corto + tiempo largo = velocidad baja;
+     eso es lo que se siente caro. La --b, que era la más brusca (550 ms), es
+     la que más sube.
+
+   Nada de literales: los factores siguen multiplicando tokens, así que la
+   sección se reafina sola si el director de arte mueve --dur-reveal. */
+.viv .viv-friso > .viv-foto { --desplazamiento-reveal: 14px; }
+
+.viv .viv-friso > .viv-foto--principal { --reveal-delay: 0ms; }
+.viv .viv-friso > .viv-foto--a { --reveal-delay: calc(var(--dur-media) * 0.4); }
+.viv .viv-friso > .viv-foto--b { --reveal-delay: calc(var(--dur-media) * 0.8); }
+.viv .viv-friso > .viv-foto--c { --reveal-delay: calc(var(--dur-media) * 0.6); }
+
+.js .viv .viv-foto--principal { transition-duration: calc(var(--dur-reveal) * 1.4); }
+.js .viv .viv-foto--a { transition-duration: calc(var(--dur-reveal) * 1.25); }
+.js .viv .viv-foto--b { transition-duration: calc(var(--dur-reveal) * 1.15); }
+.js .viv .viv-foto--c { transition-duration: calc(var(--dur-reveal) * 1.3); }
 
 /* El cuerpo entra después de la banda, y sus dos columnas por separado: la
    oferta primero —es lo que se vende— y el panel de respaldo detrás. */
@@ -1044,59 +1067,62 @@
   }
 }
 
-/* ---- 8.3 · LAS DOS DERIVAS LIGADAS AL SCROLL ----------------------------
+/* ---- 8.3 · LA DERIVA LIGADA AL SCROLL -----------------------------------
    Sin JavaScript: `animation-timeline: view()` ata el progreso al paso del
    elemento por la ventana y lo resuelve el compositor. Ni un listener de
    scroll, ni una llamada a getBoundingClientRect. Donde la propiedad no
-   exista, el @supports descarta el bloque y las dos piezas se quedan quietas
-   y bien encuadradas. Sólo se animan `transform` y `opacity`.
+   exista, el @supports descarta el bloque y la pieza se queda quieta y bien
+   encuadrada. Sólo se anima `transform`.
 
-   LA FOTO PRINCIPAL. Se monta al 114 % del alto de su marco y recorre el 11 %
-   de su propio alto (unos 12,5 puntos del marco), dentro de la horquilla de
-   5–15 % que admite el sistema. Al final del recorrido la foto sigue tapando
-   el marco entero: no hay ni un instante con una franja de fondo. Sólo desde
-   62rem, que es donde la foto va a doble altura; en móvil el recorte es corto
-   y el recorrido descubriría el borde.
+   v-siguiente · LA FOTO PRINCIPAL YA NO DERIVA. Eran dos derivas; queda una.
 
-   LA HOJA. Recorrido más largo, en el otro sentido y con un giro de tres
-   grados, para que las dos derivas de la sección no se lean como una sola.
+   (a) POR QUÉ SE QUITA, y no se arregla. La deriva de la foto nunca llegó a
+       correr en ningún navegador. `view()` resuelve su progreso contra el
+       CONTENEDOR DE SCROLL más cercano del sujeto, y el sujeto era
+       `.viv-foto--principal .marco > img`, cuyo padre `.marco` lleva
+       `overflow: hidden`: un contenedor de scroll que jamás scrollea. Medido
+       en el navegador: mientras el marco recorría 1500 px de ventana, el
+       `ViewTimeline.currentTime` de esa animación se quedó clavado en
+       46,73 %, y la imagen en un translate fijo de −5,86 % (−58,6 px). Es
+       decir: la foto llevaba tiempo montada al 114 % y recortada en un punto
+       arbitrario, sin moverse un píxel.
+
+       Se podría reparar (nombrando una `view-timeline` en un ancestro sin
+       recorte, o sacando la imagen del marco recortado). No se repara: la
+       queja del cliente es exactamente «no las quiero que se deslicen», así
+       que arreglarlo sería AÑADIR el movimiento que pidió quitar. Fuera la
+       animación y fuera el `height: 114%`: la imagen vuelve al 100 % con
+       `object-fit: cover` de la regla base (§ .marco > img), que es el
+       encuadre completo, centrado y estable. Antes: 114 % de alto, −11 % de
+       recorrido teórico, −5,86 % real y congelado. Después: 100 %, 0 %.
+
+   (b) LA HOJA SE QUEDA, A LA MITAD. Es un trazo decorativo, no una foto, y es
+       el único movimiento vivo que le daba aire a la sección. Pero era el
+       gesto más ruidoso de la página: 16 puntos de recorrido (medidos: 51 px)
+       y 7° de giro. Recorrido 9 %/−7 % → 4 %/−3 % (unos 22 px) y giro
+       4°/−3° → 1,5°/−1°. Mismo rango de scroll (`entry 0% exit 100%`, el más
+       largo posible, o sea el más lento por píxel) y mismo `linear`, que en
+       una línea de tiempo de progreso es lo correcto: cualquier curva
+       introduce acelerones que la rueda delata. Menos amplitud sobre el mismo
+       recorrido = menos velocidad. Ahora respira; antes se deslizaba.
+
    `animation-duration: auto` va escrito en longhand y no heredado del atajo:
    en una línea de tiempo de progreso, `auto` significa «el rango entero», y es
    lo único que hace que la animación avance con la rueda en vez de resolverse
    de golpe. El atajo deja la duración en su valor inicial, y ese valor cambió
    entre dos versiones de la especificación. */
-@keyframes viv-principal-deriva {
-  from {
-    transform: translate3d(0, -11%, 0);
-  }
-
-  to {
-    transform: translate3d(0, 0, 0);
-  }
-}
-
 @keyframes viv-hoja-deriva {
   from {
-    transform: translate3d(0, 9%, 0) rotate(4deg);
+    transform: translate3d(0, 4%, 0) rotate(1.5deg);
   }
 
   to {
-    transform: translate3d(0, -7%, 0) rotate(-3deg);
+    transform: translate3d(0, -3%, 0) rotate(-1deg);
   }
 }
 
 @media (prefers-reduced-motion: no-preference) and (min-width: 62rem) {
   @supports (animation-timeline: view()) {
-    .viv .viv-foto--principal .marco > img {
-      height: 114%;
-      animation-name: viv-principal-deriva;
-      animation-duration: auto;
-      animation-timing-function: linear;
-      animation-fill-mode: both;
-      animation-timeline: view();
-      animation-range: entry 0% exit 100%;
-    }
-
     .viv-hoja {
       animation-name: viv-hoja-deriva;
       animation-duration: auto;
