@@ -49,8 +49,13 @@
 /* ==========================================================================
    0. RITMO Y APILADO (heredado de v4/v5)
    ========================================================================== */
+/* v8 · + --alto-header: esta sección abre la página y la cabecera es fija,
+   así que sin ese sumando el antetítulo quedaba debajo de la barra (medido
+   a 390 px: «Alianza Educativa» tapado entero). Es el mismo sumando que usa
+   .pv-carrete en plan-vecino.css. El factor 0,62 se conserva: es el aire
+   propio de la sección, no el de la cabecera. */
 .col {
-  padding-block-start: calc(var(--esp-seccion) * 0.62);
+  padding-block-start: calc(var(--alto-header) + var(--esp-seccion) * 0.62);
   --col-lip: var(--esp-lg);
 }
 
@@ -166,7 +171,10 @@
    js/colegios.js); las otras dos sólo entran. */
 .col-cifras {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(10rem, 1fr));
+  /* 12 rem de mínimo y no 10: a 390 px dos celdas de 10 rem cabían y
+     «40.000 m²» se partía en dos renglones (medido en v8). Con 12 rem el
+     móvil apila las tres cifras y cada una queda entera. */
+  grid-template-columns: repeat(auto-fit, minmax(12rem, 1fr));
   gap: var(--gap);
   list-style: none;
   margin: 0 0 var(--gap-lg);
@@ -205,6 +213,7 @@
   letter-spacing: var(--tracking-display);
   color: var(--verde-bosque);
   font-variant-numeric: tabular-nums;
+  white-space: nowrap;
 }
 
 .col-cifra__unidad {
@@ -267,7 +276,10 @@
   color: var(--color-texto-suave);
 }
 
-.col-aulas__lista {
+/* Con el elemento delante: base.css reinicia `ol[class]` a padding 0 con
+   (0,1,1), y la clase sola (0,1,0) perdía el margen del cuaderno. Medido en
+   la primera captura de v8: la línea pasaba por debajo de las placas. */
+ol.col-aulas__lista {
   position: relative;
   display: grid;
   gap: var(--gap-lg);
@@ -281,7 +293,7 @@
 }
 
 @media (min-width: 62em) {
-  .col-aulas__lista {
+  ol.col-aulas__lista {
     --col-margen: var(--esp-xl);
     gap: var(--esp-seccion-sm);
   }
@@ -697,8 +709,8 @@
    derecha en tabular. Los dos con precio van primero. */
 .col-extras {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(16rem, 1fr));
-  gap: var(--esp-xs) var(--gap);
+  grid-template-columns: repeat(auto-fit, minmax(20rem, 1fr));
+  gap: var(--esp-xs) var(--gap-lg);
   list-style: none;
   margin: var(--gap) 0 0;
   padding: 0;
@@ -715,8 +727,12 @@
   font-size: var(--fs-pequeno);
 }
 
+/* El dato puede partirse («$12.000 a $18.000 por estudiante» no cabe en una
+   celda de 16 rem sin partirse): se alinea a la derecha y se le deja
+   ceder. Medido en la primera captura de v8, donde salía cortado. */
 .col-extra__dato {
-  flex: none;
+  flex: 0 1 auto;
+  text-align: end;
   font-variant-numeric: tabular-nums;
   color: var(--color-texto);
   font-weight: var(--peso-medio);

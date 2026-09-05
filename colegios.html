@@ -31,7 +31,7 @@
        bloque no cambia de marcado ni de clases, sólo de página. Por eso
        colegios.css deja de ir en CSS_SECCIONES del ensamblador y pasa a
        enlazarse aquí, que es el único sitio donde ya se usa. -->
-  <link rel="stylesheet" href="styles/sections/colegios.css?v=3a0cca2c" />
+  <link rel="stylesheet" href="styles/sections/colegios.css?v=cfa38c9c" />
   <script>document.documentElement.classList.remove('no-js');document.documentElement.classList.add('js');</script>
   <script type="application/ld+json">
   {
@@ -59,8 +59,13 @@
        llega casi todo el tráfico de esta página. -->
   <header class="cabecera cabecera--compacta">
     <div class="cabecera__interior contenedor contenedor--ancho">
+      <!-- v8 · Mismo lockup símbolo+nombre que sections/_header.html (v30/v31)
+           y que plan-vecino.html, replicado a mano: esta página no pasa por
+           el ensamblador. El lockup viejo (logo-vegas-barra.png a 1390 px)
+           dejaba una cabecera de 260 px que tapaba la portada. -->
       <a class="marca" href="index.html" aria-label="Vegas del Verde, ir al inicio">
-        <img class="marca__logo" src="img/logo/logo-vegas-barra.png" width="1390" height="356" alt="Vegas del Verde" decoding="async" />
+        <img class="marca__simbolo" src="img/logo/simbolo-transparente.png" width="744" height="351" alt="" decoding="async" />
+        <span class="marca__nombre"><span class="marca__nombre-linea">Vegas del</span> <span class="marca__nombre-linea">Verde</span></span>
       </a>
       <a class="btn btn-secundario btn-pequeno" href="planes.html">Volver a los planes</a>
     </div>
