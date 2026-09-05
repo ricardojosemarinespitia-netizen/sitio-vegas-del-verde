@@ -707,9 +707,12 @@
 }
 
 /* El rótulo de movimiento vive en el registro de eyebrow —no en el de
-   titular— para no competir con «Desde el predio», que manda en el capítulo.
-   Es <h4> de verdad: el orden de encabezados de la sección queda h2 → h3 →
-   h4 sin saltos, y el de distancias lo apunta un aria-labelledby.          */
+   titular—: es la puerta de una lista de siete filas, no un capítulo.
+   v12 · Sube de <h4> a <h3> porque el h3 «Desde el predio» que tenía encima
+   se retiró (tres capas de título para una sola lista). El orden queda h2 →
+   h3 sin saltos y el aria-labelledby del grupo sigue apuntando a su id.
+   .ubi-desde__encabezado, de aquí arriba, ya no lo usa ningún marcado; se
+   conserva por si el capítulo vuelve a tener dos movimientos.              */
 .ubi-mov__titulo {
   margin: 0;
   font-family: var(--fuente-titulo);

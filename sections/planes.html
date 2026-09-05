@@ -122,8 +122,14 @@
          a secas. Los cortes de renglón están escritos a mano porque son
          parte del dibujo, no del navegador.
          ================================================================ -->
+    <!-- v19 · DOBLE ENCABEZADO RESUELTO. El eyebrow «Eventos y actividades» y
+         la entradilla de esta cabecera repetían, palabra por palabra y dos
+         dedos más abajo, lo que ya dicen el eyebrow y la entradilla de
+         .pagina-encabezado (sections/enc-planes.html). Se quedan el <h2> con
+         su id —lo apunta el aria-labelledby de la sección— y su persiana. El
+         <header> sigue siendo .reveal-secuencia porque el h2 lleva su propio
+         .reveal: un solo hijo también se reparte bien. -->
     <header class="seccion-encabezado reveal-secuencia">
-      <p class="eyebrow reveal">Eventos y actividades</p>
       <h2
         id="planes-titulo"
         class="titulo-seccion reveal reveal-texto reveal-texto--persiana"
@@ -131,9 +137,6 @@
         <span class="reveal-texto__linea">Dime a quién traes</span>
         <span class="reveal-texto__linea">y te digo dónde</span>
       </h2>
-      <p class="entradilla reveal">
-        Cinco maneras distintas de usar el mismo bosque. Escoge la tuya y aparta la fecha.
-      </p>
     </header>
 
     <ul class="planes__carriles reveal-secuencia">
@@ -324,8 +327,8 @@
                  conciertos»— y por tanto no aportaba un hecho. Lo que queda
                  es la imagen: ceremonia, carpa y música. -->
             <p class="planes-carril__copy">
-              La ceremonia bajo un árbol de copa ancha, la carpa con bombillos y la música
-              puesta hasta que el cielo se ponga azul oscuro.
+              La ceremonia bajo el árbol, la carpa con bombillos y la música hasta que el
+              cielo se ponga azul.
             </p>
 
             <a
@@ -363,11 +366,10 @@
           />
         </figure>
 
+        <!-- v19 · El remate se queda SÓLO con la nota de dónde se monta. La
+             frase «Ese momento no se decora…» era comentario sobre la foto que
+             está justo encima: la foto ya lo dice. -->
         <div class="planes-carril__texto planes-fiesta__remate">
-          <p class="planes-carril__copy">
-            Ese momento no se decora: ya viene con el sitio.
-          </p>
-
           <p class="nota planes-carril__donde">
             Se monta en la
             <a href="espacios.html">Alameda</a>
@@ -570,8 +572,7 @@
           </div>
 
           <p class="planes-carril__copy">
-            Mesas de picnic, guirnaldas entre las ramas y sitio de sobra para salir
-            corriendo. Los niños se pierden a jugar y vuelven solos cuando aparece la torta.
+            Mesas de picnic, guirnaldas entre las ramas y sitio de sobra para correr.
           </p>
 
           <p class="nota planes-carril__donde">
@@ -662,7 +663,7 @@
 
           <p class="planes-carril__copy">
             Carpa translúcida sobre el césped, mesas altas para el café y un corro de
-            butacas. Nadie mira el reloj cuando no hay techo de oficina.
+            butacas.
           </p>
 
           <p class="nota planes-carril__donde">
@@ -672,8 +673,12 @@
             <a href="espacios.html">Taller</a>.
           </p>
 
+          <!-- v19 · VUELVE A SER BOTÓN. La dosificación del coral de v9 dejaba
+               el carril de empresas rematando con un enlace de texto: en móvil
+               eso es un CTA que no se ve como tal. El rótulo, el destino y el
+               remate solo-lectores no cambian; cambia la forma. -->
           <a
-            class="enlace-flecha planes-carril__cta"
+            class="btn btn-whatsapp planes-carril__cta"
             href="https://wa.me/573166758362?text=Hola%2C%20quiero%20cotizar%20Vegas%20del%20Verde%20para%20una%20reuni%C3%B3n%20corporativa%20o%20un%20evento%20de%20empresa."
             target="_blank"
             rel="noopener"
@@ -825,7 +830,7 @@
 
             <div class="planes-carril__texto planes-bienestar__vidrio">
               <p class="planes-carril__copy">
-                Las esterillas en círculo sobre el césped y el sonido de fondo que ya sabes.
+                Las esterillas en círculo sobre el césped.
               </p>
 
               <!-- v10 · SIETE VIÑETAS, SIETE DIBUJOS.
@@ -1096,8 +1101,7 @@
         </ul>
 
         <p class="planes-carril__copy planes-talleres__copy">
-          Trae el grupo y el tema. El bosque pone el modelo, la luz y el olor a tierra
-          después de llover.
+          Trae el grupo y el tema; el bosque pone la luz y el modelo.
         </p>
 
         <p class="nota planes-carril__donde">
@@ -1133,8 +1137,12 @@
           Ver los cursos para colegios
         </a>
 
+        <!-- v19 · VUELVE A SER BOTÓN, por el mismo motivo que el del 03. El
+             enlace a colegios de aquí arriba SE QUEDA en .enlace-flecha: dos
+             botones seguidos dentro del mismo cristal compiten, y el de
+             WhatsApp es el que cierra el carril. -->
         <a
-          class="enlace-flecha planes-carril__cta"
+          class="btn btn-whatsapp planes-carril__cta"
           href="https://wa.me/573166758362?text=Hola%2C%20quiero%20cotizar%20Vegas%20del%20Verde%20para%20un%20taller%20educativo%2C%20de%20jardiner%C3%ADa%20o%20de%20pintura%20al%20aire%20libre."
           target="_blank"
           rel="noopener"

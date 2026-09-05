@@ -1019,14 +1019,20 @@
        NO se le puede bajar más el alfa: al 45 % ya cae por debajo de 3.
      · rótulo: 9,0:1, muy por encima del 4,5:1 de AA para texto pequeño.
    En el hover recupera el filete entero y el fondo velado que ya trae de
-   base.css: el peso vuelve cuando el visitante lo ha elegido. */
-/* v13 · EL NARANJA SALE, ENTRA EL VERDE DE MARCA, por pedido directo. El
-   coral se quedaba peleando contra el propio botón coral de WhatsApp al
-   lado; el verde oliva es el mismo tono que ya usa el sistema para marcar
-   "seleccionado/activo" (--verde-oliva, ver .idiomas__opcion[aria-current]
-   en shell.css), así que este botón hereda ese lenguaje en vez de inventar
-   un verde nuevo. Sigue relleno —no vuelve a ser fantasma— para que los dos
-   botones de la portada pesen igual; lo que cambia es sólo el matiz. */
+   base.css: el peso vuelve cuando el visitante lo ha elegido.
+   v22 · LAS DOS CIFRAS DE ARRIBA SON DE LA ÉPOCA DEL VELO OSCURO (crema sobre
+   foto velada en negativo). Con el velo claro que pidió el cliente el fantasma
+   se dibuja en TINTA por `currentColor`, y las cifras vigentes son las de la
+   nota de más abajo. El principio no cambia: el segundo botón no puede pesar
+   lo mismo que el primero. */
+/* v23 · `.inicio__accion-secundaria` VUELVE — se revierte v22.
+   v22 la había borrado entera al agregar un botón de WhatsApp nuevo al hero
+   (relleno coral) y dejar «Ver los espacios» como fantasma solo. Orden
+   directa del cliente: «quita esto del hero te dije» — el hero ya tenía una
+   excepción cerrada esta sesión (el velo claro) y no pedía un botón nuevo.
+   Con el WhatsApp fuera, el hero vuelve a tener un solo botón, y un fantasma
+   solo —sin nada relleno al lado— se lee como texto suelto: esta clase
+   rellena ese único botón de verde oliva, como hacía desde v13. */
 .inicio__accion-secundaria {
   background-color: var(--color-accion);
   border-color: var(--color-accion-borde);

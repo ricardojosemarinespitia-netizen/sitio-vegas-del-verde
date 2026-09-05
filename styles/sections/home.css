@@ -256,7 +256,9 @@
 }
 
 /* ------------------------------------------------------------------ §3 */
-/* Muro de aves: doce, no ciento ocho. Las 108 viven en naturaleza.html.
+/* Muro de aves: seis, no doce (v22 · la home era demasiado larga; el muro
+   pasa de cuatro filas a dos en movil sin tocar una sola regla de aqui).
+   Y seis, no ciento ocho: las 108 viven en naturaleza.html.
    Cada ave es una <figure> con el pie DEBAJO de la foto —el crédito al
    fotógrafo es información, y encima de la imagen ni se lee ni deja ver el
    ave—. Cuadrado 1:1 para que el muro sea un muro y no una escalera. */
@@ -269,8 +271,10 @@
   grid-template-columns: repeat(2, 1fr);
 }
 
-/* Tres columnas desde 22em (352 px). Doce aves a dos columnas son 2,8
-   pantallas de movil; el plan §4.2 le presupuesta 1,5 al bloque entero. A
+/* Tres columnas desde 22em (352 px). Cuando el muro tenia doce aves, a dos
+   columnas eran 2,8 pantallas de movil y el plan §4.2 le presupuestaba 1,5 al
+   bloque entero; con seis el margen sobra, pero la regla se queda porque el
+   criterio de tamano de la miniatura no ha cambiado. A
    tres, un ave mide 105 px de lado en un movil de 375 px: se distingue, y
    quien quiera verlas grandes tiene la galeria completa a un toque. */
 @media (min-width: 22em) {

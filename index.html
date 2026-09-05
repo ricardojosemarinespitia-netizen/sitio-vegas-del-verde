@@ -70,9 +70,9 @@
 <link rel="stylesheet" href="styles/tokens.css?v=48a473db">
 <link rel="stylesheet" href="styles/base.css?v=05b2e133">
 <link rel="stylesheet" href="styles/shell.css?v=a82199f7">
-<link rel="stylesheet" href="styles/sections/inicio.css?v=adb833b4">
-<link rel="stylesheet" href="styles/sections/home.css?v=6f4d169b">
-<link rel="stylesheet" href="styles/sections/nosotros.css?v=10311feb">
+<link rel="stylesheet" href="styles/sections/inicio.css?v=04ff47a1">
+<link rel="stylesheet" href="styles/sections/home.css?v=88f4de38">
+<link rel="stylesheet" href="styles/sections/nosotros.css?v=2170abcb">
 <link rel="stylesheet" href="styles/sections/pie.css?v=94785836">
 <link rel="stylesheet" href="styles/lightbox.css?v=92a48a1f">
 
@@ -522,27 +522,13 @@
         </p>
 
         <div class="grupo-botones inicio__acciones reveal">
-
-          <!-- SEGUNDO CAMINO, EL DE QUIEN TODAVÍA NO SABE QUÉ VA A PEDIR.
-               La portada prometía «escápate» y ofrecía una sola salida:
-               escribir por WhatsApp. Quien llega buscando DÓNDE hacer un
-               evento —que es la mitad del tráfico de este sitio— no tenía en
-               la primera pantalla ni una pista de que aquí se alquilan
-               espacios; #espacios lo dice, pero está por debajo del
-               pliegue. Este enlace lo resuelve sin subir el volumen: no es un
-               segundo botón de conversión, es un `.btn-fantasma` —contorno y
-               nada más, cero relleno— al lado del coral, que sigue siendo el
-               único elemento lleno de la pantalla. La jerarquía no cambia; lo
-               que cambia es que ahora hay dos rutas y ninguna es un callejón.
-
-               Es un ancla INTERNA, no un WhatsApp: no dispara la mariposa
-               (js/app.js sólo la lanza en `.btn-whatsapp` y en enlaces
-               `wa.me`) y no pide nada. Sólo enseña.
-
-               El rótulo no repite ninguno de la tabla de ARQUITECTURA-V3 §9
-               —«Ver los cinco espacios» es de #nosotros y lleva la cifra, que
-               es el hecho de esa sección; éste no nombra ningún número, ningún
-               aforo y ningún precio. -->
+          <!-- v23 · SE REVIERTE v22 — el cliente ya había pedido explícitamente
+               dejar el hero como estaba (excepción del velo, ver inicio.css) y
+               un agente de la ronda de recorte le agregó igual un botón de
+               WhatsApp nuevo aquí. Orden directa: «quita esto del hero te
+               dije». El hero vuelve a su único botón, `.inicio__accion-secundaria`
+               incluida (era la que le daba el relleno verde oliva a un botón
+               que vuelve a ser el único de la portada). -->
           <a class="btn btn-fantasma btn-grande inicio__accion-secundaria" href="#espacios">
             Ver los espacios
           </a>
@@ -685,9 +671,6 @@
       <h2 id="home-planes-titulo" class="titulo-seccion">
         Qué puedes hacer aquí
       </h2>
-      <p class="entradilla">
-        Cinco maneras distintas de usar el mismo bosque.
-      </p>
     </header>
 
     <ul class="home-rejilla home-rejilla--dos home-rejilla--tres reveal-secuencia" role="list">
@@ -709,7 +692,7 @@
           </span>
           <span class="home-tarjeta__cuerpo">
             <span class="home-tarjeta__nombre">Celebrar</span>
-            <span class="home-tarjeta__frase">Bodas y conciertos, con el bosque de fondo y sin vecinos que se quejen.</span>
+            <span class="home-tarjeta__frase">Bodas y conciertos con el bosque de fondo.</span>
             <span class="home-tarjeta__ir">Ver el plan</span>
           </span>
         </a>
@@ -720,19 +703,19 @@
           <span class="marco marco--3-2">
             <img
               class="home-tarjeta__foto"
-              src="img/eventos/cumpleanos-1.jpg"
-              srcset="img/eventos/cumpleanos-1-400.jpg 400w, img/eventos/cumpleanos-1-600.jpg 600w, img/eventos/cumpleanos-1.jpg 844w"
+              src="img/eventos/infantil-4.jpg"
+              srcset="img/eventos/infantil-4-400.jpg 400w, img/eventos/infantil-4-600.jpg 600w, img/eventos/infantil-4-800.jpg 800w, img/eventos/infantil-4.jpg 1125w"
               sizes="(max-width: 39.99em) 45vw, (max-width: 63.99em) 46vw, 31vw"
-              width="844"
+              width="1125"
               height="1500"
               loading="lazy"
               decoding="async"
-              alt="Mesa de cumpleaños decorada con globos y mantel sobre el césped, bajo los árboles."
+              alt="Un niño salta con los brazos en alto a atrapar pompas de jabón junto a la mesa de picnic donde el resto del grupo se ríe."
             />
           </span>
           <span class="home-tarjeta__cuerpo">
             <span class="home-tarjeta__nombre">Reunir</span>
-            <span class="home-tarjeta__frase">Cumpleaños y reuniones familiares, con sitio de sobra para los que salen corriendo.</span>
+            <span class="home-tarjeta__frase">Cumpleaños y reuniones familiares con sitio de sobra.</span>
             <span class="home-tarjeta__ir">Ver el plan</span>
           </span>
         </a>
@@ -743,19 +726,19 @@
           <span class="marco marco--3-2">
             <img
               class="home-tarjeta__foto"
-              src="img/parque/empresa-carpa-vidrio-dia.jpg"
-              srcset="img/parque/empresa-carpa-vidrio-dia-400.jpg 400w, img/parque/empresa-carpa-vidrio-dia-600.jpg 600w, img/parque/empresa-carpa-vidrio-dia-800.jpg 800w, img/parque/empresa-carpa-vidrio-dia-1200.jpg 1200w, img/parque/empresa-carpa-vidrio-dia.jpg 1600w"
+              src="img/parque/parque-32.jpg"
+              srcset="img/parque/parque-32-400.jpg 400w, img/parque/parque-32-600.jpg 600w, img/parque/parque-32-800.jpg 800w, img/parque/parque-32.jpg 900w"
               sizes="(max-width: 39.99em) 45vw, (max-width: 63.99em) 46vw, 31vw"
-              width="1600"
-              height="1066"
+              width="900"
+              height="1200"
               loading="lazy"
               decoding="async"
-              alt="Carpa de paredes de vidrio montada de día sobre el césped, con mesas dispuestas para una reunión de trabajo."
+              alt="Reunión en mesas bajo la cubierta de caña del Taller, con una persona exponiendo de pie y el jardín al fondo."
             />
           </span>
           <span class="home-tarjeta__cuerpo">
             <span class="home-tarjeta__nombre">Trabajar</span>
-            <span class="home-tarjeta__frase">Jornadas de empresa fuera de la sala de juntas, con el bosque como sala.</span>
+            <span class="home-tarjeta__frase">Jornadas de empresa fuera de la sala de juntas.</span>
             <span class="home-tarjeta__ir">Ver el plan</span>
           </span>
         </a>
@@ -778,7 +761,7 @@
           </span>
           <span class="home-tarjeta__cuerpo">
             <span class="home-tarjeta__nombre">Cuidarse</span>
-            <span class="home-tarjeta__frase">Yoga, pilates, entrenamiento funcional y caminatas terapéuticas.</span>
+            <span class="home-tarjeta__frase">Yoga, pilates, funcional y caminatas terapéuticas.</span>
             <span class="home-tarjeta__ir">Ver el plan</span>
           </span>
         </a>
@@ -801,7 +784,7 @@
           </span>
           <span class="home-tarjeta__cuerpo">
             <span class="home-tarjeta__nombre">Aprender</span>
-            <span class="home-tarjeta__frase">Talleres de jardinería, de pintura y de manejo de las emociones, con la mesa afuera.</span>
+            <span class="home-tarjeta__frase">Talleres de jardinería, pintura y emociones.</span>
             <span class="home-tarjeta__ir">Ver el plan</span>
           </span>
         </a>
@@ -810,7 +793,13 @@
     </ul>
 
     <p class="home-pie-bloque reveal">
-      <a class="btn btn-primario" href="planes.html">Ver los cinco planes</a>
+      <a
+        class="btn btn-whatsapp"
+        href="https://wa.me/573166758362?text=Hola%2C%20quiero%20cotizar%20un%20plan%20en%20Vegas%20del%20Verde."
+        target="_blank"
+        rel="noopener"
+      >Cotizar por WhatsApp</a>
+      <a class="enlace-flecha" href="planes.html">Ver los cinco planes</a>
       <a class="enlace-flecha" href="colegios.html">¿Vienes con un curso?</a>
     </p>
 
@@ -841,6 +830,15 @@
 
      LAS FOTOS NO LLEVAN TEXTO ENCIMA: nombre, aforo y frase van en la franja
      sólida de debajo. Corrección directa del cliente para esta fase.
+
+     v22 · LAS CINCO FRASES BAJAN A NUEVE PALABRAS O MENOS. El cliente pidió
+     copy corto por verbo y dijo que la página está muy larga: en un teléfono
+     cada frase de trece palabras eran tres renglones por tarjeta, quince
+     renglones sólo en este bloque. Se cortan las coletillas —«para el día que
+     no se repite», «de los cinco», «de punta a punta»— y se deja el
+     argumento. NINGÚN HECHO SE PIERDE: los cinco aforos siguen en su cifra y
+     los 20 espectadores de la cancha —hecho con dueño 'espacios' en la tabla
+     de herramientas/validar.js— siguen escritos aquí y sólo aquí.
      ========================================================================== -->
 <section id="espacios" class="seccion seccion--trama" aria-labelledby="home-espacios-titulo">
   <div class="contenedor contenedor--ancho">
@@ -876,7 +874,7 @@
             <span class="home-tarjeta__dato">
               <span class="home-tarjeta__dato-cifra">150</span> personas
             </span>
-            <span class="home-tarjeta__frase">La grama mejor cuidada del predio, para el día que no se repite.</span>
+            <span class="home-tarjeta__frase">La grama mejor cuidada del predio.</span>
             <span class="home-tarjeta__ir">Ver los usos</span>
           </span>
         </a>
@@ -901,7 +899,7 @@
             <span class="home-tarjeta__dato">
               <span class="home-tarjeta__dato-cifra">100</span> personas
             </span>
-            <span class="home-tarjeta__frase">Una explanada sin un solo desnivel: aquí cabe el escenario y lo que se le monte.</span>
+            <span class="home-tarjeta__frase">Una explanada plana: cabe el escenario y lo que se monte.</span>
             <span class="home-tarjeta__ir">Ver los usos</span>
           </span>
         </a>
@@ -926,7 +924,7 @@
             <span class="home-tarjeta__dato">
               <span class="home-tarjeta__dato-cifra">70</span> personas
             </span>
-            <span class="home-tarjeta__frase">El más recogido de los cinco: la gente cabe en un solo corro.</span>
+            <span class="home-tarjeta__frase">El más recogido: la gente cabe en un solo corro.</span>
             <span class="home-tarjeta__ir">Ver los usos</span>
           </span>
         </a>
@@ -951,7 +949,7 @@
             <span class="home-tarjeta__dato">
               <span class="home-tarjeta__dato-cifra">45</span> personas
             </span>
-            <span class="home-tarjeta__frase">Aquí el clima no manda: la cubierta de caña se encarga.</span>
+            <span class="home-tarjeta__frase">Techado con caña: aquí el clima no manda.</span>
             <span class="home-tarjeta__ir">Ver los usos</span>
           </span>
         </a>
@@ -976,7 +974,7 @@
             <span class="home-tarjeta__dato">
               <span class="home-tarjeta__dato-cifra">30</span> jugadores
             </span>
-            <span class="home-tarjeta__frase">Campo abierto de punta a punta: aquí se viene a jugar, y caben 20 espectadores.</span>
+            <span class="home-tarjeta__frase">Campo abierto para jugar, con sitio para 20 espectadores.</span>
             <span class="home-tarjeta__ir">Ver los usos</span>
           </span>
         </a>
@@ -997,21 +995,30 @@
      CSS: styles/sections/home.css §2 y §3   ·   JS propio: NINGUNO
 
      QUÉ ES. El bloque 4 de la tabla del PLAN-REDISENO-V4 §4.2: tres cifras y
-     un muro de DOCE aves, con salida a naturaleza.html.
+     un muro de SEIS aves, con salida a naturaleza.html.
 
-     POR QUÉ DOCE Y NO CIENTO OCHO. El hallazgo nº 4 del plan: las 108
+     POR QUÉ SEIS Y NO CIENTO OCHO. El hallazgo nº 4 del plan: las 108
      fotografías de #naturaleza colgaban de la misma página que todo lo
      demás —167 <img> en el DOM y 1,8 MB de imagen en la carga inicial— y
      enterraban justo el activo más diferenciador del sitio. Las 108 viven
      ahora en naturaleza.html, con el concurso completo y sus créditos. Aquí
-     hay doce, elegidas entre las que tienen especie identificada en
+     hay seis, elegidas entre las que tienen especie identificada en
      img/aves/_creditos.json.
+
+     v22 · DE DOCE A SEIS. El cliente dijo que la página está muy larga y esta
+     sección era la segunda más alta de la home (2,14 pantallas de móvil). Doce
+     miniaturas en una rejilla de tres columnas son cuatro filas; seis son dos,
+     y el muro sigue haciendo su trabajo —enseñar que aquí hay fauna con
+     nombre— porque el argumento no lo lleva el número de fotos sino la cifra
+     de 101 especies, que sigue arriba. La galería completa está a un botón.
+     No se retira NINGUNA foto de evento: éstas son de concurso y las 108
+     siguen enteras en naturaleza.html.
 
      LOS CRÉDITOS VAN DEBAJO DE CADA FOTO, en el <figcaption>, nunca encima:
      el nombre del fotógrafo es información —se la ganó— y sobre la imagen ni
      se lee ni deja ver el ave. Corrección directa del cliente para esta fase.
 
-     `alt=""` en las doce fotos es deliberado y no un descuido: cada imagen va
+     `alt=""` en las seis fotos es deliberado y no un descuido: cada imagen va
      dentro de una <figure> cuyo <figcaption> nombra la especie y el autor en
      texto real. Repetir eso en el alt haría que el lector de pantalla leyera
      dos veces lo mismo. Es el mismo patrón que usa el muro de naturaleza.html.
@@ -1024,9 +1031,12 @@
       <h2 id="home-naturaleza-titulo" class="titulo-seccion">
         Lo que vive aquí, con nombre y apellido
       </h2>
-      <p class="entradilla">
-        Lo que hay aquí está contado, fotografiado y firmado.
-      </p>
+      <!-- v22 · LA ENTRADILLA SE RETIRA. «Lo que hay aquí está contado,
+           fotografiado y firmado» decía, con otras palabras, exactamente lo
+           que ya dice el titular de arriba —«con nombre y apellido»—, y en la
+           versión móvil eran dos renglones más antes de la primera cifra.
+           Ningún hecho vivía en ella: las cifras están debajo y los créditos,
+           bajo cada foto. -->
     </header>
 
     <ul class="home-cifras reveal-secuencia" role="list">
@@ -1045,7 +1055,6 @@
     </ul>
 
     <ul class="home-muro reveal-secuencia" role="list">
-
       <li>
         <figure class="home-muro__figura reveal">
           <span class="marco marco--1-1">
@@ -1057,22 +1066,6 @@
           </span>
           <figcaption class="home-muro__pie">
             <span class="home-muro__especie">Azulejo Palmero</span>
-            <span class="credito">Foto: Francheska Salazar</span>
-          </figcaption>
-        </figure>
-      </li>
-
-      <li>
-        <figure class="home-muro__figura reveal">
-          <span class="marco marco--1-1">
-            <img class="home-muro__foto"
-              src="img/aves/ave-05-zorzal-piquinegro.jpg"
-              srcset="img/aves/ave-05-zorzal-piquinegro-400.jpg 400w, img/aves/ave-05-zorzal-piquinegro-600.jpg 600w, img/aves/ave-05-zorzal-piquinegro.jpg 1300w"
-              sizes="(max-width: 39.99em) 31vw, (max-width: 63.99em) 31vw, 23vw"
-              width="1300" height="1040" loading="lazy" decoding="async" alt="" />
-          </span>
-          <figcaption class="home-muro__pie">
-            <span class="home-muro__especie">Zorzal Piquinegro</span>
             <span class="credito">Foto: Francheska Salazar</span>
           </figcaption>
         </figure>
@@ -1114,38 +1107,6 @@
         <figure class="home-muro__figura reveal">
           <span class="marco marco--1-1">
             <img class="home-muro__foto"
-              src="img/aves/ave-09-eugenia-piquigruesa.jpg"
-              srcset="img/aves/ave-09-eugenia-piquigruesa-400.jpg 400w, img/aves/ave-09-eugenia-piquigruesa-600.jpg 600w, img/aves/ave-09-eugenia-piquigruesa.jpg 1121w"
-              sizes="(max-width: 39.99em) 31vw, (max-width: 63.99em) 31vw, 23vw"
-              width="1121" height="1300" loading="lazy" decoding="async" alt="" />
-          </span>
-          <figcaption class="home-muro__pie">
-            <span class="home-muro__especie">Eufonia Piquigruesa</span>
-            <span class="credito">Foto: Andrea Elizabeth</span>
-          </figcaption>
-        </figure>
-      </li>
-
-      <li>
-        <figure class="home-muro__figura reveal">
-          <span class="marco marco--1-1">
-            <img class="home-muro__foto"
-              src="img/aves/ave-10-trepa-troncos.jpg"
-              srcset="img/aves/ave-10-trepa-troncos-400.jpg 400w, img/aves/ave-10-trepa-troncos-600.jpg 600w, img/aves/ave-10-trepa-troncos.jpg 813w"
-              sizes="(max-width: 39.99em) 31vw, (max-width: 63.99em) 31vw, 23vw"
-              width="813" height="1300" loading="lazy" decoding="async" alt="" />
-          </span>
-          <figcaption class="home-muro__pie">
-            <span class="home-muro__especie">Trepatroncos</span>
-            <span class="credito">Foto: Andrea Elizabeth</span>
-          </figcaption>
-        </figure>
-      </li>
-
-      <li>
-        <figure class="home-muro__figura reveal">
-          <span class="marco marco--1-1">
-            <img class="home-muro__foto"
               src="img/aves/ave-12-barranquero.jpg"
               srcset="img/aves/ave-12-barranquero-400.jpg 400w, img/aves/ave-12-barranquero-600.jpg 600w, img/aves/ave-12-barranquero.jpg 975w"
               sizes="(max-width: 39.99em) 31vw, (max-width: 63.99em) 31vw, 23vw"
@@ -1178,38 +1139,6 @@
         <figure class="home-muro__figura reveal">
           <span class="marco marco--1-1">
             <img class="home-muro__foto"
-              src="img/aves/ave-14-saltador-pio.jpg"
-              srcset="img/aves/ave-14-saltador-pio-400.jpg 400w, img/aves/ave-14-saltador-pio-600.jpg 600w, img/aves/ave-14-saltador-pio.jpg 1300w"
-              sizes="(max-width: 39.99em) 31vw, (max-width: 63.99em) 31vw, 23vw"
-              width="1300" height="975" loading="lazy" decoding="async" alt="" />
-          </span>
-          <figcaption class="home-muro__pie">
-            <span class="home-muro__especie">Saltador Pío</span>
-            <span class="credito">Foto: Carlos Serrano</span>
-          </figcaption>
-        </figure>
-      </li>
-
-      <li>
-        <figure class="home-muro__figura reveal">
-          <span class="marco marco--1-1">
-            <img class="home-muro__foto"
-              src="img/aves/ave-15-tytira-inquisitor-hembra.jpg"
-              srcset="img/aves/ave-15-tytira-inquisitor-hembra-400.jpg 400w, img/aves/ave-15-tytira-inquisitor-hembra-600.jpg 600w, img/aves/ave-15-tytira-inquisitor-hembra.jpg 1300w"
-              sizes="(max-width: 39.99em) 31vw, (max-width: 63.99em) 31vw, 23vw"
-              width="1300" height="1120" loading="lazy" decoding="async" alt="" />
-          </span>
-          <figcaption class="home-muro__pie">
-            <span class="home-muro__especie">Titira Inquisidor, hembra</span>
-            <span class="credito">Foto: Daniel Arango</span>
-          </figcaption>
-        </figure>
-      </li>
-
-      <li>
-        <figure class="home-muro__figura reveal">
-          <span class="marco marco--1-1">
-            <img class="home-muro__foto"
               src="img/aves/ave-16-tytira-inquisitor-macho.jpg"
               srcset="img/aves/ave-16-tytira-inquisitor-macho-400.jpg 400w, img/aves/ave-16-tytira-inquisitor-macho-600.jpg 600w, img/aves/ave-16-tytira-inquisitor-macho.jpg 1300w"
               sizes="(max-width: 39.99em) 31vw, (max-width: 63.99em) 31vw, 23vw"
@@ -1221,23 +1150,6 @@
           </figcaption>
         </figure>
       </li>
-
-      <li>
-        <figure class="home-muro__figura reveal">
-          <span class="marco marco--1-1">
-            <img class="home-muro__foto"
-              src="img/aves/ave-03-thraupis-episcopus.jpg"
-              srcset="img/aves/ave-03-thraupis-episcopus-400.jpg 400w, img/aves/ave-03-thraupis-episcopus-600.jpg 600w, img/aves/ave-03-thraupis-episcopus.jpg 1040w"
-              sizes="(max-width: 39.99em) 31vw, (max-width: 63.99em) 31vw, 23vw"
-              width="1040" height="1300" loading="lazy" decoding="async" alt="" />
-          </span>
-          <figcaption class="home-muro__pie">
-            <span class="home-muro__especie">Thraupis episcopus</span>
-            <span class="credito">Foto: Fernando Cáceres</span>
-          </figcaption>
-        </figure>
-      </li>
-
     </ul>
 
     <p class="home-pie-bloque reveal">
@@ -1298,9 +1210,13 @@
         <h2 id="home-sendero-titulo" class="titulo-seccion">
           Un recorrido para mirar, no para llegar
         </h2>
+        <!-- v22 · UNA SOLA FRASE. La segunda —«No es una caminata: es una
+             excusa para pararse»— repetía lo que el titular ya dice arriba
+             («para mirar, no para llegar») y en móvil costaba dos renglones.
+             Ningún hecho vive en ella: el qué del sendero está en esta primera
+             frase, y el desarrollo, en sendero-ecovital.html. -->
         <p class="entradilla">
-          El Sendero Ecovital es un recorrido guiado para mirar aves y reconocer
-          las plantas del lugar. No es una caminata: es una excusa para pararse.
+          Un recorrido guiado para mirar aves y reconocer las plantas del lugar.
         </p>
         <p class="grupo-botones">
           <a class="btn btn-primario" href="sendero-ecovital.html">Ver el Sendero Ecovital</a>
@@ -1356,7 +1272,7 @@
           Te llevas a casa lo que crece aquí
         </h2>
         <p class="entradilla">
-          Lo que ves plantado afuera sale de aquí. Y también lo que te llevas.
+          Lo que ves sembrado afuera sale de aquí, y también te lo puedes llevar.
         </p>
         <ul class="home-lista-linea" role="list">
           <li class="pildora">Plantas</li>
@@ -1414,10 +1330,9 @@
       <li class="reveal">
         <span class="marco marco--retrato">
           <img class="home-tira__foto"
-            src="img/parque/parque-21.jpg"
-            sizes="(max-width: 47.99em) 62vw, 23vw"
+            src="img/parque/parque-61.jpg"
             width="900" height="1200" loading="lazy" decoding="async"
-            alt="Jardín del predio sembrado con las mismas especies que salen del vivero." />
+            alt="Camino de losas de piedra entre el jardín del predio, sembrado con plantas que salen del vivero." />
         </span>
       </li>
     </ul>
@@ -1838,7 +1753,14 @@
 
         </ul>
 
-        <p class="nosotros__quienes-nota">Tú decides qué pasa adentro.</p>
+        <!-- v22 · LA NOTA «Tú decides qué pasa adentro» SE RETIRA. Venía de
+             v10, cuando la prosa se convirtió en figuras y esa frase quedó de
+             coda bajo la rejilla. No es un hecho de la tabla de propiedad
+             (herramientas/validar.js) y no aporta nada que el sitio no diga
+             mejor en otro sitio: «el plan lo pones tú» está en la entradilla
+             del hero y «Escoge por tamaño y por lo que va a pasar ese día», en
+             #espacios. En móvil costaba un renglón más un salto de párrafo
+             justo donde la placa ya venía apretada. -->
 
       </div>
 
@@ -2017,10 +1939,15 @@
      de un recorrido; el panel de aves era un objeto bonito del predio, pero
      no significaba nada respecto de este texto.
 
-     NI UNA PALABRA DEL TEXTO CAMBIA. El rótulo, el titular, la entradilla y
-     los tres pilares son los mismos, con las mismas comas. La tabla de hechos
-     de herramientas/validar.js no se toca: los dos hechos del compromiso
-     siguen siendo de esta sección y siguen dichos una sola vez.
+     NI UNA PALABRA DEL TEXTO CAMBIA (en v20). El rótulo, el titular, la
+     entradilla y los tres pilares eran los mismos, con las mismas comas.
+
+     v22 — LA SECCIÓN SE COMPACTA (pedido del cliente: «la página está muy
+     larga»). Lo que sale es SÓLO glosa: la segunda frase de la entradilla y
+     los tres párrafos que comentaban los pilares. Lo que se queda —rótulo,
+     titular, «aprendizaje conjunto» y los tres títulos de pilar— son los dos
+     hechos que la tabla de herramientas/validar.js asigna a esta sección, y
+     siguen dichos aquí una sola vez. Ver las notas junto a cada corte.
 
      LA LEGIBILIDAD ES LA CONDICIÓN, NO UN AJUSTE POSTERIOR. Texto crema sobre
      una foto sin velo es el error clásico de esta composición: se lee bien en
@@ -2112,13 +2039,30 @@
       <h3 class="titulo-seccion titulo-seccion--sm" id="compromiso-titulo">
         Aquí se viene a estar bien
       </h3>
+      <!-- v22 · LA ENTRADILLA SE QUEDA EN SU PRIMERA FRASE. La segunda —«Por
+           eso abrimos el predio a actividades que promueven el bienestar
+           físico, mental y emocional»— es la que los tres pilares desarrollan
+           uno por uno tres renglones más abajo: decía por adelantado lo mismo
+           que la lista dice mejor.
+           «Aprendizaje conjunto» NO SE TOCA: es hecho con dueño 'compromiso' en
+           la tabla de herramientas/validar.js y sigue escrito aquí, una sola
+           vez en todo el sitio. -->
       <p class="entradilla">
-        Creemos en el poder de la conexión y el aprendizaje conjunto. Por
-        eso abrimos el predio a actividades que promueven el bienestar
-        físico, mental y emocional.
+        Creemos en el poder de la conexión y el aprendizaje conjunto.
       </p>
     </header>
 
+    <!-- v22 · LOS TRES PILARES SE QUEDAN EN SU TÍTULO, SIN EL PÁRRAFO QUE LOS
+         GLOSABA. Los TÍTULOS no se tocan ni una coma —«Educación ambiental y
+         conciencia social» y «relaciones sanas» son hechos con dueño
+         'compromiso' en herramientas/validar.js— y son ellos los que dicen el
+         pilar. Los tres párrafos («Que vuelvas a casa con algo aprendido…»,
+         «Sitio de sobra para sentarse en círculo…», «Lo dejas como lo
+         encontraste…») eran comentario del título, no información nueva, y en
+         móvil costaban siete renglones en la última sección de la página, que
+         es justo donde el cliente dijo que ya no aguanta más scroll.
+         La lista queda como lo que siempre quiso ser: tres renglones con la
+         cifra de índice, no tres tarjetas. -->
     <ol class="nosotros__pilares reveal-secuencia">
 
       <li class="nosotros__pilar reveal">
@@ -2127,9 +2071,6 @@
           <h4 class="nosotros__pilar-titulo">
             Educación ambiental y conciencia social
           </h4>
-          <p>
-            Que vuelvas a casa con algo aprendido, no sólo con fotos.
-          </p>
         </div>
       </li>
 
@@ -2139,10 +2080,6 @@
           <h4 class="nosotros__pilar-titulo">
             Desarrollo de relaciones sanas y respetuosas
           </h4>
-          <p>
-            Sitio de sobra para sentarse en círculo y hablarse de frente,
-            sin prisa.
-          </p>
         </div>
       </li>
 
@@ -2152,9 +2089,6 @@
           <h4 class="nosotros__pilar-titulo">
             Respeto por la naturaleza y por los demás
           </h4>
-          <p>
-            Lo dejas como lo encontraste. Tu plan pasa; el bosque se queda.
-          </p>
         </div>
       </li>
 

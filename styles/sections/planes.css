@@ -3116,7 +3116,11 @@
 .planes-talleres__vidrio .planes-carril__ocasion,
 .planes-talleres__vidrio .planes-talleres__copy,
 .planes-talleres__vidrio .planes-carril__donde,
-.planes-talleres__vidrio .planes-carril__cta {
+/* v19 · ACOTADO A `.enlace-flecha`. El CTA de WhatsApp de este carril volvió a
+   ser `.btn.btn-whatsapp` y esta regla —0,2,0 contra el 0,1,0 del componente—
+   le repintaba la letra con la tinta de la página sobre el verde del botón.
+   Ahora sólo alcanza al enlace a colegios, que sigue siendo enlace de texto. */
+.planes-talleres__vidrio .planes-carril__cta.enlace-flecha {
   color: var(--color-texto);
 }
 

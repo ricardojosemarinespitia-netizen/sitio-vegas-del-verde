@@ -71,8 +71,12 @@
   <div class="contenedor contenedor--ancho">
     <div class="ubi-portada">
 
+      <!-- v12 · DOBLE ENCABEZADO RESUELTO. El eyebrow «Cómo llegar» y la
+           entradilla de esta cabecera repetían lo que ya dice
+           .pagina-encabezado (sections/enc-contacto.html) una pantalla más
+           arriba. Queda el <h2> con su id, que es lo que apunta el
+           aria-labelledby de la sección y lo que lleva el reveal de texto. -->
       <header class="seccion-encabezado ubi-portada__texto reveal">
-        <p class="eyebrow">Cómo llegar</p>
         <!-- v6 · El titular se descubre renglón a renglón (.reveal-texto de
              base.css §v7). Los dos cortes están escritos a mano: la primera
              línea son las dos preguntas del mapa y la segunda es la persona.
@@ -83,9 +87,6 @@
           <span class="reveal-texto__linea">Dónde queda, cuándo abrimos</span>
           <span class="reveal-texto__linea">y con quién hablas</span>
         </h2>
-        <p class="entradilla">
-          El mapa, las referencias y el número al que escribir.
-        </p>
       </header>
 
     </div>
@@ -240,7 +241,6 @@
         Vereda Río Frío, 500&nbsp;m sobre la vía Carabineros.<br />
         Floridablanca, Santander, Colombia.
       </address>
-      <p class="nota">En el corazón del Área Metropolitana de Bucaramanga.</p>
     </div>
     </div>
 
@@ -281,14 +281,12 @@
          ====================================================================== -->
     <div class="ubi-desde">
 
-      <header class="ubi-desde__encabezado reveal">
-        <p class="eyebrow">Puntos de referencia y distancias</p>
-        <h3 class="titulo-seccion titulo-seccion--xs">Desde el predio</h3>
-        <p class="nota">
-          Los destinos a los que se sale desde aquí, con la distancia real por
-          carretera.
-        </p>
-      </header>
+      <!-- v12 · TRES CAPAS DE TÍTULO SE VUELVEN UNA. Aquí había un eyebrow
+           («Puntos de referencia y distancias»), un h3 («Desde el predio»), una
+           nota, y debajo OTRO rótulo con OTRA nota para la única lista que
+           cuelga del capítulo: cuatro renglones de presentación para siete
+           filas de datos. Queda un solo encabezado. Las siete distancias y sus
+           barras no se tocan. -->
 
       <!-- ---- MOVIMIENTO LEJANO -------------------------------------- -->
       <div class="ubi-bloque ubi-dist ubi-mov reveal" role="group" aria-labelledby="ubicacion-distancias-titulo">
@@ -312,13 +310,10 @@
              deja en <h4> igual: es un rótulo de bloque, no el titular del
              capítulo. El id NO cambia — lo apunta el aria-labelledby del
              grupo— y el orden de encabezados sigue h2 → h3 → h4, sin saltos. -->
-        <h4 class="ubi-mov__titulo" id="ubicacion-distancias-titulo">
-          Lo que queda a un viaje
-        </h4>
-        <p class="nota">
-          Pegados a la ciudad y en la puerta del Santander que se visita. Distancias
-          aproximadas por carretera.
-        </p>
+        <h3 class="ubi-mov__titulo" id="ubicacion-distancias-titulo">
+          A cuánto queda
+        </h3>
+        <p class="nota">Distancias aproximadas por carretera.</p>
 
         <!-- v5 · LA CORDILLERA ---------------------------------------------
              Debajo de estas dos líneas quedan, a partir de 62em, unos 150 px
@@ -434,7 +429,6 @@
             <span class="ubi-canal__valor">
               Lunes a domingo, 6:00&nbsp;a.&nbsp;m. – 10:00&nbsp;p.&nbsp;m.
             </span>
-            <span class="ubi-canal__pie">El mismo horario los siete días de la semana.</span>
           </span>
         </div>
 
@@ -448,7 +442,6 @@
           <span class="ubi-canal__cuerpo">
             <span class="ubi-canal__etiqueta">Correo</span>
             <span class="ubi-canal__valor">vegasdelverde.1@gmail.com</span>
-            <span class="ubi-canal__pie">Si prefieres escribir por correo.</span>
           </span>
         </a>
 
@@ -468,7 +461,6 @@
           <span class="ubi-canal__cuerpo">
             <span class="ubi-canal__etiqueta">Instagram</span>
             <span class="ubi-canal__valor">@vegasdelverde</span>
-            <span class="ubi-canal__pie">El día a día del predio.</span>
           </span>
         </a>
       </div>
@@ -484,9 +476,13 @@
         <h3 class="titulo-seccion titulo-seccion--xs" id="ubicacion-form-titulo">
           Arma tu mensaje
         </h3>
+        <!-- v12 · TRES CAMPOS, NO SEIS. Teléfono, fecha y n.º de personas salen
+             del formulario: eran tres fricciones antes de escribir, y las tres
+             se resuelven solas en la conversación de WhatsApp que empieza medio
+             segundo después (el teléfono lo trae el propio WhatsApp). La pista
+             del textarea recoge lo que preguntaban. -->
         <p class="nota ubi-form__intro">
-          Llena los campos obligatorios y te llevamos a WhatsApp con el mensaje ya
-          escrito. Este sitio no guarda nada de lo que escribas.
+          Te llevamos a WhatsApp con el mensaje ya escrito. No guardamos nada.
         </p>
 
         <div class="ubi-campos">
@@ -509,22 +505,6 @@
           </p>
 
           <p class="ubi-campo">
-            <label class="ubi-campo__etiqueta" for="ubicacion-telefono">
-              Teléfono <span class="ubi-campo__opcional">opcional</span>
-            </label>
-            <input
-              class="ubi-campo__control"
-              type="tel"
-              id="ubicacion-telefono"
-              name="telefono"
-              inputmode="tel"
-              autocomplete="tel"
-              aria-describedby="ubicacion-telefono-error"
-            />
-            <span class="ubi-campo__error" id="ubicacion-telefono-error" data-error></span>
-          </p>
-
-          <p class="ubi-campo ubi-campo--ancho">
             <label class="ubi-campo__etiqueta" for="ubicacion-interes">
               ¿Qué te interesa? <span class="ubi-campo__marca">obligatorio</span>
             </label>
@@ -547,41 +527,6 @@
             <span class="ubi-campo__error" id="ubicacion-interes-error" data-error></span>
           </p>
 
-          <p class="ubi-campo">
-            <label class="ubi-campo__etiqueta" for="ubicacion-fecha">
-              Fecha <span class="ubi-campo__marca">obligatorio</span>
-            </label>
-            <input
-              class="ubi-campo__control"
-              type="date"
-              id="ubicacion-fecha"
-              name="fecha"
-              required
-              aria-required="true"
-              aria-describedby="ubicacion-fecha-error"
-            />
-            <span class="ubi-campo__error" id="ubicacion-fecha-error" data-error></span>
-          </p>
-
-          <p class="ubi-campo">
-            <label class="ubi-campo__etiqueta" for="ubicacion-personas">
-              N.º de personas <span class="ubi-campo__marca">obligatorio</span>
-            </label>
-            <input
-              class="ubi-campo__control"
-              type="number"
-              id="ubicacion-personas"
-              name="personas"
-              min="1"
-              step="1"
-              inputmode="numeric"
-              required
-              aria-required="true"
-              aria-describedby="ubicacion-personas-error"
-            />
-            <span class="ubi-campo__error" id="ubicacion-personas-error" data-error></span>
-          </p>
-
           <p class="ubi-campo ubi-campo--ancho">
             <label class="ubi-campo__etiqueta" for="ubicacion-mensaje">
               Cuéntanos <span class="ubi-campo__marca">obligatorio</span>
@@ -596,7 +541,8 @@
               aria-describedby="ubicacion-mensaje-error ubicacion-mensaje-pista"
             ></textarea>
             <span class="ubi-campo__pista" id="ubicacion-mensaje-pista">
-              Por ejemplo: qué celebras, a qué hora llegarías o cuántas horas necesitas.
+              Cuéntanos qué celebras, la fecha que tienes en mente y cuántas personas
+              vienen.
             </span>
             <span class="ubi-campo__error" id="ubicacion-mensaje-error" data-error></span>
           </p>
@@ -663,15 +609,9 @@
       var estado = formulario.querySelector("[data-form-estado]");
       var directo = formulario.querySelector("[data-form-directo]");
 
-      function hoyISO() {
-        var f = new Date();
-        var mes = String(f.getMonth() + 1);
-        var dia = String(f.getDate());
-        if (mes.length < 2) { mes = "0" + mes; }
-        if (dia.length < 2) { dia = "0" + dia; }
-        return f.getFullYear() + "-" + mes + "-" + dia;
-      }
-
+      /* v12 · TRES REGLAS, NO SEIS. Con los campos de teléfono, fecha y
+         personas fuera del formulario se van también sus reglas y las dos
+         funciones que sólo ellas usaban (hoyISO y fechaLegible). */
       var reglas = [
         {
           campo: "nombre",
@@ -680,32 +620,10 @@
           error: "Escribe tu nombre para saber con quién hablamos."
         },
         {
-          campo: "telefono",
-          etiqueta: "Teléfono",
-          opcional: true,
-          probar: function (v) { return /^[0-9+()\s.-]{7,20}$/.test(v.trim()); },
-          error: "Revisa el teléfono: solo números, espacios y los signos + ( ) - ."
-        },
-        {
           campo: "interes",
           etiqueta: "¿Qué te interesa?",
           probar: function (v) { return v !== ""; },
           error: "Elige qué te interesa."
-        },
-        {
-          campo: "fecha",
-          etiqueta: "Fecha",
-          probar: function (v) { return v !== "" && v >= hoyISO(); },
-          error: "Pon la fecha que tienes en mente: hoy o posterior."
-        },
-        {
-          campo: "personas",
-          etiqueta: "N.º de personas",
-          probar: function (v) {
-            var n = Number(v);
-            return v !== "" && isFinite(n) && n >= 1 && Math.floor(n) === n;
-          },
-          error: "Indica un número entero de personas mayor que cero."
         },
         {
           campo: "mensaje",
@@ -767,19 +685,11 @@
         return select.options[select.selectedIndex].text;
       }
 
-      function fechaLegible(iso) {
-        var p = iso.split("-");
-        return p.length === 3 ? p[2] + "/" + p[1] + "/" + p[0] : iso;
-      }
-
       function componer() {
         var d = formulario.elements;
         var lineas = [];
         lineas.push("Hola, soy " + d.nombre.value.trim() + ".");
         lineas.push("Me interesa: " + textoInteres() + ".");
-        lineas.push("Fecha: " + fechaLegible(d.fecha.value));
-        lineas.push("Personas: " + d.personas.value);
-        if (d.telefono.value.trim()) { lineas.push("Mi teléfono: " + d.telefono.value.trim()); }
         lineas.push("");
         lineas.push(d.mensaje.value.trim());
         lineas.push("");

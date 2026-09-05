@@ -269,10 +269,11 @@
      texto y pastilla de aforo entran y salen del arco a la vez. */
 }
 
-/* Alameda: boda-arbol.jpg es retrato (1400×1920), a diferencia del resto de
-   fotos de tarjeta (apaisadas). En una caja de 100dvh el recorte por defecto
-   se queda en la copa del árbol y pierde el pasillo con las sillas, que es
-   el sujeto real de la foto — baja el foco a la mitad inferior. */
+/* Alameda: en una caja de 100dvh el recorte por defecto se va a la copa de
+   los árboles y pierde el prado, que es el sujeto real de la foto — baja el
+   foco a la mitad inferior.
+   (El comentario nombraba boda-arbol.jpg, una foto reescalada con IA que ya
+   no se usa en el sitio; la tarjeta lleva img/espacios/alameda-2.jpg.) */
 .usos-item:first-child .usos-tarjeta__foto {
   object-position: 50% 62%;
 }
@@ -632,6 +633,16 @@
 .usos-panel__razon {
   margin: var(--esp-3xs) var(--esp-sm) var(--esp-sm);
   color: var(--color-texto-suave);
+}
+
+/* LA SALIDA DEL PANEL. Hasta aquí la página de espacios no tenía un solo
+   enlace a WhatsApp: se leían los usos y el recorrido se acababa. Cada panel
+   cierra ahora con su propio botón de cotización, con el nombre del espacio
+   dentro del mensaje prellenado, para que la conversación empiece sabiendo
+   de cuál se habla. Va suelto bajo la rejilla de usos —no dentro de una
+   tarjeta— y sólo necesita separarse de ella por arriba. */
+.usos-panel__accion {
+  margin: var(--esp-md) 0 0;
 }
 
 /* v14 · LA REJILLA DE ESCRITORIO SE RETIRA, por pedido directo: pantalla

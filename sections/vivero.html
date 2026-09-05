@@ -121,7 +121,11 @@
        ------------------------------------------------------------------- -->
   <div class="contenedor contenedor--ancho viv-cabecera">
     <header class="seccion-encabezado viv-encabezado reveal">
-      <p class="eyebrow">El bosque</p>
+      <!-- v10 · DOBLE ENCABEZADO RESUELTO: el eyebrow «El bosque» y la
+           entradilla salen de aquí porque .pagina-encabezado
+           (sections/enc-vivero.html) ya abre la página con su propio eyebrow,
+           su h1 y su entradilla. Queda el <h2> con su id (aria-labelledby) y
+           su reveal por renglones. -->
       <!-- v7 · El titular se descubre renglón a renglón (.reveal-texto de
            base.css §v7). Los dos cortes están escritos a mano porque son
            parte del dibujo: «Te llevas a casa» es la promesa y «lo que crece
@@ -133,13 +137,6 @@
         <span class="reveal-texto__linea">Te llevas a casa</span>
         <span class="reveal-texto__linea">lo que crece aquí</span>
       </h2>
-      <!-- v9 · Recorte de texto, pedido del cliente: «resume, más fotos menos
-           texto sobrante que las personas ya no leen». La entradilla queda en
-           una sola frase; la enumeración casa/oficina/evento ya la dice el
-           catálogo de abajo y no se repite. -->
-      <p class="entradilla">
-        Lo que ves plantado afuera sale de aquí. Y también lo que te llevas.
-      </p>
     </header>
 
     <!-- LA CAJA DE AIRE. Vacía, decorativa y `aria-hidden`: la puebla

@@ -3,21 +3,30 @@
      CSS: styles/sections/home.css §2 y §3   ·   JS propio: NINGUNO
 
      QUÉ ES. El bloque 4 de la tabla del PLAN-REDISENO-V4 §4.2: tres cifras y
-     un muro de DOCE aves, con salida a naturaleza.html.
+     un muro de SEIS aves, con salida a naturaleza.html.
 
-     POR QUÉ DOCE Y NO CIENTO OCHO. El hallazgo nº 4 del plan: las 108
+     POR QUÉ SEIS Y NO CIENTO OCHO. El hallazgo nº 4 del plan: las 108
      fotografías de #naturaleza colgaban de la misma página que todo lo
      demás —167 <img> en el DOM y 1,8 MB de imagen en la carga inicial— y
      enterraban justo el activo más diferenciador del sitio. Las 108 viven
      ahora en naturaleza.html, con el concurso completo y sus créditos. Aquí
-     hay doce, elegidas entre las que tienen especie identificada en
+     hay seis, elegidas entre las que tienen especie identificada en
      img/aves/_creditos.json.
+
+     v22 · DE DOCE A SEIS. El cliente dijo que la página está muy larga y esta
+     sección era la segunda más alta de la home (2,14 pantallas de móvil). Doce
+     miniaturas en una rejilla de tres columnas son cuatro filas; seis son dos,
+     y el muro sigue haciendo su trabajo —enseñar que aquí hay fauna con
+     nombre— porque el argumento no lo lleva el número de fotos sino la cifra
+     de 101 especies, que sigue arriba. La galería completa está a un botón.
+     No se retira NINGUNA foto de evento: éstas son de concurso y las 108
+     siguen enteras en naturaleza.html.
 
      LOS CRÉDITOS VAN DEBAJO DE CADA FOTO, en el <figcaption>, nunca encima:
      el nombre del fotógrafo es información —se la ganó— y sobre la imagen ni
      se lee ni deja ver el ave. Corrección directa del cliente para esta fase.
 
-     `alt=""` en las doce fotos es deliberado y no un descuido: cada imagen va
+     `alt=""` en las seis fotos es deliberado y no un descuido: cada imagen va
      dentro de una <figure> cuyo <figcaption> nombra la especie y el autor en
      texto real. Repetir eso en el alt haría que el lector de pantalla leyera
      dos veces lo mismo. Es el mismo patrón que usa el muro de naturaleza.html.
@@ -30,9 +39,12 @@
       <h2 id="home-naturaleza-titulo" class="titulo-seccion">
         Lo que vive aquí, con nombre y apellido
       </h2>
-      <p class="entradilla">
-        Lo que hay aquí está contado, fotografiado y firmado.
-      </p>
+      <!-- v22 · LA ENTRADILLA SE RETIRA. «Lo que hay aquí está contado,
+           fotografiado y firmado» decía, con otras palabras, exactamente lo
+           que ya dice el titular de arriba —«con nombre y apellido»—, y en la
+           versión móvil eran dos renglones más antes de la primera cifra.
+           Ningún hecho vivía en ella: las cifras están debajo y los créditos,
+           bajo cada foto. -->
     </header>
 
     <ul class="home-cifras reveal-secuencia" role="list">
@@ -51,7 +63,6 @@
     </ul>
 
     <ul class="home-muro reveal-secuencia" role="list">
-
       <li>
         <figure class="home-muro__figura reveal">
           <span class="marco marco--1-1">
@@ -63,22 +74,6 @@
           </span>
           <figcaption class="home-muro__pie">
             <span class="home-muro__especie">Azulejo Palmero</span>
-            <span class="credito">Foto: Francheska Salazar</span>
-          </figcaption>
-        </figure>
-      </li>
-
-      <li>
-        <figure class="home-muro__figura reveal">
-          <span class="marco marco--1-1">
-            <img class="home-muro__foto"
-              src="img/aves/ave-05-zorzal-piquinegro.jpg"
-              srcset="img/aves/ave-05-zorzal-piquinegro-400.jpg 400w, img/aves/ave-05-zorzal-piquinegro-600.jpg 600w, img/aves/ave-05-zorzal-piquinegro.jpg 1300w"
-              sizes="(max-width: 39.99em) 31vw, (max-width: 63.99em) 31vw, 23vw"
-              width="1300" height="1040" loading="lazy" decoding="async" alt="" />
-          </span>
-          <figcaption class="home-muro__pie">
-            <span class="home-muro__especie">Zorzal Piquinegro</span>
             <span class="credito">Foto: Francheska Salazar</span>
           </figcaption>
         </figure>
@@ -120,38 +115,6 @@
         <figure class="home-muro__figura reveal">
           <span class="marco marco--1-1">
             <img class="home-muro__foto"
-              src="img/aves/ave-09-eugenia-piquigruesa.jpg"
-              srcset="img/aves/ave-09-eugenia-piquigruesa-400.jpg 400w, img/aves/ave-09-eugenia-piquigruesa-600.jpg 600w, img/aves/ave-09-eugenia-piquigruesa.jpg 1121w"
-              sizes="(max-width: 39.99em) 31vw, (max-width: 63.99em) 31vw, 23vw"
-              width="1121" height="1300" loading="lazy" decoding="async" alt="" />
-          </span>
-          <figcaption class="home-muro__pie">
-            <span class="home-muro__especie">Eufonia Piquigruesa</span>
-            <span class="credito">Foto: Andrea Elizabeth</span>
-          </figcaption>
-        </figure>
-      </li>
-
-      <li>
-        <figure class="home-muro__figura reveal">
-          <span class="marco marco--1-1">
-            <img class="home-muro__foto"
-              src="img/aves/ave-10-trepa-troncos.jpg"
-              srcset="img/aves/ave-10-trepa-troncos-400.jpg 400w, img/aves/ave-10-trepa-troncos-600.jpg 600w, img/aves/ave-10-trepa-troncos.jpg 813w"
-              sizes="(max-width: 39.99em) 31vw, (max-width: 63.99em) 31vw, 23vw"
-              width="813" height="1300" loading="lazy" decoding="async" alt="" />
-          </span>
-          <figcaption class="home-muro__pie">
-            <span class="home-muro__especie">Trepatroncos</span>
-            <span class="credito">Foto: Andrea Elizabeth</span>
-          </figcaption>
-        </figure>
-      </li>
-
-      <li>
-        <figure class="home-muro__figura reveal">
-          <span class="marco marco--1-1">
-            <img class="home-muro__foto"
               src="img/aves/ave-12-barranquero.jpg"
               srcset="img/aves/ave-12-barranquero-400.jpg 400w, img/aves/ave-12-barranquero-600.jpg 600w, img/aves/ave-12-barranquero.jpg 975w"
               sizes="(max-width: 39.99em) 31vw, (max-width: 63.99em) 31vw, 23vw"
@@ -184,38 +147,6 @@
         <figure class="home-muro__figura reveal">
           <span class="marco marco--1-1">
             <img class="home-muro__foto"
-              src="img/aves/ave-14-saltador-pio.jpg"
-              srcset="img/aves/ave-14-saltador-pio-400.jpg 400w, img/aves/ave-14-saltador-pio-600.jpg 600w, img/aves/ave-14-saltador-pio.jpg 1300w"
-              sizes="(max-width: 39.99em) 31vw, (max-width: 63.99em) 31vw, 23vw"
-              width="1300" height="975" loading="lazy" decoding="async" alt="" />
-          </span>
-          <figcaption class="home-muro__pie">
-            <span class="home-muro__especie">Saltador Pío</span>
-            <span class="credito">Foto: Carlos Serrano</span>
-          </figcaption>
-        </figure>
-      </li>
-
-      <li>
-        <figure class="home-muro__figura reveal">
-          <span class="marco marco--1-1">
-            <img class="home-muro__foto"
-              src="img/aves/ave-15-tytira-inquisitor-hembra.jpg"
-              srcset="img/aves/ave-15-tytira-inquisitor-hembra-400.jpg 400w, img/aves/ave-15-tytira-inquisitor-hembra-600.jpg 600w, img/aves/ave-15-tytira-inquisitor-hembra.jpg 1300w"
-              sizes="(max-width: 39.99em) 31vw, (max-width: 63.99em) 31vw, 23vw"
-              width="1300" height="1120" loading="lazy" decoding="async" alt="" />
-          </span>
-          <figcaption class="home-muro__pie">
-            <span class="home-muro__especie">Titira Inquisidor, hembra</span>
-            <span class="credito">Foto: Daniel Arango</span>
-          </figcaption>
-        </figure>
-      </li>
-
-      <li>
-        <figure class="home-muro__figura reveal">
-          <span class="marco marco--1-1">
-            <img class="home-muro__foto"
               src="img/aves/ave-16-tytira-inquisitor-macho.jpg"
               srcset="img/aves/ave-16-tytira-inquisitor-macho-400.jpg 400w, img/aves/ave-16-tytira-inquisitor-macho-600.jpg 600w, img/aves/ave-16-tytira-inquisitor-macho.jpg 1300w"
               sizes="(max-width: 39.99em) 31vw, (max-width: 63.99em) 31vw, 23vw"
@@ -227,23 +158,6 @@
           </figcaption>
         </figure>
       </li>
-
-      <li>
-        <figure class="home-muro__figura reveal">
-          <span class="marco marco--1-1">
-            <img class="home-muro__foto"
-              src="img/aves/ave-03-thraupis-episcopus.jpg"
-              srcset="img/aves/ave-03-thraupis-episcopus-400.jpg 400w, img/aves/ave-03-thraupis-episcopus-600.jpg 600w, img/aves/ave-03-thraupis-episcopus.jpg 1040w"
-              sizes="(max-width: 39.99em) 31vw, (max-width: 63.99em) 31vw, 23vw"
-              width="1040" height="1300" loading="lazy" decoding="async" alt="" />
-          </span>
-          <figcaption class="home-muro__pie">
-            <span class="home-muro__especie">Thraupis episcopus</span>
-            <span class="credito">Foto: Fernando Cáceres</span>
-          </figcaption>
-        </figure>
-      </li>
-
     </ul>
 
     <p class="home-pie-bloque reveal">

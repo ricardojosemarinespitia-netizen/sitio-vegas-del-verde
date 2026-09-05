@@ -947,6 +947,98 @@
     gap: var(--esp-sm);
   }
 }
+
+/* ---- v22 · LA SECCIÓN MÁS ALTA DE LA HOME BAJA DE 2,19 A ~1,5 PANTALLAS ---
+   Pedido del cliente para esta fase: «la página está muy larga». Medida en
+   móvil 375×812, #nosotros era la sección más alta de la home (2,19), y no por
+   el texto —que aquí ya son figuras, no prosa— sino por dos números:
+
+     · EL MARCO DE LA FOTO EN 4/5 son 469 px de alto en 375 de ancho: más de
+       media pantalla de móvil sólo para la fotografía del umbral. En 1/1 son
+       375, o sea 94 px menos, y la foto NO se recorta de otro modo: sigue el
+       mismo `object-fit: cover` con el mismo `object-position` al 38 %, que es
+       donde está el motivo (el fondo del túnel). Un cuadrado es además el
+       formato que ya usa el muro de aves de la home: no se inventa una
+       proporción nueva.
+     · EL AIRE DE LA PLACA. `.placa--lg` pone --esp-lg por los cuatro lados y
+       la columna reparte otro --esp-lg entre sus seis hijos: en un teléfono eso
+       son cinco huecos grandes seguidos en el bloque con MENOS prosa de todo
+       el sitio. Los dos bajan un peldaño de la misma escala, a --esp-md. Ni un
+       número nuevo, ni una pieza retirada: siguen el titular, la entradilla,
+       los tres «Se alquila a», los cuatro «Lo básico, resuelto», la píldora
+       del arenero y el botón.
+
+   NO SE TOCA NADA DEL MOVIMIENTO: `reveal--velo` de la banda, los siete
+   escalonados desiguales, las hojas, la rama y foto-focus siguen exactamente
+   igual. Lo que cambia es cuánto alto ocupa la caja, no cómo entra.          */
+@media (max-width: 47.99em) {
+  .nosotros__escena-marco {
+    aspect-ratio: 1 / 1;
+  }
+
+  /* EL RELLENO DE LA ESCENA ERA AIRE DUPLICADO. La banda ponía --esp-lg
+     arriba y abajo DENTRO de una sección que ya trae los 80/60 px de
+     respiración de capítulo de `.seccion`: 80 px de papel entre dos colchones
+     que hacen lo mismo. En móvil se retira y el ritmo lo marca la sección, que
+     es su dueño. En escritorio no se toca: allí la regla de 62em vuelve a
+     ponerlo (--esp-seccion) y la banda sí necesita separarse de sus vecinas. */
+  .nosotros__escena {
+    padding-block: 0;
+    row-gap: var(--esp-md);
+  }
+
+  .nosotros__discurso {
+    gap: var(--esp-md);
+  }
+
+  .nosotros__discurso.placa--lg {
+    padding: var(--esp-md);
+  }
+
+  /* LAS TRES TARJETAS DE «Se alquila a», EN UNA FILA Y NO EN DOS.
+     `minmax(7rem, 1fr)` son 112 px de pista: tres no caben en los 327 px de
+     la placa (368 harían falta), así que `auto-fit` bajaba a dos columnas y
+     dejaba la tercera sola en una segunda fila —153 px de alto para una
+     tarjeta—. A 5,5rem las tres caben (3 × 88 + 2 huecos = 296) y la insignia
+     de 64 px sigue entrando con aire de sobra. Además se leen como lo que
+     son: tres destinatarios, no dos y uno. */
+  .nosotros__quienes {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  /* Y LA PALABRA TIENE QUE CABER EN LA PISTA NUEVA. «PARTICULARES» son doce
+     caracteres en caps: a --fs-pequeno con el tracking de rótulo (0,16em) mide
+     más de los 99 px de pista y se salía del canto derecho de la placa
+     —recortada, medido en la página—. Es una palabra sola: no puede partirse,
+     así que lo que cede es el cuerpo (un peldaño, a --fs-micro) y el tracking
+     (a --tracking-display, el otro valor que el sistema ya tiene). Sigue en
+     caps, sigue siendo el mismo rótulo, y ahora entra con margen. */
+  .nosotros__quien {
+    font-size: var(--fs-micro);
+    letter-spacing: var(--tracking-display);
+  }
+
+  /* Y la tira de servicios pierde una de sus tres filas: el hueco horizontal
+     baja un peldaño (--esp-lg → --esp-md) y las cuatro palabras vuelven a
+     caber en dos renglones. Los cuatro tamaños desiguales de insignia y sus
+     cuatro retardos no se tocan. */
+  .nosotros__servicios-lista {
+    column-gap: var(--esp-md);
+  }
+
+  /* Y EL COLCHÓN DE CAPÍTULO DE LA SECCIÓN BAJA UN PELDAÑO EN CADA LADO.
+     Con la escena ya sin relleno propio, el aire de arriba lo pone entero
+     `.seccion` (80/60 px). Esta banda no lo necesita como sus vecinas: su
+     primer elemento es una FOTOGRAFÍA a sangre —no un rótulo que haya que
+     separar del bloque anterior— y una foto pegada al borde se lee como
+     apertura de capítulo, no como error de maqueta. --esp-xl/--esp-lg son los
+     dos peldaños inmediatos de la misma escala. Sólo en móvil: en escritorio
+     la banda vuelve a su relleno de sección completo. */
+  .nosotros {
+    padding-block: var(--esp-xl) var(--esp-lg);
+  }
+}
+
 /* ==========================================================================
    3. EL COMPROMISO — LA FOTOGRAFÍA ES LA SECCIÓN Y EL TEXTO VA DENTRO
    ==========================================================================
@@ -1024,8 +1116,16 @@
      punto en el que el velo cierra ES el punto en el que entra el rótulo,
      siempre, sin depender de lo alto que quede el contenido.
      En teléfono el camino de piedra ocupa esa ventana entera: la foto se
-     presenta antes de que llegue una sola palabra. */
-  --compromiso-ventana: clamp(13rem, 8rem + 26vw, 21rem);
+     presenta antes de que llegue una sola palabra.
+     v22 · LA VENTANA SE ACORTA UN TERCIO —de 13-21rem a 8-13rem—. Pedido del
+     cliente: la página está muy larga y ésta es la última sección, la que se
+     lee con menos paciencia. A 375 px la ventana medía 275 px de foto limpia
+     ANTES de la primera palabra: más de un tercio de pantalla de pórtico para
+     una sección que ahora cabe en una. A 8rem + 18vw son 195 px: sigue
+     presentándose la fotografía sola —que es para lo que existe la ventana— y
+     se ahorran 80 px. La regla de que el velo cierre donde entra el rótulo no
+     cambia: sigue siendo esta misma variable la que manda en los dos sitios. */
+  --compromiso-ventana: clamp(8rem, 5rem + 18vw, 13rem);
   /* v21 · EL SCRIM GIRA A CLARO — pedido directo del cliente: «no quiere
      tonos oscuros en la página ni fotos oscuras, las originales y punto».
      El velo deja de empujar la foto hacia el verde hondo y sube hacia --luz,
@@ -1039,7 +1139,13 @@
   isolation: isolate;
   display: grid;
   margin-top: var(--esp-seccion);
-  padding-block: var(--compromiso-ventana) var(--esp-seccion);
+  /* v22 · EL PIE DE LA SECCIÓN BAJA DE --esp-seccion A --esp-lg. Debajo de
+     esta banda no viene otra sección: viene el pie del sitio, que trae su
+     propio relleno de apertura. El colchón de capítulo entero sumaba dos
+     respiraciones seguidas y en móvil era casi un tercio de pantalla de papel
+     vacío al final del recorrido. Un peldaño de la misma escala, sin números
+     nuevos; el de arriba lo sigue poniendo --compromiso-ventana. */
+  padding-block: var(--compromiso-ventana) var(--esp-lg);
   /* Obligatorio: recorta la foto y el paralaje contra las esquinas
      redondeadas. Sin él, el `scale` del fondo se saldría por encima de la
      curva y la reventaría. */
@@ -1119,6 +1225,29 @@
 
 .compromiso__contenido .seccion-encabezado {
   margin-bottom: var(--gap-lg);
+}
+
+/* v22 · EN MÓVIL LA CARTELA APRIETA UN PELDAÑO. Con la entradilla en una sola
+   frase y los pilares sin párrafo, --esp-lg por los cuatro lados dejaba más
+   aire que texto dentro de la placa. --esp-md es el paso inmediato de la misma
+   escala y mantiene el colchón de 44 px alrededor del bloque de lectura. */
+@media (max-width: 47.99em) {
+  .compromiso__contenido {
+    padding: var(--esp-md);
+  }
+
+  /* El encabezado y la bandada se separan de la lista un peldaño menos. Los
+     dos huecos estaban dimensionados para una cartela con párrafos; con la
+     entradilla en una frase y los pilares en su título, --esp-md deja el mismo
+     ritmo relativo en un bloque que ahora mide dos tercios de lo que medía.
+     La bandada NO se toca: sigue entera, con su trazado y su deriva. */
+  .compromiso__contenido .seccion-encabezado {
+    margin-bottom: var(--esp-md);
+  }
+
+  .compromiso__contenido .nosotros__silueta--vuelo {
+    margin-top: var(--esp-md);
+  }
 }
 
 /* v9 — LA ENTRADILLA SE ACOTA A LA MEDIDA CORTA. Corriendo al ancho de la
@@ -1356,6 +1485,22 @@
 
 .nosotros__compromiso .nosotros__pilar:last-child {
   border-bottom-color: rgb(var(--verde-bosque-rgb) / 0.32);
+}
+
+/* v22 · EN MÓVIL EL RENGLÓN SE AJUSTA A LO QUE AHORA CONTIENE. Los --esp-lg
+   de relleno vertical estaban calculados para un título MÁS un párrafo de dos
+   líneas; desde v22 el pilar es sólo su título (ver sections/compromiso.html)
+   y cada renglón medía 112 px para 37 de texto: tres cuartas partes de aire en
+   la última sección de la página. A --esp-sm el renglón queda en 69, el hilo
+   que separa los pilares se sigue leyendo igual y los tres títulos —que son
+   los hechos con dueño de esta sección— no se tocan.
+   VA AQUÍ Y NO ARRIBA CON EL RESTO DE LA COMPACTACIÓN a propósito: mide lo
+   mismo (0,2,0) que la regla de la línea de arriba, así que si se escribiera
+   antes perdería el desempate por orden y no aplicaría nada. */
+@media (max-width: 47.99em) {
+  .nosotros__compromiso .nosotros__pilar {
+    padding-block: var(--esp-sm);
+  }
 }
 
 /* Sobre oscuro el filete sube a menta —el acento del negativo— en vez de al
