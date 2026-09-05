@@ -48,45 +48,53 @@
    list-item` con su propio marcador triangular; se quita también con
    `::marker` y con el selector -webkit- para Chrome/Safari viejos. */
 .usos-tarjeta {
-  /* v19 · DE CAPAS APILADAS A TRES FILAS. Corrección directa del cliente al
-     mudar esta sección a espacios.html: «es importante que las fotos se
-     aprecien bien — el texto NO debe tapar la foto en ningún bloque».
-     Hasta v18 la tarjeta era un lienzo con la foto a sangre y dos piezas
-     flotando encima: la placa del nombre apoyada en el borde inferior y la
-     píldora del aforo en la esquina superior derecha. La placa ya era sólida
-     (no había velo, ver §MARCO), pero seguía comiéndose el tercio bajo de la
-     fotografía y la píldora tapaba la esquina.
-     Ahora la tarjeta es una rejilla de tres filas —foto, aforo, placa— y
-     ninguna se superpone a otra: la foto se ve entera, de borde a borde, y
-     el texto vive debajo, en su propio espacio.
-     `1fr` en la primera fila y `auto` en las otras dos: la altura total
-     sigue siendo la misma (100dvh en móvil) y lo que sobra después del texto
-     se lo queda la fotografía, que es lo que se vino a ver. */
+  /* v20 · DOS FILAS: FOTO A SANGRE + PLACA. El cliente vio la maqueta de la
+     v19 y pidió, sobre una captura, «pon el diseño que estaba antes y quita
+     este»: echaba de menos la PRESENCIA de la tarjeta de antes de la v18
+     —fotografía llenando la tarjeta entera, cifra de aforo grande, nombre
+     enorme— y lo que veía era una foto recortada arriba y, debajo, una lista
+     de texto plano sobre una plancha blanca sin dibujo.
+
+     LO QUE NO SE PUEDE HACER PARA COMPLACERLO, Y POR QUÉ. El diseño de antes
+     ponía todo ese texto ENCIMA de la fotografía con un velo detrás; ése es
+     exactamente el patrón que el mismo cliente mandó retirar del sitio entero
+     («no, imágenes sin filtro ni nada te dije» / «el texto NO debe tapar la
+     foto»), que base.css §4b convirtió en componente y que el validador
+     (regla h) rechaza. Restaurar el CSS viejo tal cual sería devolverle en la
+     siguiente ronda el defecto que ya corrigió.
+
+     LA SÍNTESIS. Se recupera la PRESENCIA sin recuperar el SOLAPAMIENTO:
+       · La fotografía deja de ser una fila más y vuelve a ser la tarjeta: se
+         queda con TODO el alto sobrante (`1fr`), a sangre de borde a borde y
+         con la silueta de arco que crece con el scroll (§ARCO), que es la
+         personalidad que el cliente reconoce de la versión que le gustaba.
+       · El texto baja a UNA sola pieza —la placa del sistema, `.placa` en el
+         HTML— con su superficie opaca, su silueta de hoja y su sombra.
+         Ya no es una plancha a todo ancho pegada al borde: va con margen, así
+         que se lee como un objeto apoyado, no como el resto de la página.
+       · Dentro de esa placa el aforo recupera el tratamiento gráfico que
+         tenía cuando era una pastilla sobre la foto —cifra en display al
+         tamaño de estadística y en el acento— y el nombre sube a --fs-h1.
+     Ninguna de las dos filas pisa a la otra: son filas de una rejilla, no
+     capas. La regla dura se cumple por construcción, no por vigilancia.
+
+     LA PÍLDORA DE AFORO DEJA DE SER SU PROPIA FILA (la fila del medio de la
+     v19, que dejaba una franja muerta entre foto y texto): entra dentro de la
+     placa como un bloque más, y las dos filas que quedan son las únicas dos
+     cosas que hay — la foto y su ficha. */
   display: grid;
-  grid-template-rows: 1fr auto auto;
+  grid-template-rows: 1fr auto;
   position: relative;
-  overflow: hidden;
   cursor: pointer;
   list-style: none;
   /* En móvil, la portada de su propio espacio: 100dvh y no 100vh, para que
      la barra de direcciones móvil no deje una franja del fondo al descubierto. */
   height: 100dvh;
-  min-height: 26rem;
-  /* EL ARCO, en los dos anchos, no sólo bajo un @media: es la misma silueta
-     medida que tenía `.espacio--medio` (el Teatrino) en la extinta
-     #espacios — medio punto arriba, esquina casi recta abajo — antes de que
-     esa sección se retirara del sitio (ver
-     `git log -p -- styles/sections/espacios.css`, commit 87dbb40, línea
-     `--espacio-silueta: 50% 50% var(--radio-md) var(--radio-md);`, el mismo
-     valor que luego se unificó para las cinco tarjetas en móvil). No se
-     inventa una proporción nueva: se reutiliza la que el cliente ya vio y
-     pidió. `overflow: hidden` de aquí arriba es lo que la hace efectiva —
-     recorta foto, velo, marco Y la pastilla de aforo por igual.
-
-     ESTE ES EL ARCO EN REPOSO EN SU VERSIÓN MÁS TERCA: la que sobrevive sin
-     `clip-path`, sin líneas de tiempo de scroll y sin JavaScript. El arco
-     que CRECE vive más abajo, en §ARCO, y ya no lo dibuja un script. */
-  border-radius: 50% 50% var(--radio-md) var(--radio-md);
+  /* Sube de 26rem a 32rem: la placa de la v20 es más alta que la lista de
+     texto de la v19 (cifra de aforo en --fs-cifra, nombre en --fs-h1), y con
+     26rem la fila `1fr` de la fotografía se quedaba sin nada en una ventana
+     apaisada de teléfono. */
+  min-height: 32rem;
 }
 
 /* ---- §ARCO · EL ARCO QUE CRECE ------------------------------------------
@@ -191,8 +199,23 @@
    bloque global de base.css: ese bloque sólo acorta duraciones, y una
    animación con línea de tiempo de scroll no tiene duración en tiempo.
    Sin este guardia seguiría creciendo. */
+/* v20 · EL ARCO CAMBIA DE DUEÑO: DE LA TARJETA AL <picture>.
+   Hasta la v19 la silueta la llevaba `.usos-tarjeta` entera con
+   `overflow: hidden`, herencia de cuando la tarjeta ERA la fotografía. Con
+   la placa dentro de la misma caja eso tenía dos efectos indeseados: el arco
+   le recortaba las esquinas de abajo a la placa (que ya tiene su propia
+   silueta de hoja, la del sistema) y el `overflow: hidden` le comía la
+   sombra. Ahora el arco recorta SÓLO la fila de la fotografía, que es lo que
+   siempre quiso decir. La geometría no cambia ni un valor: son las mismas
+   declaraciones, aplicadas al elemento correcto.
+
+   El fotograma de reposo y el que crece siguen siendo los de la v17, con las
+   cuentas de arriba intactas; lo único que cambia es que el 100 % del alto
+   contra el que se resuelven los porcentajes ya no es la ventana entera sino
+   la fila de la foto. El máximo sigue cayendo con la fotografía centrada en
+   la ventana, que es el momento que la curva quería marcar. */
 @supports (clip-path: inset(0 round 50% 50% 1px 1px)) {
-  .usos-tarjeta {
+  .usos-tarjeta > picture {
     border-radius: 0;
     clip-path: inset(0 0 0 0 round 50% 50% var(--radio-md) var(--radio-md));
   }
@@ -222,7 +245,7 @@
    no se escribe un cubic-bezier suelto para clavar el decimal. */
 @supports (animation-timeline: view()) {
   @media (prefers-reduced-motion: no-preference) {
-    .usos-tarjeta {
+    .usos-tarjeta > picture {
       animation-name: usos-arco-crece;
       animation-duration: auto;
       animation-timing-function: var(--ease);
@@ -296,48 +319,78 @@
    texto del marco pasa a tinta, y la cuenta de contraste se hace contra el
    peor píxel posible —NEGRO PURO—: a 0,88 el compuesto tiene luminancia
    0,82 → tinta 12,4:1; en la banda del índice (0,58) → 7,7:1. AA holgado. */
-/* v18 · EL VELO SE RETIRA DEL TODO — corrección del cliente («no no
+/* v18 · EL VELO SE RETIRÓ DEL TODO — corrección del cliente («no no
    imágenes sin filtro ni nada te dije»): ni degradado oscuro ni claro sobre
-   la foto. La legibilidad la resuelve la placa sólida del marco (arriba). */
-.usos-tarjeta__velo {
-  display: none;
-}
+   la foto. La legibilidad la resuelve la placa sólida (§PLACA, abajo).
+   v20 · La regla vacía `.usos-tarjeta__velo { display: none }` se borra: el
+   <span> del velo ya no existe en el HTML desde la v18 y una regla que apaga
+   un elemento inexistente sólo sirve para que alguien lo resucite. */
 
-/* v19 · EL <picture> ES LA PRIMERA FILA DE LA REJILLA, y el que recorta.
-   La <img> sigue siendo `position: absolute; inset: 0` (ver más abajo): lo
-   que cambia es quién es su contenedor posicionado. Antes lo era la tarjeta
-   entera —de ahí que la foto llegara hasta abajo, bajo la placa—; ahora lo
-   es este <picture>, que ocupa sólo la fila `1fr`. `min-height: 0` es
+/* v19 · EL <picture> ES LA PRIMERA FILA DE LA REJILLA, y —desde la v20— el
+   que recorta. La <img> sigue siendo `position: absolute; inset: 0` (ver más
+   abajo): lo que cambia es quién es su contenedor posicionado. Antes lo era
+   la tarjeta entera —de ahí que la foto llegara hasta abajo, bajo la placa—;
+   ahora lo es este <picture>, que ocupa la fila `1fr`. `min-height: 0` es
    obligatorio: sin él, un ítem de rejilla no baja de su tamaño de contenido
-   y la fila `1fr` se desbordaría con la altura natural de la fotografía. */
+   y la fila `1fr` se desbordaría con la altura natural de la fotografía.
+
+   `border-radius` aquí es el arco de reposo en su versión más terca —la que
+   sobrevive sin `clip-path`, sin líneas de tiempo de scroll y sin
+   JavaScript—: la misma silueta medida que tenía `.espacio--medio` (el
+   Teatrino) en la extinta #espacios (`git log -p -- styles/sections/espacios.css`,
+   commit 87dbb40). No se inventa una proporción nueva: se reutiliza la que el
+   cliente ya vio y pidió. `overflow: hidden` es lo que la hace efectiva. */
 .usos-tarjeta > picture {
   position: relative;
   display: block;
   overflow: hidden;
   min-height: 0;
+  border-radius: 50% 50% var(--radio-md) var(--radio-md);
 }
 
+/* ---- §PLACA · LA FICHA DEL ESPACIO --------------------------------------
+   v20 · DEJA DE SER UNA PLANCHA A MEDIDA Y PASA A SER EL COMPONENTE.
+   En el HTML este <span> lleva ahora `class="usos-tarjeta__marco placa
+   placa--lg"`: la superficie, la silueta de hoja, la sombra y el relleno los
+   pone base.css §4b, no esta hoja. Lo que queda aquí es SÓLO la maqueta
+   interna —qué va dónde— y el tratamiento tipográfico. Con eso desaparecen
+   de esta hoja el `background-color`, el `border-top` y el `padding` hechos a
+   mano, que eran tres de las «nueve superficies sólidas distintas» que §4b se
+   escribió para replegar.
+
+   POR QUÉ CON MARGEN Y NO PEGADA AL BORDE. La v19 la dejaba a todo ancho,
+   tocando los cuatro cantos de su fila: sin sombra visible, sin silueta y del
+   mismo color que el papel de la página, o sea invisible como objeto — el
+   «texto plano» de la queja. Con margen la placa se lee como una ficha
+   apoyada bajo la fotografía, que es el registro que el cliente reconoce.
+
+   POR QUÉ NO SE SUBE NI UN PÍXEL SOBRE LA FOTO. Porque es la regla dura del
+   proyecto y porque el margen negativo sería justo la vía por la que
+   volvería el problema. Las dos piezas son filas hermanas de una rejilla:
+   solaparse no es que esté prohibido, es que no se puede.
+
+   LA CONTABILIDAD DE CONTRASTE, toda contra --color-superficie-solida y
+   ninguna contra una fotografía (§4b):
+     nombre y frase  --color-texto        14,2:1
+     frase larga     --color-texto-suave   6,2:1
+     cifra, índice   --color-acento-texto  5,4:1                            */
 .usos-tarjeta__marco {
-  /* v19 · Sale del apilado: ya no flota sobre la foto, es la tercera fila de
-     la rejilla de .usos-tarjeta. El fondo sólido y el filete superior se
-     conservan tal cual —el dibujo es el mismo—, sólo que ahora empieza
-     donde la fotografía termina. */
+  /* v19 · Sale del apilado: ya no flota sobre la foto, es una fila de la
+     rejilla de .usos-tarjeta. `static` es obligatorio y el validador (regla
+     h) lo comprueba: un `.placa` posicionado es un `.placa` encima de algo. */
   position: static;
-  /* v18 · DE CAPA A PLACA — corrección del cliente sobre la captura del
-     Teatrino, textual: «no no imágenes sin filtro ni nada te dije». Ni velo
-     oscuro NI velo claro: la fotografía no se toca. El marco deja de cubrir
-     la foto entera y pasa a ser una PLACA SÓLIDA apoyada en el borde
-     inferior de la tarjeta —el mismo patrón de la cartela del sendero
-     (.snd-hero__cartela)—: el texto vive sobre superficie sólida (tinta
-     13,4:1) y la foto queda original, sin un solo píxel filtrado. */
-  inset: auto 0 0 0;
   z-index: 1;
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-end;
-  padding: var(--esp-lg);
-  background-color: var(--color-superficie-solida);
-  border-top: 1px solid var(--color-borde-suave);
+  display: grid;
+  /* Móvil: una columna. El aforo abre la ficha —es el dato que se busca— y
+     debajo van índice, nombre, frase y botón. */
+  grid-template-areas:
+    'aforo'
+    'orden'
+    'nombre'
+    'frase'
+    'aviso';
+  align-content: end;
+  margin: var(--esp-sm) var(--esp-md) var(--esp-md);
   color: var(--color-texto);
   /* v16 · EL TEXTO YA NO SE APAGA CON EL SCROLL, Y ESTE ES EL ARREGLO DE
      RAÍZ DE LA QUEJA DEL CLIENTE («el efecto no deja leer el texto»).
@@ -402,50 +455,84 @@
    grama al sol de Alameda y 3,8:1 sobre La Vega: por debajo del 4,5:1 de
    AA para texto pequeño. Sigue siendo el elemento más callado de la
    tarjeta —lo dice el tamaño y el interletrado, no un color apagado. */
+/* v20 · El índice deja de ser una etiqueta gris de 12 px y pasa a ser una
+   marca de serie: cifra en display, en el acento, con un filete que corre
+   hasta el borde de la placa. Es el gesto que hacía que la tarjeta vieja se
+   leyera como «01 de 05» y no como el encabezado de un párrafo. El filete es
+   `::after` sin texto ni puntero, así que no entra en ninguna cuenta de
+   contraste; la cifra sí, y --color-acento-texto sobre la placa mide 5,4:1. */
 .usos-tarjeta__orden {
-  font-family: var(--fuente-titulo);
-  font-size: var(--fs-micro);
+  grid-area: orden;
+  display: flex;
+  align-items: center;
+  gap: var(--esp-sm);
+  font-family: var(--fuente-display);
+  font-size: var(--fs-h4);
+  line-height: 1;
   letter-spacing: 0.12em;
-  /* v17 · de crema a tinta suave: sobre el velo claro la crema desaparecía.
-     En su banda (velo ≥ 0,58) el compuesto peor da 4,9:1 con este gris. */
-  color: var(--color-texto-suave);
-  margin-bottom: var(--esp-3xs);
+  color: var(--color-acento-texto);
+  margin-bottom: var(--esp-2xs);
 }
 
+.usos-tarjeta__orden::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background-color: var(--color-borde-suave);
+}
+
+/* v20 · De un clamp escrito a mano (2 → 3 rem) al paso 5 de la escala,
+   --fs-h1: hasta 3,75 rem. El nombre del espacio es el titular de la ficha,
+   no un subtítulo, y a 3 rem competía de tú a tú con la frase que va debajo.
+   Sobre la placa opaca, 14,2:1. */
 .usos-tarjeta__nombre {
+  grid-area: nombre;
   display: block;
   font-family: var(--fuente-display);
-  font-size: clamp(2rem, 1.5rem + 2.2vw, 3rem);
+  font-weight: var(--peso-display);
+  font-size: var(--fs-h1);
   line-height: 1.05;
-}
-
-.usos-tarjeta__frase {
-  display: block;
-  margin-top: var(--esp-2xs);
-  max-width: 30ch;
-  /* v16 · de 0,85 a 0,94: margen de sobra para que el peor caso medido
-     (5,45:1 sobre la cubierta clara del Taller) aguante también el
-     fotograma de partida de la entrada, que multiplica por 0,85.
-     v17 · a tinta: el velo giró a claro. */
   color: var(--color-texto);
 }
 
+.usos-tarjeta__frase {
+  grid-area: frase;
+  display: block;
+  margin-top: var(--esp-2xs);
+  /* De 30ch al token de medida corta: la misma longitud de línea que el resto
+     del sitio, en vez de un número suelto en esta hoja. */
+  max-width: var(--medida-corta);
+  font-size: var(--fs-cuerpo);
+  /* v20 · de tinta plena a tinta suave (6,2:1 sobre la placa): con el nombre
+     a --fs-h1 la frase necesita ceder jerarquía por color, no por tamaño. */
+  color: var(--color-texto-suave);
+}
+
+/* v20 · El aviso pasa de filete de tinta a filete de acento y crece hasta
+   altura de botón real. Es lo que abre el <details>, así que tiene que
+   parecer pulsable y tiene que cumplir los 44 px de blanco táctil: `min-height:
+   var(--esp-xl)` son 48 px, medidos en el navegador (ver la verificación).
+   --color-accion-borde es --coral-hondo: 5,4:1 sobre la placa, muy por encima
+   del 3:1 que pide WCAG 1.4.11 para el contorno de un control. */
 .usos-tarjeta__aviso {
+  grid-area: aviso;
   position: relative;
   display: inline-flex;
   align-items: center;
+  justify-content: center;
   gap: var(--esp-2xs);
-  margin-top: var(--esp-md);
-  padding: var(--esp-2xs) var(--esp-md);
+  margin-top: var(--esp-sm);
+  padding: var(--esp-xs) var(--esp-lg);
+  min-height: var(--esp-xl);
   width: fit-content;
-  /* v17 · el filete gira de crema a tinta: la píldora vive en la banda densa
-     del velo claro y necesita el 3:1 de contorno contra fondo claro. */
-  border: 1px solid rgb(var(--tinta-rgb) / 0.55);
+  justify-self: start;
+  border: 1px solid var(--color-accion-borde);
   border-radius: var(--radio-full);
   font-family: var(--fuente-titulo);
   font-size: var(--fs-micro);
   letter-spacing: 0.08em;
   text-transform: uppercase;
+  color: var(--color-acento-texto);
 }
 
 .usos-tarjeta__aviso-escritorio {
@@ -480,57 +567,97 @@
       propia sección declara no romper (ver comentario de cabecera de
       usos.html: «ninguna cifra de aforo se repite aquí»). El panel se
       queda con lo que sólo él aporta: los usos recomendados. */
+/* v20 · EL AFORO DEJA DE SER UNA PÍLDORA Y VUELVE A SER UNA CIFRA.
+   La píldora tenía sentido cuando flotaba sobre la fotografía: la cápsula
+   opaca era lo que la hacía legible. Dentro de la placa esa cápsula sobra
+   —ya está sobre superficie sólida— y lo único que hacía era encoger el
+   número hasta la altura de la línea de texto. Sin ella, la cifra puede ir
+   a --fs-cifra, el mismo tamaño de estadística que usa el resto del sitio
+   para «101 aves» o «4 ha», y en el acento: es la pieza que primero se ve de
+   la ficha, que es lo que el cliente echaba de menos.
+
+   ES UN BLOQUE MÁS DE LA PLACA, no una capa: sin `position`, sin fondo
+   propio, sin sombra. La superficie y el contraste se los da la placa. */
 .usos-tarjeta__aforo {
-  /* v19 · Segunda fila de la rejilla, no una píldora flotando sobre la
-     esquina de la fotografía. Corrección directa del cliente (ver §TARJETA).
-     Se alinea a la derecha, encima de la placa del nombre, y conserva su
-     silueta de píldora: lo único que se pierde es el solapamiento.
-     El fondo pasa de crema al 94 % —una translucidez que sólo tenía sentido
-     estando encima de la foto— a la superficie sólida del sistema, la misma
-     de la placa de debajo, y por eso también sobra la sombra. */
+  grid-area: aforo;
   position: static;
-  z-index: 2;
-  justify-self: end;
-  margin: var(--esp-sm) var(--esp-lg) 0;
   display: flex;
   align-items: baseline;
-  gap: var(--esp-3xs);
-  padding: var(--esp-3xs) var(--esp-sm);
-  background-color: var(--color-superficie-solida);
-  border: 1px solid var(--color-borde-suave);
-  border-radius: var(--radio-full);
-  color: var(--color-texto);
-  max-width: calc(100% - 2 * var(--esp-lg));
+  gap: var(--esp-xs);
+  justify-self: start;
+  margin-bottom: var(--esp-sm);
 }
 
 .usos-tarjeta__aforo-cifra {
   font-family: var(--fuente-display);
-  font-size: clamp(1.5rem, 1.15rem + 1.4vw, 2rem);
+  font-weight: var(--peso-display);
+  font-size: var(--fs-cifra);
   line-height: 1;
   white-space: nowrap;
-}
-
-/* Cancha: dos cifras (jugadores + espectadores), no una — la única tarjeta
-   con dos topes de aforo distintos. El «+20» va más chico y al lado, nunca
-   se inventa un promedio ni se calla el segundo número. */
-.usos-tarjeta__aforo-cifra-extra {
-  font-family: var(--fuente-display);
-  font-size: clamp(1rem, 0.85rem + 0.6vw, 1.25rem);
-  color: var(--color-texto-suave);
+  color: var(--color-acento-texto);
 }
 
 .usos-tarjeta__aforo-texto {
   font-family: var(--fuente-titulo);
   font-size: var(--fs-micro);
   line-height: 1.15;
-  letter-spacing: 0.04em;
+  letter-spacing: 0.08em;
   text-transform: uppercase;
   color: var(--color-texto-suave);
-  /* v19 · Se retira el `max-width: 9ch`. Existía para que la píldora no
-     cruzara la fotografía cuando flotaba sobre la esquina, y partía
-     «PERSONAS COMO MÁXIMO» en dos renglones a la fuerza. Fuera del apilado
-     tiene la fila entera: se lee en una línea. */
-  max-width: none;
+  /* Dos renglones cortos junto a la cifra grande leen mejor que una línea
+     larga que empuje el bloque a lo ancho de la placa. 22ch y no menos: con
+     16ch la Cancha —la única con dos topes, «Jugadores y 20 espectadores
+     como máximo»— partía en cuatro renglones y dejaba el «20» solo en uno. */
+  max-width: 22ch;
+}
+
+/* --------------------------------------------------------------------------
+   A PARTIR DE 48em LA PLACA SE ABRE EN DOS COLUMNAS: la ficha a la izquierda
+   y el aforo a la derecha, separado por un filete. En móvil eso no cabe —el
+   nombre a --fs-h1 en media columna de 375 px se partiría en cuatro
+   renglones— y por eso allí el aforo va arriba, en su propia línea.
+   -------------------------------------------------------------------------- */
+@media (min-width: 48em) {
+  .usos-tarjeta__marco {
+    grid-template-columns: minmax(0, 1fr) auto;
+    grid-template-areas:
+      'orden  aforo'
+      'nombre aforo'
+      'frase  aforo'
+      'aviso  aforo';
+    column-gap: var(--esp-xl);
+    padding: var(--esp-lg);
+    /* La fotografía sigue a sangre de borde a borde; la placa NO. En un
+       monitor de 1440 una ficha de 1400 px de ancho deja un metro de vacío
+       entre el nombre y la cifra y deja de leerse como un objeto. Se topa en
+       --ancho-md y se centra: foto a sangre arriba, ficha centrada debajo.
+       `justify-self: center` y no `margin-inline: auto`: así el margen
+       lateral de la regla base sigue en pie y la placa no toca los cantos
+       de la ventana justo en el umbral de 768 px, donde el tope todavía no
+       muerde. */
+    max-width: var(--ancho-md);
+    justify-self: center;
+    width: 100%;
+  }
+
+  /* Con la placa en dos columnas y el alto de una ventana de escritorio, la
+     frase recupera el cuerpo grande que en 375 px costaba un renglón entero
+     de la fotografía. */
+  .usos-tarjeta__frase {
+    font-size: var(--fs-grande);
+  }
+
+  .usos-tarjeta__aforo {
+    flex-direction: column;
+    align-items: flex-end;
+    align-self: center;
+    justify-self: end;
+    text-align: right;
+    gap: var(--esp-2xs);
+    margin-bottom: 0;
+    padding-inline-start: var(--esp-xl);
+    border-inline-start: 1px solid var(--color-borde-suave);
+  }
 }
 
 /* EL LLAMADO A TOCAR — v16, y el segundo arreglo de legibilidad.
@@ -551,7 +678,8 @@
   content: '';
   position: absolute;
   inset: 0;
-  border: 1px solid rgb(var(--tinta-rgb) / 0.55);
+  /* v20 · el aro sigue al filete del botón, que giró a acento. */
+  border: 1px solid rgb(var(--coral-hondo-rgb) / 0.55);
   border-radius: var(--radio-full);
   opacity: 0;
   pointer-events: none;

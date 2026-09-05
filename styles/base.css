@@ -1059,9 +1059,24 @@ a:hover {
   color: var(--color-texto-suave);
 }
 
+/* v23 · EL CRÉDITO DEJA DE SER LETRA GRIS APRETADA. El cliente señaló este
+   texto en el muro de aves: «no sé si es el espaciado o el color [...] se ve
+   genérico». Diagnóstico: cuerpo micro + gris + tracking abierto + el mismo
+   interlineado de párrafo = una nota al pie de plantilla. Lo que cambia:
+   · Entra en la fuente de etiqueta con interlineado propio (1,45): a 12,8 px
+     el 1,68 del cuerpo deja un canalón que separa el crédito de su pieza.
+   · El tracking abierto se retira: a este cuerpo abre la palabra y la
+     desdibuja; en minúscula el aire se lo da el interlineado, no el espacio
+     entre letras.
+   · El color se queda en --color-texto-suave (6,1:1): sigue siendo un dato
+     de servicio, y es la jerarquía frente al nombre de la pieza (.pie-obra)
+     lo que lo hace legible como crédito y no como texto flojo.             */
 .credito {
+  font-family: var(--fuente-titulo);
   font-size: var(--fs-micro);
-  letter-spacing: 0.04em;
+  font-weight: var(--peso-normal);
+  line-height: 1.45;
+  letter-spacing: 0;
   color: var(--color-texto-suave);
 }
 
@@ -1390,7 +1405,9 @@ h4,
   overflow-wrap: anywhere;
   min-height: 2.75rem;
   border: 1px solid transparent;
-  border-radius: 0;
+  /* v23 · esquina de hoja, no esquina viva ni pastilla. Ver --radio-control
+     en tokens.css §7b: es la misma silueta de .placa llevada al control.  */
+  border-radius: var(--radio-control);
   font-family: var(--fuente-titulo);
   font-size: var(--fs-pequeno);
   font-weight: var(--peso-medio);
@@ -1412,8 +1429,9 @@ h4,
   transform: translateY(-2px);
 }
 
+/* El botón se hunde: es MÁS tinta y menos altura, nunca se aclara. */
 .btn:active {
-  transform: translateY(0);
+  transform: translateY(0) scale(0.98);
 }
 
 .btn svg,
@@ -1428,18 +1446,27 @@ h4,
    El borde --color-accion-borde no es decorativo: el relleno coral sólo
    contrasta 2.9:1 contra la crema y WCAG 1.4.11 pide 3:1 en el contorno
    del componente; el borde terracota lo sube a 5.3:1. NO LO QUITES.      */
-/* La sombra --sombra-accion se retira: en este sistema nada flota. El borde
-   terracota se queda, porque no es decoración sino el 3:1 de contorno.    */
+/* v3 retiró --sombra-accion («en este sistema nada flota»). v23 la devuelve,
+   y no por capricho: el cliente vio el botón «Ver la galería completa» —coral
+   plano, esquina viva, sin nada que lo apoye— y lo llamó genérico. La sombra
+   de acción es contacto verde + halo coral corto: el botón queda APOYADO en
+   el papel, no levitando. Se suma el filo de brillo de --sombra-vidrio en
+   la arista superior: es la misma luz que entra en las gotas de los chips,
+   para que el primario y los vidrios se lean como un solo material.
+   El borde terracota se queda, porque no es decoración sino el 3:1 de
+   contorno.                                                               */
 .btn-primario {
   background-color: var(--color-accion);
   border-color: var(--color-accion-borde);
   color: var(--color-accion-texto);
+  box-shadow: inset 0 1px 0 var(--color-vidrio-brillo), var(--sombra-accion);
 }
 
 .btn-primario:hover {
   background-color: var(--color-accion-hover);
   border-color: var(--color-accion-hover);
   color: var(--color-texto-inverso);
+  box-shadow: var(--sombra-md);
 }
 
 /* Secundario — contorno verde. El botón «cuéntame más», nunca el «reserva». */
@@ -1450,16 +1477,25 @@ h4,
    A plena opacidad sube a 10.66:1 sobre crema y 9.16:1 sobre salvia, sigue
    siendo 1px y no cambia ni la geometría ni el peso frente al .btn-whatsapp
    relleno. NO LE BAJES EL ALFA: por debajo de 0.55 vuelve a incumplir.     */
+/* v23 · EL SECUNDARIO ES LA PRIMERA GOTA. Relleno de vidrio (--luz al 55 %
+   con desenfoque corto del papel), filo de brillo y sombra de contacto. El
+   filete de bosque se conserva a plena opacidad: sigue siendo él quien da
+   el 3:1 de contorno, el vidrio sólo le pone cuerpo. Texto: bosque sobre el
+   compuesto, 10,0:1 en el peor de los tres fondos claros.                  */
 .btn-secundario {
-  background-color: transparent;
+  background-color: var(--color-vidrio);
   border-color: var(--verde-bosque);
   color: var(--verde-bosque);
+  box-shadow: var(--sombra-vidrio);
+  backdrop-filter: var(--desenfoque-vidrio);
+  -webkit-backdrop-filter: var(--desenfoque-vidrio);
 }
 
 .btn-secundario:hover {
   background-color: var(--verde-bosque);
   border-color: var(--verde-bosque);
   color: var(--color-texto-inverso);
+  box-shadow: var(--sombra-md);
 }
 
 /* WhatsApp — es el CTA de conversión del sitio: comparte el cálido del
@@ -1517,17 +1553,24 @@ h4,
    porque no me toca editar el HTML y así funciona el que se escriba.
    Sobre CLARO hereda el color del texto: `currentColor` en el borde es lo
    que hace que el mismo botón sirva sobre crema y sobre foto sin variante. */
+/* v23 · El fantasma sobre claro también es gota: mismo vidrio que el
+   secundario, filete en currentColor. Sobre oscuro (abajo) vuelve a ser
+   transparente: un vidrio claro sobre banda oscura sería un velo.          */
 .btn-fantasma,
 .btn--fantasma {
-  background-color: transparent;
+  background-color: var(--color-vidrio);
   border-color: currentColor;
   color: var(--color-texto);
+  box-shadow: var(--sombra-vidrio);
+  backdrop-filter: var(--desenfoque-vidrio);
+  -webkit-backdrop-filter: var(--desenfoque-vidrio);
 }
 
 .btn-fantasma:hover,
 .btn--fantasma:hover {
-  background-color: rgb(var(--tinta-rgb) / 0.06);
+  background-color: var(--color-vidrio-hover);
   color: var(--color-texto);
+  box-shadow: var(--sombra-vidrio-hover);
 }
 
 /* Sobre cualquier fondo oscuro el fantasma se invierte solo. El filete al
@@ -1543,6 +1586,10 @@ h4,
 .sobre-oscuro .btn--fantasma,
 .pie-sitio .btn-fantasma,
 .pie-sitio .btn--fantasma {
+  background-color: transparent;
+  box-shadow: none;
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
   color: var(--color-texto-inverso);
 }
 
@@ -1593,10 +1640,17 @@ h4,
    criterio que .pildora con el radio: la regla general manda salvo cuando la
    forma (o el color) es lo que comunica la función. Si algún día se decide
    pasarlo a gris, hay que devolverle el subrayado en el mismo movimiento.     */
+/* v23 · El enlace gana un subrayado que se DIBUJA de izquierda a derecha al
+   pasar por encima (transform: scaleX, compositor puro), y en reposo deja
+   una línea al 35 % que lo señala como pulsable sin gritar. La flecha sigue
+   viajando. `position: relative` + ::before sólo para la línea; ::after ya
+   era la flecha y no se toca.                                             */
 .enlace-flecha {
+  position: relative;
   display: inline-flex;
   align-items: center;
   gap: 0.5em;
+  padding-block: 0.15em;
   font-family: var(--fuente-titulo);
   font-size: var(--fs-pequeno);
   font-weight: var(--peso-medio);
@@ -1604,6 +1658,27 @@ h4,
   letter-spacing: var(--tracking-rotulo);
   text-decoration: none;
   color: var(--color-acento-texto);
+}
+
+.enlace-flecha::before {
+  content: "";
+  position: absolute;
+  inset-inline: 0 1.2em;
+  bottom: 0;
+  height: 1px;
+  background-color: currentColor;
+  opacity: 0.35;
+  transform-origin: left center;
+  transform: scaleX(0.35);
+  transition:
+    transform var(--transicion),
+    opacity var(--transicion);
+}
+
+.enlace-flecha:hover::before,
+.enlace-flecha:focus-visible::before {
+  opacity: 1;
+  transform: scaleX(1);
 }
 
 .enlace-flecha::after {
@@ -1685,6 +1760,48 @@ figcaption {
   color: var(--color-texto-suave);
 }
 
+/* ==========================================================================
+   8b. PIE DE OBRA  ·  .pie-obra   (v23)
+   El pie de una fotografía ACREDITADA: nombre de la pieza (la especie) y
+   crédito del fotógrafo. Vive aquí porque lo usan dos páginas —el muro de
+   seis aves de la portada y el archivo completo de naturaleza.html— y hasta
+   ahora cada una lo componía por su cuenta con el mismo resultado plano:
+   especie y crédito en el mismo gris de tamaño parecido, pegados a 4 px.
+
+   LA JERARQUÍA ES EL DISEÑO. La especie es la pieza (display, peso menor,
+   cuerpo pequeño, tinta plena); el crédito es la letra pequeña (.credito).
+   Entre ambos, un aire de --esp-3xs y, sobre la foto, --esp-xs: el pie deja
+   de estar pegado al canto de la copia y pasa a leerse como el cartelito de
+   una exposición, que es lo que es.
+
+   Los selectores van anidados (.pie-obra > .pie-obra__especie) a propósito:
+   el componente es dueño de sus hijos, y así gana a las reglas de sección
+   que sigan declarando el mismo hijo con una sola clase.                   */
+.pie-obra {
+  display: flex;
+  flex-direction: column;
+  gap: var(--esp-3xs);
+  margin: var(--esp-xs) 0 0;
+  padding: 0;
+  line-height: var(--alto-linea-titulo);
+}
+
+.pie-obra > .pie-obra__especie {
+  font-family: var(--fuente-display);
+  font-size: var(--fs-pequeno);
+  font-weight: var(--peso-display-menor);
+  letter-spacing: var(--tracking-display);
+  line-height: var(--alto-linea-titulo);
+  color: var(--color-texto);
+  text-wrap: balance;
+}
+
+/* Las piezas sin identificar: el nombre baja a suave, y el crédito manda. */
+.pie-obra > .pie-obra__especie--anonima {
+  font-style: italic;
+  color: var(--color-texto-suave);
+}
+
 /* Cifra destacada (101 aves, 4 hectáreas, 347 plantas…) */
 .cifra {
   display: block;
@@ -1725,14 +1842,21 @@ figcaption {
    Mide 0.4em de alto útil y su lectura como chip depende de la forma; a
    esquina viva se confunde con un botón pequeño, que es justo lo que no es.
    Las esquinas vivas mandan en foto, tarjeta y botón; en los chips, no.   */
+/* v23 · La píldora es la gota más pequeña del sistema: vidrio, filo de
+   brillo, borde verde tenue y el relleno sube de 0.4em a 0.5em de alto para
+   que la caja alta respire (a 12,8 px, 0.4em dejaba la letra rozando el
+   filete). Bosque sobre el vidrio: 10,0:1.                                 */
 .pildora {
   display: inline-flex;
   align-items: center;
   gap: 0.45em;
-  padding: 0.4em 0.9em;
+  padding: 0.5em 0.95em;
   border-radius: var(--radio-full);
-  background-color: rgb(var(--verde-bosque-rgb) / 0.07);
-  border: 1px solid var(--color-borde-suave);
+  background-color: var(--color-vidrio);
+  border: 1px solid var(--color-vidrio-borde);
+  box-shadow: var(--sombra-vidrio);
+  backdrop-filter: var(--desenfoque-vidrio);
+  -webkit-backdrop-filter: var(--desenfoque-vidrio);
   font-family: var(--fuente-titulo);
   font-size: var(--fs-micro);
   font-weight: var(--peso-medio);
@@ -1749,6 +1873,9 @@ figcaption {
 .seccion--oscura .pildora {
   background-color: rgb(var(--crema-rgb) / 0.1);
   border-color: var(--color-borde-inverso);
+  box-shadow: none;
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
   color: var(--color-acento);
 }
 
@@ -1768,7 +1895,23 @@ figcaption {
 .seccion--carbon-suave .pildora {
   background-color: rgb(var(--crema-rgb) / 0.08);
   border-color: var(--color-borde-inverso);
+  box-shadow: none;
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
   color: var(--color-texto-inverso);
+}
+
+/* RESPALDO SIN backdrop-filter (Firefox antiguo, navegadores embebidos
+   recortados). Sin desenfoque, el vidrio al 55 % deja ver la trama del papel
+   nítida detrás del rótulo; se sube a --color-vidrio-opaco para que el
+   texto siga sobre una superficie lisa. El contraste no depende del blur. */
+@supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
+  .btn-secundario,
+  .btn-fantasma,
+  .btn--fantasma,
+  .pildora {
+    background-color: var(--color-vidrio-opaco);
+  }
 }
 
 .seccion--carbon .cifra,

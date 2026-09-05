@@ -1208,14 +1208,46 @@
 /* ---- El texto ------------------------------------------------------------
    A una columna el bloque se pone él mismo el margen de página: no está
    dentro de ningún .contenedor. */
-/* v22 · LA PLACA SÓLIDA del compromiso: el mismo patrón de cartela. La
-   segunda pista de escritorio sigue vacía y la foto se ve limpia ahí. */
+/* v25 · LA PLACA PASA DE SÓLIDA A VIDRIO — pedido explícito del cliente:
+   «no quiero ese tono, quiero liquid glass para que se vea la foto de
+   fondo». La v22 la había hecho opaca (`--color-superficie-solida`) para
+   cumplir «cero filtro sobre foto» sin depender de un velo — funcionaba,
+   pero tapaba la fotografía del todo, y #compromiso es una de las dos
+   únicas secciones del sitio (junto al hero) donde el cliente pidió
+   explícitamente el texto DENTRO de la foto, no al lado en su propia
+   placa. Ahí sí tiene sentido que la placa deje ver lo que hay detrás.
+
+   ESTO NO ES UN VELO SOBRE LA FOTO: `--color-velo` (el que prohíbe la
+   regla h del validador) tiñe TODA la fotografía por igual, de borde a
+   borde. Esto es una SUPERFICIE — un objeto con sus propios bordes,
+   igual que `.placa` en base.css §4b, sólo que translúcida en vez de
+   opaca. La foto se sigue viendo completa fuera de la placa, sin nada
+   encima; dentro de sus límites, se ve A TRAVÉS de un cristal esmerilado,
+   que es justamente lo que pidió el cliente. Mismo componente `--blur-
+   vidrio` que ya usa `.btn-claro` (base.css) sobre foto.
+
+   EL ALFA SE MIDIÓ, no se eligió a ojo. v26 · BAJA DE 0,74 A 0,60 — el
+   cliente vio la v25 y dijo «tapa la foto, quiero que se vea más»: 0,74
+   se leía casi como la placa sólida de antes. Sobre el peor píxel posible
+   de la foto (negro puro) 0,60 da 4,53:1 con la tinta del texto — justo
+   sobre el 4,5:1 de AA, y en la práctica con más margen todavía: el negro
+   puro casi nunca sobrevive al desenfoque de 14 px sin mezclarse con algo
+   más claro alrededor, así que el caso real es más favorable que este
+   peor caso calculado a mano. Es el punto más transparente que se pudo
+   bajar sin dejar el cálculo del lado equivocado del AA.
+   Un filete de borde en el mismo crema, más tenue, es lo que separa la
+   placa de la foto cuando las dos comparten un verde parecido en el
+   borde — sin ese filete la esquina se perdía contra el fondo en la
+   franja más oscura. */
 .compromiso__contenido {
   width: fit-content;
   max-width: 100%;
   margin-inline: var(--padding-contenedor);
   padding: var(--esp-lg);
-  background-color: var(--color-superficie-solida);
+  background-color: rgb(var(--crema-rgb) / 0.6);
+  backdrop-filter: var(--blur-vidrio);
+  -webkit-backdrop-filter: var(--blur-vidrio);
+  border: 1px solid rgb(var(--crema-rgb) / 0.4);
   border-start-start-radius: var(--radio-xl);
   border-end-end-radius: var(--radio-xl);
   border-start-end-radius: var(--radio-xs);

@@ -13,9 +13,29 @@
      más simple: «¿qué puedo hacer aquí?». #espacios ya responde «qué
      espacios hay»; esta sección responde «para qué sirve cada uno», con la
      foto de un evento real en vez de una cifra de aforo. Los CINCO espacios
-     son los mismos cinco de #espacios —no se inventa un sexto— y ninguna
-     cifra de aforo se repite aquí: ARQUITECTURA-V3 le da la propiedad de esa
-     cifra a #espacios en exclusiva.
+     son los mismos cinco de #espacios —no se inventa un sexto—. La cifra de
+     aforo vive hoy AQUÍ (#espacios se retiró del sitio y esta sección quedó
+     con la ficha completa), y tiene un solo dueño visual por tarjeta: la
+     placa. Nunca se repite dentro del panel que se abre debajo.
+
+     v20 · LA TARJETA, POR DENTRO. Dos filas y sólo dos: <picture> con la
+     fotografía A SANGRE, que se queda con todo el alto sobrante, y debajo
+     UNA placa —el componente del sistema, `.placa` (base.css
+     §4b)— con el índice, el nombre, la frase, la cifra de aforo y el botón.
+     El texto NUNCA se apoya sobre la fotografía: son filas hermanas de una
+     rejilla, no capas. Es la síntesis entre el diseño que el cliente pidió
+     recuperar («pon el diseño que estaba antes») y la orden anterior, suya
+     también, de no volver a tapar una foto con texto ni con velo. Toda la
+     argumentación y las mediciones están en la cabecera de §TARJETA y de
+     §PLACA en usos.css.
+
+     LAS CINCO TARJETAS LLEVAN SU CIFRA DE AFORO. Hasta la v19 sólo la
+     llevaban tres: Taller y Cancha la tenían suelta dentro del panel, en un
+     <p class="usos-panel__aforo"> que además había perdido su regla de CSS y
+     salía como texto crudo. Ese <p> se retira y el dato sube a la tarjeta,
+     con las mismas palabras y las mismas cifras que ya estaban escritas —no
+     se inventa ningún aforo—, de modo que la cifra vuelve a tener un solo
+     dueño visual por tarjeta y las cinco fichas se leen igual.
 
      CADA TARJETA ES UN <details>, no un acordeón hecho a mano ni un modal
      —el patrón de ventana emergente que este proyecto prohíbe—. `<summary>`
@@ -66,11 +86,11 @@
               alt=""
             />
           </picture>
-          <span class="usos-tarjeta__aforo">
-            <span class="usos-tarjeta__aforo-cifra">150</span>
-            <span class="usos-tarjeta__aforo-texto">Personas como máximo</span>
-          </span>
-          <span class="usos-tarjeta__marco">
+          <span class="usos-tarjeta__marco placa">
+            <span class="usos-tarjeta__aforo">
+              <span class="usos-tarjeta__aforo-cifra">150</span>
+              <span class="usos-tarjeta__aforo-texto">Personas como máximo</span>
+            </span>
             <span class="usos-tarjeta__orden" aria-hidden="true">01</span>
             <span class="usos-tarjeta__nombre">Alameda</span>
             <span class="usos-tarjeta__frase">La grama mejor cuidada del predio, para el día que no se repite.</span>
@@ -131,11 +151,11 @@
               alt=""
             />
           </picture>
-          <span class="usos-tarjeta__aforo">
-            <span class="usos-tarjeta__aforo-cifra">100</span>
-            <span class="usos-tarjeta__aforo-texto">Personas como máximo</span>
-          </span>
-          <span class="usos-tarjeta__marco">
+          <span class="usos-tarjeta__marco placa placa--alterna">
+            <span class="usos-tarjeta__aforo">
+              <span class="usos-tarjeta__aforo-cifra">100</span>
+              <span class="usos-tarjeta__aforo-texto">Personas como máximo</span>
+            </span>
             <span class="usos-tarjeta__orden" aria-hidden="true">02</span>
             <span class="usos-tarjeta__nombre">La Vega</span>
             <span class="usos-tarjeta__frase">Una explanada sin un solo desnivel: aquí cabe el escenario y lo que se le monte.</span>
@@ -196,11 +216,11 @@
               alt=""
             />
           </picture>
-          <span class="usos-tarjeta__aforo">
-            <span class="usos-tarjeta__aforo-cifra">70</span>
-            <span class="usos-tarjeta__aforo-texto">Personas como máximo</span>
-          </span>
-          <span class="usos-tarjeta__marco">
+          <span class="usos-tarjeta__marco placa">
+            <span class="usos-tarjeta__aforo">
+              <span class="usos-tarjeta__aforo-cifra">70</span>
+              <span class="usos-tarjeta__aforo-texto">Personas como máximo</span>
+            </span>
             <span class="usos-tarjeta__orden" aria-hidden="true">03</span>
             <span class="usos-tarjeta__nombre">Teatrino</span>
             <span class="usos-tarjeta__frase">El más recogido de los cinco: la gente cabe en un solo corro.</span>
@@ -260,7 +280,11 @@
               alt=""
             />
           </picture>
-          <span class="usos-tarjeta__marco">
+          <span class="usos-tarjeta__marco placa placa--alterna">
+            <span class="usos-tarjeta__aforo">
+              <span class="usos-tarjeta__aforo-cifra">45</span>
+              <span class="usos-tarjeta__aforo-texto">Personas como máximo</span>
+            </span>
             <span class="usos-tarjeta__orden" aria-hidden="true">04</span>
             <span class="usos-tarjeta__nombre">Taller</span>
             <span class="usos-tarjeta__frase">Aquí el clima no manda: la cubierta de caña se encarga.</span>
@@ -272,7 +296,6 @@
         </summary>
         <div class="usos-panel">
           <h3 class="solo-lectores">Usos recomendados en Taller</h3>
-          <p class="usos-panel__aforo">45 personas como máximo</p>
           <ul class="usos-panel__lista" role="list">
             <li class="usos-panel__uso">
               <img src="img/parque/parque-32.jpg"
@@ -322,7 +345,11 @@
               alt=""
             />
           </picture>
-          <span class="usos-tarjeta__marco">
+          <span class="usos-tarjeta__marco placa">
+            <span class="usos-tarjeta__aforo">
+              <span class="usos-tarjeta__aforo-cifra">30</span>
+              <span class="usos-tarjeta__aforo-texto">Jugadores y 20 espectadores como máximo</span>
+            </span>
             <span class="usos-tarjeta__orden" aria-hidden="true">05</span>
             <span class="usos-tarjeta__nombre">Cancha</span>
             <span class="usos-tarjeta__frase">Campo abierto de punta a punta: aquí se viene a jugar.</span>
@@ -334,7 +361,6 @@
         </summary>
         <div class="usos-panel">
           <h3 class="solo-lectores">Usos recomendados en Cancha</h3>
-          <p class="usos-panel__aforo">30 jugadores y 20 espectadores como máximo</p>
           <ul class="usos-panel__lista" role="list">
             <li class="usos-panel__uso">
               <img src="img/parque/parque-29.jpg"

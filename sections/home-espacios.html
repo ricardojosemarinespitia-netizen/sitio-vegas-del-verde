@@ -31,6 +31,30 @@
      argumento. NINGÚN HECHO SE PIERDE: los cinco aforos siguen en su cifra y
      los 20 espectadores de la cancha —hecho con dueño 'espacios' en la tabla
      de herramientas/validar.js— siguen escritos aquí y sólo aquí.
+
+     v23 · LA TARJETA ADOPTA LA MAQUETA DE espacios.html. El cliente vio este
+     bloque y dijo, sobre una captura: «no me entendiste, aquí en la página
+     principal quiero el mismo hero de portadas animadas exactamente igual
+     como estaba antes aquí en espacios». Son la MISMA sección conceptual en
+     dos sitios —preview en la home, ficha completa en espacios.html— y no
+     tenían por qué hablar dos idiomas: allí la foto va a sangre con el arco
+     que crece con el scroll y una placa sólida debajo, y aquí iba una foto
+     chica en un marco 3:2 con aire y una franja de texto plano.
+
+     LO QUE CAMBIA: el <span class="marco marco--3-2"> pasa a
+     `marco home-tarjeta__portada` —a sangre, sin proporción fija, con el arco
+     de usos.css §ARCO adaptado al alto de una celda de rejilla (home.css §1b)—
+     y el cuerpo pasa a ser el componente `.placa` del sistema (base.css §4b),
+     con la diagonal de hoja alternada tarjeta a tarjeta. Se retira
+     `home-rejilla--fila`: la fila horizontal de móvil (foto al 40 % a la
+     izquierda, texto a la derecha) era justo la maqueta que el cliente pidió
+     retirar. Los `sizes` se rehacen contra la rejilla real: 1 columna por
+     debajo de 40em, 2 hasta 64em, 3 por encima.
+
+     LO QUE NO CAMBIA, y es deliberado: siguen siendo enlaces <a> a
+     espacios.html#usos —no <details> con usos desplegables, que es de la
+     ficha completa—; el copy (nombre, aforo, frase) no se toca ni una palabra;
+     y las cinco cifras de aforo siguen teniendo aquí su único dueño.
      ========================================================================== -->
 <section id="espacios" class="seccion seccion--trama" aria-labelledby="home-espacios-titulo">
   <div class="contenedor contenedor--ancho">
@@ -45,15 +69,15 @@
       </p>
     </header>
 
-    <ul class="home-rejilla home-rejilla--fila home-rejilla--tres reveal-secuencia" role="list">
+    <ul class="home-rejilla home-rejilla--tres reveal-secuencia" role="list">
 
       <li>
         <a class="home-tarjeta reveal" href="espacios.html#usos">
-          <span class="marco marco--3-2">
+          <span class="marco home-tarjeta__portada">
             <img
               class="home-tarjeta__foto"
               src="img/espacios/alameda-2.jpg"
-              sizes="(max-width: 39.99em) 38vw, (max-width: 63.99em) 46vw, 31vw"
+              sizes="(max-width: 39.99em) 92vw, (max-width: 63.99em) 46vw, 31vw"
               width="1500"
               height="844"
               loading="lazy"
@@ -61,7 +85,7 @@
               alt="La Alameda: un prado abierto de grama corta bordeado de árboles altos."
             />
           </span>
-          <span class="home-tarjeta__cuerpo">
+          <span class="home-tarjeta__cuerpo placa placa--sm">
             <span class="home-tarjeta__nombre">Alameda</span>
             <span class="home-tarjeta__dato">
               <span class="home-tarjeta__dato-cifra">150</span> personas
@@ -74,11 +98,11 @@
 
       <li>
         <a class="home-tarjeta reveal" href="espacios.html#usos">
-          <span class="marco marco--3-2">
+          <span class="marco home-tarjeta__portada">
             <img
               class="home-tarjeta__foto"
               src="img/eventos/vega-horizontal.jpg"
-              sizes="(max-width: 39.99em) 38vw, (max-width: 63.99em) 46vw, 31vw"
+              sizes="(max-width: 39.99em) 92vw, (max-width: 63.99em) 46vw, 31vw"
               width="1600"
               height="900"
               loading="lazy"
@@ -86,7 +110,7 @@
               alt="La Vega: una explanada de césped completamente plana, con la arboleda al fondo."
             />
           </span>
-          <span class="home-tarjeta__cuerpo">
+          <span class="home-tarjeta__cuerpo placa placa--sm placa--alterna">
             <span class="home-tarjeta__nombre">La Vega</span>
             <span class="home-tarjeta__dato">
               <span class="home-tarjeta__dato-cifra">100</span> personas
@@ -99,11 +123,11 @@
 
       <li>
         <a class="home-tarjeta reveal" href="espacios.html#usos">
-          <span class="marco marco--3-2">
+          <span class="marco home-tarjeta__portada">
             <img
               class="home-tarjeta__foto"
               src="img/eventos/boda-4.jpg"
-              sizes="(max-width: 39.99em) 38vw, (max-width: 63.99em) 46vw, 31vw"
+              sizes="(max-width: 39.99em) 92vw, (max-width: 63.99em) 46vw, 31vw"
               width="1500"
               height="1000"
               loading="lazy"
@@ -111,7 +135,7 @@
               alt="El Teatrino: un claro recogido bajo la copa de un árbol grande, con sillas dispuestas en semicírculo."
             />
           </span>
-          <span class="home-tarjeta__cuerpo">
+          <span class="home-tarjeta__cuerpo placa placa--sm">
             <span class="home-tarjeta__nombre">Teatrino</span>
             <span class="home-tarjeta__dato">
               <span class="home-tarjeta__dato-cifra">70</span> personas
@@ -124,11 +148,11 @@
 
       <li>
         <a class="home-tarjeta reveal" href="espacios.html#usos">
-          <span class="marco marco--3-2">
+          <span class="marco home-tarjeta__portada">
             <img
               class="home-tarjeta__foto"
               src="img/espacios/taller-1.jpg"
-              sizes="(max-width: 39.99em) 38vw, (max-width: 63.99em) 46vw, 31vw"
+              sizes="(max-width: 39.99em) 92vw, (max-width: 63.99em) 46vw, 31vw"
               width="849"
               height="1500"
               loading="lazy"
@@ -136,7 +160,7 @@
               alt="El Taller: espacio techado con cubierta de caña y mesas de trabajo, abierto por los costados."
             />
           </span>
-          <span class="home-tarjeta__cuerpo">
+          <span class="home-tarjeta__cuerpo placa placa--sm placa--alterna">
             <span class="home-tarjeta__nombre">Taller</span>
             <span class="home-tarjeta__dato">
               <span class="home-tarjeta__dato-cifra">45</span> personas
@@ -149,11 +173,11 @@
 
       <li>
         <a class="home-tarjeta reveal" href="espacios.html#usos">
-          <span class="marco marco--3-2">
+          <span class="marco home-tarjeta__portada">
             <img
               class="home-tarjeta__foto"
               src="img/eventos/cancha-horizontal.jpg"
-              sizes="(max-width: 39.99em) 38vw, (max-width: 63.99em) 46vw, 31vw"
+              sizes="(max-width: 39.99em) 92vw, (max-width: 63.99em) 46vw, 31vw"
               width="1600"
               height="900"
               loading="lazy"
@@ -161,7 +185,7 @@
               alt="La Cancha: campo de juego abierto sobre césped, con los árboles del predio al fondo."
             />
           </span>
-          <span class="home-tarjeta__cuerpo">
+          <span class="home-tarjeta__cuerpo placa placa--sm">
             <span class="home-tarjeta__nombre">Cancha</span>
             <span class="home-tarjeta__dato">
               <span class="home-tarjeta__dato-cifra">30</span> jugadores

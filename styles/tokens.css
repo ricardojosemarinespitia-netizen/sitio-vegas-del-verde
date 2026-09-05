@@ -70,6 +70,17 @@
   --verde-menta: #50c58e;        /* = hojas del logo · intacto               */
   --teal: #4b7f7d;               /* = lettering «VEGAS DEL VERDE» · intacto  */
   --verde-texto: #2f5f41;        /* era #2e6b2e · verde de párrafo, entibiado */
+  /* v27 · EXCEPCIÓN ACOTADA A `NUNCA FONDO` de --verde-bosque, arriba. Pedido
+     del cliente: poner `logo-vegas-blanco.png` (símbolo + texto BLANCO sobre
+     transparente, pensado para fondo oscuro) en la cabecera, que es de papel
+     claro — sin una placa detrás el logo blanco es casi invisible sobre
+     crema (comprobado: se leía en 1,3:1, muy por debajo de cualquier mínimo).
+     Este verde es el fondo REAL horneado en `logo-vegas-barra.png` —el mismo
+     lockup que ya usa el resto del sitio—, así que el logo blanco se apoya en
+     el mismo verde de marca y no en uno inventado. USO ÚNICO: el chip
+     `.marca__chip` de shell.css. No es un color de sección ni de superficie:
+     no lo reutilices en fondos de bloque. */
+  --verde-logo-fondo: #1b7a1f;    /* fondo real de logo-vegas-barra.png · SOLO el chip del logo */
 
   /* — Neutros cálidos — */
   --salvia: #dde5cd;             /* era #dbe7d3 · fondo claro del logo, +cálido */
@@ -587,6 +598,66 @@
 
   --blur-vidrio: saturate(140%) blur(14px);
   --blur-modal: saturate(120%) blur(6px);
+
+  /* ---------------------------------------------------------------------
+     7b. VIDRIO — «rocío sobre hoja»  (v23, septiembre 2026)
+
+     Pedido textual del cliente al ver los créditos del muro de aves: «no me
+     gusta el espaciado o el color o no sé qué es que no me gusta, se ve
+     genérico. [...] liquid glass o algo que se vea premium [...] de toda la
+     página». La referencia que nombra es el vidrio traslúcido de Apple; la
+     traducción a ESTE sitio no puede ser esa, porque la regla dura del
+     proyecto (validar.js, regla h) prohíbe cualquier velo, desenfoque o
+     degradado ENCIMA de una fotografía. Lo que sí cabe, y es lo que estos
+     tokens nombran, es una gota de agua posada sobre el papel botánico: una
+     superficie de --luz semitransparente, con desenfoque corto de lo que
+     tiene DEBAJO (el papel y su trama, nunca una foto), un filo de brillo en
+     la arista superior —la luz que entra en la gota— y la sombra de contacto
+     + difusión que ya usa el resto del sistema.
+
+     DÓNDE VA: controles y chips (botones secundarios y fantasma, píldoras,
+     el resumen de un <details>, fichas de crédito). DÓNDE NO VA: bloques de
+     texto, párrafos, superficies grandes, y NUNCA un elemento que tenga una
+     <img> o <video> debajo — ahí la respuesta sigue siendo .placa opaca.
+
+     CONTRASTE MEDIDO (peor caso: --color-vidrio compuesto sobre cada una de
+     las tres bandas claras, crema / salvia / banda-trama):
+         --color-texto         13,1 : 1   AAA
+         --color-texto-suave    5,8 : 1   AA
+         --color-acento-texto   5,0 : 1   AA
+         --verde-bosque        10,0 : 1   AAA
+         --color-acento-alt     4,7 : 1   AA  (el más justo: no bajes el alfa)
+     Si --color-vidrio baja de 0,45 de alfa, --color-acento-alt cae bajo AA
+     sobre salvia. El respaldo sin backdrop-filter sube a --color-vidrio-opaco
+     precisamente para que el texto nunca dependa de un desenfoque que quizá
+     no exista.                                                             */
+  --color-vidrio: rgb(var(--luz-rgb) / 0.55);
+  --color-vidrio-opaco: rgb(var(--luz-rgb) / 0.86);   /* respaldo sin blur   */
+  --color-vidrio-hover: rgb(var(--luz-rgb) / 0.78);
+  --color-vidrio-brillo: rgb(var(--blanco-rgb) / 0.65); /* filo superior     */
+  --color-vidrio-borde: rgb(var(--verde-bosque-rgb) / 0.14);
+  /* Desenfoque CORTO a propósito: --blur-vidrio (14 px) es el de la cabecera
+     fija, una sola superficie grande. Un chip de 30 px con 14 px de blur
+     desdibuja más de lo que mide; a 8 px la trama del papel se ablanda sin
+     desaparecer, que es lo que hace que se lea como agua y no como niebla.
+     El saturate leve compensa el lavado que introduce el velo de --luz.    */
+  --desenfoque-vidrio: saturate(115%) blur(8px);
+  /* Sombra de la gota: filo de brillo arriba (inset), contacto y difusión.
+     Tinte --sombra-rgb como todas las demás.                               */
+  --sombra-vidrio: inset 0 1px 0 var(--color-vidrio-brillo),
+    0 1px 2px rgb(var(--sombra-rgb) / 0.05),
+    0 10px 28px -16px rgb(var(--sombra-rgb) / 0.22);
+  --sombra-vidrio-hover: inset 0 1px 0 var(--color-vidrio-brillo),
+    0 2px 3px rgb(var(--sombra-rgb) / 0.06),
+    0 16px 36px -18px rgb(var(--sombra-rgb) / 0.28);
+  /* LA ESQUINA DE LOS CONTROLES. v3 dejó todo botón a esquina viva («nada
+     flota, nada se redondea»); el cliente lo lee hoy como genérico. En vez
+     de la pastilla de cualquier framework, el control toma la silueta de
+     hoja que ya firma .placa y el sendero: dos esquinas abiertas en
+     diagonal. A la altura de un botón (44 px) la hoja menor (0,875 rem) es
+     el radio en que la diagonal se ve sin que el rótulo pierda la caja.   */
+  --radio-control: 0 var(--radio-hoja-menor) 0 var(--radio-hoja-menor);
+  --radio-control-alterno: var(--radio-hoja-menor) 0 var(--radio-hoja-menor) 0;
 
   /* ---------------------------------------------------------------------
      8. MAPA — el pin ya NO es el logo gigante

@@ -143,23 +143,48 @@
      · amarillo (--color-destacado) para el rótulo: 7,3:1 sobre bosque.
    Ninguno de los tres depende de qué esté pasando en el vídeo de al lado.
    ========================================================================== */
+/* v23 · LA CARTELA ERA UN RECTÁNGULO DE COLOR, NO UNA PIEZA APOYADA. Sobre la
+   banda de trama, un bloque claro sin filete ni sombra se lee como un hueco
+   recortado en el papel: es la lectura «genérica» que señaló el cliente. Tres
+   correcciones, ninguna de ellas un velo (no hay foto debajo: el carril de
+   vídeo es HERMANO, no fondo):
+   · Filete de vidrio (--color-vidrio-borde, verde al 14 %) para que la pieza
+     tenga canto propio contra la trama, que es del mismo valor claro.
+   · Sombra de contacto + difusión (--sombra-md): la cartela se APOYA en la
+     página en vez de estar pintada sobre ella.
+   · Más aire dentro (--esp-xl en escritorio, abajo) y más aire ENTRE pieza y
+     dato: el gap sube de --esp-xs a --esp-sm. El apretado era la mitad del
+     «no sé si es el espaciado».
+   La superficie sigue siendo OPACA: la lección del contraste medible junto al
+   vídeo no cambia, y el vidrio no va en bloques de texto (tokens.css §7b).  */
 .snd-hero__cartela {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  gap: var(--esp-xs);
+  gap: var(--esp-sm);
   max-width: var(--medida-corta);
   padding: var(--esp-lg);
   /* v6 · la cartela sigue siendo SÓLIDA —la lección del contraste medible
      sobre vídeo no cambia— pero sólida CLARA: la superficie de tarjeta del
      sistema. Tinta encima: 13,4:1. */
   background-color: var(--color-superficie-solida);
+  border: 1px solid var(--color-vidrio-borde);
+  box-shadow: var(--sombra-md);
   /* La misma silueta de hoja del carril, en espejo: la cartela y los planos
      que tiene al lado se leen como piezas de la misma familia. */
   border-start-start-radius: var(--snd-hoja);
   border-end-end-radius: var(--snd-hoja);
   border-start-end-radius: var(--radio-xs);
   border-end-start-radius: var(--radio-xs);
+}
+
+/* v23 · En escritorio la cartela gana el relleno de pieza mayor: a --esp-lg
+   el titular de dos renglones quedaba a un dedo del filete nuevo, y un filete
+   apretado contra su contenido es lo que delata una caja de plantilla. */
+@media (min-width: 62em) {
+  .snd-hero__cartela {
+    padding: var(--esp-xl);
+  }
 }
 
 .snd-hero__eyebrow {
@@ -186,10 +211,22 @@
   color: var(--color-texto-suave);
 }
 
+/* v23 · LA FIRMA DEJA DE SER LETRA GRIS ABIERTA. Llevaba
+   --tracking-display sobre cuerpo micro: exactamente el defecto que base.css
+   §.credito corrigió en esta misma pasada («a este cuerpo el tracking abre la
+   palabra y la desdibuja»). Pasa al mismo contrato que el crédito —fuente de
+   etiqueta, interlineado propio de 1,45, tracking a cero— y gana un filete
+   de cierre que la separa de la nota sin meter otra caja: es el colofón de la
+   cartela, no un tercer párrafo. */
 .snd-hero__firma {
   margin: 0;
+  padding-block-start: var(--esp-xs);
+  border-block-start: 1px solid var(--color-vidrio-borde);
+  align-self: stretch;
+  font-family: var(--fuente-titulo);
   font-size: var(--fs-micro);
-  letter-spacing: var(--tracking-display);
+  line-height: 1.45;
+  letter-spacing: 0;
   color: var(--color-texto-suave);
 }
 
@@ -293,6 +330,12 @@
      de que el póster decodifique: CLS cero por diseño. */
   aspect-ratio: 9 / 16;
   background-color: var(--color-superficie-oscura);
+  /* v23 · Los cuatro planos flotaban sin sombra sobre la banda de trama: una
+     fotografía sin canto ni apoyo se lee como una imagen pegada, y cuatro
+     seguidas como una plantilla de tarjetas. La sombra va DEBAJO —no encima
+     de ningún fotograma— así que la regla de «la foto es la foto» se cumple:
+     no hay velo, ni filtro, ni degradado sobre el vídeo. */
+  box-shadow: var(--sombra-md);
 }
 
 /* LA SILUETA DE HOJA, CUATRO VECES Y NUNCA IGUAL. Dos esquinas abiertas y dos
@@ -337,21 +380,44 @@
 /* EL PIE. Va debajo del plano y no encima: superpuesto sobre el vídeo no
    habría contraste medible (misma razón que la cartela de §2). Sobre el verde
    bosque, la crema al 78 % da 7,2:1. */
+/* v23 · MISMO DIAGNÓSTICO QUE EL CRÉDITO DEL MURO DE AVES, y aquí repetido
+   cuatro veces seguidas: cuerpo micro + gris + el interlineado de PÁRRAFO
+   (1,68) + medio paso de aire contra la foto. A 12,8 px ese interlineado abre
+   un canalón que despega el pie de su plano, y el pie deja de pertenecer a la
+   pieza: se lee como texto suelto de plantilla. Lo que cambia, en el mismo
+   contrato que .credito de base.css:
+   · Fuente de etiqueta con interlineado propio (1,45): el pie vuelve a ser un
+     bloque compacto de dos renglones bajo su plano.
+   · MÁS aire entre pieza y dato, no menos: --esp-2xs → --esp-xs. Lo apretado
+     era la costura, no la separación.
+   El color se queda en --color-texto-suave (6,1:1 sobre el compuesto de la
+   banda de trama): sigue siendo dato de servicio, y la jerarquía frente al
+   verso del primer plano es lo que lo hace legible como pie.               */
 .snd-plano__pie {
-  margin-top: var(--esp-2xs);
+  margin-top: var(--esp-xs);
   max-width: var(--snd-plano-ancho);
+  font-family: var(--fuente-titulo);
   font-size: var(--fs-micro);
-  line-height: var(--alto-linea-base);
+  line-height: 1.45;
+  letter-spacing: 0;
   color: var(--color-texto-suave);
   text-wrap: pretty;
 }
 
 /* El pie del plano protagonista es un VERSO: mismo texto, otra voz. Es la
    única cursiva del carril y por eso señala cuál es la pieza que abre. */
+/* v23 · El verso sube al contrato de PIEZA que base.css dio a
+   .pie-obra__especie: display, --peso-display-menor (Josefin es monolineal y
+   por debajo de 40 px el 300 se desvanece sobre la trama) y el interlineado
+   de titular. Frente a los otros tres pies —etiqueta gris, 1,45— la
+   diferencia deja de ser «una cursiva» y pasa a ser una jerarquía. */
 .snd-plano__pie--verso {
   font-family: var(--fuente-display);
   font-size: var(--fs-pequeno);
+  font-weight: var(--peso-display-menor);
   font-style: italic;
+  line-height: var(--alto-linea-titulo);
+  letter-spacing: var(--tracking-display);
   color: var(--color-texto);
 }
 
@@ -590,12 +656,23 @@
     object-fit: cover;
   }
 
+  /* v23 · LA PASTILLA DEL PIE, CON FORMA PROPIA. Era un rectángulo de crema a
+     --radio-xs: la caja por defecto de cualquier framework. Toma la silueta de
+     hoja de los controles (--radio-control-alterno, la diagonal contraria a la
+     del marco que tiene encima), respira medio paso más y se apoya con la
+     sombra corta del sistema.
+     SIGUE SIENDO OPACA Y SIN DESENFOQUE, y eso NO es una omisión: esta pieza
+     cuelga de un marco de vídeo, y el vidrio no se pone nunca sobre metraje
+     —ni siquiera al lado, donde el desenfoque tomaría el fotograma de debajo
+     al reencuadrarse la maqueta—. El vidrio vive en el papel. */
   .snd-clip-inset__pie {
     display: inline-block;
-    margin-block-start: var(--esp-3xs);
-    padding: var(--esp-3xs) var(--esp-2xs);
+    margin-block-start: var(--esp-2xs);
+    padding: var(--esp-3xs) var(--esp-xs);
     background-color: var(--color-fondo);
-    border-radius: var(--radio-xs);
+    border: 1px solid var(--color-vidrio-borde);
+    border-radius: var(--radio-control-alterno);
+    box-shadow: var(--sombra-sm);
   }
 }
 
@@ -667,12 +744,18 @@
   object-position: 78% 72%;
 }
 
+/* v23 · La hermana de la pastilla anterior, con la MISMA corrección y la
+   diagonal de hoja contraria (--radio-control), que es la del marco del
+   detalle: pastilla y marco se leen como una sola pieza recortada. Opaca
+   también: cuelga de una fotografía. */
 .snd-detalle__pie {
   display: inline-block;
-  margin-block-start: var(--esp-3xs);
-  padding: var(--esp-3xs) var(--esp-2xs);
+  margin-block-start: var(--esp-2xs);
+  padding: var(--esp-3xs) var(--esp-xs);
   background-color: var(--color-fondo);
-  border-radius: var(--radio-xs);
+  border: 1px solid var(--color-vidrio-borde);
+  border-radius: var(--radio-control);
+  box-shadow: var(--sombra-sm);
 }
 
 /* SIN PIE EN ESCRITORIO, y es una medida, no un gusto: en la esquina

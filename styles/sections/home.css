@@ -57,9 +57,10 @@
    ahí la franja de texto es un verbo y una línea, y cabe. A una columna, esas
    cinco tarjetas medían 2,5 pantallas de móvil ellas solas —el plan §4.2 les
    presupuesta 1,5— y la portada no llegaba al objetivo de 14 pantallas.
-   El bloque de los espacios NO usa esto: su franja lleva nombre, aforo y
-   frase, y a media pantalla de ancho se rompería en cinco renglones. Ése se
-   resuelve en horizontal, más abajo. */
+   El bloque de los espacios NO usa esto: su placa lleva nombre, aforo y
+   frase, y a media pantalla de ancho se rompería en cinco renglones. Ése va
+   a una columna hasta 40em (v23: antes se resolvía en horizontal, ver la
+   nota de retirada más abajo). */
 @media (min-width: 22em) {
   .home-rejilla--dos {
     grid-template-columns: repeat(2, 1fr);
@@ -80,23 +81,44 @@
 
 /* La tarjeta es un enlace entero: el objetivo táctil es la pieza completa,
    no una línea de cuatro palabras (WCAG 2.5.8, uno de los 16 objetivos que
-   el plan pide arreglar). Dos filas: la foto y, debajo, la placa de texto. */
+   el plan pide arreglar). Dos filas: la foto y, debajo, la placa de texto.
+
+   v23 · DEJA DE SER UNA CAJA Y VUELVE A SER LA MAQUETA DE espacios.html.
+   Hasta la v22 la tarjeta era un rectángulo con fondo sólido, filete y
+   `overflow: hidden`, y dentro una foto chica en un marco 3:2 con aire. Con
+   la maqueta de `.usos-tarjeta` (usos.css) esos tres valores estorban:
+     · el fondo y el filete duplicarían la superficie de la placa, que ya
+       trae la suya (base.css §4b) — la tarjeta pasa a transparente y lo
+       único opaco vuelve a ser la ficha;
+     · `overflow: hidden` le comería la sombra a la placa y le recortaría
+       las esquinas de abajo, exactamente el bug que usos.css §ARCO documenta
+       al mover el arco de la tarjeta al <picture>.
+   La elevación de hover se muda a la placa (más abajo), que es la pieza que
+   de verdad tiene superficie sobre la que se lee una sombra.
+
+   `minmax(0, 1fr) auto`: el 0 de mínimo es obligatorio — sin él la fila de
+   la foto no baja de la altura natural de la imagen y se desborda. Misma
+   razón que el `min-height: 0` del <picture> en usos.css. */
 .home-tarjeta {
   display: grid;
-  grid-template-rows: auto auto;
+  grid-template-rows: minmax(0, 1fr) auto;
   height: 100%;
+  /* El alto de la celda. En espacios.html la tarjeta mide 100dvh porque es
+     una portada por espacio; aquí es una de tres en una rejilla de
+     escaparate, así que el alto sale de un mínimo fluido y, por encima de
+     él, de la tarjeta más alta de la fila (`height: 100%` sobre la rejilla).
+     Se declara como propiedad propia y no como número suelto para que el
+     ajuste tenga un solo sitio. */
+  --alto-tarjeta-espacio: clamp(25rem, 17rem + 21vw, 32rem);
+  min-height: var(--alto-tarjeta-espacio);
   text-decoration: none;
   color: var(--color-texto);
-  background-color: var(--color-superficie-solida);
-  border: 1px solid var(--color-borde-suave);
-  overflow: hidden;
-  transition: transform var(--transicion), box-shadow var(--transicion);
+  transition: transform var(--transicion);
 }
 
 .home-tarjeta:hover,
 .home-tarjeta:focus-visible {
   transform: translateY(calc(var(--esp-3xs) * -1));
-  box-shadow: var(--sombra-md);
 }
 
 /* .marco viene de base.css sin `display` declarado, y en estos bloques el
@@ -120,13 +142,154 @@
   object-fit: cover;
 }
 
-/* LA FRANJA DE TEXTO. Fila propia de la rejilla, fondo sólido, debajo de la
-   foto. No flota sobre la imagen ni le come el borde inferior. */
+/* v23 · LA FOTO SALE DEL FLUJO DE ALTURA, y es obligatorio, no cosmético.
+   Medido en el navegador a 375 px antes de este arreglo: cuatro tarjetas con
+   la foto a 190 px de alto y la del Taller a 597. La razón es que
+   `height: 100%` sobre una caja de altura indefinida se resuelve a `auto`, y
+   entonces la <img> aporta su proporción natural al max-content de la fila
+   `1fr`: 338 × 1500/849 = 597 px para el Taller, que es la única foto en
+   retrato de las cinco. La fila dejaba de medir lo que decía la rejilla y
+   pasaba a medir lo que quisiera cada archivo.
+
+   `position: absolute; inset: 0` es exactamente lo que hace
+   `.usos-tarjeta__foto`, y por esto mismo: sacada del flujo, la fotografía
+   no aporta altura, la fila la manda la rejilla y las cinco tarjetas miden
+   igual. El recorte lo sigue haciendo `object-fit: cover` y la silueta el
+   arco de §1b — la <img> no lleva recorte propio, ni estático ni animado. */
+.home-tarjeta__portada > .home-tarjeta__foto {
+  position: absolute;
+  inset: 0;
+}
+
+/* ------------------------------------------------------------------ §1b */
+/* LA PORTADA A SANGRE Y EL ARCO QUE CRECE — el mismo gesto de espacios.html.
+   ---------------------------------------------------------------------------
+   ORIGEN. Es la técnica de `styles/sections/usos.css` §ARCO, traída aquí
+   entera y adaptada al contexto de rejilla; allí están las mediciones y la
+   aritmética completa (por qué `inset()` y no `path()`, de dónde salen el
+   −70 %, el −35 % y el 1,7). Aquí sólo se anota lo que CAMBIA, para no
+   duplicar tres páginas de comentario que ya tienen dueño.
+
+   QUÉ ES IGUAL, a propósito: la geometría del arco (mismo fotograma de
+   reposo, mismo fotograma de crecimiento, mismos radios), el reparto en tres
+   estados legibles —sin `inset() round` manda el `border-radius`; con él pero
+   sin líneas de tiempo o con `prefers-reduced-motion: reduce` manda el
+   `clip-path` estático, que dibuja el MISMO arco de reposo; con todo, el arco
+   crece y vuelve— y el hecho de que el arco recorta SÓLO la fila de la foto,
+   nunca la placa.
+
+   QUÉ CAMBIA, y por qué:
+   1. EL DUEÑO. En usos.css el recorte lo lleva `.usos-tarjeta > picture`;
+      aquí no hay <picture> —el contenido de un <a> lleva <span>—, así que lo
+      lleva `.home-tarjeta__portada`, que es ese <span>.
+   2. EL RANGO. Allí es `cover 25% cover 75%`, calculado para una tarjeta que
+      mide exactamente lo que la ventana: en ese caso el 25 % y el 75 % del
+      recorrido `cover` caen media ventana antes y media ventana después del
+      centrado. Aquí la tarjeta mide una fracción de la ventana y ese mismo
+      rango dejaría el arco creciendo durante casi todo el scroll de la
+      página, con el máximo tan lejos del reposo que el gesto se pierde. Se
+      cierra a `cover 35% cover 65%`: el crecimiento arranca con la tarjeta
+      ya entrando de verdad en cuadro y culmina —igual que allí— con la
+      tarjeta centrada. El momento que la curva quería marcar es el mismo; lo
+      que se acorta es la carrerilla, porque la pieza es más pequeña.
+
+      Y NO ES 35–65 %, que es lo que da la aritmética de servilleta. El
+      recorrido `cover` no se mide contra la ventana entera: `<html>` lleva
+      `scroll-padding-top: 88px` por la cabecera pegajosa, y la línea de
+      tiempo de vista descuenta ese margen, así que el punto medio del rango
+      no cae donde lo pondría la cuenta a mano. Medido en el navegador a
+      375 × 812 barriendo el scroll en los dos sentidos —el máximo aparece en
+      el mismo sitio subiendo y bajando, así que no es un desfase de lectura—:
+      con 35–65 % el máximo caía con el borde superior de la tarjeta a 330 px
+      del alto de ventana, ochenta píxeles por debajo del centro de la zona
+      visible (88–812). Diez puntos más tarde lo clavan: 45–75 %.
+   3. EL @media DE MOVIMIENTO REDUCIDO SIGUE SIENDO OBLIGATORIO aquí y no en
+      el bloque global de base.css, por lo mismo que explica usos.css: ese
+      bloque acorta duraciones, y una animación con línea de tiempo de scroll
+      no tiene duración en tiempo. Sin este guardia seguiría creciendo.
+
+   `.marco` (base.css) ya pone `position: relative` y `overflow: hidden`; lo
+   que se le quita es la proporción fija —la foto va a sangre, el alto lo
+   manda la fila `1fr`— y el `border-radius: 0`, que aquí sería una tarjeta
+   rectangular en el navegador sin `clip-path`. */
+.home-tarjeta__portada {
+  min-height: 0;
+  border-radius: 50% 50% var(--radio-md) var(--radio-md);
+}
+
+@supports (clip-path: inset(0 round 50% 50% 1px 1px)) {
+  .home-tarjeta__portada {
+    /* Con `overflow: hidden` activo, un `border-radius` de medio punto
+       seguiría recortando la caja al arco pequeño y el crecimiento no se
+       vería: la silueta pasa a tener un solo dueño, el `clip-path`. */
+    border-radius: 0;
+    clip-path: inset(0 0 0 0 round 50% 50% var(--radio-md) var(--radio-md));
+  }
+}
+
+/* Longhands y no el atajo `animation:`, porque el atajo reinicia
+   `animation-duration` y una animación con línea de tiempo de scroll necesita
+   `auto` para repartirse a lo largo del recorrido. */
+@supports (animation-timeline: view()) {
+  @media (prefers-reduced-motion: no-preference) {
+    .home-tarjeta__portada {
+      animation-name: home-espacio-arco-crece;
+      animation-duration: auto;
+      animation-timing-function: var(--ease);
+      animation-fill-mode: both;
+      animation-timeline: view();
+      animation-range: cover 45% cover 75%;
+    }
+  }
+}
+
+@keyframes home-espacio-arco-crece {
+  from {
+    clip-path: inset(0 0 0 0 round 50% 50% var(--radio-md) var(--radio-md));
+  }
+
+  50% {
+    clip-path: inset(-70% -35% 0 -35% round 50% 50%
+      calc(var(--radio-md) * 1.7) calc(var(--radio-md) * 1.7));
+  }
+
+  to {
+    clip-path: inset(0 0 0 0 round 50% 50% var(--radio-md) var(--radio-md));
+  }
+}
+
+/* Alameda: en una caja alta el recorte por defecto se va a la copa de los
+   árboles y pierde el prado, que es el sujeto real de la foto. Mismo ajuste
+   que en usos.css, y por la misma razón. */
+.home-rejilla--tres > li:first-child .home-tarjeta__foto {
+  object-position: 50% 62%;
+}
+
+/* LA PLACA. Fila propia de la rejilla, superficie opaca, debajo de la foto.
+   No flota sobre la imagen ni le come el borde inferior: son filas hermanas,
+   solaparse no es que esté prohibido, es que no se puede.
+
+   v23 · La superficie, la silueta de hoja y la sombra las pone `.placa`
+   (base.css §4b) desde el HTML; lo que queda aquí es la maqueta interna. El
+   margen es lo que la hace leerse como una ficha apoyada bajo la fotografía
+   y no como una plancha pegada al canto —mismo criterio que §PLACA de
+   usos.css—. `position` se queda sin declarar (estático): un `.placa`
+   posicionado es un `.placa` encima de algo, y el validador (regla h) lo
+   marca. */
 .home-tarjeta__cuerpo {
   display: flex;
   flex-direction: column;
   gap: var(--esp-3xs);
-  padding: var(--esp-md);
+  /* Margen POSITIVO en los cuatro cantos, y el de arriba no es negociable:
+     un margen negativo subiría la placa sobre la fotografía y sería justo la
+     vía por la que volvería el defecto que el cliente ya mandó corregir. */
+  margin: var(--esp-sm) var(--esp-sm) var(--esp-2xs);
+  transition: box-shadow var(--transicion);
+}
+
+.home-tarjeta:hover .home-tarjeta__cuerpo,
+.home-tarjeta:focus-visible .home-tarjeta__cuerpo {
+  box-shadow: var(--sombra-lg);
 }
 
 .home-tarjeta__nombre {
@@ -160,9 +323,14 @@
   color: var(--color-texto-suave);
 }
 
+/* v23 · La cifra sube un paso (de --fs-h4 a --fs-h3, el mismo de nombre): en
+   la maqueta de espacios.html el aforo es el tratamiento gráfico que primero
+   se ve de la ficha, y a tamaño de etiqueta se perdía dentro de la placa. No
+   llega a --fs-cifra como allí porque allí la placa ocupa el ancho de la
+   ventana y aquí un tercio de ella. */
 .home-tarjeta__dato-cifra {
   font-family: var(--fuente-display);
-  font-size: var(--fs-h4);
+  font-size: var(--fs-h3);
   font-weight: var(--peso-normal);
   letter-spacing: var(--tracking-display);
   color: var(--color-acento-texto);
@@ -178,37 +346,25 @@
   color: var(--color-acento-texto);
 }
 
-/* TARJETA HORIZONTAL — la variante del bloque «los espacios».
-   El plan §4.2 la pide literalmente así: «5 tarjetas horizontales con foto,
-   nombre, capacidad y "Ver usos"». Y hace falta por una razón medible: cinco
-   tarjetas apiladas a una columna con la foto a 3:2 son 3,3 pantallas de
-   móvil, más de la mitad del presupuesto de toda la portada. En horizontal
-   son cinco filas de foto cuadrada y texto al lado: una pantalla y media.
+/* v23 · LA VARIANTE HORIZONTAL DE MÓVIL SE RETIRA ENTERA.
+   Hasta la v22, por debajo de 40em `.home-rejilla--fila` partía la tarjeta en
+   dos columnas —foto cuadrada al 40 % a la izquierda, texto a la derecha—
+   para ahorrar pantallas de portada. Es exactamente la maqueta que el
+   cliente pidió cambiar («quiero el mismo hero de portadas animadas
+   exactamente igual como estaba antes aquí en espacios»): con la foto en
+   media columna no hay portada a sangre, no hay sitio para el arco y la
+   placa no se lee como una ficha apoyada, sino como una columna de texto.
 
-   El texto NO se mete encima de la foto para ganar ese sitio: se pone AL
-   LADO, en su propia columna. Es la misma regla del bloque, aplicada en
-   horizontal en vez de en vertical. */
-@media (max-width: 39.99em) {
-  .home-rejilla--fila .home-tarjeta {
-    grid-template-rows: auto;
-    grid-template-columns: 40% 1fr;
-  }
+   LO QUE COSTÓ Y POR QUÉ SE PAGA. A una columna las cinco tarjetas pasan de
+   ~1,5 a ~3 pantallas de móvil. Se paga porque es el pedido explícito del
+   cliente y porque el bloque sigue teniendo su salida arriba —los cinco
+   espacios completos están a un toque en espacios.html—; y se abarata donde
+   se puede: la tarjeta mide `--alto-tarjeta-espacio` (23rem en 375 px), no
+   los 100dvh de espacios.html, así que sigue siendo un escaparate y no cinco
+   portadas a pantalla completa.
 
-  .home-rejilla--fila .home-tarjeta > .marco {
-    /* Cuadrada en la fila: a 40 % de 345 px, un 3:2 dejaría una franja de
-       92 px de alto en la que no se distingue un espacio de otro. */
-    /* Sin `height: 100%`: con aspect-ratio Y altura al 100 % el ancho lo
-       calcula la altura, la foto se sale de su columna del 40 % y se monta
-       encima del texto — justo lo contrario de lo que este bloque persigue.
-       El ancho lo manda la columna; la altura sale de la proporcion. */
-    aspect-ratio: 1 / 1;
-  }
-
-  .home-rejilla--fila .home-tarjeta__cuerpo {
-    justify-content: center;
-    padding: var(--esp-sm);
-  }
-}
+   La clase `home-rejilla--fila` se retiró también del HTML: una regla que
+   nadie usa es una invitación a resucitarla.                              */
 
 /* Pie de bloque: la frase de condiciones o la salida a la página completa. */
 .home-pie-bloque {
@@ -444,7 +600,15 @@
    home.css es la única hoja que todas ellas cargan.
    ========================================================================== */
 .pagina-encabezado {
-  padding-block: var(--esp-seccion-sm) var(--esp-lg);
+  /* v24 · FALTABA EL RESPIRO DEL HEADER FIJO — bug real, reportado por el
+     cliente en celular: la cabecera (`.cabecera`, shell.css) es
+     `position: fixed`, así que sin este padding el encabezado de página
+     arranca en el mismo punto que ella y la mitad de la miga de pan
+     («← Vegas del Verde») quedaba tapada detrás del logo. El resto del
+     sitio ya resuelve esto — ver `.pagina-interior` (shell.css §3) para las
+     páginas legales — pero este bloque, nuevo de la fase de arquitectura,
+     se quedó sin el mismo respiro. Mismo cálculo que ahí. */
+  padding-block: calc(var(--alto-header) + var(--esp-lg)) var(--esp-lg);
 }
 
 .pagina-encabezado__interior {
@@ -467,17 +631,31 @@
 }
 
 /* Miga de pan: una sola línea, con el objetivo táctil completo de 44 px que
-   pide WCAG 2.5.8. */
+   pide WCAG 2.5.8.
+   v24 · SE VE MÁS Y DICE «VOLVER» — corrección del cliente en celular: con
+   `--color-texto-suave` (6,1:1, de sobra en la teoría) y `--fs-micro`
+   (12,5 px) el enlace se leía como un rótulo secundario, no como un botón de
+   volver — y encima estaba tapado por el header (ver `.pagina-encabezado`
+   arriba). Con el tapado ya resuelto, esto es la otra mitad: tinta llena
+   (--color-texto, 13,9:1) y un cuerpo de interfaz normal en vez del más
+   pequeño de la escala, para que se lea como una acción y no como un dato
+   de pie de página. El texto pasa de «← Vegas del Verde» —que repite el
+   logo que ya está tres centímetros arriba— a «← Volver», que es lo que
+   pidió el cliente. */
 .pagina-miga {
   display: inline-flex;
   align-items: center;
+  gap: var(--esp-3xs);
   min-height: 2.75rem;
   font-family: var(--fuente-titulo);
-  font-size: var(--fs-micro);
+  font-size: var(--fs-pequeno);
   font-weight: var(--peso-medio);
-  text-transform: uppercase;
-  letter-spacing: var(--tracking-rotulo);
-  color: var(--color-texto-suave);
+  color: var(--color-texto);
+}
+
+.pagina-miga:hover,
+.pagina-miga:focus-visible {
+  color: var(--color-acento-texto);
 }
 
 /* ==========================================================================

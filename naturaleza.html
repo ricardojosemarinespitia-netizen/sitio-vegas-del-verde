@@ -35,14 +35,14 @@
 <link rel="preload" as="font" type="font/woff2" crossorigin href="styles/fonts/dm-sans-latin.woff2?v=89c7ce3a">
 <link rel="preload" as="font" type="font/woff2" crossorigin href="styles/fonts/josefin-sans-latin.woff2?v=0ff5ba86">
 
-<link rel="stylesheet" href="styles/tokens.css?v=48a473db">
-<link rel="stylesheet" href="styles/base.css?v=05b2e133">
-<link rel="stylesheet" href="styles/shell.css?v=a82199f7">
+<link rel="stylesheet" href="styles/tokens.css?v=2bc1f74f">
+<link rel="stylesheet" href="styles/base.css?v=a9f3ede7">
+<link rel="stylesheet" href="styles/shell.css?v=46c48e51">
 <!-- Este bloque lo REESCRIBE herramientas/ensamblar.js a partir de PAGINAS.
      No lo edites a mano: la lista buena está allí. -->
-<link rel="stylesheet" href="styles/sections/home.css?v=88f4de38">
-<link rel="stylesheet" href="styles/sections/naturaleza.css?v=9a799657">
-<link rel="stylesheet" href="styles/sections/pie.css?v=94785836">
+<link rel="stylesheet" href="styles/sections/home.css?v=094e714b">
+<link rel="stylesheet" href="styles/sections/naturaleza.css?v=503a9f84">
+<link rel="stylesheet" href="styles/sections/pie.css?v=68c9b062">
 <link rel="stylesheet" href="styles/lightbox.css?v=92a48a1f">
 
 <script type="application/ld+json">
@@ -71,26 +71,25 @@
          vivero.html o naturaleza.html un ancla suelta no lleva a ninguna
          parte. Desde la portada el navegador resuelve el ancla igual. -->
     <a class="marca" href="index.html#inicio" aria-label="Vegas del Verde, ir al inicio">
-      <!-- v12 · EL LOGO ORIGINAL, no una aproximación. Hasta aquí la cabecera
-           llevaba una hoja dibujada a mano en SVG (una interpretación libre,
-           no el símbolo real) más el nombre escrito aparte en la tipografía
-           del sitio. Pedido directo del cliente: «pon el logo de Vegas el
-           original en la página». Las páginas interiores (terminos.html,
-           condiciones-de-alquiler.html, política-de-datos.html) ya usaban el
-           archivo real —`img/logo/logo-vegas-barra.png`, el lockup horizontal
-           sobre placa verde que trae el símbolo y la palabra en una sola
-           pieza— vía `.marca__logo` (ver shell.css). La cabecera principal
-           era la única pieza del sitio que no lo usaba. Ahora es la misma
-           imagen en todas partes: cero inconsistencia entre el logo de la
-           portada y el de las páginas sueltas. -->
-      <img
-        class="marca__logo"
-        src="img/logo/logo-vegas-barra.png"
-        width="1390"
-        height="356"
-        alt="Vegas del Verde"
-        decoding="async"
-      />
+      <!-- v27 · CAMBIA DE PIEZA: de `logo-vegas-barra.png` (símbolo+texto ya
+           resueltos en fila, sobre su propia placa verde horneada en el PNG)
+           a `logo-vegas-blanco.png` (símbolo ARRIBA, texto ABAJO, blanco
+           sobre transparente) — pedido directo del cliente. Esta variante no
+           trae fondo propio, así que necesita el chip verde de `.marca__chip`
+           (shell.css) para leerse sobre el papel claro de la cabecera; ver el
+           razonamiento de contraste junto a `--verde-logo-fondo` en
+           tokens.css. Las páginas sueltas (terminos.html, etc.) siguen con
+           `logo-vegas-barra.png` — no se tocan, no era el pedido. -->
+      <span class="marca__chip">
+        <img
+          class="marca__logo"
+          src="img/logo/logo-vegas-blanco.png"
+          width="1024"
+          height="705"
+          alt="Vegas del Verde"
+          decoding="async"
+        />
+      </span>
     </a>
 
     <nav class="nav" id="nav-principal" aria-label="Navegación principal">
@@ -244,7 +243,7 @@
      ========================================================================== -->
 <section id="portada-naturaleza" class="pagina-encabezado" aria-labelledby="portada-naturaleza-titulo">
   <div class="contenedor contenedor--ancho">
-    <a class="pagina-miga" href="index.html">← Vegas del Verde</a>
+    <a class="pagina-miga" href="index.html" aria-label="Volver a la página principal, Vegas del Verde">← Volver</a>
     <div class="pagina-encabezado__interior reveal">
       <p class="eyebrow">Pajareo y biodiversidad</p>
       <h1 id="portada-naturaleza-titulo" class="pagina-encabezado__titulo">Lo que vuela, lo que crece y quién lo fotografió</h1>
@@ -641,9 +640,9 @@
                 alt="Momotus subrufescens en el arbolado de Vegas del Verde, fotografía de Leyner Lozano"
               />
             </button>
-            <figcaption class="nat-obra__pie">
-              <span class="nat-obra__especie nat-cientifico">Momotus subrufescens</span>
-              <span class="nat-obra__autor">Foto: Leyner Lozano</span>
+            <figcaption class="nat-obra__pie pie-obra">
+              <span class="nat-obra__especie pie-obra__especie nat-cientifico">Momotus subrufescens</span>
+              <span class="nat-obra__autor credito">Foto: Leyner Lozano</span>
             </figcaption>
           </figure>
           <figure class="nat-obra">
@@ -665,9 +664,9 @@
                 alt="Eufonia piquigruesa en el arbolado de Vegas del Verde, fotografía de Francheska Salazar"
               />
             </button>
-            <figcaption class="nat-obra__pie">
-              <span class="nat-obra__especie">Eufonia piquigruesa</span>
-              <span class="nat-obra__autor">Foto: Francheska Salazar</span>
+            <figcaption class="nat-obra__pie pie-obra">
+              <span class="nat-obra__especie pie-obra__especie">Eufonia piquigruesa</span>
+              <span class="nat-obra__autor credito">Foto: Francheska Salazar</span>
             </figcaption>
           </figure>
           <figure class="nat-obra">
@@ -689,9 +688,9 @@
                 alt="Amazilia tzacatl en el arbolado de Vegas del Verde, fotografía de Jaime Suarez"
               />
             </button>
-            <figcaption class="nat-obra__pie">
-              <span class="nat-obra__especie nat-cientifico">Amazilia tzacatl</span>
-              <span class="nat-obra__autor">Foto: Jaime Suarez</span>
+            <figcaption class="nat-obra__pie pie-obra">
+              <span class="nat-obra__especie pie-obra__especie nat-cientifico">Amazilia tzacatl</span>
+              <span class="nat-obra__autor credito">Foto: Jaime Suarez</span>
             </figcaption>
           </figure>
           <figure class="nat-obra">
@@ -713,9 +712,9 @@
                 alt="Azulejo palmero en el arbolado de Vegas del Verde, fotografía de Francheska Salazar"
               />
             </button>
-            <figcaption class="nat-obra__pie">
-              <span class="nat-obra__especie">Azulejo palmero</span>
-              <span class="nat-obra__autor">Foto: Francheska Salazar</span>
+            <figcaption class="nat-obra__pie pie-obra">
+              <span class="nat-obra__especie pie-obra__especie">Azulejo palmero</span>
+              <span class="nat-obra__autor credito">Foto: Francheska Salazar</span>
             </figcaption>
           </figure>
           <figure class="nat-obra">
@@ -737,9 +736,9 @@
                 alt="Thraupis episcopus en el arbolado de Vegas del Verde, fotografía de Fernando Caceres"
               />
             </button>
-            <figcaption class="nat-obra__pie">
-              <span class="nat-obra__especie nat-cientifico">Thraupis episcopus</span>
-              <span class="nat-obra__autor">Foto: Fernando Caceres</span>
+            <figcaption class="nat-obra__pie pie-obra">
+              <span class="nat-obra__especie pie-obra__especie nat-cientifico">Thraupis episcopus</span>
+              <span class="nat-obra__autor credito">Foto: Fernando Caceres</span>
             </figcaption>
           </figure>
           <figure class="nat-obra">
@@ -761,9 +760,9 @@
                 alt="Piaya cayana en el arbolado de Vegas del Verde, fotografía de Jonathan Layton Avila"
               />
             </button>
-            <figcaption class="nat-obra__pie">
-              <span class="nat-obra__especie nat-cientifico">Piaya cayana</span>
-              <span class="nat-obra__autor">Foto: Jonathan Layton Avila</span>
+            <figcaption class="nat-obra__pie pie-obra">
+              <span class="nat-obra__especie pie-obra__especie nat-cientifico">Piaya cayana</span>
+              <span class="nat-obra__autor credito">Foto: Jonathan Layton Avila</span>
             </figcaption>
           </figure>
           <figure class="nat-obra">
@@ -785,9 +784,9 @@
                 alt="Todirostrum cinereum en el arbolado de Vegas del Verde, fotografía de Jonathan Layton Avila"
               />
             </button>
-            <figcaption class="nat-obra__pie">
-              <span class="nat-obra__especie nat-cientifico">Todirostrum cinereum</span>
-              <span class="nat-obra__autor">Foto: Jonathan Layton Avila</span>
+            <figcaption class="nat-obra__pie pie-obra">
+              <span class="nat-obra__especie pie-obra__especie nat-cientifico">Todirostrum cinereum</span>
+              <span class="nat-obra__autor credito">Foto: Jonathan Layton Avila</span>
             </figcaption>
           </figure>
           <figure class="nat-obra">
@@ -809,9 +808,9 @@
                 alt="Tityra inquisitor · macho en el arbolado de Vegas del Verde, fotografía de Daniel Arango"
               />
             </button>
-            <figcaption class="nat-obra__pie">
-              <span class="nat-obra__especie nat-cientifico">Tityra inquisitor · macho</span>
-              <span class="nat-obra__autor">Foto: Daniel Arango</span>
+            <figcaption class="nat-obra__pie pie-obra">
+              <span class="nat-obra__especie pie-obra__especie nat-cientifico">Tityra inquisitor · macho</span>
+              <span class="nat-obra__autor credito">Foto: Daniel Arango</span>
             </figcaption>
           </figure>
           <figure class="nat-obra">
@@ -833,9 +832,9 @@
                 alt="Chondrohierax uncinatus en el arbolado de Vegas del Verde, fotografía de Leyner Lozano"
               />
             </button>
-            <figcaption class="nat-obra__pie">
-              <span class="nat-obra__especie nat-cientifico">Chondrohierax uncinatus</span>
-              <span class="nat-obra__autor">Foto: Leyner Lozano</span>
+            <figcaption class="nat-obra__pie pie-obra">
+              <span class="nat-obra__especie pie-obra__especie nat-cientifico">Chondrohierax uncinatus</span>
+              <span class="nat-obra__autor credito">Foto: Leyner Lozano</span>
             </figcaption>
           </figure>
           <figure class="nat-obra">
@@ -857,9 +856,9 @@
                 alt="Ave sin identificar, fotografiada en Vegas del Verde por Arturo Sepulveda"
               />
             </button>
-            <figcaption class="nat-obra__pie">
-              <span class="nat-obra__especie nat-obra__especie--anonima">Ave del predio</span>
-              <span class="nat-obra__autor">Foto: Arturo Sepulveda</span>
+            <figcaption class="nat-obra__pie pie-obra">
+              <span class="nat-obra__especie pie-obra__especie pie-obra__especie--anonima nat-obra__especie--anonima">Ave del predio</span>
+              <span class="nat-obra__autor credito">Foto: Arturo Sepulveda</span>
             </figcaption>
           </figure>
           <figure class="nat-obra">
@@ -881,9 +880,9 @@
                 alt="Ave sin identificar, fotografiada en Vegas del Verde por Fabio Hernandez"
               />
             </button>
-            <figcaption class="nat-obra__pie">
-              <span class="nat-obra__especie nat-obra__especie--anonima">Ave del predio</span>
-              <span class="nat-obra__autor">Foto: Fabio Hernandez</span>
+            <figcaption class="nat-obra__pie pie-obra">
+              <span class="nat-obra__especie pie-obra__especie pie-obra__especie--anonima nat-obra__especie--anonima">Ave del predio</span>
+              <span class="nat-obra__autor credito">Foto: Fabio Hernandez</span>
             </figcaption>
           </figure>
           <figure class="nat-obra">
@@ -905,9 +904,9 @@
                 alt="Zorzal piquinegro en el arbolado de Vegas del Verde, fotografía de Francheska Salazar"
               />
             </button>
-            <figcaption class="nat-obra__pie">
-              <span class="nat-obra__especie">Zorzal piquinegro</span>
-              <span class="nat-obra__autor">Foto: Francheska Salazar</span>
+            <figcaption class="nat-obra__pie pie-obra">
+              <span class="nat-obra__especie pie-obra__especie">Zorzal piquinegro</span>
+              <span class="nat-obra__autor credito">Foto: Francheska Salazar</span>
             </figcaption>
           </figure>
           <figure class="nat-obra">
@@ -929,9 +928,9 @@
                 alt="Thraupis episcopus en el arbolado de Vegas del Verde, fotografía de Jonathan Layton Avila"
               />
             </button>
-            <figcaption class="nat-obra__pie">
-              <span class="nat-obra__especie nat-cientifico">Thraupis episcopus</span>
-              <span class="nat-obra__autor">Foto: Jonathan Layton Avila</span>
+            <figcaption class="nat-obra__pie pie-obra">
+              <span class="nat-obra__especie pie-obra__especie nat-cientifico">Thraupis episcopus</span>
+              <span class="nat-obra__autor credito">Foto: Jonathan Layton Avila</span>
             </figcaption>
           </figure>
           <figure class="nat-obra">
@@ -953,9 +952,9 @@
                 alt="Cucú ardilla en el arbolado de Vegas del Verde, fotografía de Andrea Elizabeth"
               />
             </button>
-            <figcaption class="nat-obra__pie">
-              <span class="nat-obra__especie">Cucú ardilla</span>
-              <span class="nat-obra__autor">Foto: Andrea Elizabeth</span>
+            <figcaption class="nat-obra__pie pie-obra">
+              <span class="nat-obra__especie pie-obra__especie">Cucú ardilla</span>
+              <span class="nat-obra__autor credito">Foto: Andrea Elizabeth</span>
             </figcaption>
           </figure>
           <figure class="nat-obra">
@@ -977,9 +976,9 @@
                 alt="Eufonia piquigruesa en el arbolado de Vegas del Verde, fotografía de Andrea Elizabeth"
               />
             </button>
-            <figcaption class="nat-obra__pie">
-              <span class="nat-obra__especie">Eufonia piquigruesa</span>
-              <span class="nat-obra__autor">Foto: Andrea Elizabeth</span>
+            <figcaption class="nat-obra__pie pie-obra">
+              <span class="nat-obra__especie pie-obra__especie">Eufonia piquigruesa</span>
+              <span class="nat-obra__autor credito">Foto: Andrea Elizabeth</span>
             </figcaption>
           </figure>
           <figure class="nat-obra">
@@ -1001,9 +1000,9 @@
                 alt="Trepatroncos en el arbolado de Vegas del Verde, fotografía de Andrea Elizabeth"
               />
             </button>
-            <figcaption class="nat-obra__pie">
-              <span class="nat-obra__especie">Trepatroncos</span>
-              <span class="nat-obra__autor">Foto: Andrea Elizabeth</span>
+            <figcaption class="nat-obra__pie pie-obra">
+              <span class="nat-obra__especie pie-obra__especie">Trepatroncos</span>
+              <span class="nat-obra__autor credito">Foto: Andrea Elizabeth</span>
             </figcaption>
           </figure>
           <figure class="nat-obra">
@@ -1025,9 +1024,9 @@
                 alt="Ave sin identificar, fotografiada en Vegas del Verde por Arturo Sepulveda"
               />
             </button>
-            <figcaption class="nat-obra__pie">
-              <span class="nat-obra__especie nat-obra__especie--anonima">Ave del predio</span>
-              <span class="nat-obra__autor">Foto: Arturo Sepulveda</span>
+            <figcaption class="nat-obra__pie pie-obra">
+              <span class="nat-obra__especie pie-obra__especie pie-obra__especie--anonima nat-obra__especie--anonima">Ave del predio</span>
+              <span class="nat-obra__autor credito">Foto: Arturo Sepulveda</span>
             </figcaption>
           </figure>
           <figure class="nat-obra">
@@ -1049,9 +1048,9 @@
                 alt="Barranquero en el arbolado de Vegas del Verde, fotografía de Carlos Serrano"
               />
             </button>
-            <figcaption class="nat-obra__pie">
-              <span class="nat-obra__especie">Barranquero</span>
-              <span class="nat-obra__autor">Foto: Carlos Serrano</span>
+            <figcaption class="nat-obra__pie pie-obra">
+              <span class="nat-obra__especie pie-obra__especie">Barranquero</span>
+              <span class="nat-obra__autor credito">Foto: Carlos Serrano</span>
             </figcaption>
           </figure>
           <figure class="nat-obra">
@@ -1073,9 +1072,9 @@
                 alt="Batará carcajada en el arbolado de Vegas del Verde, fotografía de Carlos Serrano"
               />
             </button>
-            <figcaption class="nat-obra__pie">
-              <span class="nat-obra__especie">Batará carcajada</span>
-              <span class="nat-obra__autor">Foto: Carlos Serrano</span>
+            <figcaption class="nat-obra__pie pie-obra">
+              <span class="nat-obra__especie pie-obra__especie">Batará carcajada</span>
+              <span class="nat-obra__autor credito">Foto: Carlos Serrano</span>
             </figcaption>
           </figure>
           <figure class="nat-obra">
@@ -1097,9 +1096,9 @@
                 alt="Saltador pío en el arbolado de Vegas del Verde, fotografía de Carlos Serrano"
               />
             </button>
-            <figcaption class="nat-obra__pie">
-              <span class="nat-obra__especie">Saltador pío</span>
-              <span class="nat-obra__autor">Foto: Carlos Serrano</span>
+            <figcaption class="nat-obra__pie pie-obra">
+              <span class="nat-obra__especie pie-obra__especie">Saltador pío</span>
+              <span class="nat-obra__autor credito">Foto: Carlos Serrano</span>
             </figcaption>
           </figure>
           <figure class="nat-obra">
@@ -1121,9 +1120,9 @@
                 alt="Tityra inquisitor · hembra en el arbolado de Vegas del Verde, fotografía de Daniel Arango"
               />
             </button>
-            <figcaption class="nat-obra__pie">
-              <span class="nat-obra__especie nat-cientifico">Tityra inquisitor · hembra</span>
-              <span class="nat-obra__autor">Foto: Daniel Arango</span>
+            <figcaption class="nat-obra__pie pie-obra">
+              <span class="nat-obra__especie pie-obra__especie nat-cientifico">Tityra inquisitor · hembra</span>
+              <span class="nat-obra__autor credito">Foto: Daniel Arango</span>
             </figcaption>
           </figure>
           <figure class="nat-obra">
@@ -1145,9 +1144,9 @@
                 alt="Tityra inquisitor · hembra en el arbolado de Vegas del Verde, fotografía de Daniel Arango"
               />
             </button>
-            <figcaption class="nat-obra__pie">
-              <span class="nat-obra__especie nat-cientifico">Tityra inquisitor · hembra</span>
-              <span class="nat-obra__autor">Foto: Daniel Arango</span>
+            <figcaption class="nat-obra__pie pie-obra">
+              <span class="nat-obra__especie pie-obra__especie nat-cientifico">Tityra inquisitor · hembra</span>
+              <span class="nat-obra__autor credito">Foto: Daniel Arango</span>
             </figcaption>
           </figure>
           <figure class="nat-obra">
@@ -1169,9 +1168,9 @@
                 alt="Brotogeris jugularis en el arbolado de Vegas del Verde, fotografía de Diego Cespedes"
               />
             </button>
-            <figcaption class="nat-obra__pie">
-              <span class="nat-obra__especie nat-cientifico">Brotogeris jugularis</span>
-              <span class="nat-obra__autor">Foto: Diego Cespedes</span>
+            <figcaption class="nat-obra__pie pie-obra">
+              <span class="nat-obra__especie pie-obra__especie nat-cientifico">Brotogeris jugularis</span>
+              <span class="nat-obra__autor credito">Foto: Diego Cespedes</span>
             </figcaption>
           </figure>
           <figure class="nat-obra">
@@ -1193,9 +1192,9 @@
                 alt="Brotogeris jugularis en el arbolado de Vegas del Verde, fotografía de Diego Cespedes"
               />
             </button>
-            <figcaption class="nat-obra__pie">
-              <span class="nat-obra__especie nat-cientifico">Brotogeris jugularis</span>
-              <span class="nat-obra__autor">Foto: Diego Cespedes</span>
+            <figcaption class="nat-obra__pie pie-obra">
+              <span class="nat-obra__especie pie-obra__especie nat-cientifico">Brotogeris jugularis</span>
+              <span class="nat-obra__autor credito">Foto: Diego Cespedes</span>
             </figcaption>
           </figure>
           <figure class="nat-obra">
@@ -1217,9 +1216,9 @@
                 alt="Ave sin identificar, fotografiada en Vegas del Verde por Diego Fernando Salazar"
               />
             </button>
-            <figcaption class="nat-obra__pie">
-              <span class="nat-obra__especie nat-obra__especie--anonima">Ave del predio</span>
-              <span class="nat-obra__autor">Foto: Diego Fernando Salazar</span>
+            <figcaption class="nat-obra__pie pie-obra">
+              <span class="nat-obra__especie pie-obra__especie pie-obra__especie--anonima nat-obra__especie--anonima">Ave del predio</span>
+              <span class="nat-obra__autor credito">Foto: Diego Fernando Salazar</span>
             </figcaption>
           </figure>
           <figure class="nat-obra">
@@ -1241,9 +1240,9 @@
                 alt="Ave sin identificar, fotografiada en Vegas del Verde por Diego Fernando Salazar"
               />
             </button>
-            <figcaption class="nat-obra__pie">
-              <span class="nat-obra__especie nat-obra__especie--anonima">Ave del predio</span>
-              <span class="nat-obra__autor">Foto: Diego Fernando Salazar</span>
+            <figcaption class="nat-obra__pie pie-obra">
+              <span class="nat-obra__especie pie-obra__especie pie-obra__especie--anonima nat-obra__especie--anonima">Ave del predio</span>
+              <span class="nat-obra__autor credito">Foto: Diego Fernando Salazar</span>
             </figcaption>
           </figure>
           <figure class="nat-obra">
@@ -1265,9 +1264,9 @@
                 alt="Ave sin identificar, fotografiada en Vegas del Verde por Diego Fernando Salazar"
               />
             </button>
-            <figcaption class="nat-obra__pie">
-              <span class="nat-obra__especie nat-obra__especie--anonima">Ave del predio</span>
-              <span class="nat-obra__autor">Foto: Diego Fernando Salazar</span>
+            <figcaption class="nat-obra__pie pie-obra">
+              <span class="nat-obra__especie pie-obra__especie pie-obra__especie--anonima nat-obra__especie--anonima">Ave del predio</span>
+              <span class="nat-obra__autor credito">Foto: Diego Fernando Salazar</span>
             </figcaption>
           </figure>
           <figure class="nat-obra">
@@ -1289,9 +1288,9 @@
                 alt="Ave sin identificar, fotografiada en Vegas del Verde por Diego Fernando Salazar"
               />
             </button>
-            <figcaption class="nat-obra__pie">
-              <span class="nat-obra__especie nat-obra__especie--anonima">Ave del predio</span>
-              <span class="nat-obra__autor">Foto: Diego Fernando Salazar</span>
+            <figcaption class="nat-obra__pie pie-obra">
+              <span class="nat-obra__especie pie-obra__especie pie-obra__especie--anonima nat-obra__especie--anonima">Ave del predio</span>
+              <span class="nat-obra__autor credito">Foto: Diego Fernando Salazar</span>
             </figcaption>
           </figure>
           <figure class="nat-obra">
@@ -1313,9 +1312,9 @@
                 alt="Dos periquitos verdes posados en un tronco seco, recortados contra el cielo, fotografiados en Vegas del Verde por Diego Fernando Salazar"
               />
             </button>
-            <figcaption class="nat-obra__pie">
-              <span class="nat-obra__especie nat-obra__especie--anonima">Aves del predio</span>
-              <span class="nat-obra__autor">Foto: Diego Fernando Salazar</span>
+            <figcaption class="nat-obra__pie pie-obra">
+              <span class="nat-obra__especie pie-obra__especie pie-obra__especie--anonima nat-obra__especie--anonima">Aves del predio</span>
+              <span class="nat-obra__autor credito">Foto: Diego Fernando Salazar</span>
             </figcaption>
           </figure>
           <figure class="nat-obra">
@@ -1337,9 +1336,9 @@
                 alt="Eufonia piquigruesa en el arbolado de Vegas del Verde, fotografía de Erit Moratto"
               />
             </button>
-            <figcaption class="nat-obra__pie">
-              <span class="nat-obra__especie">Eufonia piquigruesa</span>
-              <span class="nat-obra__autor">Foto: Erit Moratto</span>
+            <figcaption class="nat-obra__pie pie-obra">
+              <span class="nat-obra__especie pie-obra__especie">Eufonia piquigruesa</span>
+              <span class="nat-obra__autor credito">Foto: Erit Moratto</span>
             </figcaption>
           </figure>
           <figure class="nat-obra">
@@ -1361,9 +1360,9 @@
                 alt="Azulejo en el arbolado de Vegas del Verde, fotografía de Erit Moratto"
               />
             </button>
-            <figcaption class="nat-obra__pie">
-              <span class="nat-obra__especie">Azulejo</span>
-              <span class="nat-obra__autor">Foto: Erit Moratto</span>
+            <figcaption class="nat-obra__pie pie-obra">
+              <span class="nat-obra__especie pie-obra__especie">Azulejo</span>
+              <span class="nat-obra__autor credito">Foto: Erit Moratto</span>
             </figcaption>
           </figure>
           <figure class="nat-obra">
@@ -1385,9 +1384,9 @@
                 alt="Colibrí en el arbolado de Vegas del Verde, fotografía de Erit Moratto"
               />
             </button>
-            <figcaption class="nat-obra__pie">
-              <span class="nat-obra__especie">Colibrí</span>
-              <span class="nat-obra__autor">Foto: Erit Moratto</span>
+            <figcaption class="nat-obra__pie pie-obra">
+              <span class="nat-obra__especie pie-obra__especie">Colibrí</span>
+              <span class="nat-obra__autor credito">Foto: Erit Moratto</span>
             </figcaption>
           </figure>
           <figure class="nat-obra">
@@ -1409,9 +1408,9 @@
                 alt="Loros en el arbolado de Vegas del Verde, fotografía de Fabio Hernandez"
               />
             </button>
-            <figcaption class="nat-obra__pie">
-              <span class="nat-obra__especie">Loros</span>
-              <span class="nat-obra__autor">Foto: Fabio Hernandez</span>
+            <figcaption class="nat-obra__pie pie-obra">
+              <span class="nat-obra__especie pie-obra__especie">Loros</span>
+              <span class="nat-obra__autor credito">Foto: Fabio Hernandez</span>
             </figcaption>
           </figure>
           <figure class="nat-obra">
@@ -1433,9 +1432,9 @@
                 alt="Ave sin identificar, fotografiada en Vegas del Verde por Fabio Hernandez"
               />
             </button>
-            <figcaption class="nat-obra__pie">
-              <span class="nat-obra__especie nat-obra__especie--anonima">Ave del predio</span>
-              <span class="nat-obra__autor">Foto: Fabio Hernandez</span>
+            <figcaption class="nat-obra__pie pie-obra">
+              <span class="nat-obra__especie pie-obra__especie pie-obra__especie--anonima nat-obra__especie--anonima">Ave del predio</span>
+              <span class="nat-obra__autor credito">Foto: Fabio Hernandez</span>
             </figcaption>
           </figure>
           <figure class="nat-obra">
@@ -1457,9 +1456,9 @@
                 alt="Azulejo en el arbolado de Vegas del Verde, fotografía de Fabiola Rueda"
               />
             </button>
-            <figcaption class="nat-obra__pie">
-              <span class="nat-obra__especie">Azulejo</span>
-              <span class="nat-obra__autor">Foto: Fabiola Rueda</span>
+            <figcaption class="nat-obra__pie pie-obra">
+              <span class="nat-obra__especie pie-obra__especie">Azulejo</span>
+              <span class="nat-obra__autor credito">Foto: Fabiola Rueda</span>
             </figcaption>
           </figure>
           <figure class="nat-obra">
@@ -1481,9 +1480,9 @@
                 alt="Periquito bronceado en el arbolado de Vegas del Verde, fotografía de Fabiola Rueda"
               />
             </button>
-            <figcaption class="nat-obra__pie">
-              <span class="nat-obra__especie">Periquito bronceado</span>
-              <span class="nat-obra__autor">Foto: Fabiola Rueda</span>
+            <figcaption class="nat-obra__pie pie-obra">
+              <span class="nat-obra__especie pie-obra__especie">Periquito bronceado</span>
+              <span class="nat-obra__autor credito">Foto: Fabiola Rueda</span>
             </figcaption>
           </figure>
           <figure class="nat-obra">
@@ -1505,9 +1504,9 @@
                 alt="Euphonia en el arbolado de Vegas del Verde, fotografía de Fabiola Rueda"
               />
             </button>
-            <figcaption class="nat-obra__pie">
-              <span class="nat-obra__especie nat-cientifico">Euphonia</span>
-              <span class="nat-obra__autor">Foto: Fabiola Rueda</span>
+            <figcaption class="nat-obra__pie pie-obra">
+              <span class="nat-obra__especie pie-obra__especie nat-cientifico">Euphonia</span>
+              <span class="nat-obra__autor credito">Foto: Fabiola Rueda</span>
             </figcaption>
           </figure>
           <figure class="nat-obra">
@@ -1529,9 +1528,9 @@
                 alt="Loro real en el arbolado de Vegas del Verde, fotografía de Fabiola Rueda"
               />
             </button>
-            <figcaption class="nat-obra__pie">
-              <span class="nat-obra__especie">Loro real</span>
-              <span class="nat-obra__autor">Foto: Fabiola Rueda</span>
+            <figcaption class="nat-obra__pie pie-obra">
+              <span class="nat-obra__especie pie-obra__especie">Loro real</span>
+              <span class="nat-obra__autor credito">Foto: Fabiola Rueda</span>
             </figcaption>
           </figure>
           <figure class="nat-obra">
@@ -1553,9 +1552,9 @@
                 alt="Forpus conspicillatus en el arbolado de Vegas del Verde, fotografía de Jaime Suarez"
               />
             </button>
-            <figcaption class="nat-obra__pie">
-              <span class="nat-obra__especie nat-cientifico">Forpus conspicillatus</span>
-              <span class="nat-obra__autor">Foto: Jaime Suarez</span>
+            <figcaption class="nat-obra__pie pie-obra">
+              <span class="nat-obra__especie pie-obra__especie nat-cientifico">Forpus conspicillatus</span>
+              <span class="nat-obra__autor credito">Foto: Jaime Suarez</span>
             </figcaption>
           </figure>
           <figure class="nat-obra">
@@ -1577,9 +1576,9 @@
                 alt="Todirostrum cinereum en el arbolado de Vegas del Verde, fotografía de Jaime Suarez"
               />
             </button>
-            <figcaption class="nat-obra__pie">
-              <span class="nat-obra__especie nat-cientifico">Todirostrum cinereum</span>
-              <span class="nat-obra__autor">Foto: Jaime Suarez</span>
+            <figcaption class="nat-obra__pie pie-obra">
+              <span class="nat-obra__especie pie-obra__especie nat-cientifico">Todirostrum cinereum</span>
+              <span class="nat-obra__autor credito">Foto: Jaime Suarez</span>
             </figcaption>
           </figure>
           <figure class="nat-obra">
@@ -1601,9 +1600,9 @@
                 alt="Carpintero en el arbolado de Vegas del Verde, fotografía de Jesus Lopez"
               />
             </button>
-            <figcaption class="nat-obra__pie">
-              <span class="nat-obra__especie">Carpintero</span>
-              <span class="nat-obra__autor">Foto: Jesus Lopez</span>
+            <figcaption class="nat-obra__pie pie-obra">
+              <span class="nat-obra__especie pie-obra__especie">Carpintero</span>
+              <span class="nat-obra__autor credito">Foto: Jesus Lopez</span>
             </figcaption>
           </figure>
           <figure class="nat-obra">
@@ -1625,9 +1624,9 @@
                 alt="Colibrí en el arbolado de Vegas del Verde, fotografía de Jesus Lopez"
               />
             </button>
-            <figcaption class="nat-obra__pie">
-              <span class="nat-obra__especie">Colibrí</span>
-              <span class="nat-obra__autor">Foto: Jesus Lopez</span>
+            <figcaption class="nat-obra__pie pie-obra">
+              <span class="nat-obra__especie pie-obra__especie">Colibrí</span>
+              <span class="nat-obra__autor credito">Foto: Jesus Lopez</span>
             </figcaption>
           </figure>
           <figure class="nat-obra">
@@ -1649,9 +1648,9 @@
                 alt="Tirano siriri en el arbolado de Vegas del Verde, fotografía de Jesus Lopez"
               />
             </button>
-            <figcaption class="nat-obra__pie">
-              <span class="nat-obra__especie">Tirano siriri</span>
-              <span class="nat-obra__autor">Foto: Jesus Lopez</span>
+            <figcaption class="nat-obra__pie pie-obra">
+              <span class="nat-obra__especie pie-obra__especie">Tirano siriri</span>
+              <span class="nat-obra__autor credito">Foto: Jesus Lopez</span>
             </figcaption>
           </figure>
           <figure class="nat-obra">
@@ -1673,9 +1672,9 @@
                 alt="Machetornis rixosa en el arbolado de Vegas del Verde, fotografía de José Belisario Cardenas"
               />
             </button>
-            <figcaption class="nat-obra__pie">
-              <span class="nat-obra__especie nat-cientifico">Machetornis rixosa</span>
-              <span class="nat-obra__autor">Foto: José Belisario Cardenas</span>
+            <figcaption class="nat-obra__pie pie-obra">
+              <span class="nat-obra__especie pie-obra__especie nat-cientifico">Machetornis rixosa</span>
+              <span class="nat-obra__autor credito">Foto: José Belisario Cardenas</span>
             </figcaption>
           </figure>
           <figure class="nat-obra">
@@ -1697,9 +1696,9 @@
                 alt="Thamnophilus multistriatus en el arbolado de Vegas del Verde, fotografía de José Belisario Cardenas"
               />
             </button>
-            <figcaption class="nat-obra__pie">
-              <span class="nat-obra__especie nat-cientifico">Thamnophilus multistriatus</span>
-              <span class="nat-obra__autor">Foto: José Belisario Cardenas</span>
+            <figcaption class="nat-obra__pie pie-obra">
+              <span class="nat-obra__especie pie-obra__especie nat-cientifico">Thamnophilus multistriatus</span>
+              <span class="nat-obra__autor credito">Foto: José Belisario Cardenas</span>
             </figcaption>
           </figure>
           <figure class="nat-obra">
@@ -1721,9 +1720,9 @@
                 alt="Tityra inquisitor en el arbolado de Vegas del Verde, fotografía de José Belisario Cardenas"
               />
             </button>
-            <figcaption class="nat-obra__pie">
-              <span class="nat-obra__especie nat-cientifico">Tityra inquisitor</span>
-              <span class="nat-obra__autor">Foto: José Belisario Cardenas</span>
+            <figcaption class="nat-obra__pie pie-obra">
+              <span class="nat-obra__especie pie-obra__especie nat-cientifico">Tityra inquisitor</span>
+              <span class="nat-obra__autor credito">Foto: José Belisario Cardenas</span>
             </figcaption>
           </figure>
           <figure class="nat-obra">
@@ -1745,9 +1744,9 @@
                 alt="Stilpnia cyanicollis en el arbolado de Vegas del Verde, fotografía de Leyner Lozano"
               />
             </button>
-            <figcaption class="nat-obra__pie">
-              <span class="nat-obra__especie nat-cientifico">Stilpnia cyanicollis</span>
-              <span class="nat-obra__autor">Foto: Leyner Lozano</span>
+            <figcaption class="nat-obra__pie pie-obra">
+              <span class="nat-obra__especie pie-obra__especie nat-cientifico">Stilpnia cyanicollis</span>
+              <span class="nat-obra__autor credito">Foto: Leyner Lozano</span>
             </figcaption>
           </figure>
           <figure class="nat-obra">
@@ -1769,9 +1768,9 @@
                 alt="Azulejo en el arbolado de Vegas del Verde, fotografía de Myriam Villalba"
               />
             </button>
-            <figcaption class="nat-obra__pie">
-              <span class="nat-obra__especie">Azulejo</span>
-              <span class="nat-obra__autor">Foto: Myriam Villalba</span>
+            <figcaption class="nat-obra__pie pie-obra">
+              <span class="nat-obra__especie pie-obra__especie">Azulejo</span>
+              <span class="nat-obra__autor credito">Foto: Myriam Villalba</span>
             </figcaption>
           </figure>
           <figure class="nat-obra">
@@ -1793,9 +1792,9 @@
                 alt="Azulejo en el arbolado de Vegas del Verde, fotografía de Myriam Villalba"
               />
             </button>
-            <figcaption class="nat-obra__pie">
-              <span class="nat-obra__especie">Azulejo</span>
-              <span class="nat-obra__autor">Foto: Myriam Villalba</span>
+            <figcaption class="nat-obra__pie pie-obra">
+              <span class="nat-obra__especie pie-obra__especie">Azulejo</span>
+              <span class="nat-obra__autor credito">Foto: Myriam Villalba</span>
             </figcaption>
           </figure>
           <figure class="nat-obra">
@@ -1817,9 +1816,9 @@
                 alt="Canario en el arbolado de Vegas del Verde, fotografía de Myriam Villalba"
               />
             </button>
-            <figcaption class="nat-obra__pie">
-              <span class="nat-obra__especie">Canario</span>
-              <span class="nat-obra__autor">Foto: Myriam Villalba</span>
+            <figcaption class="nat-obra__pie pie-obra">
+              <span class="nat-obra__especie pie-obra__especie">Canario</span>
+              <span class="nat-obra__autor credito">Foto: Myriam Villalba</span>
             </figcaption>
           </figure>
           <figure class="nat-obra">
@@ -1841,9 +1840,9 @@
                 alt="Azulejo en el arbolado de Vegas del Verde, fotografía de Rutbel Rueda"
               />
             </button>
-            <figcaption class="nat-obra__pie">
-              <span class="nat-obra__especie">Azulejo</span>
-              <span class="nat-obra__autor">Foto: Rutbel Rueda</span>
+            <figcaption class="nat-obra__pie pie-obra">
+              <span class="nat-obra__especie pie-obra__especie">Azulejo</span>
+              <span class="nat-obra__autor credito">Foto: Rutbel Rueda</span>
             </figcaption>
           </figure>
           <figure class="nat-obra">
@@ -1865,9 +1864,9 @@
                 alt="Canario en el arbolado de Vegas del Verde, fotografía de Rutbel Rueda"
               />
             </button>
-            <figcaption class="nat-obra__pie">
-              <span class="nat-obra__especie">Canario</span>
-              <span class="nat-obra__autor">Foto: Rutbel Rueda</span>
+            <figcaption class="nat-obra__pie pie-obra">
+              <span class="nat-obra__especie pie-obra__especie">Canario</span>
+              <span class="nat-obra__autor credito">Foto: Rutbel Rueda</span>
             </figcaption>
           </figure>
           <figure class="nat-obra">
@@ -1889,9 +1888,9 @@
                 alt="Cucarachero en el arbolado de Vegas del Verde, fotografía de Rutbel Rueda"
               />
             </button>
-            <figcaption class="nat-obra__pie">
-              <span class="nat-obra__especie">Cucarachero</span>
-              <span class="nat-obra__autor">Foto: Rutbel Rueda</span>
+            <figcaption class="nat-obra__pie pie-obra">
+              <span class="nat-obra__especie pie-obra__especie">Cucarachero</span>
+              <span class="nat-obra__autor credito">Foto: Rutbel Rueda</span>
             </figcaption>
           </figure>
           <figure class="nat-obra">
@@ -1913,9 +1912,9 @@
                 alt="Sinsonte en el arbolado de Vegas del Verde, fotografía de Sergio Barreto"
               />
             </button>
-            <figcaption class="nat-obra__pie">
-              <span class="nat-obra__especie">Sinsonte</span>
-              <span class="nat-obra__autor">Foto: Sergio Barreto</span>
+            <figcaption class="nat-obra__pie pie-obra">
+              <span class="nat-obra__especie pie-obra__especie">Sinsonte</span>
+              <span class="nat-obra__autor credito">Foto: Sergio Barreto</span>
             </figcaption>
           </figure>
           <figure class="nat-obra">
@@ -1937,9 +1936,9 @@
                 alt="Carpintero en el arbolado de Vegas del Verde, fotografía de Yeraldilsa Gamboa"
               />
             </button>
-            <figcaption class="nat-obra__pie">
-              <span class="nat-obra__especie">Carpintero</span>
-              <span class="nat-obra__autor">Foto: Yeraldilsa Gamboa</span>
+            <figcaption class="nat-obra__pie pie-obra">
+              <span class="nat-obra__especie pie-obra__especie">Carpintero</span>
+              <span class="nat-obra__autor credito">Foto: Yeraldilsa Gamboa</span>
             </figcaption>
           </figure>
           <figure class="nat-obra">
@@ -1961,9 +1960,9 @@
                 alt="Canario en el arbolado de Vegas del Verde, fotografía de Yeraldilsa Gamboa"
               />
             </button>
-            <figcaption class="nat-obra__pie">
-              <span class="nat-obra__especie">Canario</span>
-              <span class="nat-obra__autor">Foto: Yeraldilsa Gamboa</span>
+            <figcaption class="nat-obra__pie pie-obra">
+              <span class="nat-obra__especie pie-obra__especie">Canario</span>
+              <span class="nat-obra__autor credito">Foto: Yeraldilsa Gamboa</span>
             </figcaption>
           </figure>
           <figure class="nat-obra">
@@ -1985,9 +1984,9 @@
                 alt="Churica, azulejo y tángara palmarum en el arbolado de Vegas del Verde, fotografía de Yeraldilsa Gamboa"
               />
             </button>
-            <figcaption class="nat-obra__pie">
-              <span class="nat-obra__especie">Churica, azulejo y tángara palmarum</span>
-              <span class="nat-obra__autor">Foto: Yeraldilsa Gamboa</span>
+            <figcaption class="nat-obra__pie pie-obra">
+              <span class="nat-obra__especie pie-obra__especie">Churica, azulejo y tángara palmarum</span>
+              <span class="nat-obra__autor credito">Foto: Yeraldilsa Gamboa</span>
             </figcaption>
           </figure>
         </div>

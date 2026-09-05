@@ -912,15 +912,30 @@
      enlace con flecha   5,7:1     ·  todos sobre --color-superficie-solida
    Contorno de hoja, porque está DENTRO de la maqueta (§8), y con la diagonal
    contraria a la de la vertical del díptico que viene justo debajo.        */
+/* v23 · LA TARJETA GANA CANTO, Y SIGUE SIENDO OPACA.
+   Esta tarjeta se posa ENCIMA de la fotografía de portada del carril 01, así
+   que el vidrio de tokens.css §7b (fondo translúcido + desenfoque) le está
+   PROHIBIDO: sobre una foto el contraste no puede depender del píxel que haya
+   detrás. Lo que sí toma de la gota es lo que vive en la propia superficie
+   opaca: el FILO DE BRILLO de la arista superior (--color-vidrio-brillo) y el
+   FILETE de --color-vidrio-borde. Es el mismo par que base.css le dio a
+   .btn-primario en v23 para que relleno sólido y chips de vidrio se lean como
+   un solo material; sin él, la tarjeta era un rectángulo claro con una sombra
+   —el «cartel blanco sobre foto» de cualquier plantilla—.
+   El aire interior sube de --esp-xs a --esp-sm: dentro conviven un icono, un
+   rótulo, un párrafo y un enlace con flecha, y a 12 px de separación las
+   cuatro piezas se leían como un bloque. La sombra --sombra-lg no se toca: es
+   la que despega la tarjeta de la foto y está medida.                       */
 .planes-portada__tarjeta {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  gap: var(--esp-xs);
+  gap: var(--esp-sm);
   padding: var(--gap);
   background-color: var(--color-superficie-solida);
+  border: 1px solid var(--color-vidrio-borde);
   border-radius: var(--radio-xs) var(--radio-xl) var(--radio-xs) var(--radio-xl);
-  box-shadow: var(--sombra-lg);
+  box-shadow: inset 0 1px 0 var(--color-vidrio-brillo), var(--sombra-lg);
 }
 
 /* v15 · LA TARJETA VUELVE A LA FOTO EN ESCRITORIO, Y DESAPARECE EN MÓVIL
@@ -2167,12 +2182,17 @@
      el aire de su propia fila. Cero superposición. */
   margin: var(--gap);
   width: fit-content;
+  /* v23 · el mismo canto que la lámina del carril 05 y la tarjeta del 01:
+     placa SÓLIDA sobre foto (nada de vidrio translúcido aquí), más el filo
+     de brillo y el filete tenue que la meten en la familia de material del
+     resto de la página. Ver la nota larga en .planes-talleres__vidrio.     */
   background-color: var(--color-superficie-solida);
+  border: 1px solid var(--color-vidrio-borde);
   border-start-start-radius: var(--radio-xl);
   border-end-end-radius: var(--radio-xl);
   border-start-end-radius: var(--radio-xs);
   border-end-start-radius: var(--radio-xs);
-  box-shadow: var(--sombra-lg);
+  box-shadow: inset 0 1px 0 var(--color-vidrio-brillo), var(--sombra-lg);
 }
 
 /* Más grande que el bombillo de la tarjeta: son tres arcos concéntricos y a
@@ -2506,10 +2526,20 @@
      sigue en crema porque ES luz. */
   /* v4 · lámina SÓLIDA: la placa del sistema, sin alfa y sin desenfoque —
      el «vidrio» translúcido también era un filtro sobre la foto. */
+  /* v23 · EL FILETE Y EL BRILLO DEJAN DE SER CUENTAS PROPIAS DE ESTA HOJA.
+     Los dos valores de aquí —tinta al 0,16 y crema al 0,6— se escribieron a
+     mano antes de que existiera el vocabulario del «rocío sobre hoja», y son
+     EXACTAMENTE lo que tokens.css §7b nombra ya: --color-vidrio-borde
+     (bosque al 0,14) y --color-vidrio-brillo. Se sustituyen para que las
+     láminas de #planes, los chips y los botones tengan un único canto y una
+     única luz; si mañana se afina el material, se afina en un sitio.
+     La lámina NO recupera translucidez ni desenfoque: sigue sólida en todos
+     los anchos por las dos decisiones ya documentadas —la foto se ve limpia
+     (v4) y el backdrop-filter sobre 177 000 px² costaba el scroll (v19)—.  */
   background-color: var(--color-superficie-solida);
-  border: 1px solid rgb(var(--tinta-rgb) / 0.16);
+  border: 1px solid var(--color-vidrio-borde);
   box-shadow:
-    inset 0 1px 0 rgb(var(--crema-rgb) / 0.6),
+    inset 0 1px 0 var(--color-vidrio-brillo),
     var(--sombra-modal);
 }
 
@@ -2573,10 +2603,18 @@
    escalonado de .reveal-secuencia sigue contándolas por `nth-child`
    exactamente igual. Misma información y mismo alto que antes.
    -------------------------------------------------------------------------- */
+/* v23 · LA LISTA MÁS DENSA DE LA SECCIÓN PIDE AIRE, NO MÁS COLOR.
+   Siete viñetas con icono de trazo, a 8 px de separación entre el glifo y su
+   texto y a 8 px entre renglones: medido en pantalla, el icono quedaba
+   pegado a la primera palabra y las siete líneas formaban un bloque gris
+   compacto. --esp-xs (12 px) es el canalón mínimo para que un glifo de 1,4em
+   se lea como viñeta y no como parte de la palabra, y el row-gap del @media
+   sube a --esp-sm por la misma razón. No se toca ni el interlineado del
+   renglón ni el color: lo que faltaba era el aire ENTRE piezas, no dentro. */
 .planes-bienestar__lista > li {
   display: flex;
   align-items: flex-start;
-  gap: var(--esp-2xs);
+  gap: var(--esp-xs);
   /* La sangría de .lista-hojas la sustituye ahora el propio icono. */
   padding-left: 0;
 }
@@ -2602,8 +2640,8 @@
   .planes-bienestar__lista {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    column-gap: var(--esp-md);
-    row-gap: var(--esp-2xs);
+    column-gap: var(--esp-lg);
+    row-gap: var(--esp-sm);
   }
 }
 
@@ -3066,12 +3104,22 @@
   width: fit-content;
   max-width: calc(100% - var(--gap-sm) * 2);
   margin: var(--gap-sm) var(--gap-sm) var(--gap);
+  /* v23 · LA LÁMINA GANA CANTO, Y SIGUE SIENDO SÓLIDA.
+     Se posa sobre la fotografía del taller (la primera fila de la rejilla del
+     carril), así que el vidrio translúcido de tokens.css §7b tiene aquí la
+     puerta cerrada: sería un velo sobre foto. Lo que sí entra es lo que
+     ocurre en la superficie y no en la imagen —filo de brillo en la arista
+     superior y filete tenue—, el mismo par que base.css le dio a
+     .btn-primario para que relleno sólido y chips de vidrio se lean como un
+     solo material. Sin él la lámina era un rectángulo claro con sombra, que
+     es el material que el cliente llamó genérico.                          */
   background-color: var(--color-superficie-solida);
+  border: 1px solid var(--color-vidrio-borde);
   border-start-start-radius: var(--radio-xl);
   border-end-end-radius: var(--radio-xl);
   border-start-end-radius: var(--radio-xs);
   border-end-start-radius: var(--radio-xs);
-  box-shadow: var(--sombra-lg);
+  box-shadow: inset 0 1px 0 var(--color-vidrio-brillo), var(--sombra-lg);
 }
 
 /* El botón ya está separado por el gap de la rejilla; el margen propio de

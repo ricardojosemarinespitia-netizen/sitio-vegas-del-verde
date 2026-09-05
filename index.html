@@ -67,13 +67,13 @@
 <link rel="preload" as="image" type="image/avif" fetchpriority="high"
       media="(min-width: 48em)" href="img/hero-ave-flor.avif">
 
-<link rel="stylesheet" href="styles/tokens.css?v=48a473db">
-<link rel="stylesheet" href="styles/base.css?v=05b2e133">
-<link rel="stylesheet" href="styles/shell.css?v=a82199f7">
+<link rel="stylesheet" href="styles/tokens.css?v=2bc1f74f">
+<link rel="stylesheet" href="styles/base.css?v=a9f3ede7">
+<link rel="stylesheet" href="styles/shell.css?v=46c48e51">
 <link rel="stylesheet" href="styles/sections/inicio.css?v=04ff47a1">
-<link rel="stylesheet" href="styles/sections/home.css?v=88f4de38">
-<link rel="stylesheet" href="styles/sections/nosotros.css?v=2170abcb">
-<link rel="stylesheet" href="styles/sections/pie.css?v=94785836">
+<link rel="stylesheet" href="styles/sections/home.css?v=094e714b">
+<link rel="stylesheet" href="styles/sections/nosotros.css?v=cb7b6df3">
+<link rel="stylesheet" href="styles/sections/pie.css?v=68c9b062">
 <link rel="stylesheet" href="styles/lightbox.css?v=92a48a1f">
 
 <script type="application/ld+json">
@@ -124,26 +124,25 @@
          vivero.html o naturaleza.html un ancla suelta no lleva a ninguna
          parte. Desde la portada el navegador resuelve el ancla igual. -->
     <a class="marca" href="index.html#inicio" aria-label="Vegas del Verde, ir al inicio">
-      <!-- v12 · EL LOGO ORIGINAL, no una aproximación. Hasta aquí la cabecera
-           llevaba una hoja dibujada a mano en SVG (una interpretación libre,
-           no el símbolo real) más el nombre escrito aparte en la tipografía
-           del sitio. Pedido directo del cliente: «pon el logo de Vegas el
-           original en la página». Las páginas interiores (terminos.html,
-           condiciones-de-alquiler.html, política-de-datos.html) ya usaban el
-           archivo real —`img/logo/logo-vegas-barra.png`, el lockup horizontal
-           sobre placa verde que trae el símbolo y la palabra en una sola
-           pieza— vía `.marca__logo` (ver shell.css). La cabecera principal
-           era la única pieza del sitio que no lo usaba. Ahora es la misma
-           imagen en todas partes: cero inconsistencia entre el logo de la
-           portada y el de las páginas sueltas. -->
-      <img
-        class="marca__logo"
-        src="img/logo/logo-vegas-barra.png"
-        width="1390"
-        height="356"
-        alt="Vegas del Verde"
-        decoding="async"
-      />
+      <!-- v27 · CAMBIA DE PIEZA: de `logo-vegas-barra.png` (símbolo+texto ya
+           resueltos en fila, sobre su propia placa verde horneada en el PNG)
+           a `logo-vegas-blanco.png` (símbolo ARRIBA, texto ABAJO, blanco
+           sobre transparente) — pedido directo del cliente. Esta variante no
+           trae fondo propio, así que necesita el chip verde de `.marca__chip`
+           (shell.css) para leerse sobre el papel claro de la cabecera; ver el
+           razonamiento de contraste junto a `--verde-logo-fondo` en
+           tokens.css. Las páginas sueltas (terminos.html, etc.) siguen con
+           `logo-vegas-barra.png` — no se tocan, no era el pedido. -->
+      <span class="marca__chip">
+        <img
+          class="marca__logo"
+          src="img/logo/logo-vegas-blanco.png"
+          width="1024"
+          height="705"
+          alt="Vegas del Verde"
+          decoding="async"
+        />
+      </span>
     </a>
 
     <nav class="nav" id="nav-principal" aria-label="Navegación principal">
@@ -839,6 +838,30 @@
      argumento. NINGÚN HECHO SE PIERDE: los cinco aforos siguen en su cifra y
      los 20 espectadores de la cancha —hecho con dueño 'espacios' en la tabla
      de herramientas/validar.js— siguen escritos aquí y sólo aquí.
+
+     v23 · LA TARJETA ADOPTA LA MAQUETA DE espacios.html. El cliente vio este
+     bloque y dijo, sobre una captura: «no me entendiste, aquí en la página
+     principal quiero el mismo hero de portadas animadas exactamente igual
+     como estaba antes aquí en espacios». Son la MISMA sección conceptual en
+     dos sitios —preview en la home, ficha completa en espacios.html— y no
+     tenían por qué hablar dos idiomas: allí la foto va a sangre con el arco
+     que crece con el scroll y una placa sólida debajo, y aquí iba una foto
+     chica en un marco 3:2 con aire y una franja de texto plano.
+
+     LO QUE CAMBIA: el <span class="marco marco--3-2"> pasa a
+     `marco home-tarjeta__portada` —a sangre, sin proporción fija, con el arco
+     de usos.css §ARCO adaptado al alto de una celda de rejilla (home.css §1b)—
+     y el cuerpo pasa a ser el componente `.placa` del sistema (base.css §4b),
+     con la diagonal de hoja alternada tarjeta a tarjeta. Se retira
+     `home-rejilla--fila`: la fila horizontal de móvil (foto al 40 % a la
+     izquierda, texto a la derecha) era justo la maqueta que el cliente pidió
+     retirar. Los `sizes` se rehacen contra la rejilla real: 1 columna por
+     debajo de 40em, 2 hasta 64em, 3 por encima.
+
+     LO QUE NO CAMBIA, y es deliberado: siguen siendo enlaces <a> a
+     espacios.html#usos —no <details> con usos desplegables, que es de la
+     ficha completa—; el copy (nombre, aforo, frase) no se toca ni una palabra;
+     y las cinco cifras de aforo siguen teniendo aquí su único dueño.
      ========================================================================== -->
 <section id="espacios" class="seccion seccion--trama" aria-labelledby="home-espacios-titulo">
   <div class="contenedor contenedor--ancho">
@@ -853,15 +876,15 @@
       </p>
     </header>
 
-    <ul class="home-rejilla home-rejilla--fila home-rejilla--tres reveal-secuencia" role="list">
+    <ul class="home-rejilla home-rejilla--tres reveal-secuencia" role="list">
 
       <li>
         <a class="home-tarjeta reveal" href="espacios.html#usos">
-          <span class="marco marco--3-2">
+          <span class="marco home-tarjeta__portada">
             <img
               class="home-tarjeta__foto"
               src="img/espacios/alameda-2.jpg"
-              sizes="(max-width: 39.99em) 38vw, (max-width: 63.99em) 46vw, 31vw"
+              sizes="(max-width: 39.99em) 92vw, (max-width: 63.99em) 46vw, 31vw"
               width="1500"
               height="844"
               loading="lazy"
@@ -869,7 +892,7 @@
               alt="La Alameda: un prado abierto de grama corta bordeado de árboles altos."
             />
           </span>
-          <span class="home-tarjeta__cuerpo">
+          <span class="home-tarjeta__cuerpo placa placa--sm">
             <span class="home-tarjeta__nombre">Alameda</span>
             <span class="home-tarjeta__dato">
               <span class="home-tarjeta__dato-cifra">150</span> personas
@@ -882,11 +905,11 @@
 
       <li>
         <a class="home-tarjeta reveal" href="espacios.html#usos">
-          <span class="marco marco--3-2">
+          <span class="marco home-tarjeta__portada">
             <img
               class="home-tarjeta__foto"
               src="img/eventos/vega-horizontal.jpg"
-              sizes="(max-width: 39.99em) 38vw, (max-width: 63.99em) 46vw, 31vw"
+              sizes="(max-width: 39.99em) 92vw, (max-width: 63.99em) 46vw, 31vw"
               width="1600"
               height="900"
               loading="lazy"
@@ -894,7 +917,7 @@
               alt="La Vega: una explanada de césped completamente plana, con la arboleda al fondo."
             />
           </span>
-          <span class="home-tarjeta__cuerpo">
+          <span class="home-tarjeta__cuerpo placa placa--sm placa--alterna">
             <span class="home-tarjeta__nombre">La Vega</span>
             <span class="home-tarjeta__dato">
               <span class="home-tarjeta__dato-cifra">100</span> personas
@@ -907,11 +930,11 @@
 
       <li>
         <a class="home-tarjeta reveal" href="espacios.html#usos">
-          <span class="marco marco--3-2">
+          <span class="marco home-tarjeta__portada">
             <img
               class="home-tarjeta__foto"
               src="img/eventos/boda-4.jpg"
-              sizes="(max-width: 39.99em) 38vw, (max-width: 63.99em) 46vw, 31vw"
+              sizes="(max-width: 39.99em) 92vw, (max-width: 63.99em) 46vw, 31vw"
               width="1500"
               height="1000"
               loading="lazy"
@@ -919,7 +942,7 @@
               alt="El Teatrino: un claro recogido bajo la copa de un árbol grande, con sillas dispuestas en semicírculo."
             />
           </span>
-          <span class="home-tarjeta__cuerpo">
+          <span class="home-tarjeta__cuerpo placa placa--sm">
             <span class="home-tarjeta__nombre">Teatrino</span>
             <span class="home-tarjeta__dato">
               <span class="home-tarjeta__dato-cifra">70</span> personas
@@ -932,11 +955,11 @@
 
       <li>
         <a class="home-tarjeta reveal" href="espacios.html#usos">
-          <span class="marco marco--3-2">
+          <span class="marco home-tarjeta__portada">
             <img
               class="home-tarjeta__foto"
               src="img/espacios/taller-1.jpg"
-              sizes="(max-width: 39.99em) 38vw, (max-width: 63.99em) 46vw, 31vw"
+              sizes="(max-width: 39.99em) 92vw, (max-width: 63.99em) 46vw, 31vw"
               width="849"
               height="1500"
               loading="lazy"
@@ -944,7 +967,7 @@
               alt="El Taller: espacio techado con cubierta de caña y mesas de trabajo, abierto por los costados."
             />
           </span>
-          <span class="home-tarjeta__cuerpo">
+          <span class="home-tarjeta__cuerpo placa placa--sm placa--alterna">
             <span class="home-tarjeta__nombre">Taller</span>
             <span class="home-tarjeta__dato">
               <span class="home-tarjeta__dato-cifra">45</span> personas
@@ -957,11 +980,11 @@
 
       <li>
         <a class="home-tarjeta reveal" href="espacios.html#usos">
-          <span class="marco marco--3-2">
+          <span class="marco home-tarjeta__portada">
             <img
               class="home-tarjeta__foto"
               src="img/eventos/cancha-horizontal.jpg"
-              sizes="(max-width: 39.99em) 38vw, (max-width: 63.99em) 46vw, 31vw"
+              sizes="(max-width: 39.99em) 92vw, (max-width: 63.99em) 46vw, 31vw"
               width="1600"
               height="900"
               loading="lazy"
@@ -969,7 +992,7 @@
               alt="La Cancha: campo de juego abierto sobre césped, con los árboles del predio al fondo."
             />
           </span>
-          <span class="home-tarjeta__cuerpo">
+          <span class="home-tarjeta__cuerpo placa placa--sm">
             <span class="home-tarjeta__nombre">Cancha</span>
             <span class="home-tarjeta__dato">
               <span class="home-tarjeta__dato-cifra">30</span> jugadores
@@ -1064,8 +1087,8 @@
               sizes="(max-width: 39.99em) 31vw, (max-width: 63.99em) 31vw, 23vw"
               width="1300" height="1039" loading="lazy" decoding="async" alt="" />
           </span>
-          <figcaption class="home-muro__pie">
-            <span class="home-muro__especie">Azulejo Palmero</span>
+          <figcaption class="home-muro__pie pie-obra">
+            <span class="home-muro__especie pie-obra__especie">Azulejo Palmero</span>
             <span class="credito">Foto: Francheska Salazar</span>
           </figcaption>
         </figure>
@@ -1080,8 +1103,8 @@
               sizes="(max-width: 39.99em) 31vw, (max-width: 63.99em) 31vw, 23vw"
               width="1040" height="1300" loading="lazy" decoding="async" alt="" />
           </span>
-          <figcaption class="home-muro__pie">
-            <span class="home-muro__especie">Piaya Cayana</span>
+          <figcaption class="home-muro__pie pie-obra">
+            <span class="home-muro__especie pie-obra__especie">Piaya Cayana</span>
             <span class="credito">Foto: Jonathan Layton Ávila</span>
           </figcaption>
         </figure>
@@ -1096,8 +1119,8 @@
               sizes="(max-width: 39.99em) 31vw, (max-width: 63.99em) 31vw, 23vw"
               width="1300" height="1023" loading="lazy" decoding="async" alt="" />
           </span>
-          <figcaption class="home-muro__pie">
-            <span class="home-muro__especie">Cucú Ardilla</span>
+          <figcaption class="home-muro__pie pie-obra">
+            <span class="home-muro__especie pie-obra__especie">Cucú Ardilla</span>
             <span class="credito">Foto: Andrea Elizabeth</span>
           </figcaption>
         </figure>
@@ -1112,8 +1135,8 @@
               sizes="(max-width: 39.99em) 31vw, (max-width: 63.99em) 31vw, 23vw"
               width="975" height="1300" loading="lazy" decoding="async" alt="" />
           </span>
-          <figcaption class="home-muro__pie">
-            <span class="home-muro__especie">Barranquero</span>
+          <figcaption class="home-muro__pie pie-obra">
+            <span class="home-muro__especie pie-obra__especie">Barranquero</span>
             <span class="credito">Foto: Carlos Serrano</span>
           </figcaption>
         </figure>
@@ -1128,8 +1151,8 @@
               sizes="(max-width: 39.99em) 31vw, (max-width: 63.99em) 31vw, 23vw"
               width="975" height="1300" loading="lazy" decoding="async" alt="" />
           </span>
-          <figcaption class="home-muro__pie">
-            <span class="home-muro__especie">Batará Carcajada</span>
+          <figcaption class="home-muro__pie pie-obra">
+            <span class="home-muro__especie pie-obra__especie">Batará Carcajada</span>
             <span class="credito">Foto: Carlos Serrano</span>
           </figcaption>
         </figure>
@@ -1144,8 +1167,8 @@
               sizes="(max-width: 39.99em) 31vw, (max-width: 63.99em) 31vw, 23vw"
               width="1300" height="867" loading="lazy" decoding="async" alt="" />
           </span>
-          <figcaption class="home-muro__pie">
-            <span class="home-muro__especie">Titira Inquisidor, macho</span>
+          <figcaption class="home-muro__pie pie-obra">
+            <span class="home-muro__especie pie-obra__especie">Titira Inquisidor, macho</span>
             <span class="credito">Foto: Daniel Arango</span>
           </figcaption>
         </figure>

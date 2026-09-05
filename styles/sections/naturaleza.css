@@ -557,16 +557,42 @@
    En su lugar, UNA línea de «ficha de expedición» separada por interpunto,
    compuesta como micro-etiqueta (caps permitidos por debajo de 24px):
    registro de museo, no lista de beneficios. */
+/* v23 · LA FICHA DE EXPEDICIÓN, EN VIDRIO. La idea (una línea de registro con
+   interpuntos en vez de tres viñetas de folleto) era buena; el dibujo era un
+   renglón gris de caps flotando en el aire, sin nada que dijera que es una
+   FICHA y no la última frase del párrafo de arriba. Se le da la superficie del
+   sistema —la misma gota que los chips de la quebrada— y con ella el canto que
+   le faltaba. Es una tira de rótulo, no un bloque de texto: cabe en el
+   contrato del vidrio (tokens.css §7b) y no hay ninguna imagen debajo.
+   El interlineado baja de --alto-linea-base (1,68, que es de párrafo y aquí
+   descosía la línea al partirse) a 1,5, y el color sube a --verde-bosque:
+   10,0:1 sobre el vidrio. El aire de arriba pasa de --esp-2xs a --esp-md: la
+   ficha cierra el bloque, y una pieza de cierre pegada al párrafo se lee como
+   una coletilla. */
 .nat-apertura__notas {
-  margin: var(--esp-2xs) 0 0;
+  display: inline-block;
+  margin: var(--esp-md) 0 0;
   max-width: none;
+  padding: var(--esp-2xs) var(--esp-sm);
+  border: 1px solid var(--color-vidrio-borde);
+  border-radius: var(--radio-control-alterno);
+  background-color: var(--color-vidrio);
+  box-shadow: var(--sombra-vidrio);
+  backdrop-filter: var(--desenfoque-vidrio);
+  -webkit-backdrop-filter: var(--desenfoque-vidrio);
   font-family: var(--fuente-titulo);
   font-size: var(--fs-micro);
   font-weight: var(--peso-medio);
   text-transform: uppercase;
   letter-spacing: var(--tracking-rotulo);
-  line-height: var(--alto-linea-base);
-  color: var(--color-texto-suave);
+  line-height: 1.5;
+  color: var(--verde-bosque);
+}
+
+@supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
+  .nat-apertura__notas {
+    background-color: var(--color-vidrio-opaco);
+  }
 }
 
 /* ---- El CTA del Sendero (antes «el único precio del sitio», retirado) ---- */
@@ -578,12 +604,19 @@
    sola columna de ancho completo. La regla base de dos columnas se conserva
    sin el modificador por si otra pieza de la sección vuelve a necesitarla.
    Las reglas de `.nat-precio*` se borraron enteras: ya no las usa nadie. */
+/* v23 · UN FILETE, NO DOS. `border-block` dibujaba una raya arriba Y otra
+   abajo alrededor de los dos botones: dos filetes paralelos encerrando
+   contenido es la fila de una TABLA, y es lo que hacía que el cierre de la
+   sección —que es su momento de venta— se leyera como una celda. Queda el de
+   arriba, que es el que separa del texto, y el aire hace el resto: por debajo
+   cierra el propio blanco de la sección. El relleno superior sube a --esp-lg
+   para que el botón no nazca pegado a la raya. */
 .nat-oferta {
   display: grid;
   gap: var(--esp-md);
   width: 100%;
-  padding-block: var(--esp-md);
-  border-block: 1px solid var(--color-borde-suave);
+  padding-block: var(--esp-lg) 0;
+  border-block-start: 1px solid var(--color-borde-suave);
 }
 
 @media (min-width: 40em) {
@@ -620,11 +653,22 @@
    v3: gris neutro como .eyebrow (base.css §5) —el coral se reserva para el
    acento de verdad, no para cada micro-etiqueta—. La gota y el filete siguen
    en --color-borde-fuerte, que es lo que dibuja el gráfico. */
+/* v23 · LOS DOS NOMBRES DE AGUA PASAN A SER GOTAS. Eran dos renglones de caps
+   grises sueltos con un trazo entre medias: tipográficamente correcto y
+   visualmente nada — la definición de «se ve genérico». Ahora cada nombre es
+   un chip de vidrio del sistema («rocío sobre hoja», tokens.css §7b): posado
+   en el papel botánico, con el filo de brillo arriba y la sombra de contacto
+   debajo. Es el sitio EXACTO donde el vidrio es legítimo —control pequeño,
+   sobre papel, con la trama de body::before debajo y ninguna fotografía—, y
+   además la metáfora se cierra sola: el micro-gráfico de una quebrada
+   compuesto con gotas de agua.
+   El aire entre los dos sube de --esp-3xs a --esp-2xs: con caja propia, el
+   apretado de antes los pegaba. */
 .nat-ruta {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  gap: var(--esp-3xs);
+  gap: var(--esp-2xs);
   margin: 0;
   max-width: none;
   font-family: var(--fuente-titulo);
@@ -635,10 +679,36 @@
   color: var(--color-texto-suave);
 }
 
+/* El chip. El texto sube de --color-texto-suave a --verde-bosque: sobre el
+   vidrio compuesto da 10,0:1 (AAA) y es el token que tokens.css §7b deja
+   medido para esta superficie. La silueta es la de hoja de los controles, y
+   el segundo punto lleva la diagonal contraria (abajo) para que los dos no
+   sean la misma pegatina repetida. */
 .nat-ruta__punto {
   display: inline-flex;
   align-items: center;
   gap: 0.6em;
+  padding: var(--esp-3xs) var(--esp-xs);
+  border: 1px solid var(--color-vidrio-borde);
+  border-radius: var(--radio-control);
+  background-color: var(--color-vidrio);
+  box-shadow: var(--sombra-vidrio);
+  backdrop-filter: var(--desenfoque-vidrio);
+  -webkit-backdrop-filter: var(--desenfoque-vidrio);
+  color: var(--verde-bosque);
+}
+
+.nat-ruta__punto:last-of-type {
+  border-radius: var(--radio-control-alterno);
+}
+
+/* Respaldo donde no hay desenfoque: la superficie sube a --color-vidrio-opaco
+   para que el contraste del rótulo no dependa nunca de un blur que quizá no
+   exista (misma regla que .btn-fantasma y .pildora). */
+@supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
+  .nat-ruta__punto {
+    background-color: var(--color-vidrio-opaco);
+  }
 }
 
 /* La gota: un cuadrado con dos esquinas redondeadas en diagonal */
@@ -661,7 +731,13 @@
   flex: none;
   width: var(--esp-sm);
   height: var(--esp-xl);
-  margin-inline-start: 0.25em;
+  /* v23 · El cauce seguía naciendo a 0.25em del canto del renglón, que era el
+     centro de la gota cuando el punto no tenía caja. Con el chip, la gota se
+     ha corrido el relleno entero hacia dentro: el trazo se corre con ella o
+     nace fuera de su fuente, que es justo el descuido que delata una maqueta.
+     La cuenta es la misma de siempre —relleno del chip + media gota—, no un
+     número nuevo. */
+  margin-inline-start: calc(var(--esp-xs) + 0.25em);
   fill: none;
   stroke: var(--color-borde-fuerte);
 }
@@ -1835,9 +1911,16 @@
    con el díptico: la pieza vuelve a su proporción natural de 9:16, que es la
    del metraje, y no se estira a la altura de nadie. */
 
+/* v23 · Mismo contrato que .credito (base.css) y que los pies del carril del
+   sendero: fuente de etiqueta, interlineado propio de 1,45 y MÁS aire contra
+   la pieza (--esp-2xs → --esp-xs). Sin él, este pie heredaba el interlineado
+   de párrafo del cuerpo y se despegaba del vídeo que describe. */
 .nat-video__pie {
-  margin-top: var(--esp-2xs);
+  margin-top: var(--esp-xs);
+  font-family: var(--fuente-titulo);
   font-size: var(--fs-micro);
+  line-height: 1.45;
+  letter-spacing: 0;
   color: var(--color-texto-suave);
 }
 
@@ -2089,13 +2172,12 @@
   border-radius: var(--radio-md);
 }
 
-/* En el archivo, el nombre de la especie baja a cuerpo micro (12,8 px de
-   suelo real: sigue siendo legible, ver la escala de tokens.css). El
-   crédito ya vive en micro y no baja de ahí: es la letra pequeña que
-   nunca se vuelve invisible. */
-.nat-muro .nat-obra__especie {
-  font-size: var(--fs-micro);
-}
+/* v23 · La regla que bajaba la especie a micro en el archivo SE RETIRA.
+   El pie de cada copia es ahora el componente compartido .pie-obra
+   (base.css §8b): especie en display a --fs-pequeno, crédito en .credito.
+   Con especie y crédito al mismo cuerpo micro no había jerarquía —era la
+   queja textual del cliente en el muro de la portada— y la copia más
+   pequeña del archivo mide 105 px de lado, donde 14 px de nombre caben. */
 
 .nat-obra__disparador::after {
   content: "";
@@ -2119,24 +2201,10 @@
   transform: scale(var(--escala-hover));
 }
 
-.nat-obra__pie {
-  display: flex;
-  flex-direction: column;
-  gap: 0;
-  margin: 0;
-  line-height: var(--alto-linea-titulo);
-}
-
-/* v7: fichas sobre negro — crema para la especie (10.7:1 sobre bosque, más
-   aún sobre negro), crema rebajado para las anónimas. */
-.nat-obra__especie {
-  font-size: var(--fs-pequeno);
-  color: var(--color-texto);
-}
-
-.nat-obra__especie--anonima {
-  color: var(--color-texto-suave);
-}
+/* v23 · Pie de obra: la geometría (aire, jerarquía, cuerpos) la pone
+   .pie-obra en base.css §8b; aquí sólo quedan las decisiones propias del
+   archivo. Las reglas .nat-obra__pie / __especie / __especie--anonima que
+   vivían aquí se retiraron: duplicaban al componente con menos aire.     */
 
 /* Nombres científicos en cursiva, como manda la nomenclatura binomial */
 .nat-cientifico {
@@ -2144,11 +2212,11 @@
 }
 
 /* El crédito del fotógrafo es obligatorio: siempre visible, nunca en hover.
-   v7: sobre el negro, el terracota hondo (5.3:1 sobre crema) se apagaba;
-   sube al coral claro, el mismo acento que ya se usa sobre bosque
-   (--color-acento-inverso, 5.7:1 sobre bosque y más sobre negro).        */
+   Cuerpo e interlineado vienen de .credito; el archivo conserva el acento
+   cálido (--color-acento-texto, 5,3:1 sobre crema) porque en un muro de
+   cincuenta y siete copias el crédito es el único hilo de color que señala
+   que son fotografías DE ALGUIEN, no material de stock.                  */
 .nat-obra__autor {
-  font-size: var(--fs-micro);
   color: var(--color-acento-texto);
 }
 
@@ -2188,20 +2256,14 @@
   color: var(--color-texto-suave); /* v7: la nota, legible en negro */
 }
 
-/* v7: el botón del archivo plegado hereda de .btn-secundario los colores
-   pensados para crema; sobre negro se redibuja en negativo — contorno y
-   letra crema— sin tocar el componente global. */
+/* v7 redibujaba este botón «en negativo» porque la banda era negra. v23: la
+   banda es clara desde v13 y aquella regla dejaba al resumen del <details>
+   transparente y con filete crema —invisible sobre crema—. Se retira y el
+   botón vuelve a ser el .btn-secundario de vidrio del sistema (base.css §7),
+   que es la gota que abre el archivo. Sólo se conserva el gesto de
+   <summary>: el cursor y el «+/–» de más abajo.                          */
 .nat-muro-banda .nat-mas__boton {
-  color: var(--color-texto);
-  border-color: var(--color-borde-inverso);
-  background-color: transparent;
-}
-
-.nat-muro-banda .nat-mas__boton:hover,
-.nat-muro-banda .nat-mas__boton:focus-visible {
-  color: var(--tinta);
-  background-color: var(--crema);
-  border-color: var(--crema);
+  gap: 0.75em;
 }
 
 /* ==========================================================================

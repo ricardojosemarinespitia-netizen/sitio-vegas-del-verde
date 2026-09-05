@@ -518,30 +518,53 @@
   }
 }
 
-/* EL PIE DE FOTO, EN NEGATIVO. base.css pinta figcaption en
-   --color-texto-suave, que es un gris calculado contra la crema: sobre el
-   carbón da 2,38:1 e incumple. Aquí sube a crema al 78 % (8,5:1). Se le añade
-   el filete corto de arriba: es el mismo gesto de ::before de .eyebrow y
-   convierte el pie en rótulo de pieza de galería en vez de en texto huérfano. */
+/* EL PIE DE FOTO. El filete corto de arriba es el mismo gesto de ::before de
+   .eyebrow y convierte el pie en rótulo de pieza de galería en vez de en texto
+   huérfano.
+   (Nota histórica: hasta v5 esta sección era banda de carbón y aquí había que
+   subir el pie a crema al 78 %. Desde que #vivero es .seccion--trama —fondo
+   claro— el gris del sistema vuelve a valer y la cuenta es la de la crema.)
+
+   v23 · EL PIE DEJA DE SER UNA LÍNEA GRIS MÁS. Es exactamente el síntoma que
+   el cliente llamó genérico en el muro de aves: cuerpo de párrafo, gris de
+   servicio, misma voz que todo lo demás. Los cuatro pies de #vivero NOMBRAN la
+   pieza («Materas listas para llevar»), así que toman el registro que base.css
+   §8b ya fijó para .pie-obra__especie —display, --peso-display-menor, tinta
+   plena, interlineado de titular— y el filete pasa a oliva, que es el único
+   acento de la columna. El gris se conserva sólo para el dato de servicio; aquí
+   no hay dato de servicio, hay nombre de obra.
+   Contraste: --color-texto sobre la banda de trama, 12,9:1.
+   Más aire arriba (--esp-xs → --esp-sm): con el pie en tinta, pegado a la foto
+   se leía como parte del encuadre. */
 .viv-foto figcaption {
   display: flex;
   align-items: baseline;
   gap: 0.7em;
-  margin-top: var(--esp-xs);
-  color: var(--color-texto-suave);
+  margin-top: var(--esp-sm);
+  font-family: var(--fuente-display);
+  font-size: var(--fs-pequeno);
+  font-weight: var(--peso-display-menor);
+  font-variation-settings: var(--ejes-display-sobrio);
+  letter-spacing: var(--tracking-display);
+  line-height: var(--alto-linea-titulo);
+  color: var(--color-texto);
+  text-wrap: balance;
 }
 
 /* `align-self: center` y no la línea base: una caja vacía de 1 px no tiene
    línea base propia y con `align-items: baseline` se apoyaría en su borde
    inferior, quedando por debajo del texto. */
+/* v23 · El filete sale de `currentColor`: con el pie en tinta plena, heredarlo
+   daba una raya negra del mismo peso que la letra y las dos competían. Va a
+   oliva —el acento decorativo de la casa sobre papel claro— y sin `opacity`,
+   que era la manera barata de simular un color que ahora sí tiene nombre. */
 .viv-foto figcaption::before {
   content: "";
   flex: none;
   align-self: center;
   width: var(--esp-sm);
   height: 1px;
-  background-color: currentColor;
-  opacity: 0.6;
+  background-color: var(--color-acento-alt);
 }
 
 /* El zoom al pasar el ratón usa --escala-hover, que vale 1 cuando el visitante
@@ -706,12 +729,19 @@
 .viv-servicio {
   display: grid;
   /* v8 · Columna fija para que los cuatro rótulos 01–04 alineen. */
+  /* v23 · La columna del índice deja de medirse en `ch` de una etiqueta suelta:
+     ahora lleva una gota de vidrio con relleno propio, y `auto` la deja
+     dimensionarse por su contenido. El mínimo se conserva para que las cuatro
+     gotas midan lo mismo aunque el numeral cambie de ancho. */
   grid-template-columns: minmax(3.5ch, auto) minmax(0, 1fr);
-  gap: var(--esp-sm);
+  gap: var(--esp-md);
   align-items: baseline;
   /* v8 · El aire sube de --esp-sm a --esp-md: con el nombre a escala de
      display, cuatro filetes con más aire = menos elementos por pantalla. */
-  padding-block: var(--esp-md);
+  /* v23 · y sube otra vez a --esp-lg: cuatro filas con gota y nombre a escala
+     de titular necesitan que el filete se lea como separación de capítulo y no
+     como renglón de tabla. Es el «más aire, no menos» del rediseño. */
+  padding-block: var(--esp-lg);
   border-bottom: 1px solid var(--viv-filete);
 }
 
@@ -719,14 +749,50 @@
    de h3, dos display compitiendo (índice y nombre) eran ruido: el rótulo
    01–04 baja a DM Sans en caps de micro y el nombre manda solo.
    (uppercase permitido: --fs-micro está muy por debajo de 24 px.) */
+/* v23 · EL ÍNDICE PASA A GOTA DE ROCÍO. Seguía siendo dos cifras grises
+   sueltas contra el papel: el rasgo de plantilla más visible de la columna que
+   el cliente señaló. Ahora es un chip de vidrio —el mismo lenguaje de .pildora
+   y .btn-secundario en base.css §7b— con la silueta de hoja de --radio-control,
+   así que los cuatro servicios se leen como cuatro fichas de catálogo y no como
+   una lista numerada.
+   NO HAY IMAGEN DEBAJO: el chip cae sobre la banda de trama de la sección, que
+   es papel; el desenfoque desdibuja la trama botánica, nunca una foto.
+   Contraste: --verde-bosque sobre el vidrio compuesto, 10,0:1 (AAA), medido en
+   tokens.css §7b. El gris de antes daba 5,2:1 y además no informaba de nada. */
 .viv-servicio__indice {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.45em 0.7em;
+  border: 1px solid var(--color-vidrio-borde);
+  border-radius: var(--radio-control);
+  background-color: var(--color-vidrio);
+  box-shadow: var(--sombra-vidrio);
+  backdrop-filter: var(--desenfoque-vidrio);
+  -webkit-backdrop-filter: var(--desenfoque-vidrio);
   font-family: var(--fuente-titulo);
   font-size: var(--fs-micro);
   font-weight: var(--peso-medio);
   text-transform: uppercase;
   letter-spacing: var(--tracking-rotulo);
   font-variant-numeric: tabular-nums;
-  color: var(--color-texto-suave);
+  color: var(--verde-bosque);
+}
+
+/* Sin desenfoque el vidrio se lava y el chip desaparecería contra el papel: el
+   respaldo sube a --color-vidrio-opaco, que es justo para eso. */
+@supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
+  .viv-servicio__indice {
+    background-color: var(--color-vidrio-opaco);
+  }
+}
+
+/* v23 · La gota alterna su diagonal fila a fila. Es la misma norma que ya
+   gobierna la fotografía de la sección (§2, «dos piezas vecinas nunca con la
+   misma diagonal»): sin esto, cuatro hojas idénticas apiladas vuelven a ser
+   una rejilla, que es exactamente lo que se venía a quitar. */
+.viv-servicio:nth-child(even) .viv-servicio__indice {
+  border-radius: var(--radio-control-alterno);
 }
 
 /* v8 · EL PRODUCTO HABLA EN FRAUNCES. Los cuatro servicios son lo único del
@@ -758,7 +824,11 @@
   letter-spacing: normal;
   line-height: var(--alto-linea-base);
   color: var(--color-texto-suave);
-  margin-top: var(--esp-3xs);
+  /* v23 · MÁS AIRE ENTRE LA PIEZA Y SU DATO, NO MENOS. A --esp-3xs (4 px) la
+     subordinada se pegaba al descendente del nombre y las dos voces se leían
+     como una sola línea partida. A --esp-xs se ve que son dos registros: el
+     sustantivo en display y el matiz en cuerpo pequeño. */
+  margin-top: var(--esp-xs);
 }
 
 /* v8 · Hover de fila sin animar layout: sólo transform. */
@@ -795,15 +865,35 @@
 /* v8 · Ya sin panel alrededor, el sello es LA única caja de la sección y
    gana el único acento de color de la columna: filete a menta velada y un
    punto más de luz de fondo. Jerarquía de confianza, no decoración. */
+/* v23 · EL SELLO ES LA GOTA GRANDE DE LA SECCIÓN. Seguía siendo un rectángulo
+   de esquina viva con un velo de tinta al 5 % por fondo: sobre el papel claro
+   ese 5 % es un gris sucio, la definición exacta de «genérico». Ahora toma el
+   vidrio del sistema (base.css §7b) con la silueta de hoja de
+   --radio-control-alterno —la diagonal contraria a la del emblema que lleva
+   dentro— y la sombra de contacto + difusión que apoya la pieza en la página.
+   NO ES UN VELO SOBRE FOTO: es un chip sobre la banda de trama de la sección.
+   Sigue siendo LA única caja de la columna de confianza, que es su papel; lo
+   que cambia es que ahora se ve como un objeto y no como un recuadro.
+   El aire interior sube de --esp-md a --esp-lg: una gota con el texto rozando
+   el filete se lee como una caja apretada, no como una placa. */
 .viv-sello {
   display: flex;
   align-items: flex-start;
-  gap: var(--esp-sm);
+  gap: var(--esp-md);
   margin: 0;
-  padding: var(--esp-md);
-  border: 1px solid rgb(var(--verde-oliva-rgb) / 0.4);
-  border-radius: 0;
-  background-color: rgb(var(--tinta-rgb) / 0.05);
+  padding: var(--esp-lg);
+  border: 1px solid var(--color-vidrio-borde);
+  border-radius: var(--radio-control-alterno);
+  background-color: var(--color-vidrio);
+  box-shadow: var(--sombra-vidrio);
+  backdrop-filter: var(--desenfoque-vidrio);
+  -webkit-backdrop-filter: var(--desenfoque-vidrio);
+}
+
+@supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
+  .viv-sello {
+    background-color: var(--color-vidrio-opaco);
+  }
 }
 
 /* LA ÚNICA CURVA DE LA SECCIÓN, Y ES UNA HOJA. El radio pleno en dos esquinas
@@ -828,10 +918,12 @@
   height: var(--esp-md);
 }
 
+/* v23 · El rótulo y su detalle dejan de ir pegados: --esp-3xs es el aire de
+   dos líneas del mismo párrafo, y aquí son dos voces distintas. */
 .viv-sello__texto {
   display: flex;
   flex-direction: column;
-  gap: var(--esp-3xs);
+  gap: var(--esp-2xs);
 }
 
 /* «Registro ICA» es el rótulo del documento, no su titular: mismo tratamiento
@@ -843,12 +935,19 @@
   font-weight: var(--peso-medio);
   text-transform: uppercase;
   letter-spacing: var(--tracking-rotulo);
-  color: var(--color-texto);
+  /* v23 · De tinta a bosque: sobre el vidrio, el rótulo del documento es lo
+     único que lleva el verde de la marca, y da 10,0:1 (medido en tokens.css
+     §7b). La tinta plena queda para el nombre de las piezas del friso. */
+  color: var(--verde-bosque);
 }
 
+/* v23 · El detalle es dato de servicio: se queda en gris (5,8:1 sobre el
+   vidrio) pero toma el interlineado propio de .credito en base.css §5, 1,45.
+   Con el 1,68 del cuerpo, tres renglones de resolución abrían un canalón que
+   separaba el detalle de su rótulo. */
 .viv-sello__detalle {
   font-size: var(--fs-pequeno);
-  line-height: var(--alto-linea-base);
+  line-height: 1.45;
   color: var(--color-texto-suave);
 }
 
@@ -856,8 +955,12 @@
    7. MÓVIL
    -------------------------------------------------------------------------- */
 @media (max-width: 30em) {
+  /* v23 · era --esp-sm. Con la gota de vidrio, un relleno de 16 px deja el
+     texto rozando el filo de brillo y la placa parece recortada; --esp-md es
+     el mínimo en el que la gota sigue leyéndose como gota a 375 px. */
   .viv-sello {
-    padding: var(--esp-sm);
+    padding: var(--esp-md);
+    gap: var(--esp-sm);
   }
 }
 

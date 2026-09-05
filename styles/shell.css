@@ -104,22 +104,30 @@
   min-width: 0;
 }
 
-/* v12 · `.marca__simbolo` (la hoja dibujada a mano en SVG que llevaba la
-   cabecera antes del logo real) se borró: ya no la usa ningún fragmento.
-   `.marca__logo`, aquí abajo, es la única pieza que la cabecera necesita
-   ahora — el mismo logotipo que ya usaban terminos.html y el resto de
-   páginas sueltas.
+/* v27 · EL CHIP VERDE — `logo-vegas-blanco.png` no trae fondo propio (a
+   diferencia de `logo-vegas-barra.png`, que lo horneaba en el PNG), así que
+   esta placa se lo da. `--verde-logo-fondo` está documentado en tokens.css:
+   es el mismo verde real del logo, uso único.
+   El alto sale de `--alto-header` para que el chip SIEMPRE quepa dentro de
+   la barra sin estirarla — con un logo vertical (símbolo arriba, texto
+   abajo, 1024×705) dimensionar por ANCHO como hacía la v12 con el lockup
+   horizontal lo dispararía a casi el doble del alto de la cabecera. Por
+   eso aquí el criterio se invierte: alto fijo, ancho automático. */
+.marca__chip {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  height: calc(var(--alto-header) - var(--esp-md));
+  padding-inline: var(--esp-sm);
+  background-color: var(--verde-logo-fondo);
+  border-radius: var(--radio-md);
+  flex: 0 0 auto;
+}
 
-   Logotipo horizontal sobre placa verde: trae el símbolo y la palabra en
-   una sola pieza, así que la cabecera ya no necesita texto aparte. Se
-   dimensiona por ANCHO (no por alto) para que en pantallas angostas o con
-   tipografía grande ceda espacio en vez de empujar fuera al selector de
-   idioma. */
 .marca__logo {
-  width: clamp(7.5rem, 5.6rem + 6.4vw, 11.5rem);
-  max-width: 100%; /* el ancho real lo dicta lo que sobre en la barra */
-  min-width: 0;    /* sin esto el mínimo automático de flex lo deja rígido */
-  height: auto;
+  width: auto;
+  height: 100%;
+  max-width: 100%;
   /* v3: es una imagen, y en este sistema ninguna imagen lleva radio. */
   border-radius: 0;
 }

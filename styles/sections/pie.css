@@ -38,12 +38,18 @@
 /* --------------------------------------------------------------------------
    1. CIERRE — antetítulo, titular serif grande, CTA final
    -------------------------------------------------------------------------- */
+/* v23 · EL AIRE DEL CIERRE DEJA DE SER UNO SOLO. Las tres piezas —antetítulo,
+   titular de --fs-hero y CTA— iban separadas por el mismo --esp-md, y un
+   espaciado constante entre elementos de tres escalas distintas es el rasgo de
+   plantilla más silencioso que hay: dice que las tres pesan lo mismo. Ahora el
+   antetítulo se acerca a su titular (es su rótulo, --esp-sm) y el botón se
+   aparta (es otra cosa, y se aparta con el margen de abajo). */
 .pie-final__cierre {
   padding-block: var(--esp-xl) var(--esp-3xl);
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  gap: var(--esp-md);
+  gap: var(--esp-sm);
 }
 
 .pie-final__antetitulo {
@@ -99,6 +105,9 @@
 .pie-final__cta {
   display: inline-flex;
   align-items: center;
+  /* v23 · el escalón que el gap uniforme del §1 ya no da: el botón se despega
+     del titular porque no pertenece a su bloque de texto. */
+  margin-block-start: var(--esp-md);
   gap: var(--esp-2xs);
   min-height: 2.75rem; /* 44px táctiles */
   padding: var(--esp-2xs) var(--esp-lg);
@@ -217,15 +226,22 @@
 /* --------------------------------------------------------------------------
    3. LEGAL Y CRÉDITOS
    -------------------------------------------------------------------------- */
+/* v23 · La letra pequeña del pie toma el registro de .credito (base.css §5):
+   interlineado propio de 1,45 y tracking a cero. Heredaba el interlineado del
+   cuerpo, y a 12,8 px eso deja un canalón que despega cada línea de la de al
+   lado. Y el filete respira más (--esp-lg → --esp-xl): es el corte entre la
+   firma de la marca y el aviso legal, no un renglón más. */
 .pie-final__legal {
   border-block-start: 1px solid var(--color-borde-suave);
-  padding-block-start: var(--esp-lg);
+  padding-block-start: var(--esp-xl);
   display: flex;
   flex-wrap: wrap;
   justify-content: space-between;
   gap: var(--esp-sm) var(--gap);
   font-family: var(--fuente-titulo);
   font-size: var(--fs-micro);
+  line-height: 1.45;
+  letter-spacing: 0;
   color: var(--color-texto-suave);
 }
 
@@ -248,11 +264,16 @@
   color: var(--verde-texto);
 }
 
+/* v23 · Mismo criterio que el bloque legal de arriba, y por el mismo
+   diagnóstico del cliente sobre los créditos del muro de aves: el interlineado
+   de párrafo (1,68) a cuerpo micro convierte tres líneas de crédito en tres
+   líneas sueltas. 1,45 las vuelve a agrupar como un bloque. */
 .pie-final__creditos {
-  margin-block-start: var(--esp-md);
+  margin-block-start: var(--esp-lg);
   font-family: var(--fuente-titulo);
   font-size: var(--fs-micro);
-  line-height: var(--alto-linea-base);
+  line-height: 1.45;
+  letter-spacing: 0;
   color: var(--color-texto-suave);
   max-width: var(--medida);
 }

@@ -643,17 +643,36 @@
   margin: calc(var(--esp-lg) * -1) 0 0 var(--esp-sm);
 }
 
+/* v23 · LA PASTILLA ENTRA EN LA FAMILIA DEL «ROCÍO SOBRE HOJA», PERO SIGUE
+   SIENDO OPACA, Y LAS DOS COSAS A LA VEZ NO SON UNA CONTRADICCIÓN.
+   El cliente llamó genérico al material de los chips del sitio; la respuesta
+   del sistema es la gota de tokens.css §7b (vidrio + filo de brillo + sombra
+   de contacto). Aquí NO cabe el vidrio: esta pastilla MONTA SOBRE LA FOTO
+   (§5), y un fondo semitransparente con desenfoque encima de una fotografía
+   está prohibido por la regla dura del proyecto — además de hacer que el
+   contraste dependiera del píxel que hubiera detrás.
+   Lo que sí se puede tomar de la gota es lo que NO toca la foto: el FILO DE
+   BRILLO en la arista superior (--color-vidrio-brillo, un inset sobre la
+   propia superficie opaca) y el FILETE de --color-vidrio-borde. Es el mismo
+   par que base.css le puso a .btn-primario para que el relleno coral y los
+   chips de vidrio se lean como un solo material. La sombra sigue siendo
+   --sombra-md: es la que la apoya sobre el canto de la foto y está medida.
+   Antes: superficie plana sin canto — una etiqueta de plantilla puesta sobre
+   una imagen. Ahora: una pieza con luz arriba y filo, como el resto.
+   El relleno sube de --esp-xs a --esp-sm en el eje vertical: a cuerpo de
+   --paso-2 la cifra rozaba el canto superior de la pastilla.               */
 .espacio__pastilla {
   display: flex;
   flex-wrap: wrap;
   align-items: center;
   gap: var(--esp-xs);
-  padding: var(--esp-xs) var(--esp-md);
+  padding: var(--esp-sm) var(--esp-md);
   /* Contorno de hoja, el mismo lenguaje que las figuras y distinto de todas
      ellas: aquí la punta va abajo a la izquierda y arriba a la derecha. */
   border-radius: var(--radio-lg) var(--radio-xs) var(--radio-lg) var(--radio-xs);
   background-color: var(--color-superficie-solida);
-  box-shadow: var(--sombra-md);
+  border: 1px solid var(--color-vidrio-borde);
+  box-shadow: inset 0 1px 0 var(--color-vidrio-brillo), var(--sombra-md);
   transition: transform var(--transicion);
 }
 
@@ -677,10 +696,16 @@
   padding-inline: var(--esp-sm);
 }
 
+/* v23 · MÁS AIRE ENTRE LA CIFRA Y SU GLOSA, NO MENOS. La cifra va a
+   --alto-linea-apretado y la glosa en caps con --tracking-rotulo: dos piezas
+   cerradas separadas por 4 px se leen como un bloque apelmazado, que es
+   exactamente la sensación que el cliente llamó genérica en los créditos del
+   muro de aves. --esp-2xs (8 px) es el escalón siguiente y el que deja que
+   el número se lea primero y la glosa después, como pie suyo. */
 .espacio__dato {
   display: flex;
   flex-direction: column;
-  gap: var(--esp-3xs);
+  gap: var(--esp-2xs);
 }
 
 /* ==========================================================================
@@ -808,12 +833,23 @@
    pone un <script> en línea del <head> antes del primer pintado: no hay un
    fotograma con el contenido colocado antes de que empiece la entrada.
    ========================================================================== */
+/* v23 · EL CUERPO RESPIRA. Nombre, línea y enlace iban a --esp-2xs (8 px) de
+   distancia, con la pastilla montando justo encima: cuatro piezas de pesos
+   muy distintos amontonadas en una columna estrecha. El diagnóstico es el
+   mismo que el del crédito en base.css §5 (v23): lo que se lee como
+   «genérico» no es el color, es el canalón que falta. --esp-xs (12 px)
+   separa la PIEZA (el nombre) de su DATO (la línea de servicio) sin que la
+   ficha se desmonte en cuatro bloques sueltos, y el relleno superior sube a
+   --esp-md para que el texto no arranque pegado al canto de la fotografía.
+   No cambia ni una altura de fila de la rejilla: las fichas no se estiran
+   (`align-self: start`, §2), así que este aire lo absorbe el dentado
+   inferior que la sección ya tiene a propósito.                            */
 .espacio__cuerpo {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  gap: var(--esp-2xs);
-  padding: var(--esp-sm) 0 0;
+  gap: var(--esp-xs);
+  padding: var(--esp-md) 0 0;
   flex: 1 1 auto;
 }
 
@@ -821,20 +857,35 @@
    .titulo-seccion--sm (base.css): aquí sólo se le pone tinta plena, una
    medida corta y el sitio del glifo. Ni familia, ni peso, ni tracking se
    tocan. */
+/* v23 · TINTA PLENA, Y EL COLOR SALE DEL ROL, NO DE LA PALETA DE BANDAS.
+   El nombre iba en --carbon y la línea de debajo en --carbon-suave: dos
+   grises de la familia «Blackberry», que tokens.css declara para las BANDAS
+   oscuras, no para texto sobre papel. Usados como tinta quedaban casi al
+   mismo valor (contraste entre ellos ~1,2:1), así que pieza y dato de
+   servicio se leían en el mismo gris — la jerarquía plana que el cliente
+   señala. Ahora el nombre toma --color-texto (la tinta verde del sistema,
+   13,9:1 sobre la crema) y el texto de abajo --color-texto-suave (6,1:1):
+   los dos roles ya medidos, con casi el doble de separación entre ellos.
+   Ni familia, ni peso, ni tracking se tocan: siguen viniendo de
+   .titulo-seccion--sm.                                                     */
 .espacio__nombre {
   display: flex;
   align-items: center;
   gap: var(--esp-2xs);
-  color: var(--carbon);
+  color: var(--color-texto);
   max-width: var(--medida-corta);
 }
 
 /* Una línea, no un párrafo. --paso--2 es el suelo declarado para el texto de
-   apoyo del sitio; no baja de ahí. */
+   apoyo del sitio; no baja de ahí.
+   v23 · el color pasa a --color-texto-suave (ver la nota del nombre): es el
+   rol de DATO DE SERVICIO del sistema, el mismo que usan .nota y .credito,
+   y es lo que hace que la línea se lea como pie del nombre y no como un
+   segundo titular en gris.                                                  */
 .espacio__texto {
   font-size: var(--paso--2);
   line-height: var(--alto-linea-base);
-  color: var(--carbon-suave);
+  color: var(--color-texto-suave);
   max-width: var(--medida-corta);
   margin: 0;
 }
@@ -1117,19 +1168,34 @@
    que una pastilla más, y el .nota recupera su contraste pleno sobre la
    crema (6.1:1, sin lavado que lo rebaje).
    ========================================================================== */
+/* v23 · EL FILETE NECESITA AIRE PARA LEERSE COMO UN REMATE Y NO COMO UNA
+   FILA MÁS DE TABLA. El pie iba a --esp-lg (32 px) por arriba y por abajo,
+   con el botón secundario —que desde v23 es la primera gota de vidrio del
+   sistema (base.css)— pegado al filete. --esp-xl (48 px) es el escalón
+   siguiente de la escala y es el que separa el cierre de la sección de la
+   última ficha sin abrir un hueco de sección entera. Sólo espaciado: ni un
+   color, ni una caja, ni una superficie nueva — el remate ya se despojó a
+   conciencia (ver la cabecera del §11) y esa decisión no se toca.          */
 .espacios__pie {
   display: flex;
   flex-wrap: wrap;
   align-items: center;
   justify-content: space-between;
-  gap: var(--esp-sm) var(--esp-md);
+  gap: var(--esp-md) var(--esp-lg);
   margin-top: var(--gap-lg);
-  padding-block: var(--esp-lg);
+  padding-block: var(--esp-xl);
   border-block-start: 1px solid var(--color-borde-suave);
 }
 
+/* v23 · el texto del pie es un DATO DE SERVICIO, así que toma la fuente de
+   etiqueta y el interlineado propio de .credito (1,45) en vez del 1,68 del
+   cuerpo: a este cuerpo el interlineado de párrafo abre un canalón que
+   separa la frase de su propio botón. Mismo color (--color-texto-suave,
+   6,1:1) y mismo cuerpo que ya traía de .nota: no se aclara nada.          */
 .espacios__pie-texto {
   max-width: var(--medida-corta);
+  font-family: var(--fuente-titulo);
+  line-height: 1.45;
 }
 
 @media (max-width: 33.99em) {

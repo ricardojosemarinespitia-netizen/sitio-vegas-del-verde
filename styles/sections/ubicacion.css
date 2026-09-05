@@ -157,11 +157,15 @@
 /* La placa cuelga de un filete OLIVA —el contorno fuerte del sistema, 3:1 sobre
    salvia— y no de uno suave: es la única regla de la sección que tiene que
    verse a distancia. */
+/* v23 · Más aire entre el rótulo y el dato-joya (--esp-2xs → --esp-xs) y entre
+   el filete y el conjunto (--esp-md → --esp-lg). La dirección va a cuerpo de
+   titular: con el rótulo encima a 8 px, el eyebrow parecía la primera línea de
+   la dirección en vez de su etiqueta. Aire, no tamaño. */
 .ubi-placa {
   display: flex;
   flex-direction: column;
-  gap: var(--esp-2xs);
-  padding-top: var(--esp-md);
+  gap: var(--esp-xs);
+  padding-top: var(--esp-lg);
   border-top: 1px solid var(--color-borde-fuerte);
 }
 
@@ -846,9 +850,14 @@
   display: grid;
   grid-template-columns: minmax(0, 1fr) auto;
   align-items: baseline;
-  gap: var(--esp-3xs) var(--esp-sm);
+  /* v23 · era --esp-3xs entre el topónimo y su barra: la barra se leía como el
+     subrayado del nombre, no como su medida. */
+  gap: var(--esp-2xs) var(--esp-sm);
   /* v9 · era --esp-xs: la fila respira a la altura de la nueva cifra serif. */
-  padding-block: var(--esp-sm);
+  /* v23 · y sube a --esp-md: siete filas con cifra de display a --esp-sm son
+     una tabla apretada; con este aire la lista se lee como el índice de revista
+     de viajes que dice ser el §10. */
+  padding-block: var(--esp-md);
   border-bottom: 1px solid var(--color-borde-suave);
 }
 
@@ -880,6 +889,13 @@
      A 4 px de alto el radio pleno se comía los dos extremos del dato. */
   border-radius: 0;
   background-color: rgb(var(--verde-oliva-rgb) / 0.12);
+  /* v23 · EL CARRIL SE HUNDE. Un tinte plano de 4 px es una raya; con el filo
+     de brillo del sistema en la arista superior —el mismo --color-vidrio-brillo
+     que llevan las gotas de la sección— el carril se lee como un surco labrado
+     en el papel y el relleno como algo que corre por dentro. Es el detalle que
+     separa una barra de instrumento de la barra de progreso de cualquier
+     framework, y cuesta una sola capa inset sin desenfoque. */
+  box-shadow: inset 0 1px 0 var(--color-vidrio-brillo);
   overflow: hidden;
 }
 
@@ -980,7 +996,9 @@ html:not(.js) .ubi-dist__relleno {
 .ubi-canal {
   display: flex;
   align-items: flex-start;
-  gap: var(--esp-sm);
+  /* v23 · el disco se despega de su texto: con las gotas de vidrio, --esp-sm
+     dejaba el filo de brillo rozando el rótulo. */
+  gap: var(--esp-md);
   padding: var(--esp-md) var(--esp-sm);
   border: 0;
   border-top: 1px solid var(--color-borde-suave);
@@ -1006,9 +1024,17 @@ a.ubi-canal:focus-visible {
 
 /* La única fila con cuerpo, porque es el canal real del negocio: por aquí se
    confirma la disponibilidad y por aquí entran las reservas. */
+/* v23 · La fila con cuerpo toma la silueta de hoja y se apoya. Era el único
+   recuadro de la lista y aun así iba a esquina viva y sin sombra: se leía como
+   una fila resaltada, no como el canal del negocio. La hoja (--radio-control,
+   la firma de forma de los controles del sistema) y la sombra de la gota la
+   convierten en una pieza. El relleno de menta no se toca: de él cuelga la
+   cuenta de contraste del pie de la fila que documenta el bloque de abajo. */
 .ubi-canal--destacado {
   border: 1px solid rgb(var(--verde-menta-rgb) / 0.55);
+  border-radius: var(--radio-control);
   background-color: rgb(var(--verde-menta-rgb) / 0.18);
+  box-shadow: var(--sombra-vidrio);
 }
 
 /* Aquí el hover NO oscurece el fondo, cierra el filete. Subir la veladura de
@@ -1021,6 +1047,15 @@ a.ubi-canal--destacado:focus-visible {
   background-color: rgb(var(--verde-menta-rgb) / 0.18);
 }
 
+/* v23 · LOS DISCOS SON GOTAS DE ROCÍO. Eran tres círculos de oliva al 14 %
+   sobre la salvia: un tinte plano, sin filo y sin apoyo, el chip por defecto de
+   cualquier plantilla. Ahora llevan el vidrio del sistema (base.css §7b y
+   tokens.css §7b): --luz translúcida, desenfoque corto de la trama que corre
+   debajo, filo de brillo en la arista superior y sombra de contacto.
+   CAEN SOBRE PAPEL, NUNCA SOBRE FOTO NI SOBRE EL MAPA: la lista de canales
+   vive en la salvia de la sección, muy por debajo de la banda satelital.
+   Contraste del icono: --color-acento-texto sobre el vidrio, 5,0:1 (medido en
+   tokens.css §7b); antes, sobre el tinte oliva, 4,9:1. No se pierde nada. */
 .ubi-canal__icono {
   display: grid;
   place-items: center;
@@ -1028,8 +1063,18 @@ a.ubi-canal--destacado:focus-visible {
   height: var(--ubi-icono);
   flex: none;
   border-radius: var(--radio-full);
-  background-color: rgb(var(--verde-oliva-rgb) / 0.14);
+  border: 1px solid var(--color-vidrio-borde);
+  background-color: var(--color-vidrio);
+  box-shadow: var(--sombra-vidrio);
+  backdrop-filter: var(--desenfoque-vidrio);
+  -webkit-backdrop-filter: var(--desenfoque-vidrio);
   color: var(--color-acento-texto);
+}
+
+@supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
+  .ubi-canal__icono {
+    background-color: var(--color-vidrio-opaco);
+  }
 }
 
 .ubi-canal__icono svg {
@@ -1037,8 +1082,16 @@ a.ubi-canal--destacado:focus-visible {
   height: 1.35em;
 }
 
+/* El disco del canal real va MACIZO en menta, no de vidrio: es el único de los
+   cuatro que no tiene que dejar ver el papel: tiene que verse él. Se le retira
+   el desenfoque —debajo hay relleno opaco, así que no haría nada y sí costaría
+   una capa— y conserva el filo de brillo de la sombra, que es lo que lo
+   emparenta con las tres gotas de al lado. */
 .ubi-canal--destacado .ubi-canal__icono {
+  border-color: rgb(var(--verde-bosque-rgb) / 0.3);
   background-color: var(--verde-menta);
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
   color: var(--tinta);
 }
 
@@ -1046,15 +1099,27 @@ a.ubi-canal--destacado:focus-visible {
    disco baja al gris de rótulo para que nadie lo intente. En una lista de
    cuatro filas idénticas, tres pulsables y una no, el color del icono es lo
    único que lo dice sin escribirlo. */
+/* v23 · Y AHORA EL MATERIAL LO DICE ANTES QUE EL COLOR: la fila que no se pulsa
+   pierde el vidrio entero —ni filo, ni desenfoque, ni sombra de contacto—, así
+   que se queda plana contra el papel mientras las otras tres se levantan. Es la
+   misma información que daba el gris, dicha por la superficie: en una lista de
+   cuatro filas iguales, tres pulsables y una no, ahora se ve sin leer. */
 .ubi-canal--estatico .ubi-canal__icono {
+  border-color: var(--color-borde-suave);
   background-color: rgb(var(--verde-oliva-rgb) / 0.08);
+  box-shadow: none;
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
   color: var(--color-texto-suave);
 }
 
+/* v23 · Tres voces en una fila —rótulo, valor y pie— iban a 4 px unas de
+   otras: se leían como un bloque de texto en tres tamaños en vez de como una
+   ficha. --esp-2xs es el aire mínimo en el que la jerarquía se ve. */
 .ubi-canal__cuerpo {
   display: flex;
   flex-direction: column;
-  gap: var(--esp-3xs);
+  gap: var(--esp-2xs);
   min-width: 0;
 }
 
@@ -1084,14 +1149,29 @@ a.ubi-canal--destacado:focus-visible {
    único que es de verdad un objeto —una cosa que se rellena—, así que es lo
    único que merece un papel debajo. Al ser el único, además, se lee como el
    final del recorrido sin necesidad de ningún adorno. */
+/* v23 · EL PAPEL DEL FORMULARIO TOMA LA SILUETA DE HOJA Y SE APOYA.
+   Seguía siendo un rectángulo de esquina viva con un filete oliva: correcto y
+   anónimo. Es el único OBJETO de la sección —lo único que se rellena— y ahora
+   lo dice con la firma de forma de la casa (--radio-hoja en diagonal, la misma
+   de .placa en base.css §4b) y con la sombra de contacto + difusión que lo
+   apoya sobre la salvia en vez de dejarlo dibujado encima.
+   NO LLEVA VIDRIO, a propósito: es una superficie grande y de lectura, y el
+   §7b de tokens.css deja el vidrio para controles y chips. El papel sigue
+   siendo --color-superficie-solida, que es contra lo que están medidos el
+   filete de los campos (5,3:1) y el bosque del foco (11,4:1): esas cuentas no
+   se tocan.
+   El aire interior sube de --esp-lg a --esp-xl y el hueco entre bloques de
+   --esp-sm a --esp-md: con doce controles dentro, un relleno apretado es lo
+   que hacía que el formulario se leyera como un widget y no como una pieza. */
 .ubi-form {
   display: flex;
   flex-direction: column;
-  gap: var(--esp-sm);
-  padding: var(--esp-lg);
+  gap: var(--esp-md);
+  padding: var(--esp-xl);
   border: 1px solid var(--color-borde-fuerte);
-  border-radius: 0;
+  border-radius: var(--radio-hoja) 0 var(--radio-hoja) 0;
   background-color: var(--color-superficie-solida);
+  box-shadow: var(--sombra-md);
 }
 
 .ubi-form__intro {
@@ -1116,10 +1196,13 @@ a.ubi-canal--destacado:focus-visible {
 }
 
 /* El campo es un <p>: hay que neutralizar las reglas de párrafo de base.css */
+/* v23 · era --esp-3xs (4 px). La etiqueta pegada a su campo se leía como parte
+   del recuadro; a --esp-2xs se ve que es un rótulo que gobierna un control.
+   El aire entre campos ya lo pone .ubi-campos con --esp-md. */
 .ubi-campo {
   display: flex;
   flex-direction: column;
-  gap: var(--esp-3xs);
+  gap: var(--esp-2xs);
   max-width: none;
   margin: 0;
 }
@@ -1157,10 +1240,28 @@ a.ubi-canal--destacado:focus-visible {
    rótulo decorativo sino la marca semántica de un campo requerido. El color es
    parte de lo que informa, y va a juego con el mensaje de error del
    formulario. .ubi-campo__opcional, que sí es un rótulo, va en gris. */
+/* v23 · «obligatorio» PASA DE PALABRA SUELTA A MARCA. Era terracota sobre el
+   papel del panel, del mismo cuerpo y el mismo peso que el rótulo «opcional»
+   que tiene enfrente: dos cosas distintas vestidas igual, que es el fallo de
+   jerarquía que el cliente lee como genérico. Ahora es una marca con cuerpo
+   —relleno de terracota velada y forma de píldora, el chip más pequeño del
+   sistema— así que se distingue de un vistazo sin subir de tamaño ni gritar.
+   Va con radio pleno y no con la hoja: es la excepción que base.css §8 ya
+   enuncia para .pildora («las esquinas vivas mandan en foto, tarjeta y botón;
+   en los chips, no»).
+   NO LLEVA VIDRIO: vive dentro del papel opaco del formulario, donde no hay
+   trama que desenfocar y el vidrio sólo lavaría el color.
+   Contraste: --color-acento-texto sobre el compuesto terracota/papel, 5,0:1. */
 .ubi-campo__marca {
+  padding: 0.25em 0.6em;
+  border-radius: var(--radio-full);
+  background-color: rgb(var(--coral-hondo-rgb) / 0.1);
   color: var(--color-acento-texto);
 }
 
+/* «opcional» se queda plano y gris a propósito: es la ausencia de la marca de
+   arriba, y vestirlo también de chip devolvería el empate que se venía a
+   deshacer. */
 .ubi-campo__opcional {
   color: var(--color-texto-suave);
 }
@@ -1214,9 +1315,16 @@ a.ubi-canal--destacado:focus-visible {
   box-shadow: inset 0 0 0 1px rgb(var(--rojo-baya-rgb) / 0.4);
 }
 
+/* v23 · La ayuda toma el registro de .credito (base.css §5): fuente de
+   etiqueta, interlineado propio de 1,45 y sin tracking. Heredaba el 1,68 del
+   cuerpo, y a 12,8 px eso abre un canalón que despega la pista de su campo —el
+   mismo diagnóstico que el cliente hizo sobre los créditos del muro de aves. */
 .ubi-campo__pista {
   display: block;
+  font-family: var(--fuente-titulo);
   font-size: var(--fs-micro);
+  line-height: 1.45;
+  letter-spacing: 0;
   color: var(--color-texto-suave);
 }
 
