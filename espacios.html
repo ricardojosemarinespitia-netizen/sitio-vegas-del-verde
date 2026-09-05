@@ -1,0 +1,730 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<script>document.documentElement.classList.add('js');</script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Alquiler de espacios para eventos · Vegas del Verde</title>
+<meta name="description" content="Alameda, La Vega, Teatrino, Taller y Cancha: cinco espacios al aire libre para alquilar en Floridablanca, Santander, con los usos recomendados de cada uno.">
+<link rel="canonical" href="https://vegasdelverde.co/espacios.html">
+<!-- SIN hreflang="en": el sitio en inglés (en/) sigue siendo la arquitectura
+     v1 y no tiene equivalente de esta página. Declarar una alternativa que no
+     existe es peor que no declarar ninguna. Se añadirá cuando /en/ se rehaga
+     con paridad (PLAN-REDISENO-V4 §7.5). -->
+<link rel="alternate" hreflang="es" href="https://vegasdelverde.co/espacios.html">
+
+<meta property="og:type" content="website">
+<meta property="og:title" content="Alquiler de espacios para eventos · Vegas del Verde">
+<meta property="og:description" content="Alameda, La Vega, Teatrino, Taller y Cancha: cinco espacios al aire libre para alquilar en Floridablanca, Santander, con los usos recomendados de cada uno.">
+<meta property="og:image" content="https://vegasdelverde.co/img/espacios/alameda-2.jpg">
+<meta property="og:url" content="https://vegasdelverde.co/espacios.html">
+<meta property="og:locale" content="es_CO">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Alquiler de espacios para eventos · Vegas del Verde">
+<meta name="twitter:image" content="https://vegasdelverde.co/img/espacios/alameda-2.jpg">
+
+<link rel="icon" type="image/png" href="img/logo/simbolo-vegas.png">
+<link rel="apple-touch-icon" href="img/logo/simbolo-vegas.png">
+
+<!-- fuentes-propias: Josefin Sans y DM Sans viven en styles/fonts/ y se
+     declaran por @font-face en base.css — no hay <link> a fonts.googleapis.com
+     ni preconnect a Google. La precarga hace que el navegador pida el woff2
+     desde el primer instante, en paralelo a parsear el CSS, en vez de esperar
+     a descubrir el @font-face durante el layout.
+     Se regenera con herramientas/precargar-fuentes.js. -->
+<link rel="preload" as="font" type="font/woff2" crossorigin href="styles/fonts/dm-sans-latin.woff2?v=89c7ce3a">
+<link rel="preload" as="font" type="font/woff2" crossorigin href="styles/fonts/josefin-sans-latin.woff2?v=0ff5ba86">
+
+<link rel="stylesheet" href="styles/tokens.css?v=48a473db">
+<link rel="stylesheet" href="styles/base.css?v=05b2e133">
+<link rel="stylesheet" href="styles/shell.css?v=a82199f7">
+<!-- Este bloque lo REESCRIBE herramientas/ensamblar.js a partir de PAGINAS.
+     No lo edites a mano: la lista buena está allí. -->
+<link rel="stylesheet" href="styles/sections/home.css?v=6f4d169b">
+<link rel="stylesheet" href="styles/sections/usos.css?v=1de2149f">
+<link rel="stylesheet" href="styles/sections/pie.css?v=94785836">
+<link rel="stylesheet" href="styles/lightbox.css?v=92a48a1f">
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    { "@type": "ListItem", "position": 1, "name": "Vegas del Verde", "item": "https://vegasdelverde.co/" },
+    { "@type": "ListItem", "position": 2, "name": "Cinco espacios para alquilar", "item": "https://vegasdelverde.co/espacios.html" }
+  ]
+}
+</script>
+</head>
+<body>
+<!-- ==========================================================================
+     FRAGMENTO: CABECERA  ·  se inserta como primer hijo de <body>
+     Propiedad del director de arte. Los agentes de sección NO lo modifican.
+     ========================================================================== -->
+<a class="saltar-contenido" href="#contenido">Saltar al contenido</a>
+
+<header class="cabecera" id="cabecera" data-cabecera>
+  <div class="cabecera__interior contenedor contenedor--ancho">
+
+    <!-- v18 · La marca apunta a index.html#inicio y no a #inicio a secas: este
+         fragmento se inserta en TODAS las páginas del sitio, y desde
+         vivero.html o naturaleza.html un ancla suelta no lleva a ninguna
+         parte. Desde la portada el navegador resuelve el ancla igual. -->
+    <a class="marca" href="index.html#inicio" aria-label="Vegas del Verde, ir al inicio">
+      <!-- v12 · EL LOGO ORIGINAL, no una aproximación. Hasta aquí la cabecera
+           llevaba una hoja dibujada a mano en SVG (una interpretación libre,
+           no el símbolo real) más el nombre escrito aparte en la tipografía
+           del sitio. Pedido directo del cliente: «pon el logo de Vegas el
+           original en la página». Las páginas interiores (terminos.html,
+           condiciones-de-alquiler.html, política-de-datos.html) ya usaban el
+           archivo real —`img/logo/logo-vegas-barra.png`, el lockup horizontal
+           sobre placa verde que trae el símbolo y la palabra en una sola
+           pieza— vía `.marca__logo` (ver shell.css). La cabecera principal
+           era la única pieza del sitio que no lo usaba. Ahora es la misma
+           imagen en todas partes: cero inconsistencia entre el logo de la
+           portada y el de las páginas sueltas. -->
+      <img
+        class="marca__logo"
+        src="img/logo/logo-vegas-barra.png"
+        width="1390"
+        height="356"
+        alt="Vegas del Verde"
+        decoding="async"
+      />
+    </a>
+
+    <nav class="nav" id="nav-principal" aria-label="Navegación principal">
+      <!-- v18 · EL MENÚ DEJA DE SER UNA LISTA DE ANCLAS Y PASA A SER UNA LISTA
+           DE PÁGINAS. Consecuencia directa de la arquitectura nueva
+           (PLAN-REDISENO-V4 §4.1): Espacios, Planes, Naturaleza, Sendero,
+           Vivero y Contacto ya no son secciones del scroll de index.html;
+           son URL propias, con título, descripción y JSON-LD propios.
+
+           De paso arregla lo que el plan §2.2 le reprochaba al menú anterior:
+           mezclaba anclas y páginas sin distinción, y le faltaban «Vivero» y
+           «Sendero», que son productos con demanda de búsqueda propia. Ahora
+           las siete entradas son del mismo tipo y llevan al mismo sitio desde
+           cualquier página.
+
+           «Nosotros» sigue siendo un ancla porque sigue siendo una sección de
+           la portada; por eso va marcada como secundaria (shell.css la
+           esconde por debajo de 1280 px, donde la cabecera desborda).
+           «Colegios» y «Plan vecino» bajan al pie del panel móvil y al pie de
+           página: son destinos, no navegación, y meterlas aquí partiría el
+           menú en dos filas.
+
+           NINGÚN ENLACE PUEDE SER UN ANCLA SUELTA: este fragmento se inserta
+           en todas las páginas del sitio, así que todos llevan el nombre del
+           archivo por delante. -->
+      <ul class="nav__lista">
+        <li class="nav__item--secundario"><a class="nav__enlace" href="index.html#nosotros">Nosotros</a></li>
+        <li><a class="nav__enlace" href="espacios.html">Espacios</a></li>
+        <li><a class="nav__enlace" href="planes.html">Planes</a></li>
+        <li><a class="nav__enlace" href="naturaleza.html">Naturaleza</a></li>
+        <li><a class="nav__enlace" href="sendero-ecovital.html">Sendero</a></li>
+        <li><a class="nav__enlace" href="vivero.html">Vivero</a></li>
+        <li><a class="nav__enlace" href="contacto.html">Contacto</a></li>
+      </ul>
+
+      <!-- Sólo visible dentro del panel móvil -->
+      <div class="nav__pie">
+        <!-- v18 · Las dos páginas de destino que no caben en la barra. Aquí
+             son un objetivo táctil de bloque entero, no una línea de cuatro
+             palabras: es el ancho completo del panel móvil. -->
+        <a class="btn btn-secundario btn-bloque" href="colegios.html">Salidas escolares</a>
+        <a class="btn btn-secundario btn-bloque" href="plan-vecino.html">Plan vecino</a>
+        <a
+          class="btn btn-whatsapp btn-bloque"
+          href="https://wa.me/573166758362?text=Hola%2C%20quiero%20informaci%C3%B3n%20sobre%20Vegas%20del%20Verde"
+          target="_blank"
+          rel="noopener"
+        >
+          Escríbenos por WhatsApp
+        </a>
+        <a
+          class="btn btn-secundario btn-bloque"
+          href="en/index.html"
+          hreflang="en"
+          lang="en"
+          rel="alternate"
+        >
+          Read in English
+        </a>
+      </div>
+    </nav>
+
+    <div class="cabecera__acciones">
+      <!-- Nunca se oculta: en pantallas angostas o con tipografía grande se
+           colapsa al globo + el idioma alterno (ver shell.css). -->
+      <div class="idiomas" role="group" aria-label="Idioma del sitio">
+        <svg class="icono-traza idiomas__globo" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true" focusable="false">
+          <circle cx="12" cy="12" r="9" pathLength="1"/>
+          <path d="M3 12h18" pathLength="1"/>
+          <path d="M12 3c2.4 2.5 3.6 5.5 3.6 9s-1.2 6.5-3.6 9c-2.4-2.5-3.6-5.5-3.6-9s1.2-6.5 3.6-9Z" pathLength="1"/>
+        </svg>
+        <a
+          class="idiomas__opcion"
+          href="index.html"
+          hreflang="es"
+          lang="es"
+          aria-current="true"
+        >ES</a>
+        <a
+          class="idiomas__opcion"
+          href="en/index.html"
+          hreflang="en"
+          lang="en"
+          rel="alternate"
+          aria-label="View this site in English"
+        >EN</a>
+      </div>
+
+      <button
+        class="boton-menu"
+        type="button"
+        aria-expanded="false"
+        aria-controls="nav-principal"
+        aria-label="Abrir menú de navegación"
+        data-menu
+      >
+        <span class="boton-menu__barras" aria-hidden="true">
+          <span></span><span></span><span></span>
+        </span>
+      </button>
+    </div>
+
+  </div>
+</header>
+
+<div class="velo-menu" data-cerrar-menu></div>
+
+<!-- ==========================================================================
+     WHATSAPP FLOTANTE — reemplaza al botón de la cabecera (v12).
+     Antes vivía DENTRO de `.cabecera__acciones`: competía con el selector de
+     idioma y el botón de menú por el mismo espacio angosto, y en pantallas
+     con la letra del sistema agrandada era el primero en desaparecer (ver el
+     colapso documentado en shell.css). Fuera de la cabecera no depende de su
+     ancho: flota fijo en la esquina, visible en cualquier punto del scroll y
+     en cualquier página del sitio —vive en este fragmento, que se inserta
+     como primer hijo de <body> en TODAS ellas—.
+     Mismo enlace y mismo SVG que ya usaba el botón de la cabecera: ni una
+     petición nueva, ni un ícono nuevo que mantener.
+     `position: fixed` con z-index por encima del contenido pero por debajo
+     de cualquier futuro modal (ver --z-modal en tokens.css si existe). El
+     pulso es sólo opacity —GPU, y se apaga solo con prefers-reduced-motion,
+     que shell.css ya resuelve para toda animación infinita del sitio. -->
+<a
+  class="whatsapp-flotante"
+  href="https://wa.me/573166758362?text=Hola%2C%20quiero%20informaci%C3%B3n%20sobre%20Vegas%20del%20Verde"
+  target="_blank"
+  rel="noopener"
+  aria-label="Escribir por WhatsApp a Vegas del Verde"
+>
+  <span class="whatsapp-flotante__pulso" aria-hidden="true"></span>
+  <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" focusable="false">
+    <path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.46 1.32 4.96L2 22l5.25-1.38a9.87 9.87 0 0 0 4.79 1.22h.01c5.46 0 9.91-4.45 9.91-9.91 0-2.65-1.03-5.14-2.9-7.01A9.82 9.82 0 0 0 12.04 2Zm0 18.02h-.01a8.2 8.2 0 0 1-4.19-1.15l-.3-.18-3.12.82.83-3.04-.2-.31a8.19 8.19 0 0 1-1.26-4.38c0-4.54 3.7-8.24 8.25-8.24 2.2 0 4.27.86 5.83 2.42a8.2 8.2 0 0 1 2.41 5.83c0 4.54-3.7 8.23-8.24 8.23Z"/>
+    <path d="M17.47 14.38c-.3-.15-1.76-.87-2.03-.97-.27-.1-.47-.15-.67.15-.2.3-.77.97-.94 1.17-.17.2-.35.22-.65.07-.3-.15-1.26-.46-2.4-1.48-.89-.79-1.49-1.77-1.66-2.07-.17-.3-.02-.46.13-.61.13-.13.3-.35.45-.52.15-.17.2-.3.3-.5.1-.2.05-.37-.02-.52-.08-.15-.67-1.61-.92-2.21-.24-.58-.49-.5-.67-.51h-.57c-.2 0-.52.07-.79.37-.27.3-1.04 1.01-1.04 2.47s1.06 2.87 1.21 3.07c.15.2 2.1 3.2 5.08 4.49.71.31 1.26.49 1.69.63.71.23 1.36.19 1.87.12.57-.09 1.76-.72 2.01-1.41.25-.69.25-1.29.17-1.41-.07-.12-.27-.2-.57-.35Z"/>
+  </svg>
+</a>
+<main id="contenido">
+<!-- ==========================================================================
+     ENCABEZADO DE PÁGINA: Cinco espacios para alquilar
+     CSS: styles/sections/home.css (bloque «PÁGINAS DE PROFUNDIDAD»)
+     JS propio: NINGUNO
+
+     Generado por herramientas/_crear-paginas-v18.js y mantenido a mano desde
+     entonces. Lo pega el ensamblador como PRIMERA sección de espacios.html.
+
+     Aquí vive el único <h1> de la página. La sección que va debajo conserva
+     su <h2> original tal como estaba en index.html: mudarse de página no es
+     rediseñarse, y así la jerarquía queda h1 -> h2 sin tocar el fragmento.
+
+     SIN FOTOGRAFÍA DE FONDO, a propósito: ninguna imagen que el texto pueda
+     tapar. Corrección directa del cliente en esta fase.
+     ========================================================================== -->
+<section id="portada-espacios" class="pagina-encabezado" aria-labelledby="portada-espacios-titulo">
+  <div class="contenedor contenedor--ancho">
+    <a class="pagina-miga" href="index.html">← Vegas del Verde</a>
+    <div class="pagina-encabezado__interior reveal">
+      <p class="eyebrow">Alquiler de espacios</p>
+      <h1 id="portada-espacios-titulo" class="pagina-encabezado__titulo">Cinco espacios para alquilar</h1>
+      <p class="entradilla">Escoge por tamaño y por lo que va a pasar ese día. Cada uno trae los usos que mejor le funcionan, con fotos de eventos que ya pasaron aquí.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ==========================================================================
+     FRAGMENTO: USOS  ·  ancla #usos
+     CSS propio: styles/sections/usos.css
+     JS propio: NINGUNO. v17 · se retiró js/usos-arco.js: el arco que crece
+     con el scroll pasó a `animation-timeline: view()` dentro de usos.css
+     (§ARCO), porque gobernarlo desde un listener de scroll lo dejaba un
+     cuadro por detrás de la fotografía en celular —el «SE LAGUE APEGA
+     BRINCOS MINIS» que reportó el cliente—. Toda la explicación y las
+     mediciones están en la cabecera de §ARCO en usos.css.
+
+     QUÉ ES Y POR QUÉ EXISTE. Entre la portada y la ficha técnica de
+     #espacios (aforos, botón de WhatsApp, condiciones) faltaba una pregunta
+     más simple: «¿qué puedo hacer aquí?». #espacios ya responde «qué
+     espacios hay»; esta sección responde «para qué sirve cada uno», con la
+     foto de un evento real en vez de una cifra de aforo. Los CINCO espacios
+     son los mismos cinco de #espacios —no se inventa un sexto— y ninguna
+     cifra de aforo se repite aquí: ARQUITECTURA-V3 le da la propiedad de esa
+     cifra a #espacios en exclusiva.
+
+     CADA TARJETA ES UN <details>, no un acordeón hecho a mano ni un modal
+     —el patrón de ventana emergente que este proyecto prohíbe—. `<summary>`
+     es la tarjeta visible (foto a sangre, nombre, frase breve, aviso de
+     tocar) y el contenido de `<details>` son los usos recomendados: se abre
+     y cierra con el teclado y con el lector de pantalla sin una línea de
+     JavaScript, y en la fuente de la página el usuario que no ve la foto
+     igual encuentra el texto.
+
+     EN MÓVIL cada tarjeta ocupa el alto completo de la ventana (100dvh): se
+     pasa de una a otra con scroll, como una portada por espacio. En
+     escritorio pasan a una rejilla —hay sitio de sobra para verlas todas a
+     la vez— y el aviso de «tocar» se cambia por «ver usos», que es lo que
+     de verdad se hace con un cursor.
+
+     LOS USOS NO INVENTAN AFOROS NI CONDICIONES: son recomendaciones de tipo
+     de evento («bodas», «cumpleaños», «empresarial»...) con una frase de por
+     qué ese espacio funciona para ese uso, apoyada en un rasgo que #espacios
+     ya describe (el prado abierto, la explanada llana, el árbol grande...).
+     Las fotos de evento salen de img/eventos/, la misma carpeta que usa
+     #momentos; ninguna es la foto principal de la tarjeta de su propio
+     espacio, para no repetir un mismo archivo dos veces en la misma tarjeta.
+     ========================================================================== -->
+<section class="seccion usos" id="usos" aria-labelledby="usos-titulo">
+
+  <div class="contenedor contenedor--ancho">
+    <header class="seccion-encabezado usos__encabezado reveal">
+      <h2 class="titulo-seccion usos__titulo" id="usos-titulo">
+        Un espacio para cada plan
+      </h2>
+    </header>
+  </div>
+
+  <ul class="usos-lista" role="list">
+
+    <!-- ---------------------------------------------------------- 1/5 -->
+    <li class="usos-item">
+      <details class="usos-detalle">
+        <summary class="usos-tarjeta">
+          <picture>
+            <img
+              class="usos-tarjeta__foto"
+              src="img/espacios/alameda-2.jpg"
+              width="1500"
+              height="1000"
+              loading="lazy"
+              decoding="async"
+              alt=""
+            />
+          </picture>
+          <span class="usos-tarjeta__aforo">
+            <span class="usos-tarjeta__aforo-cifra">150</span>
+            <span class="usos-tarjeta__aforo-texto">Personas como máximo</span>
+          </span>
+          <span class="usos-tarjeta__marco">
+            <span class="usos-tarjeta__orden" aria-hidden="true">01</span>
+            <span class="usos-tarjeta__nombre">Alameda</span>
+            <span class="usos-tarjeta__frase">La grama mejor cuidada del predio, para el día que no se repite.</span>
+            <span class="usos-tarjeta__aviso">
+              <span class="usos-tarjeta__aviso-movil">Toca para ver los usos</span>
+              <span class="usos-tarjeta__aviso-escritorio">Ver los usos de este espacio</span>
+            </span>
+          </span>
+        </summary>
+        <div class="usos-panel">
+          <h3 class="solo-lectores">Usos recomendados en Alameda</h3>
+          <ul class="usos-panel__lista" role="list">
+            <li class="usos-panel__uso">
+              <img src="img/parque/parque-01.jpg"
+                srcset="img/parque/parque-01-400.jpg 400w, img/parque/parque-01-600.jpg 600w, img/parque/parque-01.jpg 675w"
+                sizes="(max-width: 47.99em) 98vw, 32vw" width="800" height="533" loading="lazy" decoding="async"
+                   alt="Ceremonia montada bajo el árbol grande: sillas de madera en filas, un pasillo de flores blancas y telas claras colgadas entre las ramas." />
+              <p class="usos-panel__tipo">Bodas</p>
+              <p class="usos-panel__razon">En el prado entero cabe una ceremonia grande, con sombra en los bordes para los invitados.</p>
+            </li>
+            <li class="usos-panel__uso">
+              <img src="img/eventos/noche-evento-1.jpg"
+                srcset="img/eventos/noche-evento-1-400.jpg 400w, img/eventos/noche-evento-1-600.jpg 600w, img/eventos/noche-evento-1-800.jpg 800w, img/eventos/noche-evento-1-1200.jpg 1200w, img/eventos/noche-evento-1.jpg 1800w"
+                sizes="(max-width: 47.99em) 98vw, 32vw" width="800" height="533" loading="lazy" decoding="async"
+                   alt="Fiesta de noche en el césped junto a una carpa blanca, con bombillos colgados, sofás de huacal y pacas de heno." />
+              <p class="usos-panel__tipo">Empresarial</p>
+              <p class="usos-panel__razon">Es el que más gente admite: cabe un lanzamiento o una convención de pie.</p>
+            </li>
+            <li class="usos-panel__uso">
+              <img src="img/parque/parque-28.jpg"
+                srcset="img/parque/parque-28-400.jpg 400w, img/parque/parque-28-600.jpg 600w, img/parque/parque-28-800.jpg 800w, img/parque/parque-28.jpg 900w"
+                sizes="(max-width: 47.99em) 98vw, 32vw" width="800" height="533" loading="lazy" decoding="async"
+                   alt="Cumpleaños infantil en una mesa de picnic sobre el césped, con la torta encendida y guirnaldas de flecos de colores entre los árboles." />
+              <p class="usos-panel__tipo">Cumpleaños</p>
+              <p class="usos-panel__razon">Sitio de sobra para la piñata, la mesa larga y los que salen corriendo.</p>
+            </li>
+          </ul>
+        </div>
+      </details>
+    </li>
+
+    <!-- ---------------------------------------------------------- 2/5 -->
+    <li class="usos-item">
+      <details class="usos-detalle">
+        <summary class="usos-tarjeta">
+          <picture>
+            <source media="(max-width: 47.99em)" srcset="img/eventos/vega-vertical.jpg" />
+            <img
+              class="usos-tarjeta__foto"
+              src="img/eventos/vega-horizontal.jpg"
+              width="1600"
+              height="900"
+              loading="lazy"
+              decoding="async"
+              alt=""
+            />
+          </picture>
+          <span class="usos-tarjeta__aforo">
+            <span class="usos-tarjeta__aforo-cifra">100</span>
+            <span class="usos-tarjeta__aforo-texto">Personas como máximo</span>
+          </span>
+          <span class="usos-tarjeta__marco">
+            <span class="usos-tarjeta__orden" aria-hidden="true">02</span>
+            <span class="usos-tarjeta__nombre">La Vega</span>
+            <span class="usos-tarjeta__frase">Una explanada sin un solo desnivel: aquí cabe el escenario y lo que se le monte.</span>
+            <span class="usos-tarjeta__aviso">
+              <span class="usos-tarjeta__aviso-movil">Toca para ver los usos</span>
+              <span class="usos-tarjeta__aviso-escritorio">Ver los usos de este espacio</span>
+            </span>
+          </span>
+        </summary>
+        <div class="usos-panel">
+          <h3 class="solo-lectores">Usos recomendados en La Vega</h3>
+          <ul class="usos-panel__lista" role="list">
+            <li class="usos-panel__uso">
+              <img src="img/parque/parque-22.jpg"
+                srcset="img/parque/parque-22-400.jpg 400w, img/parque/parque-22-600.jpg 600w, img/parque/parque-22-800.jpg 800w, img/parque/parque-22.jpg 1200w"
+                sizes="(max-width: 47.99em) 98vw, 32vw" width="800" height="533" loading="lazy" decoding="async"
+                   alt="Carpa de techo transparente montada sobre la explanada, con mesas altas, taburetes y sofás alrededor." />
+              <p class="usos-panel__tipo">Bodas</p>
+              <p class="usos-panel__razon">Sin un solo desnivel: la carpa y la pista se montan derechas, sin nivelar nada.</p>
+            </li>
+            <li class="usos-panel__uso">
+              <img src="img/eventos/infantil-1.jpg"
+                srcset="img/eventos/infantil-1-400.jpg 400w, img/eventos/infantil-1-600.jpg 600w, img/eventos/infantil-1.jpg 844w"
+                sizes="(max-width: 47.99em) 98vw, 67vw" width="800" height="533" loading="lazy" decoding="async"
+                   alt="Guirnaldas de flecos de colores tendidas entre los árboles sobre la explanada de césped, en una fiesta infantil." />
+              <p class="usos-panel__tipo">Cumpleaños</p>
+              <p class="usos-panel__razon">Piso parejo de punta a punta: entran inflables y juegos sin buscarles un tramo plano.</p>
+            </li>
+            <li class="usos-panel__uso">
+              <img src="img/eventos/yoga-1.jpg"
+                srcset="img/eventos/yoga-1-400.jpg 400w, img/eventos/yoga-1-600.jpg 600w, img/eventos/yoga-1-800.jpg 800w, img/eventos/yoga-1.jpg 1125w"
+                sizes="(max-width: 47.99em) 98vw, 32vw" width="800" height="533" loading="lazy" decoding="async"
+                   alt="Sesión de acondicionamiento al aire libre: un grupo de adultos mayores sentados en sillas, con los tapetes extendidos sobre el césped." />
+              <p class="usos-panel__tipo">Bienestar</p>
+              <p class="usos-panel__razon">Superficie pareja de borde a borde: los tapetes quedan todos a la misma altura.</p>
+            </li>
+          </ul>
+        </div>
+      </details>
+    </li>
+
+    <!-- ---------------------------------------------------------- 3/5 -->
+    <li class="usos-item">
+      <details class="usos-detalle">
+        <summary class="usos-tarjeta">
+          <picture>
+            <img
+              class="usos-tarjeta__foto"
+              src="img/eventos/boda-4.jpg"
+              width="1500"
+              height="1000"
+              loading="lazy"
+              decoding="async"
+              alt=""
+            />
+          </picture>
+          <span class="usos-tarjeta__aforo">
+            <span class="usos-tarjeta__aforo-cifra">70</span>
+            <span class="usos-tarjeta__aforo-texto">Personas como máximo</span>
+          </span>
+          <span class="usos-tarjeta__marco">
+            <span class="usos-tarjeta__orden" aria-hidden="true">03</span>
+            <span class="usos-tarjeta__nombre">Teatrino</span>
+            <span class="usos-tarjeta__frase">El más recogido de los cinco: la gente cabe en un solo corro.</span>
+            <span class="usos-tarjeta__aviso">
+              <span class="usos-tarjeta__aviso-movil">Toca para ver los usos</span>
+              <span class="usos-tarjeta__aviso-escritorio">Ver los usos de este espacio</span>
+            </span>
+          </span>
+        </summary>
+        <div class="usos-panel">
+          <h3 class="solo-lectores">Usos recomendados en Teatrino</h3>
+          <ul class="usos-panel__lista" role="list">
+            <li class="usos-panel__uso">
+              <img src="img/eventos/boda-3.jpg"
+                srcset="img/eventos/boda-3-400.jpg 400w, img/eventos/boda-3-600.jpg 600w, img/eventos/boda-3-800.jpg 800w, img/eventos/boda-3-1200.jpg 1200w, img/eventos/boda-3.jpg 1500w"
+                sizes="(max-width: 47.99em) 98vw, 32vw" width="800" height="533" loading="lazy" decoding="async"
+                   alt="Ceremonia íntima bajo la sombra de un árbol grande, con pocas sillas dispuestas en semicírculo." />
+              <p class="usos-panel__tipo">Bodas íntimas</p>
+              <p class="usos-panel__razon">La copa del árbol hace de techo: ceremonias pequeñas, más recogidas que en la Alameda.</p>
+            </li>
+            <li class="usos-panel__uso">
+              <img src="img/eventos/infantil-2.jpg"
+                srcset="img/eventos/infantil-2-400.jpg 400w, img/eventos/infantil-2-600.jpg 600w, img/eventos/infantil-2-800.jpg 800w, img/eventos/infantil-2.jpg 1125w"
+                sizes="(max-width: 47.99em) 98vw, 32vw" width="800" height="533" loading="lazy" decoding="async"
+                   alt="Niños alrededor de una mesa de picnic con la torta encendida, bajo guirnaldas de flecos y la sombra de los árboles." />
+              <p class="usos-panel__tipo">Cumpleaños</p>
+              <p class="usos-panel__razon">La sombra del árbol cubre casi todo el claro: la fiesta no necesita toldo aparte.</p>
+            </li>
+            <li class="usos-panel__uso">
+              <img src="img/parque/parque-31.jpg"
+                srcset="img/parque/parque-31-400.jpg 400w, img/parque/parque-31-600.jpg 600w, img/parque/parque-31-800.jpg 800w, img/parque/parque-31.jpg 1200w"
+                sizes="(max-width: 47.99em) 98vw, 32vw" width="800" height="533" loading="lazy" decoding="async"
+                   alt="Grupo sentado en sillas puestas en círculo sobre el césped, con la instructora al frente." />
+              <p class="usos-panel__tipo">Charlas y talleres</p>
+              <p class="usos-panel__razon">El césped hace de platea natural para un grupo pequeño reunido en círculo.</p>
+            </li>
+          </ul>
+        </div>
+      </details>
+    </li>
+
+    <!-- ---------------------------------------------------------- 4/5 -->
+    <li class="usos-item">
+      <details class="usos-detalle">
+        <summary class="usos-tarjeta">
+          <picture>
+            <img
+              class="usos-tarjeta__foto"
+              src="img/espacios/taller-1.jpg"
+              width="900"
+              height="1200"
+              loading="lazy"
+              decoding="async"
+              alt=""
+            />
+          </picture>
+          <span class="usos-tarjeta__marco">
+            <span class="usos-tarjeta__orden" aria-hidden="true">04</span>
+            <span class="usos-tarjeta__nombre">Taller</span>
+            <span class="usos-tarjeta__frase">Aquí el clima no manda: la cubierta de caña se encarga.</span>
+            <span class="usos-tarjeta__aviso">
+              <span class="usos-tarjeta__aviso-movil">Toca para ver los usos</span>
+              <span class="usos-tarjeta__aviso-escritorio">Ver los usos de este espacio</span>
+            </span>
+          </span>
+        </summary>
+        <div class="usos-panel">
+          <h3 class="solo-lectores">Usos recomendados en Taller</h3>
+          <p class="usos-panel__aforo">45 personas como máximo</p>
+          <ul class="usos-panel__lista" role="list">
+            <li class="usos-panel__uso">
+              <img src="img/parque/parque-32.jpg"
+                srcset="img/parque/parque-32-400.jpg 400w, img/parque/parque-32-600.jpg 600w, img/parque/parque-32-800.jpg 800w, img/parque/parque-32.jpg 900w"
+                sizes="(max-width: 47.99em) 98vw, 32vw" width="800" height="533" loading="lazy" decoding="async"
+                   alt="Reunión en mesas bajo la cubierta de caña del Taller, con el jardín al fondo." />
+              <p class="usos-panel__tipo">Empresarial</p>
+              <p class="usos-panel__razon">Es el único techado del predio: la reunión sigue igual aunque llueva.</p>
+            </li>
+            <li class="usos-panel__uso">
+              <img src="img/eventos/infantil-3.jpg"
+                srcset="img/eventos/infantil-3-400.jpg 400w, img/eventos/infantil-3-600.jpg 600w, img/eventos/infantil-3-800.jpg 800w, img/eventos/infantil-3-1200.jpg 1200w, img/eventos/infantil-3.jpg 1500w"
+                sizes="(max-width: 47.99em) 98vw, 32vw" width="800" height="533" loading="lazy" decoding="async"
+                   alt="Lectura de cuentos con un grupo de niños sentados sobre el césped, con los aros de juego a un lado." />
+              <p class="usos-panel__tipo">Cumpleaños infantil</p>
+              <p class="usos-panel__razon">Piso firme y seco para los juegos de los más chicos, sin barro ni sol directo.</p>
+            </li>
+            <li class="usos-panel__uso">
+              <img src="img/parque/parque-11.jpg"
+                srcset="img/parque/parque-11-400.jpg 400w, img/parque/parque-11-600.jpg 600w, img/parque/parque-11-800.jpg 800w, img/parque/parque-11.jpg 1200w"
+                sizes="(max-width: 47.99em) 98vw, 32vw" width="800" height="533" loading="lazy" decoding="async"
+                   alt="La cubierta de caña del Taller sobre piso duro, despejada y lista para montar mesas." />
+              <p class="usos-panel__tipo">Talleres</p>
+              <p class="usos-panel__razon">Una clase entera cabe sentada, con las mesas y el material a resguardo.</p>
+            </li>
+          </ul>
+        </div>
+      </details>
+    </li>
+
+    <!-- ---------------------------------------------------------- 5/5 -->
+    <li class="usos-item">
+      <details class="usos-detalle">
+        <summary class="usos-tarjeta">
+          <picture>
+            <source media="(max-width: 47.99em)" srcset="img/eventos/cancha-vertical.jpg" />
+            <img
+              class="usos-tarjeta__foto"
+              src="img/eventos/cancha-horizontal.jpg"
+              width="1600"
+              height="900"
+              loading="lazy"
+              decoding="async"
+              alt=""
+            />
+          </picture>
+          <span class="usos-tarjeta__marco">
+            <span class="usos-tarjeta__orden" aria-hidden="true">05</span>
+            <span class="usos-tarjeta__nombre">Cancha</span>
+            <span class="usos-tarjeta__frase">Campo abierto de punta a punta: aquí se viene a jugar.</span>
+            <span class="usos-tarjeta__aviso">
+              <span class="usos-tarjeta__aviso-movil">Toca para ver los usos</span>
+              <span class="usos-tarjeta__aviso-escritorio">Ver los usos de este espacio</span>
+            </span>
+          </span>
+        </summary>
+        <div class="usos-panel">
+          <h3 class="solo-lectores">Usos recomendados en Cancha</h3>
+          <p class="usos-panel__aforo">30 jugadores y 20 espectadores como máximo</p>
+          <ul class="usos-panel__lista" role="list">
+            <li class="usos-panel__uso">
+              <img src="img/parque/parque-29.jpg"
+                srcset="img/parque/parque-29-400.jpg 400w, img/parque/parque-29-600.jpg 600w, img/parque/parque-29-800.jpg 800w, img/parque/parque-29.jpg 900w"
+                sizes="(max-width: 47.99em) 98vw, 32vw" width="800" height="533" loading="lazy" decoding="async"
+                   alt="Niños en una mesa de picnic sobre el campo abierto, uno de pie atrapando pompas de jabón." />
+              <p class="usos-panel__tipo">Cumpleaños deportivos</p>
+              <p class="usos-panel__razon">El campo despejado alcanza para un torneo entero o los juegos de la fiesta.</p>
+            </li>
+            <li class="usos-panel__uso">
+              <img src="img/parque/parque-09.jpg"
+                srcset="img/parque/parque-09-400.jpg 400w, img/parque/parque-09-600.jpg 600w, img/parque/parque-09.jpg 675w"
+                sizes="(max-width: 47.99em) 98vw, 32vw" width="800" height="533" loading="lazy" decoding="async"
+                   alt="El campo abierto de la cancha, despejado bajo la sombra de un árbol grande." />
+              <p class="usos-panel__tipo">Integración empresarial</p>
+              <p class="usos-panel__razon">Un partido de por medio cambia cualquier jornada de equipo.</p>
+            </li>
+            <li class="usos-panel__uso">
+              <img src="img/parque/parque-14.jpg"
+                srcset="img/parque/parque-14-400.jpg 400w, img/parque/parque-14-600.jpg 600w, img/parque/parque-14-800.jpg 800w, img/parque/parque-14.jpg 900w"
+                sizes="(max-width: 47.99em) 98vw, 32vw" width="800" height="533" loading="lazy" decoding="async"
+                   alt="Explanada de césped con el guadual haciendo de borde y de sombra." />
+              <p class="usos-panel__tipo">Familiares</p>
+              <p class="usos-panel__razon">Tardes de fútbol y juegos con el guadual haciendo de borde y de sombra.</p>
+            </li>
+          </ul>
+        </div>
+      </details>
+    </li>
+
+  </ul>
+
+</section>
+</main>
+<!-- ==========================================================================
+     FRAGMENTO: PIE DE PÁGINA  ·  se inserta al final de <body>, tras </main>
+     Propiedad del director de arte.
+
+     REDISEÑO «cierre editorial» (referencia: mockup 08-footer-cta):
+       1. Cierre: antetítulo + titular serif grande + CTA final → #ubicacion.
+       2. Filete y fila de marca: logo lineal SVG + nombre serif + tagline,
+          y a la derecha Instagram + idioma.
+       3. Legal y créditos, discretos.
+
+     EL PIE SIGUE DELGADO (ARQUITECTURA-V3, «queDesaparece»). Aquí sólo hay:
+       marca y tagline · Instagram · un único enlace a #ubicacion ·
+       el cambio de idioma · 4 Family S.A.S. y el NIT · política y términos ·
+       el crédito fotográfico.
+     NO le devuelvas horario/dirección/teléfono/servicios «porque un pie
+     siempre los lleva»: cada hecho tiene un dueño arriba. Tampoco le pongas
+     id="contacto": ese id vive en #ubicacion y duplicarlo rompe el menú.
+
+     Estilos: styles/sections/pie.css (clases pie-final__*). El fondo, el
+     padding y el color de enlaces base los sigue dando .pie-sitio (shell.css).
+     ========================================================================== -->
+<footer class="pie-sitio pie-final">
+  <div class="contenedor contenedor--ancho">
+
+    <div class="pie-final__cierre">
+      <p class="pie-final__antetitulo reveal"><span class="pie-final__filete" aria-hidden="true"></span>Oasis para la recreación y el bienestar</p>
+      <p class="pie-final__titular reveal reveal-texto">
+        <span class="reveal-texto__linea">El verde te está</span>
+        <span class="reveal-texto__linea">esperando.</span>
+      </p>
+      <!-- v18 · Deja de ser el ancla #ubicacion y pasa a ser contacto.html.
+           La sección de cómo llegar se mudó a página propia
+           (PLAN-REDISENO-V4 §4.1) y este pie se inserta ahora en TODAS las
+           páginas del sitio: un ancla suelta no llevaría a ninguna parte
+           desde vivero.html o naturaleza.html. -->
+      <a class="pie-final__cta" href="contacto.html">
+        Dónde queda y cómo llegar
+        <svg class="pie-final__flecha" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+          <path d="M4 12h16"/>
+          <path d="M14 6l6 6-6 6"/>
+        </svg>
+      </a>
+    </div>
+
+    <div class="pie-final__fila">
+
+      <div class="pie-final__marca">
+        <svg class="pie-final__simbolo" viewBox="0 0 64 64" width="64" height="64" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+          <path d="M10 55c4-3 8-3 12 0s8 3 12 0 8-3 12 0 5 2 8 0"/>
+          <path d="M32 48V26"/>
+          <path d="M32 26c-5.5-5-5.5-13 0-18 5.5 5 5.5 13 0 18Z"/>
+          <path d="M32 42c-4-1-8-4-9.5-9"/>
+          <path d="M22.5 33c-6-1.5-9.5-6-10-12 6 .5 10.5 4 12 10-.5 1-1.3 1.7-2 2Z"/>
+          <path d="M32 42c4-1 8-4 9.5-9"/>
+          <path d="M41.5 33c6-1.5 9.5-6 10-12-6 .5-10.5 4-12 10 .5 1 1.3 1.7 2 2Z"/>
+        </svg>
+        <p class="pie-final__nombre">Vegas del Verde</p>
+      </div>
+
+      <div class="pie-final__acciones">
+        <a
+          class="pie-final__social"
+          href="https://instagram.com/vegasdelverde"
+          target="_blank"
+          rel="noopener"
+        >
+          <svg class="icono-traza" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true" focusable="false">
+            <rect x="3" y="3" width="18" height="18" rx="5" pathLength="1"/>
+            <circle cx="12" cy="12" r="4" pathLength="1"/>
+            <circle cx="17.3" cy="6.7" r="1.15" fill="currentColor" stroke="none" pathLength="1"/>
+          </svg>
+          @vegasdelverde
+        </a>
+        <a
+          class="pie-final__idioma"
+          href="en/index.html"
+          hreflang="en"
+          lang="en"
+          rel="alternate"
+        >
+          Read this site in English
+        </a>
+      </div>
+
+    </div>
+
+    <div class="pie-final__legal">
+      <p>
+        <strong>4 Family S.A.S.</strong> · NIT 901.391.144-7 ·
+        Floridablanca, Santander, Colombia ·
+        <span>© <span data-anio>2026</span> Vegas del Verde. Todos los derechos reservados.</span>
+      </p>
+      <!-- v18 · El pie recoge las páginas que no caben en la barra de
+           navegación: colegios, plan vecino y las condiciones de alquiler.
+           No son «hechos» repetidos —no dicen aforos, ni precios, ni
+           horarios—: son la única puerta a esas tres URL desde una pantalla
+           ancha, donde el panel móvil que las lleva no existe. -->
+      <ul class="pie-final__legal-enlaces">
+        <li><a href="colegios.html">Salidas escolares</a></li>
+        <li><a href="plan-vecino.html">Plan vecino</a></li>
+        <li><a href="condiciones-de-alquiler.html">Condiciones de alquiler</a></li>
+        <li><a href="politica-de-datos.html">Política de tratamiento de datos</a></li>
+        <li><a href="terminos.html">Términos y condiciones</a></li>
+      </ul>
+    </div>
+
+    <p class="pie-final__creditos">
+      Fotografías de aves cedidas por los participantes del concurso de fotografía de
+      Vegas del Verde; el crédito de cada autor aparece junto a su imagen en la galería.
+      Las demás fotografías y el render aéreo del predio son propiedad de Vegas del Verde.
+    </p>
+
+  </div>
+</footer>
+<script src="js/app.js?v=d2757e52" defer></script>
+</body>
+</html>

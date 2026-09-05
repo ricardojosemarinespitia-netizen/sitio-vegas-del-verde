@@ -1,0 +1,749 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<script>document.documentElement.classList.add('js');</script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Vivero · Vegas del Verde</title>
+<meta name="description" content="Producción y venta de plantas, abonos, mantenimiento de jardines y poda, y alquiler de complementos para decorar eventos. Registro ICA Resolución 00000819.">
+<link rel="canonical" href="https://vegasdelverde.co/vivero.html">
+<!-- SIN hreflang="en": el sitio en inglés (en/) sigue siendo la arquitectura
+     v1 y no tiene equivalente de esta página. Declarar una alternativa que no
+     existe es peor que no declarar ninguna. Se añadirá cuando /en/ se rehaga
+     con paridad (PLAN-REDISENO-V4 §7.5). -->
+<link rel="alternate" hreflang="es" href="https://vegasdelverde.co/vivero.html">
+
+<meta property="og:type" content="website">
+<meta property="og:title" content="Vivero · Vegas del Verde">
+<meta property="og:description" content="Producción y venta de plantas, abonos, mantenimiento de jardines y poda, y alquiler de complementos para decorar eventos. Registro ICA Resolución 00000819.">
+<meta property="og:image" content="https://vegasdelverde.co/img/vivero/vivero-02.jpg">
+<meta property="og:url" content="https://vegasdelverde.co/vivero.html">
+<meta property="og:locale" content="es_CO">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Vivero · Vegas del Verde">
+<meta name="twitter:image" content="https://vegasdelverde.co/img/vivero/vivero-02.jpg">
+
+<link rel="icon" type="image/png" href="img/logo/simbolo-vegas.png">
+<link rel="apple-touch-icon" href="img/logo/simbolo-vegas.png">
+
+<!-- fuentes-propias: Josefin Sans y DM Sans viven en styles/fonts/ y se
+     declaran por @font-face en base.css — no hay <link> a fonts.googleapis.com
+     ni preconnect a Google. La precarga hace que el navegador pida el woff2
+     desde el primer instante, en paralelo a parsear el CSS, en vez de esperar
+     a descubrir el @font-face durante el layout.
+     Se regenera con herramientas/precargar-fuentes.js. -->
+<link rel="preload" as="font" type="font/woff2" crossorigin href="styles/fonts/dm-sans-latin.woff2?v=89c7ce3a">
+<link rel="preload" as="font" type="font/woff2" crossorigin href="styles/fonts/josefin-sans-latin.woff2?v=0ff5ba86">
+
+<link rel="stylesheet" href="styles/tokens.css?v=48a473db">
+<link rel="stylesheet" href="styles/base.css?v=05b2e133">
+<link rel="stylesheet" href="styles/shell.css?v=a82199f7">
+<!-- Este bloque lo REESCRIBE herramientas/ensamblar.js a partir de PAGINAS.
+     No lo edites a mano: la lista buena está allí. -->
+<link rel="stylesheet" href="styles/sections/home.css?v=6f4d169b">
+<link rel="stylesheet" href="styles/sections/vivero.css?v=87d9e065">
+<link rel="stylesheet" href="styles/sections/pie.css?v=94785836">
+<link rel="stylesheet" href="styles/lightbox.css?v=92a48a1f">
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    { "@type": "ListItem", "position": 1, "name": "Vegas del Verde", "item": "https://vegasdelverde.co/" },
+    { "@type": "ListItem", "position": 2, "name": "Te llevas a casa lo que crece aquí", "item": "https://vegasdelverde.co/vivero.html" }
+  ]
+}
+</script>
+</head>
+<body>
+<!-- ==========================================================================
+     FRAGMENTO: CABECERA  ·  se inserta como primer hijo de <body>
+     Propiedad del director de arte. Los agentes de sección NO lo modifican.
+     ========================================================================== -->
+<a class="saltar-contenido" href="#contenido">Saltar al contenido</a>
+
+<header class="cabecera" id="cabecera" data-cabecera>
+  <div class="cabecera__interior contenedor contenedor--ancho">
+
+    <!-- v18 · La marca apunta a index.html#inicio y no a #inicio a secas: este
+         fragmento se inserta en TODAS las páginas del sitio, y desde
+         vivero.html o naturaleza.html un ancla suelta no lleva a ninguna
+         parte. Desde la portada el navegador resuelve el ancla igual. -->
+    <a class="marca" href="index.html#inicio" aria-label="Vegas del Verde, ir al inicio">
+      <!-- v12 · EL LOGO ORIGINAL, no una aproximación. Hasta aquí la cabecera
+           llevaba una hoja dibujada a mano en SVG (una interpretación libre,
+           no el símbolo real) más el nombre escrito aparte en la tipografía
+           del sitio. Pedido directo del cliente: «pon el logo de Vegas el
+           original en la página». Las páginas interiores (terminos.html,
+           condiciones-de-alquiler.html, política-de-datos.html) ya usaban el
+           archivo real —`img/logo/logo-vegas-barra.png`, el lockup horizontal
+           sobre placa verde que trae el símbolo y la palabra en una sola
+           pieza— vía `.marca__logo` (ver shell.css). La cabecera principal
+           era la única pieza del sitio que no lo usaba. Ahora es la misma
+           imagen en todas partes: cero inconsistencia entre el logo de la
+           portada y el de las páginas sueltas. -->
+      <img
+        class="marca__logo"
+        src="img/logo/logo-vegas-barra.png"
+        width="1390"
+        height="356"
+        alt="Vegas del Verde"
+        decoding="async"
+      />
+    </a>
+
+    <nav class="nav" id="nav-principal" aria-label="Navegación principal">
+      <!-- v18 · EL MENÚ DEJA DE SER UNA LISTA DE ANCLAS Y PASA A SER UNA LISTA
+           DE PÁGINAS. Consecuencia directa de la arquitectura nueva
+           (PLAN-REDISENO-V4 §4.1): Espacios, Planes, Naturaleza, Sendero,
+           Vivero y Contacto ya no son secciones del scroll de index.html;
+           son URL propias, con título, descripción y JSON-LD propios.
+
+           De paso arregla lo que el plan §2.2 le reprochaba al menú anterior:
+           mezclaba anclas y páginas sin distinción, y le faltaban «Vivero» y
+           «Sendero», que son productos con demanda de búsqueda propia. Ahora
+           las siete entradas son del mismo tipo y llevan al mismo sitio desde
+           cualquier página.
+
+           «Nosotros» sigue siendo un ancla porque sigue siendo una sección de
+           la portada; por eso va marcada como secundaria (shell.css la
+           esconde por debajo de 1280 px, donde la cabecera desborda).
+           «Colegios» y «Plan vecino» bajan al pie del panel móvil y al pie de
+           página: son destinos, no navegación, y meterlas aquí partiría el
+           menú en dos filas.
+
+           NINGÚN ENLACE PUEDE SER UN ANCLA SUELTA: este fragmento se inserta
+           en todas las páginas del sitio, así que todos llevan el nombre del
+           archivo por delante. -->
+      <ul class="nav__lista">
+        <li class="nav__item--secundario"><a class="nav__enlace" href="index.html#nosotros">Nosotros</a></li>
+        <li><a class="nav__enlace" href="espacios.html">Espacios</a></li>
+        <li><a class="nav__enlace" href="planes.html">Planes</a></li>
+        <li><a class="nav__enlace" href="naturaleza.html">Naturaleza</a></li>
+        <li><a class="nav__enlace" href="sendero-ecovital.html">Sendero</a></li>
+        <li><a class="nav__enlace" href="vivero.html">Vivero</a></li>
+        <li><a class="nav__enlace" href="contacto.html">Contacto</a></li>
+      </ul>
+
+      <!-- Sólo visible dentro del panel móvil -->
+      <div class="nav__pie">
+        <!-- v18 · Las dos páginas de destino que no caben en la barra. Aquí
+             son un objetivo táctil de bloque entero, no una línea de cuatro
+             palabras: es el ancho completo del panel móvil. -->
+        <a class="btn btn-secundario btn-bloque" href="colegios.html">Salidas escolares</a>
+        <a class="btn btn-secundario btn-bloque" href="plan-vecino.html">Plan vecino</a>
+        <a
+          class="btn btn-whatsapp btn-bloque"
+          href="https://wa.me/573166758362?text=Hola%2C%20quiero%20informaci%C3%B3n%20sobre%20Vegas%20del%20Verde"
+          target="_blank"
+          rel="noopener"
+        >
+          Escríbenos por WhatsApp
+        </a>
+        <a
+          class="btn btn-secundario btn-bloque"
+          href="en/index.html"
+          hreflang="en"
+          lang="en"
+          rel="alternate"
+        >
+          Read in English
+        </a>
+      </div>
+    </nav>
+
+    <div class="cabecera__acciones">
+      <!-- Nunca se oculta: en pantallas angostas o con tipografía grande se
+           colapsa al globo + el idioma alterno (ver shell.css). -->
+      <div class="idiomas" role="group" aria-label="Idioma del sitio">
+        <svg class="icono-traza idiomas__globo" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true" focusable="false">
+          <circle cx="12" cy="12" r="9" pathLength="1"/>
+          <path d="M3 12h18" pathLength="1"/>
+          <path d="M12 3c2.4 2.5 3.6 5.5 3.6 9s-1.2 6.5-3.6 9c-2.4-2.5-3.6-5.5-3.6-9s1.2-6.5 3.6-9Z" pathLength="1"/>
+        </svg>
+        <a
+          class="idiomas__opcion"
+          href="index.html"
+          hreflang="es"
+          lang="es"
+          aria-current="true"
+        >ES</a>
+        <a
+          class="idiomas__opcion"
+          href="en/index.html"
+          hreflang="en"
+          lang="en"
+          rel="alternate"
+          aria-label="View this site in English"
+        >EN</a>
+      </div>
+
+      <button
+        class="boton-menu"
+        type="button"
+        aria-expanded="false"
+        aria-controls="nav-principal"
+        aria-label="Abrir menú de navegación"
+        data-menu
+      >
+        <span class="boton-menu__barras" aria-hidden="true">
+          <span></span><span></span><span></span>
+        </span>
+      </button>
+    </div>
+
+  </div>
+</header>
+
+<div class="velo-menu" data-cerrar-menu></div>
+
+<!-- ==========================================================================
+     WHATSAPP FLOTANTE — reemplaza al botón de la cabecera (v12).
+     Antes vivía DENTRO de `.cabecera__acciones`: competía con el selector de
+     idioma y el botón de menú por el mismo espacio angosto, y en pantallas
+     con la letra del sistema agrandada era el primero en desaparecer (ver el
+     colapso documentado en shell.css). Fuera de la cabecera no depende de su
+     ancho: flota fijo en la esquina, visible en cualquier punto del scroll y
+     en cualquier página del sitio —vive en este fragmento, que se inserta
+     como primer hijo de <body> en TODAS ellas—.
+     Mismo enlace y mismo SVG que ya usaba el botón de la cabecera: ni una
+     petición nueva, ni un ícono nuevo que mantener.
+     `position: fixed` con z-index por encima del contenido pero por debajo
+     de cualquier futuro modal (ver --z-modal en tokens.css si existe). El
+     pulso es sólo opacity —GPU, y se apaga solo con prefers-reduced-motion,
+     que shell.css ya resuelve para toda animación infinita del sitio. -->
+<a
+  class="whatsapp-flotante"
+  href="https://wa.me/573166758362?text=Hola%2C%20quiero%20informaci%C3%B3n%20sobre%20Vegas%20del%20Verde"
+  target="_blank"
+  rel="noopener"
+  aria-label="Escribir por WhatsApp a Vegas del Verde"
+>
+  <span class="whatsapp-flotante__pulso" aria-hidden="true"></span>
+  <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" focusable="false">
+    <path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.46 1.32 4.96L2 22l5.25-1.38a9.87 9.87 0 0 0 4.79 1.22h.01c5.46 0 9.91-4.45 9.91-9.91 0-2.65-1.03-5.14-2.9-7.01A9.82 9.82 0 0 0 12.04 2Zm0 18.02h-.01a8.2 8.2 0 0 1-4.19-1.15l-.3-.18-3.12.82.83-3.04-.2-.31a8.19 8.19 0 0 1-1.26-4.38c0-4.54 3.7-8.24 8.25-8.24 2.2 0 4.27.86 5.83 2.42a8.2 8.2 0 0 1 2.41 5.83c0 4.54-3.7 8.23-8.24 8.23Z"/>
+    <path d="M17.47 14.38c-.3-.15-1.76-.87-2.03-.97-.27-.1-.47-.15-.67.15-.2.3-.77.97-.94 1.17-.17.2-.35.22-.65.07-.3-.15-1.26-.46-2.4-1.48-.89-.79-1.49-1.77-1.66-2.07-.17-.3-.02-.46.13-.61.13-.13.3-.35.45-.52.15-.17.2-.3.3-.5.1-.2.05-.37-.02-.52-.08-.15-.67-1.61-.92-2.21-.24-.58-.49-.5-.67-.51h-.57c-.2 0-.52.07-.79.37-.27.3-1.04 1.01-1.04 2.47s1.06 2.87 1.21 3.07c.15.2 2.1 3.2 5.08 4.49.71.31 1.26.49 1.69.63.71.23 1.36.19 1.87.12.57-.09 1.76-.72 2.01-1.41.25-.69.25-1.29.17-1.41-.07-.12-.27-.2-.57-.35Z"/>
+  </svg>
+</a>
+<main id="contenido">
+<!-- ==========================================================================
+     ENCABEZADO DE PÁGINA: Te llevas a casa lo que crece aquí
+     CSS: styles/sections/home.css (bloque «PÁGINAS DE PROFUNDIDAD»)
+     JS propio: NINGUNO
+
+     Generado por herramientas/_crear-paginas-v18.js y mantenido a mano desde
+     entonces. Lo pega el ensamblador como PRIMERA sección de vivero.html.
+
+     Aquí vive el único <h1> de la página. La sección que va debajo conserva
+     su <h2> original tal como estaba en index.html: mudarse de página no es
+     rediseñarse, y así la jerarquía queda h1 -> h2 sin tocar el fragmento.
+
+     SIN FOTOGRAFÍA DE FONDO, a propósito: ninguna imagen que el texto pueda
+     tapar. Corrección directa del cliente en esta fase.
+     ========================================================================== -->
+<section id="portada-vivero" class="pagina-encabezado" aria-labelledby="portada-vivero-titulo">
+  <div class="contenedor contenedor--ancho">
+    <a class="pagina-miga" href="index.html">← Vegas del Verde</a>
+    <div class="pagina-encabezado__interior reveal">
+      <p class="eyebrow">El vivero</p>
+      <h1 id="portada-vivero-titulo" class="pagina-encabezado__titulo">El vivero de Vegas del Verde</h1>
+      <p class="entradilla">Producción y venta de plantas, abonos, mantenimiento de jardines y complementos para decorar eventos.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ==========================================================================
+     FRAGMENTO: VIVERO  ·  id="vivero"  ·  v2 «Vende la escapada»
+     CSS propio: styles/sections/vivero.css   (YA enlazado en index.html, tras
+     naturaleza.css). Si se ensambla este fragmento en otra página, hay que
+     llevarse también ese <link> o la sección sale sin estilo.
+
+     Es el único producto del sitio que no es un rato: se lo lleva el visitante.
+     Por eso la sección es corta y densa —cuatro servicios, un sello y una foto
+     de cada cosa que se nombra— y no repite lo que ya cuentan otras secciones.
+
+     LO QUE AQUÍ SÓLO SE ENLAZA, NUNCA SE DESCRIBE:
+       · lo que crece en el predio y el Sendero Ecovital  → #naturaleza
+       · los talleres de jardinería y de conexión         → #planes
+
+     El registro ICA se publica AQUÍ como sello de confianza, con la resolución
+     completa, y ésta ya es su única aparición en index.html: salió del pie
+     (sections/_footer.html) y el bloque que lo repetía —la ficha 07 de
+     sections/experiencias.html— ya no se ensambla. Comprobado con el validador.
+
+     v9 · LAS FOTOS DEL VIVERO SON DEL VIVERO. Pedido del cliente (agosto
+     2026): «seguido ya algunas fotos que quiero esta con el nombre vivero…
+     en estos últimos hay mucho texto, resume, más fotos menos texto sobrante
+     que las personas ya no leen». Salen las cinco genéricas del banco del
+     parque (parque-44, -35, -12, -42, -49) y entran las CUATRO fotografías
+     propias de la carpeta img/vivero/, verificadas una a una con Read
+     (retrato, ~2000×3556):
+       vivero-02  LA TRABAJADORA DEL VIVERO, gorra con el logo de Vegas del
+                  Verde y esquejes en la mano, entre camellones bajo la malla
+                  de sombra — la pieza dominante: persona real Y producto
+                  real en el mismo encuadre, el mismo criterio de v5
+       vivero-01  materas de terracota contra el muro de guadua, en flor
+       vivero-03  el follaje rojo y rosado de la iresine, en producción
+       vivero-04  la planta variegada verde y amarilla en bolsa de vivero
+     Con cuatro piezas el mosaico de dos por dos de v5 pierde una celda y se
+     recompone (§2 de vivero.css): dos verticales arriba y una pieza APAISADA
+     cerrando abajo, que es la composición que cuatro fotos piden en vez de
+     un hueco disimulado.
+
+     v5 · SALE LA ÚLTIMA FOTO DE BORRADOR, Y NACE LA JERARQUÍA
+     `parque-40-TEMP.jpg` era una imagen generada con IA a baja resolución y
+     estirada (19 KB de JPEG contra los 200–260 KB de las reales): en pantalla
+     se veía lavada, y encima prometía «una mujer eligiendo una planta» que la
+     foto no llegaba a mostrar. La sustituye `img/parque/parque-44.jpg`, que sí
+     tiene lo que a la sección le faltaba para vender: una jardinera con
+     delantal, sombrero y botas caminando por el pasillo, entre camellones de
+     filodendros y crotones sembrados en bolsa. Es una foto REAL del predio.
+
+     Y con ella cambia el reparto. Las cuatro fotos de v4 eran cuatro piezas de
+     tamaño parecido —desiguales, sí, pero de la misma liga—, así que la banda
+     se leía como una tira. Ahora son CINCO y no juegan en la misma liga:
+
+       · `parque-44` ocupa una columna que sangra por el canto izquierdo de la
+         pantalla y va a doble altura. Es la pieza dominante;
+       · las otras cuatro se agrupan a su derecha en un mosaico de dos por dos
+         con cuatro proporciones, cuatro anchos y cuatro alturas de arranque
+         distintas. Registro callado, a propósito.
+
+     Entra además `parque-12`, que estaba en disco sin usar: la enramada de
+     esterilla con las materas de barro es lo único del banco que enseña el
+     vivero como sitio al que se entra, y no sólo como producción.
+
+     COMPOSICIÓN (v3.1)
+     El mosaico de dos por dos y la columna de texto al lado eran, medidos, la
+     misma caja que las otras ocho secciones. Ahora la sección va en tres
+     tiempos de anchura distinta:
+
+       1 · el encabezado, corto y a la izquierda, dentro del contenedor;
+       2 · .viv-friso — A SANGRE. Las cuatro fotos verticales en una sola
+           banda de borde a borde de la pantalla, con las columnas de ancho
+           DESIGUAL y la segunda y la cuarta descolgadas (el vivero es un
+           terreno en pendiente y la banda lo imita). Es el único bloque de
+           la sección que se sale del contenedor, y por eso corta;
+       3 · .viv-cuerpo — dos columnas desiguales: a la izquierda lo que se
+           vende (entradilla larga y el catálogo numerado), a la derecha lo
+           que da confianza (el aula, el sello del ICA y el botón).
+
+     v4 · LA SECCIÓN PASA A BANDA OSCURA (.seccion--carbon)
+     #naturaleza termina en una banda salvia y #ubicacion es salvia entera:
+     #vivero quedaba en medio, en crema, sin cambio de material, y ése era el
+     motivo principal de que la página sonara a plantilla justo aquí. Sobre el
+     carbón cálido los verdes de estas cuatro fotos se vuelven luminosos —está
+     razonado en tokens.css §1— y la sección se lee como una sala de galería.
+
+     Se usa .seccion--carbon Y NO .seccion--carbon-suave, aunque la variante
+     suave existiera justo para «no repetir banda»: base.css §5 invierte el
+     color de .eyebrow sólo bajo .seccion--oscura y .seccion--carbon, y se
+     olvidó de --carbon-suave. Con la variante suave el antetítulo se quedaba
+     en el gris calculado contra la crema —2,4:1 sobre el carbón, ilegible— y
+     arreglarlo desde aquí sería pisar por especificidad un color de base.css,
+     que es justo lo que el contrato prohíbe. #momentos, la otra banda oscura,
+     queda tres secciones más arriba: repetir el mismo negro a esa distancia se
+     lee como sistema, no como descuido. Todo el reajuste de contraste de la
+     sección vive en vivero.css.
+
+     El otro cambio de v4: los cuatro huecos de foto dejan de compartir
+     proporción. Cada uno lleva la suya (3/4 · 5/8 · 9/16 · 4/5), así que los
+     pies caen a alturas distintas y de paso se recorta mucho menos de unos
+     originales que son 9/16. La clase .marco--retrato SALE del marcado por eso:
+     la proporción la fija ahora vivero.css hueco por hueco.
+
+     Ni una palabra del texto cambia: sólo las cajas y el material.
+     ========================================================================== -->
+
+<!-- v5 · DE .seccion--carbon A .seccion--trama — pedido directo del cliente:
+     «no quiere tonos oscuros en la página [...] integrando más tramas de
+     fondo como en la página general». La banda carbón pasa a la veladura
+     salvia translúcida que deja ver el papel botánico del fondo (base.css
+     §4); vivero.css giró sus colores de negativo a los de la página clara. -->
+<section id="vivero" class="seccion seccion--trama viv" aria-labelledby="vivero-titulo">
+
+  <!-- v7 · CABECERA DE CAPÍTULO «EL BOSQUE» ---------------------------------
+       El rótulo pasa de «Vivero» a «El bosque»: es el MISMO capítulo que
+       #naturaleza (DIRECTRICES-ANIMACION §1), y la ocasión concreta la dice
+       el <h2>, no el antetítulo. Es exactamente el mismo reparto que llevan
+       los tres de «Eventos y actividades». El número de capítulo lo lleva
+       #naturaleza, que es la que abre; ésta no.
+
+       El wrapper deja de ser un `.contenedor` a secas y toma `.viv-cabecera`
+       sólo para tener `position` propia: es el bloque contenedor de la caja
+       de aire de abajo. No cambia ni una medida de la maqueta.
+       ------------------------------------------------------------------- -->
+  <div class="contenedor contenedor--ancho viv-cabecera">
+    <header class="seccion-encabezado viv-encabezado reveal">
+      <p class="eyebrow">El bosque</p>
+      <!-- v7 · El titular se descubre renglón a renglón (.reveal-texto de
+           base.css §v7). Los dos cortes están escritos a mano porque son
+           parte del dibujo: «Te llevas a casa» es la promesa y «lo que crece
+           aquí» es la prueba, y cada una entra por su lado.
+           SIN `--persiana`: el gesto caro se gasta UNA vez por capítulo y le
+           corresponde a #naturaleza, que es quien abre «El bosque».
+           Ni una palabra cambia; sólo se parte en dos <span>. -->
+      <h2 id="vivero-titulo" class="titulo-seccion reveal reveal-texto">
+        <span class="reveal-texto__linea">Te llevas a casa</span>
+        <span class="reveal-texto__linea">lo que crece aquí</span>
+      </h2>
+      <!-- v9 · Recorte de texto, pedido del cliente: «resume, más fotos menos
+           texto sobrante que las personas ya no leen». La entradilla queda en
+           una sola frase; la enumeración casa/oficina/evento ya la dice el
+           catálogo de abajo y no se repite. -->
+      <p class="entradilla">
+        Lo que ves plantado afuera sale de aquí. Y también lo que te llevas.
+      </p>
+    </header>
+
+    <!-- LA CAJA DE AIRE. Vacía, decorativa y `aria-hidden`: la puebla
+         js/fauna-ambiente.js con cuatro mariposas (tres en pantalla
+         estrecha, que el módulo baja solo un escalón).
+         DÓNDE CAE, Y POR QUÉ AHÍ: sobre carbón plano y NUNCA sobre un
+         párrafo (regla dura 3 del §2). En móvil ocupa la franja de relleno
+         superior de la sección, que es carbón vacío de borde a borde; desde
+         62rem se muda a la columna de la derecha del encabezado, que el
+         titular no alcanza porque está acotado a --medida. Las medidas
+         están en vivero.css §1 bis. -->
+    <div class="viv-aire" aria-hidden="true"></div>
+  </div>
+
+  <!-- ---------- La banda a sangre: la jardinera y las cuatro piezas ---------
+       El orden del marcado es el orden de lectura y el orden de entrada: la
+       pieza dominante primero, y detrás el mosaico. La rejilla del §2 de
+       vivero.css las coloca, pero nadie depende de `nth-child` para saber
+       cuál es cuál: cada <li> declara su papel con un modificador, así que
+       añadir o quitar una foto no descoloca a las demás.
+       --------------------------------------------------------------------- -->
+  <ul class="viv-friso reveal-secuencia" role="list">
+
+    <li class="viv-foto viv-foto--principal reveal">
+      <figure>
+        <div class="marco">
+          <img
+            src="img/vivero/vivero-02.jpg"
+            srcset="img/vivero/vivero-02-400.jpg 400w, img/vivero/vivero-02-600.jpg 600w, img/vivero/vivero-02-800.jpg 800w, img/vivero/vivero-02-1200.jpg 1200w, img/vivero/vivero-02.jpg 2000w"
+            sizes="100vw"
+            width="2000"
+            height="3556"
+            alt="Una trabajadora del vivero con gorra de Vegas del Verde, guantes y botas, sonriendo con un manojo de esquejes en la mano junto a un camellón de filodendros y acalifas rojizas sembrados en bolsa, bajo la malla de sombra."
+            loading="lazy"
+            decoding="async"
+          />
+        </div>
+        <figcaption>El vivero, en manos de quien lo trabaja</figcaption>
+      </figure>
+    </li>
+
+    <li class="viv-foto viv-foto--a reveal">
+      <figure>
+        <div class="marco">
+          <img
+            src="img/vivero/vivero-01.jpg"
+            srcset="img/vivero/vivero-01-400.jpg 400w, img/vivero/vivero-01-600.jpg 600w, img/vivero/vivero-01-800.jpg 800w, img/vivero/vivero-01-1200.jpg 1200w, img/vivero/vivero-01.jpg 2000w"
+            sizes="(max-width: 47.99em) 49vw, 34vw"
+            width="2000"
+            height="3556"
+            alt="Materas de terracota con palmas, lengua de suegra, buganvilias rosadas y flores rojas sobre la gravilla, contra el cerramiento de guadua del vivero."
+            loading="lazy"
+            decoding="async"
+          />
+        </div>
+        <figcaption>Materas listas para llevar</figcaption>
+      </figure>
+    </li>
+
+    <li class="viv-foto viv-foto--b reveal">
+      <figure>
+        <div class="marco">
+          <img
+            src="img/vivero/vivero-03.jpg"
+            srcset="img/vivero/vivero-03-400.jpg 400w, img/vivero/vivero-03-600.jpg 600w, img/vivero/vivero-03-800.jpg 800w, img/vivero/vivero-03-1200.jpg 1200w, img/vivero/vivero-03.jpg 2000w"
+            sizes="(max-width: 47.99em) 49vw, 28vw"
+            width="2000"
+            height="3556"
+            alt="Camellón de iresines de hoja roja y rosada en producción bajo la malla de sombra del vivero, con el resto del cultivo verde al fondo."
+            loading="lazy"
+            decoding="async"
+          />
+        </div>
+        <figcaption>Iresine en producción</figcaption>
+      </figure>
+    </li>
+
+    <li class="viv-foto viv-foto--c reveal">
+      <figure>
+        <div class="marco">
+          <img
+            src="img/vivero/vivero-04.jpg"
+            srcset="img/vivero/vivero-04-400.jpg 400w, img/vivero/vivero-04-600.jpg 600w, img/vivero/vivero-04-800.jpg 800w, img/vivero/vivero-04-1200.jpg 1200w, img/vivero/vivero-04.jpg 2000w"
+            sizes="(max-width: 47.99em) 100vw, 44vw"
+            width="2000"
+            height="3556"
+            alt="Una pandanácea variegada de hojas verdes y amarillas sembrada en bolsa negra de vivero, entre el follaje del cultivo bajo la malla de sombra."
+            loading="lazy"
+            decoding="async"
+          />
+        </div>
+        <figcaption>En bolsa, para sembrar</figcaption>
+      </figure>
+    </li>
+  </ul>
+
+  <div class="contenedor contenedor--ancho">
+    <div class="viv-cuerpo">
+
+      <!-- Hoja de filodendro, a tamaño de cartel. Decoración pura: `aria-hidden`,
+           sin foco, sin texto encima y por detrás de las dos columnas. Se dibuja
+           sola al entrar la sección —firma de hornear-trazos.js, con el
+           `pathLength` escrito aquí y no puesto por JavaScript— y deriva con el
+           scroll. Arranca más tarde que el sello del ICA, que es la otra figura
+           de trazo de la sección: las dos nunca se dibujan a la vez. -->
+      <svg class="viv-hoja icono-traza" viewBox="0 0 24 24" fill="none"
+           stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
+           aria-hidden="true" focusable="false">
+        <path d="M12 22.4C6.1 20.1 2.3 15 2.3 9.4c0-4.3 3.6-7.3 9.7-7.3s9.7 3 9.7 7.3c0 5.6-3.8 10.7-9.7 13Z" pathLength="1"/>
+        <path d="M12 22.4V6.2" pathLength="1"/>
+        <path d="M11.1 12.6 3.6 15.4" pathLength="1"/>
+        <path d="M11.1 8.6 3.8 9.8" pathLength="1"/>
+        <path d="M12.9 12.6 20.4 15.4" pathLength="1"/>
+        <path d="M12.9 8.6 20.2 9.8" pathLength="1"/>
+      </svg>
+
+      <!-- ---------- Lo que sale del vivero: el catálogo ---------- -->
+      <div class="viv-oferta reveal">
+
+        <!-- v9 · El lead queda en UNA voz: la frase de venta. La nota que lo
+             seguía («Lo mismo para una sala que para una oficina…») se
+             recorta entera por pedido del cliente —«resume, más fotos menos
+             texto sobrante»—: era generalización, y el destino de la planta
+             ya lo cuentan las fotos y el catálogo. SIN .reveal-texto: ese
+             gesto es del titular que abre el capítulo y aquí ya lo lleva
+             el <h2>. -->
+        <p class="viv-lead">
+          Escoges la planta en el camellón y te la llevas: en bolsa para sembrar o
+          en matera para poner.
+        </p>
+
+        <!-- v8 · El catálogo pasa a índice editorial: el sustantivo principal
+             habla en Fraunces a escala de titular y la subordinada de los dos
+             servicios largos baja a matiz en cuerpo pequeño. Los <li> entran
+             escalonados con la .reveal-secuencia de base.css §6: cero JS
+             nuevo, el IntersectionObserver existente los gobierna y el estado
+             inicial queda horneado en CSS estático. -->
+        <ul class="viv-servicios reveal-secuencia">
+          <li class="viv-servicio reveal">
+            <span class="viv-servicio__indice" aria-hidden="true">01</span>
+            <span class="viv-servicio__nombre">Producción y venta de plantas</span>
+          </li>
+          <li class="viv-servicio reveal">
+            <span class="viv-servicio__indice" aria-hidden="true">02</span>
+            <span class="viv-servicio__nombre">Venta de abonos</span>
+          </li>
+          <li class="viv-servicio reveal">
+            <span class="viv-servicio__indice" aria-hidden="true">03</span>
+            <span class="viv-servicio__nombre">Mantenimiento de jardines
+              <span class="viv-servicio__matiz">y poda de árboles y raíces</span></span>
+          </li>
+          <li class="viv-servicio reveal">
+            <span class="viv-servicio__indice" aria-hidden="true">04</span>
+            <span class="viv-servicio__nombre">Venta de productos
+              <span class="viv-servicio__matiz">y alquiler de complementos para decoración de eventos</span></span>
+          </li>
+        </ul>
+
+      </div>
+
+      <!-- ---------- Lo que da confianza: el aula, el sello y el botón ------- -->
+      <div class="viv-respaldo reveal reveal--der">
+
+        <!-- v10 · SE QUITÓ ENTERO el párrafo del aula («el vivero también es
+             aula: apoya los talleres del parque» + enlace a #planes), pedido
+             directo del cliente. El hecho «el vivero apoya los talleres» no
+             lo cuenta nadie más en el sitio, así que no hace falta tocar la
+             tabla HECHOS: no era una fila vigilada, era prosa de enlace. -->
+
+        <!-- Sello de confianza. Única aparición del registro ICA en el sitio. -->
+        <p class="viv-sello">
+          <span class="viv-sello__emblema" aria-hidden="true">
+            <svg class="icono-traza" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"
+                 stroke-linecap="round" stroke-linejoin="round" focusable="false">
+              <path d="M12 2.5 20 6v6.1c0 4.5-3.2 7.9-8 9.4-4.8-1.5-8-4.9-8-9.4V6l8-3.5Z"  pathLength="1"/>
+              <path d="m8.6 12.1 2.3 2.3 4.5-4.6"  pathLength="1"/>
+            </svg>
+          </span>
+          <span class="viv-sello__texto">
+            <span class="viv-sello__titulo">Registro ICA</span>
+            <span class="viv-sello__detalle">
+              Vivero registrado ante el Instituto Colombiano Agropecuario.
+              Resolución n.º&nbsp;00000819 del 3 de febrero de 2025.
+            </span>
+          </span>
+        </p>
+
+        <div class="grupo-botones">
+          <a
+            class="btn btn-whatsapp btn-grande"
+            href="https://wa.me/573166758362?text=Hola%2C%20quiero%20cotizar%20en%20el%20vivero%20de%20Vegas%20del%20Verde%3A%20plantas%2C%20abonos%2C%20mantenimiento%20de%20jard%C3%ADn%20o%20decoraci%C3%B3n%20de%20evento."
+            target="_blank"
+            rel="noopener"
+          >
+            <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" focusable="false">
+              <path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.46 1.32 4.96L2 22l5.25-1.38a9.87 9.87 0 0 0 4.79 1.22h.01c5.46 0 9.91-4.45 9.91-9.91 0-2.65-1.03-5.14-2.9-7.01A9.82 9.82 0 0 0 12.04 2Zm0 18.02h-.01a8.2 8.2 0 0 1-4.19-1.15l-.3-.18-3.12.82.83-3.04-.2-.31a8.19 8.19 0 0 1-1.26-4.38c0-4.54 3.7-8.24 8.25-8.24 2.2 0 4.27.86 5.83 2.42a8.2 8.2 0 0 1 2.41 5.83c0 4.54-3.7 8.23-8.24 8.23Z"/>
+              <path d="M17.47 14.38c-.3-.15-1.76-.87-2.03-.97-.27-.1-.47-.15-.67.15-.2.3-.77.97-.94 1.17-.17.2-.35.22-.65.07-.3-.15-1.26-.46-2.4-1.48-.89-.79-1.49-1.77-1.66-2.07-.17-.3-.02-.46.13-.61.13-.13.3-.35.45-.52.15-.17.2-.3.3-.5.1-.2.05-.37-.02-.52-.08-.15-.67-1.61-.92-2.21-.24-.58-.49-.5-.67-.51h-.57c-.2 0-.52.07-.79.37-.27.3-1.04 1.01-1.04 2.47s1.06 2.87 1.21 3.07c.15.2 2.1 3.2 5.08 4.49.71.31 1.26.49 1.69.63.71.23 1.36.19 1.87.12.57-.09 1.76-.72 2.01-1.41.25-.69.25-1.29.17-1.41-.07-.12-.27-.2-.57-.35Z"/>
+            </svg>
+            Quiero plantas del vivero
+          </a>
+          <!-- v10 · Se quitó el enlace «Ver lo que crece afuera» (→
+               #naturaleza), pedido directo del cliente. Sólo queda el CTA de
+               WhatsApp en este grupo. -->
+        </div>
+
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ======================================================================
+       FAUNA AMBIENTE — el lenguaje del hero, en voz baja.
+       Módulo COMPARTIDO (js/fauna-ambiente.js): esta sección no escribe ni
+       una línea de animación propia, sólo declara cuántas piezas y de qué
+       especie. El reparto lo fija DIRECTRICES-ANIMACION §2.4 y no es a
+       gusto de nadie: #vivero va `discreta` (4 piezas), sólo mariposas y
+       semilla 5. El colibrí NO entra aquí: sale una única vez en toda la
+       página, en #naturaleza, que es la otra mitad de este capítulo.
+
+       Con prefers-reduced-motion el módulo ni se descarga —el cerrojo es el
+       mismo que usa sections/hero.html— y la sección queda idéntica pero
+       quieta. Si el import falla, muere en silencio y no falta nada.
+       ====================================================================== -->
+  <script type="module">
+    if (!matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      import('./js/fauna-ambiente.js?v=b8a9a1c8')
+        .then((m) => m.montarFaunaAmbiente(
+          document.querySelector('#vivero .viv-aire'),
+          { densidad: 'abundante', especies: ['mariposa', 'ave'], semilla: 5 }
+        ))
+        .catch(() => {});
+    }
+  </script>
+</section>
+</main>
+<!-- ==========================================================================
+     FRAGMENTO: PIE DE PÁGINA  ·  se inserta al final de <body>, tras </main>
+     Propiedad del director de arte.
+
+     REDISEÑO «cierre editorial» (referencia: mockup 08-footer-cta):
+       1. Cierre: antetítulo + titular serif grande + CTA final → #ubicacion.
+       2. Filete y fila de marca: logo lineal SVG + nombre serif + tagline,
+          y a la derecha Instagram + idioma.
+       3. Legal y créditos, discretos.
+
+     EL PIE SIGUE DELGADO (ARQUITECTURA-V3, «queDesaparece»). Aquí sólo hay:
+       marca y tagline · Instagram · un único enlace a #ubicacion ·
+       el cambio de idioma · 4 Family S.A.S. y el NIT · política y términos ·
+       el crédito fotográfico.
+     NO le devuelvas horario/dirección/teléfono/servicios «porque un pie
+     siempre los lleva»: cada hecho tiene un dueño arriba. Tampoco le pongas
+     id="contacto": ese id vive en #ubicacion y duplicarlo rompe el menú.
+
+     Estilos: styles/sections/pie.css (clases pie-final__*). El fondo, el
+     padding y el color de enlaces base los sigue dando .pie-sitio (shell.css).
+     ========================================================================== -->
+<footer class="pie-sitio pie-final">
+  <div class="contenedor contenedor--ancho">
+
+    <div class="pie-final__cierre">
+      <p class="pie-final__antetitulo reveal"><span class="pie-final__filete" aria-hidden="true"></span>Oasis para la recreación y el bienestar</p>
+      <p class="pie-final__titular reveal reveal-texto">
+        <span class="reveal-texto__linea">El verde te está</span>
+        <span class="reveal-texto__linea">esperando.</span>
+      </p>
+      <!-- v18 · Deja de ser el ancla #ubicacion y pasa a ser contacto.html.
+           La sección de cómo llegar se mudó a página propia
+           (PLAN-REDISENO-V4 §4.1) y este pie se inserta ahora en TODAS las
+           páginas del sitio: un ancla suelta no llevaría a ninguna parte
+           desde vivero.html o naturaleza.html. -->
+      <a class="pie-final__cta" href="contacto.html">
+        Dónde queda y cómo llegar
+        <svg class="pie-final__flecha" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+          <path d="M4 12h16"/>
+          <path d="M14 6l6 6-6 6"/>
+        </svg>
+      </a>
+    </div>
+
+    <div class="pie-final__fila">
+
+      <div class="pie-final__marca">
+        <svg class="pie-final__simbolo" viewBox="0 0 64 64" width="64" height="64" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+          <path d="M10 55c4-3 8-3 12 0s8 3 12 0 8-3 12 0 5 2 8 0"/>
+          <path d="M32 48V26"/>
+          <path d="M32 26c-5.5-5-5.5-13 0-18 5.5 5 5.5 13 0 18Z"/>
+          <path d="M32 42c-4-1-8-4-9.5-9"/>
+          <path d="M22.5 33c-6-1.5-9.5-6-10-12 6 .5 10.5 4 12 10-.5 1-1.3 1.7-2 2Z"/>
+          <path d="M32 42c4-1 8-4 9.5-9"/>
+          <path d="M41.5 33c6-1.5 9.5-6 10-12-6 .5-10.5 4-12 10 .5 1 1.3 1.7 2 2Z"/>
+        </svg>
+        <p class="pie-final__nombre">Vegas del Verde</p>
+      </div>
+
+      <div class="pie-final__acciones">
+        <a
+          class="pie-final__social"
+          href="https://instagram.com/vegasdelverde"
+          target="_blank"
+          rel="noopener"
+        >
+          <svg class="icono-traza" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true" focusable="false">
+            <rect x="3" y="3" width="18" height="18" rx="5" pathLength="1"/>
+            <circle cx="12" cy="12" r="4" pathLength="1"/>
+            <circle cx="17.3" cy="6.7" r="1.15" fill="currentColor" stroke="none" pathLength="1"/>
+          </svg>
+          @vegasdelverde
+        </a>
+        <a
+          class="pie-final__idioma"
+          href="en/index.html"
+          hreflang="en"
+          lang="en"
+          rel="alternate"
+        >
+          Read this site in English
+        </a>
+      </div>
+
+    </div>
+
+    <div class="pie-final__legal">
+      <p>
+        <strong>4 Family S.A.S.</strong> · NIT 901.391.144-7 ·
+        Floridablanca, Santander, Colombia ·
+        <span>© <span data-anio>2026</span> Vegas del Verde. Todos los derechos reservados.</span>
+      </p>
+      <!-- v18 · El pie recoge las páginas que no caben en la barra de
+           navegación: colegios, plan vecino y las condiciones de alquiler.
+           No son «hechos» repetidos —no dicen aforos, ni precios, ni
+           horarios—: son la única puerta a esas tres URL desde una pantalla
+           ancha, donde el panel móvil que las lleva no existe. -->
+      <ul class="pie-final__legal-enlaces">
+        <li><a href="colegios.html">Salidas escolares</a></li>
+        <li><a href="plan-vecino.html">Plan vecino</a></li>
+        <li><a href="condiciones-de-alquiler.html">Condiciones de alquiler</a></li>
+        <li><a href="politica-de-datos.html">Política de tratamiento de datos</a></li>
+        <li><a href="terminos.html">Términos y condiciones</a></li>
+      </ul>
+    </div>
+
+    <p class="pie-final__creditos">
+      Fotografías de aves cedidas por los participantes del concurso de fotografía de
+      Vegas del Verde; el crédito de cada autor aparece junto a su imagen en la galería.
+      Las demás fotografías y el render aéreo del predio son propiedad de Vegas del Verde.
+    </p>
+
+  </div>
+</footer>
+<script src="js/app.js?v=d2757e52" defer></script>
+</body>
+</html>

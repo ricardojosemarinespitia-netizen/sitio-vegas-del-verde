@@ -7,8 +7,16 @@ b) toda ancla href="#x" tiene su id="x"
 c) todo src/href interno existe en disco
 d) etiquetas balanceadas, ignorando comentarios
 e) cero «ecoposada», cero «data-modal»
+f) un archivo, un papel (fotos y clips repetidos)
+g) higiene de CSS en el HTML
+h) cero velos, degradados o filtros sobre fotografia (plan v4, 4.3)
+
+Mantener en paralelo con validar.js: si cambia la tabla HECHOS en uno,
+cambia en el otro. v18 · reconstruido tras una colision de edicion
+concurrente que trunco este archivo a las lineas 1-114 (ver validar.js,
+que quedo intacto, como fuente de verdad para la reconstruccion).
 """
-import io, os, re, sys, json, unicodedata
+import io, os, re, sys, unicodedata
 from collections import Counter
 
 RAIZ = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -18,7 +26,7 @@ def leer(p):
     with io.open(p, encoding="utf-8") as f:
         return f.read()
 
-doc = leer(IDX)
+doc = leer(IDX).replace("\r\n", "\n")
 
 # ---------------------------------------------------------------- utilidades
 RE_COMENT = re.compile(r"<!--.*?-->", re.S)
@@ -32,7 +40,10 @@ def normaliza(s):
     """minusculas y sin tildes, para que «Baños» y «banos» sean el mismo grep"""
     s = unicodedata.normalize("NFD", s.lower())
     s = "".join(c for c in s if unicodedata.category(c) != "Mn")
-    return re.sub(r"[\u00a0\s]+", " ", s)
+    return re.sub(r"[ \s]+", " ", s)
+
+def cuenta(texto, patron):
+    return len(re.findall(patron, texto))
 
 # ============================================================== 0. TROCEADO
 # El ensamblado deja cada <section> de fragmento abriendo y cerrando en la
@@ -56,24 +67,31 @@ for t in trozos:
     orden_real.append(sid)
     regiones[sid] = t[m.start():]
 
-# v14 · se pone al dia con validar.js: la segunda seccion es "usos" (lo era ya
-# desde hace varias versiones y aqui habia quedado el nombre viejo) y el
-# recorrido cierra con "compromiso", despues de #ubicacion y antes del pie.
-# v7 · #naturaleza reemplaza a #momentos justo tras #planes; #momentos y
-# #colegios se corren un puesto.
-# v15 · #colegios sale del <main>: es la pagina suelta colegios.html, que este
-# validador no cubre (igual que plan-vecino.html o condiciones-de-alquiler.html).
-# v16 · #momentos sale del <main>: sus cuatro clips son ahora el hero de
-# #sendero, que es seccion propia y CIERRA el recorrido justo debajo de
-# #vivero (pedido directo del cliente).
-ESPERADO = ["inicio", "usos", "nosotros", "planes", "naturaleza",
-            "vivero", "sendero", "ubicacion", "compromiso"]
+# v18 · EL ORDEN NUEVO DE LA PORTADA (PLAN-REDISENO-V4 §4.2).
+# Seis secciones salieron del <main> y son paginas propias, con el mismo
+# precedente que colegios.html en v15 y plan-vecino.html: este validador
+# sigue leyendo SOLO index.html, asi que los hechos que se fueron con
+# ellas figuran abajo con dueno NADIE — no para borrarlos de la vigilancia,
+# sino para vigilar la otra mitad de la regla: que ninguna seccion de la
+# portada los vuelva a escribir.
+#   #usos      -> espacios.html          (el ancla del escaparate es #espacios)
+#   #planes    -> planes.html            (el ancla del escaparate es #planes)
+#   #naturaleza-> naturaleza.html
+#   #sendero   -> sendero-ecovital.html
+#   #vivero    -> vivero.html
+#   #ubicacion -> contacto.html          (el ancla del escaparate es #contacto)
+ESPERADO = ["inicio", "planes", "espacios", "naturaleza", "sendero", "vivero",
+            # #nosotros y #compromiso siguen en la portada y siguen contiguos:
+            # son el bloque 7 del plan, «Nosotros + Compromiso».
+            "nosotros", "compromiso", "contacto"]
 
-print("=" * 74)
+raya = "=" * 74
+print(raya)
 print("0. ORDEN DEL <main>")
 print("   esperado : " + " -> ".join(ESPERADO))
 print("   real     : " + " -> ".join(orden_real))
-print("   veredicto: " + ("OK" if orden_real == ESPERADO else "*** NO COINCIDE ***"))
+orden_ok = orden_real == ESPERADO
+print("   veredicto: " + ("OK" if orden_ok else "*** NO COINCIDE ***"))
 
 # ============================================ a) TABLA DE PROPIEDAD (hechos)
 # (hecho, dueno(s), [patrones], enlaceOk)
@@ -82,7 +100,7 @@ print("   veredicto: " + ("OK" if orden_real == ESPERADO else "*** NO COINCIDE *
 #                    no se describe»); esos elementos se retiran antes de mirar.
 NADIE = "(ninguna seccion de index.html)"
 HECHOS = [
- ("Tagline «Oasis para la recreacion y el bienestar»", ["inicio","pie"],
+ ("Tagline «Oasis para la recreacion y el bienestar»", ["inicio", "pie"],
   [r"oasis para la recreacion"], False),
  ("«Cuatro hectareas» (tamano del predio)", ["inicio"],
   [r"\bcuatro hectareas\b", r"\b4 hectareas\b", r"\b4 ?ha\b"], False),
@@ -90,8 +108,6 @@ HECHOS = [
   [r"\ba (10|diez) minutos\b"], False),
  ("«Nosotros ponemos los arboles»", ["inicio"],
   [r"ponemos los arboles"], False),
- ("Vista aerea del predio como plano-indice", ["inicio"],
-  [r"aereo-predio\.jpg"], "raw"),
  ("Refugio privado, cerrado y vigilado", ["nosotros"],
   [r"bullicio urbano"], False),
  # v14 · los dos hechos del compromiso cambian de DUENO, no de contenido: la
@@ -117,31 +133,24 @@ HECHOS = [
   [r"\bcatering\b", r"no incluye sonido"], False),
  # v15 · los tres hechos de la oferta escolar cambian de dueno a NADIE, no de
  # contenido: viven enteros en colegios.html, que es una pagina suelta y este
- # validador solo lee index.html. Se quedan en la tabla —en vez de borrarse—
- # para que siga vigilada la otra mitad de la regla: que ninguna seccion de
- # index.html los vuelva a escribir.
+ # validador solo lee index.html.
  ("Observatorios como parada pedagogica", [NADIE],
   [r"observatorio"], True),
- # «mariposa» a secas se retiro del patron: el mural pintado en el muro
- # turquesa de img/parque/parque-11.jpg lleva mariposas, y describirlo en el
- # alt no es afirmar que exista el jardin. Un escape real del hecho tendria
- # que nombrar a los polinizadores o el avistamiento, y eso si se sigue
- # cazando. Se prefiere un patron que no obligue a mentir en un alt.
  ("Jardin de polinizadores y mariposas", [NADIE],
   [r"polinizador", r"avistamiento de mariposas", r"jard[ií]n de mariposas"], True),
-  # v16 · los tres hechos del Sendero cambian de DUENO, no de contenido: el
- # bloque se mudo entero a la seccion #sendero, que cierra el <main> debajo
- # de #vivero. Siguen escritos una sola vez en todo el sitio.
+ # v16 · los tres hechos del Sendero cambian de DUENO: el bloque se mudo
+ # entero a la seccion #sendero.
  ("Sendero Ecovital (descrito)", ["sendero"],
   [r"sendero"], True),
- ("Entrada $15.000 (unico precio publicado)", ["sendero"],
-  [r"15\.000", r"15000"], False),
- ("Quebrada Aranzoque y riachuelo La Florida", ["sendero"],
+ # v18 · pasa a NADIE: el detalle de la quebrada vive en sendero-ecovital.html,
+ # pagina propia que este validador no lee.
+ ("Quebrada Aranzoque y riachuelo La Florida", [NADIE],
   [r"aranzoque", r"riachuelo"], False),
  ("101 especies de aves", ["naturaleza"], [r"\b101\b"], False),
- ("Chachalaca Colombiana endemica", ["naturaleza"],
+ # v18 · pasa a NADIE: vive en naturaleza.html.
+ ("Chachalaca Colombiana endemica", [NADIE],
   [r"chachalaca", r"ortalis columbiana"], False),
- ("7 especies migratorias boreales", ["naturaleza"],
+ ("7 especies migratorias boreales", [NADIE],
   [r"\b(7|siete) especies migratorias\b", r"migratorias boreales"], False),
  ("347 plantas y 20 familias botanicas", ["naturaleza"],
   [r"\b347\b", r"\b20 familias\b"], False),
@@ -153,25 +162,25 @@ HECHOS = [
   [r"poda de arboles"], False),
  ("Registro ICA, Resolucion 00000819", ["vivero"],
   [r"\bica\b", r"00000819"], False),
- ("Direccion: Vereda Rio Frio / via Carabineros", ["ubicacion"],
+ # v18 · direccion/coordenadas/telefono/correo/"no hay reservas" pasan a
+ # NADIE: viven en contacto.html, pagina propia.
+ ("Direccion: Vereda Rio Frio / via Carabineros", [NADIE],
   [r"vereda rio frio", r"via carabineros"], False),
- ("Coordenadas 7.0574425, -73.1144128", ["ubicacion"],
+ ("Coordenadas 7.0574425, -73.1144128", [NADIE],
   [r"7\.0574425", r"-?73\.1144128"], False),
- ("Cercanias y Anillo Vial", ["ubicacion","inicio"],
+ ("Cercanias y Anillo Vial", ["inicio"],
   [r"anillo vial"], False),
- ("«Area Metropolitana de Bucaramanga»", ["ubicacion"],
+ ("«Area Metropolitana de Bucaramanga»", [NADIE],
   [r"area metropolitana"], False),
- ("Horario 6:00 a.m. - 10:00 p.m.", ["ubicacion"],
+ ("Horario 6:00 a.m. - 10:00 p.m.", ["contacto"],
   [r"6:00 a", r"10:00 p", r"lunes a domingo"], False),
- # Sólo el número ESCRITO. wa.me/573166758362 es un destino, no un dato en
- # pantalla, y va en todas las secciones a propósito (regla 4 del encargo).
- ("Telefono +57 316 675 8362 escrito en pantalla", ["ubicacion"],
+ ("Telefono +57 316 675 8362 escrito en pantalla", [NADIE],
   [r"316 675 8362"], False),
- ("Correo vegasdelverde.1@gmail.com", ["ubicacion"],
+ ("Correo vegasdelverde.1@gmail.com", [NADIE],
   [r"vegasdelverde\.1@gmail\.com"], False),
- ("Instagram @vegasdelverde", ["ubicacion","pie"],
+ ("Instagram @vegasdelverde", ["pie"],
   [r"@vegasdelverde"], False),
- ("«No hay reservas en linea»", ["ubicacion"],
+ ("«No hay reservas en linea»", [NADIE],
   [r"no hay reservas"], False),
  ("Razon social 4 Family S.A.S. / NIT", ["pie"],
   [r"4 family", r"901\.391\.144"], False),
@@ -182,12 +191,12 @@ HECHOS = [
    r"no es el mismo bosque en marzo"], False),
  ("Rotulo «Reserva tu escape»",            ["inicio"],     [r"reserva tu escape"], False),
  ("Rotulo «Ver eventos y actividades»",    ["nosotros"],   [r"ver eventos y actividades"], False),
- ("Rotulo «Quiero este plan»",             ["espacios"],   [r"quiero este plan"], False),
- ("Rotulo «Atrevete a un plan distinto»",  ["planes","espacios"], [r"atrevete a un plan distinto"], False),
+ ("Rotulo «Quiero este plan»",             [NADIE],        [r"quiero este plan"], False),
+ ("Rotulo «Atrevete a un plan distinto»",  [NADIE],        [r"atrevete a un plan distinto"], False),
  ("Rotulo «Vengo con mi curso»",           [NADIE],        [r"vengo con mi curso"], False),
- ("Rotulo «Atrevete al sendero»",          ["sendero"],    [r"atrevete al sendero"], False),
- ("Rotulo «Quiero plantas del vivero»",    ["vivero"],     [r"quiero plantas del vivero"], False),
- ("Rotulo «Hablemos por WhatsApp»",        ["ubicacion"],  [r"hablemos por whatsapp"], False),
+ ("Rotulo «Atrevete al sendero»",          [NADIE],        [r"atrevete al sendero"], False),
+ ("Rotulo «Quiero plantas del vivero»",    [NADIE],        [r"quiero plantas del vivero"], False),
+ ("Rotulo «Hablemos por WhatsApp»",        [NADIE],        [r"hablemos por whatsapp"], False),
  ("Rotulo «Escribenos por WhatsApp»",      ["cabecera"],   [r"escribenos por whatsapp"], False),
 ]
 
@@ -195,12 +204,6 @@ HECHOS = [
 # se retiran, una clase como .inicio__ancla-item--sendero se cuenta como si la
 # sección hubiera escrito «Sendero» en pantalla. Lo que SÍ se conserva es todo
 # lo que se lee o se oye: el texto, alt, title, aria-label y placeholder.
-# `poster` va en esta lista por la misma razon que `src`: es una RUTA DE
-# ARCHIVO, no algo que nadie lea en pantalla. Sin el, el nombre de un video
-# —video/jardin-polinizadores.mp4— se contaba como si la seccion hubiera
-# escrito «polinizadores» en el texto visible, y hacia saltar la tabla de
-# propiedad de una seccion que no es su duena. Es una trampa que solo aparece
-# cuando se mete video, asi que queda documentada aqui.
 RE_MAQUINA = re.compile(
     r'\s(?:class|id|href|src|srcset|poster|for|form|name|type|rel|role|loading|'
     r'decoding|fetchpriority|preload|playsinline|muted|loop|target|hreflang|'
@@ -220,20 +223,17 @@ for k, v in regiones.items():
 
 repeticiones = []
 print()
-print("=" * 74)
+print(raya)
 print("a) TABLA DE PROPIEDAD — un hecho, un dueno")
 for hecho, duenos, patrones, enlaceOk in HECHOS:
-    intrusas, conteo_dueno = [], 0
+    intrusas = []
     for reg in list(regiones):
         base = (txt_raw[reg] if enlaceOk == "raw"
                 else txt_sin_enlaces[reg] if enlaceOk else txt[reg])
-        n = sum(len(re.findall(p, base)) for p in patrones)
-        if n == 0:
+        n = sum(cuenta(base, p) for p in patrones)
+        if n == 0 or reg in duenos:
             continue
-        if reg in duenos:
-            conteo_dueno += n
-        else:
-            intrusas.append("%s(%d)" % (reg, n))
+        intrusas.append("%s(%d)" % (reg, n))
     if intrusas:
         repeticiones.append({"hecho": hecho, "secciones": intrusas})
         print("  FUERA DE SITIO  %-52s -> %s" % (hecho[:52], ", ".join(intrusas)))
@@ -245,14 +245,14 @@ sin_com = sin_comentarios(doc)
 ids = set(re.findall(r'\bid="([^"]+)"', sin_com))
 anclas = re.findall(r'href="#([^"]+)"', sin_com)
 rotos = sorted({"#" + a for a in anclas if a and a not in ids})
-dup_ids = [i for i, c in Counter(re.findall(r'\bid="([^"]+)"', sin_com)).items() if c > 1]
+dup_ids = sorted(i for i, c in Counter(re.findall(r'\bid="([^"]+)"', sin_com)).items() if c > 1)
 
 print()
-print("=" * 74)
+print(raya)
 print("b) ANCLAS INTERNAS")
 print("   href=\"#x\" distintos: %d   ·   id= distintos: %d" % (len(set(anclas)), len(ids)))
 print("   anclas muertas: %d %s" % (len(rotos), rotos if rotos else ""))
-print("   ids duplicados: %d %s" % (len(dup_ids), sorted(dup_ids) if dup_ids else ""))
+print("   ids duplicados: %d %s" % (len(dup_ids), dup_ids if dup_ids else ""))
 
 # ====================================== c) RECURSOS INTERNOS EN DISCO
 EXCEPCION = {"video/hero.mp4"}
@@ -266,7 +266,7 @@ for m in re.finditer(r'(?:src|href|poster|data-src)="([^"]+)"', sin_com):
 faltan = sorted(u for u in recursos
                 if u not in EXCEPCION and not os.path.exists(os.path.join(RAIZ, u.replace("/", os.sep))))
 print()
-print("=" * 74)
+print(raya)
 print("c) RECURSOS INTERNOS")
 print("   rutas internas distintas: %d" % len(recursos))
 print("   presentes en disco      : %d" % (len(recursos) - len(faltan) - len(recursos & EXCEPCION)))
@@ -293,7 +293,7 @@ for m in re.finditer(r"<(/?)([a-zA-Z][a-zA-Z0-9-]*)\b[^>]*?(/?)>", sin_sc):
 for tag, off in pila:
     desbalance.append("<%s> sin cierre en offset %d" % (tag, off))
 print()
-print("=" * 74)
+print(raya)
 print("d) BALANCE DE ETIQUETAS (comentarios, script y style excluidos)")
 print("   desbalances: %d" % len(desbalance))
 for d in desbalance[:15]:
@@ -303,13 +303,11 @@ for d in desbalance[:15]:
 n_eco   = len(re.findall(r"ecoposada", doc, re.I))
 n_modal = len(re.findall(r"data-modal", doc, re.I))
 print()
-print("=" * 74)
+print(raya)
 print("e) PROHIBICIONES DURAS")
 print("   «ecoposada» : %d   ·   «data-modal» : %d" % (n_eco, n_modal))
 
 # ================================ f) UN ARCHIVO, UN PAPEL (fotos repetidas)
-# ARQUITECTURA-V3: una foto sólo puede repetirse si hace dos papeles distintos
-# (atmósfera vs. archivo acreditado). Se listan las repetidas para revisarlas.
 usos = {}
 for reg in orden_real:
     limpio_reg = sin_comentarios(regiones[reg])
@@ -317,18 +315,14 @@ for reg in orden_real:
         usos.setdefault(m.group(1), []).append(reg)
 repes = {k: v for k, v in usos.items() if len(v) > 1}
 print()
-print("=" * 74)
+print(raya)
 print("f) UN ARCHIVO, UN PAPEL")
 print("   <img> distintos en el <main>: %d   ·   repetidos: %d" % (len(usos), len(repes)))
 for k in sorted(repes):
     print("     %-44s %s" % (k, repes[k]))
 
-# El VIDEO se cuenta aparte y sin excepciones. La regla de las aves (una misma
-# foto puede hacer de atmosfera en un sitio y de archivo acreditado en otro) no
-# le aplica: un clip repetido en dos secciones se nota muchisimo mas que una
-# foto, porque se MUEVE, y el visitante lo lee como que no habia mas material.
-# Este bloque existe porque el chequeo de arriba solo miraba <img> y dejo pasar
-# el mismo clip en #momentos y en #naturaleza, puesto por dos manos distintas.
+# El VIDEO se cuenta aparte y sin excepciones: un clip repetido se nota mucho
+# mas que una foto, porque se MUEVE.
 usos_v = {}
 for reg in orden_real:
     limpio_reg = sin_comentarios(regiones[reg])
@@ -344,20 +338,107 @@ for k in sorted(repes_v):
     print("     %-44s %s" % (k, repes_v[k]))
 
 # ============================================ g) HIGIENE DE CSS EN EL HTML
-cuerpo = doc[i_body:]
-hex_lit = re.findall(r'(?<!&)#[0-9a-fA-F]{3,8}\b(?=[;\'"\s)])', sin_comentarios(cuerpo))
+cuerpo = sin_comentarios(doc[i_body:])
+hex_lit = re.findall(r'(?<!&)#[0-9a-fA-F]{3,8}\b(?=[;\'"\s)])', cuerpo)
 print()
-print("=" * 74)
+print(raya)
 print("g) HIGIENE (dentro de <body>, sin comentarios)")
-print("   !important            : %d" % len(re.findall(r"!important", sin_comentarios(cuerpo))))
-print("   atributos style=      : %d" % len(re.findall(r'\bstyle="', sin_comentarios(cuerpo))))
-print("   font-family en el HTML: %d" % len(re.findall(r"font-family", sin_comentarios(cuerpo))))
+print("   !important            : %d" % cuenta(cuerpo, "!important"))
+print("   atributos style=      : %d" % cuenta(cuerpo, r'\bstyle="'))
+print("   font-family en el HTML: %d" % cuenta(cuerpo, "font-family"))
 print("   colores literales     : %d %s" % (len(hex_lit), sorted(set(hex_lit))[:6]))
-print("   Lorem Ipsum           : %d" % len(re.findall(r"lorem ipsum", cuerpo, re.I)))
+print("   Lorem Ipsum           : %d" % len(re.findall(r"lorem ipsum", doc, re.I)))
+
+# ================== h) LA FOTO ES LA FOTO — CERO VELOS Y CERO FILTROS
+# v14 · plan de rediseño v4, apartado 4.3.
+#
+# POR QUE EXISTE. Es la unica regla del sitio que sale de una orden textual
+# del cliente repetida varias veces: «no quiere tonos oscuros en la pagina ni
+# fotos oscuras, las originales y punto» y, en la correccion de septiembre,
+# «es importante que la foto se aprecie bien, el texto NO debe tapar la
+# foto». La alternativa correcta es el componente .placa (base.css §4b):
+# placa OPACA, en su propio espacio, foto entera.
+#
+# QUE MIRA. Las hojas que el sitio en espanol envia de verdad: las enlazadas
+# desde index.html y desde las paginas sueltas de la raiz. /en/ queda fuera
+# a proposito — es la arquitectura v1 congelada y el plan v4 decide su
+# futuro en la fase 6.
+#
+# CUATRO HALLAZGOS: VELO (selector de velo/scrim/overlay que pinta encima),
+# FILTRO (filter: sobre la imagen), PSEUDO (degradado/mezcla en el pseudo de
+# una foto), PLACA (una .placa posicionada, que iria encima de la imagen).
+#
+# LO QUE NO ES HALLAZGO: los degradados de mask-image (alfa, no color), los
+# fondos de seccion debajo del contenido (no sobre una imagen), y el velo de
+# lightbox/modales (superficies fuera del documento). Fuera por lista blanca
+# o por el filtro de mascaras.
+RE_TINTE = re.compile(r"(linear-gradient|radial-gradient|conic-gradient|backdrop-filter|mix-blend-mode)")
+RE_VELO_SEL = re.compile(r"velo|scrim|overlay|veladura", re.I)
+# v17 · `.inicio__portada-velo` es la UNICA excepcion de todo el sitio a
+# esta regla, y es por orden explicita y textual del cliente: «rompe esa
+# regla en el hero y ponlo como estaba antes» (despues de ver que la
+# cartela solida de v16 tapaba media fotografia). El velo claro (--luz) del
+# hero vuelve, ver el historial completo en el comentario de la regla en
+# styles/sections/inicio.css. No es una excepcion tecnica ni un olvido: que
+# quede aqui, a la vista, para que nadie la retire creyendo que es un
+# hallazgo real.
+RE_BLANCA = re.compile(r"lightbox|modal|velo-menu|menu__velo|dialogo|inicio__portada-velo", re.I)
+RE_FOTO_SEL = re.compile(r"(^|[\s>+~])(img|video)\b|foto|imagen|media\b|clip|thumb", re.I)
+RE_FILTRO = re.compile(r"(^|[^-\w])filter\s*:")
+RE_PSEUDO = re.compile(r"::(before|after)")
+RE_POSICION = re.compile(r"position\s*:\s*(absolute|fixed)")
+RE_MASCARA = re.compile(r"[a-z-]*mask[a-z-]*\s*:[^;}]*", re.I)
+RE_REGLA = re.compile(r"([^{}]+)\{([^{}]*)\}")
+
+def sin_mascaras(css):
+    return RE_MASCARA.sub("", css)
+
+def hojas_del_sitio():
+    hojas = set()
+    for f in os.listdir(RAIZ):
+        if not f.endswith(".html"):
+            continue  # solo la raiz: /en/ fuera
+        html = sin_comentarios(leer(os.path.join(RAIZ, f)))
+        for m in re.finditer(r'<link\b[^>]*rel="stylesheet"[^>]*href="([^"]+)"', html, re.I):
+            if re.match(r"^(https?:)?//", m.group(1)):
+                continue
+            u = m.group(1).split("?")[0]
+            u = re.sub(r"^\.?/", "", u)
+            if os.path.exists(os.path.join(RAIZ, *u.split("/"))):
+                hojas.add(u)
+    return sorted(hojas)
+
+hojas = hojas_del_sitio()
+velos = []
+for hoja in hojas:
+    bruto = leer(os.path.join(RAIZ, *hoja.split("/"))).replace("\r\n", "\n")
+    limpio = sin_mascaras(re.sub(r"/\*.*?\*/", "", bruto, flags=re.S))
+    for m in RE_REGLA.finditer(limpio):
+        sel = " ".join(m.group(1).split())
+        regla = m.group(2)
+        if not sel or sel[0] in "@%" or RE_BLANCA.search(sel):
+            continue
+        if RE_VELO_SEL.search(sel) and (RE_TINTE.search(regla) or re.search(r"background(-color|-image)?\s*:", regla)):
+            velos.append(("VELO  ", hoja, sel[:62], "selector de velo que pinta encima"))
+        if RE_FOTO_SEL.search(sel):
+            if RE_FILTRO.search(regla):
+                velos.append(("FILTRO", hoja, sel[:62], "filter: sobre la imagen"))
+            if RE_TINTE.search(regla) and RE_PSEUDO.search(sel):
+                velos.append(("PSEUDO", hoja, sel[:62], "degradado o mezcla en el pseudo de una foto"))
+        if ".placa" in sel and RE_POSICION.search(regla):
+            velos.append(("PLACA ", hoja, sel[:62], "placa posicionada: iria encima de la foto"))
+
+print()
+print(raya)
+print("h) LA FOTO ES LA FOTO (cero velos, cero filtros sobre imagen)")
+print("   hojas auditadas (las del sitio en espanol): %d" % len(hojas))
+print("   hallazgos: %d" % len(velos))
+for tipo, hoja, sel, motivo in velos:
+    print("     %s  %s  ||  %s   <- %s" % (tipo, hoja, sel, motivo))
 
 # --------------------------------------------------------------- resultado
 res = {
-  "orden_ok": orden_real == ESPERADO,
+  "orden_ok": orden_ok,
   "repeticionesRestantes": repeticiones,
   "enlacesRotos": rotos,
   "idsDuplicados": sorted(dup_ids),
@@ -366,9 +447,10 @@ res = {
   "ecoposada": n_eco, "dataModal": n_modal,
 }
 print()
-print("=" * 74)
+print(raya)
 todo = (res["orden_ok"] and not repeticiones and not rotos and not dup_ids
-        and not faltan and not desbalance and not n_eco and not n_modal)
+        and not faltan and not desbalance and not n_eco and not n_modal
+        and not velos)
 print("VEREDICTO GLOBAL: " + ("TODO LIMPIO" if todo else "HAY HALLAZGOS (ver arriba)"))
 # Salida legible para un script que encadene: 0 limpio, 1 con hallazgos.
 sys.exit(0 if todo else 1)

@@ -159,8 +159,18 @@ RE_DERIVADO = re.compile(r"-(?:%s)\.jpg$" % "|".join(str(a) for a in ANCHOS))
 # Son 47,8 Mpx entre las seis (~191 MB de mapa de bits) para pintarse en
 # cajas de entre 168 y 386 CSS px de ancho. El resto del sitio vive entre
 # 1125 y 1800 px de ancho; éstas doblan eso y triplican el alto.
+# v20 · ENTRA compromiso.html. La sección de cierre pasa a tener una
+# fotografía A SANGRE de fondo (img/compromiso-fondo.jpg) en lugar del panel de
+# aves que sangraba por la derecha. Es otro original de teléfono sin retocar,
+# exactamente del mismo tipo que las seis de v19: 2268x4032 = 9,14 Mpx y
+# 3,4 MB, para pintarse a 385 CSS px de ancho en teléfono. Sin escalera se
+# bajarían y decodificarían esos 9,14 Mpx (~36 MB de mapa de bits) en la
+# última sección de la página, que es justo donde el teléfono lleva ya toda la
+# página en memoria. Con ella, un móvil de 385 px a DPR 2 se lleva el peldaño
+# de 800w.
 ALCANCE = ("hero.html", "nosotros.html", "planes.html", "momentos.html",
-           "usos.html", "naturaleza.html", "vivero.html", "sendero.html")
+           "usos.html", "naturaleza.html", "vivero.html", "sendero.html",
+           "compromiso.html")
 
 # LAS DOS FOTOS DE LA PORTADA NO LLEVAN ESCALERA DE JPG.
 # Son el LCP y ya se sirven por <picture> en AVIF y WebP, con una rama propia

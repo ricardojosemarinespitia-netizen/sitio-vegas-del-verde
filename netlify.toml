@@ -1,0 +1,88 @@
+# Configuración de publicación — Vegas del Verde
+#
+# POR QUÉ EXISTE
+# PLAN-REDISENO-V4 §1.2: «Build / minificación: no existe (sin netlify.toml,
+# sin package.json)». Sin paso de construcción el navegador se lleva el árbol
+# de trabajo entero, comentarios incluidos —el 44,5 % del HTML y el 71 % del
+# CSS medidos en el plan—. Este archivo es la otra mitad del arreglo:
+# herramientas/construir.js escribe la copia compactada en dist/ y aquí se le
+# dice a Netlify que publique ESA carpeta, no la raíz.
+#
+# SIN DEPENDENCIAS. No hay package.json ni node_modules a propósito (BRIEF,
+# «CALIDAD EXIGIDA»: HTML/CSS/JS vanilla). El comando de build es Node a
+# secas, que Netlify ya trae.
+
+[build]
+  # El orden es el de herramientas/LEEME.md y no es indiferente: ensamblar
+  # reescribe el bloque de <link> del <head> SIN versión, así que versionar
+  # tiene que ir después o borra las versiones que acababa de poner.
+  command = "node herramientas/ensamblar.js && node herramientas/versionar-assets.js --escribir && node herramientas/validar.js && node herramientas/construir.js"
+  publish = "dist"
+
+[build.environment]
+  NODE_VERSION = "20"
+
+# Las cabeceras viven en dist/_headers, que escribe construir.js. Se deja ahí
+# y no aquí a propósito: así viajan con lo publicado y se pueden leer en el
+# mismo sitio donde están los archivos a los que se aplican.
+
+# --------------------------------------------------------------------------
+# REDIRECCIONES DE LA MIGRACIÓN A PÁGINAS
+# La Fase 3 del plan partió index.html en portada + seis páginas. Las anclas
+# viejas —las que están enlazadas desde fuera, en Instagram, en WhatsApp y en
+# el índice de Google— apuntaban a secciones que ya no viven en la portada.
+# Un ancla que no existe no da error: deja al visitante arriba del todo, sin
+# señal de que se ha perdido. Estas reglas lo llevan a la página que ahora
+# tiene ese contenido. El plan §8 las pide «el mismo día» que la migración.
+#
+# Netlify no ve el fragmento (#usos) —el navegador nunca lo manda al
+# servidor—, así que se redirige por RUTA con el fragmento como destino sólo
+# donde la ruta cambió de verdad.
+# --------------------------------------------------------------------------
+
+[[redirects]]
+  from = "/espacios"
+  to = "/espacios.html"
+  status = 301
+
+[[redirects]]
+  from = "/planes"
+  to = "/planes.html"
+  status = 301
+
+[[redirects]]
+  from = "/naturaleza"
+  to = "/naturaleza.html"
+  status = 301
+
+[[redirects]]
+  from = "/sendero-ecovital"
+  to = "/sendero-ecovital.html"
+  status = 301
+
+[[redirects]]
+  from = "/vivero"
+  to = "/vivero.html"
+  status = 301
+
+[[redirects]]
+  from = "/contacto"
+  to = "/contacto.html"
+  status = 301
+
+[[redirects]]
+  from = "/plan-vecino"
+  to = "/plan-vecino.html"
+  status = 301
+
+[[redirects]]
+  from = "/colegios"
+  to = "/colegios.html"
+  status = 301
+
+# La página de error propia, para que un enlace roto caiga en el sitio y no
+# en la pantalla en blanco de Netlify.
+[[redirects]]
+  from = "/*"
+  to = "/404.html"
+  status = 404

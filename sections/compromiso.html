@@ -1,71 +1,128 @@
 <!-- ==========================================================================
      FRAGMENTO: EL COMPROMISO  ·  ancla #compromiso
      CSS propio: styles/sections/nosotros.css §3 (no se le abre hoja nueva:
-     la banda comparte todo su vocabulario visual con #nosotros y duplicar
-     ochenta líneas en un archivo aparte sería la forma más barata de que las
-     dos copias se separen).
-     JS propio: js/foto-focus.js (el mismo módulo compartido con #nosotros y
-     #espacios; el <script defer> lleva cerrojo de doble inclusión).
+     los pilares —la lista 01·02·03— son la MISMA pieza que sigue usando
+     en/index.html en su versión clara, y partirla en dos archivos sería la
+     forma más barata de que las dos copias se separen. Ver §3 y §4 de esa
+     hoja, donde está escrito el reparto: la regla base es la clara, el
+     negativo se añade dentro de `.nosotros__compromiso`).
+     JS propio: NINGUNO. Ver «QUÉ SE FUE» más abajo.
 
      v14 — POR QUÉ ESTO YA NO VIVE DENTRO DE #nosotros ----------------------
-     Pedido del cliente, repetido tres veces y cada vez con más impaciencia:
-     «Nuestro compromiso» va AL FINAL. Se movió dos veces dentro de #nosotros
-     —hasta ser su último bloque— y la queja siguió igual, lo que significa
-     que «al final» nunca quiso decir «al final de esa sección»: quiere decir
-     al final del RECORRIDO. Aquí lo es. La banda pasa a ser una sección
-     propia, la última del <main>, justo antes del pie.
+     Pedido del cliente, repetido tres veces: «Nuestro compromiso» va AL
+     FINAL. No al final de #nosotros: al final del RECORRIDO. Aquí lo es —la
+     última sección del <main>, justo antes del pie— y es la decisión correcta
+     de diseño, no sólo la obediente: el compromiso no describe el predio,
+     dice para qué existe. Puesto al final es la respuesta a todo lo que el
+     visitante acaba de recorrer, y el sitio cierra con la misma voz grave con
+     la que abre el hero.
 
-     Y es la decisión correcta de diseño, no sólo la obediente. El compromiso
-     no describe el predio: dice para qué existe. Puesto a media página era el
-     porqué contado antes de haber enseñado nada; puesto al final es la
-     respuesta a todo lo que el visitante acaba de recorrer —los espacios, los
-     planes, el bosque, cómo llegar— y el sitio cierra en negativo, con la
-     misma voz grave con la que abre el hero.
+     v20 — LA FOTO PASA A SER LA SECCIÓN ------------------------------------
+     Pedido del cliente, literal: «AQUÍ HAZLO MÁS BONITO […] YA HAY UNA FOTO
+     QUE QUIERO QUE LA PONGAS, PON EL TEXTO DENTRO CON ANIMACIONES».
 
-     LO QUE NO CAMBIA, Y ES CASI TODO: ni una palabra del texto, ni un hecho de
-     dueño (la tabla de propiedad de herramientas/validar.js pasa de «nosotros»
-     a «compromiso» para estos dos hechos, que es exactamente lo mismo dicho
-     una sola vez), ni una regla de CSS, ni la foto, ni las animaciones. El
-     marcado es el que ya existía en sections/nosotros.html, con dos únicos
-     ajustes obligados por el ensamblador: la etiqueta abre con `id` propio
-     —`herramientas/ensamblar.js` comprueba que el primer <section> del
-     fragmento traiga el ancla que pide ORDEN— y el <script> de foto-focus
-     viaja con él, porque la foto del panel de aves se va con la banda.
+     Hasta v19 la banda era un verde plano con un panel de aves sangrando por
+     la derecha: dos piezas compitiendo por la misma pantalla —el texto a un
+     lado, una foto pequeña al otro— en la sección que cierra el sitio. Ahora
+     la fotografía ES la sección, a sangre, y el texto va dentro.
 
-     SIN `.seccion`: la banda ya se pone su propio `margin-top: --esp-seccion`
-     y su `padding-block: --esp-seccion-sm` en nosotros.css §3. Añadirle la
-     utilidad le sumaría un segundo aire de sección y abriría un hueco muerto
-     entre #ubicacion y el cierre.
+     Y la foto elegida dice exactamente lo que dice el texto: un camino de
+     piedra entre plantas con flores rojas, luz de mañana. Un camino que se
+     recorre es la imagen literal de «aquí se viene a estar bien» y del cierre
+     de un recorrido; el panel de aves era un objeto bonito del predio, pero
+     no significaba nada respecto de este texto.
 
-     Foto: parque-20.jpg (el panel pintado con aves del predio, verificada: es
-     un panel apoyado, no un mural sobre un muro).
+     NI UNA PALABRA DEL TEXTO CAMBIA. El rótulo, el titular, la entradilla y
+     los tres pilares son los mismos, con las mismas comas. La tabla de hechos
+     de herramientas/validar.js no se toca: los dos hechos del compromiso
+     siguen siendo de esta sección y siguen dichos una sola vez.
+
+     LA LEGIBILIDAD ES LA CONDICIÓN, NO UN AJUSTE POSTERIOR. Texto crema sobre
+     una foto sin velo es el error clásico de esta composición: se lee bien en
+     la maqueta del diseñador y se pierde en el trozo de cielo. El velo de
+     nosotros.css §3 está calculado contra el PEOR píxel posible de la foto
+     —blanco puro— y no contra su luminancia media; las cuentas están ahí.
+
+     QUÉ SE FUE, Y POR QUÉ:
+     · <figure class="nosotros__mural"> con parque-20.jpg. La sustituye la
+       foto de fondo. `.nosotros__mural` no lo usaba nadie más en el sitio
+       (comprobado), así que sus reglas salen también de la hoja.
+     · js/foto-focus.js y su <script defer>. El encuadre por scroll de ese
+       módulo escribe `transform` EN LÍNEA sobre el <img>, y el fondo de esta
+       sección ya tiene su propio paralaje declarado en CSS con
+       `animation-timeline: view()`: dos motores sobre la misma propiedad del
+       mismo elemento es exactamente la colisión que la regla dura del
+       proyecto («un motor por pieza») prohíbe. Gana el de CSS: corre en el
+       compositor, sin un byte de JavaScript. #nosotros y #espacios siguen
+       declarando foto-focus por su cuenta; el módulo no se toca.
+
+     LAS ANIMACIONES, TODAS CON MOTORES QUE YA EXISTEN:
+     · `.reveal reveal--izq` en el encabezado y `.reveal` en cada pilar, con
+       el escalonado desordenado de nosotros.css §3 — el IntersectionObserver
+       de js/app.js, sin una línea nueva.
+     · paralaje del fondo con `animation-timeline: view()` (nosotros.css §3),
+       el mismo recurso de .inicio__portada-foto y de la bandada de aquí
+       abajo.
+     · la bandada, que ya derivaba con el scroll, se queda como estaba.
+
+     LOS .reveal NO SE ANIDAN EN ESTE SITIO (regla escrita en colegios.html).
+     Por eso el contenedor `.compromiso__contenido` NO es `.reveal`: quienes
+     entran son el encabezado y cada pilar por separado, que además es mejor
+     puesta en escena —el titular primero, la lista detrás, uno a uno.
+
      Sin CTA a WhatsApp a propósito: #ubicacion, justo encima, es la sección
      que cierra la conversación comercial; repetir aquí el botón sería pedir
      dos veces lo mismo en dos pantallas seguidas.
      ========================================================================== -->
-<section class="nosotros__compromiso seccion--oscura" id="compromiso" aria-labelledby="compromiso-titulo">
+<!-- v21 · SALE `.seccion--oscura`: el scrim de la sección giró a claro
+     (--luz, nosotros.css §3) por pedido del cliente — «no quiere tonos
+     oscuros en la página ni fotos oscuras». El texto va en tinta y ninguna
+     regla de negativo debe aplicar aquí. -->
+<section class="nosotros__compromiso" id="compromiso" aria-labelledby="compromiso-titulo">
+
+  <!-- LA ESCENA — la foto y su velo, las dos capas del fondo.
+       Van en dos elementos y no en un `background-image` del <section> por
+       dos razones: un <img> real entra en el `srcset`/`sizes` que escribe
+       herramientas/marcar-responsivas.py (un fondo de CSS no puede elegir
+       peldaño), y el paralaje necesita mover la foto DENTRO de un recorte
+       propio sin arrastrar el velo con ella.
+
+       El <img> lleva `alt` descriptivo y no `alt=""`: no es una textura, es
+       una fotografía real del predio y es la única imagen de la sección.
+       Quien navega con lector de pantalla merece saber qué se está mirando.
+
+       `loading="lazy"`: la sección es la última del <main>; nunca es el LCP.
+
+       width/height son los del archivo (2268x4032) para que el navegador
+       reserve la proporción y no haya salto de maqueta. El recorte lo hace
+       `object-fit: cover` en la hoja, así que esa proporción no manda en la
+       forma final de la banda. -->
+  <div class="compromiso__escena">
+    <img
+      class="compromiso__foto"
+      src="img/compromiso-fondo.jpg"
+      srcset="img/compromiso-fondo-400.jpg 400w, img/compromiso-fondo-600.jpg 600w, img/compromiso-fondo-800.jpg 800w, img/compromiso-fondo-1200.jpg 1200w, img/compromiso-fondo.jpg 2268w"
+      sizes="100vw"
+      width="2268"
+      height="4032"
+      alt="Camino de piedra del predio entre matas de flores rojas y árboles altos, con la luz de la mañana entrando entre las hojas."
+      loading="lazy"
+      decoding="async"
+    />
+  </div>
+  <div class="compromiso__velo" aria-hidden="true"></div>
 
   <!-- Los tres pilares del BRIEF, enteros y una sola vez en todo el sitio.
-       El texto se queda en la retícula y el panel de aves se sale por el borde
-       DERECHO. Los pilares no son tres tarjetas sino tres renglones separados
-       por un hilo, con la cifra grande haciendo de índice: una lista que se
-       lee, no un carrusel.
+       No son tres tarjetas sino tres renglones separados por un hilo, con la
+       cifra grande haciendo de índice: una lista que se lee, no un carrusel.
 
-       LA BANDA OSCURA. `seccion--oscura` es una utilidad de base.css y no un
-       invento de esta hoja: trae el fondo verde bosque, el texto en crema, los
-       h1–h6 en negativo, el rótulo y la entradilla en crema al 78 % y el foco
-       en amarillo. Lo que NO trae —y por eso está escrito a mano en
-       nosotros.css §3 bis— es el color del índice de cada pilar (terracota
-       sobre oscuro no llega a 4,5:1; va en amarillo del logo, 7,3), el de sus
-       párrafos y el de los filetes que los separan.
+       CUIDADO SI SE TOCA: `.seccion--oscura h1..h6` (base.css) mide (0,1,1) y
+       le gana a cualquier clase suelta. Si algún día entra aquí una tarjeta
+       CLARA, su titular hay que pintarlo nombrando el ancestro, no con una
+       clase a secas, o se queda en crema sobre claro. -->
+  <div class="compromiso__contenido">
 
-       CUIDADO SI SE TOCA: `.seccion--oscura h1..h6` mide (0,1,1) y le gana a
-       cualquier clase suelta. Si algún día entra aquí una tarjeta CLARA, su
-       titular hay que pintarlo nombrando el ancestro, no con una clase a
-       secas, o se queda en crema sobre claro. -->
-  <div class="nosotros__compromiso-texto reveal reveal--izq">
-
-    <header class="seccion-encabezado">
+    <header class="seccion-encabezado reveal reveal--izq">
       <p class="eyebrow">Nuestro compromiso</p>
       <h3 class="titulo-seccion titulo-seccion--sm" id="compromiso-titulo">
         Aquí se viene a estar bien
@@ -121,18 +178,13 @@
     <!-- LA BANDADA — el cierre del cierre --------------------------------
          Tres vuelos de tamaños distintos que se dibujan uno detrás de otro y
          que además DERIVAN con el scroll (nosotros.css §6). Van aquí, en flujo
-         normal debajo del último pilar, y no en posición absoluta: la banda es
-         una rejilla de tres pistas con `align-items: center` y una pieza
-         flotante sobre ella se colocaría distinto según lo alto que quede el
-         panel de aves de al lado. En flujo el sitio es siempre el mismo y el
-         `transform` de la deriva no mueve nada de la maqueta.
+         normal debajo del último pilar: en flujo el sitio es siempre el mismo
+         y el `transform` de la deriva no mueve nada de la maqueta.
 
-         v14 · EL DISPARADOR SIGUE SIENDO EL MISMO SIN TOCAR UNA LÍNEA DE JS.
-         js/app.js marca las siluetas al entrar el ANCESTRO `section` más
-         cercano, y el compromiso ya era un <section> propio cuando vivía
-         anidado dentro de #nosotros: al sacarlo al primer nivel del <main>
-         sigue siendo su propio disparador. Esta bandada arranca cuando entra
-         la banda oscura, exactamente igual que antes.
+         EL DISPARADOR NO CAMBIA CON v20. js/app.js marca las siluetas al
+         entrar el ancestro `section` más cercano, y ese ancestro sigue siendo
+         #compromiso. La bandada arranca cuando entra la banda, igual que
+         antes de que la banda tuviera foto.
 
          Estado inicial horneado a mano —`icono-traza` en la raíz y
          `pathLength="1"` en cada forma—, así que el trazo está oculto desde el
@@ -149,35 +201,5 @@
     </svg>
 
   </div>
-
-  <!-- No lleva `reveal--der`: el panel sangra por el borde derecho de la
-       ventana y un desplazamiento horizontal lo empujaría 28 px fuera de la
-       pantalla. Entra con `reveal--zoom`, que sólo escala: no desplaza nada y
-       por tanto no puede desbordar. -->
-  <!-- FOTO-FOCUS: es la pieza grande de la banda y la que cierra el sitio.
-       data-foco sube el encuadre desde el 57 % del CSS hacia el panel pintado
-       (el colibrí queda a media altura de la foto): al centrar la banda, los
-       pájaros centran con ella. El zoom es un punto mayor que el del prado
-       porque el motivo es más pequeño. -->
-  <figure class="nosotros__mural reveal reveal--zoom" data-foto-focus data-foco="50% 46%" data-zoom="0.14">
-    <img
-      src="img/parque/parque-20.jpg"
-      width="900"
-      height="1200"
-      alt="Panel pintado con aves del predio, apoyado sobre el césped junto a una construcción de caña: un colibrí en vuelo, una tángara roja posada en una rama y un perico verde entre hojas, sobre fondo turquesa, entre platanillos y heliconias."
-      loading="lazy"
-      decoding="async"
-    />
-  </figure>
-
-  <!-- FOTO-FOCUS — por qué el <script> va aquí dentro y no en la cola de
-       index.html: el ensamblador copia tal cual la cola (donde viven app.js y
-       mapa.js), así que un fragmento no puede añadir nada allí; el precedente
-       es momentos-video.js. Carga con defer —no bloquea el parseo y corre con
-       el DOM completo— y #nosotros y #espacios declaran este mismo archivo: el
-       propio script lleva un cerrojo que hace inofensiva la tercera ejecución,
-       y el navegador sólo lo descarga una vez. Bajo prefers-reduced-motion no
-       se monta: la foto queda quieta en el encuadre del CSS. -->
-  <script src="js/foto-focus.js?v=2e41fd79" defer></script>
 
 </section>

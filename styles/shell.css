@@ -104,17 +104,17 @@
   min-width: 0;
 }
 
-.marca__simbolo {
-  width: clamp(2.1rem, 1.7rem + 1.6vw, 2.9rem);
-  height: auto;
-  background: none;
-  flex: none;
-}
+/* v12 · `.marca__simbolo` (la hoja dibujada a mano en SVG que llevaba la
+   cabecera antes del logo real) se borró: ya no la usa ningún fragmento.
+   `.marca__logo`, aquí abajo, es la única pieza que la cabecera necesita
+   ahora — el mismo logotipo que ya usaban terminos.html y el resto de
+   páginas sueltas.
 
-/* Logotipo horizontal sobre placa verde: trae el símbolo y la palabra en una
-   sola pieza, así que la cabecera ya no necesita texto aparte. Se dimensiona
-   por ANCHO (no por alto) para que en pantallas angostas o con tipografía
-   grande ceda espacio en vez de empujar fuera al selector de idioma. */
+   Logotipo horizontal sobre placa verde: trae el símbolo y la palabra en
+   una sola pieza, así que la cabecera ya no necesita texto aparte. Se
+   dimensiona por ANCHO (no por alto) para que en pantallas angostas o con
+   tipografía grande ceda espacio en vez de empujar fuera al selector de
+   idioma. */
 .marca__logo {
   width: clamp(7.5rem, 5.6rem + 6.4vw, 11.5rem);
   max-width: 100%; /* el ancho real lo dicta lo que sobre en la barra */
@@ -565,20 +565,31 @@ body.menu-abierto {
      · --color-texto-inverso (crema plena) pasa de 10.7:1 a 12.1:1.
      · --verde-menta, que es el acento del pie, pasa de 5.5:1 a 6.5:1.
    Ningún token del pie hay que tocarlo: todos mejoran solos.             */
+/* v13 · EL PIE GIRA A CLARO — pedido directo del cliente: «no quiere tonos
+   oscuros en la página [...] integrando más tramas de fondo como en la
+   página general». El carbón sale y entra la banda clara con trama
+   (--color-banda-trama): la veladura salvia translúcida deja ver el papel
+   botánico del fondo también en el cierre. Todos los pares del pie se
+   recalculan contra el compuesto salvia/crema: tinta 12,9:1 · gris suave
+   5,6:1 · verde de texto 6,3:1. El acento menta del negativo pasa a
+   --verde-texto (texto) y oliva (decorativo): la menta sobre claro se queda
+   en ~1,9:1 y era ilegible. El filete superior separa el pie de la sección
+   anterior ahora que ya no lo hace el salto de valor. */
 .pie-sitio {
-  background-color: var(--color-fondo-carbon);
-  color: var(--color-texto-inverso);
+  background-color: var(--color-banda-trama);
+  border-block-start: 1px solid var(--color-borde-suave);
+  color: var(--color-texto);
   padding-block: var(--esp-3xl) var(--esp-lg);
   scroll-margin-top: calc(var(--alto-header) + var(--esp-md));
 }
 
 .pie-sitio a {
-  color: var(--color-texto-inverso);
+  color: var(--color-texto);
   text-decoration: none;
 }
 
 .pie-sitio a:hover {
-  color: var(--verde-menta);
+  color: var(--verde-texto);
 }
 
 .pie__rejilla {
@@ -622,13 +633,13 @@ body.menu-abierto {
    sobre el verde oscuro del pie no llega al contraste mínimo. */
 .pie__enlace-mapa,
 .pie-sitio a.pie__enlace-mapa {
-  color: var(--verde-menta);
+  color: var(--verde-texto);
 }
 
 .pie__idioma {
   font-family: var(--fuente-titulo);
   font-size: var(--fs-pequeno);
-  color: var(--color-texto-inverso-suave);
+  color: var(--color-texto-suave);
   text-decoration: underline;
   text-underline-offset: 0.25em;
 }
@@ -652,7 +663,7 @@ body.menu-abierto {
   font-weight: var(--peso-display);
   line-height: 1.1;
   letter-spacing: var(--tracking-display);
-  color: var(--color-texto-inverso);
+  color: var(--color-texto);
 }
 
 .pie__tagline {
@@ -660,7 +671,7 @@ body.menu-abierto {
   font-size: var(--fs-micro);
   text-transform: uppercase;
   letter-spacing: var(--tracking-rotulo);
-  color: var(--verde-menta);
+  color: var(--verde-texto);
 }
 
 .pie__titulo {
@@ -669,7 +680,7 @@ body.menu-abierto {
   font-weight: var(--peso-medio);
   text-transform: uppercase;
   letter-spacing: var(--tracking-rotulo);
-  color: var(--verde-menta);
+  color: var(--verde-texto);
   margin-bottom: var(--esp-sm);
 }
 
@@ -681,16 +692,16 @@ body.menu-abierto {
   padding: 0;
   list-style: none;
   font-size: var(--fs-pequeno);
-  color: var(--color-texto-inverso-suave);
+  color: var(--color-texto-suave);
   line-height: var(--alto-linea-base);
 }
 
 .pie__lista a {
-  color: var(--color-texto-inverso-suave);
+  color: var(--color-texto-suave);
 }
 
 .pie__lista a:hover {
-  color: var(--verde-menta);
+  color: var(--verde-texto);
 }
 
 .pie__dato {
@@ -704,7 +715,7 @@ body.menu-abierto {
   height: 1.05em;
   margin-top: 0.35em;
   flex: none;
-  color: var(--verde-menta);
+  color: var(--verde-texto);
 }
 
 .pie__social {
@@ -744,8 +755,8 @@ body.menu-abierto {
 }
 
 .pie__social:hover {
-  background-color: rgb(var(--crema-rgb) / 0.1);
-  border-color: var(--verde-menta);
+  background-color: rgb(var(--tinta-rgb) / 0.06);
+  border-color: var(--verde-texto);
 }
 
 .pie__social svg {
@@ -764,7 +775,7 @@ body.menu-abierto {
   align-items: baseline;
   justify-content: space-between;
   font-size: var(--fs-micro);
-  color: var(--color-texto-inverso-suave);
+  color: var(--color-texto-suave);
   line-height: var(--alto-linea-base);
 }
 
@@ -783,13 +794,13 @@ body.menu-abierto {
 }
 
 .pie__legal-enlaces a {
-  color: var(--color-texto-inverso-suave);
+  color: var(--color-texto-suave);
   text-decoration: underline;
-  text-decoration-color: rgb(var(--crema-rgb) / 0.3);
+  text-decoration-color: rgb(var(--tinta-rgb) / 0.3);
 }
 
 .pie__legal-enlaces a:hover {
-  color: var(--verde-menta);
+  color: var(--verde-texto);
   text-decoration-color: currentColor;
 }
 
@@ -799,7 +810,7 @@ body.menu-abierto {
 .pie__creditos {
   margin-top: var(--esp-md);
   font-size: var(--fs-micro);
-  color: var(--color-texto-inverso-suave);
+  color: var(--color-texto-suave);
   max-width: 78ch;
 }
 

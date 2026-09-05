@@ -282,8 +282,29 @@ def marcar(texto):
 # FOTOS»). Las cifras medidas en producción que lo justifican —108 <img> sin
 # `srcset` y 89,3 Mpx de decodificación en #naturaleza sola— están en la
 # cabecera de derivar-imagenes.py, junto a su ALCANCE.
+# v20 · ENTRA compromiso.html — la foto de fondo de la sección de cierre. Las
+# cifras y el porqué están en la cabecera de derivar-imagenes.py.
+#
+# SU MEDIDA EN MEDIDAS-FOTOS.json ES EL ANCHO DEL ELEMENTO, 385 y 906, o sea
+# 100vw en las dos: la foto es de sangre a sangre. En teléfono el recuadro es
+# más alto que ancho y la foto es vertical, así que `cover` la escala POR EL
+# ALTO y se dibuja más ancha que el elemento — la misma trampa por la que las
+# cinco portadas de #usos se quedaron fuera de este alcance. Aquí no importa:
+# el `vw` sale de todos modos tapado en 100 (385 x 1,12 = 431 > 385), que es
+# el techo del atributo, así que el `sizes` escrito es el correcto en los dos
+# anchos y no hay nada que corregir a mano.
+# v20 · ENTRA compromiso.html. La sección de cierre pasa a tener una
+# fotografía A SANGRE de fondo (img/compromiso-fondo.jpg) en lugar del panel de
+# aves que sangraba por la derecha. Es otro original de teléfono sin retocar,
+# exactamente del mismo tipo que las seis de v19: 2268x4032 = 9,14 Mpx y
+# 3,4 MB, para pintarse a 385 CSS px de ancho en teléfono. Sin escalera se
+# bajarían y decodificarían esos 9,14 Mpx (~36 MB de mapa de bits) en la
+# última sección de la página, que es justo donde el teléfono lleva ya toda la
+# página en memoria. Con ella, un móvil de 385 px a DPR 2 se lleva el peldaño
+# de 800w.
 ALCANCE = ("hero.html", "nosotros.html", "planes.html", "momentos.html",
-           "usos.html", "naturaleza.html", "vivero.html", "sendero.html")
+           "usos.html", "naturaleza.html", "vivero.html", "sendero.html",
+           "compromiso.html")
 
 
 def main():

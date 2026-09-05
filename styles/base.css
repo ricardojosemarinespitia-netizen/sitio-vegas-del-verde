@@ -58,11 +58,52 @@
     U+FEFF, U+FFFD;
 }
 
-/* v11 · BODONI MODA reemplaza a Fraunces como --fuente-display, por pedido
-   directo tras comparar tres alternativas. Autohospedada igual que las
-   otras dos: variable de 300 a 700, un solo archivo, sin <link> a
-   fonts.googleapis.com. Fraunces se queda declarada arriba —puede volver a
-   hacer falta— pero deja de ser la que consume tokens.css. */
+/* v12 · JOSEFIN SANS ENTRA COMO --fuente-display (agosto 2026).
+   Pedido del cliente, textual: «identifica la fuente del logo real y
+   aplícala armoniosamente por toda la web».
+
+   QUÉ DICE EL LOGO. El rótulo «VEGAS DEL VERDE» de
+   img/logo/logo-vegas.png es LETTERING dibujado, no una fuente de
+   catálogo: trazo monolineal (mismo grosor en asta y curva), remates
+   planos, caja alta estrecha y alta, y unos cortes internos irregulares
+   en la G, la E y la A que ninguna fuente comercial reproduce —son la
+   firma del dibujante. Por eso NO se afirma haber encontrado «la»
+   fuente: se eligió LA MÁS CERCANA que existe con licencia abierta.
+
+   POR QUÉ JOSEFIN SANS Y NO OTRA. Se compararon en pantalla, a tamaño
+   real y sobre el fondo salvia del propio logo, doce candidatas
+   (Poiret One, Federo, Megrim, Julius Sans One, Gruppo, Comfortaa,
+   Quicksand, Jost, Italiana, Cormorant Unicase, Tenor Sans, Limelight,
+   Marcellus SC, Antic Didone). Josefin Sans es la única que reúne las
+   cuatro señas del rótulo a la vez: geométrica de los años 20, caja
+   alta ESTRECHA Y ALTA (las demás geométricas son anchas y redondas),
+   trazo monolineal sin contraste y remates cortados a escuadra.
+
+   POIRET ONE SE DESCARTÓ A PROPÓSITO, y no por parecido: es la que más
+   se acerca en espíritu déco, pero tiene UN SOLO peso y es filiforme.
+   Este sitio ya la usó en v1 y se cambió justamente por eso (queda
+   escrito en tokens.css: «Poiret One era filiforme y necesitaba
+   tamaño»). Repetirlo sería volver a un problema resuelto. Josefin es
+   VARIABLE 100–700: el mismo archivo da el trazo fino del logo en un
+   titular de 84 px y un peso con cuerpo suficiente para una cifra.
+
+   Autohospedada igual que las otras: un solo woff2, subconjunto latin,
+   sin <link> a fonts.googleapis.com. Bodoni Moda y Fraunces se quedan
+   declaradas —pueden volver a hacer falta— pero dejan de consumirse
+   desde tokens.css. */
+@font-face {
+  font-family: 'Josefin Sans';
+  font-style: normal;
+  font-weight: 100 700;
+  font-display: optional;
+  src: url('fonts/josefin-sans-latin.woff2') format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC,
+    U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215,
+    U+FEFF, U+FFFD;
+}
+
+/* v11 · BODONI MODA fue --fuente-display entre v11 y v12. Se conserva
+   declarada por si vuelve a pedirse; hoy no la consume ningún token. */
 @font-face {
   font-family: 'Bodoni Moda';
   font-style: normal;
@@ -321,12 +362,18 @@ table {
 /* ==========================================================================
    2. TIPOGRAFÍA
    ========================================================================== */
-/* Los titulares van en Fraunces con --peso-display, que en v3 baja a 320:
-   serif enorme y FINO, el gesto del referente. font-optical-sizing deja que
-   Fraunces afine el contraste según el cuerpo.
-   El tracking cerrado de v2 (--track-display, negativo) se cambia por
-   --tracking-display (+0.04em): un peso 320 a cuerpo de display necesita
-   aire entre letras, no cierre, o los astas finas se empastan.            */
+/* Los titulares van en --fuente-display con --peso-display.
+   v12 · esa fuente ya no es una serif (Fraunces, luego Bodoni) sino JOSEFIN
+   SANS, la geométrica más cercana al lettering del logo. Lo que NO cambia
+   es el gesto: enorme y fino. Con Josefin el peso baja de 320 a 300 porque
+   en una monolineal el peso es el grosor único del trazo (ver tokens.css).
+   `font-optical-sizing` y `font-variation-settings` se quedan escritos y sin
+   efecto: Josefin sólo tiene eje de peso, y pedir ejes que la fuente no trae
+   se ignora en silencio, sin coste. Se conservan por si vuelve una display
+   con eje óptico.
+   El tracking sigue en --tracking-display (+0.04em) y ahora hace MÁS falta,
+   no menos: las geométricas de caja alta ancha necesitan aire entre letras,
+   y así el titular respira igual que el rótulo espaciado del logo.        */
 h1,
 h2,
 h3,
@@ -479,9 +526,12 @@ a:hover {
   border-radius: var(--radio-xs);
 }
 
+/* v13 · `.pie-sitio` SALE de esta lista: el pie giró a banda clara con trama
+   (pedido del cliente, «no quiere tonos oscuros en la página») y el amarillo
+   sobre claro se queda en ~1,4:1 — el foco verde bosque por defecto es el
+   correcto allí. */
 .seccion--oscura :focus-visible,
-.sobre-oscuro :focus-visible,
-.pie-sitio :focus-visible {
+.sobre-oscuro :focus-visible {
   outline-color: var(--color-destacado);
 }
 
@@ -581,6 +631,38 @@ a:hover {
 .seccion--carbon-suave {
   background-color: var(--color-fondo-carbon-suave);
   color: var(--color-texto-inverso);
+}
+
+/* v13 · LA BANDA CLARA CON TRAMA — la sustituta de las bandas oscuras.
+   Pedido directo del cliente (ago 2026): «no quiere tonos oscuros en la
+   página [...] integrando más tramas de fondo como en la página general».
+   Las secciones que iban en .seccion--oscura / .seccion--carbon pasan a esta
+   variante: una veladura salvia SEMITRANSPARENTE (--color-banda-trama,
+   tokens.css) que, al no ser opaca, deja correr por debajo el papel botánico
+   fijo de body::before — la banda queda «con trama» sin duplicar el dibujo.
+   NO invierte ningún color: el texto sigue siendo el de la página clara, así
+   que ninguna de las reglas `.seccion--oscura *` aplica ni hace falta
+   contrarrestarla. Los filetes de canto (border-block) son lo que separa la
+   banda de la crema vecina cuando la trama cae en su punto más parecido.  */
+.seccion--trama {
+  background-color: var(--color-banda-trama);
+  border-block: 1px solid var(--color-borde-suave);
+}
+
+/* v14 · LA TERCERA BANDA CLARA — la que ABRE (plan v4, 4.3).
+   .seccion--trama cierra y asienta: es más oscura que la crema y trae dibujo.
+   Ésta hace lo contrario: --color-banda-luz es opaca, más clara que el papel
+   y sin trama, así que corta la textura y da respiro entre dos bandas con
+   dibujo. Con las bandas oscuras retiradas, el ritmo de la página se
+   construye con estas tres (crema · trama · luz) más la salvia plena de
+   .seccion--alt; ninguna invierte el color del texto, así que ninguna
+   necesita reglas de contraste propias.
+   OJO CON LAS PLACAS: sobre esta banda, .placa y --color-banda-luz están a
+   menos de dos puntos de luminancia. Toda placa que caiga aquí va con
+   .placa--filete.                                                          */
+.seccion--banda-luz {
+  background-color: var(--color-banda-luz);
+  border-block: 1px solid var(--color-borde-suave);
 }
 
 .seccion--oscura h1,
@@ -727,6 +809,141 @@ a:hover {
 }
 
 /* ==========================================================================
+   4b. LA PLACA — EL ÚNICO SITIO DONDE VIVE UN TEXTO JUNTO A UNA FOTO
+   v14 · plan de rediseño v4, apartado 4.3
+
+   QUÉ PROBLEMA RESUELVE. Entre agosto y septiembre de 2026 aparecieron nueve
+   superficies sólidas distintas, una por sección, todas hechas a mano y todas
+   con su propio radio, su propia sombra y su propio relleno
+   (--color-superficie-solida se declara hoy en 19 reglas de 10 hojas). Eran
+   la respuesta correcta a la orden del cliente —«las fotos, las originales y
+   punto», sin velos— pero nueve respuestas correctas distintas no son un
+   sistema. Ésta es la única, y las nueve se irán replegando sobre ella.
+
+   LA REGLA DURA, Y ES DEL CLIENTE, NO DE DISEÑO:
+   la placa NUNCA se pone ENCIMA de la fotografía. Ni con velo, ni sin velo,
+   ni «sólo una esquinita». Corrección textual (sep. 2026): «es importante que
+   la foto se aprecie bien, el texto NO debe tapar la foto». Así que la placa
+   es un elemento OPACO que ocupa SU PROPIO ESPACIO: debajo de la imagen, al
+   lado, o en una franja propia. La foto se ve entera, siempre.
+
+   POR QUÉ ESO ADEMÁS ES MEJOR, Y NO SÓLO OBEDIENTE. Un texto sobre foto
+   obliga a una de dos cosas: o se oscurece/aclara la imagen (prohibido), o se
+   confía en que ningún píxel de detrás traicione el contraste — y eso no se
+   puede garantizar para una foto futura. Con la placa aparte, el par
+   texto/fondo es SIEMPRE el mismo y siempre medido:
+
+       --color-texto        sobre --color-superficie-solida  ·  14,2:1  (AAA)
+       --color-texto-suave  sobre --color-superficie-solida  ·   6,2:1  (AA)
+       --color-acento-texto sobre --color-superficie-solida  ·   5,4:1  (AA)
+
+   Ninguna fotografía entra en esa cuenta, así que la accesibilidad deja de
+   depender del material fotográfico. Es la misma razón por la que el
+   validador (regla h) rechaza cualquier degradado o velo sobre <img>.
+
+   ANATOMÍA
+     .placa                  la superficie. Opaca, silueta de hoja, sombra
+                             corta. Se puede usar suelta en cualquier banda.
+     .placa--filete          añade el filete. OBLIGATORIA sobre
+                             --color-banda-luz, donde la placa y la banda
+                             casi coinciden y sin filete no se lee el borde.
+     .placa--sm / --lg       sólo cambian el relleno.
+     .placa--alterna         invierte la diagonal de la hoja. Se alterna
+                             pieza a pieza para que la firma se lea como
+                             sistema y no como plantilla.
+     .foto-placa             la maqueta: <figure> con la imagen y la placa
+                             como HERMANAS, nunca superpuestas.
+     .foto-placa--lado       a partir de 48em pone la placa AL LADO.
+   ========================================================================== */
+.placa {
+  background-color: var(--color-superficie-solida);
+  color: var(--color-texto);
+  padding: var(--esp-md);
+  border-radius: 0 var(--radio-hoja) 0 var(--radio-hoja);
+  box-shadow: var(--sombra-md);
+}
+
+.placa--alterna {
+  border-radius: var(--radio-hoja) 0 var(--radio-hoja) 0;
+}
+
+.placa--sm {
+  padding: var(--esp-sm);
+  border-radius: 0 var(--radio-hoja-menor) 0 var(--radio-hoja-menor);
+}
+
+.placa--sm.placa--alterna {
+  border-radius: var(--radio-hoja-menor) 0 var(--radio-hoja-menor) 0;
+}
+
+.placa--lg {
+  padding: var(--esp-lg);
+}
+
+/* Sobre --color-banda-luz la placa flota sin borde visible: las dos
+   superficies están a menos de dos puntos de luminancia. El filete da los
+   3:1 de contorno que pide WCAG 1.4.11 para un elemento no textual.        */
+.placa--filete {
+  border: 1px solid var(--color-borde-suave);
+}
+
+/* La placa hereda el color de texto de la página clara, así que dentro de
+   una banda que invierta colores (el legado de /en/) habría que devolvérselo.
+   Se hace aquí y no en cada sección para que la placa sea la misma pieza
+   viva donde caiga.                                                        */
+.seccion--oscura .placa,
+.seccion--carbon .placa,
+.seccion--carbon-suave .placa {
+  color: var(--color-texto);
+}
+
+.seccion--oscura .placa h1,
+.seccion--oscura .placa h2,
+.seccion--oscura .placa h3,
+.seccion--oscura .placa h4,
+.seccion--carbon .placa h1,
+.seccion--carbon .placa h2,
+.seccion--carbon .placa h3,
+.seccion--carbon .placa h4 {
+  color: var(--color-texto);
+}
+
+/* --------------------------------------------------------------------------
+   LA MAQUETA: FOTO ENTERA + PLACA EN SU PROPIO ESPACIO
+   `display: grid` y no `position` a propósito: en una rejilla la placa no
+   puede caer sobre la imagen ni por accidente, porque cada una tiene su fila.
+   Si alguna vez lees `position: absolute` dentro de un .placa, es un bug —
+   y el validador (regla h) lo marca.
+   -------------------------------------------------------------------------- */
+.foto-placa {
+  display: grid;
+  gap: var(--esp-sm);
+  margin: 0;
+}
+
+/* La imagen va entera y sin recorte de autor: `contain` no, porque dejaría
+   huecos, pero tampoco una altura fija que la recorte a una banda. El
+   aspect-ratio lo pone la sección según el formato del plan v4 (3:2 apaisada,
+   4:5 retrato, 1:1 muro de aves).                                          */
+.foto-placa > img,
+.foto-placa > picture > img {
+  display: block;
+  width: 100%;
+  height: auto;
+  border-radius: var(--radio-hoja) 0 var(--radio-hoja) 0;
+}
+
+/* La placa al lado, no encima. Sólo a partir de 48em: por debajo, dos
+   columnas dejarían la foto en una tira y el texto en un canalón. */
+@media (min-width: 48em) {
+  .foto-placa--lado {
+    grid-template-columns: 1.6fr 1fr;
+    align-items: center;
+    gap: var(--esp-md);
+  }
+}
+
+/* ==========================================================================
    5. ENCABEZADO DE SECCIÓN (antetítulo + título en caps)
    ========================================================================== */
 .seccion-encabezado {
@@ -854,6 +1071,73 @@ a:hover {
   height: 1px;
   background-color: var(--color-borde-suave);
   margin-block: var(--esp-lg);
+}
+
+/* ==========================================================================
+   5b. EL PESO DEL DISPLAY DEPENDE DEL TAMAÑO, NO DE LA ETIQUETA
+   v14 · plan de rediseño v4, apartado 4.4
+
+   Josefin Sans es MONOLINEAL: el peso es el grosor único del trazo, sin
+   gruesos y finos que se turnen como en una serif de contraste. A 300 y por
+   encima de ~40 px el asta tiene cuerpo de sobra y da el aire del lettering
+   del logo; por DEBAJO de ~40 px, y encima del papel botánico que corre por
+   toda la página (body::before), ese mismo trazo se adelgaza hasta
+   desvanecerse. La regla del plan es literal: «Josefin Sans 300 ≥ 40 px,
+   400 < 40 px».
+
+   CSS no sabe cuánto mide un texto ya compuesto, pero aquí no hace falta
+   adivinarlo: todos los pasos de la escala son clamp() con pendiente en vw,
+   así que el ancho de ventana en el que cada paso cruza los 40 px (2,5rem)
+   se despeja a mano y queda FIJO:
+
+     --fs-h1 = --paso-5 = clamp(2.3rem, 1.75rem + 2.35vw, 3.75rem)
+               1.75rem + 2.35vw = 2.5rem -> 2.35vw = 12 px   -> 511 px ≈ 32em
+     --fs-h2 = --paso-4 = clamp(1.95rem, 1.55rem + 1.7vw, 2.9rem)
+               1.55rem + 1.7vw  = 2.5rem -> 1.7vw  = 15,2 px -> 894 px ≈ 56em
+     --fs-h3 = --paso-2 (techo 30,4 px) y --fs-h4 = --paso-1 (techo 23,2 px):
+               NUNCA llegan a 40 px. Van siempre en el peso menor.
+     --fs-hero (suelo 44,8 px) y --fs-portada (suelo 46,4 px): NUNCA bajan de
+               40 px. Se quedan en --peso-display y no aparecen en esta regla;
+               las piezas que los usan (.pie-final__titular,
+               .nat-endemica__nombre, .hero__titulo) ya declaran el peso.
+
+   Los dos breakpoints se escriben en em como el resto del archivo y se
+   redondean HACIA ARRIBA del cruce real: así ningún titular estrena el trazo
+   fino un píxel antes de habérselo ganado.
+
+   POR QUÉ ESTÁ AQUÍ Y NO EN §2. La regla tiene que ganarle a .titulo-seccion
+   y .titulo-display, que declaran --peso-display en §5 y son clases (0,1,0)
+   frente a un hN (0,0,1). Con la misma especificidad decide el orden, así
+   que este bloque va DESPUÉS de §5 y nombra a los dos: elemento y clase, por
+   paso de la escala. Si mañana nace otra clase que fije --fs-h1 o --fs-h2,
+   se añade a la lista que le toque; si fija un paso menor, no hace falta.
+   ========================================================================== */
+h1,
+h2,
+h3,
+h4,
+.titulo-display,
+.titulo-seccion,
+.titulo-seccion--sm,
+.titulo-seccion--xs {
+  font-weight: var(--peso-display-menor);
+}
+
+/* El paso de --fs-h1 cruza los 40 px a 32em. */
+@media (min-width: 32em) {
+  h1,
+  .titulo-display {
+    font-weight: var(--peso-display);
+  }
+}
+
+/* El paso de --fs-h2 cruza los 40 px a 56em. .titulo-seccion--sm y --xs NO
+   entran: bajan el cuerpo a --fs-h3 / --fs-h4, que no llegan nunca. */
+@media (min-width: 56em) {
+  h2,
+  .titulo-seccion:not(.titulo-seccion--sm):not(.titulo-seccion--xs) {
+    font-weight: var(--peso-display);
+  }
 }
 
 /* ==========================================================================

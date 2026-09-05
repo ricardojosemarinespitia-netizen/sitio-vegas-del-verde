@@ -32,9 +32,16 @@ const ESCRIBIR = process.argv.includes('--escribir');
 // nivel dentro de sections/, así que "styles/fonts/..." es correcta para
 // todas las páginas de nivel superior. Si algún día se versiona el sitio en
 // inglés (en/index.html), esa página necesita "../styles/fonts/...".
+// v12 (agosto 2026): se precarga JOSEFIN SANS, no Fraunces. Esta lista tiene
+// que ir SIEMPRE sincronizada con las dos familias que consume tokens.css
+// (--fuente-cuerpo y --fuente-display); precargar una fuente que ningún token
+// pide es descargar un archivo para nada, y no precargar la que sí se usa
+// devuelve el parpadeo que toda esta maquinaria existe para evitar.
+// Fraunces y Bodoni Moda siguen declaradas por @font-face en base.css pero
+// ningún token las pide, así que el navegador no las baja.
 const FUENTES = [
   'styles/fonts/dm-sans-latin.woff2',
-  'styles/fonts/fraunces-latin.woff2',
+  'styles/fonts/josefin-sans-latin.woff2',
 ];
 
 const MARCA = 'fuentes-propias';
@@ -75,7 +82,7 @@ for (const rel of paginas) {
 
   const sangria = m[1];
   const bloque =
-    `${sangria}<!-- ${MARCA}: Fraunces y DM Sans viven en styles/fonts/ y se declaran\n` +
+    `${sangria}<!-- ${MARCA}: Josefin Sans y DM Sans viven en styles/fonts/ y se declaran\n` +
     `${sangria}     por @font-face en base.css — no hay <link> a fonts.googleapis.com,\n` +
     `${sangria}     ni preconnect a Google. La precarga es lo único que sigue haciendo\n` +
     `${sangria}     falta: hace que el navegador pida el woff2 desde el primer instante,\n` +

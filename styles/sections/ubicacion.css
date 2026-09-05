@@ -215,7 +215,9 @@
   border-radius: 0;
   border-block: 1px solid var(--color-borde-suave);
   overflow: hidden;
-  background-color: var(--tinta);
+  /* v9 · color de espera claro: mientras el mapa carga, papel salvia y no un
+     rectángulo de tinta (pedido del cliente: «no quiere tonos oscuros»). */
+  background-color: var(--color-fondo-alt);
   isolation: isolate;
 }
 
@@ -232,12 +234,10 @@
   inset: 0;
   z-index: var(--z-elevado);
   pointer-events: none;
-  box-shadow: inset 0 0 0 1px rgb(var(--crema-rgb) / 0.18);
-  background: radial-gradient(
-    120% 90% at 50% 45%,
-    rgb(var(--verde-bosque-hondo-rgb) / 0) 55%,
-    rgb(var(--verde-bosque-hondo-rgb) / 0.28) 100%
-  );
+  /* v9 · la viñeta oscura se retira — «ni fotos oscuras, las originales y
+     punto»: la vista satelital se ve limpia; el filete interior queda como
+     único canto del visor, ahora en tinta tenue sobre imagen clara. */
+  box-shadow: inset 0 0 0 1px rgb(var(--tinta-rgb) / 0.18);
 }
 
 .ubi-mapa__lienzo {
@@ -326,21 +326,25 @@
   gap: var(--esp-3xs);
   padding: var(--esp-2xs) var(--esp-sm);
   max-width: calc(100% - var(--esp-2xl));
-  border: 1px solid rgb(var(--crema-rgb) / 0.22);
+  border: 1px solid rgb(var(--tinta-rgb) / 0.22);
   /* La hoja: radio pleno en dos esquinas opuestas. Es el mismo gesto con el que
      base.css §2 dibuja las viñetas de .lista-hojas, y es el motivo orgánico de
      la casa; aquí firma la vista satelital sin recurrir a un logotipo grande. */
   border-radius: 0 var(--radio-lg) 0 var(--radio-lg);
-  background-color: rgb(var(--verde-bosque-hondo-rgb) / 0.55);
-  backdrop-filter: var(--blur-vidrio);
-  -webkit-backdrop-filter: var(--blur-vidrio);
-  color: var(--color-texto-inverso);
+  /* v9 · el HUD gira a vidrio claro: crema translúcida + tinta, el mismo
+     lenguaje de .btn-claro. Sobre el peor píxel del satélite el compuesto
+     al 0,66 no baja de 8:1 con la tinta. */
+  /* v10 · placa casi sólida y sin desenfoque — corrección del cliente:
+     «sin filtro ni nada» sobre la imagen. 0,94 de crema es la misma placa
+     que la pastilla táctil del mapa. */
+  background-color: rgb(var(--crema-rgb) / 0.94);
+  color: var(--color-texto);
   pointer-events: none;
 }
 
 @supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
   .ubi-hud {
-    background-color: rgb(var(--verde-bosque-hondo-rgb) / 0.82);
+    background-color: rgb(var(--crema-rgb) / 0.92);
   }
 }
 
@@ -375,7 +379,8 @@
   font-size: var(--fs-micro);
   text-transform: uppercase;
   letter-spacing: var(--tracking-rotulo);
-  color: var(--verde-menta);
+  /* v9 · de menta a verde de texto: el HUD es vidrio claro ahora. */
+  color: var(--verde-texto);
 }
 
 .ubi-hud__etiqueta::before {
@@ -383,7 +388,7 @@
   width: 0.45em;
   height: 0.45em;
   border-radius: var(--radio-full);
-  background-color: var(--verde-menta);
+  background-color: var(--verde-texto);
   flex: none;
 }
 
@@ -491,7 +496,8 @@
   align-items: flex-end;
   justify-content: center;
   padding-bottom: var(--esp-xl);
-  background-color: rgb(var(--verde-bosque-hondo-rgb) / 0.12);
+  /* v10 · sin velo sobre el satélite: la pastilla sólida basta. */
+  background-color: transparent;
 }
 
 .ubi-mapa__activar[hidden] {
@@ -515,7 +521,8 @@
    7. OVERRIDES DE LEAFLET  (scoped por id, sin !important)
    ========================================================================== */
 #ubicacion .leaflet-container {
-  background-color: var(--tinta);
+  /* v9 · fondo de teselas pendientes en claro, no en tinta. */
+  background-color: var(--color-fondo-alt);
   font-family: var(--fuente-cuerpo);
   font-size: var(--fs-micro);
 }
@@ -551,13 +558,14 @@
 
 #ubicacion .leaflet-control-attribution {
   padding: 0.25em 0.7em;
-  background-color: rgb(var(--verde-bosque-hondo-rgb) / 0.66);
-  color: var(--color-texto-inverso-suave);
+  /* v9 · atribución en claro: crema translúcida + gris del sistema. */
+  background-color: rgb(var(--crema-rgb) / 0.85);
+  color: var(--color-texto-suave);
   font-size: var(--fs-micro);
 }
 
 #ubicacion .leaflet-control-attribution a {
-  color: var(--verde-menta);
+  color: var(--verde-texto);
 }
 
 #ubicacion .leaflet-popup-content-wrapper,

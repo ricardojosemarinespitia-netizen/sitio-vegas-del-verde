@@ -28,7 +28,12 @@
         <span class="reveal-texto__linea">El verde te está</span>
         <span class="reveal-texto__linea">esperando.</span>
       </p>
-      <a class="pie-final__cta" href="#ubicacion">
+      <!-- v18 · Deja de ser el ancla #ubicacion y pasa a ser contacto.html.
+           La sección de cómo llegar se mudó a página propia
+           (PLAN-REDISENO-V4 §4.1) y este pie se inserta ahora en TODAS las
+           páginas del sitio: un ancla suelta no llevaría a ninguna parte
+           desde vivero.html o naturaleza.html. -->
+      <a class="pie-final__cta" href="contacto.html">
         Dónde queda y cómo llegar
         <svg class="pie-final__flecha" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
           <path d="M4 12h16"/>
@@ -85,7 +90,15 @@
         Floridablanca, Santander, Colombia ·
         <span>© <span data-anio>2026</span> Vegas del Verde. Todos los derechos reservados.</span>
       </p>
+      <!-- v18 · El pie recoge las páginas que no caben en la barra de
+           navegación: colegios, plan vecino y las condiciones de alquiler.
+           No son «hechos» repetidos —no dicen aforos, ni precios, ni
+           horarios—: son la única puerta a esas tres URL desde una pantalla
+           ancha, donde el panel móvil que las lleva no existe. -->
       <ul class="pie-final__legal-enlaces">
+        <li><a href="colegios.html">Salidas escolares</a></li>
+        <li><a href="plan-vecino.html">Plan vecino</a></li>
+        <li><a href="condiciones-de-alquiler.html">Condiciones de alquiler</a></li>
         <li><a href="politica-de-datos.html">Política de tratamiento de datos</a></li>
         <li><a href="terminos.html">Términos y condiciones</a></li>
       </ul>

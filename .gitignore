@@ -28,3 +28,15 @@ la vega.zip
 *.MOV
 *.mov
 __pycache__/
+
+# Fotos originales sin procesar del cliente (HEIC, Live Photos), banco de
+# donde salieron compromiso-fondo.jpg y otras ya optimizadas en img/. Mismo
+# criterio que "plan vecino/" arriba: el sitio publicado no las usa, se
+# quedan fuera del repo (286 MB) y siguen en disco local.
+Pic/
+
+# Salida de herramientas/construir.js: la copia compactada que se publica.
+# Se genera en cada despliegue a partir del arbol de trabajo (netlify.toml
+# la reconstruye), asi que versionarla seria guardar dos veces lo mismo y
+# ademas ensuciar cada diff con 500 archivos derivados.
+dist/

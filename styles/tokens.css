@@ -16,6 +16,21 @@
    · El display pasa de Poiret One a FRAUNCES (carácter editorial).
    · Los títulos de sección dejan de ir en MAYÚSCULAS espaciadas.
 
+   QUÉ CAMBIÓ EN v12 (agosto 2026, pedido del cliente):
+   · --fuente-display pasa de Bodoni Moda a JOSEFIN SANS, la fuente abierta
+     más cercana al lettering del logo real. Razonamiento completo en el
+     apartado 3 de este archivo y, más a fondo, en base.css sobre el
+     @font-face.
+   · --peso-display baja de 320 a 300 (Josefin es monolineal: el peso es el
+     grosor único del trazo).
+   · Cuerpo y etiqueta NO cambian: siguen en DM Sans.
+
+   AVISO SOBRE EL <link> QUE SE DESCRIBE ABAJO: quedó obsoleto en v10. Las
+   fuentes ya NO vienen de fonts.googleapis.com — viven en styles/fonts/*.woff2,
+   se declaran por @font-face en base.css y se precargan desde el <head> con
+   herramientas/precargar-fuentes.js. El bloque se conserva sólo como
+   histórico; no lo reintroduzcas en ninguna página.
+
    >>> EL <link> DE FUENTES QUE LLEVA EL <head> DE TODAS LAS PÁGINAS (v4):
 
        <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -43,8 +58,14 @@
      --------------------------------------------------------------------- */
 
   /* — Verdes — */
-  --verde-bosque: #1e3d2f;       /* NUEVO · DOMINANTE: fondos oscuros, marca  */
-  --verde-bosque-hondo: #14291f; /* NUEVO · pie de sitio, degradados, veladuras */
+  /* v14 · EL BOSQUE CAMBIA DE OFICIO (plan v4, 4.3). Desde v2 estaba escrito
+     aquí que era la DOMINANTE de fondos oscuros, y ese comentario ha sido
+     durante un año la instrucción que recibía cada agente nuevo. Con las
+     bandas oscuras retiradas, el bosque pasa a ser color de TEXTO, FILETE e
+     ICONO: el verde profundo que firma la marca sobre papel claro, nunca el
+     papel. Sobre --color-fondo da 10,4:1. NO lo pongas de background. */
+  --verde-bosque: #1e3d2f;       /* TEXTO, filete, icono · NUNCA fondo        */
+  --verde-bosque-hondo: #14291f; /* sólo velo de modal y tintes de sombra     */
   --verde-oliva: #5e6e3c;        /* era #566438 · ahora SECUNDARIO            */
   --verde-menta: #50c58e;        /* = hojas del logo · intacto               */
   --teal: #4b7f7d;               /* = lettering «VEGAS DEL VERDE» · intacto  */
@@ -148,12 +169,22 @@
      2. ROLES SEMÁNTICOS  (usar SIEMPRE estos, no los de marca directamente)
      Todos los pares texto/fondo verificados ≥ 4.5:1 (AA).
      --------------------------------------------------------------------- */
+  /* v14 · REBASE DE ROLES (plan v4, apartado 4.3).
+     Hasta v13 este bloque abría con cuatro fondos OSCUROS de sección, y ese
+     orden era la instrucción implícita que recibía cualquiera que llegara
+     al archivo: «la página alterna claro y oscuro». Ya no. El cliente pidió,
+     textual, «no quiere tonos oscuros en la página ni fotos oscuras, las
+     originales y punto», y la v4 lo convierte en gramática: LOS FONDOS DE
+     SECCIÓN SON CUATRO Y LOS CUATRO SON CLAROS.
+
+         --color-fondo          crema greige · el papel de toda la página
+         --color-fondo-alt      salvia plena · franja alterna opaca
+         --color-banda-trama    veladura salvia · deja ver el papel botánico
+         --color-banda-luz      luz crema     · la banda que ABRE, no cierra
+
+     Los oscuros bajan al final del bloque, marcados y acotados. */
   --color-fondo: var(--crema);
   --color-fondo-alt: var(--salvia);            /* franjas alternas          */
-  --color-fondo-oscuro: var(--verde-bosque);   /* secciones en negativo     */
-  --color-fondo-hondo: var(--verde-bosque-hondo); /* pie de sitio           */
-  --color-fondo-carbon: var(--carbon);         /* bandas neutras de sección */
-  --color-fondo-carbon-suave: var(--carbon-suave);
   /* v8 · era rgb(--blanco-rgb / 0.62). Sobre la crema greige, el blanco al
      62 % componía #f7f4f2 — un realce FRÍO al lado de fotos cuyas altas
      luces ahora van a crema. Con --luz compone #f5efe7 y la tarjeta queda
@@ -161,12 +192,11 @@
      resiente: --color-texto sobre ese compuesto da 13,4:1.               */
   --color-superficie: rgb(var(--luz-rgb) / 0.62);      /* tarjetas sobre crema */
   --color-superficie-solida: #fdfaf1;
-  /* La sala oscura: fondo de banda donde se proyecta fotografía. Es el
-     sustituto único del negro puro como COLOR. El único #000 que queda vivo
-     en las hojas está en los `mask-image` de naturaleza.css, donde no es
-     color sino alfa; está anotado allí mismo.                             */
-  --color-sala: var(--negro-escena);
-  --color-superficie-oscura: rgb(var(--crema-rgb) / 0.07); /* sobre bosque  */
+  /* Fondo NEUTRO de un marco de medio (el hueco 9:16 de un clip mientras el
+     póster decodifica). No es un velo ni una sala: nada se pinta encima, y
+     sobre la crema compone un gris apenas perceptible. Se conserva con este
+     nombre porque sendero.css lo consume en dos sitios.                   */
+  --color-superficie-oscura: rgb(var(--crema-rgb) / 0.07);
 
   --color-texto: var(--tinta);                       /* 13.9:1 sobre crema  */
   --color-texto-suave: #4f5f53;                      /*  6.1:1 sobre crema  */
@@ -190,12 +220,74 @@
   --color-destacado: var(--amarillo);          /* 7.3:1 sobre bosque        */
   --color-alerta: var(--rojo-baya);
 
+  /* v13 · LA BANDA CLARA CON TRAMA — pedido directo del cliente (ago 2026):
+     «no quiere tonos oscuros en la página ni fotos oscuras, las originales
+     y punto [...] integrando más tramas de fondo como en la página general».
+     Las bandas que antes iban en bosque/carbón pasan a esta veladura salvia
+     SEMITRANSPARENTE: al no ser opaca deja ver el papel botánico fijo de
+     body::before (base.css §1), así que la banda queda «con trama» sin
+     duplicar el dibujo en cada sección. 0,55 de alfa es el punto medido en
+     el que la banda se distingue de la crema vecina (la salvia plena ya lo
+     hace como --color-fondo-alt) sin apagar la trama que corre debajo.
+     Texto encima: --color-texto sobre el compuesto salvia/crema da 12,9:1 y
+     --color-texto-suave 5,6:1 — AA en el peor punto de la trama.          */
+  --color-banda-trama: rgb(var(--salvia-rgb) / 0.55);
+
+  /* v14 · LA BANDA QUE ABRE (plan v4, 4.3). El tercer fondo claro: --luz, el
+     pico de luces del sistema, opaco. Donde --color-banda-trama cierra y
+     asienta (es más oscura que la crema y trae dibujo), ésta ABRE: es más
+     clara que el papel, no tiene trama y hace de respiro entre dos bandas
+     con textura. Con --color-texto encima da 14,6:1 y con --color-texto-suave
+     6,4:1: AAA y AA. Es también el fondo del que cuelga .placa, así que una
+     placa sobre esta banda pierde el contraste de superficie: sobre
+     --color-banda-luz la placa va con filete (.placa--filete), no suelta. */
+  --color-banda-luz: var(--luz);
+
+  /* v14 · EL VELO CLARO SOBRE FOTOGRAFÍA SE RETIRA, Y NO POR AHORRO.
+     v13 lo había introducido como sustituto «bueno» del velo oscuro: en vez
+     de bajar la foto hacia el negro, la subía hacia --luz. Sigue siendo un
+     velo. La corrección del cliente (sep. 2026) cierra la puerta a los dos:
+     «es importante que la foto se aprecie bien, el texto NO debe tapar la
+     foto». No hay velo aceptable porque no hay texto ENCIMA de la foto.
+     El sustituto es el componente .placa de base.css §4b: una placa OPACA
+     en su propio espacio —debajo, al lado o en franja propia—, con la
+     imagen entera visible. Si necesitas apoyar un texto sobre una foto, no
+     busques un token: cambia la maqueta.
+
+     Se retiran por lo mismo: --color-velo (veladura bosque 0,55 sobre foto).
+     Ninguno de los dos tenía consumidores vivos al retirarlos; la regla h)
+     de herramientas/validar.js impide que vuelvan por la puerta de atrás. */
+
   --color-borde: var(--gris-verde);            /* filetes decorativos       */
   --color-borde-fuerte: var(--verde-oliva);    /* contornos de componente   */
   --color-borde-suave: rgb(var(--verde-bosque-rgb) / 0.16);
   --color-borde-inverso: rgb(var(--crema-rgb) / 0.2);
-  --color-velo: rgb(var(--verde-bosque-hondo-rgb) / 0.55);  /* sobre fotos  */
+
+  /* ---------------------------------------------------------------------
+     2b. SUPERFICIES OSCURAS — LO QUE QUEDA DE ELLAS Y DÓNDE VIVE
+     Ningún token de este sub-bloque puede pintar el fondo de una sección ni
+     ponerse encima de una fotografía. Existen para DOS cosas: el visor a
+     pantalla completa (lightbox) y los modales, que son superficies fuera
+     del documento, no bandas del documento. El nombre lo dice ahora en voz
+     alta para que nadie los recicle como fondo de sección — que es
+     exactamente lo que pasaba cuando se llamaban --color-sala y --color-velo.
+     --------------------------------------------------------------------- */
+  --color-lightbox: var(--negro-escena);       /* era --color-sala          */
   --color-velo-modal: rgb(var(--verde-bosque-hondo-rgb) / 0.74);
+
+  /* LEGADO CONGELADO · /en/ v1. Estos cuatro fondos oscuros de sección están
+     PROHIBIDOS en el sitio en español (base.css los sirve por .seccion--oscura
+     y .seccion--carbon, sustituidas por .seccion--trama y .seccion--banda-luz).
+     Siguen declarados por una sola razón: en/index.html es la arquitectura v1
+     con bandas oscuras, está congelada hasta la fase 6 del plan v4 y consume
+     base.css. Borrarlos hoy no limpia nada: rompe la página inglesa. Cuando
+     /en/ se rehaga o se ponga en noindex, estas cuatro líneas y las reglas
+     .seccion--oscura/--carbon de base.css §4 salen juntas.
+     NO LOS USES EN NINGUNA PÁGINA NUEVA.                                   */
+  --color-fondo-oscuro: var(--verde-bosque);
+  --color-fondo-hondo: var(--verde-bosque-hondo);
+  --color-fondo-carbon: var(--carbon);
+  --color-fondo-carbon-suave: var(--carbon-suave);
 
   /* ---------------------------------------------------------------------
      3. TIPOGRAFÍA
@@ -224,25 +316,78 @@
      Bodoni Moda es igual de legible a los tamaños de titular en los que se
      usa. El respaldo de pila cambia de Marcellus a Didot/Bodoni MT, que son
      los que existen en los sistemas cuando la fuente propia no cargó y
-     tienen el mismo contraste alto de trazo. */
-  --fuente-display: "Bodoni Moda", Didot, "Bodoni MT", Georgia, "Times New Roman", serif;
+     tienen el mismo contraste alto de trazo.
+
+     v12 · BODONI MODA SALE, ENTRA JOSEFIN SANS. Pedido del cliente
+     (agosto 2026), textual: «identifica la fuente del logo real y aplícala
+     armoniosamente por toda la web».
+
+     El problema que resuelve: hasta v11 el nombre de marca del sitio
+     —cabecera y pie, .marca__nombre— se componía en una serif de contraste
+     altísimo mientras el logo que va JUSTO AL LADO es lettering déco
+     monolineal. Eran dos marcas distintas pegadas. Ya estaba señalado en
+     hero.css («en Fraunces el logotipo no se parece al logo»).
+
+     Josefin Sans es LA MÁS CERCANA al lettering del logo entre las fuentes
+     con licencia abierta — no es «la fuente del logo», que es dibujo a mano
+     y no existe en catálogo (el razonamiento completo, las doce candidatas
+     comparadas y por qué se descartó Poiret One están en base.css, sobre el
+     @font-face). Comparte con el rótulo: geometría de los años 20, caja alta
+     estrecha y alta, trazo monolineal y remates a escuadra.
+
+     DÓNDE ENTRA Y DÓNDE NO. Sólo en --fuente-display, es decir titulares y
+     cifras. NO toca --fuente-cuerpo ni --fuente-titulo, y eso es deliberado:
+     Josefin tiene una altura de x muy baja (caja alta larga, minúscula
+     pequeña), que es exactamente lo que la hace parecerse al logo y
+     exactamente lo que la inhabilita para texto corrido en un sitio con
+     suelo de 12,5 px pensado para lectores mayores. La misma razón por la
+     que en v4 salió Jost. DM Sans se queda de cuerpo y de etiqueta: es
+     geométrica también, así que conversa con la display sin competirle.
+
+     La pila de respaldo pasa a sans geométricas de sistema (Century Gothic /
+     Avenir Next / Futura): si el woff2 no llega, lo que se pinta sigue
+     siendo geométrico monolineal y no una serif, que es el error que había
+     que arreglar. */
+  --fuente-display: "Josefin Sans", "Century Gothic", "Avenir Next", Futura,
+    "Trebuchet MS", sans-serif;
   --fuente-titulo: "DM Sans", "Jost", -apple-system, BlinkMacSystemFont,
     "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
   --fuente-cuerpo: "DM Sans", "Jost", -apple-system, BlinkMacSystemFont,
     "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
 
-  /* Ejes variables de Fraunces. Si el <link> no los pide, se ignoran solos. */
+  /* Ejes variables de Fraunces. NO EXISTEN en Josefin Sans (que sólo tiene
+     eje de peso), así que desde v12 estos dos tokens son inertes: un
+     `font-variation-settings` que pide ejes ausentes se ignora sin error ni
+     coste. Se dejan declarados porque base.css los invoca en varios sitios y
+     borrarlos obligaría a tocar hojas que no son de este cambio; si algún día
+     vuelve una display con ejes ópticos, ya están puestos. */
   --ejes-display: "SOFT" 22, "WONK" 1;
   --ejes-display-sobrio: "SOFT" 14, "WONK" 0;
 
   /* Escala fluida 375px → 1440px.
-     Los dos pasos altos BAJAN respecto a v1: Poiret One era filiforme y
-     necesitaba tamaño; Fraunces pesa mucho más a igual cuerpo.            */
+     Los dos pasos altos BAJARON respecto a v1: Poiret One era filiforme y
+     necesitaba tamaño; Fraunces pesaba mucho más a igual cuerpo.
+     v12 · La escala NO se retoca al entrar Josefin Sans, aunque también sea
+     de trazo fino. Josefin no es filiforme como Poiret: su asta a peso 300
+     tiene grosor de sobra a estos cuerpos, y su caja alta es MÁS ALTA a
+     igual font-size, así que un titular ocupa visualmente lo mismo o más
+     que en Bodoni. Devolver los pasos altos a los valores de v1 haría que
+     los titulares volvieran a comerse las secciones.                      */
   /* Suelo de 12,8 px medidos en un móvil de 320 px. Antes bajaba a 11,5 y de
      este paso cuelgan los créditos de los fotógrafos y los pies de foto: es
      texto que hay que poder leer, no adorno. Ningún token baja de 12 px. */
   --paso--2: clamp(0.8rem, 0.775rem + 0.11vw, 0.85rem);
-  --paso--1: clamp(0.84rem, 0.797rem + 0.18vw, 0.94rem);
+  /* v14 · EL SUELO DE LA INTERFAZ SUBE A 14 px (plan v4, 4.4). Este paso es
+     el de los rótulos, pies y etiquetas de interfaz; bajaba a 13,4 px en
+     móvil, y el plan fija 14 px como mínimo para todo lo que sea interfaz,
+     dejando 12,5–12,8 px SÓLO para créditos de foto y avisos legales
+     (--paso--2 y --fs-eyebrow, que no se tocan). El techo sube en la misma
+     proporción para que la pendiente de la escala no se aplaste.
+     PENDIENTE (fase 2 del plan): --fs-eyebrow sigue con suelo de 12,5 px y
+     hoy rotula secciones, que es interfaz. Subirlo cambia el aire de todas
+     las secciones a la vez, así que es decisión de diseño con el cliente
+     delante, no un cambio de token suelto.                                */
+  --paso--1: clamp(0.875rem, 0.83rem + 0.19vw, 0.98rem);
   --paso-0: clamp(1rem, 0.947rem + 0.23vw, 1.125rem);
   --paso-1: clamp(1.2rem, 1.093rem + 0.46vw, 1.45rem);
   --paso-2: clamp(1.45rem, 1.257rem + 0.82vw, 1.9rem);
@@ -284,8 +429,34 @@
      display grandes el trazo fino es lo que da el aire editorial; los cuerpos
      pequeños NO usan este token (h3/h4 heredan, pero apenas se notan), y las
      cifras siguen en --peso-fuerte para que el dato no se desvanezca.     */
-  --peso-display: 320;   /* era 500 · el peso de los titulares en Fraunces */
-  --peso-fuerte: 600;    /* NUEVO · sólo para cifras y remates             */
+  /* v12 · 320 → 300 con Josefin Sans, y el cambio no es cosmético: en una
+     serif de contraste alto (Fraunces, Bodoni) el peso reparte grueso y fino,
+     así que un 320 todavía deja astas visibles. Josefin es MONOLINEAL: el
+     peso es el grosor único de todo el trazo. A 320 sobre fondo oscuro el
+     titular empezaba a desaparecer; 300 es el valor real más bajo del eje que
+     sigue teniendo cuerpo, y es justo el grosor relativo que tiene el
+     lettering del logo. */
+  --peso-display: 300;   /* era 320 (Fraunces/Bodoni) · titulares en Josefin */
+  /* v14 · EL SEGUNDO PESO DEL DISPLAY (plan v4, 4.4). Josefin Sans es
+     MONOLINEAL: el peso es el grosor único del trazo, sin gruesos ni finos
+     que se turnen. A 300 y por encima de ~40 px el asta tiene cuerpo de
+     sobra y da el aire del logo; por DEBAJO de ~40 px, y encima del papel
+     botánico de body::before, esa misma asta se adelgaza hasta desvanecerse
+     — se comprobó en pantalla en los h3/h4 de #planes y #vivero. 400 es el
+     peso que devuelve el trazo sin engordar la letra ni cambiar el gesto.
+     La regla vive en base.css §2 y se aplica por TAMAÑO, no por etiqueta:
+     los pasos de la escala son clamp() de viewport, así que el punto en el
+     que cada titular cruza los 40 px es un ancho de ventana calculable —
+     32em para el h1 y 56em para el h2 (la cuenta, en base.css).           */
+  --peso-display-menor: 400;
+  /* --peso-fuerte SE QUEDA EN 600 y conviene dejar escrito por qué se miró:
+     es el peso de las CIFRAS (que ahora son Josefin) pero también el de los
+     `strong` del cuerpo (que siguen en DM Sans, p. ej. en plan-vecino.css).
+     Bajarlo para afinar los números habría desafilado todos los énfasis del
+     texto. En Josefin, 600 a cuerpo de --fs-cifra sigue teniendo los ojos
+     abiertos —se comprobó en pantalla en las cifras de naturaleza y
+     espacios—, así que no hacía falta tocarlo.                             */
+  --peso-fuerte: 600;    /* sólo para cifras y remates                      */
 
   --alto-linea-apretado: 1.02;   /* era 1.06 */
   --alto-linea-titulo: 1.14;     /* era 1.16 */
@@ -360,6 +531,15 @@
   --radio-md: 0.875rem;
   --radio-lg: 1.5rem;
   --radio-xl: 2.25rem;
+  /* v14 · LA SILUETA DE HOJA, COMO TOKEN. Dos esquinas abiertas en diagonal
+     y dos casi rectas: es la firma de forma del sitio, y hasta ahora cada
+     sección la redeclaraba por su cuenta (--snd-hoja, --viv-hoja,
+     --col-hoja, --momentos-hoja). El componente .placa la toma de aquí para
+     que la firma sea una sola. Las variantes por sección siguen valiendo
+     cuando el tamaño de la pieza pide otro radio; lo que no vale es inventar
+     una geometría distinta.                                                */
+  --radio-hoja: var(--radio-lg);
+  --radio-hoja-menor: var(--radio-md);
   --radio-full: 999rem;
 
   /* ---------------------------------------------------------------------

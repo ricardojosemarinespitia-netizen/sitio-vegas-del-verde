@@ -48,7 +48,22 @@
    list-item` con su propio marcador triangular; se quita también con
    `::marker` y con el selector -webkit- para Chrome/Safari viejos. */
 .usos-tarjeta {
-  display: block;
+  /* v19 · DE CAPAS APILADAS A TRES FILAS. Corrección directa del cliente al
+     mudar esta sección a espacios.html: «es importante que las fotos se
+     aprecien bien — el texto NO debe tapar la foto en ningún bloque».
+     Hasta v18 la tarjeta era un lienzo con la foto a sangre y dos piezas
+     flotando encima: la placa del nombre apoyada en el borde inferior y la
+     píldora del aforo en la esquina superior derecha. La placa ya era sólida
+     (no había velo, ver §MARCO), pero seguía comiéndose el tercio bajo de la
+     fotografía y la píldora tapaba la esquina.
+     Ahora la tarjeta es una rejilla de tres filas —foto, aforo, placa— y
+     ninguna se superpone a otra: la foto se ve entera, de borde a borde, y
+     el texto vive debajo, en su propio espacio.
+     `1fr` en la primera fila y `auto` en las otras dos: la altura total
+     sigue siendo la misma (100dvh en móvil) y lo que sobra después del texto
+     se lo queda la fotografía, que es lo que se vino a ver. */
+  display: grid;
+  grid-template-rows: 1fr auto auto;
   position: relative;
   overflow: hidden;
   cursor: pointer;
@@ -273,26 +288,56 @@
    que pide AA para texto pequeño. Con 0,52 el fondo bajo esa línea se
    oscurece lo suficiente sin apagar el tercio superior de la foto, que
    sigue con su 0,05 de siempre. */
+/* v17 · EL VELO GIRA A CLARO — pedido directo del cliente: «no quiere tonos
+   oscuros en la página ni fotos oscuras, las originales y punto». El mismo
+   perfil graduado (denso abajo, casi limpio arriba) pero hacia --luz, el
+   pico de luces del sistema: la foto no se hunde, se apoya en papel. El
+   texto del marco pasa a tinta, y la cuenta de contraste se hace contra el
+   peor píxel posible —NEGRO PURO—: a 0,88 el compuesto tiene luminancia
+   0,82 → tinta 12,4:1; en la banda del índice (0,58) → 7,7:1. AA holgado. */
+/* v18 · EL VELO SE RETIRA DEL TODO — corrección del cliente («no no
+   imágenes sin filtro ni nada te dije»): ni degradado oscuro ni claro sobre
+   la foto. La legibilidad la resuelve la placa sólida del marco (arriba). */
 .usos-tarjeta__velo {
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(
-    to top,
-    rgb(var(--negro-escena-rgb) / 0.88) 0%,
-    rgb(var(--negro-escena-rgb) / 0.52) 42%,
-    rgb(var(--negro-escena-rgb) / 0.05) 72%
-  );
+  display: none;
+}
+
+/* v19 · EL <picture> ES LA PRIMERA FILA DE LA REJILLA, y el que recorta.
+   La <img> sigue siendo `position: absolute; inset: 0` (ver más abajo): lo
+   que cambia es quién es su contenedor posicionado. Antes lo era la tarjeta
+   entera —de ahí que la foto llegara hasta abajo, bajo la placa—; ahora lo
+   es este <picture>, que ocupa sólo la fila `1fr`. `min-height: 0` es
+   obligatorio: sin él, un ítem de rejilla no baja de su tamaño de contenido
+   y la fila `1fr` se desbordaría con la altura natural de la fotografía. */
+.usos-tarjeta > picture {
+  position: relative;
+  display: block;
+  overflow: hidden;
+  min-height: 0;
 }
 
 .usos-tarjeta__marco {
-  position: absolute;
-  inset: 0;
+  /* v19 · Sale del apilado: ya no flota sobre la foto, es la tercera fila de
+     la rejilla de .usos-tarjeta. El fondo sólido y el filete superior se
+     conservan tal cual —el dibujo es el mismo—, sólo que ahora empieza
+     donde la fotografía termina. */
+  position: static;
+  /* v18 · DE CAPA A PLACA — corrección del cliente sobre la captura del
+     Teatrino, textual: «no no imágenes sin filtro ni nada te dije». Ni velo
+     oscuro NI velo claro: la fotografía no se toca. El marco deja de cubrir
+     la foto entera y pasa a ser una PLACA SÓLIDA apoyada en el borde
+     inferior de la tarjeta —el mismo patrón de la cartela del sendero
+     (.snd-hero__cartela)—: el texto vive sobre superficie sólida (tinta
+     13,4:1) y la foto queda original, sin un solo píxel filtrado. */
+  inset: auto 0 0 0;
   z-index: 1;
   display: flex;
   flex-direction: column;
   justify-content: flex-end;
   padding: var(--esp-lg);
-  color: var(--color-texto-inverso);
+  background-color: var(--color-superficie-solida);
+  border-top: 1px solid var(--color-borde-suave);
+  color: var(--color-texto);
   /* v16 · EL TEXTO YA NO SE APAGA CON EL SCROLL, Y ESTE ES EL ARREGLO DE
      RAÍZ DE LA QUEJA DEL CLIENTE («el efecto no deja leer el texto»).
 
@@ -360,7 +405,9 @@
   font-family: var(--fuente-titulo);
   font-size: var(--fs-micro);
   letter-spacing: 0.12em;
-  color: rgb(var(--crema-rgb) / 0.92);
+  /* v17 · de crema a tinta suave: sobre el velo claro la crema desaparecía.
+     En su banda (velo ≥ 0,58) el compuesto peor da 4,9:1 con este gris. */
+  color: var(--color-texto-suave);
   margin-bottom: var(--esp-3xs);
 }
 
@@ -377,8 +424,9 @@
   max-width: 30ch;
   /* v16 · de 0,85 a 0,94: margen de sobra para que el peor caso medido
      (5,45:1 sobre la cubierta clara del Taller) aguante también el
-     fotograma de partida de la entrada, que multiplica por 0,85. */
-  color: rgb(var(--crema-rgb) / 0.94);
+     fotograma de partida de la entrada, que multiplica por 0,85.
+     v17 · a tinta: el velo giró a claro. */
+  color: var(--color-texto);
 }
 
 .usos-tarjeta__aviso {
@@ -389,7 +437,9 @@
   margin-top: var(--esp-md);
   padding: var(--esp-2xs) var(--esp-md);
   width: fit-content;
-  border: 1px solid rgb(var(--crema-rgb) / 0.55);
+  /* v17 · el filete gira de crema a tinta: la píldora vive en la banda densa
+     del velo claro y necesita el 3:1 de contorno contra fondo claro. */
+  border: 1px solid rgb(var(--tinta-rgb) / 0.55);
   border-radius: var(--radio-full);
   font-family: var(--fuente-titulo);
   font-size: var(--fs-micro);
@@ -430,17 +480,24 @@
       usos.html: «ninguna cifra de aforo se repite aquí»). El panel se
       queda con lo que sólo él aporta: los usos recomendados. */
 .usos-tarjeta__aforo {
-  position: absolute;
+  /* v19 · Segunda fila de la rejilla, no una píldora flotando sobre la
+     esquina de la fotografía. Corrección directa del cliente (ver §TARJETA).
+     Se alinea a la derecha, encima de la placa del nombre, y conserva su
+     silueta de píldora: lo único que se pierde es el solapamiento.
+     El fondo pasa de crema al 94 % —una translucidez que sólo tenía sentido
+     estando encima de la foto— a la superficie sólida del sistema, la misma
+     de la placa de debajo, y por eso también sobra la sombra. */
+  position: static;
   z-index: 2;
-  inset-block-start: var(--esp-lg);
-  inset-inline-end: var(--esp-lg);
+  justify-self: end;
+  margin: var(--esp-sm) var(--esp-lg) 0;
   display: flex;
   align-items: baseline;
   gap: var(--esp-3xs);
   padding: var(--esp-3xs) var(--esp-sm);
-  background-color: rgb(var(--crema-rgb) / 0.94);
+  background-color: var(--color-superficie-solida);
+  border: 1px solid var(--color-borde-suave);
   border-radius: var(--radio-full);
-  box-shadow: var(--sombra-sm);
   color: var(--color-texto);
   max-width: calc(100% - 2 * var(--esp-lg));
 }
@@ -468,7 +525,11 @@
   letter-spacing: 0.04em;
   text-transform: uppercase;
   color: var(--color-texto-suave);
-  max-width: 9ch;
+  /* v19 · Se retira el `max-width: 9ch`. Existía para que la píldora no
+     cruzara la fotografía cuando flotaba sobre la esquina, y partía
+     «PERSONAS COMO MÁXIMO» en dos renglones a la fuerza. Fuera del apilado
+     tiene la fila entera: se lee en una línea. */
+  max-width: none;
 }
 
 /* EL LLAMADO A TOCAR — v16, y el segundo arreglo de legibilidad.
@@ -489,7 +550,7 @@
   content: '';
   position: absolute;
   inset: 0;
-  border: 1px solid rgb(var(--crema-rgb) / 0.55);
+  border: 1px solid rgb(var(--tinta-rgb) / 0.55);
   border-radius: var(--radio-full);
   opacity: 0;
   pointer-events: none;

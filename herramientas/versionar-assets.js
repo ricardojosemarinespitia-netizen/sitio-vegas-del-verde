@@ -36,7 +36,15 @@ const RAIZ = path.dirname(__dirname);
 const ESCRIBIR = process.argv.includes('--escribir');
 
 const PAGINAS = [
-  'index.html', 'plan-vecino.html', 'colegios.html',
+  'index.html',
+  // v18 · las seis paginas de profundidad de PLAN-REDISENO-V4 §4.1. Sin
+  // ellas aqui, un arreglo publicado en app.js o en una hoja de seccion se
+  // quedaria servido desde la cache del navegador hasta 10 minutos en seis
+  // de las ocho paginas del sitio — que es exactamente el bug que este
+  // script existe para impedir.
+  'espacios.html', 'planes.html', 'naturaleza.html',
+  'sendero-ecovital.html', 'vivero.html', 'contacto.html',
+  'plan-vecino.html', 'colegios.html',
   'condiciones-de-alquiler.html',
   'politica-de-datos.html', 'terminos.html', '404.html',
   // Fragmentos que traen su propia dependencia de js/: el <script src> de

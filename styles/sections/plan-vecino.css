@@ -102,7 +102,9 @@
   /* El formato del material de marca. En móvil llena la pantalla de lado a
      lado; en escritorio se encoge, pero la proporción no se toca. */
   aspect-ratio: 1080 / 1350;
-  background-color: var(--color-fondo-oscuro);
+  /* v6 · color de espera claro mientras la lámina baja — pedido del cliente:
+     «no quiere tonos oscuros en la página». */
+  background-color: var(--color-fondo-alt);
 }
 
 @media (min-width: 46rem) {

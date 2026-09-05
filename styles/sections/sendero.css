@@ -3,7 +3,7 @@
    Fragmento: sections/sendero.html
    Depende de: styles/tokens.css, styles/base.css y —a propósito—
    styles/sections/naturaleza.css, de donde esta sección reutiliza SIN COPIAR
-   el bloque .nat-apertura / .nat-ruta / .nat-oferta / .nat-precio y los
+   el bloque .nat-apertura / .nat-ruta / .nat-oferta y los
    tokens locales de la clase `.nat` (--nat-margen, --nat-solape,
    --nat-alto-apertura). Por eso el <section> lleva las dos clases: `nat` para
    heredar esos tokens y `sendero` para lo suyo.
@@ -44,6 +44,22 @@
      hoja de la sección hermana —dos esquinas abiertas y dos cerradas— y se
      declara aquí para que las cuatro variantes de §3 sean una sola cuenta. */
   --snd-hoja: var(--radio-xl);
+
+  /* v4 · CUÁNTO SUBE LA FOTOGRAFÍA SOBRE LA BANDA VERDE (§6). Es el gesto que
+     cose el hero de vídeo con la apertura de fotos en una sola pieza (pedido
+     del cliente: «integra las fotos y videos [...] una propuesta premium»).
+     Por debajo de 2rem el solape se lee como error de maqueta; por encima de
+     4.5rem la foto tapa el aire que la cartela del hero necesita debajo. */
+  --snd-solape-banda: clamp(2rem, 5vw, 4.5rem);
+
+  /* v5 · EL ALTO DE LA PORTADA DE FOTO, ACORTADO (pedido del cliente: «quita
+     [...] el sendero ecovital mas rande de portada, y crea una portada mas
+     corta»). Redeclara el token de naturaleza.css §tokens sobre la misma
+     clase `.nat`: igual especificidad, esta hoja carga después, gana sin
+     tocar la sección hermana. Baja el techo de 40rem a 26rem: la banda deja
+     de comerse una pantalla entera de escritorio y sigue siendo la pieza
+     más grande de la apertura, que es lo que tiene que ser. */
+  --nat-alto-apertura: clamp(19rem, 30vw, 26rem);
 }
 
 /* ==========================================================================
@@ -64,10 +80,26 @@
    ========================================================================== */
 .snd-hero {
   margin-block-start: calc(var(--esp-seccion) * -1);
-  margin-block-end: var(--esp-seccion);
-  padding-block: var(--esp-seccion);
-  background-color: var(--color-fondo-oscuro);
-  color: var(--color-texto-inverso);
+  /* v4 · YA NO HAY FRANJA DE CREMA ENTRE EL HERO Y LA APERTURA. Antes la
+     banda cerraba con margin-block-end: var(--esp-seccion) y los dos bloques
+     quedaban separados por un pasillo de fondo claro: exactamente el «dos
+     secciones pegadas» que el cliente señaló. Ahora la banda alarga su
+     relleno inferior en --snd-solape-banda y la fotografía de la apertura
+     SUBE esa misma medida sobre el verde (§6): el camino emerge del bosque
+     del metraje, y el aire total entre cartela y texto sigue siendo
+     --esp-seccion — no se pierde ritmo, se pierde la costura. */
+  margin-block-end: 0;
+  padding-block: var(--esp-seccion)
+    calc(var(--esp-seccion) + var(--snd-solape-banda));
+  /* v6 · LA BANDA GIRA A CLARA — pedido directo del cliente: «no quiere
+     tonos oscuros en la página [...] integrando más tramas de fondo como en
+     la página general». El verde bosque a sangre pasa a la veladura salvia
+     translúcida del sistema (--color-banda-trama): la banda sigue leyéndose
+     como banda, pero deja correr por debajo el papel botánico del fondo.
+     La cartela conserva su fondo sólido (ahora claro) y todos los textos
+     vuelven a la tinta de la página. */
+  background-color: var(--color-banda-trama);
+  color: var(--color-texto);
   /* `clip` y no `hidden`: hidden crea contexto de scroll y mata cualquier
      sticky de la página (convención del proyecto). Recorta el sangrado del
      cuarto plano por el canto derecho. */
@@ -118,7 +150,10 @@
   gap: var(--esp-xs);
   max-width: var(--medida-corta);
   padding: var(--esp-lg);
-  background-color: var(--color-fondo-hondo);
+  /* v6 · la cartela sigue siendo SÓLIDA —la lección del contraste medible
+     sobre vídeo no cambia— pero sólida CLARA: la superficie de tarjeta del
+     sistema. Tinta encima: 13,4:1. */
+  background-color: var(--color-superficie-solida);
   /* La misma silueta de hoja del carril, en espejo: la cartela y los planos
      que tiene al lado se leen como piezas de la misma familia. */
   border-start-start-radius: var(--snd-hoja);
@@ -128,12 +163,13 @@
 }
 
 .snd-hero__eyebrow {
-  color: var(--color-destacado);
+  /* v6 · de amarillo (rótulo del negativo) a terracota: 5,3:1 sobre claro. */
+  color: var(--color-acento-texto);
 }
 
 .snd-hero__titulo {
   margin: 0;
-  color: var(--color-texto-inverso);
+  color: var(--color-texto);
 }
 
 /* El segundo renglón baja de peso, no de cuerpo: los dos siguen siendo el
@@ -147,14 +183,14 @@
   margin: var(--esp-2xs) 0 0;
   font-size: var(--fs-pequeno);
   line-height: var(--alto-linea-base);
-  color: var(--color-texto-inverso-suave);
+  color: var(--color-texto-suave);
 }
 
 .snd-hero__firma {
   margin: 0;
   font-size: var(--fs-micro);
   letter-spacing: var(--tracking-display);
-  color: var(--color-texto-inverso-suave);
+  color: var(--color-texto-suave);
 }
 
 /* ==========================================================================
@@ -306,7 +342,7 @@
   max-width: var(--snd-plano-ancho);
   font-size: var(--fs-micro);
   line-height: var(--alto-linea-base);
-  color: var(--color-texto-inverso-suave);
+  color: var(--color-texto-suave);
   text-wrap: pretty;
 }
 
@@ -316,7 +352,7 @@
   font-family: var(--fuente-display);
   font-size: var(--fs-pequeno);
   font-style: italic;
-  color: var(--color-texto-inverso);
+  color: var(--color-texto);
 }
 
 /* ==========================================================================
@@ -420,4 +456,235 @@
    ========================================================================== */
 .sendero .nat-apertura__principal .marco > img {
   object-position: center 74%;
+}
+
+/* v5 · LA PORTADA, MÁS CORTA EN LOS DOS MUNDOS (pedido del cliente: «crea
+   una portada mas corta y mas elaborada por favor con esta foto de portada»).
+   La foto es la MISMA; lo que cambia es cuánto alto de pantalla se le
+   concede al marco que la recorta.
+
+   EN MÓVIL el .marco--retrato de base.css la plantaba a 4/5: a 94vw de
+   ancho son ~460px de foto, más insertos, antes de la primera línea de
+   texto. Pasa a 4/3 —una banda apaisada— y el object-position del 74 % ya
+   se encarga de que ese recorte caiga en el camino, los crotones y la
+   sombra, no en la plancha de cielo. Medido en preview a 375px: la
+   fotografía baja de 393px a 236px de alto — un 40 % menos de pulgar sólo
+   en el marco grande.
+
+   EN ESCRITORIO el alto no lo daba el aspect-ratio sino el
+   `align-items: stretch` de naturaleza.css: la foto se estiraba hasta la
+   altura de toda la columna de texto. Con `start` cada columna mide lo
+   suyo y el marco cae a su min-height (--nat-alto-apertura, recortado en
+   §0): la foto queda como una plancha ancha y baja arriba de su columna,
+   con las solapas trabajando sobre ella, y deja de ser un muro vertical. */
+@media (max-width: 61.99em) {
+  .sendero .nat-apertura__principal .marco {
+    aspect-ratio: 4 / 3;
+  }
+}
+
+@media (min-width: 62em) {
+  .sendero .nat-apertura {
+    align-items: start;
+  }
+
+  .sendero .nat-apertura__principal,
+  .sendero .nat-apertura__principal .marco {
+    height: auto;
+  }
+
+  .sendero .nat-apertura__principal .marco {
+    min-height: var(--nat-alto-apertura);
+    aspect-ratio: 4 / 3;
+  }
+}
+
+/* ==========================================================================
+   6. EL SOLAPE — la fotografía sube sobre la banda verde
+
+   Es la mitad de abajo del gesto que empieza en §1: la banda del hero ya no
+   termina en una línea recta contra la crema; la fotografía del camino monta
+   sobre el verde en --snd-solape-banda y los dos bloques quedan COSIDOS, no
+   apilados. Es el mismo recurso del inserto de guadua —una pieza que cruza
+   una línea de la composición, una sola vez— llevado a la escala de la
+   sección, y responde al pedido literal del cliente: que fotos y vídeos sean
+   «una propuesta», no un hero y luego un layout.
+
+   POR QUÉ FUNCIONA SIN z-index: la apertura va DESPUÉS del hero en el flujo,
+   así que pinta encima de él por orden natural del documento. El overflow-x
+   de la banda es `clip`, que sólo recorta el eje horizontal: nada corta a la
+   foto que sube. Y el margen negativo va en __media, no en .nat-apertura,
+   para que sólo la FOTOGRAFÍA cruce la frontera: el texto es de la parte de
+   crema y ahí se queda.
+   ========================================================================== */
+.sendero .nat-apertura__media {
+  margin-block-start: calc(var(--snd-solape-banda) * -1);
+}
+
+@media (min-width: 62em) {
+  /* La columna de texto arrancaba a hueso contra el canto de la banda (su
+     aire de arriba era el margin del hero, que §1 puso a cero). Se le
+     devuelve un respiro propio, menor que el solape: la entradilla cae ya en
+     la crema, alineada con el tramo de foto que quedó sobre fondo claro. */
+  .sendero .nat-apertura__texto {
+    padding-block-start: var(--esp-lg);
+  }
+}
+
+/* ==========================================================================
+   7. EL INSERTO DE VÍDEO — el quinto clip, dentro de la fotografía
+
+   La otra mitad de la integración: un plano de metraje ASOMA dentro de la
+   apertura de fotos, en la esquina baja del camino. Misma familia que el
+   inserto de guadua —es el patrón que naturaleza.css §inset ya escribió:
+   filete de crema, la sombra que dice «hay dos planos de verdad», silueta de
+   hoja— pero en la ESQUINA CONTRARIA y con la diagonal opuesta, para que las
+   dos solapas no queden calcadas.
+
+   SÓLO EN ESCRITORIO. En móvil el carril del hero ya se arrastra a pantalla
+   completa; un quinto clip encima de la foto roba alto y descarga un póster
+   más en la conexión donde más duele. display:none aquí también evita la
+   petición del vídeo: js/momentos-video.js sólo reproduce lo que entra en
+   pantalla, y un elemento sin caja no entra nunca.
+
+   EL PIE VA EN PASTILLA OPACA, no sobre el vídeo: texto sobre fotografía en
+   movimiento no tiene contraste medible (la lección de la cartela, §2).
+   Sobre la crema del fondo, el gris del .credito ya está auditado en
+   base.css para AA.
+   ========================================================================== */
+.snd-clip-inset {
+  display: none;
+}
+
+@media (min-width: 62em) {
+  .snd-clip-inset {
+    display: block;
+    position: absolute;
+    /* Pegado al canto IZQUIERDO de la foto a sangre —donde el encuadre tiene
+       seto y sombra, no camino— y levantado del pie lo justo para que la
+       pastilla del pie no pise el borde inferior del marco grande. */
+    inset-inline-start: var(--esp-lg);
+    inset-block-end: calc(var(--nat-solape) * 2);
+    width: min(30%, 10rem);
+    margin: 0;
+  }
+
+  .snd-clip-inset__marco {
+    aspect-ratio: 9 / 16;
+    background-color: var(--color-superficie-oscura);
+    /* El mismo filete y la misma sombra que el inserto de guadua: son la
+       misma familia de solapas. La diagonal del radio es la contraria. */
+    border: var(--esp-3xs) solid var(--color-fondo);
+    border-start-end-radius: var(--snd-hoja);
+    border-end-start-radius: var(--snd-hoja);
+    border-start-start-radius: var(--radio-xs);
+    border-end-end-radius: var(--radio-xs);
+    box-shadow: var(--sombra-lg);
+    overflow: clip;
+  }
+
+  .snd-clip-inset__video {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .snd-clip-inset__pie {
+    display: inline-block;
+    margin-block-start: var(--esp-3xs);
+    padding: var(--esp-3xs) var(--esp-2xs);
+    background-color: var(--color-fondo);
+    border-radius: var(--radio-xs);
+  }
+}
+
+/* ==========================================================================
+   8. EL DETALLE DE CROTONES — la misma foto citándose a sí misma (v5)
+
+   La mitad «más elaborada» del pedido («crea una portada mas corta y mas
+   elaborada por favor con esta foto de portada»): al acortar el marco grande
+   (§5) el primer plano de los crotones se pierde en la banda, así que se
+   RECUPERA en un inserto propio, recortado del mismo derivado -800 con
+   object-position — cero archivos nuevos, cero peso nuevo relevante (el -800
+   se comparte con el srcset del marco grande).
+
+   DÓNDE VA Y POR QUÉ: sobre la COSTURA entre la banda verde del hero y la
+   fotografía. §6 ya subió la foto sobre el verde; esta solapa cruza esa
+   frontera una segunda vez, en pequeño, y es lo que hace que hero y apertura
+   se lean como UNA portada compuesta y no como banda + lámina. Es la tercera
+   pieza de la familia de solapas (guadua abajo-derecha, vídeo
+   abajo-izquierda sólo escritorio) y ocupa la esquina que quedaba libre:
+   ARRIBA A LA IZQUIERDA. Arriba a la derecha chocaría con la caja de fauna
+   (52 % del ancho derecho); a la izquierda cae sobre seto y sombra del
+   encuadre grande, no sobre el camino que la foto tiene que enseñar.
+
+   MISMO VOCABULARIO QUE SUS HERMANAS: filete de crema, --sombra-lg (hay dos
+   planos de verdad), silueta de hoja en la diagonal que faltaba, y pie en
+   pastilla opaca porque texto sobre fotografía no da contraste medible
+   (lección de la cartela, §2). Motor de entrada: .reveal--velo, el mismo de
+   todas las solapas — un motor por pieza.
+   ========================================================================== */
+.snd-detalle {
+  position: absolute;
+  /* Medio cuerpo por fuera del canto superior de la foto: es lo que la deja
+     montada sobre el verde del hero. El límite lo pone el solape de §6
+     (mínimo 2rem), así que con -esp-lg nunca asoma por encima de la banda. */
+  inset-block-start: calc(var(--esp-lg) * -1);
+  inset-inline-start: var(--esp-lg);
+  width: min(34%, 10rem);
+  margin: 0;
+}
+
+/* EN ESCRITORIO CAMBIA DE ESQUINA: arriba a la DERECHA. Con la foto acortada
+   a 4/3, el inserto de vídeo (§7, abajo-izquierda) y este detalle quedaban
+   apilados en la misma columna izquierda, casi tocándose — medido en preview
+   a 1400px. Repartidos, cada solapa ocupa una esquina distinta del marco
+   (detalle arriba-derecha, vídeo abajo-izquierda, guadua abajo-derecha
+   colgando al hueco) y la portada se lee como composición, no como columna
+   de estampas. La caja de fauna pasa POR DETRÁS (--z-fondo), así que
+   compartir su zona no tapa nada. */
+@media (min-width: 62em) {
+  .snd-detalle {
+    inset-inline-start: auto;
+    inset-inline-end: var(--esp-lg);
+  }
+}
+
+.snd-detalle__marco {
+  border: var(--esp-3xs) solid var(--color-fondo);
+  border-start-start-radius: var(--snd-hoja);
+  border-end-end-radius: var(--snd-hoja);
+  border-start-end-radius: var(--radio-xs);
+  border-end-start-radius: var(--radio-xs);
+  box-shadow: var(--sombra-lg);
+}
+
+/* El recorte del detalle: los crotones de hoja roja y amarilla viven en el
+   tercio derecho, mitad baja del original 2400×4268. Con cover en un marco
+   1:1, este par de porcentajes centra el cogollo de color. */
+.snd-detalle__marco > img {
+  object-position: 78% 72%;
+}
+
+.snd-detalle__pie {
+  display: inline-block;
+  margin-block-start: var(--esp-3xs);
+  padding: var(--esp-3xs) var(--esp-2xs);
+  background-color: var(--color-fondo);
+  border-radius: var(--radio-xs);
+}
+
+/* SIN PIE EN ESCRITORIO, y es una medida, no un gusto: en la esquina
+   derecha la pastilla del pie caía ~30px sobre el canto superior del
+   inserto de guadua (medido en preview a 1100px). Sin pie, el marco del
+   detalle termina con aire por encima de la guadua. El rótulo no se pierde:
+   en móvil —donde el detalle vive solo en su esquina izquierda— la pastilla
+   se queda; en escritorio el detalle es lo que es a la vista: la misma
+   foto, más de cerca. Esta regla va DESPUÉS de la base de arriba a
+   propósito: misma especificidad, gana por orden. */
+@media (min-width: 62em) {
+  .snd-detalle__pie {
+    display: none;
+  }
 }

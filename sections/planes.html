@@ -194,11 +194,24 @@
         <div class="planes-fiesta__acto1">
 
           <div class="planes-portada">
+            <!-- v3 · SIZES CORREGIDO (agosto 2026). El cliente reportó lag en
+                 esta foto en celular; medido en producción: `sizes="100vw"`
+                 estaba mal para esta pieza. La caja es a pantalla completa
+                 con `object-fit: cover` sobre una fuente 4:3 (ver
+                 planes.css, `.planes-portada__foto`) — `cover` ajusta por el
+                 ALTO, no por el ancho de ventana, así que el ancho de fuente
+                 que realmente hace falta es alto_de_pantalla × 4/3, no
+                 100vw. En un teléfono alto y angosto eso es hasta 2,7 veces
+                 más que 100vw: el navegador reescalaba (upsampleaba) el
+                 derivado servido en cada repintado, trabajo de más en cada
+                 cuadro de scroll. `max(100vw, 133vh)` cubre los dos casos
+                 (pantallas anchas y bajas vs. angostas y altas) sin tener
+                 que declarar un ancho por breakpoint. -->
             <img
               class="planes-portada__foto"
               src="img/eventos/boda-carpa-50-nocturna.jpg"
               srcset="img/eventos/boda-carpa-50-nocturna-400.jpg 400w, img/eventos/boda-carpa-50-nocturna-600.jpg 600w, img/eventos/boda-carpa-50-nocturna-800.jpg 800w, img/eventos/boda-carpa-50-nocturna-1200.jpg 1200w, img/eventos/boda-carpa-50-nocturna.jpg 1600w"
-              sizes="100vw"
+              sizes="max(100vw, 133vh)"
               width="1600"
               height="1200"
               loading="lazy"
@@ -357,9 +370,9 @@
 
           <p class="nota planes-carril__donde">
             Se monta en la
-            <a href="#usos">Alameda</a>
+            <a href="espacios.html">Alameda</a>
             o en
-            <a href="#usos">La Vega</a>.
+            <a href="espacios.html">La Vega</a>.
           </p>
         </div>
 
@@ -563,9 +576,9 @@
 
           <p class="nota planes-carril__donde">
             Cabe en
-            <a href="#usos">La Vega</a>
+            <a href="espacios.html">La Vega</a>
             y en el
-            <a href="#usos">Teatrino</a>.
+            <a href="espacios.html">Teatrino</a>.
           </p>
 
           <a
@@ -654,9 +667,9 @@
 
           <p class="nota planes-carril__donde">
             Va bien en la
-            <a href="#usos">Alameda</a>
+            <a href="espacios.html">Alameda</a>
             y en el
-            <a href="#usos">Taller</a>.
+            <a href="espacios.html">Taller</a>.
           </p>
 
           <a
@@ -687,9 +700,22 @@
            negativo sobre el tercio izquierdo, que es césped en sombra. El
            velo direccional que lo sostiene está medido en planes.css §6.
            ================================================================ -->
-      <li class="planes-carril planes-carril--bienestar seccion--oscura reveal reveal--velo">
+      <!-- v7 · SALE `.seccion--oscura`: el carril dejó de ser negativo por
+           pedido directo del cliente («no quiere tonos oscuros en la página
+           ni fotos oscuras»). El velo de la banda y el cristal del bloque
+           giraron a --luz en planes.css §6/§6 ter y todo el texto vuelve al
+           color de la página clara. -->
+      <li class="planes-carril planes-carril--bienestar reveal reveal--velo">
 
         <div class="planes-bienestar__banda">
+          <!-- v5 · EL MARCO DE LA FOTO. Un envoltorio y no un adorno: desde
+               que el rótulo salió de encima de la fotografía (orden del
+               cliente, «el texto NO debe tapar la foto»), la banda es una
+               rejilla de dos filas y la foto necesita una caja propia que
+               mida el formato y recorte la respiración de §6 ter, que la
+               escala un 1,2 %. Sin él, ese 1,2 % se derramaría sobre la
+               placa del rótulo. -->
+          <span class="planes-bienestar__marco">
           <img
             class="planes-bienestar__foto"
             src="img/eventos/yoga-2.jpg"
@@ -701,6 +727,7 @@
             decoding="async"
             alt="Una decena de personas sentadas en sillas puestas en círculo sobre el césped, abriendo los brazos en cruz a la vez, con la instructora al frente."
           />
+          </span>
 
           <span class="planes-bienestar__velo" aria-hidden="true"></span>
 
@@ -966,9 +993,9 @@
 
               <p class="nota planes-carril__donde">
                 Se hace en el
-                <a href="#usos">Teatrino</a>
+                <a href="espacios.html">Teatrino</a>
                 o en la
-                <a href="#usos">Cancha</a>.
+                <a href="espacios.html">Cancha</a>.
               </p>
 
               <a
@@ -1075,9 +1102,9 @@
 
         <p class="nota planes-carril__donde">
           Se hace en el
-          <a href="#usos">Taller</a>
+          <a href="espacios.html">Taller</a>
           y en el
-          <a href="#usos">Teatrino</a>.
+          <a href="espacios.html">Teatrino</a>.
         </p>
 
         <!-- EL ENLACE A #colegios (agosto de 2026; v2 «suplink»). Un carril

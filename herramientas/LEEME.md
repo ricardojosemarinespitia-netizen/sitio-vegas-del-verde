@@ -58,6 +58,51 @@ el bloque de `<link>` de `styles/sections/*.css` en `index.html` SIN
 versión, así que si se versiona antes, ensamblar borra las versiones que
 se acababan de poner.
 
+## Y al final: construir la copia que se publica
+
+```sh
+node herramientas/ensamblar.js
+node herramientas/versionar-assets.js --escribir
+node herramientas/validar.js
+node herramientas/construir.js                     # escribe dist/
+```
+
+`construir.js` es el paso que faltaba y que el PLAN-REDISENO-V4 §4.7 pide.
+Hasta ahora se publicaba el árbol de trabajo tal cual, y eso significa que
+el navegador de un visitante en 4G se lleva los comentarios de trabajo: el
+44,5 % del HTML y el 71 % del CSS medidos en el plan. La solución NO es
+dejar de comentar —los comentarios son la memoria del proyecto—, sino
+separar fuente y publicación:
+
+- **El árbol de trabajo no se toca.** Sigue igual de comentado.
+- **`dist/`** es una copia sin comentarios y compactada. Es lo que Netlify
+  publica (`netlify.toml` → `publish = "dist"`). Está en `.gitignore`: se
+  regenera en cada despliegue.
+
+No hay dependencias ni `package.json`: los tres minificadores (HTML, CSS y
+JS) están escritos a mano dentro del propio archivo, y el de JS comprueba
+con `node --check` que lo que escribe sigue siendo JavaScript válido; si no
+lo fuera, copia el original y avisa.
+
+| bandera | qué hace |
+|---|---|
+| *(ninguna)* | construye `dist/` desde el árbol tal como está |
+| `--desde-cero` | ensambla y versiona antes de construir |
+| `--informe` | mide y no escribe nada |
+| `--estricto` | pasarse de los objetivos de peso hace fallar (código 1) |
+
+El informe final mide **por página**, no por carpeta: desde que la Fase 3
+partió el sitio en portada + seis páginas de profundidad, sumar las 22 hojas
+de `dist/styles/` mide a un visitante que no existe (ninguna página carga
+más de cuatro). Lo que se compara contra los objetivos del plan es la página
+más pesada de cada columna.
+
+`dist/_headers` lo escribe el mismo script: los assets van con
+`immutable` porque ya viajan con el `?v=<hash>` de `versionar-assets.js`, y
+el HTML va con `must-revalidate` porque es el documento que trae esos hashes
+nuevos —servirlo desde caché es exactamente el bug de las mariposas que
+cuenta la sección de arriba.
+
 ## Qué hace cada uno
 
 **`ensamblar.py`** — pega `<head>` + `sections/_header.html` + los ocho

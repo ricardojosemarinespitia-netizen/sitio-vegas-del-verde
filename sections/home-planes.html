@@ -1,0 +1,167 @@
+<!-- ==========================================================================
+     FRAGMENTO DE LA HOME: QUÉ PUEDES HACER AQUÍ  ·  ancla #planes
+     CSS: styles/sections/home.css §1     ·     JS propio: NINGUNO
+
+     QUÉ ES. El bloque 2 de la tabla «home pantalla por pantalla» del
+     PLAN-REDISENO-V4 §4.2: cinco tarjetas —una por cada carril real de la
+     página de planes— con foto, verbo y salida a planes.html.
+
+     POR QUÉ EXISTE. Hasta v16 la sección #planes completa vivía aquí dentro
+     y medía 8,6 pantallas de móvil ella sola (medición del plan §1.1). Se
+     mudó entera y sin tocar una clase a planes.html; esto es el escaparate
+     que la anuncia.
+
+     LOS CINCO VERBOS SON LOS CINCO CARRILES QUE EXISTEN, no una lista
+     inventada: fiesta, familia, empresa, bienestar y talleres. El plan
+     proponía «Celebrar · Reunir · Aprender · Cuidarse · Caminar»; «Caminar»
+     se descartó porque no es un plan de alquiler sino el Sendero Ecovital,
+     que tiene bloque propio dos pantallas más abajo y página propia. En su
+     lugar entra «Trabajar», que sí corresponde a un carril real.
+
+     NINGÚN HECHO NUEVO. Ni aforos, ni condiciones, ni precios: cada tarjeta
+     dice un verbo y una frase de tipo de evento. Todo lo demás está en
+     planes.html y en condiciones-de-alquiler.html.
+
+     LAS FOTOS NO LLEVAN TEXTO ENCIMA. Cada tarjeta es una rejilla de dos
+     filas: la fotografía completa arriba y la franja de texto debajo, sobre
+     superficie sólida. Corrección directa del cliente para esta fase.
+     ========================================================================== -->
+<section id="planes" class="seccion" aria-labelledby="home-planes-titulo">
+  <div class="contenedor contenedor--ancho">
+
+    <header class="seccion-encabezado reveal">
+      <p class="eyebrow">Eventos y actividades</p>
+      <h2 id="home-planes-titulo" class="titulo-seccion">
+        Qué puedes hacer aquí
+      </h2>
+      <p class="entradilla">
+        Cinco maneras distintas de usar el mismo bosque.
+      </p>
+    </header>
+
+    <ul class="home-rejilla home-rejilla--dos home-rejilla--tres reveal-secuencia" role="list">
+
+      <li>
+        <a class="home-tarjeta reveal" href="planes.html#planes">
+          <span class="marco marco--3-2">
+            <img
+              class="home-tarjeta__foto"
+              src="img/eventos/boda-carpa-50-nocturna.jpg"
+              srcset="img/eventos/boda-carpa-50-nocturna-400.jpg 400w, img/eventos/boda-carpa-50-nocturna-600.jpg 600w, img/eventos/boda-carpa-50-nocturna-800.jpg 800w, img/eventos/boda-carpa-50-nocturna-1200.jpg 1200w, img/eventos/boda-carpa-50-nocturna.jpg 1600w"
+              sizes="(max-width: 39.99em) 45vw, (max-width: 63.99em) 46vw, 31vw"
+              width="1600"
+              height="1200"
+              loading="lazy"
+              decoding="async"
+              alt="Carpa blanca iluminada con guirnaldas de bombillos colgadas entre las ramas, con invitados sentados alrededor sobre el césped al anochecer."
+            />
+          </span>
+          <span class="home-tarjeta__cuerpo">
+            <span class="home-tarjeta__nombre">Celebrar</span>
+            <span class="home-tarjeta__frase">Bodas y conciertos, con el bosque de fondo y sin vecinos que se quejen.</span>
+            <span class="home-tarjeta__ir">Ver el plan</span>
+          </span>
+        </a>
+      </li>
+
+      <li>
+        <a class="home-tarjeta reveal" href="planes.html#planes">
+          <span class="marco marco--3-2">
+            <img
+              class="home-tarjeta__foto"
+              src="img/eventos/cumpleanos-1.jpg"
+              srcset="img/eventos/cumpleanos-1-400.jpg 400w, img/eventos/cumpleanos-1-600.jpg 600w, img/eventos/cumpleanos-1.jpg 844w"
+              sizes="(max-width: 39.99em) 45vw, (max-width: 63.99em) 46vw, 31vw"
+              width="844"
+              height="1500"
+              loading="lazy"
+              decoding="async"
+              alt="Mesa de cumpleaños decorada con globos y mantel sobre el césped, bajo los árboles."
+            />
+          </span>
+          <span class="home-tarjeta__cuerpo">
+            <span class="home-tarjeta__nombre">Reunir</span>
+            <span class="home-tarjeta__frase">Cumpleaños y reuniones familiares, con sitio de sobra para los que salen corriendo.</span>
+            <span class="home-tarjeta__ir">Ver el plan</span>
+          </span>
+        </a>
+      </li>
+
+      <li>
+        <a class="home-tarjeta reveal" href="planes.html#planes">
+          <span class="marco marco--3-2">
+            <img
+              class="home-tarjeta__foto"
+              src="img/parque/empresa-carpa-vidrio-dia.jpg"
+              srcset="img/parque/empresa-carpa-vidrio-dia-400.jpg 400w, img/parque/empresa-carpa-vidrio-dia-600.jpg 600w, img/parque/empresa-carpa-vidrio-dia-800.jpg 800w, img/parque/empresa-carpa-vidrio-dia-1200.jpg 1200w, img/parque/empresa-carpa-vidrio-dia.jpg 1600w"
+              sizes="(max-width: 39.99em) 45vw, (max-width: 63.99em) 46vw, 31vw"
+              width="1600"
+              height="1066"
+              loading="lazy"
+              decoding="async"
+              alt="Carpa de paredes de vidrio montada de día sobre el césped, con mesas dispuestas para una reunión de trabajo."
+            />
+          </span>
+          <span class="home-tarjeta__cuerpo">
+            <span class="home-tarjeta__nombre">Trabajar</span>
+            <span class="home-tarjeta__frase">Jornadas de empresa fuera de la sala de juntas, con el bosque como sala.</span>
+            <span class="home-tarjeta__ir">Ver el plan</span>
+          </span>
+        </a>
+      </li>
+
+      <li>
+        <a class="home-tarjeta reveal" href="planes.html#planes">
+          <span class="marco marco--3-2">
+            <img
+              class="home-tarjeta__foto"
+              src="img/eventos/yoga-2.jpg"
+              srcset="img/eventos/yoga-2-400.jpg 400w, img/eventos/yoga-2-600.jpg 600w, img/eventos/yoga-2-800.jpg 800w, img/eventos/yoga-2-1200.jpg 1200w, img/eventos/yoga-2.jpg 1500w"
+              sizes="(max-width: 39.99em) 45vw, (max-width: 63.99em) 46vw, 31vw"
+              width="1500"
+              height="844"
+              loading="lazy"
+              decoding="async"
+              alt="Grupo sentado en círculo sobre el césped bajo un árbol grande, en una sesión al aire libre."
+            />
+          </span>
+          <span class="home-tarjeta__cuerpo">
+            <span class="home-tarjeta__nombre">Cuidarse</span>
+            <span class="home-tarjeta__frase">Yoga, pilates, entrenamiento funcional y caminatas terapéuticas.</span>
+            <span class="home-tarjeta__ir">Ver el plan</span>
+          </span>
+        </a>
+      </li>
+
+      <li>
+        <a class="home-tarjeta reveal" href="planes.html#planes">
+          <span class="marco marco--3-2">
+            <img
+              class="home-tarjeta__foto"
+              src="img/eventos/taller-educativo-cuento.jpg"
+              srcset="img/eventos/taller-educativo-cuento-400.jpg 400w, img/eventos/taller-educativo-cuento-600.jpg 600w, img/eventos/taller-educativo-cuento-800.jpg 800w, img/eventos/taller-educativo-cuento-1200.jpg 1200w, img/eventos/taller-educativo-cuento.jpg 1600w"
+              sizes="(max-width: 39.99em) 45vw, (max-width: 63.99em) 46vw, 31vw"
+              width="1600"
+              height="1600"
+              loading="lazy"
+              decoding="async"
+              alt="Taller al aire libre: un grupo de niños escuchando un cuento sentados sobre el césped."
+            />
+          </span>
+          <span class="home-tarjeta__cuerpo">
+            <span class="home-tarjeta__nombre">Aprender</span>
+            <span class="home-tarjeta__frase">Talleres de jardinería, de pintura y de manejo de las emociones, con la mesa afuera.</span>
+            <span class="home-tarjeta__ir">Ver el plan</span>
+          </span>
+        </a>
+      </li>
+
+    </ul>
+
+    <p class="home-pie-bloque reveal">
+      <a class="btn btn-primario" href="planes.html">Ver los cinco planes</a>
+      <a class="enlace-flecha" href="colegios.html">¿Vienes con un curso?</a>
+    </p>
+
+  </div>
+</section>

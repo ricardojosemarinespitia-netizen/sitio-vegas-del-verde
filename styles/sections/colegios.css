@@ -217,7 +217,10 @@
   height: var(--col-lip);
   z-index: var(--z-fondo);
   pointer-events: none;
-  background-color: var(--color-fondo-carbon);
+  /* v16 · de carbón a salvia — pedido del cliente: «no quiere tonos oscuros
+     en la página». El labio curvo sigue puntuando la portada, pero con el
+     claro del sistema. */
+  background-color: var(--color-fondo-alt);
   border-end-start-radius: 64% 100%;
   border-end-end-radius: 32% 70%;
 }
@@ -1045,8 +1048,11 @@
   margin-top: var(--gap-lg);
   padding: var(--esp-lg);
   border-radius: 0 var(--radio-lg) 0 var(--radio-lg);
-  background-color: var(--color-fondo-oscuro);
-  color: var(--color-texto-inverso);
+  /* v16 · el cierre gira a claro: superficie sólida del sistema + tinta
+     (13,4:1) en vez del bosque en negativo — pedido del cliente. */
+  background-color: var(--color-superficie-solida);
+  border: 1px solid var(--color-borde-suave);
+  color: var(--color-texto);
 }
 
 .col-cierre__bloque {
@@ -1066,13 +1072,13 @@
 .col-cierre__bloque h2,
 .col-cierre__bloque h3 {
   margin: 0;
-  color: var(--color-texto-inverso);
+  color: var(--color-texto);
 }
 
 .col-cierre__bloque p {
   margin: 0;
   font-size: var(--fs-pequeno);
-  color: var(--color-texto-inverso-suave);
+  color: var(--color-texto-suave);
   max-width: var(--medida);
 }
 

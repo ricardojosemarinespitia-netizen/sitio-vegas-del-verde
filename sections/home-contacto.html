@@ -1,0 +1,60 @@
+<!-- ==========================================================================
+     FRAGMENTO DE LA HOME: CÓMO LLEGAR Y HABLAR  ·  ancla #contacto
+     CSS: styles/sections/home.css §5     ·     JS propio: NINGUNO
+
+     QUÉ ES. El bloque 8 de la tabla del PLAN-REDISENO-V4 §4.2, y el cierre
+     de acción de la portada.
+
+     QUÉ HAY AQUÍ Y QUÉ NO. El hallazgo nº 1 del plan era que el bloque de
+     contacto real estaba en la pantalla 30 de 37. La sección completa —el
+     mapa satelital con el vuelo de descenso, los botones de Maps y Waze, la
+     dirección, las coordenadas, las referencias cercanas y el formulario—
+     se mudó entera a contacto.html, con su hoja ubicacion.css y su js/mapa.js.
+     Aquí queda lo único que hace falta para actuar sin cargar un mapa: el
+     horario, el botón de WhatsApp y la puerta a esa página.
+
+     DUEÑO DE UN HECHO: el horario. Lo demás —dirección, coordenadas,
+     teléfono escrito, correo, «no hay reservas en línea»— ya no se escribe
+     en index.html: su único dueño es contacto.html. La tabla HECHOS de
+     herramientas/validar.js está actualizada en consecuencia.
+
+     SIN FOTO EN ESTE BLOQUE, y a propósito: es una franja de acción, no de
+     contemplación. Así tampoco hay ninguna imagen que el texto pueda tapar.
+
+     EL ANCLA SE LLAMA #contacto, no #ubicacion: el pie y el menú apuntan
+     aquí, y en las páginas de profundidad el mismo enlace apunta a
+     contacto.html. Un solo nombre para una sola intención.
+     ========================================================================== -->
+<section id="contacto" class="seccion seccion--trama" aria-labelledby="home-contacto-titulo">
+  <div class="contenedor contenedor--ancho">
+
+    <div class="home-contacto reveal">
+
+      <div>
+        <p class="eyebrow">Cómo llegar y hablar</p>
+        <h2 id="home-contacto-titulo" class="titulo-seccion">
+          Estamos abiertos todos los días
+        </h2>
+        <p class="home-contacto__horario">
+          Lunes a domingo, de 6:00 a.&nbsp;m. a 10:00 p.&nbsp;m.
+        </p>
+        <p class="nota">
+          El mapa, las referencias del sector y el formulario están en la
+          página de contacto.
+        </p>
+      </div>
+
+      <p class="grupo-botones">
+        <a
+          class="btn btn-whatsapp btn-grande"
+          href="https://wa.me/573166758362?text=Hola%2C%20quiero%20informaci%C3%B3n%20sobre%20Vegas%20del%20Verde"
+          target="_blank"
+          rel="noopener"
+        >Escribir por WhatsApp</a>
+        <a class="btn btn-secundario btn-grande" href="contacto.html">Cómo llegar</a>
+      </p>
+
+    </div>
+
+  </div>
+</section>

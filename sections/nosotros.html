@@ -168,9 +168,24 @@
          esta banda queda una pantalla por debajo (checklist §6 de
          DIRECTRICES-ANIMACION). `width`/`height` escritos aunque la imagen vaya
          absoluta: no cuesta nada y documenta el archivo. -->
-    <div class="nosotros__escena sobre-oscuro reveal reveal--velo"
+    <!-- v18 · SALE `.sobre-oscuro`: el velo de la escena pasó a claro (--luz,
+         nosotros.css §1) por pedido del cliente («ni fotos oscuras, las
+         originales y punto») y el foco/botón vuelven al registro claro. -->
+    <div class="nosotros__escena reveal reveal--velo"
          data-foto-focus data-foco="50% 38%" data-zoom="0.09">
 
+      <!-- v20 · EL MARCO DE LA FOTO. Orden directa del cliente sobre todo el
+           sitio: «el texto NO debe tapar la foto». Hasta la v19 la fotografía
+           del umbral era el FONDO de la banda (absoluta, a sangre) y el
+           discurso, aunque ya fuera una placa sólida sin velo, se apoyaba
+           encima y le tapaba el 93 % del área medido a 375 px. Ahora la
+           escena es una rejilla de dos filas —marco de la foto arriba, placa
+           del discurso debajo— y la fotografía se ve entera: es el contrato
+           que base.css §4b escribe para `.foto-placa`.
+           El marco es un elemento propio y no basta con darle formato a la
+           <img>, porque foto-focus escala y desplaza la imagen: sin una caja
+           que recorte, ese movimiento se derramaría sobre la placa. -->
+      <span class="nosotros__escena-marco">
       <img
         class="nosotros__escena-foto"
         src="img/nosotros-reja.jpg"
@@ -182,6 +197,7 @@
         loading="lazy"
         decoding="async"
       />
+      </span>
 
       <span class="nosotros__escena-velo" aria-hidden="true"></span>
 
@@ -264,7 +280,10 @@
            tendrían que esperar a que terminase su padre y el escalonado —que es
            justo lo que el cliente pidió que se notara— se perdería. Aquí el
            contenedor sólo coloca; quienes entran son las figuras, una a una. -->
-      <div class="nosotros__discurso contenedor contenedor--ancho">
+      <!-- v20 · `placa placa--lg`: la superficie sólida deja de estar escrita
+           a mano en nosotros.css y pasa a ser el componente del sistema
+           (base.css §4b). Mismo dibujo, un solo dueño. -->
+      <div class="nosotros__discurso placa placa--lg contenedor contenedor--ancho">
       <!-- v17 · EL TITULAR SE MUDA DENTRO DE LA FOTO, Y CAMBIA DE TEXTO -------
            Pedido del cliente, explícito: «integra ese texto en la foto, pero
            tampoco me gusta ese texto, cámbialo». Dos cosas en un mismo golpe.
@@ -502,7 +521,10 @@
            fondo oscuro» (base.css)—: relleno crema al 92 % con tinta encima,
            13,2:1, y contorno propio contra la foto. El rótulo no cambia. -->
       <p class="grupo-botones">
-        <a class="btn btn-claro" href="#usos">Ver eventos y actividades</a>
+        <!-- v18 · Vuelve a `btn-secundario`: el velo es claro ahora y el botón
+             crema de `btn-claro` se fundía con él. El contorno bosque da el
+             3:1 de WCAG 1.4.11 sobre el velo --luz. -->
+        <a class="btn btn-secundario" href="#espacios">Ver eventos y actividades</a>
       </p>
       </div>
 

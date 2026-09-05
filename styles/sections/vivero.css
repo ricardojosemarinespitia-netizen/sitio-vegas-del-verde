@@ -127,7 +127,7 @@
    por una veladura clara casi imperceptible. Mismo motivo en .marco. */
 .viv img,
 .viv .marco {
-  background-color: rgb(var(--crema-rgb) / 0.06);
+  background-color: rgb(var(--tinta-rgb) / 0.05);
 }
 
 /* v7 · Y LA EXCEPCIÓN QUE HAY QUE ESCRIBIR AQUÍ, NO EN base.css.
@@ -528,7 +528,7 @@
   align-items: baseline;
   gap: 0.7em;
   margin-top: var(--esp-xs);
-  color: var(--color-texto-inverso-suave);
+  color: var(--color-texto-suave);
 }
 
 /* `align-self: center` y no la línea base: una caja vacía de 1 px no tiene
@@ -620,7 +620,7 @@
     width: min(var(--esp-4xl) * 2.5, 32%);
     height: auto;
     stroke-width: 0.35;
-    color: rgb(var(--verde-menta-rgb) / 0.1);
+    color: rgb(var(--verde-oliva-rgb) / 0.14);
     pointer-events: none;
   }
 
@@ -681,7 +681,7 @@
   font-size: var(--fs-grande);
   font-weight: var(--peso-ligero);
   line-height: var(--alto-linea-suelto);
-  color: var(--color-texto-inverso);
+  color: var(--color-texto);
 }
 
 /* v8 · La generalización («Lo mismo para una sala…») baja a nota: segunda
@@ -690,7 +690,7 @@
   margin: 0;
   font-size: var(--fs-cuerpo);
   line-height: var(--alto-linea-base);
-  color: var(--color-texto-inverso-suave);
+  color: var(--color-texto-suave);
   max-width: var(--medida-corta);
 }
 
@@ -726,7 +726,7 @@
   text-transform: uppercase;
   letter-spacing: var(--tracking-rotulo);
   font-variant-numeric: tabular-nums;
-  color: var(--color-texto-inverso-suave);
+  color: var(--color-texto-suave);
 }
 
 /* v8 · EL PRODUCTO HABLA EN FRAUNCES. Los cuatro servicios son lo único del
@@ -743,7 +743,7 @@
   font-variation-settings: var(--ejes-display-sobrio);
   letter-spacing: var(--tracking-display);
   line-height: var(--alto-linea-titulo);
-  color: var(--color-texto-inverso);
+  color: var(--color-texto);
   transition: transform var(--transicion);
 }
 
@@ -757,7 +757,7 @@
   font-variation-settings: normal;
   letter-spacing: normal;
   line-height: var(--alto-linea-base);
-  color: var(--color-texto-inverso-suave);
+  color: var(--color-texto-suave);
   margin-top: var(--esp-3xs);
 }
 
@@ -778,7 +778,7 @@
   font-size: var(--fs-grande);
   font-weight: var(--peso-ligero);
   line-height: var(--alto-linea-suelto);
-  color: var(--color-texto-inverso-suave);
+  color: var(--color-texto-suave);
 }
 
 .viv-aula .enlace-flecha {
@@ -801,9 +801,9 @@
   gap: var(--esp-sm);
   margin: 0;
   padding: var(--esp-md);
-  border: 1px solid rgb(var(--verde-menta-rgb) / 0.35);
+  border: 1px solid rgb(var(--verde-oliva-rgb) / 0.4);
   border-radius: 0;
-  background-color: rgb(var(--crema-rgb) / 0.08);
+  background-color: rgb(var(--tinta-rgb) / 0.05);
 }
 
 /* LA ÚNICA CURVA DE LA SECCIÓN, Y ES UNA HOJA. El radio pleno en dos esquinas
@@ -818,8 +818,9 @@
   width: var(--esp-xl);
   height: var(--esp-xl);
   border-radius: 0 var(--radio-full) 0 var(--radio-full);
-  background-color: rgb(var(--verde-menta-rgb) / 0.16);
-  color: var(--color-acento);
+  background-color: rgb(var(--verde-oliva-rgb) / 0.14);
+  /* v5 · de menta a oliva: sobre la banda clara la menta se lava (~1,9:1). */
+  color: var(--color-acento-alt);
 }
 
 .viv-sello__emblema svg {
@@ -842,13 +843,13 @@
   font-weight: var(--peso-medio);
   text-transform: uppercase;
   letter-spacing: var(--tracking-rotulo);
-  color: var(--color-texto-inverso);
+  color: var(--color-texto);
 }
 
 .viv-sello__detalle {
   font-size: var(--fs-pequeno);
   line-height: var(--alto-linea-base);
-  color: var(--color-texto-inverso-suave);
+  color: var(--color-texto-suave);
 }
 
 /* --------------------------------------------------------------------------

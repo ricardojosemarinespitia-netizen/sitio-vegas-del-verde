@@ -1,5 +1,5 @@
 /* ==========================================================================
-   VEGAS DEL VERDE — pie.css  ·  cierre editorial del sitio + marca de cabecera
+   VEGAS DEL VERDE — pie.css  ·  cierre editorial del sitio
    Referencia de composición: _mockups-chatgpt/08-footer-cta.png.
 
    PARA EL ORQUESTADOR: este archivo es NUEVO. Hay que añadirlo a
@@ -9,36 +9,19 @@
 
    El fondo carbón, el padding vertical y el color base de los enlaces del
    pie los sigue dando .pie-sitio en shell.css; aquí sólo viven las clases
-   nuevas pie-final__* y el nombre serif de la marca de la cabecera
-   (.marca__nombre), que no tenía dueño en ningún otro archivo editable.
+   nuevas pie-final__*.
 
    Sólo tokens de tokens.css; ninguna variable local hizo falta.
    Animación: sólo transform/opacity, con duraciones que ya colapsan a 1ms
    bajo prefers-reduced-motion vía los tokens.
    ========================================================================== */
 
-/* --------------------------------------------------------------------------
-   0. MARCA DE LA CABECERA — el logo lineal + nombre serif.
-   .marca y .marca__simbolo ya están dimensionados en shell.css; aquí sólo
-   se viste el nombre.
-   -------------------------------------------------------------------------- */
-.marca__nombre {
-  font-family: var(--fuente-display);
-  font-size: var(--fs-h4);
-  font-weight: var(--peso-display);
-  font-variation-settings: var(--ejes-display-sobrio);
-  letter-spacing: var(--tracking-display);
-  line-height: var(--alto-linea-apretado);
-  color: var(--color-texto);
-  white-space: nowrap;
-}
-
-/* En pantallas muy angostas el nombre cede antes de empujar los controles. */
-@media (max-width: 23.5em) {
-  .marca__nombre {
-    display: none;
-  }
-}
+/* v12 · `.marca__nombre` (el nombre escrito aparte, en la fuente display,
+   junto al símbolo dibujado a mano) se borró de aquí y de la cabecera: la
+   cabecera pasó a usar el logotipo real (`.marca__logo`, shell.css), que ya
+   trae el símbolo y la palabra en una sola imagen — pedido directo del
+   cliente, «pon el logo de Vegas el original en la página». Este archivo
+   deja de tener nada que vestir de la marca de cabecera. */
 
 /* --------------------------------------------------------------------------
    0 bis. EL TELÓN — el pie deja de ser franja plana y cae hacia la sala.
@@ -47,12 +30,10 @@
    fotos. Sobrescribe el fondo plano que .pie-sitio hereda de shell.css sin
    tocar su padding ni sus enlaces.
    -------------------------------------------------------------------------- */
-.pie-final {
-  background: linear-gradient(
-    var(--color-fondo-hondo),
-    var(--negro-escena)
-  );
-}
+/* v13 · EL TELÓN SE RETIRA — pedido directo del cliente: «no quiere tonos
+   oscuros en la página». El pie ya no cae hacia la sala: hereda la banda
+   clara con trama de .pie-sitio (shell.css) y no pinta fondo propio, así
+   que el papel botánico corre continuo hasta el final del documento. */
 
 /* --------------------------------------------------------------------------
    1. CIERRE — antetítulo, titular serif grande, CTA final
@@ -74,7 +55,7 @@
   font-weight: var(--peso-medio);
   text-transform: uppercase;
   letter-spacing: var(--track-eyebrow);
-  color: var(--verde-menta);
+  color: var(--verde-texto);
 }
 
 /* Filete corto que se dibuja al entrar. Estado final horneado (scaleX(1));
@@ -86,7 +67,7 @@
   inline-size: 4ch;
   block-size: 1px;
   flex: none;
-  background: var(--verde-menta);
+  background: var(--verde-texto);
   transform: scaleX(1);
   transform-origin: left;
   transition: transform var(--transicion-reveal);
@@ -108,7 +89,7 @@
   font-variation-settings: var(--ejes-display);
   letter-spacing: var(--tracking-display);
   line-height: var(--alto-linea-apretado);
-  color: var(--color-texto-inverso);
+  color: var(--color-texto);
   max-width: var(--medida-corta);
 }
 
@@ -162,7 +143,7 @@
    2. FILA DE MARCA — filete arriba; logo + nombre a un lado, acciones al otro
    -------------------------------------------------------------------------- */
 .pie-final__fila {
-  border-block-start: 1px solid var(--color-borde-inverso);
+  border-block-start: 1px solid var(--color-borde-suave);
   padding-block: var(--esp-xl);
   display: flex;
   flex-wrap: wrap;
@@ -181,7 +162,7 @@
   width: clamp(2.4rem, 2rem + 1.6vw, 3.2rem);
   height: auto;
   flex: none;
-  color: var(--verde-menta);
+  color: var(--verde-texto);
 }
 
 /* La marca firma, no compite: baja de --fs-h3 a --fs-h4 para que la escala
@@ -193,7 +174,7 @@
   font-variation-settings: var(--ejes-display-sobrio);
   letter-spacing: var(--tracking-display);
   line-height: var(--alto-linea-apretado);
-  color: var(--color-texto-inverso);
+  color: var(--color-texto);
 }
 
 .pie-final__acciones {
@@ -229,7 +210,7 @@
 }
 
 .pie-sitio a.pie-final__idioma {
-  color: var(--color-texto-inverso-suave);
+  color: var(--color-texto-suave);
   text-decoration: underline;
 }
 
@@ -237,7 +218,7 @@
    3. LEGAL Y CRÉDITOS
    -------------------------------------------------------------------------- */
 .pie-final__legal {
-  border-block-start: 1px solid var(--color-borde-inverso);
+  border-block-start: 1px solid var(--color-borde-suave);
   padding-block-start: var(--esp-lg);
   display: flex;
   flex-wrap: wrap;
@@ -245,7 +226,7 @@
   gap: var(--esp-sm) var(--gap);
   font-family: var(--fuente-titulo);
   font-size: var(--fs-micro);
-  color: var(--color-texto-inverso-suave);
+  color: var(--color-texto-suave);
 }
 
 .pie-final__legal-enlaces {
@@ -258,13 +239,13 @@
 }
 
 .pie-sitio .pie-final__legal a {
-  color: var(--color-texto-inverso-suave);
+  color: var(--color-texto-suave);
   text-decoration: underline;
   text-underline-offset: 0.25em;
 }
 
 .pie-sitio .pie-final__legal a:hover {
-  color: var(--verde-menta);
+  color: var(--verde-texto);
 }
 
 .pie-final__creditos {
@@ -272,6 +253,6 @@
   font-family: var(--fuente-titulo);
   font-size: var(--fs-micro);
   line-height: var(--alto-linea-base);
-  color: var(--color-texto-inverso-suave);
+  color: var(--color-texto-suave);
   max-width: var(--medida);
 }

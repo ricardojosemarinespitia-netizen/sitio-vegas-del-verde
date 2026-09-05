@@ -1,0 +1,740 @@
+/* ==========================================================================
+   HOME v4 · bloques de escaparate
+   --------------------------------------------------------------------------
+   POR QUÉ EXISTE ESTA HOJA
+   El PLAN-REDISENO-V4 §4.1 parte el sitio en «escaparate + profundidad»: la
+   portada deja de contener las secciones completas (que se fueron a
+   espacios.html, planes.html, naturaleza.html, sendero-ecovital.html,
+   vivero.html y contacto.html) y pasa a ser una sucesión de bloques cortos
+   que enseñan y enlazan. Esos bloques son marcado NUEVO —no había dónde
+   reutilizar— y necesitan una hoja propia, corta, en vez de repartir reglas
+   por las siete hojas de sección que ya no se cargan aquí.
+
+   REGLAS QUE ESTA HOJA CUMPLE, SIN EXCEPCIÓN
+   1. Cero literales: todo color, tamaño, radio, sombra y duración sale de
+      un var(--token) de tokens.css. Cero !important.
+   2. Cero velos: no hay un solo linear-gradient, radial-gradient,
+      backdrop-filter ni mix-blend-mode sobre una <img>. La foto se ve como
+      se disparó (PLAN-REDISENO-V4 §3.2).
+   3. EL TEXTO NUNCA TAPA LA FOTO. Corrección directa del cliente sobre esta
+      fase: «es importante que las fotos se aprecien bien — el texto NO debe
+      tapar la foto en ningún bloque». Por eso ninguna pieza de texto de esta
+      hoja lleva `position: absolute` sobre una imagen: cada tarjeta es una
+      rejilla de dos filas —foto arriba, franja de texto abajo— y cada
+      figura pone su pie DEBAJO del marco. Si algún día alguien quiere el
+      titular «encima de la foto», la respuesta ya está dada: no.
+   4. Un motor de movimiento por pieza: la entrada la da .reveal (el
+      IntersectionObserver de app.js, que ya está cargado). El §6 de esta
+      misma hoja añade movimiento SOLO donde no había ninguno —filetes que
+      se dibujan, la deriva del titular, la entrada de la tira del vivero—,
+      siempre sobre un ::before/::after nuevo o sobre un elemento sin dueño,
+      nunca duplicando motor sobre una pieza que ya tenga uno.
+
+   ORDEN DEL ARCHIVO
+     §1  Rejilla de tarjetas (compartida por «qué hacer» y «los espacios»)
+     §2  Bloque de cifras (naturaleza)
+     §3  Muro de aves
+     §4  Bloque a dos columnas (sendero, vivero)
+     §5  Franja de contacto
+     §6  Movimiento de los bloques de escaparate
+   ========================================================================== */
+
+/* ------------------------------------------------------------------ §1 */
+/* Rejilla de tarjetas. Una sola definición para los dos bloques que la
+   usan (bloque 2 «qué puedes hacer aquí» y bloque 3 «los espacios»), con un
+   modificador para el número de columnas en escritorio. En móvil siempre es
+   una columna: son fotos, y una foto pequeña no vende nada. */
+.home-rejilla {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: var(--gap);
+  grid-template-columns: 1fr;
+}
+
+/* Dos columnas ya desde 22em (352 px) SÓLO en el bloque de los cinco verbos:
+   ahí la franja de texto es un verbo y una línea, y cabe. A una columna, esas
+   cinco tarjetas medían 2,5 pantallas de móvil ellas solas —el plan §4.2 les
+   presupuesta 1,5— y la portada no llegaba al objetivo de 14 pantallas.
+   El bloque de los espacios NO usa esto: su franja lleva nombre, aforo y
+   frase, y a media pantalla de ancho se rompería en cinco renglones. Ése se
+   resuelve en horizontal, más abajo. */
+@media (min-width: 22em) {
+  .home-rejilla--dos {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (min-width: 40em) {
+  .home-rejilla {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (min-width: 64em) {
+  .home-rejilla--tres {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+/* La tarjeta es un enlace entero: el objetivo táctil es la pieza completa,
+   no una línea de cuatro palabras (WCAG 2.5.8, uno de los 16 objetivos que
+   el plan pide arreglar). Dos filas: la foto y, debajo, la placa de texto. */
+.home-tarjeta {
+  display: grid;
+  grid-template-rows: auto auto;
+  height: 100%;
+  text-decoration: none;
+  color: var(--color-texto);
+  background-color: var(--color-superficie-solida);
+  border: 1px solid var(--color-borde-suave);
+  overflow: hidden;
+  transition: transform var(--transicion), box-shadow var(--transicion);
+}
+
+.home-tarjeta:hover,
+.home-tarjeta:focus-visible {
+  transform: translateY(calc(var(--esp-3xs) * -1));
+  box-shadow: var(--sombra-md);
+}
+
+/* .marco viene de base.css sin `display` declarado, y en estos bloques el
+   marco es un <span> —tiene que serlo: el contenido de un <a> no puede
+   llevar <div>—. Un <span> es inline por defecto y `aspect-ratio` no se
+   aplica a las cajas inline, así que el marco colapsaría a la altura de una
+   línea. Se bloquea aquí, en la única hoja que usa el patrón, en vez de
+   tocar base.css y arrastrar el cambio a las nueve secciones que ya lo
+   usan sobre <div> y no lo necesitan. */
+.home-tarjeta > .marco,
+.home-duo__medio > .marco,
+.home-muro__figura > .marco,
+.home-tira > li > .marco {
+  display: block;
+}
+
+.home-tarjeta__foto {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* LA FRANJA DE TEXTO. Fila propia de la rejilla, fondo sólido, debajo de la
+   foto. No flota sobre la imagen ni le come el borde inferior. */
+.home-tarjeta__cuerpo {
+  display: flex;
+  flex-direction: column;
+  gap: var(--esp-3xs);
+  padding: var(--esp-md);
+}
+
+.home-tarjeta__nombre {
+  font-family: var(--fuente-display);
+  font-size: var(--fs-h3);
+  font-weight: var(--peso-normal);
+  font-optical-sizing: auto;
+  font-variation-settings: var(--ejes-display);
+  letter-spacing: var(--tracking-display);
+  line-height: var(--alto-linea-titulo);
+  margin: 0;
+}
+
+.home-tarjeta__frase {
+  margin: 0;
+  font-size: var(--fs-pequeno);
+  line-height: var(--alto-linea-base);
+  color: var(--color-texto-suave);
+}
+
+/* El aforo va en la franja, en línea con el nombre: es un dato, no un
+   adorno flotante sobre la fotografía. */
+.home-tarjeta__dato {
+  display: inline-flex;
+  align-items: baseline;
+  gap: var(--esp-3xs);
+  font-family: var(--fuente-titulo);
+  font-size: var(--fs-micro);
+  text-transform: uppercase;
+  letter-spacing: var(--tracking-rotulo);
+  color: var(--color-texto-suave);
+}
+
+.home-tarjeta__dato-cifra {
+  font-family: var(--fuente-display);
+  font-size: var(--fs-h4);
+  font-weight: var(--peso-normal);
+  letter-spacing: var(--tracking-display);
+  color: var(--color-acento-texto);
+}
+
+.home-tarjeta__ir {
+  margin-top: var(--esp-2xs);
+  font-family: var(--fuente-titulo);
+  font-size: var(--fs-micro);
+  font-weight: var(--peso-medio);
+  text-transform: uppercase;
+  letter-spacing: var(--tracking-rotulo);
+  color: var(--color-acento-texto);
+}
+
+/* TARJETA HORIZONTAL — la variante del bloque «los espacios».
+   El plan §4.2 la pide literalmente así: «5 tarjetas horizontales con foto,
+   nombre, capacidad y "Ver usos"». Y hace falta por una razón medible: cinco
+   tarjetas apiladas a una columna con la foto a 3:2 son 3,3 pantallas de
+   móvil, más de la mitad del presupuesto de toda la portada. En horizontal
+   son cinco filas de foto cuadrada y texto al lado: una pantalla y media.
+
+   El texto NO se mete encima de la foto para ganar ese sitio: se pone AL
+   LADO, en su propia columna. Es la misma regla del bloque, aplicada en
+   horizontal en vez de en vertical. */
+@media (max-width: 39.99em) {
+  .home-rejilla--fila .home-tarjeta {
+    grid-template-rows: auto;
+    grid-template-columns: 40% 1fr;
+  }
+
+  .home-rejilla--fila .home-tarjeta > .marco {
+    /* Cuadrada en la fila: a 40 % de 345 px, un 3:2 dejaría una franja de
+       92 px de alto en la que no se distingue un espacio de otro. */
+    /* Sin `height: 100%`: con aspect-ratio Y altura al 100 % el ancho lo
+       calcula la altura, la foto se sale de su columna del 40 % y se monta
+       encima del texto — justo lo contrario de lo que este bloque persigue.
+       El ancho lo manda la columna; la altura sale de la proporcion. */
+    aspect-ratio: 1 / 1;
+  }
+
+  .home-rejilla--fila .home-tarjeta__cuerpo {
+    justify-content: center;
+    padding: var(--esp-sm);
+  }
+}
+
+/* Pie de bloque: la frase de condiciones o la salida a la página completa. */
+.home-pie-bloque {
+  margin-top: var(--gap);
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--esp-sm) var(--gap);
+}
+
+/* ------------------------------------------------------------------ §2 */
+/* Tres cifras. El segundo registro tipográfico que pide el plan (§2.3.4):
+   la display grande en cifra, dosificada, frente al eyebrow en caja alta que
+   hasta ahora era el único ritmo de la página. */
+.home-cifras {
+  list-style: none;
+  margin: 0 0 var(--gap-lg);
+  padding: 0;
+  display: grid;
+  gap: var(--gap);
+  grid-template-columns: 1fr;
+}
+
+@media (min-width: 40em) {
+  .home-cifras {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+.home-cifras__dato {
+  display: flex;
+  flex-direction: column;
+  gap: var(--esp-3xs);
+  padding: var(--esp-md);
+  background-color: var(--color-superficie-solida);
+  border: 1px solid var(--color-borde-suave);
+}
+
+.home-cifras__pie {
+  font-family: var(--fuente-titulo);
+  font-size: var(--fs-micro);
+  text-transform: uppercase;
+  letter-spacing: var(--tracking-rotulo);
+  color: var(--color-texto-suave);
+}
+
+/* ------------------------------------------------------------------ §3 */
+/* Muro de aves: doce, no ciento ocho. Las 108 viven en naturaleza.html.
+   Cada ave es una <figure> con el pie DEBAJO de la foto —el crédito al
+   fotógrafo es información, y encima de la imagen ni se lee ni deja ver el
+   ave—. Cuadrado 1:1 para que el muro sea un muro y no una escalera. */
+.home-muro {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: var(--gap-sm);
+  grid-template-columns: repeat(2, 1fr);
+}
+
+/* Tres columnas desde 22em (352 px). Doce aves a dos columnas son 2,8
+   pantallas de movil; el plan §4.2 le presupuesta 1,5 al bloque entero. A
+   tres, un ave mide 105 px de lado en un movil de 375 px: se distingue, y
+   quien quiera verlas grandes tiene la galeria completa a un toque. */
+@media (min-width: 22em) {
+  .home-muro {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+@media (min-width: 64em) {
+  .home-muro {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+.home-muro__figura {
+  margin: 0;
+}
+
+.home-muro__foto {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.home-muro__pie {
+  margin-top: var(--esp-2xs);
+  display: flex;
+  flex-direction: column;
+  gap: var(--esp-3xs);
+}
+
+.home-muro__especie {
+  font-size: var(--fs-pequeno);
+  line-height: var(--alto-linea-apretado);
+  color: var(--color-texto);
+}
+
+/* ------------------------------------------------------------------ §4 */
+/* Bloque a dos columnas: foto a un lado, texto al otro. Nunca superpuestos.
+   En móvil se apilan —foto arriba, texto abajo—, que es el mismo principio
+   con menos ancho. */
+.home-duo {
+  display: grid;
+  gap: var(--gap);
+  grid-template-columns: 1fr;
+  align-items: center;
+}
+
+@media (min-width: 56em) {
+  .home-duo {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    gap: var(--gap-lg);
+  }
+
+  /* Alterna el lado de la foto entre bloques contiguos sin duplicar
+     marcado: el bloque marcado --invertido pone la imagen a la derecha. */
+  .home-duo--invertido .home-duo__medio {
+    order: 2;
+  }
+}
+
+.home-duo__medio {
+  margin: 0;
+}
+
+.home-duo__foto,
+.home-duo__video {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.home-duo__texto {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--esp-sm);
+}
+
+/* Tira de fotos pequeñas bajo el bloque a dos columnas (el vivero enseña
+   cuatro). Scroll horizontal en móvil, rejilla en escritorio: una foto de
+   vivero en una cuarta parte de 375 px no se aprecia, y el cliente pidió
+   justo lo contrario. */
+.home-tira {
+  list-style: none;
+  margin: var(--gap) 0 0;
+  padding: 0;
+  display: grid;
+  gap: var(--gap-sm);
+  grid-auto-flow: column;
+  grid-auto-columns: 62%;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  overscroll-behavior-inline: contain;
+}
+
+.home-tira > li {
+  scroll-snap-align: start;
+}
+
+@media (min-width: 48em) {
+  .home-tira {
+    grid-auto-flow: row;
+    grid-auto-columns: auto;
+    grid-template-columns: repeat(4, 1fr);
+    overflow-x: visible;
+  }
+}
+
+.home-tira__foto {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* Lista de servicios en una línea: píldoras, no párrafo. */
+.home-lista-linea {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--esp-2xs);
+}
+
+/* ------------------------------------------------------------------ §5 */
+/* Franja de contacto de la portada. Es un resumen: el mapa, el formulario,
+   las referencias y las coordenadas viven en contacto.html. Aquí sólo el
+   horario, el botón de WhatsApp y la puerta a esa página. */
+.home-contacto {
+  display: grid;
+  gap: var(--gap);
+  grid-template-columns: 1fr;
+  padding: var(--esp-lg);
+  background-color: var(--color-superficie-solida);
+  border: 1px solid var(--color-borde-suave);
+}
+
+@media (min-width: 56em) {
+  .home-contacto {
+    grid-template-columns: minmax(0, 1fr) auto;
+    align-items: center;
+    gap: var(--gap-lg);
+  }
+}
+
+.home-contacto__horario {
+  margin: var(--esp-2xs) 0 0;
+  font-family: var(--fuente-titulo);
+  font-size: var(--fs-cuerpo);
+  color: var(--color-texto);
+}
+
+/* ==========================================================================
+   PÁGINAS DE PROFUNDIDAD · encabezado propio
+   --------------------------------------------------------------------------
+   Cada página nueva (espacios, planes, naturaleza, sendero, vivero,
+   contacto) abre con este encabezado: eyebrow, <h1> y una frase, sobre el
+   fondo de papel del sitio. SIN FOTO DETRÁS, a propósito — es la forma más
+   simple de garantizar la regla del cliente: aquí no hay ninguna imagen que
+   el texto pueda tapar, y la primera fotografía de la página aparece
+   inmediatamente debajo, entera y sin nada encima.
+   Vive en esta hoja y no en una nueva porque las seis páginas la comparten;
+   home.css es la única hoja que todas ellas cargan.
+   ========================================================================== */
+.pagina-encabezado {
+  padding-block: var(--esp-seccion-sm) var(--esp-lg);
+}
+
+.pagina-encabezado__interior {
+  display: flex;
+  flex-direction: column;
+  gap: var(--esp-xs);
+  max-width: var(--medida);
+}
+
+.pagina-encabezado__titulo {
+  font-family: var(--fuente-display);
+  font-size: var(--fs-h1);
+  font-weight: var(--peso-display);
+  font-optical-sizing: auto;
+  font-variation-settings: var(--ejes-display);
+  letter-spacing: var(--tracking-display);
+  line-height: var(--alto-linea-titulo);
+  text-wrap: balance;
+  margin: 0;
+}
+
+/* Miga de pan: una sola línea, con el objetivo táctil completo de 44 px que
+   pide WCAG 2.5.8. */
+.pagina-miga {
+  display: inline-flex;
+  align-items: center;
+  min-height: 2.75rem;
+  font-family: var(--fuente-titulo);
+  font-size: var(--fs-micro);
+  font-weight: var(--peso-medio);
+  text-transform: uppercase;
+  letter-spacing: var(--tracking-rotulo);
+  color: var(--color-texto-suave);
+}
+
+/* ==========================================================================
+   §6 · MOVIMIENTO DE LOS BLOQUES DE ESCAPARATE
+   --------------------------------------------------------------------------
+   POR QUÉ ESTE BLOQUE EXISTE
+   La cabecera de esta hoja decía «aquí no se declara ninguna animación
+   propia»: la portada nueva y los seis encabezados de página nacieron
+   quietos. El cliente corrigió el plan v4 en esta sesión —el §4.6 pedía
+   BAJAR a tres motores y retirar piezas decorativas; su orden textual fue la
+   contraria: «conservarlas y si se puede poner más en todas partes»—. Nada
+   de lo que ya existía se retira; lo que se hace aquí es dar movimiento a la
+   parte del sitio que todavía no tenía ninguno.
+
+   LAS CUATRO REGLAS QUE ESTE BLOQUE NO ROMPE
+
+   1. UN MOTOR POR PIEZA. Ninguna de estas reglas toca un elemento ni una
+      propiedad que ya tenga dueño. Los <li>, las <figure> y los interiores
+      de encabezado que llevan `.reveal` conservan su opacidad y su
+      transform intactos: aquí sólo se anima o bien un ::before/::after
+      nuevo (una caja propia, sin dueño anterior), o bien un elemento que
+      hoy no tiene ningún motor (`.home-tira > li`, el <h1> del encabezado,
+      la flecha de la tarjeta).
+
+   2. EL MOVIMIENTO NO TAPA LA FOTO. Corrección directa del cliente en esta
+      misma sesión: las piezas decorativas van en el espacio alrededor de la
+      foto, no encima tapándola. Por eso ni una sola de estas piezas se
+      posiciona sobre una <img>: los filetes viven en el aire de los
+      encabezados y bajo las cifras —bloques que no llevan fotografía—, la
+      entrada escalonada mueve la miniatura ENTERA dentro de su hueco de la
+      rejilla (no le pone nada encima) y la flecha vive en la franja de
+      texto, debajo del marco. Cero `position: absolute` sobre imagen, cero
+      degradados, cero filtros: la regla «la foto es la foto» sigue siendo
+      la misma.
+
+   3. CERO JS Y CERO COSTE EN REPOSO. Todo va con `animation-timeline:
+      view()`: el progreso lo ata el compositor al paso del elemento por la
+      ventana, sin un listener de scroll y sin robarle un fotograma al hilo
+      principal. Sólo se animan `opacity` y `transform`, que es lo único que
+      no obliga a recalcular la página.
+
+   4. LAS DOS GUARDAS DE LA CASA, como en inicio.css §PARALAJE:
+        · `prefers-reduced-motion: no-preference` envolviendo TODO: quien
+          pide menos movimiento no recibe ninguno; la animación ni se
+          declara (no se usa `animation: none`, que es otra cosa).
+        · `@supports (animation-timeline: view())`: donde no exista, cada
+          pieza se queda en su estado final —visible, completa, legible—,
+          que es un estado válido por sí mismo. Ningún respaldo con JS.
+   ========================================================================== */
+
+@media (prefers-reduced-motion: no-preference) {
+  @supports (animation-timeline: view()) {
+
+    /* ---- 6.1 · EL FILETE DEL ENCABEZADO DE PÁGINA -----------------------
+       Las seis páginas de profundidad abren con un rótulo, un <h1> y una
+       entradilla sobre papel: sin fotografía, a propósito. Ese aire pedía
+       un gesto, y el gesto de la casa es el filete que se dibuja solo, el
+       mismo vocabulario de trazo que ya usan los iconos del sitio. Se
+       dibuja de izquierda a derecha mientras el encabezado entra. */
+    .pagina-encabezado {
+      view-timeline-name: --home-encabezado;
+    }
+
+    .pagina-encabezado__interior::after {
+      animation-duration: auto;
+      animation-timing-function: linear;
+      animation-fill-mode: both;
+      animation-timeline: --home-encabezado;
+      animation-range: entry 20% cover 30%;
+      animation-name: home-filete-crece;
+    }
+
+    /* ---- 6.2 · LA DERIVA DEL TITULAR ------------------------------------
+       El <h1> sube unos pocos píxeles mientras su encabezado cruza la
+       ventana. El `.reveal` de la casa vive en `.pagina-encabezado__interior`
+       —el PADRE—, así que aquí no hay dos motores sobre una misma pieza:
+       el padre resuelve su entrada y el titular hace su recorrido propio.
+       Es paralaje de texto de recorrido mínimo, en un titular que no se lee
+       en movimiento sino al llegar: por eso medio espacio y no treinta
+       píxeles. */
+    .pagina-encabezado__titulo {
+      animation-duration: auto;
+      animation-timing-function: linear;
+      animation-fill-mode: both;
+      animation-timeline: --home-encabezado;
+      animation-range: entry 0% exit 100%;
+      animation-name: home-titular-deriva;
+    }
+
+    /* ---- 6.3 · EL FILETE DE CADA CIFRA ----------------------------------
+       Las tres cifras de naturaleza (101 · 347 · 57) son el segundo registro
+       tipográfico de la portada y el bloque que más se mira. Cada una gana
+       un filete que crece bajo el dato, atado a la entrada de su propia
+       caja: no hay escalonado que programar porque cada `<li>` lleva su
+       propia línea de tiempo y entra cuando le toca. */
+    .home-cifras__dato {
+      view-timeline-name: --home-cifra;
+    }
+
+    .home-cifras__dato::after {
+      animation-duration: auto;
+      animation-timing-function: linear;
+      animation-fill-mode: both;
+      animation-timeline: --home-cifra;
+      animation-range: entry 30% cover 40%;
+      animation-name: home-filete-crece;
+    }
+
+    /* ---- 6.4 · LA TIRA DEL VIVERO ---------------------------------------
+       Las cuatro fotos del vivero son el único bloque de la portada cuyos
+       `<li>` NO llevan `.reveal`: el `<ul>` lleva `.reveal-secuencia`, que
+       reparte retardos, pero sin hijos marcados no había nada que entrara.
+       Aquí entran, cada uno con su línea de tiempo, y se mueve la miniatura
+       entera —foto y hueco a la vez— en vez de ponerle nada encima.
+
+       SE ABRE A PARTIR DE 48em, y no es un capricho: por debajo de ese ancho
+       la tira es un scroller horizontal (`overflow-x: auto`), y una línea de
+       tiempo `view()` dentro de un contenedor de scroll es exactamente la
+       trampa que ya documenta momentos.css. Donde la tira es rejilla, entra;
+       donde es carrusel, se queda quieta y completa. */
+    @media (min-width: 48em) {
+      .home-tira > li {
+        view-timeline-name: --home-tira-pieza;
+        animation-duration: auto;
+        animation-timing-function: linear;
+        animation-fill-mode: both;
+        animation-timeline: --home-tira-pieza;
+        animation-range: entry 10% cover 35%;
+        animation-name: home-pieza-asoma;
+      }
+    }
+
+
+    /* ---- 6.6 · EL FILETE DE LA FRANJA DE CONTACTO -----------------------
+       El bloque de horario cierra la portada. Su filete crece en vertical
+       —de arriba abajo, como una columna que se llena— para distinguirlo de
+       los horizontales de más arriba: el mismo gesto, otro eje. */
+    .home-contacto {
+      view-timeline-name: --home-contacto;
+    }
+
+    .home-contacto__horario::before {
+      animation-duration: auto;
+      animation-timing-function: linear;
+      animation-fill-mode: both;
+      animation-timeline: --home-contacto;
+      animation-range: entry 25% cover 45%;
+      animation-name: home-filete-cae;
+    }
+  }
+}
+
+/* ---- 6.7 · LA FLECHA DE LA TARJETA ---------------------------------------
+   Único movimiento del bloque que NO va atado al scroll, porque no es una
+   entrada: es una respuesta. La flecha de «Ver los usos» avanza un paso
+   cuando la tarjeta recibe el puntero o el foco de teclado. Va con
+   `transition`, no con `animation`, y sobre un elemento que no tiene ningún
+   otro motor. Fuera del bloque de `prefers-reduced-motion` a propósito: los
+   tokens --dur-* ya valen 1 ms en ese modo (tokens.css), así que el estado
+   final llega igual, instantáneo, sin desaparecer la señal de interacción.
+   -------------------------------------------------------------------------- */
+.home-tarjeta__ir {
+  transition: transform var(--transicion-rapida);
+}
+
+.home-tarjeta:hover .home-tarjeta__ir,
+.home-tarjeta:focus-visible .home-tarjeta__ir,
+.home-tarjeta:focus-within .home-tarjeta__ir {
+  transform: translate3d(var(--esp-3xs), 0, 0);
+}
+
+/* ---- 6.8 · LAS CAJAS QUE LOS FILETES NECESITAN ---------------------------
+   Los ::before/::after de arriba tienen que existir SIEMPRE, no sólo cuando
+   hay animación: son parte de la composición —el filete bajo la cifra, la
+   viñeta de la lista, la columna del horario— y sin `content` no habría caja
+   que animar. Se declaran aquí, fuera de las guardas, en su estado final.
+   Donde no haya `view()` o se pida menos movimiento, esto es exactamente lo
+   que se ve: la pieza dibujada, quieta y completa.
+   -------------------------------------------------------------------------- */
+.pagina-encabezado__interior {
+  position: relative;
+}
+
+.pagina-encabezado__interior::after {
+  content: "";
+  display: block;
+  height: 1px;
+  margin-top: var(--esp-sm);
+  background-color: var(--color-borde-fuerte);
+  transform-origin: left center;
+}
+
+.home-cifras__dato::after {
+  content: "";
+  display: block;
+  height: 1px;
+  margin-top: var(--esp-2xs);
+  background-color: var(--color-acento-texto);
+  transform-origin: left center;
+}
+
+
+.home-contacto__horario {
+  position: relative;
+  padding-left: var(--esp-sm);
+}
+
+.home-contacto__horario::before {
+  content: "";
+  position: absolute;
+  inset-block: 0;
+  inset-inline-start: 0;
+  width: 1px;
+  background-color: var(--color-acento-texto);
+  transform-origin: center top;
+}
+
+/* ---- 6.9 · EL VOCABULARIO ------------------------------------------------
+   Cuatro @keyframes para todo el bloque, y ni uno más: un filete que se
+   dibuja en horizontal, el mismo en vertical, una pieza que asoma y una
+   deriva de titular. Repetir el mismo gesto es lo que hace que el
+   movimiento se lea como un sistema y no como una colección de efectos.
+   -------------------------------------------------------------------------- */
+@keyframes home-filete-crece {
+  from {
+    transform: scaleX(0);
+  }
+
+  to {
+    transform: scaleX(1);
+  }
+}
+
+@keyframes home-filete-cae {
+  from {
+    transform: scaleY(0);
+  }
+
+  to {
+    transform: scaleY(1);
+  }
+}
+
+@keyframes home-pieza-asoma {
+  from {
+    opacity: 0;
+    transform: translate3d(0, var(--esp-sm), 0);
+  }
+
+  to {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+@keyframes home-titular-deriva {
+  from {
+    transform: translate3d(0, var(--esp-2xs), 0);
+  }
+
+  to {
+    transform: translate3d(0, calc(-1 * var(--esp-2xs)), 0);
+  }
+}

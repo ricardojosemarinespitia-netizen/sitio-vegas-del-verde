@@ -15,13 +15,30 @@
      herramientas/ensamblar.js y .py entre 'vivero' y 'ubicacion'.
 
      QUÉ POSEE ESTA SECCIÓN Y NADIE MÁS (ARQUITECTURA-V3 §9, «un hecho, un
-     dueño»). Los tres hechos vienen de #naturaleza y cambian de DUEÑO, no de
+     dueño»). Los hechos vienen de #naturaleza y cambian de DUEÑO, no de
      contenido — siguen escritos una sola vez en todo el sitio, y la tabla
      HECHOS de herramientas/validar.js y validar.py se actualizó en paralelo:
        · el Sendero Ecovital y su descripción
-       · la entrada de $15.000, el único precio publicado del sitio
        · las dos corrientes de agua (Quebrada Aranzoque y riachuelo La Florida)
        · el rótulo «Atrévete al sendero»
+
+     v5 · LA PORTADA DE FOTO SE ACORTA Y SE ELABORA (pedido directo del
+     cliente: «quita el precio y el sendero ecovital mas rande de portada, y
+     crea una portada mas corta y mas elaborada por favor con esta foto de
+     portada»). La fotografía sigue siendo la MISMA (sendero-hero.jpg, la que
+     él mismo mandó), pero deja de ocupar el alto de un retrato 2400×4268
+     pegado tal cual: el marco pasa a una banda más baja con el foco en la
+     mitad buena del encuadre (sendero.css §5), y lo que se gana en alto se
+     invierte en COMPOSICIÓN: un inserto de DETALLE de la misma foto —los
+     crotones en primer plano— monta sobre la costura entre la banda verde
+     del hero y la fotografía (sendero.css §8). Más corta y más trabajada,
+     no simplemente recortada.
+
+     v3 · EL PRECIO DE $15.000 SE QUITÓ (pedido directo del cliente: «quita
+     el precio»). Era el único importe publicado en todo el sitio; la fila
+     correspondiente de la tabla HECHOS se retiró en el mismo commit, no sólo
+     de aquí — así no queda un hecho vigilado que ya no existe en ningún
+     lado.
 
      QUÉ NO DICE, POR SER DE OTRA (se enlaza, no se describe):
        el registro de aves, la endémica, el censo de plantas y el muro del
@@ -31,9 +48,9 @@
 
      POR QUÉ CONSERVA LAS CLASES .nat-*
      El bloque de la apertura (foto a sangre por la izquierda + columna de
-     texto + precio) se mudó ENTERO, sin tocar una sola declaración de CSS:
+     texto + CTA) se mudó ENTERO, sin tocar una sola declaración de CSS:
      todos sus selectores en naturaleza.css son clases sueltas —.nat-apertura,
-     .nat-ruta, .nat-oferta, .nat-precio—, ninguno está anidado bajo
+     .nat-ruta, .nat-oferta—, ninguno está anidado bajo
      #naturaleza, así que siguen aplicando aquí igual. Por eso la sección
      lleva también la clase `nat`: ahí es donde naturaleza.css declara los
      tokens locales que esas reglas consumen (--nat-margen, --nat-solape,
@@ -107,10 +124,20 @@
        OJO CON LOS PIES: el jardín de polinizadores es un hecho de
        colegios.html. Aquí se pueden VER mariposas y flores —son imagen—, pero
        ningún pie nombra «polinizadores», «jardín de mariposas» ni
-       «avistamiento»: se describe el encuadre, no el equipamiento. Por lo
-       mismo NO se usa el quinto clip disponible, video/jardin-polinizadores.*:
-       su ruta viaja en el atributo `poster`, que herramientas/validar.py sí
-       lee como texto, y colaría esa palabra en una sección que no es su dueña.
+       «avistamiento»: se describe el encuadre, no el equipamiento.
+
+       v4 · EL QUINTO CLIP POR FIN SE USA — abajo, no aquí. El cliente pidió
+       «integra las fotos y videos [...] una propuesta premium»: el quinto
+       clip disponible entra como INSERTO DE VÍDEO sobre la fotografía del
+       camino de la apertura (movimiento 1), no como quinto plano del carril
+       —cinco planos en fila vuelven a ser un muro—. Lo que lo tenía vetado
+       era el NOMBRE del archivo, no la imagen: la ruta original viaja en los
+       atributos `poster` y `src`, que herramientas/validar.py lee como
+       texto, y colaba la palabra vetada en una sección que no es su dueña.
+       La solución es una COPIA del archivo con nombre neutro
+       (video/flores-del-sendero.* + img/video/flores-del-sendero.jpg): pesa
+       en el repo, no en la página, y ningún pie ni ruta nombra el
+       equipamiento de colegios.html.
        ====================================================================== -->
   <div class="snd-hero">
     <div class="snd-hero__cuerpo">
@@ -303,6 +330,39 @@
           />
         </div>
       </figure>
+
+      <!-- v5 · EL DETALLE DE CROTONES — la misma foto, dos veces, dos escalas.
+           Es la mitad «más elaborada» del pedido del cliente («crea una
+           portada mas corta y mas elaborada por favor con esta foto de
+           portada»): en vez de traer material nuevo, la propia fotografía se
+           cita a sí misma. El marco pequeño recorta en primer plano los
+           crotones de hoja roja y amarilla —el mejor color del encuadre—
+           usando el derivado -800 con object-position, sin generar ni un
+           archivo nuevo. Va montado sobre la COSTURA entre la banda verde del
+           hero y la fotografía: es la tercera solapa de la familia (guadua
+           abajo-derecha, vídeo abajo-izquierda en escritorio) y la única que
+           cruza la frontera de color, que es justo lo que la hace portada y
+           no lámina. Mismo filete de crema, misma sombra, la diagonal de hoja
+           que quedaba libre. alt vacío a propósito: es un recorte de la misma
+           imagen que el alt del marco grande ya describe entera; el pie en
+           pastilla opaca (contraste medible, lección de la cartela) pone el
+           rótulo visible. -->
+      <figure class="snd-detalle reveal reveal--velo">
+        <div class="marco marco--1-1 snd-detalle__marco">
+          <img
+            src="img/sendero/sendero-hero-800.jpg"
+            srcset="img/sendero/sendero-hero-400.jpg 400w, img/sendero/sendero-hero-800.jpg 800w"
+            sizes="(max-width: 47.99em) 34vw, 10rem"
+            width="800"
+            height="1423"
+            loading="lazy"
+            decoding="async"
+            alt=""
+          />
+        </div>
+        <figcaption class="credito snd-detalle__pie">Crotones del camino</figcaption>
+      </figure>
+
       <figure class="nat-apertura__inset">
         <div class="marco marco--1-1">
           <img
@@ -317,6 +377,47 @@
           />
         </div>
         <figcaption class="credito nat-apertura__pie">Guadua del predio</figcaption>
+      </figure>
+
+      <!-- v4 · EL INSERTO DE VÍDEO — el quinto clip, dentro de la fotografía.
+           Es la pieza que INTEGRA los dos bloques de la sección (pedido del
+           cliente: «integra las fotos y videos [...] una propuesta premium»):
+           el metraje del hero se asoma dentro de la apertura, en la esquina
+           baja del camino, y la foto y los clips dejan de ser dos mundos.
+           Mismo patrón que el inserto de guadua —filete de crema, sombra,
+           silueta de hoja— pero en la diagonal CONTRARIA y en la otra
+           esquina: rompe la caja una segunda vez sin calcar la primera.
+           · Mismo motor que los cuatro de arriba: [data-momento-video],
+             mudo, en bucle, preload="none", póster como suelo — cero JS
+             nuevo, js/momentos-video.js ya lo recoge solo.
+           · aria-hidden y tabindex -1 como sus hermanos: es atmósfera, el
+             pie de abajo cuenta lo que hay.
+           · El pie NO va sobre el vídeo (contraste imposible de medir, misma
+             lección de la cartela del hero): va en una pastilla de crema
+             OPACA debajo del marco, dentro de la misma figura.
+           · SÓLO EN ESCRITORIO (sendero.css §7): en móvil el carril de
+             arriba ya se arrastra con el dedo a pantalla completa y un
+             quinto clip sobre la foto sólo roba alto y datos. -->
+      <figure class="snd-clip-inset reveal reveal--velo">
+        <div class="marco snd-clip-inset__marco">
+          <video
+            class="snd-clip-inset__video"
+            data-momento-video
+            muted
+            loop
+            playsinline
+            preload="none"
+            poster="img/video/flores-del-sendero.jpg"
+            width="720"
+            height="1280"
+            aria-hidden="true"
+            tabindex="-1"
+          >
+            <source src="video/flores-del-sendero.webm" type="video/webm" />
+            <source src="video/flores-del-sendero.mp4" type="video/mp4" />
+          </video>
+        </div>
+        <figcaption class="credito snd-clip-inset__pie">El mismo verde, en movimiento</figcaption>
       </figure>
 
       <!-- LA CAJA DE FAUNA AMBIENTE (js/fauna-ambiente.js). Vacía, decorativa
@@ -338,19 +439,24 @@
            columna. -->
       <!-- v2 · RECORTE DE TEXTO, pedido del cliente: «en estos últimos hay
            mucho texto, resume, más fotos menos texto sobrante que las
-           personas ya no leen». Se conservan enteros los tres hechos que la
+           personas ya no leen». Se conservan enteros los hechos que la
            tabla HECHOS de herramientas/validar.js le exige a esta sección
-           —el Sendero descrito, el precio de $15.000 y las dos corrientes de
-           agua (Quebrada Aranzoque · riachuelo La Florida)— y el rótulo
-           «Atrévete al sendero». Lo que se recorta es prosa que repetía lo
+           —el Sendero descrito y las dos corrientes de agua (Quebrada
+           Aranzoque · riachuelo La Florida)— y el rótulo «Atrévete al
+           sendero» (el precio de $15.000 que estaba aquí se quitó en v3,
+           ver la nota de cabecera). Lo que se recorta es prosa que repetía lo
            que la foto o el resto de la columna ya cuentan: la entradilla
            queda en una frase, y el párrafo que narraba el encuentro de las
            dos corrientes se condensa en una línea bajo el cauce, porque los
            dos nombres con el trazo serpenteante ya dibujan el recorrido. -->
       <div class="nat-apertura__encabezado">
+        <!-- v3 · La entradilla decía «la única visita suelta con un precio
+             publicado», que dejó de ser cierto en cuanto se quitó el precio.
+             Se reemplaza por lo que la frase realmente vendía: que es una
+             visita que se puede hacer suelta, sin reservar un plan completo. -->
         <p class="entradilla">
-          El recorrido guiado junto a la quebrada: la única visita suelta con
-          un precio publicado.
+          El recorrido guiado junto a la quebrada: la única visita que se
+          hace suelta, sin reservar un plan completo.
         </p>
       </div>
 
@@ -399,18 +505,16 @@
         </p>
       </div>
 
-      <!-- El único precio publicado del sitio, y el CTA a su lado: dos
-           columnas desiguales cerradas por filete arriba y abajo. -->
-      <div class="nat-oferta">
-        <div class="nat-precio">
-          <p class="nat-precio__etiqueta">Entrada al Sendero Ecovital</p>
-          <p class="nat-precio__valor">
-            <span class="nat-precio__simbolo">$</span>15.000
-            <span class="nat-precio__moneda">COP</span>
-          </p>
-          <p class="nat-precio__unidad">por persona</p>
-        </div>
-
+      <!-- v3 · SE QUITÓ EL PRECIO, pedido directo del cliente («quita el
+           precio»). Era el único importe publicado en todo el sitio (ver
+           HECHOS de herramientas/validar.js y validar.py, fila retirada) y
+           vivía en `.nat-precio`, columna izquierda de esta grilla de dos
+           columnas. Sin esa columna, `.nat-oferta` deja de necesitar la
+           partición `auto / 1fr` de naturaleza.css §mediaquery — pasa a una
+           sola columna de ancho completo. La regla de esa media query no se
+           borra: sigue sirviendo para cuando la sección tenga otra vez dos
+           piezas desiguales, pero ya no se dispara aquí. -->
+      <div class="nat-oferta nat-oferta--sin-precio">
         <div class="nat-oferta__accion">
           <div class="grupo-botones">
             <a
@@ -432,7 +536,7 @@
 
           <p class="nota nat-oferta__nota">
             Escribe con cuántos vienen y qué día les sirve.
-            <a href="#ubicacion">Cómo llegar</a>.
+            <a href="contacto.html">Cómo llegar</a>.
           </p>
         </div>
       </div>

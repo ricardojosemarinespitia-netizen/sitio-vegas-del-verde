@@ -1,0 +1,952 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<script>document.documentElement.classList.add('js');</script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sendero Ecovital · Vegas del Verde</title>
+<meta name="description" content="Recorrido guiado de pajareo y observación de plantas por la quebrada Aranzoque, bordeado de guaduas, búcaros y caracolíes, en Floridablanca, Santander.">
+<link rel="canonical" href="https://vegasdelverde.co/sendero-ecovital.html">
+<!-- SIN hreflang="en": el sitio en inglés (en/) sigue siendo la arquitectura
+     v1 y no tiene equivalente de esta página. Declarar una alternativa que no
+     existe es peor que no declarar ninguna. Se añadirá cuando /en/ se rehaga
+     con paridad (PLAN-REDISENO-V4 §7.5). -->
+<link rel="alternate" hreflang="es" href="https://vegasdelverde.co/sendero-ecovital.html">
+
+<meta property="og:type" content="website">
+<meta property="og:title" content="Sendero Ecovital · Vegas del Verde">
+<meta property="og:description" content="Recorrido guiado de pajareo y observación de plantas por la quebrada Aranzoque, bordeado de guaduas, búcaros y caracolíes, en Floridablanca, Santander.">
+<meta property="og:image" content="https://vegasdelverde.co/img/sendero/sendero-hero.jpg">
+<meta property="og:url" content="https://vegasdelverde.co/sendero-ecovital.html">
+<meta property="og:locale" content="es_CO">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Sendero Ecovital · Vegas del Verde">
+<meta name="twitter:image" content="https://vegasdelverde.co/img/sendero/sendero-hero.jpg">
+
+<link rel="icon" type="image/png" href="img/logo/simbolo-vegas.png">
+<link rel="apple-touch-icon" href="img/logo/simbolo-vegas.png">
+
+<!-- fuentes-propias: Josefin Sans y DM Sans viven en styles/fonts/ y se
+     declaran por @font-face en base.css — no hay <link> a fonts.googleapis.com
+     ni preconnect a Google. La precarga hace que el navegador pida el woff2
+     desde el primer instante, en paralelo a parsear el CSS, en vez de esperar
+     a descubrir el @font-face durante el layout.
+     Se regenera con herramientas/precargar-fuentes.js. -->
+<link rel="preload" as="font" type="font/woff2" crossorigin href="styles/fonts/dm-sans-latin.woff2?v=89c7ce3a">
+<link rel="preload" as="font" type="font/woff2" crossorigin href="styles/fonts/josefin-sans-latin.woff2?v=0ff5ba86">
+
+<link rel="stylesheet" href="styles/tokens.css?v=48a473db">
+<link rel="stylesheet" href="styles/base.css?v=05b2e133">
+<link rel="stylesheet" href="styles/shell.css?v=a82199f7">
+<!-- Este bloque lo REESCRIBE herramientas/ensamblar.js a partir de PAGINAS.
+     No lo edites a mano: la lista buena está allí. -->
+<link rel="stylesheet" href="styles/sections/home.css?v=6f4d169b">
+<link rel="stylesheet" href="styles/sections/naturaleza.css?v=9a799657">
+<link rel="stylesheet" href="styles/sections/sendero.css?v=5b4f8b49">
+<link rel="stylesheet" href="styles/sections/pie.css?v=94785836">
+<link rel="stylesheet" href="styles/lightbox.css?v=92a48a1f">
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    { "@type": "ListItem", "position": 1, "name": "Vegas del Verde", "item": "https://vegasdelverde.co/" },
+    { "@type": "ListItem", "position": 2, "name": "El Sendero Ecovital", "item": "https://vegasdelverde.co/sendero-ecovital.html" }
+  ]
+}
+</script>
+</head>
+<body>
+<!-- ==========================================================================
+     FRAGMENTO: CABECERA  ·  se inserta como primer hijo de <body>
+     Propiedad del director de arte. Los agentes de sección NO lo modifican.
+     ========================================================================== -->
+<a class="saltar-contenido" href="#contenido">Saltar al contenido</a>
+
+<header class="cabecera" id="cabecera" data-cabecera>
+  <div class="cabecera__interior contenedor contenedor--ancho">
+
+    <!-- v18 · La marca apunta a index.html#inicio y no a #inicio a secas: este
+         fragmento se inserta en TODAS las páginas del sitio, y desde
+         vivero.html o naturaleza.html un ancla suelta no lleva a ninguna
+         parte. Desde la portada el navegador resuelve el ancla igual. -->
+    <a class="marca" href="index.html#inicio" aria-label="Vegas del Verde, ir al inicio">
+      <!-- v12 · EL LOGO ORIGINAL, no una aproximación. Hasta aquí la cabecera
+           llevaba una hoja dibujada a mano en SVG (una interpretación libre,
+           no el símbolo real) más el nombre escrito aparte en la tipografía
+           del sitio. Pedido directo del cliente: «pon el logo de Vegas el
+           original en la página». Las páginas interiores (terminos.html,
+           condiciones-de-alquiler.html, política-de-datos.html) ya usaban el
+           archivo real —`img/logo/logo-vegas-barra.png`, el lockup horizontal
+           sobre placa verde que trae el símbolo y la palabra en una sola
+           pieza— vía `.marca__logo` (ver shell.css). La cabecera principal
+           era la única pieza del sitio que no lo usaba. Ahora es la misma
+           imagen en todas partes: cero inconsistencia entre el logo de la
+           portada y el de las páginas sueltas. -->
+      <img
+        class="marca__logo"
+        src="img/logo/logo-vegas-barra.png"
+        width="1390"
+        height="356"
+        alt="Vegas del Verde"
+        decoding="async"
+      />
+    </a>
+
+    <nav class="nav" id="nav-principal" aria-label="Navegación principal">
+      <!-- v18 · EL MENÚ DEJA DE SER UNA LISTA DE ANCLAS Y PASA A SER UNA LISTA
+           DE PÁGINAS. Consecuencia directa de la arquitectura nueva
+           (PLAN-REDISENO-V4 §4.1): Espacios, Planes, Naturaleza, Sendero,
+           Vivero y Contacto ya no son secciones del scroll de index.html;
+           son URL propias, con título, descripción y JSON-LD propios.
+
+           De paso arregla lo que el plan §2.2 le reprochaba al menú anterior:
+           mezclaba anclas y páginas sin distinción, y le faltaban «Vivero» y
+           «Sendero», que son productos con demanda de búsqueda propia. Ahora
+           las siete entradas son del mismo tipo y llevan al mismo sitio desde
+           cualquier página.
+
+           «Nosotros» sigue siendo un ancla porque sigue siendo una sección de
+           la portada; por eso va marcada como secundaria (shell.css la
+           esconde por debajo de 1280 px, donde la cabecera desborda).
+           «Colegios» y «Plan vecino» bajan al pie del panel móvil y al pie de
+           página: son destinos, no navegación, y meterlas aquí partiría el
+           menú en dos filas.
+
+           NINGÚN ENLACE PUEDE SER UN ANCLA SUELTA: este fragmento se inserta
+           en todas las páginas del sitio, así que todos llevan el nombre del
+           archivo por delante. -->
+      <ul class="nav__lista">
+        <li class="nav__item--secundario"><a class="nav__enlace" href="index.html#nosotros">Nosotros</a></li>
+        <li><a class="nav__enlace" href="espacios.html">Espacios</a></li>
+        <li><a class="nav__enlace" href="planes.html">Planes</a></li>
+        <li><a class="nav__enlace" href="naturaleza.html">Naturaleza</a></li>
+        <li><a class="nav__enlace" href="sendero-ecovital.html">Sendero</a></li>
+        <li><a class="nav__enlace" href="vivero.html">Vivero</a></li>
+        <li><a class="nav__enlace" href="contacto.html">Contacto</a></li>
+      </ul>
+
+      <!-- Sólo visible dentro del panel móvil -->
+      <div class="nav__pie">
+        <!-- v18 · Las dos páginas de destino que no caben en la barra. Aquí
+             son un objetivo táctil de bloque entero, no una línea de cuatro
+             palabras: es el ancho completo del panel móvil. -->
+        <a class="btn btn-secundario btn-bloque" href="colegios.html">Salidas escolares</a>
+        <a class="btn btn-secundario btn-bloque" href="plan-vecino.html">Plan vecino</a>
+        <a
+          class="btn btn-whatsapp btn-bloque"
+          href="https://wa.me/573166758362?text=Hola%2C%20quiero%20informaci%C3%B3n%20sobre%20Vegas%20del%20Verde"
+          target="_blank"
+          rel="noopener"
+        >
+          Escríbenos por WhatsApp
+        </a>
+        <a
+          class="btn btn-secundario btn-bloque"
+          href="en/index.html"
+          hreflang="en"
+          lang="en"
+          rel="alternate"
+        >
+          Read in English
+        </a>
+      </div>
+    </nav>
+
+    <div class="cabecera__acciones">
+      <!-- Nunca se oculta: en pantallas angostas o con tipografía grande se
+           colapsa al globo + el idioma alterno (ver shell.css). -->
+      <div class="idiomas" role="group" aria-label="Idioma del sitio">
+        <svg class="icono-traza idiomas__globo" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true" focusable="false">
+          <circle cx="12" cy="12" r="9" pathLength="1"/>
+          <path d="M3 12h18" pathLength="1"/>
+          <path d="M12 3c2.4 2.5 3.6 5.5 3.6 9s-1.2 6.5-3.6 9c-2.4-2.5-3.6-5.5-3.6-9s1.2-6.5 3.6-9Z" pathLength="1"/>
+        </svg>
+        <a
+          class="idiomas__opcion"
+          href="index.html"
+          hreflang="es"
+          lang="es"
+          aria-current="true"
+        >ES</a>
+        <a
+          class="idiomas__opcion"
+          href="en/index.html"
+          hreflang="en"
+          lang="en"
+          rel="alternate"
+          aria-label="View this site in English"
+        >EN</a>
+      </div>
+
+      <button
+        class="boton-menu"
+        type="button"
+        aria-expanded="false"
+        aria-controls="nav-principal"
+        aria-label="Abrir menú de navegación"
+        data-menu
+      >
+        <span class="boton-menu__barras" aria-hidden="true">
+          <span></span><span></span><span></span>
+        </span>
+      </button>
+    </div>
+
+  </div>
+</header>
+
+<div class="velo-menu" data-cerrar-menu></div>
+
+<!-- ==========================================================================
+     WHATSAPP FLOTANTE — reemplaza al botón de la cabecera (v12).
+     Antes vivía DENTRO de `.cabecera__acciones`: competía con el selector de
+     idioma y el botón de menú por el mismo espacio angosto, y en pantallas
+     con la letra del sistema agrandada era el primero en desaparecer (ver el
+     colapso documentado en shell.css). Fuera de la cabecera no depende de su
+     ancho: flota fijo en la esquina, visible en cualquier punto del scroll y
+     en cualquier página del sitio —vive en este fragmento, que se inserta
+     como primer hijo de <body> en TODAS ellas—.
+     Mismo enlace y mismo SVG que ya usaba el botón de la cabecera: ni una
+     petición nueva, ni un ícono nuevo que mantener.
+     `position: fixed` con z-index por encima del contenido pero por debajo
+     de cualquier futuro modal (ver --z-modal en tokens.css si existe). El
+     pulso es sólo opacity —GPU, y se apaga solo con prefers-reduced-motion,
+     que shell.css ya resuelve para toda animación infinita del sitio. -->
+<a
+  class="whatsapp-flotante"
+  href="https://wa.me/573166758362?text=Hola%2C%20quiero%20informaci%C3%B3n%20sobre%20Vegas%20del%20Verde"
+  target="_blank"
+  rel="noopener"
+  aria-label="Escribir por WhatsApp a Vegas del Verde"
+>
+  <span class="whatsapp-flotante__pulso" aria-hidden="true"></span>
+  <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" focusable="false">
+    <path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.46 1.32 4.96L2 22l5.25-1.38a9.87 9.87 0 0 0 4.79 1.22h.01c5.46 0 9.91-4.45 9.91-9.91 0-2.65-1.03-5.14-2.9-7.01A9.82 9.82 0 0 0 12.04 2Zm0 18.02h-.01a8.2 8.2 0 0 1-4.19-1.15l-.3-.18-3.12.82.83-3.04-.2-.31a8.19 8.19 0 0 1-1.26-4.38c0-4.54 3.7-8.24 8.25-8.24 2.2 0 4.27.86 5.83 2.42a8.2 8.2 0 0 1 2.41 5.83c0 4.54-3.7 8.23-8.24 8.23Z"/>
+    <path d="M17.47 14.38c-.3-.15-1.76-.87-2.03-.97-.27-.1-.47-.15-.67.15-.2.3-.77.97-.94 1.17-.17.2-.35.22-.65.07-.3-.15-1.26-.46-2.4-1.48-.89-.79-1.49-1.77-1.66-2.07-.17-.3-.02-.46.13-.61.13-.13.3-.35.45-.52.15-.17.2-.3.3-.5.1-.2.05-.37-.02-.52-.08-.15-.67-1.61-.92-2.21-.24-.58-.49-.5-.67-.51h-.57c-.2 0-.52.07-.79.37-.27.3-1.04 1.01-1.04 2.47s1.06 2.87 1.21 3.07c.15.2 2.1 3.2 5.08 4.49.71.31 1.26.49 1.69.63.71.23 1.36.19 1.87.12.57-.09 1.76-.72 2.01-1.41.25-.69.25-1.29.17-1.41-.07-.12-.27-.2-.57-.35Z"/>
+  </svg>
+</a>
+<main id="contenido">
+<!-- ==========================================================================
+     ENCABEZADO DE PÁGINA: El Sendero Ecovital
+     CSS: styles/sections/home.css (bloque «PÁGINAS DE PROFUNDIDAD»)
+     JS propio: NINGUNO
+
+     Generado por herramientas/_crear-paginas-v18.js y mantenido a mano desde
+     entonces. Lo pega el ensamblador como PRIMERA sección de sendero-ecovital.html.
+
+     Aquí vive el único <h1> de la página. La sección que va debajo conserva
+     su <h2> original tal como estaba en index.html: mudarse de página no es
+     rediseñarse, y así la jerarquía queda h1 -> h2 sin tocar el fragmento.
+
+     SIN FOTOGRAFÍA DE FONDO, a propósito: ninguna imagen que el texto pueda
+     tapar. Corrección directa del cliente en esta fase.
+     ========================================================================== -->
+<section id="portada-sendero-ecovital" class="pagina-encabezado" aria-labelledby="portada-sendero-ecovital-titulo">
+  <div class="contenedor contenedor--ancho">
+    <a class="pagina-miga" href="index.html">← Vegas del Verde</a>
+    <div class="pagina-encabezado__interior reveal">
+      <p class="eyebrow">El bosque</p>
+      <h1 id="portada-sendero-ecovital-titulo" class="pagina-encabezado__titulo">El Sendero Ecovital</h1>
+      <p class="entradilla">Un recorrido guiado por la quebrada Aranzoque, entre guaduas, búcaros y caracolíes.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ==========================================================================
+     FRAGMENTO: SENDERO  ·  id="sendero"
+     CSS propio: styles/sections/sendero.css  (+ reutiliza .nat-* de
+     styles/sections/naturaleza.css, ver abajo)
+     JS propio:  js/momentos-video.js (reproducción perezosa de los clips)
+
+     POR QUÉ EXISTE ESTA SECCIÓN (agosto 2026, pedido directo del cliente:
+     «EL SENDERO ECOVITAL ES LO ÚLTIMO, VA DEBAJO DE VIVERO»).
+     Hasta ahora el Sendero era el primer movimiento de #naturaleza y quedaba
+     a media página, entre los planes y las aves. El cliente lo quiere como
+     CIERRE del recorrido, físicamente después de #vivero. Las secciones del
+     <main> son bloques contiguos: no se puede partir #naturaleza para que una
+     mitad quede antes de #vivero y la otra después. Así que el Sendero sale
+     de allí y pasa a ser sección propia, con su entrada en el array ORDEN de
+     herramientas/ensamblar.js y .py entre 'vivero' y 'ubicacion'.
+
+     QUÉ POSEE ESTA SECCIÓN Y NADIE MÁS (ARQUITECTURA-V3 §9, «un hecho, un
+     dueño»). Los hechos vienen de #naturaleza y cambian de DUEÑO, no de
+     contenido — siguen escritos una sola vez en todo el sitio, y la tabla
+     HECHOS de herramientas/validar.js y validar.py se actualizó en paralelo:
+       · el Sendero Ecovital y su descripción
+       · las dos corrientes de agua (Quebrada Aranzoque y riachuelo La Florida)
+       · el rótulo «Atrévete al sendero»
+
+     v5 · LA PORTADA DE FOTO SE ACORTA Y SE ELABORA (pedido directo del
+     cliente: «quita el precio y el sendero ecovital mas rande de portada, y
+     crea una portada mas corta y mas elaborada por favor con esta foto de
+     portada»). La fotografía sigue siendo la MISMA (sendero-hero.jpg, la que
+     él mismo mandó), pero deja de ocupar el alto de un retrato 2400×4268
+     pegado tal cual: el marco pasa a una banda más baja con el foco en la
+     mitad buena del encuadre (sendero.css §5), y lo que se gana en alto se
+     invierte en COMPOSICIÓN: un inserto de DETALLE de la misma foto —los
+     crotones en primer plano— monta sobre la costura entre la banda verde
+     del hero y la fotografía (sendero.css §8). Más corta y más trabajada,
+     no simplemente recortada.
+
+     v3 · EL PRECIO DE $15.000 SE QUITÓ (pedido directo del cliente: «quita
+     el precio»). Era el único importe publicado en todo el sitio; la fila
+     correspondiente de la tabla HECHOS se retiró en el mismo commit, no sólo
+     de aquí — así no queda un hecho vigilado que ya no existe en ningún
+     lado.
+
+     QUÉ NO DICE, POR SER DE OTRA (se enlaza, no se describe):
+       el registro de aves, la endémica, el censo de plantas y el muro del
+       concurso, de #naturaleza · las paradas pedagógicas y el jardín de
+       polinizadores, de colegios.html · el horario y el número escrito, de
+       #ubicacion · las capacidades, de #usos.
+
+     POR QUÉ CONSERVA LAS CLASES .nat-*
+     El bloque de la apertura (foto a sangre por la izquierda + columna de
+     texto + CTA) se mudó ENTERO, sin tocar una sola declaración de CSS:
+     todos sus selectores en naturaleza.css son clases sueltas —.nat-apertura,
+     .nat-ruta, .nat-oferta—, ninguno está anidado bajo
+     #naturaleza, así que siguen aplicando aquí igual. Por eso la sección
+     lleva también la clase `nat`: ahí es donde naturaleza.css declara los
+     tokens locales que esas reglas consumen (--nat-margen, --nat-solape,
+     --nat-alto-apertura). Renombrar el bloque a .snd-* habría significado
+     mover ~450 líneas de una hoja que otra persona está editando al mismo
+     tiempo, y ese riesgo no compra nada que se vea en pantalla.
+
+     LO QUE SÍ SE QUEDÓ EN #naturaleza: el «101 especies». Es el dato del
+     registro de AVES, no del camino, y allí es donde titula. Por eso el
+     titular de esta sección no lleva pieza-cifra: la cifra de aquí es el
+     precio, y ya tiene su propia composición al final de la columna.
+     ========================================================================== -->
+
+<section id="sendero" class="seccion nat sendero" aria-labelledby="sendero-titulo">
+
+  <!-- ======================================================================
+       0 · EL HERO DE VÍDEO — «cuatro planos del mismo camino»
+
+       DE DÓNDE VIENE. Estos cuatro clips eran la sección #momentos: una banda
+       de carbón puesta entre #planes y #colegios que no poseía ni un solo
+       hecho —atmósfera pura— y que en v4 se había convertido en una
+       marquesina que se desplazaba sola. El cliente la señaló con nombre
+       propio: «ese hero de los videos es asqueroso», y pidió integrarlos aquí.
+       Así que #momentos desaparece del <main> (sale de ORDEN en los dos
+       ensambladores y de ESPERADO en los dos validadores) y su metraje pasa a
+       ser la ENTRADA del Sendero, que es donde de verdad significa algo: son
+       planos grabados en el camino del que habla el texto de abajo.
+
+       QUÉ CAMBIA RESPECTO A LA BANDA ANTERIOR, y por qué cada cosa:
+         · EL FONDO DEJA DE SER CARBÓN. Pasa a verde bosque, el color dominante
+           de la marca. El carbón era un gris neutro de plantilla debajo de
+           cuatro clips de vegetación; el bosque los recoge en vez de
+           contradecirlos, y además ya no compite con la sala negra del
+           concurso de #naturaleza (que sigue siendo la única sala oscura).
+         · SE ACABA LA MARQUESINA. Una cinta que corre sola por debajo del
+           texto es lo que hacía que se leyera como banner. Ahora los cuatro
+           planos están QUIETOS y compuestos: un carril de cuatro verticales
+           que sangra por el canto derecho, con la cartela apoyada a la
+           izquierda. Lo que se mueve es lo que hay DENTRO de cada plano —el
+           viento, la mariposa—, que es el material bueno.
+         · LA CARTELA TIENE FONDO SÓLIDO. Es la lección de la cartela del
+           milano en #naturaleza: texto claro sobre fotografía en movimiento
+           no da AA nunca, porque el peor píxel cambia cada fotograma. Aquí el
+           rótulo se apoya en verde bosque hondo, opaco, y el contraste es
+           medible y constante (las cifras, en sendero.css §2).
+         · LOS CUATRO PLANOS NO MIDEN NI CAEN IGUAL. Cuatro rectángulos
+           idénticos en fila es la firma de un muro de archivo. Aquí cada uno
+           entra a una altura distinta y lleva un radio ASIMÉTRICO propio
+           —dos esquinas abiertas y dos cerradas, alternando la diagonal—,
+           que es la silueta de hoja que ya usa toda la sección hermana.
+         · EL MOVIMIENTO DE SCROLL ES CSS PURO. Cada plano deriva unos pocos
+           puntos en vertical con `animation-timeline: view()` (compositor,
+           0 KB de JS), a velocidades distintas: al bajar, el carril se
+           desordena como la maleza al pasar caminando. Va dentro de
+           @supports Y de `prefers-reduced-motion: no-preference`; sin soporte
+           o con movimiento reducido, los planos se quedan donde el layout los
+           deja y no falta nada.
+
+       EL PÓSTER ES EL SUELO, NO HAY <img> DEBAJO. Cada clip trae su fotograma
+       en img/video/<mismo-nombre>.jpg. Si el vídeo no carga, si no hay JS, si
+       el navegador bloquea la reproducción o si el visitante pide menos
+       movimiento, se queda esa foto fija: nunca un hueco negro.
+
+       NO HAY ICONO DE PLAY, Y NO SE PONE. Los clips arrancan solos, mudos y
+       en bucle, cuando entran en pantalla, y se pausan al salir. No hay nada
+       que pulsar, así que un triángulo encima sería un control falso. Toda esa
+       lógica —incluida la de `prefers-reduced-motion`— sigue viviendo en
+       js/momentos-video.js, sin un solo cambio: engancha por el atributo
+       [data-momento-video], no por la sección.
+
+       OJO CON LOS PIES: el jardín de polinizadores es un hecho de
+       colegios.html. Aquí se pueden VER mariposas y flores —son imagen—, pero
+       ningún pie nombra «polinizadores», «jardín de mariposas» ni
+       «avistamiento»: se describe el encuadre, no el equipamiento.
+
+       v4 · EL QUINTO CLIP POR FIN SE USA — abajo, no aquí. El cliente pidió
+       «integra las fotos y videos [...] una propuesta premium»: el quinto
+       clip disponible entra como INSERTO DE VÍDEO sobre la fotografía del
+       camino de la apertura (movimiento 1), no como quinto plano del carril
+       —cinco planos en fila vuelven a ser un muro—. Lo que lo tenía vetado
+       era el NOMBRE del archivo, no la imagen: la ruta original viaja en los
+       atributos `poster` y `src`, que herramientas/validar.py lee como
+       texto, y colaba la palabra vetada en una sección que no es su dueña.
+       La solución es una COPIA del archivo con nombre neutro
+       (video/flores-del-sendero.* + img/video/flores-del-sendero.jpg): pesa
+       en el repo, no en la página, y ningún pie ni ruta nombra el
+       equipamiento de colegios.html.
+       ====================================================================== -->
+  <div class="snd-hero">
+    <div class="snd-hero__cuerpo">
+
+      <div class="snd-hero__cartela reveal-secuencia">
+        <p class="eyebrow snd-hero__eyebrow reveal">El bosque · El Sendero Ecovital</p>
+        <h2
+          id="sendero-titulo"
+          class="titulo-seccion snd-hero__titulo reveal reveal-texto"
+        >
+          <span class="reveal-texto__linea">Se anda poco,</span>
+          <span class="reveal-texto__linea">se para mucho</span>
+        </h2>
+        <!-- v2 · Recortada por pedido del cliente («resume, más fotos menos
+             texto sobrante»): queda lo que el visitante necesita saber —son
+             planos de aquí y no hay nada que operar—. -->
+        <p class="snd-hero__nota reveal">
+          Planos cortos grabados aquí dentro, sin sonido. No hay nada que
+          pulsar: se mueven solos.
+        </p>
+        <!-- El colofón firmado: el mismo gesto de catálogo que el
+             .nat-cinta__firma del concurso. Ancla el carril como pieza propia
+             y no como un carrusel de plantilla. -->
+        <p class="snd-hero__firma reveal">— Metraje propio, Vegas del Verde</p>
+      </div>
+
+      <ul class="snd-hero__carril" role="list">
+
+        <!-- --------------------------------------------------------- 01/04
+             El plano más abierto del cuarteto: sitúa al espectador —las
+             varas, el verde del fondo, la luz— antes de que los otros tres
+             se metan de cerca. Por eso es el que arranca el carril. -->
+        <li class="snd-plano snd-plano--uno">
+          <figure class="snd-plano__figura reveal reveal--velo">
+            <div class="marco snd-plano__marco">
+              <video
+                class="snd-plano__video"
+                data-momento-video
+                muted
+                loop
+                playsinline
+                preload="none"
+                poster="img/video/mariposa-naranja.jpg"
+                width="720"
+                height="1280"
+                aria-hidden="true"
+                tabindex="-1"
+              >
+                <source src="video/mariposa-naranja.webm" type="video/webm" />
+                <source src="video/mariposa-naranja.mp4" type="video/mp4" />
+              </video>
+            </div>
+            <figcaption class="snd-plano__pie snd-plano__pie--verso">
+              Una mariposa naranja se posa entre las varas moradas y sigue.
+            </figcaption>
+          </figure>
+        </li>
+
+        <!-- --------------------------------------------------------- 02/04
+             El clip largo (6,2 s) y el único primer plano: aguanta el bucle
+             sin que se note el corte. -->
+        <li class="snd-plano snd-plano--dos">
+          <figure class="snd-plano__figura reveal reveal--velo">
+            <div class="marco snd-plano__marco">
+              <video
+                class="snd-plano__video"
+                data-momento-video
+                muted
+                loop
+                playsinline
+                preload="none"
+                poster="img/video/verbena-viento.jpg"
+                width="720"
+                height="1280"
+                aria-hidden="true"
+                tabindex="-1"
+              >
+                <source src="video/verbena-viento.webm" type="video/webm" />
+                <source src="video/verbena-viento.mp4" type="video/mp4" />
+              </video>
+            </div>
+            <figcaption class="snd-plano__pie">
+              El viento mueve las varas en flor y una parda no se suelta.
+            </figcaption>
+          </figure>
+        </li>
+
+        <!-- --------------------------------------------------------- 03/04
+             Contraluz: el fondo se va a oscuro y la mariposa entra por el
+             borde izquierdo. Es el plano que mejor se lleva con el verde
+             bosque del fondo, y por eso va en el carril alto. -->
+        <li class="snd-plano snd-plano--tres">
+          <figure class="snd-plano__figura reveal reveal--velo">
+            <div class="marco snd-plano__marco">
+              <video
+                class="snd-plano__video"
+                data-momento-video
+                muted
+                loop
+                playsinline
+                preload="none"
+                poster="img/video/mariposa-amarilla.jpg"
+                width="720"
+                height="1280"
+                aria-hidden="true"
+                tabindex="-1"
+              >
+                <source src="video/mariposa-amarilla.webm" type="video/webm" />
+                <source src="video/mariposa-amarilla.mp4" type="video/mp4" />
+              </video>
+            </div>
+            <figcaption class="snd-plano__pie">
+              A contraluz, una amarilla asoma por el borde del encuadre.
+            </figcaption>
+          </figure>
+        </li>
+
+        <!-- --------------------------------------------------------- 04/04
+             La pieza corta: dura dos segundos. Naranja sobre verde, que es lo
+             que aguanta el tamaño chico. Es la que sangra por el canto
+             derecho de la pantalla: el carril no termina, se sale. -->
+        <li class="snd-plano snd-plano--cuatro">
+          <figure class="snd-plano__figura reveal reveal--velo">
+            <div class="marco snd-plano__marco">
+              <video
+                class="snd-plano__video"
+                data-momento-video
+                muted
+                loop
+                playsinline
+                preload="none"
+                poster="img/video/mariposas-par.jpg"
+                width="720"
+                height="1280"
+                aria-hidden="true"
+                tabindex="-1"
+              >
+                <source src="video/mariposas-par.webm" type="video/webm" />
+                <source src="video/mariposas-par.mp4" type="video/mp4" />
+              </video>
+            </div>
+            <figcaption class="snd-plano__pie">
+              Dos naranjas coinciden en la misma mata.
+            </figcaption>
+          </figure>
+        </li>
+
+      </ul>
+
+    </div>
+  </div>
+
+  <!-- ======================================================================
+       1 · LA APERTURA A SANGRE POR LA IZQUIERDA
+       Bloque mudado tal cual desde sections/naturaleza.html (era su movimiento
+       1). La foto del camino toca el borde de la pantalla y la columna de
+       texto arranca a su derecha, con el precio al final. Sigue siendo lo
+       principal de la pieza y tiene que verse que lo es.
+
+       CAMBIOS RESPECTO AL ORIGINAL, y sólo estos tres:
+         · el h2 cambia de id (naturaleza-titulo → sendero-titulo) y de sitio:
+           ahora el titular de la sección lo lleva la cartela del hero de
+           arriba, así que aquí el encabezado se queda con el antetítulo y la
+           entradilla, sin duplicar rótulo;
+         · sale la pieza-cifra del «101»: ese dato es del registro de aves y
+           se quedó titulando en #naturaleza;
+         · el enlace «Cómo llegar» y el CTA de WhatsApp no se tocan.
+       ====================================================================== -->
+  <div class="nat-apertura">
+
+    <div class="nat-apertura__media reveal reveal--izq">
+      <!-- v2 · LA FOTO PROTAGONISTA ES LA NUEVA DEL CLIENTE. Pedido directo:
+           «de sendero ecovital usa la que te pedí ahí». Sale sendero-1 (el
+           túnel de ramas) y entra img/sendero/sendero-hero.jpg: fotografía
+           propia, retrato 2400×4268, el camino de pasto entre el seto y los
+           crotones con el cielo despejado arriba. El encuadre bueno —camino,
+           crotones, sombra— vive en la mitad BAJA del original; el ajuste de
+           object-position está en sendero.css §5, no aquí. -->
+      <figure class="nat-apertura__principal">
+        <div class="marco marco--retrato">
+          <img
+            src="img/sendero/sendero-hero.jpg"
+            srcset="img/sendero/sendero-hero-400.jpg 400w, img/sendero/sendero-hero-600.jpg 600w, img/sendero/sendero-hero-800.jpg 800w, img/sendero/sendero-hero-1200.jpg 1200w, img/sendero/sendero-hero.jpg 2400w"
+            sizes="(max-width: 47.99em) 94vw, 96vw"
+            width="2400"
+            height="4268"
+            loading="lazy"
+            decoding="async"
+            alt="El camino de pasto del Sendero Ecovital entre el seto y una hilera de crotones de hoja roja y amarilla, bajo árboles altos y cielo despejado"
+          />
+        </div>
+      </figure>
+
+      <!-- v5 · EL DETALLE DE CROTONES — la misma foto, dos veces, dos escalas.
+           Es la mitad «más elaborada» del pedido del cliente («crea una
+           portada mas corta y mas elaborada por favor con esta foto de
+           portada»): en vez de traer material nuevo, la propia fotografía se
+           cita a sí misma. El marco pequeño recorta en primer plano los
+           crotones de hoja roja y amarilla —el mejor color del encuadre—
+           usando el derivado -800 con object-position, sin generar ni un
+           archivo nuevo. Va montado sobre la COSTURA entre la banda verde del
+           hero y la fotografía: es la tercera solapa de la familia (guadua
+           abajo-derecha, vídeo abajo-izquierda en escritorio) y la única que
+           cruza la frontera de color, que es justo lo que la hace portada y
+           no lámina. Mismo filete de crema, misma sombra, la diagonal de hoja
+           que quedaba libre. alt vacío a propósito: es un recorte de la misma
+           imagen que el alt del marco grande ya describe entera; el pie en
+           pastilla opaca (contraste medible, lección de la cartela) pone el
+           rótulo visible. -->
+      <figure class="snd-detalle reveal reveal--velo">
+        <div class="marco marco--1-1 snd-detalle__marco">
+          <img
+            src="img/sendero/sendero-hero-800.jpg"
+            srcset="img/sendero/sendero-hero-400.jpg 400w, img/sendero/sendero-hero-800.jpg 800w"
+            sizes="(max-width: 47.99em) 34vw, 10rem"
+            width="800"
+            height="1423"
+            loading="lazy"
+            decoding="async"
+            alt=""
+          />
+        </div>
+        <figcaption class="credito snd-detalle__pie">Crotones del camino</figcaption>
+      </figure>
+
+      <figure class="nat-apertura__inset">
+        <div class="marco marco--1-1">
+          <img
+            src="img/parque/parque-45.jpg"
+            srcset="img/parque/parque-45-400.jpg 400w, img/parque/parque-45.jpg 675w"
+            sizes="(max-width: 47.99em) 43vw, 25vw"
+            width="675"
+            height="1200"
+            loading="lazy"
+            decoding="async"
+            alt="Cerramiento de cañas de guadua del predio, con orquídeas colgadas de una vara y materas de barro sobre la gravilla"
+          />
+        </div>
+        <figcaption class="credito nat-apertura__pie">Guadua del predio</figcaption>
+      </figure>
+
+      <!-- v4 · EL INSERTO DE VÍDEO — el quinto clip, dentro de la fotografía.
+           Es la pieza que INTEGRA los dos bloques de la sección (pedido del
+           cliente: «integra las fotos y videos [...] una propuesta premium»):
+           el metraje del hero se asoma dentro de la apertura, en la esquina
+           baja del camino, y la foto y los clips dejan de ser dos mundos.
+           Mismo patrón que el inserto de guadua —filete de crema, sombra,
+           silueta de hoja— pero en la diagonal CONTRARIA y en la otra
+           esquina: rompe la caja una segunda vez sin calcar la primera.
+           · Mismo motor que los cuatro de arriba: [data-momento-video],
+             mudo, en bucle, preload="none", póster como suelo — cero JS
+             nuevo, js/momentos-video.js ya lo recoge solo.
+           · aria-hidden y tabindex -1 como sus hermanos: es atmósfera, el
+             pie de abajo cuenta lo que hay.
+           · El pie NO va sobre el vídeo (contraste imposible de medir, misma
+             lección de la cartela del hero): va en una pastilla de crema
+             OPACA debajo del marco, dentro de la misma figura.
+           · SÓLO EN ESCRITORIO (sendero.css §7): en móvil el carril de
+             arriba ya se arrastra con el dedo a pantalla completa y un
+             quinto clip sobre la foto sólo roba alto y datos. -->
+      <figure class="snd-clip-inset reveal reveal--velo">
+        <div class="marco snd-clip-inset__marco">
+          <video
+            class="snd-clip-inset__video"
+            data-momento-video
+            muted
+            loop
+            playsinline
+            preload="none"
+            poster="img/video/flores-del-sendero.jpg"
+            width="720"
+            height="1280"
+            aria-hidden="true"
+            tabindex="-1"
+          >
+            <source src="video/flores-del-sendero.webm" type="video/webm" />
+            <source src="video/flores-del-sendero.mp4" type="video/mp4" />
+          </video>
+        </div>
+        <figcaption class="credito snd-clip-inset__pie">El mismo verde, en movimiento</figcaption>
+      </figure>
+
+      <!-- LA CAJA DE FAUNA AMBIENTE (js/fauna-ambiente.js). Vacía, decorativa
+           y con `position` propia. Va AQUÍ, sobre la fotografía del camino
+           —el movimiento del sendero—, y no en la parte de aves: allí ya
+           vuelan pájaros de verdad, fotografiados en el predio, y
+           superponerles recortes genéricos sería competir con el material
+           bueno. Cae sobre foto, nunca sobre párrafo. Se mudó con el bloque;
+           el <script> que la monta está al final de este fragmento. -->
+      <div class="nat-apertura__aire" aria-hidden="true"></div>
+    </div>
+
+    <div class="nat-apertura__texto reveal reveal--der">
+
+      <!-- Ya no es un <header>: el rótulo y el titular de la sección viven en
+           la cartela del hero de arriba, así que lo que queda aquí es sólo la
+           entradilla. Un <header> de un solo párrafo anuncia una cabecera que
+           no existe. Conserva la clase porque de ella cuelga el aire de la
+           columna. -->
+      <!-- v2 · RECORTE DE TEXTO, pedido del cliente: «en estos últimos hay
+           mucho texto, resume, más fotos menos texto sobrante que las
+           personas ya no leen». Se conservan enteros los hechos que la
+           tabla HECHOS de herramientas/validar.js le exige a esta sección
+           —el Sendero descrito y las dos corrientes de agua (Quebrada
+           Aranzoque · riachuelo La Florida)— y el rótulo «Atrévete al
+           sendero» (el precio de $15.000 que estaba aquí se quitó en v3,
+           ver la nota de cabecera). Lo que se recorta es prosa que repetía lo
+           que la foto o el resto de la columna ya cuentan: la entradilla
+           queda en una frase, y el párrafo que narraba el encuentro de las
+           dos corrientes se condensa en una línea bajo el cauce, porque los
+           dos nombres con el trazo serpenteante ya dibujan el recorrido. -->
+      <div class="nat-apertura__encabezado">
+        <!-- v3 · La entradilla decía «la única visita suelta con un precio
+             publicado», que dejó de ser cierto en cuanto se quitó el precio.
+             Se reemplaza por lo que la frase realmente vendía: que es una
+             visita que se puede hacer suelta, sin reservar un plan completo. -->
+        <p class="entradilla">
+          El recorrido guiado junto a la quebrada: la única visita que se
+          hace suelta, sin reservar un plan completo.
+        </p>
+      </div>
+
+      <div class="nat-apertura__cuerpo">
+        <h3 class="titulo-seccion titulo-seccion--xs nat-apertura__antetitulo">
+          Con alguien que sabe mirar
+        </h3>
+
+        <p>
+          Es pajareo y observación de plantas a la vez: se anda poco y se para mucho.
+          Vas con guía, así que lo que oyes tiene nombre.
+        </p>
+
+        <!-- El cauce entre los dos puntos era un filete recto de 1 px. Un
+             filete recto es lo que dibuja una tabla; una quebrada serpentea.
+             El trazo es SVG y es decoración pura (aria-hidden): los dos
+             nombres ya están escritos al lado y el orden lo da el flujo. -->
+        <p class="nat-ruta">
+          <span class="nat-ruta__punto">Quebrada Aranzoque</span>
+          <svg
+            class="nat-ruta__cauce"
+            viewBox="0 0 16 64"
+            preserveAspectRatio="none"
+            aria-hidden="true"
+            focusable="false"
+          >
+            <path
+              d="M1 0 C 13 12, 1 22, 8 34 C 15 46, 3 54, 1 64"
+              stroke-width="1.4"
+              stroke-linecap="round"
+              vector-effect="non-scaling-stroke"
+            />
+          </svg>
+          <span class="nat-ruta__punto">Riachuelo La Florida</span>
+        </p>
+
+        <p>
+          Las dos corrientes de agua rodean el terreno arbolado.
+        </p>
+
+        <!-- Una línea de registro separada por interpunto — ficha de
+             expedición, no lista de beneficios. Micro-etiqueta (<24px), caps
+             permitidos. -->
+        <p class="nat-apertura__notas">
+          Guaduas a lado y lado · Búcaro y Caracolí · Recorrido guiado de pajareo
+        </p>
+      </div>
+
+      <!-- v3 · SE QUITÓ EL PRECIO, pedido directo del cliente («quita el
+           precio»). Era el único importe publicado en todo el sitio (ver
+           HECHOS de herramientas/validar.js y validar.py, fila retirada) y
+           vivía en `.nat-precio`, columna izquierda de esta grilla de dos
+           columnas. Sin esa columna, `.nat-oferta` deja de necesitar la
+           partición `auto / 1fr` de naturaleza.css §mediaquery — pasa a una
+           sola columna de ancho completo. La regla de esa media query no se
+           borra: sigue sirviendo para cuando la sección tenga otra vez dos
+           piezas desiguales, pero ya no se dispara aquí. -->
+      <div class="nat-oferta nat-oferta--sin-precio">
+        <div class="nat-oferta__accion">
+          <div class="grupo-botones">
+            <a
+              class="btn btn-whatsapp btn-grande"
+              href="https://wa.me/573166758362?text=Hola%2C%20quiero%20reservar%20un%20recorrido%20guiado%20por%20el%20Sendero%20Ecovital.%20Vamos%20___%20personas%20y%20nos%20gustar%C3%ADa%20ir%20el%20___."
+              target="_blank"
+              rel="noopener"
+            >
+              Atrévete al sendero
+            </a>
+            <!-- El contrapunto del precio de al lado: esa entrada es para
+                 venir una vez; el Plan vecino es para volver. Vive en su
+                 propia página porque tiene tarifas, condiciones y beneficios
+                 que aquí obligarían a repetir media sección. -->
+            <a class="btn btn-secundario btn-grande" href="plan-vecino.html">
+              Ven todo el año
+            </a>
+          </div>
+
+          <p class="nota nat-oferta__nota">
+            Escribe con cuántos vienen y qué día les sirve.
+            <a href="contacto.html">Cómo llegar</a>.
+          </p>
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+
+  <!-- El motor de reproducción perezosa de los clips del hero. Va DENTRO del
+       fragmento a propósito: index.html se ensambla con
+       herramientas/ensamblar.js, que copia las secciones tal cual pero NO
+       toca los <script> del <head> ni los del pie. Así la sección se lleva su
+       comportamiento consigo. El archivo no cambia de nombre —sigue siendo el
+       de #momentos— porque no cambia de trabajo: engancha por
+       [data-momento-video], no por la sección. Sin él, los cuatro planos se
+       quedan en su póster y no se rompe nada. -->
+  <script src="js/momentos-video.js?v=89e009b7" defer></script>
+
+  <!-- FAUNA AMBIENTE. Un solo montaje, sobre la caja vacía de la apertura,
+       con las cifras que fija la tabla de reparto del documento del director:
+       densidad `abundante`, mariposas, ave y colibrí, semilla 4. Es el único
+       montaje del colibrí en toda la página —pesa 88 kB y el gesto se gasta
+       una vez sola—. El módulo baja solo un escalón de densidad en pantalla
+       estrecha y ahí no monta el colibrí nunca, así que en móvil no se
+       descarga. El cerrojo de prefers-reduced-motion es el mismo de
+       sections/hero.html: quien pide menos movimiento no llega ni a pedir el
+       módulo por red. -->
+  <script type="module">
+    if (!matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      import('./js/fauna-ambiente.js?v=b8a9a1c8')
+        .then((m) => m.montarFaunaAmbiente(
+          document.querySelector('#sendero .nat-apertura__aire'),
+          { densidad: 'abundante', especies: ['mariposa', 'ave', 'colibri'], semilla: 4 }
+        ))
+        .catch(() => {});
+    }
+  </script>
+
+</section>
+</main>
+<!-- ==========================================================================
+     FRAGMENTO: PIE DE PÁGINA  ·  se inserta al final de <body>, tras </main>
+     Propiedad del director de arte.
+
+     REDISEÑO «cierre editorial» (referencia: mockup 08-footer-cta):
+       1. Cierre: antetítulo + titular serif grande + CTA final → #ubicacion.
+       2. Filete y fila de marca: logo lineal SVG + nombre serif + tagline,
+          y a la derecha Instagram + idioma.
+       3. Legal y créditos, discretos.
+
+     EL PIE SIGUE DELGADO (ARQUITECTURA-V3, «queDesaparece»). Aquí sólo hay:
+       marca y tagline · Instagram · un único enlace a #ubicacion ·
+       el cambio de idioma · 4 Family S.A.S. y el NIT · política y términos ·
+       el crédito fotográfico.
+     NO le devuelvas horario/dirección/teléfono/servicios «porque un pie
+     siempre los lleva»: cada hecho tiene un dueño arriba. Tampoco le pongas
+     id="contacto": ese id vive en #ubicacion y duplicarlo rompe el menú.
+
+     Estilos: styles/sections/pie.css (clases pie-final__*). El fondo, el
+     padding y el color de enlaces base los sigue dando .pie-sitio (shell.css).
+     ========================================================================== -->
+<footer class="pie-sitio pie-final">
+  <div class="contenedor contenedor--ancho">
+
+    <div class="pie-final__cierre">
+      <p class="pie-final__antetitulo reveal"><span class="pie-final__filete" aria-hidden="true"></span>Oasis para la recreación y el bienestar</p>
+      <p class="pie-final__titular reveal reveal-texto">
+        <span class="reveal-texto__linea">El verde te está</span>
+        <span class="reveal-texto__linea">esperando.</span>
+      </p>
+      <!-- v18 · Deja de ser el ancla #ubicacion y pasa a ser contacto.html.
+           La sección de cómo llegar se mudó a página propia
+           (PLAN-REDISENO-V4 §4.1) y este pie se inserta ahora en TODAS las
+           páginas del sitio: un ancla suelta no llevaría a ninguna parte
+           desde vivero.html o naturaleza.html. -->
+      <a class="pie-final__cta" href="contacto.html">
+        Dónde queda y cómo llegar
+        <svg class="pie-final__flecha" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+          <path d="M4 12h16"/>
+          <path d="M14 6l6 6-6 6"/>
+        </svg>
+      </a>
+    </div>
+
+    <div class="pie-final__fila">
+
+      <div class="pie-final__marca">
+        <svg class="pie-final__simbolo" viewBox="0 0 64 64" width="64" height="64" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+          <path d="M10 55c4-3 8-3 12 0s8 3 12 0 8-3 12 0 5 2 8 0"/>
+          <path d="M32 48V26"/>
+          <path d="M32 26c-5.5-5-5.5-13 0-18 5.5 5 5.5 13 0 18Z"/>
+          <path d="M32 42c-4-1-8-4-9.5-9"/>
+          <path d="M22.5 33c-6-1.5-9.5-6-10-12 6 .5 10.5 4 12 10-.5 1-1.3 1.7-2 2Z"/>
+          <path d="M32 42c4-1 8-4 9.5-9"/>
+          <path d="M41.5 33c6-1.5 9.5-6 10-12-6 .5-10.5 4-12 10 .5 1 1.3 1.7 2 2Z"/>
+        </svg>
+        <p class="pie-final__nombre">Vegas del Verde</p>
+      </div>
+
+      <div class="pie-final__acciones">
+        <a
+          class="pie-final__social"
+          href="https://instagram.com/vegasdelverde"
+          target="_blank"
+          rel="noopener"
+        >
+          <svg class="icono-traza" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true" focusable="false">
+            <rect x="3" y="3" width="18" height="18" rx="5" pathLength="1"/>
+            <circle cx="12" cy="12" r="4" pathLength="1"/>
+            <circle cx="17.3" cy="6.7" r="1.15" fill="currentColor" stroke="none" pathLength="1"/>
+          </svg>
+          @vegasdelverde
+        </a>
+        <a
+          class="pie-final__idioma"
+          href="en/index.html"
+          hreflang="en"
+          lang="en"
+          rel="alternate"
+        >
+          Read this site in English
+        </a>
+      </div>
+
+    </div>
+
+    <div class="pie-final__legal">
+      <p>
+        <strong>4 Family S.A.S.</strong> · NIT 901.391.144-7 ·
+        Floridablanca, Santander, Colombia ·
+        <span>© <span data-anio>2026</span> Vegas del Verde. Todos los derechos reservados.</span>
+      </p>
+      <!-- v18 · El pie recoge las páginas que no caben en la barra de
+           navegación: colegios, plan vecino y las condiciones de alquiler.
+           No son «hechos» repetidos —no dicen aforos, ni precios, ni
+           horarios—: son la única puerta a esas tres URL desde una pantalla
+           ancha, donde el panel móvil que las lleva no existe. -->
+      <ul class="pie-final__legal-enlaces">
+        <li><a href="colegios.html">Salidas escolares</a></li>
+        <li><a href="plan-vecino.html">Plan vecino</a></li>
+        <li><a href="condiciones-de-alquiler.html">Condiciones de alquiler</a></li>
+        <li><a href="politica-de-datos.html">Política de tratamiento de datos</a></li>
+        <li><a href="terminos.html">Términos y condiciones</a></li>
+      </ul>
+    </div>
+
+    <p class="pie-final__creditos">
+      Fotografías de aves cedidas por los participantes del concurso de fotografía de
+      Vegas del Verde; el crédito de cada autor aparece junto a su imagen en la galería.
+      Las demás fotografías y el render aéreo del predio son propiedad de Vegas del Verde.
+    </p>
+
+  </div>
+</footer>
+<script src="js/app.js?v=d2757e52" defer></script>
+</body>
+</html>

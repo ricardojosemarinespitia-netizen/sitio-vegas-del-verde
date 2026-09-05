@@ -667,306 +667,12 @@
      durante la pausa de foto sola no hay nada encima de la fotografía, que
      es la razón de ser de la pausa. Mismo criterio que `.prueba__velo`. */
   .js .planes-fiesta__escena .planes-portada__velo {
-    opacity: var(--texto);
-  }
-
-  /* El velo NO entra en esta regla: sólo se le funde la opacidad. Va pegado a
-     los cuatro lados de la portada y desplazarlo 28 px dejaría una franja sin
-     velar justo arriba, que es donde cae la marca. */
-  .js .planes-fiesta__escena .planes-portada__marca,
-  .js .planes-fiesta__escena .planes-portada__tarjeta {
-    opacity: var(--texto);
-    translate: 0 calc((1 - var(--texto)) * 28px);
-  }
-
-  /* LA TARJETA SE POSA SOBRE LA FOTO EN TODOS LOS ANCHOS DE ESCRITORIO, y no
-     es un capricho de composición: dentro del escenario clavado
-     (`overflow: clip`, alto de una pantalla) una tarjeta en flujo normal
-     quedaría DEBAJO del recorte, es decir, invisible. Posarla es la
-     condición para que la escena exista. De base ocupa el ancho de la
-     columna de lectura, con el sangrado devuelto a cero por los dos flancos;
-     el afinado de escritorio va justo debajo. En móvil/táctil esta regla no
-     importa: la tarjeta se oculta con `display: none` más abajo. */
-  .js .planes-fiesta__escena .planes-portada__tarjeta {
-    position: absolute;
-    z-index: var(--z-elevado);
-    inset-block-end: var(--gap);
-    inset-inline: calc(var(--planes-sangrado) * -1);
-    max-inline-size: none;
-  }
-}
-
-/* El afinado de escritorio de la tarjeta DENTRO de la escena: vuelve a ser la
-   columna de cinco pasos anclada a la derecha, que es lo que cruza la imagen
-   en diagonal contra la marca de agua que abre por la izquierda. Va aparte y
-   no anidado para no encadenar dos `@media`: mismas condiciones, sumadas. */
-@media (min-width: 64em) and (prefers-reduced-motion: no-preference) {
-  .js .planes-fiesta__escena .planes-portada__tarjeta {
-    inset-block-end: var(--gap-lg);
-    inset-inline-start: auto;
-    max-inline-size: calc(var(--planes-paso) * 5 - var(--gap));
-  }
-}
-
-/* --------------------------------------------------------------------------
-   3 ter. LA NOCHE QUE SE ENCIENDE — la guirnalda del carril 01
-   --------------------------------------------------------------------------
-   El titular promete que «la fiesta empieza cuando se encienden los
-   bombillos». Hasta ahora lo prometía y no lo cumplía: la foto llegaba con la
-   guirnalda ya encendida. Estos nueve resplandores lo cumplen. Van posados
-   sobre la curva visible de la guirnalda de la fotografía —arranca en el
-   alero izquierdo de la carpa (~33 % de alto), baja por el frente hasta su
-   punto más hondo hacia el centro (~43 %) y vuelve a subir hacia el árbol de
-   la derecha— y se ENCIENDEN uno tras otro, de izquierda a derecha, mientras
-   la lámina sube con el scroll.
-
-   CERO MOTORES NUEVOS, y es la decisión central del bloque. La lección del
-   diorama del carril 02 está escrita en su propio código: dos motores sobre
-   la misma pieza es el bug. Aquí ni `view()` ni IntersectionObserver: la
-   opacidad de cada bombillo se calcula CONTRA LA MISMA `--entrada` que ya
-   escribe js/escena-planes.js en `.planes-fiesta__escena` para abrir el
-   recorte de la foto. Cada bombillo lleva su umbral (`--umbral`, de 0 a
-   0,72 por :nth-child) y una ventana de 0,2: el primero termina de
-   encenderse cuando la lámina lleva un quinto de su apertura y el noveno
-   remata justo cuando la foto llega a sangre. Un solo motor, una sola
-   variable, y la secuencia sale gratis.
-
-   ESTADO ESTÁTICO RESUELTO, por la misma razón por la que `--entrada` nace
-   en 1: sin JS, la variable heredada vale 1 y los nueve puntos están
-   ENCENDIDOS y quietos. Con `prefers-reduced-motion: reduce` la escena
-   entera no se activa, `--entrada` se queda en su 1 de reserva y el
-   resultado es idéntico: bombillos encendidos, nada parpadea. Apagarlos
-   sería castigar al que pidió menos movimiento quitándole la foto tal cual
-   es —la carpa CON las luces—, que es lo contrario de reducir movimiento.
-
-   EL HALO RESPIRA EN UN PSEUDO, NO EN EL BOX-SHADOW. Animar un box-shadow
-   repinta; aquí el box-shadow del punto es ESTÁTICO y lo único que se anima
-   es la OPACIDAD del `::after` (un radial-gradient más ancho): compositor
-   puro. Es el segundo «motor» del bloque pero sobre OTRO elemento —el
-   pseudo—, nunca sobre el bombillo que ya gobierna `--entrada`; y sólo
-   existe dentro de `no-preference`, así que en movimiento reducido el halo
-   queda fijo en su opacidad de reposo. El delay negativo desfasa la
-   respiración de cada halo para que la guirnalda no lata al unísono como
-   un semáforo.
-
-   COORDENADAS EN %, no en tokens, y no es un descuido: son posiciones sobre
-   la fotografía (como los 34 %/7 % del clip-path de arriba), no medidas de
-   componente. Con `object-fit: cover` el recorte cambia según el alto de la
-   ventana, así que los puntos no clavan el bombillo físico píxel a píxel en
-   todos los anchos; clavan la ALTURA de la guirnalda y su curva, que es lo
-   que hace legible el gesto. Todo lo que sí es medida —diámetro, halos,
-   radios— sale de tokens.css.                                              */
-.planes-carril--fiesta .planes-portada__guirnalda {
-  position: absolute;
-  inset: 0;
-  pointer-events: none;
-}
-
-.planes-carril--fiesta .planes-portada__bombillo {
-  position: absolute;
-  inline-size: var(--esp-2xs);
-  block-size: var(--esp-2xs);
-  /* Centra el cuerpo del punto sobre su coordenada: la pareja inset de cada
-     :nth-child marca el CENTRO del bombillo, no su esquina. */
-  margin: calc(var(--esp-2xs) / -2);
-  border-radius: var(--radio-full);
-  /* El punto es la crema de luces del grading (--luz) y el halo corto tira
-     al amarillo del logo: mismo par cálido que los bombillos reales de la
-     foto, que suben a crema en el centro y amarillean en el aire. */
-  background-color: var(--luz);
-  box-shadow:
-    0 0 var(--esp-sm) var(--esp-3xs) rgb(var(--luz-rgb) / 0.85),
-    0 0 var(--esp-xl) var(--esp-2xs) rgb(var(--amarillo-rgb) / 0.35);
-  /* EL ENCENDIDO. `--entrada` la escribe js/escena-planes.js (0 → 1 en el
-     primer tramo del pin); sin escena vale 1 (reserva heredada de
-     `.planes-fiesta__escena`) y también aquí, por el segundo valor del var().
-     Cada bombillo pasa de 0 a 1 en la ventana [--umbral, --umbral + 0,2]:
-     eso es toda la secuencia. */
-  opacity: clamp(0, (var(--entrada, 1) - var(--umbral, 0)) / 0.2, 1);
-}
-
-/* El halo ancho: un radial cálido que desborda el punto. Su opacidad de
-   REPOSO es la que se ve en movimiento reducido y en el fotograma congelado:
-   un resplandor presente pero quieto. */
-.planes-carril--fiesta .planes-portada__bombillo::after {
-  content: "";
-  position: absolute;
-  inset: calc(var(--esp-lg) * -1);
-  border-radius: var(--radio-full);
-  background: radial-gradient(
-    closest-side,
-    rgb(var(--amarillo-rgb) / 0.4),
-    transparent 72%
-  );
-  opacity: 0.55;
-}
-
-/* La respiración, SÓLO si el visitante no pidió menos movimiento. Lentísima
-   —casi el doble del vuelo del mapa— y en alternate, para que sea un latido
-   y no un parpadeo: debe notarse al quedarse mirando, no al pasar. El delay
-   negativo (proporcional al umbral de encendido de cada punto) desfasa los
-   nueve halos: cada uno va por un punto distinto de su ciclo. */
-@media (prefers-reduced-motion: no-preference) {
-  .planes-carril--fiesta .planes-portada__bombillo::after {
-    animation: planes-halo-respira calc(var(--dur-vuelo) * 1.8) var(--ease)
-      infinite alternate;
-    animation-delay: calc(var(--umbral, 0) * var(--dur-vuelo) * -2);
-  }
-}
-
-@keyframes planes-halo-respira {
-  from {
-    opacity: 0.35;
-  }
-
-  to {
-    opacity: 0.7;
-  }
-}
-
-/* LA CURVA. Nueve centros siguiendo la guirnalda real de la foto: alero
-   izquierdo de la carpa → frente de la carpa (el punto más hondo hacia el
-   centro) → cuerda hacia el árbol de la derecha. El `--umbral` crece con la
-   posición horizontal: el encendido LEE de izquierda a derecha, igual que el
-   titular que tiene encima. */
-.planes-carril--fiesta .planes-portada__bombillo:nth-child(1) {
-  --umbral: 0;
-
-  inset-inline-start: 3%;
-  inset-block-start: 33%;
-}
-
-.planes-carril--fiesta .planes-portada__bombillo:nth-child(2) {
-  --umbral: 0.09;
-
-  inset-inline-start: 12%;
-  inset-block-start: 36%;
-}
-
-.planes-carril--fiesta .planes-portada__bombillo:nth-child(3) {
-  --umbral: 0.18;
-
-  inset-inline-start: 21%;
-  inset-block-start: 39%;
-}
-
-.planes-carril--fiesta .planes-portada__bombillo:nth-child(4) {
-  --umbral: 0.27;
-
-  inset-inline-start: 31%;
-  inset-block-start: 42%;
-}
-
-.planes-carril--fiesta .planes-portada__bombillo:nth-child(5) {
-  --umbral: 0.36;
-
-  inset-inline-start: 42%;
-  inset-block-start: 43%;
-}
-
-.planes-carril--fiesta .planes-portada__bombillo:nth-child(6) {
-  --umbral: 0.45;
-
-  inset-inline-start: 53%;
-  inset-block-start: 42%;
-}
-
-.planes-carril--fiesta .planes-portada__bombillo:nth-child(7) {
-  --umbral: 0.54;
-
-  inset-inline-start: 64%;
-  inset-block-start: 38%;
-}
-
-.planes-carril--fiesta .planes-portada__bombillo:nth-child(8) {
-  --umbral: 0.63;
-
-  inset-inline-start: 75%;
-  inset-block-start: 36%;
-}
-
-.planes-carril--fiesta .planes-portada__bombillo:nth-child(9) {
-  --umbral: 0.72;
-
-  inset-inline-start: 86%;
-  inset-block-start: 40%;
-}
-
-.planes-portada {
-  position: relative;
-  isolation: isolate;
-  overflow: hidden;
-  /* ESQUINA VIVA, y no es un olvido: §8 redondea las fotos que viven DENTRO
-     de la maqueta. Una foto que llega al borde de la ventana no se redondea
-     nunca —una esquina curva contra el borde del navegador se lee como una
-     imagen mal pegada—, así que ésta y la banda del carril 04 son las dos
-     únicas piezas rectas de la sección. */
-  border-radius: 0;
-  block-size: var(--planes-portada-alto);
-  margin-inline: var(--planes-sangrado);
-  /* Color de espera mientras la foto decodifica: el mismo verde del negativo
-     de marca, para que el hueco nunca sea un rectángulo gris. */
-  background-color: var(--color-fondo-oscuro);
-}
-
-.planes-portada__foto {
-  position: absolute;
-  inset: 0;
-  inline-size: 100%;
-  block-size: 100%;
-  object-fit: cover;
-  /* Sube el encuadre: interesa el cielo de hora azul y la carpa, no el
-     césped del primer término. */
-  object-position: 50% 44%;
-}
-
-/* MÓVIL: EL ENCUADRE SE CORRE A LA DERECHA (pedido explícito del cliente,
-   agosto de 2026 — «en celular enfoca más la foto a tope al lado derecho
-   para que se vea el lado derecho»). En una ventana angosta `object-fit:
-   cover` recorta por los dos flancos para llenar el alto de la caja, y el
-   50 % horizontal de siempre deja el cincuenta luminoso —el elemento que más
-   vende de esta foto, y el mismo que nombra el carril— fuera de la ventana o
-   cortado por el borde derecho. Corriendo el foco al 82 % el recorte que se
-   pierde es el flanco IZQUIERDO, que en esta toma es sólo césped y sombra sin
-   ningún elemento que contar; el cincuenta queda dentro de cuadro. Sólo se
-   toca el eje horizontal: el vertical (44 %, cielo de hora azul y carpa) es
-   el mismo en los dos anchos. */
-@media (max-width: 47.9375em) {
-  .planes-portada__foto {
-    object-position: 82% 44%;
-  }
-}
-
-/* EL VELO, ACOTADO A LA BANDA DEL TEXTO. No es una veladura de toda la foto
-   —eso apagaría la carpa iluminada, que es lo que la foto vende— sino una
-   banda que cubre el cielo y se disuelve antes de llegar a los bombillos. */
-.planes-portada__velo {
-  position: absolute;
-  inset: 0;
-  pointer-events: none;
-  /* v2 · LA MESETA YA NO CHOCA CONTRA LA RAMPA. El reparto de siempre —velo
-     pleno hasta media altura, disuelto antes de los bombillos— tenía dos
-     codos: en el 50 %, donde la pendiente pasaba de cero a caída máxima de
-     golpe, y en el 78 %, donde la caída se cortaba en seco contra el cero.
-     Sobre un cielo de hora azul, que es la superficie más lisa de la página,
-     los dos se leían como rayas horizontales. Ahora la meseta suelta el velo
-     poco a poco a partir del 46 % y la cola muere en el 84 %.
-     LO QUE NO CAMBIA: bajo la marca de agua (mitad alta) el velo sigue pleno
-     —a 46 % está aún en --color-velo y a 50 % en 0,545— así que la mediana de
-     10:1 del contorno sobre el cielo se conserva. En la mitad baja el velo
-     queda como mucho 0,027 de alfa POR ENCIMA de la recta anterior: la carpa
-     y los bombillos siguen encendidos, sólo sin la raya. */
-  background-image: linear-gradient(
-    to bottom,
-    var(--color-velo) 0%,
-    var(--color-velo) 46%,
-    rgb(var(--verde-bosque-hondo-rgb) / 0.53) 52%,
-    rgb(var(--verde-bosque-hondo-rgb) / 0.42) 58%,
-    rgb(var(--verde-bosque-hondo-rgb) / 0.29) 64%,
-    rgb(var(--verde-bosque-hondo-rgb) / 0.16) 70%,
-    rgb(var(--verde-bosque-hondo-rgb) / 0.05) 76%,
-    rgb(var(--verde-bosque-hondo-rgb) / 0) 84%
-  );
+  /* v4 · EL VELO SE RETIRA DEL TODO — corrección del cliente, textual:
+     «no no imágenes sin filtro ni nada te dije». La foto nocturna de la
+     carpa se muestra ORIGINAL. La marca de agua que cruzaba esa banda es un
+     contorno decorativo (aria-hidden); el titular real del carril se lee
+     fuera de la foto, sobre la crema. */
+  display: none;
 }
 
 /* LA MARCA DE AGUA.
@@ -1173,6 +879,15 @@
      agua que ya tenía la sección, sólo que ahora arranca a un cuerpo legal.*/
   --planes-marca-tope: clamp(3rem, 1rem + 9vw, 4.2rem);
   font-size: min(var(--fs-portada, 99rem), var(--planes-marca-tope));
+  /* v14 · EL PESO SE DECLARA AQUÍ Y NO SE HEREDA (plan v4, 4.4). La regla
+     general de base.css §5b da el peso del display por el paso de la escala
+     que use la pieza, y a un <h3> le toca el peso menor porque --fs-h3 no
+     llega nunca a 40 px. Esta marca no usa --fs-h3: su piso son 3rem/48 px
+     por el arreglo de aquí arriba, así que está SIEMPRE por encima del umbral
+     y le corresponde el trazo fino en todos los anchos. Sin esta línea
+     heredaría el 400 del h3 y el contorno hueco engordaría justo donde se
+     buscaba lo contrario.                                                  */
+  font-weight: var(--peso-display);
 }
 
 @media (min-width: 48em) {
@@ -1458,7 +1173,8 @@
   position: relative;
   isolation: isolate;
   overflow: clip;
-  background-color: var(--color-fondo-oscuro);
+  /* v8 · color de espera claro (pedido del cliente: sin tonos oscuros). */
+  background-color: var(--color-fondo-alt);
   aspect-ratio: 4 / 5;
   /* La arcada del carril (§8): hombros de medio punto arriba, pie recto.
      Es el mismo motivo del par de abajo, no una silueta nueva. */
@@ -1499,15 +1215,8 @@
    anterior fue «las fotos se ven oscurecidas»—. Sólo el §11 lo enciende, en
    los anchos donde el rótulo se posa dentro. */
 .planes-diorama__velo {
-  position: absolute;
-  inset: 0;
-  pointer-events: none;
-  background-image: linear-gradient(
-    to bottom,
-    transparent 42%,
-    var(--color-velo-modal) 82%
-  );
-  opacity: 0;
+  /* v9 · fuera del todo — el rótulo móvil del 02 lleva placa sólida. */
+  display: none;
 }
 
 /* LA HOJA FLOTANTE — el primer término del diorama. */
@@ -2271,51 +1980,60 @@
     box-shadow: var(--sombra-xl);
   }
 
-  /* --- EL TEXTO, DENTRO DE LA FOTO --------------------------------------
-     v20 · pedido directo del cliente: el texto pasa de vivir DEBAJO de la
-     banda (fila 2, sobre el papel crema) a vivir DENTRO de ella (misma
-     fila 1 que la banda y la copia), anclado a la esquina inferior derecha
-     — el hueco libre que deja la copia montada, que ocupa sólo las
-     primeras cuatro columnas. Mismo principio que la tarjeta del carril 01:
-     el texto se posa sobre la fotografía, no al lado. */
+  /* --- EL TEXTO, DEBAJO DE LA FOTO --------------------------------------
+     v27 · SALE DE ENCIMA DE LA BANDA. Orden directa del cliente sobre TODO
+     el sitio: «el texto NO debe tapar la foto». La v20 lo había metido
+     dentro de la banda (fila 1, esquina inferior derecha) y la v25 ya había
+     tenido que acotarlo porque «tapaba demasiada foto»: a 1440 px seguía
+     comiéndose el 26 % del área de la carpa medido en el navegador. Ese
+     recorte era el síntoma; la causa es que el texto y la fotografía
+     compartían celda.
+     Ahora el texto tiene FILA PROPIA —la 2, sobre el papel crema— que es
+     exactamente donde vivía antes de la v20 y donde ya vive en móvil (§11
+     bis, «EL RÓTULO VUELVE A LA CREMA, DEBAJO DE LAS DOS FOTOS»): las dos
+     anchuras dicen ahora lo mismo. La copia montada del retrato se queda
+     donde está, apoyada sobre la banda: es fotografía sobre fotografía, no
+     texto sobre fotografía, y la regla del cliente habla de texto.
+     Se mantiene la mitad derecha (columnas 6-12) para que la composición no
+     se centre y siga rimando con la copia montada, que ocupa las cuatro
+     primeras. */
   .planes-carril--empresa .planes-carril__texto {
-    /* v24 · ESQUINA INFERIOR DERECHA (pedido del cliente). La copia montada
-       de la retrato-card vive abajo a la izquierda (.planes-dossier__retrato,
-       §3), así que el texto se acota a las columnas 6-12 —mitad derecha— y
-       cuelga del borde inferior: las dos piezas quedan en esquinas opuestas
-       de la misma foto y no se tocan. */
     grid-column: 6 / -1;
-    grid-row: 1;
-    align-self: end;
-    /* v25 · pedido del cliente: el texto tapaba demasiada foto en ventanas
-       angostas —a esta anchura la columna 6/-1 es más de la mitad del
-       ancho—. Un tope en medida propia (no ligado a la pista) deja que la
-       caja de texto se quede compacta y compañía aunque la columna sea
-       ancha: sólo crece hasta donde el texto necesita, nunca hasta donde
-       la rejilla le da permiso. */
+    grid-row: 2;
+    align-self: start;
+    /* v25 · un tope en medida propia (no ligado a la pista): la caja sólo
+       crece hasta donde el texto necesita, nunca hasta donde la rejilla le
+       da permiso. */
     max-width: var(--medida-corta);
     margin-inline-start: auto;
-    z-index: var(--z-elevado);
     padding: var(--gap-lg);
-    color: var(--color-texto-inverso);
+    /* v26b · PLACA SÓLIDA en vez de velo: mismo patrón que la cartela del
+       sendero. La foto del par queda original alrededor. */
+    background-color: var(--color-superficie-solida);
+    border-start-start-radius: var(--radio-xl);
+    border-end-end-radius: var(--radio-xs);
+    border-start-end-radius: var(--radio-xs);
+    border-end-start-radius: var(--radio-xl);
+    box-shadow: var(--sombra-lg);
+    color: var(--color-texto);
   }
 
   .planes-carril--empresa .planes-carril__texto .planes-carril__ocasion,
   .planes-carril--empresa .planes-carril__texto .titulo-seccion {
-    color: var(--color-texto-inverso);
+    color: var(--color-texto);
   }
 
   .planes-carril--empresa .planes-carril__texto .planes-carril__copy {
-    color: var(--color-texto-inverso-suave);
+    color: var(--color-texto);
   }
 
   .planes-carril--empresa .planes-carril__texto .planes-carril__donde,
   .planes-carril--empresa .planes-carril__texto .planes-carril__donde a {
-    color: var(--color-texto-inverso-suave);
+    color: var(--color-texto);
   }
 
   .planes-carril--empresa .planes-carril__texto .enlace-flecha {
-    color: var(--color-texto-inverso);
+    color: var(--color-acento-texto);
   }
 
   /* El velo que sostiene la lectura: sólo bajo el texto, no sobre la foto
@@ -2323,29 +2041,10 @@
      Mismo recurso de dos capas (vertical + horizontal) que ya usan el hero
      y el carril 05, acotado al cuarto inferior derecho donde cae la letra. */
   .planes-carril--empresa .planes-dossier__par::after {
-    content: "";
-    position: absolute;
-    inset: 0;
-    z-index: var(--z-base);
-    pointer-events: none;
-    /* v24 · el texto pasa a la esquina inferior derecha: los dos lavados se
-       voltean con él. El vertical ahora oscurece desde ABAJO (antes desde
-       arriba) y el horizontal desde la DERECHA (antes desde la izquierda).
-       La foto no se recorta ni un píxel, sólo se oscurece más su tercio
-       inferior derecho, que es donde cae la letra ahora. */
-    background-image:
-      linear-gradient(
-        to top,
-        rgb(var(--negro-escena-rgb) / 0.7) 0%,
-        rgb(var(--negro-escena-rgb) / 0.42) 32%,
-        transparent 62%
-      ),
-      linear-gradient(
-        to left,
-        rgb(var(--negro-escena-rgb) / 0.55) 0%,
-        rgb(var(--negro-escena-rgb) / 0.3) 30%,
-        transparent 55%
-      );
+    /* v26b · el velo (oscuro en v25, claro en v26) se retira del todo —
+       corrección del cliente: «sin filtro ni nada». La lectura la pone la
+       placa sólida de .planes-carril__texto, abajo. */
+    content: none;
   }
 }
 
@@ -2402,10 +2101,37 @@
   /* Esquina viva: sangra a la ventana, igual que la portada del carril 01. */
   border-radius: 0;
   margin-inline: var(--planes-sangrado);
+  /* v5 · EL RÓTULO SALE DE ENCIMA DE LA FOTO. Orden directa del cliente («el
+     texto NO debe tapar la foto»), la misma que ya movió el marco de #usos y
+     el discurso de #nosotros. La banda deja de ser un flex con la foto a
+     fondo y el rótulo apoyado en su borde inferior, y pasa a ser una rejilla
+     de DOS FILAS: el marco de la fotografía arriba, la placa del rótulo
+     debajo. El formato (4:3 en móvil, 2:1 en escritorio) se muda de aquí al
+     marco, que es quien ahora tiene que medirlo. */
+  display: grid;
+  grid-template-rows: auto auto;
+  /* v3 · el color de espera pasa a claro: mientras la foto decodifica, el
+     hueco es papel salvia y no un rectángulo oscuro. */
+  background-color: var(--color-fondo-alt);
+}
+
+/* EL MARCO DE LA FOTO — la primera fila, y quien recorta.
+   Hace falta un elemento propio y no basta con darle formato a la <img>:
+   la respiración (§6 ter) escala la fotografía un 1,2 %, y sin una caja que
+   recorte esa escala se derramaría sobre la fila del rótulo. `overflow: clip`
+   y no `hidden` por la convención de la casa: `hidden` crearía contenedor de
+   scroll. */
+.planes-bienestar__marco {
+  position: relative;
+  display: block;
+  overflow: clip;
   aspect-ratio: 4 / 3;
-  background-color: var(--color-fondo-oscuro);
-  display: flex;
-  align-items: flex-end;
+}
+
+@media (min-width: 48em) {
+  .planes-bienestar__marco {
+    aspect-ratio: 2 / 1;
+  }
 }
 
 .planes-bienestar__foto {
@@ -2420,39 +2146,9 @@
 }
 
 .planes-bienestar__velo {
-  position: absolute;
-  inset: 0;
-  pointer-events: none;
-  /* MÓVIL: el velo llega a pleno en el 26 %, que es exactamente donde empieza
-     la caja del rótulo, y de ahí abajo no afloja. Medido sobre los píxeles de
-     `yoga-2` en el recorte 4:3 de móvil, del 26 % al 100 % del alto:
-         rampa 0,55 → 0,74   crema mín 3,09:1  ·  4,2 % por debajo de 4,5:1
-                              coral claro mín 1,81:1  ·  9,5 % por debajo de 3:1
-         pleno 0,74          crema mín 5,33:1  ·  0,0 % por debajo de 4,5:1
-                              coral claro mín 3,13:1  ·  0,0 % por debajo de 3:1
-     Sólo el velo pleno deja el PEOR píxel del recuadro por encima de AA, y en
-     una banda que es el único negativo del sitio eso no se negocia. El cuarto
-     alto de la foto se queda limpio, que es donde están las copas. */
-  /* v2 · LA RAMPA SE CURVA Y GANAN LOS DOS LADOS. Una rampa recta de 0 a 0,74
-     entra y sale con la pendiente a tope: arriba se veía dónde EMPIEZA el
-     velo y en el 26 % se veía dónde DEJA de crecer, dos rayas horizontales
-     sobre una foto sin bordes propios. Los cuatro topes intermedios describen
-     una S (smoothstep): sale del cero con pendiente cero y llega al 26 % con
-     pendiente cero, así que no hay ninguna esquina que ver.
-     LO MEJOR DE LA S: en el cuarto alto la curva va POR DEBAJO de la recta
-     (a 7 % pinta 0,12 donde la recta pintaba 0,20), o sea que las copas
-     iluminadas quedan MÁS limpias que antes. Y del 26 % hacia abajo el velo
-     es exactamente el mismo pleno de siempre: los 5,33:1 de la crema y los
-     3,13:1 del coral claro no se tocan. */
-  background-image: linear-gradient(
-    to bottom,
-    rgb(var(--verde-bosque-hondo-rgb) / 0) 0%,
-    rgb(var(--verde-bosque-hondo-rgb) / 0.12) 7%,
-    rgb(var(--verde-bosque-hondo-rgb) / 0.37) 13%,
-    rgb(var(--verde-bosque-hondo-rgb) / 0.62) 19%,
-    rgb(var(--verde-bosque-hondo-rgb) / 0.72) 23%,
-    var(--color-velo-modal) 26%
-  );
+  /* v4 · fuera del todo — «sin filtro ni nada»: la foto del corro se ve
+     original; el rótulo lleva placa sólida propia. */
+  display: none;
 }
 
 .planes-bienestar__rotulo {
@@ -2464,6 +2160,19 @@
   gap: var(--esp-2xs);
   padding: var(--gap);
   max-inline-size: var(--medida-corta);
+  /* v4 · PLACA SÓLIDA — patrón de la cartela del sendero: texto sobre
+     superficie sólida, foto original alrededor.
+     v5 · y ya no «alrededor»: la placa es la SEGUNDA FILA de la banda, así
+     que este margen deja de apartarla de los cantos de la foto y pasa a ser
+     el aire de su propia fila. Cero superposición. */
+  margin: var(--gap);
+  width: fit-content;
+  background-color: var(--color-superficie-solida);
+  border-start-start-radius: var(--radio-xl);
+  border-end-end-radius: var(--radio-xl);
+  border-start-end-radius: var(--radio-xs);
+  border-end-start-radius: var(--radio-xs);
+  box-shadow: var(--sombra-lg);
 }
 
 /* Más grande que el bombillo de la tarjeta: son tres arcos concéntricos y a
@@ -2473,13 +2182,13 @@
 .planes-bienestar__icono {
   inline-size: var(--esp-xl);
   block-size: auto;
-  color: var(--color-acento-inverso);
+  /* v3 · de coral claro (negativo) a terracota: el velo es claro ahora. */
+  color: var(--color-acento-texto);
 }
 
 @media (min-width: 48em) {
-  .planes-bienestar__banda {
-    aspect-ratio: 2 / 1;
-  }
+  /* v5 · el formato de la banda se mudó a `.planes-bienestar__marco`: la
+     banda ya no es la caja de la foto, es la rejilla de foto + rótulo. */
 
   /* De tableta para arriba el velo deja de ser una franja de pie y se vuelve
      direccional. El 40 % de opacidad plena cubre de sobra la caja del rótulo
@@ -2492,16 +2201,7 @@
      medido no cambia; en el centro de la foto el velo queda como mucho 0,04
      de alfa por encima de la recta anterior, sin raya vertical a la vista. */
   .planes-bienestar__velo {
-    background-image: linear-gradient(
-      to right,
-      var(--color-velo-modal) 0%,
-      var(--color-velo-modal) 36%,
-      rgb(var(--verde-bosque-hondo-rgb) / 0.62) 46%,
-      rgb(var(--verde-bosque-hondo-rgb) / 0.37) 56%,
-      rgb(var(--verde-bosque-hondo-rgb) / 0.14) 66%,
-      rgb(var(--verde-bosque-hondo-rgb) / 0.03) 74%,
-      rgb(var(--verde-bosque-hondo-rgb) / 0) 82%
-    );
+    display: none;
   }
 
   /* El rótulo empieza EN EL MARGEN DEL CONTENEDOR, no a un padding suelto del
@@ -2651,14 +2351,24 @@
   position: relative;
   isolation: isolate;
   overflow: hidden;
+  /* v11 · rejilla: la foto es una fila y el cuerpo de texto es otra. Antes
+     eran dos capas apiladas y la lámina tapaba la fotografía. */
+  display: grid;
+  gap: var(--gap);
+  align-content: start;
   border-radius: var(--radio-xl) var(--radio-md) var(--radio-xl) var(--radio-md);
   /* El degradado NO se retira: es la base sólida que se ve mientras la foto
      carga, la que queda si la foto fallara y la que sostiene el contraste en
      el navegador que no sepa desenfocar. */
+  /* v3 · EL BLOQUE GIRA A CLARO — pedido del cliente: «no quiere tonos
+     oscuros en la página». El degradado sigue siendo la base que se ve
+     mientras la foto carga y el respaldo si falla, pero va de salvia a la
+     luz del sistema: papel, no bosque nocturno. El cristal y el texto de
+     dentro giran con él (ver §6 ter). */
   background-image: linear-gradient(
     152deg,
-    var(--verde-bosque) 0%,
-    var(--verde-bosque-hondo) 100%
+    var(--salvia) 0%,
+    var(--luz) 100%
   );
   padding: var(--gap);
 }
@@ -2745,12 +2455,17 @@
    el medido arriba. El desenfoque y la bajada a 0,50 viven dentro del
    @supports y son la mejora, no la base.
    -------------------------------------------------------------------------- */
+/* v11 · LA FOTO DEJA DE SER UN FONDO Y PASA A SER LA PRIMERA FILA DEL BLOQUE.
+   Orden directa del cliente («el texto NO debe tapar la foto»): la lámina de
+   cristal era sólida —no había velo— pero se apoyaba ENCIMA de `parque-48` y
+   le tapaba el 83 % del área medido a 375 px. Ahora el bloque es una rejilla
+   y la foto ocupa su propia fila, con el formato declarado aquí; el cuerpo de
+   texto entra debajo. Es el contrato de `.foto-placa` (base.css §4b). */
 .planes-bienestar__fondo {
-  position: absolute;
-  inset: 0;
-  z-index: var(--z-fondo);
+  position: relative;
   inline-size: 100%;
-  block-size: 100%;
+  block-size: auto;
+  aspect-ratio: 4 / 5;
   object-fit: cover;
   /* La copa del árbol vive en el tercio alto de la vertical y el césped en
      sombra en el resto. Bajando el encuadre al 58 % el bloque se queda con
@@ -2760,11 +2475,9 @@
 }
 
 .planes-bienestar__fondo-velo {
-  position: absolute;
-  inset: 0;
-  z-index: var(--z-fondo);
-  pointer-events: none;
-  background-color: var(--color-velo);
+  /* v4 · fuera — «sin filtro ni nada»: parque-48 se ve original detrás del
+     cristal, que ahora es una lámina SÓLIDA. */
+  display: none;
 }
 
 /* El cuerpo sube por encima de las dos capas de fondo. Sin esto quedaría
@@ -2785,10 +2498,18 @@
   position: relative;
   border-radius: var(--radio-lg) var(--radio-md) var(--radio-lg) var(--radio-md);
   padding: var(--gap-sm);
-  background-color: rgb(var(--verde-bosque-hondo-rgb) / 0.86);
-  border: 1px solid rgb(var(--crema-rgb) / 0.18);
+  /* v3 · CRISTAL CLARO. El «liquid glass» pedido por el cliente se conserva
+     —lámina, filete de luz, desenfoque en escritorio— pero la lámina es de
+     luz, no de bosque hondo: 0,86 de --luz sobre la foto ya velada deja el
+     peor compuesto con luminancia ≥ 0,8 → tinta ≥ 12:1. El filete pasa a
+     tinta tenue (el crema no se dibuja sobre claro); el brillo interior
+     sigue en crema porque ES luz. */
+  /* v4 · lámina SÓLIDA: la placa del sistema, sin alfa y sin desenfoque —
+     el «vidrio» translúcido también era un filtro sobre la foto. */
+  background-color: var(--color-superficie-solida);
+  border: 1px solid rgb(var(--tinta-rgb) / 0.16);
   box-shadow:
-    inset 0 1px 0 rgb(var(--crema-rgb) / 0.22),
+    inset 0 1px 0 rgb(var(--crema-rgb) / 0.6),
     var(--sombra-modal);
 }
 
@@ -2831,9 +2552,8 @@
       /* --blur-vidrio es el token del sistema (el mismo de la cabecera, del
          lightbox y de .btn-claro): saturación y desenfoque en una sola
          declaración. Aquí no se inventa un valor propio. */
-      backdrop-filter: var(--blur-vidrio);
-      -webkit-backdrop-filter: var(--blur-vidrio);
-      background-color: rgb(var(--verde-bosque-hondo-rgb) / 0.5);
+      /* v4 · sin blur ni alfa: la lámina es sólida en todos los anchos. */
+      background-color: var(--color-superficie-solida);
     }
   }
 }
@@ -2874,7 +2594,8 @@
   inline-size: 1.4em;
   block-size: 1.4em;
   margin-block-start: -0.06em;
-  color: var(--color-acento-inverso);
+  /* v3 · a terracota: el cristal es claro ahora. */
+  color: var(--color-acento-texto);
 }
 
 @media (min-width: 48em) {
@@ -3096,12 +2817,23 @@
      ventana para que la fotografía mande.
      El colchón de degradados se queda SÓLO como respaldo: no se ve con la
      foto cargada, y es lo que sostiene el contraste si el JPG fallara. */
+  /* v10 · EL TEXTO SALE DE ENCIMA DE LA FOTO. Orden directa del cliente,
+     la misma que ya movió el marco de #usos (usos.css §v19) y el discurso de
+     #nosotros: «el texto NO debe tapar la foto». La lámina era sólida —no
+     había velo— pero seguía apoyada ENCIMA de la fotografía del taller y le
+     comía el 78 % del área medido a 375 px. Ahora el carril es una rejilla
+     de DOS FILAS —foto, lámina— y ninguna se superpone a la otra: la
+     fotografía se ve entera y la lámina empieza donde la foto termina. Es
+     el mismo contrato que base.css §4b escribe para `.foto-placa`.
+     El relleno baja a cero porque la fotografía tiene que llegar al canto de
+     la ventana (el «sin eso crema» del cliente); el aire de la lámina lo
+     pone su propio margen. */
   position: relative;
   overflow: hidden;
-  display: block;
+  display: grid;
+  grid-template-rows: auto auto;
   margin-inline: var(--planes-sangrado);
-  padding: var(--esp-sm);
-  min-block-size: 82svh;
+  padding: 0;
   border-radius: 0;
   /* Se ve mientras el navegador compone las capas; nunca un hueco gris. */
   background-color: var(--crema);
@@ -3174,11 +2906,11 @@
   }
 }
 
-@media (min-width: 48em) {
-  .planes-carril--talleres {
-    padding: var(--esp-md);
-  }
-}
+/* v10 · EL RELLENO DEL CARRIL SE QUEDA EN CERO EN TODOS LOS ANCHOS: la
+   fotografía es la primera fila de la rejilla y tiene que llegar al canto de
+   la ventana (el «sin eso crema» del cliente). El aire que daba este relleno
+   lo pone ahora el margen de la lámina de texto, que vive en su propia fila.
+   Aquí se retiraba la subida a --esp-md de tableta para arriba. */
 
 /* LA FOTO, A SANGRE DE LA TARJETA.
    `object-position` al 62 %: el corro de niños y la monitora viven en la
@@ -3188,14 +2920,27 @@
    HORIZONTAL —usa el alto entero de la foto— y este `object-position`
    vertical no mueve un solo píxel del encuadre: por eso el 62 % de base es
    inofensivo ahí y no hace falta duplicar la regla por breakpoint. */
+/* v10 · DEJA DE SER UN FONDO ABSOLUTO Y PASA A SER LA PRIMERA FILA. Mientras
+   la foto era `position: absolute; inset: 0` la lámina de texto no tenía más
+   remedio que caer encima de ella. Ahora ocupa su propia fila de la rejilla
+   del carril, con un formato declarado —4:5 en móvil, 16:9 de tableta para
+   arriba— y `overflow: clip` para que el recorte de `cover` no se salga. La
+   foto se ve entera y no queda un solo píxel de texto por encima. */
 .planes-talleres__fondo {
-  position: absolute;
-  inset: 0;
-  z-index: var(--z-fondo);
+  position: relative;
   display: block;
+  overflow: clip;
+  aspect-ratio: 4 / 5;
+}
+
+@media (min-width: 48em) {
+  .planes-talleres__fondo {
+    aspect-ratio: 16 / 9;
+  }
 }
 
 .planes-talleres__fondo > img {
+  display: block;
   inline-size: 100%;
   block-size: 100%;
   object-fit: cover;
@@ -3310,7 +3055,23 @@
   display: grid;
   justify-items: start;
   gap: var(--esp-2xs);
-  padding: var(--esp-xs) var(--esp-md);
+  padding: var(--esp-md);
+  /* v9 · PLACA SÓLIDA en vez de velo — patrón de la cartela del sendero:
+     el texto vive sobre superficie sólida (tinta 13,4:1) y la fotografía
+     del taller se ve original alrededor.
+     v10 · y ya no «alrededor», sino DEBAJO: la lámina es la segunda fila de
+     la rejilla del carril (ver `.planes-talleres__fondo`), así que el margen
+     deja de ser el aire que la separaba de los cantos de la foto y pasa a ser
+     el aire de la fila propia. */
+  width: fit-content;
+  max-width: calc(100% - var(--gap-sm) * 2);
+  margin: var(--gap-sm) var(--gap-sm) var(--gap);
+  background-color: var(--color-superficie-solida);
+  border-start-start-radius: var(--radio-xl);
+  border-end-end-radius: var(--radio-xl);
+  border-start-end-radius: var(--radio-xs);
+  border-end-start-radius: var(--radio-xs);
+  box-shadow: var(--sombra-lg);
 }
 
 /* El botón ya está separado por el gap de la rejilla; el margen propio de
@@ -3336,59 +3097,11 @@
    en el `::after` del carril, no del cristal, para quedar DEBAJO del texto
    y ENCIMA de la foto sin abrir un tercer nivel de apilamiento. */
 .planes-carril--talleres::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  z-index: var(--z-fondo);
-  pointer-events: none;
-  /* v6 · UN RADIAL NO CUBRÍA LA CAJA EN MÓVIL. Ahí el bloque de texto ocupa
-     casi toda la altura del carril (rótulo arriba, CTA muy abajo), y un
-     óvalo pensado para la esquina superior de la versión ancha de
-     escritorio dejaba sin sostén las últimas líneas y el botón. Vuelve a
-     ser un lineal, pero medido contra dónde vive el texto en cada ancho:
-     oscuro desde arriba y sostenido hasta bien pasada la mitad, no sólo el
-     primer tercio. En escritorio el bloque es más bajo, así que el mismo
-     reparto en % lo cubre igual de bien sin tapar la foto de más allá del
-     ancho de lectura. */
-  background-image:
-    /* El vertical sostiene la letra en toda su altura, de arriba a abajo. */
-    /* v7 · las paradas medidas de v6 (0,8 / 0,62 / 0,3) se quedan en su sitio;
-       los topes intermedios sólo redondean los codos del 55 % y del 80 %, que
-       sobre esta foto de taller —bastante uniforme— se veían como dos rayas.
-       Todos quedan por encima de la recta anterior (30 %: 0,72 contra 0,702 ·
-       66 %: 0,50 contra 0,479 · 88 %: 0,17 contra 0,144), así que el velo sólo
-       tapa más y el contraste del bloque de texto no baja en ningún píxel. */
-    linear-gradient(
-      to bottom,
-      rgb(var(--negro-escena-rgb) / 0.8) 0%,
-      rgb(var(--negro-escena-rgb) / 0.72) 30%,
-      rgb(var(--negro-escena-rgb) / 0.62) 55%,
-      rgb(var(--negro-escena-rgb) / 0.5) 66%,
-      rgb(var(--negro-escena-rgb) / 0.3) 80%,
-      rgb(var(--negro-escena-rgb) / 0.17) 88%,
-      rgb(var(--negro-escena-rgb) / 0.07) 94%,
-      rgb(var(--negro-escena-rgb) / 0) 100%
-    ),
-    /* El horizontal lo acota al ancho de lectura: en escritorio el texto
-       vive en una columna angosta a la izquierda —igual que la técnica del
-       velo del hero (inicio.css)— y sin este segundo lavado el tercio
-       derecho de la foto, que no lleva letra, se oscurecía sin motivo. En
-       móvil, donde el texto ocupa todo el ancho, este degradado no llega a
-       aclarar antes del 92 % y no se nota. */
-    /* v7 · mismo criterio en el eje horizontal: se redondea el codo del 45 %
-       y la cola llega al cero en el 88 % en vez de cortarse en el 78 %. Los
-       topes nuevos también quedan por encima de la recta (22 %: 0,44 contra
-       0,428 · 57 %: 0,21 contra 0,191 · 68 %: 0,10 contra 0,091). */
-    linear-gradient(
-      to right,
-      rgb(var(--negro-escena-rgb) / 0.55) 0%,
-      rgb(var(--negro-escena-rgb) / 0.44) 22%,
-      rgb(var(--negro-escena-rgb) / 0.3) 45%,
-      rgb(var(--negro-escena-rgb) / 0.21) 57%,
-      rgb(var(--negro-escena-rgb) / 0.1) 68%,
-      rgb(var(--negro-escena-rgb) / 0.025) 78%,
-      rgb(var(--negro-escena-rgb) / 0) 88%
-    );
+  /* v9 · EL VELO SE RETIRA DEL TODO — corrección del cliente, textual:
+     «no no imágenes sin filtro ni nada te dije»: ni el oscuro de v7 ni el
+     claro de v8. La foto del taller queda original; la lectura la pone la
+     placa sólida de .planes-talleres__vidrio. */
+  content: none;
 }
 
 /* v4 · EL TEXTO VUELVE A NEGATIVO — se retiró el cristal crema que sostenía
@@ -3397,17 +3110,18 @@
    texto inverso que usan las demás portadas del capítulo (01, 04). El coral
    se queda en el «05» y en el punto medio de la lista, igual que antes. */
 .planes-talleres__vidrio,
+/* v8 · a tinta: el velo del carril giró a claro (--luz), ver arriba. */
 .planes-talleres__titulo,
 .planes-talleres__lista,
 .planes-talleres__vidrio .planes-carril__ocasion,
 .planes-talleres__vidrio .planes-talleres__copy,
 .planes-talleres__vidrio .planes-carril__donde,
 .planes-talleres__vidrio .planes-carril__cta {
-  color: var(--color-texto-inverso);
+  color: var(--color-texto);
 }
 
 .planes-talleres__vidrio .planes-carril__donde a {
-  color: var(--color-texto-inverso-suave);
+  color: var(--color-texto);
 }
 
 /* v3 · EL TOPE DE OCHO COLUMNAS SE RETIRA. Aquí el carril se quedaba en
@@ -3420,11 +3134,9 @@
    En escritorio el cristal no se estira con la banda: se acota por su
    propio `max-width` (más abajo), que es lo que evita renglones de línea
    larguísima sobre una foto de 1400 px.                                    */
-@media (min-width: 48em) {
-  .planes-carril--talleres {
-    padding: var(--esp-lg);
-  }
-}
+/* v10 · aquí se retiraba la subida del relleno del carril a --esp-lg en
+   escritorio. Ver la nota de arriba: el relleno es cero en todos los anchos
+   desde que la foto y la lámina son dos filas de rejilla y no dos capas. */
 
 /* Sin una sola foto, lo único que puede pesar es la letra. El titular sube un
    escalón de la escala —de --fs-h3 (--paso-2) a --paso-3— y se queda uno por
@@ -3603,7 +3315,8 @@
      separado de lo que subraya deja de ser un subrayado y pasa a ser un
      filete suelto. De paso devuelve los 8 px que costaba entrar. */
   margin-block-start: calc(var(--esp-2xs) * -1);
-  color: var(--color-texto-inverso-suave);
+  /* v8 · a la voz suave del sistema claro. */
+  color: var(--color-texto-suave);
   overflow: visible;
 }
 
@@ -4379,7 +4092,8 @@
     margin-inline: var(--planes-sangrado);
     border-radius: 0;
     aspect-ratio: 4 / 5;
-    background-color: var(--color-fondo-oscuro);
+    /* v8 · color de espera claro (pedido del cliente: sin tonos oscuros). */
+    background-color: var(--color-fondo-alt);
     /* El paralaje de entrada del mosaico (§10) desplazaba la figura entera y
        el rótulo, que ya no se mueve con ella, se habría quedado descolgado.
        Se apaga aquí y el movimiento pasa a la foto de dentro, más abajo. */
@@ -4390,47 +4104,55 @@
      en móvil —incluida la curva en S de su v2, que hace la subida sin dejar
      ver dónde empieza ni dónde termina—; no se inventa un valor nuevo. */
   .planes-carril__portada::after {
-    content: "";
-    position: absolute;
-    inset: 0;
-    pointer-events: none;
-    background-image: linear-gradient(
-      to bottom,
-      rgb(var(--verde-bosque-hondo-rgb) / 0) 0%,
-      rgb(var(--verde-bosque-hondo-rgb) / 0.12) 7%,
-      rgb(var(--verde-bosque-hondo-rgb) / 0.37) 13%,
-      rgb(var(--verde-bosque-hondo-rgb) / 0.62) 19%,
-      rgb(var(--verde-bosque-hondo-rgb) / 0.72) 23%,
-      var(--color-velo-modal) 26%
-    );
+    /* v9 · fuera — «sin filtro ni nada»: el rótulo móvil lleva placa. */
+    content: none;
   }
 
-  /* --- EL RÓTULO, DENTRO DE LA FOTO ------------------------------------ */
+  /* --- EL RÓTULO, DEBAJO DE LA FOTO ------------------------------------
+     v10 · YA NO SE POSA DENTRO. Orden directa del cliente sobre todo el
+     sitio: «el texto NO debe tapar la foto». La placa compartía celda de
+     rejilla con la portada (grid-row 1) y le comía la cuarta parte del área
+     medida a 375 px. Ahora tiene FILA PROPIA —la 2— y todo lo que venía
+     detrás baja un escalón (copy 3, dónde 4, CTA 5, hoja flotante 6).
+     Lo que NO cambia: la portada sigue siendo lo primero que se ve al entrar
+     al carril en el teléfono, que es lo que pedía el §11; sólo que el rótulo
+     ya no vive encima sino a continuación.
+     El margen inline vuelve a cero: fuera de la foto a sangre, la placa se
+     alinea con el resto del texto de la página y no con el canto de la
+     ventana. */
   .planes-carril__rotulo {
-    grid-row: 1;
+    grid-row: 2;
     grid-column: 1;
-    align-self: end;
+    justify-self: start;
     z-index: var(--z-base);
-    /* Sangra como la foto y devuelve el margen con su propio relleno: el
-       texto acaba cayendo a la misma distancia del borde de la ventana que el
-       rótulo de la banda del 04, que es la pieza que esto imita. */
-    margin-inline: var(--planes-sangrado);
-    padding: var(--gap);
+    /* v9 · PLACA SÓLIDA también aquí: superficie propia bajo el texto, la
+       fotografía sin filtrar ni tapar. */
+    margin: 0 0 var(--esp-2xs);
+    padding: var(--gap-sm) var(--gap);
     gap: var(--esp-2xs);
+    width: fit-content;
+    max-width: calc(100% - 2 * var(--gap-sm));
+    background-color: var(--color-superficie-solida);
+    border-start-start-radius: var(--radio-lg);
+    border-end-end-radius: var(--radio-lg);
+    border-start-end-radius: var(--radio-xs);
+    border-end-start-radius: var(--radio-xs);
+    box-shadow: var(--sombra-md);
   }
 
   /* Los tres papeles de color del negativo, los mismos que reparte
      .seccion--oscura en el carril 04. Ni un valor literal. */
+  /* v8 · a tinta y terracota: el velo que enciende §11 es claro (--luz). */
   .planes-carril__rotulo .planes-carril__ocasion {
-    color: var(--color-texto-inverso-suave);
+    color: var(--color-texto);
   }
 
   .planes-carril__rotulo .planes-carril__indice {
-    color: var(--color-acento-inverso);
+    color: var(--color-acento-texto);
   }
 
   .planes-carril__rotulo .titulo-seccion {
-    color: var(--color-texto-inverso);
+    color: var(--color-texto);
     max-width: none;
   }
 
@@ -4440,17 +4162,17 @@
      implícito sería confiar en el azar. */
   .planes-carril--familia .planes-carril__copy,
   .planes-carril--empresa .planes-carril__copy {
-    grid-row: 2;
+    grid-row: 3;
   }
 
   .planes-carril--familia .planes-carril__donde,
   .planes-carril--empresa .planes-carril__donde {
-    grid-row: 3;
+    grid-row: 4;
   }
 
   .planes-carril--familia .planes-carril__cta,
   .planes-carril--empresa .planes-carril__cta {
-    grid-row: 4;
+    grid-row: 5;
     /* El bloque de texto era un flex con `align-items: flex-start`; disuelto,
        el CTA se estiraría al ancho entero de la pista. Esto le devuelve el
        ajuste a su contenido, que es lo que tenía. */
@@ -4489,63 +4211,39 @@
      niño saltando —el gesto que vende esta foto— vive en la mitad BAJA del
      recorte 4:5, justo donde el rótulo lo estaba pisando. Arriba sólo hay
      copas de árbol y guirnalda; el salto queda libre. */
-  .planes-carril--familia .planes-carril__rotulo {
-    align-self: start;
-  }
+  /* v10 · el rótulo del 02 ya no comparte celda con el diorama —tiene fila
+     propia (ver «EL RÓTULO, DEBAJO DE LA FOTO» arriba)—, así que la mudanza
+     de `end` a `start` que pedía el cliente para no pisar al niño saltando
+     deja de hacer falta: no hay nada que pisar. */
 
   /* El velo del rótulo SE ENCIENDE sólo aquí, que es donde el rótulo se posa
      dentro de la foto. En escritorio queda a opacidad 0 y la foto se ve
      limpia. */
   .planes-diorama__velo {
-    opacity: 1;
-    /* Y SE DA LA VUELTA, porque el rótulo se dio la vuelta. El degradado de
-       base es el del §11 —transparente arriba, `--color-velo-modal` pleno
-       abajo— y con el rótulo arriba dejaba la letra sobre la foto desnuda.
-       Aquí se pinta EL MISMO velo medido, con la misma curva en S y el mismo
-       0,74 de alfa pleno, pero espejado: pleno de 0 a 36 % y disuelto por
-       completo antes del 62 %. El 36 % está MEDIDO en la página montada, no
-       elegido: a 385 px de ventana el marco mide 469 px y el rótulo llega
-       hasta el 34,2 %, relleno incluido, así que quedan dos puntos de
-       colchón para cuando el visitante agranda la letra del sistema. Y por
-       abajo el niño saltando empieza sobre el 50 %, donde el velo ya está en
-       0,4 y bajando: el salto no se apaga.
-       EL CONTRASTE NO CAMBIA: la letra sigue cayendo sobre el tramo pleno de
-       siempre —crema 5,33:1 y coral claro 3,13:1, con 0,0 % de píxeles por
-       debajo de AA—; lo único que se mudó es qué mitad de la foto queda
-       limpia, y ahora es la de abajo, que es donde está el niño. */
-    background-image: linear-gradient(
-      to bottom,
-      var(--color-velo-modal) 0%,
-      var(--color-velo-modal) 36%,
-      rgb(var(--verde-bosque-hondo-rgb) / 0.72) 39%,
-      rgb(var(--verde-bosque-hondo-rgb) / 0.62) 43%,
-      rgb(var(--verde-bosque-hondo-rgb) / 0.37) 49%,
-      rgb(var(--verde-bosque-hondo-rgb) / 0.12) 55%,
-      rgb(var(--verde-bosque-hondo-rgb) / 0) 62%
-    );
+    display: none;
   }
 
   /* La hoja flotante, al flujo: pieza propia entre el CTA y el par. */
   .planes-diorama__flotante {
     position: static;
-    grid-row: 5;
+    grid-row: 6;
     grid-column: 1;
     inline-size: auto;
     margin-block-start: var(--gap-sm);
   }
 
   .planes-carril--familia .planes-familia__par {
-    grid-row: 6;
-    margin-block-start: var(--gap-sm);
-  }
-
-  .planes-carril--familia .planes-familia__contexto {
     grid-row: 7;
     margin-block-start: var(--gap-sm);
   }
 
+  .planes-carril--familia .planes-familia__contexto {
+    grid-row: 8;
+    margin-block-start: var(--gap-sm);
+  }
+
   .planes-carril--empresa .planes-dossier__par {
-    grid-row: 5;
+    grid-row: 6;
     display: grid;
     gap: var(--gap-sm);
   }
@@ -4654,7 +4352,8 @@
   .planes-carril--empresa .planes-dossier__par > .marco {
     aspect-ratio: 4 / 5;
     border-radius: 0;
-    background-color: var(--color-fondo-oscuro);
+    /* v8 · color de espera claro (pedido del cliente: sin tonos oscuros). */
+    background-color: var(--color-fondo-alt);
   }
 
   /* El filete de §5 bis no vale sobre una foto de canto a canto: misma razón

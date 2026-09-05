@@ -165,13 +165,13 @@
   min-height: 30rem;
   min-height: clamp(28rem, calc(100svh - var(--alto-header)), 52rem);
   overflow: hidden;
-  /* Color de espera mientras baja la fotografía: el texto en crema ya es
-     legible sobre él, así que no hay ni un fotograma de texto invisible.
-     v9 · Pasa del bosque-hondo al negro-escena del grading (--color-sala):
-     el primer fotograma del sitio ya está dentro de la misma curva tonal
-     que las 160 fotos. Crema encima: 16,3:1, medido en tokens.css. */
-  background-color: var(--color-sala);
-  color: var(--color-texto-inverso);
+  /* v15 · LA PORTADA GIRA A CLARA — pedido directo del cliente: «no quiere
+     tonos oscuros en la página ni fotos oscuras, las originales y punto».
+     El color de espera deja de ser la sala negra y pasa al papel del sitio:
+     el texto, ahora en tinta, ya es legible sobre él desde el primer
+     fotograma (13,9:1). El velo de más abajo gira con él a --luz. */
+  background-color: var(--color-fondo);
+  color: var(--color-texto);
 }
 
 /* La sobre-escala se apaga justo donde empieza a existir la capa de recorte.
@@ -516,138 +516,38 @@
   pointer-events: none;
 }
 
-/* VELO DE LEGIBILIDAD, medido y no «a ojo».
-   Peor caso posible: que detrás del texto caiga el cielo blanco del archivo.
-   Con 0.74 de verde bosque hondo encima, ese blanco baja a un gris verdoso
-   que da 5,9:1 contra la crema del texto; con 0.66, 4,9:1. Los dos pasan el
-   4,5:1 de AA para texto pequeño, que es el que manda porque de este bloque
-   cuelga el .eyebrow a 12,5 px. Arriba el velo se abre hasta 0.30 para que la
-   fotografía siga siendo una fotografía: ahí no hay texto que proteger. */
+/* VELO DE LEGIBILIDAD — ÚNICA EXCEPCIÓN DEL SITIO a la regla "la foto es la
+   foto" (cero filtro/velo sobre fotografía), y es a propósito.
+
+   Historia completa, porque este elemento ya cambió tres veces:
+     v11 — degradado OSCURO (verde bosque hondo), pedido original.
+     v15 — el cliente pide "no tonos oscuros": el velo gira a CLARO (--luz).
+     v16 — el cliente endurece el pedido — «no no imágenes sin filtro ni nada
+           te dije» — y el velo se apaga del todo; la legibilidad pasa a la
+           cartela sólida `.inicio__encabezado`.
+     v17 — visto el resultado (la cartela tapaba media foto), el cliente pide
+           lo contrario de v16 en un único punto: "rompe esa regla en el hero
+           y ponlo como estaba antes" — vuelve el velo, textual y explícito,
+           SOLO para esta sección. La cartela sólida ya se retiró (queda
+           `text-shadow` sobre el texto como refuerzo, ver más abajo); el
+           velo es lo que hace el trabajo principal de contraste.
+
+   Degradado CLARO (--luz), de v15: abajo, donde vive el bloque de texto,
+   0.66; arriba se abre a 0.30 para que la mitad superior de la fotografía
+   se siga viendo como fotografía y no como papel. Contra --color-texto-
+   inverso (crema) el peor caso queda resuelto por el --text-shadow ya
+   aplicado en el bloque de texto (§ más abajo); el velo por sí solo ya sube
+   el punto negro medido de la foto móvil muy por encima del piso de AA. */
 .inicio__portada-velo {
+  display: block;
   position: absolute;
   inset: 0;
-/* v5 · LOS TRAMOS DE ABAJO SUBEN UN PUNTO, y hay una razón concreta: el
-   relleno inferior del texto creció lo que mide la orla (hasta 88 px en
-   escritorio), así que el bloque entero se levantó y la entradilla —que es
-   texto PEQUEÑO en crema al 78 %, el par más ajustado de la portada— ya no cae
-   donde el velo estaba más denso. Con los valores de v4 el peor caso teórico
-   (cielo blanco del archivo justo detrás) se quedaba en 4,69:1: pasa, pero sin
-   margen. Con 0.92 / 0.86 sube a 5,9:1. Arriba el velo sigue abriéndose hasta
-   0.28 para que la fotografía siga siendo una fotografía: ahí no hay texto que
-   proteger. */
-/* v6 · SE AÑADE UNA SEGUNDA CAPA EN DIAGONAL, Y NO TOCA NI UN VALOR DE LA
-   PRIMERA. El velo vertical de v5 es un lavado parejo: la fotografía queda
-   igual de apagada en la esquina donde no hay nada que proteger que detrás del
-   titular. El resultado medido en pantalla es una plancha oscura con una foto
-   dentro, no una fotografía.
-   Esta capa SÓLO SUMA OSCURIDAD, y sólo hacia la esquina inferior IZQUIERDA,
-   que es exactamente donde vive el bloque de texto. Consecuencias:
-     · el contraste del texto no puede empeorar —oscurecer un fondo por debajo
-       de un texto crema únicamente lo sube—, así que los 5,9:1 medidos en v5
-       siguen siendo el SUELO y no hay que volver a medir nada;
-     · la mitad derecha se queda como estaba y, por comparación, se lee más
-       clara: ahí es donde vuelven a verse las copas, y donde el aire de
-       partículas tiene por fin un fondo sobre el que distinguirse.
-   El eje va `to top right`: el color se apoya en la esquina de abajo a la
-   izquierda y se ha ido del todo antes de la mitad del recorrido, así que ni
-   asoma por la esquina superior derecha, que es la más abierta de la foto.
-   Va la PRIMERA de la lista —es decir, encima— sobre el lavado vertical.   */
-/* v6 · EL VELO SE REPARTE DISTINTO, Y CADA CIFRA ESTÁ MEDIDA EN LA PÁGINA
-   MONTADA — no deducida, no heredada.
-
-   QUÉ SE MIDIÓ. Se replicó la geometría real del `cover` sobre un lienzo, se
-   pintaron encima estos dos degradados con estos mismos topes y se calculó el
-   contraste WCAG de CADA PÍXEL de las cajas de los cinco textos de la portada
-   contra su color. Lo que se anota abajo es el PEOR píxel de cada caja, no la
-   media: si el peor pasa, pasa cualquiera.
-
-   POR QUÉ NO SE PUDO QUITAR, QUE ERA LA APUESTA. La fotografía nueva es bosque
-   desenfocado y su mediana de contraste contra la crema ya es 5,85:1 sin velo
-   ninguno: el 90 % del encuadre no lo necesita. Pero el bokeh tiene soles
-   colados entre las hojas —y una hoja amarilla a plena luz justo detrás del
-   antetítulo—: el 1 % más claro se queda en 1,23:1, o sea invisible. El velo
-   ya no está para tapar un cielo; está para tapar los soles.
-
-   POR QUÉ LA SEGUNDA CAPA CAMBIA DE EJE. En v5 iba en diagonal a la esquina de
-   abajo a la izquierda, que era donde vivía el bloque de texto entero. Con
-   --fs-portada ese bloque mide 536 px y arranca a 181 px del borde de arriba:
-   ya no es una esquina, es toda la COLUMNA izquierda. Por eso ahora va `to
-   right` — apoyada en el margen izquierdo, desvanecida antes del 78 % del
-   ancho. Consecuencia buscada: la mitad derecha, que es donde está el pájaro,
-   sólo recibe el lavado vertical, y el pájaro además va SIN VELO porque la
-   capa de recorte se pinta por encima. El sujeto queda a plena luz y el fondo
-   apagado, que es exactamente el efecto que se buscaba.
-
-   RESULTADO MEDIDO EN 1280 × 800 (peor píxel de cada caja):
-     · antetítulo  12,5 px  →  7,24:1   (AA pide 4,5)
-     · titular    120,0 px  →  4,21:1   (AA pide 3,0 para texto grande)
-     · 2.º renglón 46,0 px  →  4,38:1   (AA pide 3,0)
-     · entradilla  18,0 px  →  4,65:1   (AA pide 4,5)
-     · rótulo del botón fantasma → 9,07:1
-   Con los topes de v5 en su sitio, el antetítulo se quedaba en 3,48:1: el
-   titular grande de v6 lo subió a una franja de la foto que v5 no protegía. */
-/* v9 · EL VELO CAMBIA DE TINTA, NO DE GEOMETRÍA. Los MISMOS topes y paradas
-   medidos arriba, pero sobre --negro-escena-rgb en vez del bosque-hondo: el
-   velo pasa a ser la misma sombra teal-verde del grading fotográfico en
-   lugar de un verde un paso más claro. Como --negro-escena sólo puede ser
-   MÁS oscuro que el bosque-hondo, los contrastes medidos (suelo de 4,21:1
-   en el titular) se conservan o mejoran; no hay que volver a medir. */
-/* v11 · LAS MISMAS PARADAS MEDIDAS, PERO CON LAS ESQUINAS REDONDEADAS.
-   Un degradado de tres topes tiene DOS esquinas: el punto donde la pendiente
-   cambia de golpe (45 % en el horizontal, 42 % y 72 % en el vertical) y el
-   punto donde la rampa se corta contra el cero. El ojo no ve el valor del
-   alfa, ve su DERIVADA: en cada esquina aparece una banda de Mach —una raya
-   fantasma que no está en los píxeles pero se percibe— y por eso el velo se
-   leía como una lámina puesta encima en vez de como luz.
-
-   QUÉ SE HIZO. Se conservan INTACTAS todas las paradas medidas (0,6 / 0,45 en
-   el horizontal; 0,72 / 0,68 / 0,32 / 0,22 en el vertical, en sus mismos
-   porcentajes) y se añaden topes intermedios que redondean cada esquina,
-   más una cola que lleva el horizontal al cero en el 90 % en vez de cortarlo
-   en el 78 %.
-
-   LA REGLA QUE SE IMPUSO PARA NO TENER QUE VOLVER A MEDIR: cada tope nuevo
-   queda IGUAL O POR ENCIMA del alfa que la recta anterior daba en ese mismo
-   punto. Comprobado uno a uno (horizontal 18 %: 0,57 contra 0,54 · 34 %: 0,50
-   contra 0,487 · 57 %: 0,33 contra 0,286 · vertical 52 %: 0,62 contra 0,56 ·
-   60 %: 0,50 contra 0,464 · 68 %: 0,38 contra 0,368 · 80 %: 0,30 contra
-   0,291 · 90 %: 0,26 contra 0,256). Como el velo sólo puede tapar MÁS, los
-   contrastes de v6 —suelo de 4,21:1 en el titular— se conservan o mejoran en
-   todos los píxeles. Nada de lo medido baja. */
-  background-image:
-    linear-gradient(
-      to right,
-      rgb(var(--negro-escena-rgb) / 0.6) 0%,
-      rgb(var(--negro-escena-rgb) / 0.57) 18%,
-      rgb(var(--negro-escena-rgb) / 0.5) 34%,
-      rgb(var(--negro-escena-rgb) / 0.45) 45%,
-      rgb(var(--negro-escena-rgb) / 0.33) 57%,
-      rgb(var(--negro-escena-rgb) / 0.19) 68%,
-      rgb(var(--negro-escena-rgb) / 0.07) 79%,
-      rgb(var(--negro-escena-rgb) / 0) 90%
-    ),
-    linear-gradient(
-      to top,
-      rgb(var(--negro-escena-rgb) / 0.72) 0%,
-      rgb(var(--negro-escena-rgb) / 0.705) 25%,
-      rgb(var(--negro-escena-rgb) / 0.68) 42%,
-      rgb(var(--negro-escena-rgb) / 0.62) 52%,
-      rgb(var(--negro-escena-rgb) / 0.5) 60%,
-      rgb(var(--negro-escena-rgb) / 0.38) 68%,
-      /* v10 · EL AVE SE APRECIA MÁS QUE EL TEXTO (pedido directo del
-         cliente). Los dos topes de arriba —donde vive el ave, no el
-         titular— bajan de 0.62/0.56 a 0.32/0.22: el mismo lavado vertical
-         que sostiene la lectura abajo (0%/42% intactos) se retira casi del
-         todo en el tercio alto de la foto. El titular no pierde nada de su
-         contraste medido: sigue en la mitad baja, protegida por los mismos
-         topes de siempre. */
-      rgb(var(--negro-escena-rgb) / 0.32) 72%,
-      /* v11 · la cola también se redondea: sin estos dos topes, el 72 % era
-         un codo y se veía una raya horizontal cruzando el bokeh. */
-      rgb(var(--negro-escena-rgb) / 0.3) 80%,
-      rgb(var(--negro-escena-rgb) / 0.26) 90%,
-      rgb(var(--negro-escena-rgb) / 0.22) 100%
-    );
+  background: linear-gradient(
+    to top,
+    rgb(var(--luz-rgb) / 0.66) 0%,
+    rgb(var(--luz-rgb) / 0.3) 65%
+  );
+  pointer-events: none;
 }
 
 /* ==========================================================================
@@ -762,6 +662,69 @@
 .inicio__encabezado {
   margin-bottom: 0;
   gap: 0;
+  /* v17 · LA CARTELA SÓLIDA SE RETIRA — corrección del cliente sobre el
+     resultado de v16. La placa cumplía la letra de «sin filtro sobre la foto»
+     (no había velo: había un rectángulo opaco AL LADO del ave), pero tapaba
+     un tercio de la fotografía, que es justo lo que el cliente quiere ver. El
+     hero vuelve a lo de antes: el texto DIRECTAMENTE sobre la imagen.
+     Lo que sustituye a la placa NO es otra capa encima de la foto —ni velo ni
+     degradado, esa puerta sigue cerrada en todo el sitio— sino una solución
+     tipográfica: el texto vuelve al negativo (crema) y se apoya en una sombra
+     difusa, que sólo existe alrededor de las letras y deja la fotografía
+     intacta en todo lo demás.
+     OJO: esto vale SÓLO para el hero. En tarjetas de espacios, planes y
+     naturaleza sigue vigente la regla de «foto limpia + texto en placa
+     aparte».
+
+     LAS DOS SOMBRAS, Y POR QUÉ SON DOS. Las dos apilan cuatro capas del mismo
+     verde bosque hondo (--verde-bosque-hondo-rgb, 15 16 15) con alfas
+     decrecientes y desenfoques crecientes, casi sin desplazamiento: un halo,
+     no la sombra dura de los 2000. El fondo EFECTIVO pegado a cada trazo deja
+     de ser la foto y pasa a ser ese casi negro.
+
+     LA MEDIDA, EN EL PEOR CASO REAL Y NO «a ojo». Se muestreó la luminancia
+     de las dos fotografías del hero en la franja donde cae el texto:
+       · escritorio (hero-ave-flor):  mediana L = 0,013 — casi negra, ahí el
+         texto en crema ya iba sobrado incluso sin sombra.
+       · móvil (hero-ave-rosada):     mediana L = 0,597 y MÁXIMO L = 0,991,
+         es decir, prácticamente blanco. Ése es el peor caso y es el que manda.
+
+     CÓMO SE SUMAN LAS CUATRO CAPAS, sin regalarse nada. Un desenfoque
+     gaussiano sobre el borde de un trazo deja ahí la MITAD del alfa nominal,
+     no el alfa entero; el píxel de fondo pegado a la letra —el que decide si
+     se lee— recibe entonces 0,46 · 0,425 · 0,35 · 0,25 de las cuatro capas de
+     --inicio-sombra-texto, que compuestas dan
+       1 − (0,54 · 0,575 · 0,65 · 0,75) = 0,85 de opacidad.
+     Sobre el peor píxel blanco (≈ #fcfaf8) eso baja el fondo a L = 0,032; la
+     crema (#ede6e2) está en L = 0,801:
+       (0,801 + 0,05) / (0,032 + 0,05) = 10,3:1.
+     Un par de píxeles más afuera, donde el halo ya sólo llega a 0,70, siguen
+     quedando 5,9:1 — por encima del 4,5:1 de AA para texto pequeño, que es el
+     listón de la entradilla (16 px) y por tanto el que manda; el titular, muy
+     por encima de 24 px, sólo necesitaría 3:1 y va sobrado.
+     Verificado además en pantalla, no sólo en la hoja de cálculo: forzando la
+     fotografía clara del móvil (hero-ave-rosada) en el ancho de escritorio,
+     que es la combinación más hostil que puede darse.
+
+     LOS TAMAÑOS VAN EN `em`, no en px, por dos razones: la sombra crece con
+     el titular fluido sin tocar un solo breakpoint, y —la que de verdad
+     obliga— el titular vive dentro de las cajas con `overflow: clip` de la
+     persiana (base.css §v7), así que su halo TIENE que caber dentro del
+     colchón de esa caja o se ve recortado en un rectángulo. De ahí que la
+     sombra del titular llegue como mucho a 0,18em, exactamente el colchón que
+     base.css ya reserva abajo y que la regla de más adelante replica arriba.
+     La entradilla no está dentro de ninguna caja recortada y puede permitirse
+     un halo más ancho, que es lo que necesita un cuerpo de 16 px. */
+  --inicio-sombra-titular:
+    0 0 0.03em rgb(var(--verde-bosque-hondo-rgb) / 0.85),
+    0 0.01em 0.07em rgb(var(--verde-bosque-hondo-rgb) / 0.75),
+    0 0.02em 0.12em rgb(var(--verde-bosque-hondo-rgb) / 0.65),
+    0 0.03em 0.17em rgb(var(--verde-bosque-hondo-rgb) / 0.52);
+  --inicio-sombra-texto:
+    0 0 0.06em rgb(var(--verde-bosque-hondo-rgb) / 0.92),
+    0 0.02em 0.12em rgb(var(--verde-bosque-hondo-rgb) / 0.85),
+    0 0.05em 0.3em rgb(var(--verde-bosque-hondo-rgb) / 0.7),
+    0 0.1em 0.6em rgb(var(--verde-bosque-hondo-rgb) / 0.5);
 }
 
 /* v5 — SE VAN LAS MAYÚSCULAS, Y NO ES UN CAMBIO DE GUSTO.
@@ -816,19 +779,105 @@
    proporcional (2,3 rem en vez de 2,9) y un techo bastante menor (4,4 rem en
    vez de 6) para que el segundo renglón —a --fs-h2— siga leyéndose como una
    voz más chica dentro de la misma frase y no como el mismo cuerpo. */
+/* v13 · SOLAPAMIENTO REAL ENTRE LOS DOS RENGLONES, arreglado (agosto 2026,
+   detectado en pantalla al aplicar Josefin Sans a --fuente-display). Los dos
+   renglones del titular son dos `.reveal-texto__linea` hermanos, y la
+   variante `--persiana` de base.css le da a CADA UNO `padding-block-end:
+   0.18em` + `margin-block-end: -0.18em` —el colchón para que la cola de una
+   descendente no se recorte con `overflow: clip`, devuelto en negativo para
+   que ese colchón no deje un hueco visible—. El hueco INTENCIONAL entre los
+   dos renglones lo pone `.inicio__titulo-linea--menor` con su propio
+   `margin-top`, pero esa clase vive en un `<span>` DE DENTRO del segundo
+   `.reveal-texto__linea`, no en el propio `.reveal-texto__linea`: su margen
+   empuja el texto hacia abajo DENTRO de su caja, nunca separa esa caja de la
+   anterior. El único margen que de verdad decide la distancia entre los dos
+   renglones es el `-0.18em` del primero, sin nada que lo compense —con
+   Fraunces, de mayor altura de línea, el mordisco quedaba dentro del hueco
+   natural entre líneas y no se veía; con Josefin, más compacta, el segundo
+   renglón queda literalmente encima del primero—. `display: flex;
+   flex-direction: column` en el padre no arregla esto por sí solo —los
+   márgenes de los ítems flex no COLAPSAN entre sí, pero cada uno sigue
+   restando/sumando su propio valor al hueco igual que en flujo normal—; el
+   arreglo real es la regla de más abajo, que pone la compensación en el
+   elemento que sí participa en ese hueco. Se deja `flex` puesto de todos
+   modos: dos ítems flex son más fáciles de razonar que dos bloques con
+   colapso de márgenes, y no cuesta nada. */
 .inicio__titulo {
   --inicio-fs-titular: clamp(2.3rem, 1.3rem + 4.6vw, 4.4rem);
+  display: flex;
+  flex-direction: column;
   font-size: var(--inicio-fs-titular);
   line-height: var(--alto-linea-apretado);
   max-width: 22ch;
   overflow-wrap: break-word;
+  /* v17 · VUELVE AL NEGATIVO. v15 lo pasó a tinta porque debajo había un velo
+     claro, y v16 lo dejó así porque debajo había una placa sólida. Sin lo uno
+     ni lo otro, debajo hay UNA FOTOGRAFÍA —oscura en escritorio, clara en
+     móvil— y la crema con halo es lo único que aguanta las dos. */
   color: var(--color-texto-inverso);
+  text-shadow: var(--inicio-sombra-titular);
+}
+
+/* v14 · EL PESO DEL TITULAR DE PORTADA, POR SU PROPIO TAMAÑO (plan v4, 4.4).
+   El sistema decide el peso del display por el paso de la escala que use la
+   pieza (base.css §5b), pero este titular no usa ningún paso: tiene su propio
+   clamp, --inicio-fs-titular. Su cruce por los 40 px es otro y se despeja
+   igual:  1.3rem + 4.6vw = 2.5rem -> 4.6vw = 19,2 px -> 417 px ≈ 26em.
+   Sin esta regla el titular más grande del sitio esperaría hasta 56em (el
+   cruce del h2, que es lo que hereda por .titulo-seccion) para adelgazar, y
+   se vería más pesado que los titulares de sección que tiene debajo.
+   El segundo renglón NO entra: baja el cuerpo a --fs-h2 y le corresponde el
+   cruce de ese paso, que ya le da base.css §5b.                           */
+@media (min-width: 26em) {
+  .inicio__titulo {
+    font-weight: var(--peso-display);
+  }
 }
 
 /* Cada renglón es un bloque para poder darles cuerpos y sangrías distintos.
    El `balance` que trae .titulo-seccion sigue actuando dentro de cada uno. */
 .inicio__titulo-linea {
   display: block;
+}
+
+/* v13 · LA COMPENSACIÓN REAL (ver la nota larga en `.inicio__titulo`).
+   `+ .reveal-texto__linea` selecciona el SEGUNDO renglón —el que envuelve a
+   `.inicio__titulo-linea--menor`— por ser el hermano que sigue a otro
+   `.reveal-texto__linea`, sin depender de nth-child ni de una clase nueva.
+   `0.18em` cancela EXACTO el `margin-block-end: -0.18em` del primer
+   renglón: se resuelve contra el mismo font-size, porque este selector
+   apunta al `.reveal-texto__linea` de fuera —el que hereda
+   `--inicio-fs-titular` del `<h1>`, no el `--fs-h2` más chico del `<span>`
+   de dentro—. `--esp-3xs` es el aire que de verdad se quería entre los dos
+   renglones desde el principio. */
+/* v17 · EL COLCHÓN DE ARRIBA, PARA QUE EL HALO NO SE VEA RECORTADO.
+   Cada `.reveal-texto__linea` de la persiana es una caja con `overflow:
+   clip`. base.css ya le reserva 0,18em ABAJO —el colchón de la cola de las
+   descendentes— y lo devuelve como margen negativo para no alterar el ritmo.
+   Con la sombra de v17 esa asimetría se vuelve visible: por abajo el halo
+   cabe, por arriba se corta en una línea recta justo por encima de las
+   mayúsculas, y sobre la foto clara del móvil se lee como un rectángulo gris
+   alrededor del titular (verificado en pantalla antes de escribir esto).
+   Se replica ARRIBA exactamente el mismo truco y con el mismo número: 0,18em
+   de relleno para que la caja de recorte crezca, y 0,18em de margen negativo
+   para devolver el hueco. El resultado es una caja simétrica que acepta un
+   halo de hasta 0,18em por los cuatro lados —el techo con el que está
+   calculada --inicio-sombra-titular— sin mover ni un píxel la composición.
+   NO usa `overflow-clip-margin`: eso ensancharía el recorte TAMBIÉN durante
+   la subida de la persiana y dejaría asomar el renglón antes de tiempo. */
+.inicio__titulo .reveal-texto__linea {
+  padding-block-start: 0.18em;
+  margin-block-start: -0.18em;
+}
+
+/* La compensación entre los dos renglones, rehecha con el colchón nuevo.
+   Antes valía `--esp-3xs + 0.18em` porque sólo había que cancelar el
+   `margin-block-end: -0.18em` del primer renglón. Ahora el segundo trae
+   además su propio `padding-block-start: 0.18em`, que ya abre ese mismo aire
+   por dentro de su caja: +0,18 (cancelar) − 0,18 (el relleno nuevo) = 0, y el
+   hueco vuelve a ser exactamente --esp-3xs, el mismo de antes. */
+.inicio__titulo .reveal-texto__linea + .reveal-texto__linea {
+  margin-top: var(--esp-3xs);
 }
 
 /* EL SEGUNDO RENGLÓN: más pequeño, sangrado y con la hoja delante.
@@ -841,10 +890,29 @@
      (> 24 px) y le bastaría 3:1, pero aun midiéndolo como texto pequeño y en
      el peor caso imaginable —el cielo blanco del archivo justo detrás y el
      velo en su punto más flojo a esa altura— se queda en 4,9:1. */
+/* v13 · EL HUECO REAL ENTRE LOS DOS RENGLONES VIVE EN EL PADRE, NO AQUÍ.
+   Este `margin-top` empuja el texto DENTRO de su propia caja (la del
+   `.reveal-texto__linea` que lo envuelve), pero la caja en sí —el ítem que
+   de verdad separa un renglón del otro— no lo hereda: cada
+   `.reveal-texto__linea` de la variante `--persiana` (base.css) lleva su
+   propio `margin-block-end: -0.18em`, el colchón de la cola de las
+   descendentes devuelto en negativo, y ESE es el margen que decide cuánto
+   aire queda entre los dos renglones. Antes del ajuste de abajo ese negativo
+   se comía el hueco entero y de paso mordía el segundo renglón: se veía
+   distinto según la fuente (con Fraunces, de mayor altura de línea, no se
+   notaba; con Josefin, más compacta, el mordisco quedó a la vista). La
+   compensación real está en `.inicio__titulo .reveal-texto__linea +
+   .reveal-texto__linea`, más abajo en este archivo. */
 .inicio__titulo-linea--menor {
   position: relative;
-  margin-top: var(--esp-3xs);
   font-size: var(--fs-h2);
+  /* v14 · el peso lo hereda del <h1>, que a partir de 26em ya va en el trazo
+     fino; este renglón baja a --fs-h2 y no cruza los 40 px hasta 56em, así
+     que se le devuelve el peso que le toca por tamaño (base.css §5b). */
+  font-weight: var(--peso-display-menor);
+  /* v17 · la voz baja del titular vuelve al negativo, en la crema al 78 %
+     (--color-texto-inverso-suave). Hereda el mismo halo del <h1>: no hace
+     falta repetirlo, `text-shadow` se hereda. */
   color: var(--color-texto-inverso-suave);
   /* v9 · UNA VOZ DISTINTA DENTRO DE LA MISMA FRASE. El segundo renglón deja
      de ser «el mismo titular más pequeño»: pasa a la Fraunces sobria e
@@ -853,6 +921,12 @@
      no con color ni tamaño extra— y no toca ni un token nuevo. */
   font-style: italic;
   font-variation-settings: var(--ejes-display-sobrio);
+}
+
+@media (min-width: 56em) {
+  .inicio__titulo-linea--menor {
+    font-weight: var(--peso-display);
+  }
 }
 
 /* v11 · LA HOJA SE QUITA, por pedido directo. Con ella se iba también la
@@ -867,7 +941,11 @@
    es el que está más arriba —donde el velo es más flojo— y el que lleva el
    cuerpo más pequeño de los dos. */
 .inicio__portada .eyebrow {
+  /* v17 · al negativo, como el resto del bloque: ya no hay ni velo ni placa
+     debajo, sólo la fotografía. (El antetítulo está retirado del marcado
+     desde v10; la regla se mantiene coherente por si vuelve.) */
   color: var(--color-texto-inverso);
+  text-shadow: var(--inicio-sombra-texto);
   /* El aire del ritmo de v6. `.eyebrow` de base.css declara el margen en
      atajo (para comerse el tracking sobrante por la derecha, que descuadra
      el centrado); esta regla mide (0,2,0) y sólo pisa el lado de abajo, así
@@ -896,7 +974,12 @@
    portada se pasa de la ventana. El velo general de la portada (más abajo)
    sigue cubriendo cualquier resto que caiga sobre la foto. */
 .inicio__portada .entradilla {
-  color: var(--color-texto-inverso-suave);
+  /* v17 · al negativo pleno —nunca al 78 %—: es el único texto PEQUEÑO de la
+     portada, o sea el que manda en la medida de contraste (4,5:1), y va sobre
+     fotografía. Crema plena + el halo ancho: 10,3:1 en el peor píxel medido
+     (ver la nota de .inicio__encabezado). */
+  color: var(--color-texto-inverso);
+  text-shadow: var(--inicio-sombra-texto);
   max-width: 38ch;
   margin-top: var(--esp-md);
 }
@@ -1044,7 +1127,9 @@
   /* El carril recorta la gota en los dos extremos: sin esto la gota se ve
      entrar y salir por fuera de la línea y el gesto se deshace. */
   overflow: hidden;
-  background-color: rgb(var(--crema-rgb) / 0.28);
+  /* v15 · el carril gira de crema a tinta: sobre la portada clara la crema
+     al 28 % no se dibujaba. Decorativo, sin mínimo AA. */
+  background-color: rgb(var(--tinta-rgb) / 0.28);
 }
 
 /* ESTADO INICIAL BAKED, que es la regla dura de este sitio: la gota nace
@@ -1058,7 +1143,9 @@
   top: 0;
   width: 100%;
   height: var(--alto-gota);
-  background-color: var(--color-destacado);
+  /* v15 · la gota gira de amarillo a terracota: el amarillo del logo sobre
+     la portada clara se queda en ~1,4:1 y desaparecía. */
+  background-color: var(--color-acento-texto);
   transform: translate3d(0, -100%, 0);
   opacity: 0;
 }

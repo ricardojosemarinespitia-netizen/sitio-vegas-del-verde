@@ -134,9 +134,13 @@
    importar la especificidad: sin esta regla el titular se leería en tinta
    oscura sobre la foto, casi invisible. Se sube a crema a mano, la misma
    variable que ya trae `.nosotros__escena`. */
+/* v18 · VUELVE A TINTA. El velo de la escena ya no es oscuro sino claro
+   (--luz, ver §1): el titular vuelve al color de titular de toda la página.
+   La declaración explícita sigue haciendo falta por la misma razón de v17:
+   base.css pinta los h2 en --color-texto y cualquier herencia perdería. */
 .nosotros__titulo {
   font-variation-settings: var(--ejes-display-sobrio);
-  color: var(--color-texto-inverso);
+  color: var(--color-texto);
 }
 
 /* ---- v13 · LA ESCENA -----------------------------------------------------
@@ -154,15 +158,50 @@
    su relleno, así que la banda crece sola cuando el usuario agranda la letra
    del sistema y no hay un solo caso en que el texto se salga de la foto. La
    foto se adapta al hueco con `cover`, nunca al revés.                       */
+/* v20 · DE DOS CAPAS A DOS FILAS. Orden directa del cliente sobre todo el
+   sitio: «el texto NO debe tapar la foto». La v19 ya había quitado el velo y
+   convertido el discurso en placa sólida, pero la placa seguía APOYADA sobre
+   la fotografía —que era el fondo absoluto de la banda— y le tapaba el 93 %
+   del área medido a 375 px. Ahora la escena es una rejilla: el marco de la
+   foto en la primera fila, la placa del discurso en la segunda. Ninguna se
+   superpone a la otra, que es literalmente lo que base.css §4b describe para
+   `.foto-placa`: «en una rejilla la placa no puede caer sobre la imagen ni
+   por accidente, porque cada una tiene su fila». */
 .nosotros__escena {
   position: relative;
   isolation: isolate;
   overflow: clip;
+  display: grid;
+  gap: var(--esp-lg);
   padding-block: var(--esp-seccion-sm);
-  color: var(--color-texto-inverso);
-  /* El color de reserva mientras la foto (lazy) no ha llegado: el texto ya es
-     legible sobre él desde el primer paint, sin esperar a la imagen. */
-  background-color: var(--color-fondo-oscuro);
+  /* v18 · LA ESCENA DEJA DE SER OSCURA — pedido directo del cliente:
+     «no quiere tonos oscuros en la página ni fotos oscuras, las originales
+     y punto». El velo pasa de bosque-hondo a --luz (§ siguiente) y el texto
+     vuelve a la tinta de la página clara. */
+  color: var(--color-texto);
+  /* El color de reserva mientras la foto (lazy) no ha llegado: ahora claro,
+     el mismo papel del sitio — el texto en tinta ya es legible sobre él. */
+  background-color: var(--color-fondo);
+}
+
+/* EL MARCO — la primera fila de la escena, y quien recorta.
+   Elemento propio y no formato sobre la <img> porque foto-focus escala y
+   desplaza la imagen: sin caja que recorte, ese movimiento se derramaría
+   sobre la placa del discurso. `clip` y no `hidden` por la convención de la
+   casa (hidden crearía contenedor de scroll). El formato es retrato en móvil
+   —el archivo es 1200×2134— y apaisado en escritorio, donde una vertical a
+   sangre se comería dos pantallas. */
+.nosotros__escena-marco {
+  position: relative;
+  display: block;
+  overflow: clip;
+  aspect-ratio: 4 / 5;
+}
+
+@media (min-width: 62em) {
+  .nosotros__escena-marco {
+    aspect-ratio: 16 / 9;
+  }
 }
 
 .nosotros__escena-foto {
@@ -202,33 +241,11 @@
    Una veladura plana sobre una foto se lee como un filtro; una graduada, como
    luz. Sigue siendo luz.                                                     */
 .nosotros__escena-velo {
-  position: absolute;
-  inset: 0;
-  z-index: var(--z-fondo);
-  pointer-events: none;
-/* v15 · SE REDONDEA EL CODO DEL 45 %, QUE ES LO ÚNICO QUE SE VEÍA.
-   Las tres paradas medidas de v14 (0,88 / 0,82 / 0,72) se quedan donde están;
-   lo que cambia es que entre ellas la pendiente ya no salta de golpe. En el
-   45 % el degradado pasaba de perder 0,0013 de alfa por punto a perder
-   0,0018, y ese cambio brusco de derivada dibuja una banda de Mach: una raya
-   horizontal fantasma a media altura de la foto, justo por encima de los
-   iconos. Con dos topes a cada lado la curva entra y sale del 45 % sin codo.
-
-   NO HAY QUE VOLVER A MEDIR: cada tope nuevo queda por ENCIMA del alfa que la
-   recta de v14 daba en ese punto (22 %: 0,865 contra 0,8507 · 33 %: 0,845
-   contra 0,836 · 58 %: 0,80 contra 0,7964 · 80 %: 0,76 contra 0,7564). El
-   velo sólo puede tapar más, nunca menos, así que el suelo de 6,9:1 sobre
-   blanco puro y el 3:1 de los iconos se conservan. */
-  background: linear-gradient(
-    to top,
-    rgb(var(--verde-bosque-hondo-rgb) / 0.88) 0%,
-    rgb(var(--verde-bosque-hondo-rgb) / 0.865) 22%,
-    rgb(var(--verde-bosque-hondo-rgb) / 0.845) 33%,
-    rgb(var(--verde-bosque-hondo-rgb) / 0.82) 45%,
-    rgb(var(--verde-bosque-hondo-rgb) / 0.8) 58%,
-    rgb(var(--verde-bosque-hondo-rgb) / 0.76) 80%,
-    rgb(var(--verde-bosque-hondo-rgb) / 0.72) 100%
-  );
+  /* v19 · EL VELO SE RETIRA DEL TODO — corrección del cliente, textual:
+     «no no imágenes sin filtro ni nada te dije»: ni oscuro ni claro. La
+     foto del sendero se ve original; la lectura la garantiza la placa
+     sólida de .nosotros__discurso (abajo). */
+  display: none;
 }
 
 .nosotros__discurso {
@@ -237,6 +254,13 @@
   display: flex;
   flex-direction: column;
   align-items: flex-start;
+  /* v19 · LA PLACA SÓLIDA — el texto vive sobre superficie sólida (tinta
+     13,4:1) y la fotografía queda original, sin un píxel filtrado.
+     v20 · Y DEJA DE SER UNA PLACA HECHA A MANO: el HTML lleva ahora
+     `placa placa--lg`, el componente de base.css §4b, así que la superficie,
+     la silueta de hoja y la sombra las pone el sistema y esta hoja no
+     declara ni un color ni un radio propios. Era exactamente la novena
+     superficie sólida que la cabecera de ese bloque se propuso replegar. */
   /* v9 — de --esp-sm a --esp-lg: tres párrafos cortos con el doble de aire
      entre ellos leen como apertura de revista, no como texto corrido. */
   gap: var(--esp-lg);
@@ -479,22 +503,22 @@
    banda es `--coral-claro`, la versión del naranja que tokens.css declara
    legible sobre fondo oscuro. No reintroduzcas el terracota.
    ========================================================================== */
-.nosotros__escena .entradilla {
-  color: var(--color-texto-inverso);
-}
-
+/* v18 · EL NEGATIVO SE RETIRA: con el velo claro (§1) la escena vuelve al
+   idioma de la página clara. Las reglas se conservan —y no se borran— porque
+   siguen siendo necesarias: sin ellas heredarían los grises calculados contra
+   la crema plana, y aquí el fondo es foto + velo --luz, cuyo peor compuesto
+   (0,72 de alfa sobre negro puro, luminancia 0,67) deja a --color-texto-suave
+   en 4,4:1 — roza AA. Todo el texto de la escena va en tinta plena. */
+.nosotros__escena .entradilla,
 .nosotros__escena .nosotros__grupo-titulo,
-.nosotros__escena .nosotros__quienes-nota {
-  color: var(--color-texto-inverso-suave);
+.nosotros__escena .nosotros__quienes-nota,
+.nosotros__escena .nosotros__quien,
+.nosotros__escena .nosotros__servicio {
+  color: var(--color-texto);
 }
 
 .nosotros__escena .nosotros__grupo-titulo::before {
-  background-color: var(--color-borde-inverso);
-}
-
-.nosotros__escena .nosotros__quien,
-.nosotros__escena .nosotros__servicio {
-  color: var(--color-texto-inverso);
+  background-color: var(--color-borde);
 }
 
 /* v14 · EL ARO GRANDE DE «Se alquila a» PASA DE AMARILLO A CORAL CLARO.
@@ -518,10 +542,14 @@
 
    EL TERRACOTA SIGUE SIN SUBIR AQUÍ (§4): 2,4:1 sobre oscuro. `--coral-claro`
    NO es terracota; es la rama clara de la misma familia cálida. */
+/* v18 · Sobre el velo claro el coral-claro (pensado para el negativo) se
+   lava: vuelve el terracota de la versión clara, el mismo de la regla base
+   —que es exactamente el naranja que el cliente pidió, ahora legible porque
+   el fondo dejó de ser oscuro (5,3:1 sobre crema; más sobre el velo --luz). */
 .nosotros__escena .nosotros__quien-icono {
-  border-color: rgb(var(--coral-claro-rgb) / 0.45);
-  background-color: rgb(var(--coral-claro-rgb) / 0.12);
-  color: var(--coral-claro);
+  border-color: rgb(var(--coral-hondo-rgb) / 0.35);
+  background-color: rgb(var(--coral-hondo-rgb) / 0.08);
+  color: var(--color-acento-texto);
 }
 
 /* v14 · DE MENTA A OLIVA. La insignia pequeña de los servicios ahora va en
@@ -573,9 +601,13 @@
    de la pastilla es --fs-pequeno en mayúsculas con --peso-medio (rango de
    texto grande/negrita del criterio WCAG, mínimo 3:1) y sobre la foto real
    (túnel en sombra, más oscura que el peor píxel) el numero medido sube. */
+/* v18 · Con el velo claro la pastilla vuelve al registro de página clara:
+   fondo oliva tenue y texto oliva pleno (--color-acento-alt, 5,0:1 sobre
+   crema y más sobre el velo --luz). La cuenta antigua contra el fondo
+   oscuro queda arriba como histórico. */
 .nosotros__escena .pildora {
-  background-color: rgb(var(--verde-oliva-rgb) / 0.32);
-  border-color: rgb(var(--verde-oliva-rgb) / 0.55);
+  background-color: rgb(var(--verde-oliva-rgb) / 0.12);
+  border-color: rgb(var(--verde-oliva-rgb) / 0.4);
   color: var(--color-acento-alt);
 }
 
@@ -672,8 +704,15 @@
    el recorte —lleva una foto que hace zoom dentro— y además entra con
    `.reveal--velo`, cuyo gesto ES el clip-path. Devolvérselo a `none` apagaría
    su propia entrada. */
-.nosotros__mural.reveal.visible,
-.nosotros__compromiso-texto.reveal.visible {
+/* v20 · CAMBIAN LOS NOMBRES, NO EL MOTIVO. `.nosotros__mural` desapareció con
+   el panel de aves y `.nosotros__compromiso-texto` con el bloque único que
+   entraba de una pieza. Ahora en #compromiso entran por separado el
+   encabezado y cada pilar (sections/compromiso.html: los .reveal de este
+   sitio no se anidan), y son los pilares los que necesitan esto: a partir de
+   62em el renglón entero se cuelga --esp-md fuera de la columna (§4) y el
+   `clip-path: inset(0 0 0 0)` de base.css les cortaría el índice al ras. */
+.nosotros__compromiso .nosotros__pilar.reveal.visible,
+.nosotros__compromiso .seccion-encabezado.reveal.visible {
   clip-path: none;
 }
 
@@ -908,151 +947,283 @@
     gap: var(--esp-sm);
   }
 }
-
 /* ==========================================================================
-   3. EL COMPROMISO — el texto en la retícula, el panel saliéndose a la derecha
+   3. EL COMPROMISO — LA FOTOGRAFÍA ES LA SECCIÓN Y EL TEXTO VA DENTRO
    ==========================================================================
-   v14 · ESTE §3 YA NO ESTILA UN BLOQUE DE #nosotros: ESTILA LA SECCIÓN
-   #compromiso, que es la última del <main> (sections/compromiso.html), servida
+   v14 · ESTE §3 NO ESTILA UN BLOQUE DE #nosotros: ESTILA LA SECCIÓN
+   #compromiso, la última del <main> (sections/compromiso.html), servida
    después de #ubicacion y justo antes del pie. Las reglas se quedan en ESTA
-   hoja a propósito: la banda comparte con #nosotros los pilares, las siluetas
-   y el tratamiento de foto, y partirlas en un archivo nuevo garantizaría que
-   las dos mitades se separen con el tiempo. La hoja se carga siempre (está en
-   CSS_SECCIONES), así que el ámbito no depende de dónde caiga la sección.
+   hoja a propósito: los pilares son la misma pieza que en/index.html sigue
+   usando en su versión clara (§4 explica el reparto), y partirlas en un
+   archivo nuevo garantizaría que las dos mitades se separen con el tiempo.
    NINGÚN SELECTOR DE AQUÍ CUELGA DE `.nosotros`: todos arrancan en
-   `.nosotros__compromiso`, y por eso el traslado no cambió ni un píxel.
+   `.nosotros__compromiso` o en `.compromiso__*`.
+
+   v20 · DE BANDA VERDE PLANA A FOTOGRAFÍA A SANGRE ------------------------
+   Pedido del cliente sobre esta sección: poner dentro la foto del camino de
+   piedra y meter el texto encima, con animaciones.
+
+   Hasta v19 la banda era un verde plano con un panel de aves sangrando por
+   la derecha —dos piezas peleándose la pantalla que cierra el sitio—. Ahora
+   la foto ocupa la sección entera y el texto se apoya sobre ella. La pieza
+   deja de ser «un bloque más con foto al lado» y pasa a ser el plano final
+   del recorrido, que es lo que el contenido pedía desde el principio.
+
+   LAS TRES CAPAS, Y POR QUÉ SON TRES ELEMENTOS Y NO UN `background-image`:
+     · .compromiso__escena  recorte del paralaje (z-index -2)
+     · .compromiso__velo    el degradado que hace legible el texto (-1)
+     · .compromiso__contenido  el texto, en flujo normal (capa 0)
+   Un <img> real —y no un fondo de CSS— es lo único que puede llevar
+   `srcset`/`sizes`: es el peldaño de 400/600/800/1200 que escribe
+   herramientas/marcar-responsivas.py lo que evita bajar los 3,4 MB del
+   original a un teléfono. Y el paralaje necesita mover la foto DENTRO de un
+   recorte propio sin arrastrar el velo con ella; con un solo elemento habría
+   que mover las dos cosas a la vez o pintar el velo en un pseudo-elemento
+   del mismo nodo que se transforma, que es exactamente cómo se desalinean
+   estos efectos.
+
+   `isolation: isolate` en la sección: los z-index negativos de las dos capas
+   se resuelven DENTRO de ella y no pueden colarse por detrás del fondo de la
+   página. Sin él, en un contexto de apilamiento distinto la foto podría
+   quedar tapada por el papel crema del <body>.
+
+   EL CONTRASTE, MEDIDO CONTRA EL PEOR PÍXEL POSIBLE ------------------------
+   El error clásico de esta composición es calcular el velo contra la
+   luminancia MEDIA de la foto: se lee bien en la maqueta y se pierde en el
+   trozo de cielo. Aquí la cuenta se hace contra BLANCO PURO, que es el
+   píxel más claro que la foto puede llegar a tener, y la composición alfa se
+   hace en sRGB, que es como la resuelve el navegador.
+
+     velo al 0,90 de --verde-bosque sobre blanco -> #3C5C4C compuesto
+       crema (titulares, rótulo, entradilla, pilares) ....... 5,6:1  AA ✓
+       amarillo del logo (índices 01·02·03) ................. 4,3:1  AA ✓ (*)
+     (*) los índices miden --fs-h2 y, con ancho, --fs-cifra (hasta 3,75 rem):
+         son «texto grande» de WCAG, cuyo mínimo es 3:1. Sobran 1,3 puntos.
+
+   Y POR ESO AQUÍ NO SE USA EL CREMA AL 78 %. base.css pinta `.eyebrow`,
+   `.entradilla` y esta hoja pinta los párrafos de los pilares con
+   --color-texto-inverso-suave (crema al 78 %). Sobre el verde plano de v19
+   eso daba 7,2:1 de sobra; sobre el peor píxel de la fotografía se queda en
+   4,1:1 y NO llega a AA. Los tres se suben a crema entera en esta sección
+   —abajo, con el porqué al lado de cada regla—. Es el mismo error que ya se
+   corrigió una vez en esta hoja con el índice en menta (2,07:1): que un
+   color herede bien sobre un fondo no dice nada sobre otro fondo.
+
+   SI ALGÚN DÍA SE CAMBIA LA FOTO: la cuenta no hay que rehacerla, porque
+   está hecha contra blanco puro y ninguna foto tiene un píxel más claro. Lo
+   que sí hay que revisar es el ENCUADRE (`object-position`) y la ventana de
+   arriba, que están elegidos para esta imagen en concreto.
    ========================================================================== */
-/* v5 — DE «MÁS TEXTO» A CIERRE DE CAPÍTULO.
-   Hasta v4 el compromiso era la tercera tanda de párrafos sobre el mismo
-   papel crema. El contenido lo merecía —es el porqué del predio, no un
-   detalle— pero visualmente no se distinguía de lo anterior, y una página que
-   cuenta lo mismo con el mismo compás durante tres pantallas seguidas es
-   exactamente lo que se lee como generada.
-
-   Ahora es una BANDA OSCURA apoyada sobre el papel. El fondo, el texto en
-   crema, los titulares en negativo y el foco en amarillo los pone la utilidad
-   `.seccion--oscura` de base.css, que se añade en el HTML: no se reinventa
-   aquí ni una sola de esas reglas.
-
-   LA FORMA: cuatro radios y sólo dos valores, alternados en diagonal
-   (--radio-xl arriba-izq y abajo-dcha, --radio-lg en las otras dos). Es la
-   misma lógica de la hoja, a escala de banda. `overflow: hidden` es
-   obligatorio: sin él, el panel de aves que sangra por la derecha se saldría
-   por encima de la esquina redondeada y la reventaría.
-
-   EL SITIO EN LA PÁGINA: es el primer negativo del sitio después del hero, y
-   cae justo donde el discurso cambia de registro —de «qué es el predio» a
-   «para qué existe»—. La banda de carbón de #momentos queda cinco secciones
-   más abajo y es de otra familia de color, así que no se pisan.            */
 .nosotros__compromiso {
+  /* LA VENTANA. El trozo de foto que se ve LIMPIO —sin texto encima— antes de
+     que empiece el contenido. Es una sola medida usada en dos sitios: el
+     relleno superior de la sección y la parada del degradado del velo. Esa es
+     la razón de que exista como variable: si fueran dos números sueltos, el
+     velo se oscurecería antes o después de donde arranca el texto, y el
+     desajuste sólo se ve en algunas alturas de pantalla. Con la variable, el
+     punto en el que el velo cierra ES el punto en el que entra el rótulo,
+     siempre, sin depender de lo alto que quede el contenido.
+     En teléfono el camino de piedra ocupa esa ventana entera: la foto se
+     presenta antes de que llegue una sola palabra. */
+  --compromiso-ventana: clamp(13rem, 8rem + 26vw, 21rem);
+  /* v21 · EL SCRIM GIRA A CLARO — pedido directo del cliente: «no quiere
+     tonos oscuros en la página ni fotos oscuras, las originales y punto».
+     El velo deja de empujar la foto hacia el verde hondo y sube hacia --luz,
+     el pico de luces del sistema; el texto de la sección pasa a tinta. La
+     cuenta de contraste se invierte y se simplifica: el peor píxel posible
+     es ahora NEGRO PURO, y a 0,9 de alfa el compuesto queda con luminancia
+     ≥ 0,76 → tinta encima ≥ 11:1 (AAA). Vale para cualquier foto. */
+  --compromiso-scrim: var(--luz-rgb);
+
+  position: relative;
+  isolation: isolate;
   display: grid;
-  gap: var(--gap-lg);
   margin-top: var(--esp-seccion);
-  padding-block: var(--esp-seccion-sm);
+  padding-block: var(--compromiso-ventana) var(--esp-seccion);
+  /* Obligatorio: recorta la foto y el paralaje contra las esquinas
+     redondeadas. Sin él, el `scale` del fondo se saldría por encima de la
+     curva y la reventaría. */
   overflow: hidden;
   border-radius: var(--radio-xl) var(--radio-lg) var(--radio-xl) var(--radio-lg);
   box-shadow: var(--sombra-lg);
-  /* Un claro de luz entre los árboles, al 8 % de alfa. Sobre el bosque casi
-     no cambia la luminancia —los contrastes medidos siguen siendo los que
-     declara base.css para .seccion--oscura— y evita que la banda sea una
-     plancha de color plano de dos metros de alto. */
-  background-image: radial-gradient(
-    50% 55% at 18% 12%,
-    rgb(var(--verde-menta-rgb) / 0.08),
-    transparent 72%
-  );
 }
 
-/* A una columna, el bloque de texto se pone él mismo el margen de página: no
-   está dentro de ningún .contenedor. */
-.nosotros__compromiso-texto {
-  padding-inline: var(--padding-contenedor);
-}
-
-.nosotros__compromiso-texto .seccion-encabezado {
-  margin-bottom: var(--gap);
-}
-
-/* v9 — LA ENTRADILLA DE LA BANDA SE ACOTA A LA MEDIDA CORTA. Corriendo al
-   ancho de la columna pesaba igual que los pilares; a 46ch vuelve a ser la
-   voz que presenta, no la que compite. El interlineado suelto ya lo trae
-   .entradilla de base.css. */
-.nosotros__compromiso .seccion-encabezado .entradilla {
-  max-width: var(--medida-corta);
-}
-
-/* Tres pistas: margen de página · texto · panel.
-   La primera pista NO lleva contenido: es el hueco que alinea el texto con
-   el borde izquierdo del contenedor del resto de la página. Se calcula con
-   los mismos porcentajes que .contenedor —la mitad de lo que sobra, con el
-   relleno de página como suelo— pero medidos aquí, en la rejilla, donde el
-   100 % sí es el ancho del <section>. La tercera pista llega al borde de la
-   ventana porque la rejilla no tiene relleno a la derecha.                 */
-@media (min-width: 62em) {
-  .nosotros__compromiso {
-    grid-template-columns:
-      max(var(--padding-contenedor), calc((100% - var(--ancho-xl)) / 2))
-      minmax(0, 1fr)
-      minmax(0, 44%);
-    gap: 0;
-    align-items: center;
-  }
-
-  .nosotros__compromiso-texto {
-    grid-column: 2;
-    padding-inline: 0 var(--gap-lg);
-  }
-
-  .nosotros__mural {
-    grid-column: 3;
-    /* En dos columnas la pista de la rejilla ya lo coloca: el margen de móvil
-       le comería el ancho por la izquierda sin ganar nada. */
-    margin-left: 0;
-  }
-}
-
-/* El panel tampoco lleva .marco, por lo mismo que la foto del prado. El
-   recorte baja para que quepan enteros el colibrí, el ave roja y el loro.
-   v5: sangra por la DERECHA —al revés que la foto del prado— así que los
-   radios van en el borde izquierdo, y también con dos valores distintos. El
-   margen izquierdo lo alinea con el texto de la banda en una columna; en dos
-   columnas lo sustituye la pista de la rejilla.
-   Sin sombra a propósito: aquí el fondo ya es oscuro y una sombra sobre
-   oscuro no dibuja nada; lo que separa el panel de la banda es el recorte. */
-.nosotros__mural {
-  position: relative;
+/* ---- La foto y su recorte ------------------------------------------------ */
+.compromiso__escena {
+  position: absolute;
+  inset: 0;
+  z-index: -2;
   overflow: hidden;
-  aspect-ratio: 4 / 3;
-  margin-left: var(--padding-contenedor);
-  border-radius: var(--radio-xl) 0 0 var(--radio-lg);
-  box-shadow: none;
-  background-color: rgb(var(--gris-verde-rgb) / 0.3);
 }
 
-.nosotros__mural img {
+/* EL ENCUADRE. La foto es vertical (2268x4032) y la banda es apaisada en
+   escritorio: `cover` recorta por arriba y por abajo, y el `object-position`
+   decide qué se conserva. 50% 62% baja el centro hacia el tramo del camino
+   con las flores rojas —el motivo— y deja fuera el cielo quemado de la parte
+   alta, que además es donde el velo tendría que trabajar más.
+
+   EL `scale` NO ES DECORACIÓN: es la reserva del paralaje. La animación de
+   abajo desplaza la foto un 4 % de su alto en cada sentido; con la foto al
+   100 % ese desplazamiento descubriría una franja vacía en el canto. El 1,08
+   es holgura de sobra para un recorrido del 8 %. Es un estado ESTÁTICO —vive
+   en el CSS, no en el keyframe—, así que también es lo que se ve con
+   movimiento reducido o sin soporte de `view()`: la foto queda quieta y
+   ligeramente más cerca, que es un encuadre perfectamente válido. */
+.compromiso__foto {
   display: block;
   width: 100%;
   height: 100%;
   object-fit: cover;
-  object-position: 50% 57%;
-  transition: transform var(--dur-lenta) var(--ease-suave);
+  object-position: 50% 62%;
+  transform: scale(1.08);
 }
 
+/* ---- El velo -------------------------------------------------------------
+   EN TELÉFONO EL DEGRADADO ES VERTICAL y sus paradas están escritas en la
+   misma unidad que el relleno de la sección (`--compromiso-ventana`), no en
+   porcentajes del alto: un porcentaje depende de cuánto ocupe el texto —que
+   cambia con el tamaño de letra del usuario— y podría cerrar el velo por
+   debajo de donde arranca el rótulo. En unidades absolutas el velo cierra
+   siempre justo donde entra la primera palabra.
+
+   Arriba se queda en 0,22-0,42 a propósito: ahí no hay texto, así que no hay
+   mínimo que cumplir, y es el único sitio donde la fotografía se ve casi
+   limpia. Ese contraste entre la ventana clara y el fondo denso de abajo es
+   lo que hace que la sección se lea como una foto con texto encima y no como
+   un rectángulo verde con una textura detrás.                              */
+.compromiso__velo {
+  /* v22 · EL SCRIM SE RETIRA DEL TODO — corrección del cliente, textual:
+     «no no imágenes sin filtro ni nada te dije»: ni el verde de v20 ni el
+     claro de v21. La foto del camino queda original; la lectura la pone la
+     placa sólida de .compromiso__contenido. */
+  display: none;
+}
+
+/* ---- El texto ------------------------------------------------------------
+   A una columna el bloque se pone él mismo el margen de página: no está
+   dentro de ningún .contenedor. */
+/* v22 · LA PLACA SÓLIDA del compromiso: el mismo patrón de cartela. La
+   segunda pista de escritorio sigue vacía y la foto se ve limpia ahí. */
+.compromiso__contenido {
+  width: fit-content;
+  max-width: 100%;
+  margin-inline: var(--padding-contenedor);
+  padding: var(--esp-lg);
+  background-color: var(--color-superficie-solida);
+  border-start-start-radius: var(--radio-xl);
+  border-end-end-radius: var(--radio-xl);
+  border-start-end-radius: var(--radio-xs);
+  border-end-start-radius: var(--radio-xs);
+  box-shadow: var(--sombra-lg);
+}
+
+.compromiso__contenido .seccion-encabezado {
+  margin-bottom: var(--gap-lg);
+}
+
+/* v9 — LA ENTRADILLA SE ACOTA A LA MEDIDA CORTA. Corriendo al ancho de la
+   columna pesaba igual que los pilares; a 46ch vuelve a ser la voz que
+   presenta, no la que compite. El interlineado suelto ya lo trae .entradilla
+   de base.css.
+   v20 — Y SUBE A CREMA ENTERA. base.css la deja en crema al 78 %, que sobre
+   el peor píxel de la foto da 4,1:1 y no llega a AA. A crema entera, 5,6:1.
+   Ver la cuenta completa en la cabecera de este §3. */
+/* v21 · a tinta: el scrim es claro y la crema desaparecería sobre él. */
+.nosotros__compromiso .seccion-encabezado .entradilla {
+  max-width: var(--medida-corta);
+  color: var(--color-texto);
+}
+
+/* Mismo motivo exacto que la entradilla, y aquí pesa más: el rótulo es el
+   texto más pequeño de la sección. */
+.nosotros__compromiso .eyebrow {
+  color: var(--color-texto);
+}
+
+/* EN ESCRITORIO EL DEGRADADO GIRA Y EL TEXTO SE VA A LA IZQUIERDA.
+   La foto es vertical y la banda apaisada: si el texto ocupara todo el ancho
+   habría que oscurecer la imagen entera y no quedaría foto que mirar. En dos
+   columnas —1,25fr para el texto, 1fr libre— el texto termina siempre cerca
+   del 55 % del ancho de la ventana (comprobado a 906 px y a 1600: la
+   proporción se mantiene porque el contenedor está centrado y tapado a
+   --ancho-xl), y el velo horizontal no baja de 0,88 hasta el 66 %. Sobran
+   once puntos de margen entre donde acaba la última letra y donde el velo
+   empieza a abrirse.
+   La segunda pista se deja VACÍA a propósito: es el trozo de camino y de
+   flores que queda a la vista, y es lo que hace la composición.            */
 @media (min-width: 62em) {
-  /* v7 · El panel de aves responde a la foto del prado con el MISMO gesto de
-     hoja a gran escala pero en la mano contraria: sangra por la derecha, así
-     que la curva grande va arriba a la IZQUIERDA. Un punto menor que la de la
-     foto del prado (×2.2 contra ×3) para que las dos piezas rimen sin ser
-     gemelas. Multiplicador sobre token; nada literal. */
-  .nosotros__mural {
-    aspect-ratio: 4 / 5;
-    border-radius: calc(var(--radio-xl) * 2.2) 0 0 var(--radio-lg);
+  .nosotros__compromiso {
+    padding-block: var(--esp-seccion-lg);
+  }
+
+  .compromiso__velo {
+    display: none;
+  }
+
+  /* v22 · LA REJILLA DE DOS PISTAS SE RETIRA: la placa sólida ya acota el
+     texto a su propio ancho (fit-content con tope de medida) y deja la foto
+     limpia a la derecha — que era exactamente lo que la segunda pista vacía
+     conseguía cuando el texto iba suelto sobre el velo. */
+  .compromiso__contenido {
+    max-width: min(48rem, 60%);
   }
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .nosotros__mural:hover img {
-    transform: scale(var(--escala-hover));
+/* ---- EL PARALAJE DEL FONDO ----------------------------------------------
+   La foto deriva un 4 % de su alto en cada sentido mientras la sección cruza
+   la ventana. Es el cierre del sitio: el camino se mueve despacio bajo el
+   texto, que se queda absolutamente quieto —regla del sistema: el paralaje va
+   en fondos, nunca en texto de lectura—.
+
+   MISMO MOTOR QUE YA EXISTE, NINGUNO NUEVO. `animation-timeline: view()` es
+   el recurso de .inicio__portada-foto y de la bandada de §6: lo resuelve el
+   compositor, sin listeners de scroll y sin una línea de JS. Y es también la
+   razón por la que esta sección dejó de declarar js/foto-focus.js: ese módulo
+   escribe `transform` EN LÍNEA sobre el <img>, que es la misma propiedad del
+   mismo elemento que anima este keyframe. Un motor por pieza.
+
+   LAS TRES GUARDAS, por orden:
+     1. `prefers-reduced-motion: no-preference` — quien pide menos movimiento
+        no recibe ninguno: la animación ni se declara. El bloque global de
+        base.css no serviría aquí, porque una animación de línea de tiempo de
+        scroll no tiene duración en tiempo que recortar.
+     2. `@supports (animation-timeline: view())` — donde no exista, la foto se
+        queda quieta en el encuadre de arriba. No hay respaldo con JS ni falta.
+     3. El recorrido total es del 8 % del alto de la imagen, dentro de la
+        horquilla de 5-15 % que admite el sistema, y el `scale(1.08)` estático
+        garantiza que nunca descubra el borde.
+
+   Las longhands van escritas una a una y NO con el atajo `animation:`: el
+   atajo deja `animation-duration` en su valor inicial, y ese valor cambió de
+   `0s` a `auto` entre dos revisiones de la especificación. Con `auto`
+   escrito, la animación se reparte a lo largo del recorrido de scroll en los
+   dos casos.
+
+   SIN `will-change`. La regla del proyecto es no dejarlo puesto de forma
+   permanente, y aquí no hace falta: `animation-timeline` ya promueve la capa
+   mientras la animación está activa, y la sección es la última de la página
+   —una capa extra viva todo el rato al final del documento es coste sin
+   contrapartida.                                                           */
+@keyframes compromiso-paralaje {
+  from {
+    transform: translate3d(0, -4%, 0) scale(1.08);
+  }
+
+  to {
+    transform: translate3d(0, 4%, 0) scale(1.08);
+  }
+}
+
+@supports (animation-timeline: view()) {
+  @media (prefers-reduced-motion: no-preference) {
+    .compromiso__foto {
+      animation-name: compromiso-paralaje;
+      animation-duration: auto;
+      animation-timing-function: linear;
+      animation-fill-mode: both;
+      animation-timeline: view();
+      animation-range: entry 0% exit 100%;
+    }
   }
 }
 
@@ -1168,24 +1339,44 @@
    con el doble de aire es lo que separa una lista cara de un listado. Se
    escribe AQUÍ y no en la regla base a propósito: en/index.html usa la
    versión clara de esta misma lista y no debe moverse ni un píxel. */
+/* v20 — LOS HILOS SUBEN A CREMA 32 %. --color-borde-inverso es crema al 20 %,
+   que se dibuja perfectamente sobre un verde plano y se disuelve sobre una
+   fotografía, donde el fondo detrás de cada hilo cambia de luminancia a lo
+   largo del propio hilo. A 32 % la línea se sostiene de punta a punta y
+   sigue siendo un filete, no un subrayado. No es un color nuevo: es el mismo
+   token de crema del sistema con otra alfa, la misma familia que usan el
+   resto de bordes del negativo. */
+/* v21 · los hilos giran de crema a bosque: sobre el scrim claro un filete
+   crema no se dibuja. Misma alfa, misma lógica de «filete, no subrayado». */
 .nosotros__compromiso .nosotros__pilar {
-  border-top-color: var(--color-borde-inverso);
+  border-top-color: rgb(var(--verde-bosque-rgb) / 0.32);
   padding-block: var(--esp-lg);
   gap: var(--esp-lg);
 }
 
 .nosotros__compromiso .nosotros__pilar:last-child {
-  border-bottom-color: var(--color-borde-inverso);
+  border-bottom-color: rgb(var(--verde-bosque-rgb) / 0.32);
 }
 
 /* Sobre oscuro el filete sube a menta —el acento del negativo— en vez de al
    oliva, que contra el bosque no se distingue. */
+/* v21 · de menta (acento del negativo) al borde fuerte de la versión clara. */
 .nosotros__compromiso .nosotros__pilar:hover {
-  border-top-color: var(--color-acento);
+  border-top-color: var(--color-borde-fuerte);
 }
 
+/* v20 · CREMA ENTERA, NO AL 78 %. Con la banda verde plana de v19 el crema al
+   78 % daba 7,2:1 y era la voz baja correcta para la línea de apoyo de cada
+   pilar. Con la fotografía debajo el suelo de contraste ya no es el verde
+   plano sino el peor píxel de la imagen tras el velo, y ahí ese mismo color
+   se queda en 4,1:1: no llega a AA para texto pequeño. A crema entera son
+   5,6:1. La cuenta completa está en la cabecera de §3.
+   La jerarquía no se pierde por esto: la línea de apoyo sigue siendo más
+   pequeña (--fs-pequeno) que el titular del pilar, que es lo que separaba de
+   verdad las dos voces. */
+/* v21 · a tinta plena sobre el scrim claro (≥ 11:1 en el peor píxel). */
 .nosotros__compromiso .nosotros__pilar p {
-  color: var(--color-texto-inverso-suave);
+  color: var(--color-texto);
 }
 
 /* EL ÍNDICE COMO ANCLA VISUAL. En v4 medía --fs-h3: un número pequeño al lado
@@ -1195,9 +1386,11 @@
    pasa a leerse como los datos duros de la página y no como tres viñetas.
    El amarillo es el color que base.css ya da a `.cifra` sobre fondo oscuro:
    se copia el criterio del sistema, no se inventa uno.                     */
+/* v21 · el amarillo era el criterio del negativo; sobre el scrim claro se
+   queda en ~1,5:1. Vuelve el terracota de la versión clara (5,3:1). */
 .nosotros__compromiso .nosotros__pilar-indice {
   font-size: var(--fs-h2);
-  color: var(--color-destacado);
+  color: var(--color-acento-texto);
 }
 
 @media (min-width: 48em) {
@@ -1224,13 +1417,19 @@
 
 /* ==========================================================================
    5. FOTO-FOCUS LIGADO AL SCROLL (js/foto-focus.js)
-   Las dos piezas grandes de la sección —la foto del prado y el panel de
-   aves— llevan `data-foto-focus` en su figura y el JS las encuadra según el
-   progreso de scroll: escritorio anima sólo `scale` (compositor), anclado al
-   object-position que estas mismas reglas declaran arriba (50% 48% el prado,
-   50% 57% el panel); móvil viaja además el object-position hasta el
-   data-foco del HTML. Los dos recortes ya los hacen las figuras con su
-   overflow hidden y sus radios de hoja: el zoom nunca asoma del contorno.
+   Las piezas grandes de #nosotros —la foto del prado y la escena del
+   sendero— llevan `data-foto-focus` en su figura y el JS las encuadra según
+   el progreso de scroll: escritorio anima sólo `scale` (compositor), anclado
+   al object-position que estas mismas reglas declaran arriba (50% 48% el
+   prado); móvil viaja además el object-position hasta el data-foco del HTML.
+   Los recortes ya los hacen las figuras con su overflow hidden y sus radios
+   de hoja: el zoom nunca asoma del contorno.
+
+   v20 · SALE `.nosotros__mural` DE LAS DOS LISTAS. Esa figura era el panel de
+   aves de #compromiso y ya no existe: la sección la ocupa ahora una
+   fotografía a sangre con paralaje propio en CSS (§3). Dejar el selector
+   apuntando a una clase que no usa nadie es la clase de residuo que hace que
+   la siguiente persona crea que #compromiso sigue dependiendo de este módulo.
 
    EL ESTADO INICIAL VIVE AQUÍ, EN CSS ESTÁTICO. scale(1) es el reposo del
    efecto y es lo que pinta el primer paint aunque el defer llegue tarde: el
@@ -1243,7 +1442,7 @@
    Bajo prefers-reduced-motion no hay nada que apagar: el script no se monta
    y la foto queda quieta en el encuadre de arriba.
    ========================================================================== */
-:where(.nosotros__foto, .nosotros__escena, .nosotros__mural)[data-foto-focus] img {
+:where(.nosotros__foto, .nosotros__escena)[data-foto-focus] img {
   transform: scale(1);
 }
 
@@ -1251,7 +1450,7 @@
    si hay movimiento: dos imágenes promocionadas a capa, no un sitio entero.
    En móvil el efecto repinta el recorte y will-change no ayudaría. */
 @media (min-width: 64em) and (prefers-reduced-motion: no-preference) {
-  :where(.nosotros__foto, .nosotros__escena, .nosotros__mural)[data-foto-focus] img {
+  :where(.nosotros__foto, .nosotros__escena)[data-foto-focus] img {
     will-change: transform;
   }
 }
@@ -1362,7 +1561,10 @@
   inset-block-end: var(--esp-lg);
   inset-inline-end: var(--esp-lg);
   width: calc(var(--esp-4xl) * 1.1);
-  color: rgb(var(--crema-rgb) / 0.42);
+  /* v18 · De crema a bosque: sobre el velo claro el trazo crema desaparecía.
+     Mismo papel de atmósfera, misma cuenta —decoración con aria-hidden, sin
+     mínimo AA— pero ahora en el verde del sistema sobre fondo claro. */
+  color: rgb(var(--verde-bosque-rgb) / 0.4);
 }
 
 @media (min-width: 48em) {
@@ -1414,7 +1616,8 @@
   inset-block-start: var(--esp-lg);
   inset-inline-end: var(--esp-lg);
   width: calc(var(--esp-4xl) * 1.45);
-  color: rgb(var(--crema-rgb) / 0.3);
+  /* v18 · De crema a bosque, por lo mismo que la rama: el velo ya es claro. */
+  color: rgb(var(--verde-bosque-rgb) / 0.32);
 }
 
 @media (min-width: 48em) {
@@ -1486,7 +1689,10 @@
   /* Menta al 62 % sobre el bosque (compuesto #3d916a, 3,09:1). Es el acento
      del negativo, el mismo que ya usan los filetes de los pilares al pasar el
      ratón. Decoración con aria-hidden: no le aplica el mínimo de AA. */
-  color: rgb(var(--verde-menta-rgb) / 0.62);
+  /* v18 · De menta (acento del negativo) a bosque: el compromiso pasó a velo
+     claro y la menta sobre claro se queda en ~1,9:1 hasta para decoración
+     visible. Bosque al 45 % compone ≈ 3:1 sobre el velo --luz. */
+  color: rgb(var(--verde-bosque-rgb) / 0.45);
 }
 
 /* Los tres vuelos salen de derecha a izquierda y NO a la misma velocidad: el

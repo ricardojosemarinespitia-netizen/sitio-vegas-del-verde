@@ -7,41 +7,73 @@
 <header class="cabecera" id="cabecera" data-cabecera>
   <div class="cabecera__interior contenedor contenedor--ancho">
 
-    <a class="marca" href="#inicio" aria-label="Vegas del Verde, ir al inicio">
-      <!-- Logo original en trazo lineal (fuente: img/logo/vegas-del-verde.svg).
-           Va inline para heredar currentColor y no costar una petición. -->
-      <svg class="marca__simbolo" viewBox="0 0 64 64" width="64" height="64" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
-        <path d="M10 55c4-3 8-3 12 0s8 3 12 0 8-3 12 0 5 2 8 0"/>
-        <path d="M32 48V26"/>
-        <path d="M32 26c-5.5-5-5.5-13 0-18 5.5 5 5.5 13 0 18Z"/>
-        <path d="M32 42c-4-1-8-4-9.5-9"/>
-        <path d="M22.5 33c-6-1.5-9.5-6-10-12 6 .5 10.5 4 12 10-.5 1-1.3 1.7-2 2Z"/>
-        <path d="M32 42c4-1 8-4 9.5-9"/>
-        <path d="M41.5 33c6-1.5 9.5-6 10-12-6 .5-10.5 4-12 10 .5 1 1.3 1.7 2 2Z"/>
-      </svg>
-      <span class="marca__nombre">Vegas del Verde</span>
+    <!-- v18 · La marca apunta a index.html#inicio y no a #inicio a secas: este
+         fragmento se inserta en TODAS las páginas del sitio, y desde
+         vivero.html o naturaleza.html un ancla suelta no lleva a ninguna
+         parte. Desde la portada el navegador resuelve el ancla igual. -->
+    <a class="marca" href="index.html#inicio" aria-label="Vegas del Verde, ir al inicio">
+      <!-- v12 · EL LOGO ORIGINAL, no una aproximación. Hasta aquí la cabecera
+           llevaba una hoja dibujada a mano en SVG (una interpretación libre,
+           no el símbolo real) más el nombre escrito aparte en la tipografía
+           del sitio. Pedido directo del cliente: «pon el logo de Vegas el
+           original en la página». Las páginas interiores (terminos.html,
+           condiciones-de-alquiler.html, política-de-datos.html) ya usaban el
+           archivo real —`img/logo/logo-vegas-barra.png`, el lockup horizontal
+           sobre placa verde que trae el símbolo y la palabra en una sola
+           pieza— vía `.marca__logo` (ver shell.css). La cabecera principal
+           era la única pieza del sitio que no lo usaba. Ahora es la misma
+           imagen en todas partes: cero inconsistencia entre el logo de la
+           portada y el de las páginas sueltas. -->
+      <img
+        class="marca__logo"
+        src="img/logo/logo-vegas-barra.png"
+        width="1390"
+        height="356"
+        alt="Vegas del Verde"
+        decoding="async"
+      />
     </a>
 
     <nav class="nav" id="nav-principal" aria-label="Navegación principal">
-      <!-- Seis anclas, una por sección visitable. #inicio lo cubre la marca y
-           #vivero se alcanza desde el plano-índice y desde #naturaleza: meterlo
-           aquí obligaría a partir el menú en dos filas en pantallas medias.
-           La séptima entrada NO es un ancla: es la página del Plan vecino, y
-           va la última para no romper el orden del embudo. -->
+      <!-- v18 · EL MENÚ DEJA DE SER UNA LISTA DE ANCLAS Y PASA A SER UNA LISTA
+           DE PÁGINAS. Consecuencia directa de la arquitectura nueva
+           (PLAN-REDISENO-V4 §4.1): Espacios, Planes, Naturaleza, Sendero,
+           Vivero y Contacto ya no son secciones del scroll de index.html;
+           son URL propias, con título, descripción y JSON-LD propios.
+
+           De paso arregla lo que el plan §2.2 le reprochaba al menú anterior:
+           mezclaba anclas y páginas sin distinción, y le faltaban «Vivero» y
+           «Sendero», que son productos con demanda de búsqueda propia. Ahora
+           las siete entradas son del mismo tipo y llevan al mismo sitio desde
+           cualquier página.
+
+           «Nosotros» sigue siendo un ancla porque sigue siendo una sección de
+           la portada; por eso va marcada como secundaria (shell.css la
+           esconde por debajo de 1280 px, donde la cabecera desborda).
+           «Colegios» y «Plan vecino» bajan al pie del panel móvil y al pie de
+           página: son destinos, no navegación, y meterlas aquí partiría el
+           menú en dos filas.
+
+           NINGÚN ENLACE PUEDE SER UN ANCLA SUELTA: este fragmento se inserta
+           en todas las páginas del sitio, así que todos llevan el nombre del
+           archivo por delante. -->
       <ul class="nav__lista">
-        <li class="nav__item--secundario"><a class="nav__enlace" href="#nosotros">Nosotros</a></li>
-        <li><a class="nav__enlace" href="#usos">Espacios</a></li>
-        <li><a class="nav__enlace" href="#planes">Planes</a></li>
-        <!-- v15 · «Colegios» deja de ser un ancla: la sección salió del <main>
-             y es la página suelta colegios.html, como «Plan vecino». -->
-        <li><a class="nav__enlace" href="colegios.html">Colegios</a></li>
-        <li><a class="nav__enlace" href="#naturaleza">Naturaleza</a></li>
-        <li><a class="nav__enlace" href="#ubicacion">Cómo llegar</a></li>
-        <li><a class="nav__enlace" href="plan-vecino.html">Plan vecino</a></li>
+        <li class="nav__item--secundario"><a class="nav__enlace" href="index.html#nosotros">Nosotros</a></li>
+        <li><a class="nav__enlace" href="espacios.html">Espacios</a></li>
+        <li><a class="nav__enlace" href="planes.html">Planes</a></li>
+        <li><a class="nav__enlace" href="naturaleza.html">Naturaleza</a></li>
+        <li><a class="nav__enlace" href="sendero-ecovital.html">Sendero</a></li>
+        <li><a class="nav__enlace" href="vivero.html">Vivero</a></li>
+        <li><a class="nav__enlace" href="contacto.html">Contacto</a></li>
       </ul>
 
       <!-- Sólo visible dentro del panel móvil -->
       <div class="nav__pie">
+        <!-- v18 · Las dos páginas de destino que no caben en la barra. Aquí
+             son un objetivo táctil de bloque entero, no una línea de cuatro
+             palabras: es el ancho completo del panel móvil. -->
+        <a class="btn btn-secundario btn-bloque" href="colegios.html">Salidas escolares</a>
+        <a class="btn btn-secundario btn-bloque" href="plan-vecino.html">Plan vecino</a>
         <a
           class="btn btn-whatsapp btn-bloque"
           href="https://wa.me/573166758362?text=Hola%2C%20quiero%20informaci%C3%B3n%20sobre%20Vegas%20del%20Verde"

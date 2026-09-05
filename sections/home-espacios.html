@@ -1,0 +1,174 @@
+<!-- ==========================================================================
+     FRAGMENTO DE LA HOME: LOS ESPACIOS  ·  ancla #espacios
+     CSS: styles/sections/home.css §1     ·     JS propio: NINGUNO
+
+     QUÉ ES. El bloque 3 de la tabla del PLAN-REDISENO-V4 §4.2: los cinco
+     espacios con foto, nombre, capacidad y salida a espacios.html.
+
+     EL ANCLA CAMBIA DE NOMBRE, y no es cosmético. Hasta v17 esta sección se
+     llamaba #usos y era el desplegable de 5,3 pantallas que ahora vive
+     entero en espacios.html (mismo marcado, misma hoja usos.css, sólo cambió
+     de página). El ancla del escaparate se llama #espacios porque es lo que
+     el visitante busca y lo que dice el menú. Los enlaces internos que
+     apuntaban a #usos se reescribieron a #espacios (los de la home) o a
+     espacios.html (los de las páginas de profundidad).
+
+     DUEÑO DE LOS CINCO AFOROS. La tabla HECHOS de herramientas/validar.js
+     le asigna a esta sección las cinco capacidades. Se enseñan aquí porque
+     son la única cifra que decide una cotización, y en el escaparate hacen
+     el trabajo que una foto sola no hace. Las condiciones de alquiler
+     —cuatro horas, sillas Rimax, sonido, catering— NO se repiten aquí: son
+     de condiciones-de-alquiler.html, que se enlaza al pie del bloque.
+
+     LAS FOTOS NO LLEVAN TEXTO ENCIMA: nombre, aforo y frase van en la franja
+     sólida de debajo. Corrección directa del cliente para esta fase.
+     ========================================================================== -->
+<section id="espacios" class="seccion seccion--trama" aria-labelledby="home-espacios-titulo">
+  <div class="contenedor contenedor--ancho">
+
+    <header class="seccion-encabezado reveal">
+      <p class="eyebrow">Alquiler de espacios</p>
+      <h2 id="home-espacios-titulo" class="titulo-seccion">
+        Cinco espacios, un mismo bosque
+      </h2>
+      <p class="entradilla">
+        Escoge por tamaño y por lo que va a pasar ese día.
+      </p>
+    </header>
+
+    <ul class="home-rejilla home-rejilla--fila home-rejilla--tres reveal-secuencia" role="list">
+
+      <li>
+        <a class="home-tarjeta reveal" href="espacios.html#usos">
+          <span class="marco marco--3-2">
+            <img
+              class="home-tarjeta__foto"
+              src="img/espacios/alameda-2.jpg"
+              sizes="(max-width: 39.99em) 38vw, (max-width: 63.99em) 46vw, 31vw"
+              width="1500"
+              height="844"
+              loading="lazy"
+              decoding="async"
+              alt="La Alameda: un prado abierto de grama corta bordeado de árboles altos."
+            />
+          </span>
+          <span class="home-tarjeta__cuerpo">
+            <span class="home-tarjeta__nombre">Alameda</span>
+            <span class="home-tarjeta__dato">
+              <span class="home-tarjeta__dato-cifra">150</span> personas
+            </span>
+            <span class="home-tarjeta__frase">La grama mejor cuidada del predio, para el día que no se repite.</span>
+            <span class="home-tarjeta__ir">Ver los usos</span>
+          </span>
+        </a>
+      </li>
+
+      <li>
+        <a class="home-tarjeta reveal" href="espacios.html#usos">
+          <span class="marco marco--3-2">
+            <img
+              class="home-tarjeta__foto"
+              src="img/eventos/vega-horizontal.jpg"
+              sizes="(max-width: 39.99em) 38vw, (max-width: 63.99em) 46vw, 31vw"
+              width="1600"
+              height="900"
+              loading="lazy"
+              decoding="async"
+              alt="La Vega: una explanada de césped completamente plana, con la arboleda al fondo."
+            />
+          </span>
+          <span class="home-tarjeta__cuerpo">
+            <span class="home-tarjeta__nombre">La Vega</span>
+            <span class="home-tarjeta__dato">
+              <span class="home-tarjeta__dato-cifra">100</span> personas
+            </span>
+            <span class="home-tarjeta__frase">Una explanada sin un solo desnivel: aquí cabe el escenario y lo que se le monte.</span>
+            <span class="home-tarjeta__ir">Ver los usos</span>
+          </span>
+        </a>
+      </li>
+
+      <li>
+        <a class="home-tarjeta reveal" href="espacios.html#usos">
+          <span class="marco marco--3-2">
+            <img
+              class="home-tarjeta__foto"
+              src="img/eventos/boda-4.jpg"
+              sizes="(max-width: 39.99em) 38vw, (max-width: 63.99em) 46vw, 31vw"
+              width="1500"
+              height="1000"
+              loading="lazy"
+              decoding="async"
+              alt="El Teatrino: un claro recogido bajo la copa de un árbol grande, con sillas dispuestas en semicírculo."
+            />
+          </span>
+          <span class="home-tarjeta__cuerpo">
+            <span class="home-tarjeta__nombre">Teatrino</span>
+            <span class="home-tarjeta__dato">
+              <span class="home-tarjeta__dato-cifra">70</span> personas
+            </span>
+            <span class="home-tarjeta__frase">El más recogido de los cinco: la gente cabe en un solo corro.</span>
+            <span class="home-tarjeta__ir">Ver los usos</span>
+          </span>
+        </a>
+      </li>
+
+      <li>
+        <a class="home-tarjeta reveal" href="espacios.html#usos">
+          <span class="marco marco--3-2">
+            <img
+              class="home-tarjeta__foto"
+              src="img/espacios/taller-1.jpg"
+              sizes="(max-width: 39.99em) 38vw, (max-width: 63.99em) 46vw, 31vw"
+              width="849"
+              height="1500"
+              loading="lazy"
+              decoding="async"
+              alt="El Taller: espacio techado con cubierta de caña y mesas de trabajo, abierto por los costados."
+            />
+          </span>
+          <span class="home-tarjeta__cuerpo">
+            <span class="home-tarjeta__nombre">Taller</span>
+            <span class="home-tarjeta__dato">
+              <span class="home-tarjeta__dato-cifra">45</span> personas
+            </span>
+            <span class="home-tarjeta__frase">Aquí el clima no manda: la cubierta de caña se encarga.</span>
+            <span class="home-tarjeta__ir">Ver los usos</span>
+          </span>
+        </a>
+      </li>
+
+      <li>
+        <a class="home-tarjeta reveal" href="espacios.html#usos">
+          <span class="marco marco--3-2">
+            <img
+              class="home-tarjeta__foto"
+              src="img/eventos/cancha-horizontal.jpg"
+              sizes="(max-width: 39.99em) 38vw, (max-width: 63.99em) 46vw, 31vw"
+              width="1600"
+              height="900"
+              loading="lazy"
+              decoding="async"
+              alt="La Cancha: campo de juego abierto sobre césped, con los árboles del predio al fondo."
+            />
+          </span>
+          <span class="home-tarjeta__cuerpo">
+            <span class="home-tarjeta__nombre">Cancha</span>
+            <span class="home-tarjeta__dato">
+              <span class="home-tarjeta__dato-cifra">30</span> jugadores
+            </span>
+            <span class="home-tarjeta__frase">Campo abierto de punta a punta: aquí se viene a jugar, y caben 20 espectadores.</span>
+            <span class="home-tarjeta__ir">Ver los usos</span>
+          </span>
+        </a>
+      </li>
+
+    </ul>
+
+    <p class="home-pie-bloque reveal">
+      <a class="btn btn-primario" href="espacios.html">Ver los cinco espacios</a>
+      <a class="enlace-flecha" href="condiciones-de-alquiler.html">Condiciones de alquiler</a>
+    </p>
+
+  </div>
+</section>
