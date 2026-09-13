@@ -1722,8 +1722,12 @@
    prohíbe. El registro queda repartido como en #vivero (§8.3 de vivero.css):
    la pieza dominante se mueve con el scroll, y el hover queda para las piezas
    que no derivan. */
-.nat-habitat:not(.nat-habitat--mayor):hover .nat-habitat__foto {
-  transform: scale(var(--escala-hover));
+/* Y bajo `(hover: hover)`, por lo mismo que §obra: en táctil el estado se
+   queda pegado tras el toque y la plancha se quedaba ampliada sola. */
+@media (hover: hover) {
+  .nat-habitat:not(.nat-habitat--mayor):hover .nat-habitat__foto {
+    transform: scale(var(--escala-hover));
+  }
 }
 
 /* v13 · LA DERIVA DE HERO DE LA PLANCHA DEL JARDÍN — pedido del cliente:
@@ -2205,7 +2209,17 @@
 
 /* El único gesto al pasar por encima es que la copia se acerca dentro de su
    recorte; ya no se eleva. Sin sombra no hay nada que elevar. */
-.nat-obra__disparador:hover > img,
+/* El :hover, bajo `(hover: hover)` y separado del foco: en táctil el estado
+   se queda pegado tras el toque y la copia se quedaba ampliada sola después
+   de levantar el dedo —y estas copias son las «fotos satélite» del muro del
+   concurso, justo donde se reportó que algo se movía sin motivo—. El teclado
+   conserva su marca siempre. */
+@media (hover: hover) {
+  .nat-obra__disparador:hover > img {
+    transform: scale(var(--escala-hover));
+  }
+}
+
 .nat-obra__disparador:focus-visible > img {
   transform: scale(var(--escala-hover));
 }

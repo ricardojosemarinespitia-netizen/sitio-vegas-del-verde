@@ -219,6 +219,22 @@ body {
      de cualquier descendiente queda intacto. Aquí se aplica la misma
      solución. */
   overflow-x: clip;
+  /* EL CIERRE DEL EJE X, la mitad que faltaba (sep-2026). `overflow-x: clip`
+     impide que el documento SCROLLEE de lado, pero no impide que el navegador
+     REBOTE de lado: cuando un scroller horizontal interno (la tira de fotos de
+     §home, el carril de planos del sendero, el abecedario del catálogo) llega
+     a su tope y el dedo sigue arrastrando, el gesto se propaga a la cadena de
+     scroll y lo recoge el viewport — que en iOS/WebView lo traduce en el
+     rebote elástico lateral de TODA la página, y en Android/Chrome en el
+     gesto de «volver atrás». Es exactamente el síntoma reportado: «la página
+     completa bailando a los lados» al deslizar sobre un carrusel.
+     `overscroll-behavior-x: none` corta la propagación Y el rebote en el
+     último eslabón de la cadena; cada scroller interno además se blinda por
+     su lado con `contain` (ver home.css §4, sendero.css §3,
+     catalogo-plantas.css §2), que es el cinturón, y esto es el tirante.
+     Sólo el eje X: el rebote vertical es comportamiento nativo esperado y no
+     se toca. */
+  overscroll-behavior-x: none;
   /* v3 · el pseudo-elemento de abajo se posiciona respecto al viewport
      (`position: fixed`) sin que este `overflow-x: clip` se lo clave: clip
      recorta la CAJA de <body>, no la ventana, y un descendiente `fixed`

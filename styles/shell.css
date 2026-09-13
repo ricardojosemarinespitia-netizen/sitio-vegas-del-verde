@@ -521,30 +521,38 @@
 }
 
 /* ---- Volver flotante --------------------------------------------------- */
-/* v1 · Mismo patrón que `.whatsapp-flotante`, esquina opuesta. Oculto por
-   defecto; sólo se enciende en páginas interiores, detectadas por una
-   pieza que YA vive en cada una de ellas — nunca por una clase nueva que
-   añadir página por página:
-     · `.pagina-encabezado` → espacios/planes/naturaleza/sendero/vivero/contacto
-     · `.pagina-interior`   → condiciones-de-alquiler/politica-de-datos/terminos
-     · `#colegios`          → colegios.html
-     · `.pv-carrete`        → plan-vecino.html
-   La portada (index.html) y las páginas que no traen este fragmento
-   (404.html, /en/*) no tienen ninguna de esas piezas, así que el botón
-   nunca aparece ahí — no hace falta excluirlas aparte. */
-.volver-flotante {
-  display: none;
-}
-
 /* v2 · Un círculo con sólo la flecha no se entendía — el cliente lo vio en
    captura y pidió "que sea entendible fácil". Pasa de círculo a píldora con
    la palabra "Regresar" al lado del ícono: mismo patrón de fondo sólido +
    sombra que el círculo de antes, pero ahora se lee sin tener que
-   adivinar qué hace. */
-body:has(.pagina-encabezado) .volver-flotante,
-body:has(.pagina-interior) .volver-flotante,
-body:has(#colegios) .volver-flotante,
-body:has(.pv-carrete) .volver-flotante {
+   adivinar qué hace.
+
+   v3 · SE INVIERTE EL CRITERIO DE VISIBILIDAD. Hasta v2 el botón estaba
+   `display: none` por defecto y se encendía con una LISTA BLANCA de marcas
+   por página (`.pagina-encabezado`, `.pagina-interior`, `#colegios`,
+   `.pv-carrete`). Esa lista se desincronizó en cuanto aparecieron páginas
+   nuevas: el cliente reportó que en «salidas escolares» (colegios.html) no
+   salía. El diagnóstico de fondo era peor que un selector faltante —esas
+   páginas no pasan por el ensamblador y NINGUNA tenía el <a> en su HTML—,
+   pero la lista blanca era igualmente frágil: obligaba a acordarse de dos
+   cosas (poner el marcado Y agregar la marca al selector) cada vez que
+   nace una página.
+
+   Ahora la regla es una sola y no hay lista que mantener:
+     EL BOTÓN SE VE SIEMPRE QUE EXISTA EN EL DOM, SALVO EN LA PORTADA.
+   Es decir, la decisión «esta página lleva Regresar» se toma UNA vez, al
+   poner (o no poner) el <a> en el HTML. El CSS ya no vota.
+
+   La única exclusión es la portada, porque «volver al inicio» estando en el
+   inicio no significa nada. Se detecta por `body:has(#inicio)`: el hero
+   `<section id="inicio">` (sections/hero.html) vive exactamente en las dos
+   portadas del sitio —index.html y en/index.html— y en ninguna otra página.
+   Se prefirió esa marca a una clase nueva `body.portada` porque los cuatro
+   scripts de herramientas/ (ensamblar.js/.py, validar.js/.py) buscan el
+   literal `<body>` con indexOf/index: agregarle un atributo al body de
+   index.html rompería el ensamblado. El dueño del hecho «esto es la
+   portada» sigue siendo el hero, que es quien lo define de verdad. */
+.volver-flotante {
   position: fixed;
   left: var(--esp-md);
   bottom: var(--esp-md);
@@ -578,11 +586,15 @@ body:has(.pv-carrete) .volver-flotante {
   box-shadow: var(--sombra-lg);
 }
 
+/* v3 · La ÚNICA exclusión. Va después de la regla de arriba para ganarle por
+   orden además de por especificidad, y se escribe una sola vez para toda la
+   hoja: si mañana el botón cambia de forma, este selector no se toca. */
+body:has(#inicio) .volver-flotante {
+  display: none;
+}
+
 @media (max-width: 40em) {
-  body:has(.pagina-encabezado) .volver-flotante,
-  body:has(.pagina-interior) .volver-flotante,
-  body:has(#colegios) .volver-flotante,
-  body:has(.pv-carrete) .volver-flotante {
+  .volver-flotante {
     left: var(--esp-sm);
     bottom: var(--esp-sm);
     height: 3rem;

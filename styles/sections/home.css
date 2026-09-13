@@ -595,11 +595,35 @@
   grid-auto-columns: 62%;
   overflow-x: auto;
   scroll-snap-type: x mandatory;
+  /* LOS DOS, Y NO ES REDUNDANCIA. `overscroll-behavior-inline` es la forma
+     lógica y es la que expresa la intención, pero Safari sólo la entiende
+     desde la 16: en un iPhone con iOS 15 —que los hay, y son justo los
+     aparatos donde se reportó el bug— la línea lógica se descarta entera al
+     parsear y la tira quedaba sin blindaje, así que al llegar al último
+     plano el arrastre se propagaba al viewport y rebotaba la página completa
+     de lado. La forma física se entiende desde Safari 13. Con las dos, el
+     navegador moderno lee la lógica (idéntica en modo horizontal-tb) y el
+     antiguo la física; ninguna contradice a la otra. */
   overscroll-behavior-inline: contain;
+  overscroll-behavior-x: contain;
 }
 
 .home-tira > li {
   scroll-snap-align: start;
+}
+
+/* EL ÚLTIMO NO PUEDE ALINEARSE POR EL PRINCIPIO, y con `mandatory` eso se
+   paga en temblor. Las tarjetas miden el 62 % del ancho: al llegar al final,
+   el último elemento no tiene recorrido para llevar su canto izquierdo al
+   borde del scroller, así que el punto de anclaje que pide `start` cae más
+   allá del scroll máximo. Con anclaje obligatorio, el navegador corrige a un
+   destino que el contenido no puede alcanzar y devuelve el arrastre: el
+   clásico tirón de vuelta al soltar en el último plano —que, sumado al
+   rebote lateral, es lo que se leía como «la página se mueve sola». Se le
+   da al último el anclaje simétrico del primero: `end` lo posa contra el
+   canto derecho, que sí es alcanzable, y el recorrido cierra limpio. */
+.home-tira > li:last-child {
+  scroll-snap-align: end;
 }
 
 @media (min-width: 48em) {
@@ -879,8 +903,9 @@
 
 /* ---- 6.7 · LA FLECHA DE LA TARJETA ---------------------------------------
    Único movimiento del bloque que NO va atado al scroll, porque no es una
-   entrada: es una respuesta. La flecha de «Ver los usos» avanza un paso
-   cuando la tarjeta recibe el puntero o el foco de teclado. Va con
+   entrada: es una respuesta. La flecha de «Reservar este espacio para mi
+   evento» (v24, antes «Ver los usos») avanza un paso cuando la tarjeta
+   recibe el puntero o el foco de teclado. Va con
    `transition`, no con `animation`, y sobre un elemento que no tiene ningún
    otro motor. Fuera del bloque de `prefers-reduced-motion` a propósito: los
    tokens --dur-* ya valen 1 ms en ese modo (tokens.css), así que el estado

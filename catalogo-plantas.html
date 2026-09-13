@@ -25,12 +25,12 @@
   <link rel="preload" as="font" type="font/woff2" crossorigin href="styles/fonts/dm-sans-latin.woff2?v=89c7ce3a">
   <link rel="preload" as="font" type="font/woff2" crossorigin href="styles/fonts/josefin-sans-latin.woff2?v=0ff5ba86">
   <link rel="stylesheet" href="styles/tokens.css?v=e12e8d10" />
-  <link rel="stylesheet" href="styles/base.css?v=a9f3ede7" />
-  <link rel="stylesheet" href="styles/shell.css?v=ad875ced" />
+  <link rel="stylesheet" href="styles/base.css?v=0333391e" />
+  <link rel="stylesheet" href="styles/shell.css?v=794e787c" />
   <!-- Página suelta, fuera del ensamblador (mismo precedente que colegios.html
        y plan-vecino.html): su hoja se enlaza sólo aquí. pie.css pinta el pie
        compartido, que se copia tal cual de sections/_footer.html. -->
-  <link rel="stylesheet" href="styles/sections/catalogo-plantas.css?v=c9b58e84" />
+  <link rel="stylesheet" href="styles/sections/catalogo-plantas.css?v=f5af918e" />
   <link rel="stylesheet" href="styles/sections/pie.css?v=0a889dce" />
   <script>document.documentElement.classList.remove('no-js');document.documentElement.classList.add('js');</script>
   <script type="application/ld+json">
@@ -1784,5 +1784,21 @@ src="https://www.facebook.com/tr?id=2840830879589956&ev=PageView&noscript=1"
 
   <script src="js/catalogo-plantas.js?v=175f6785" defer></script>
   <script src="js/app.js?v=560eb0e8" defer></script>
+
+<!-- ==========================================================================
+     VOLVER FLOTANTE — copia literal del que sections/_header.html inserta en
+     las páginas ensambladas. Esta página NO pasa por el ensamblador (mantiene
+     su propio <header> a mano), así que el botón se pone aquí a mano.
+     Si algún día esta página entra al ensamblador, este bloque se borra: el
+     fragmento compartido ya lo trae.
+     Visibilidad: shell.css v3 lo muestra SIEMPRE que exista en el DOM y sólo
+     lo apaga en la portada (body:has(#inicio)). -->
+<a class="volver-flotante" href="index.html" aria-label="Volver al inicio de Vegas del Verde">
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+    <path d="M19 12H5"/>
+    <path d="M11 18l-6-6 6-6"/>
+  </svg>
+  Regresar
+</a>
 </body>
 </html>

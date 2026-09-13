@@ -286,6 +286,24 @@
     margin-inline-end: calc(var(--padding-contenedor) * -1);
     padding-inline-end: var(--padding-contenedor);
     padding-block-end: var(--esp-2xs);
+    /* EL TERCER VALOR DE LA TERNA (sep-2026). El sangrado de borde a borde se
+       arma con tres medidas que TIENEN que ser la misma: el margen negativo
+       que saca la tira del contenedor, el relleno que le devuelve el aire al
+       último plano, y el relleno de anclaje que le dice al navegador dónde
+       termina de verdad el recorrido. Faltaba la tercera. Sin ella, el punto
+       de anclaje del cierre cae --padding-contenedor MÁS ALLÁ del scroll
+       máximo: el navegador, con `mandatory`, insiste en un destino que el
+       contenido no puede alcanzar, devuelve el arrastre al soltar y el tirón
+       se propaga hacia fuera. Con los tres valores iguales, el anclaje de
+       cierre coincide al píxel con el final del recorrido. */
+    scroll-padding-inline-end: var(--padding-contenedor);
+    /* Que el arrastre del carril se quede EN el carril: al llegar al cuarto
+       plano, el sobrante del gesto se propagaba a la página y el viewport lo
+       traducía en rebote lateral (iOS) o en «volver atrás» (Android). Las dos
+       formas por el mismo motivo que en home.css §4: la lógica no existe en
+       Safari anterior a la 16. */
+    overscroll-behavior-inline: contain;
+    overscroll-behavior-x: contain;
     /* Sin barra visible: la tira se arrastra, no se opera. */
     scrollbar-width: none;
   }
@@ -296,6 +314,15 @@
 
   .snd-plano {
     scroll-snap-align: start;
+  }
+
+  /* El cuarto plano no tiene recorrido para llevar su canto izquierdo al
+     borde del carril, así que su anclaje `start` era inalcanzable. Se le da
+     el simétrico del primero —`end`, contra el canto de cierre— que con el
+     `scroll-padding-inline-end` de arriba cae exactamente en el final del
+     recorrido. Primer plano y último anclan igual de limpio. */
+  .snd-plano:last-child {
+    scroll-snap-align: end;
   }
 }
 
@@ -933,8 +960,21 @@ ul.snd-pasos__friso {
   border-end-end-radius: var(--radio-xs);
 }
 
-/* El único gesto: la foto se acerca dentro de su recorte. Sólo transform. */
-.snd-paso__disparador:hover .marco > img,
+/* El único gesto: la foto se acerca dentro de su recorte. Sólo transform.
+   EL :hover VA APARTE Y BAJO `(hover: hover)`. En táctil no existe «pasar por
+   encima»: el navegador aplica el estado al tocar y lo deja PEGADO hasta el
+   siguiente toque en otro sitio, así que una foto tocada se quedaba ampliada
+   sola después de levantar el dedo —se lee como que la foto «se mueve» sin
+   que nadie la toque, que es parte del síntoma reportado—. Y si el toque fue
+   en realidad el arranque de un arrastre, el zoom se dispara en mitad del
+   gesto. El :focus-visible se queda fuera del media query: el teclado necesita
+   ver dónde está, haya puntero o no. */
+@media (hover: hover) {
+  .snd-paso__disparador:hover .marco > img {
+    transform: scale(var(--escala-hover));
+  }
+}
+
 .snd-paso__disparador:focus-visible .marco > img {
   transform: scale(var(--escala-hover));
 }

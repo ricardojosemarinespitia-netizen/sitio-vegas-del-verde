@@ -244,9 +244,18 @@
     color var(--transicion-rapida);
 }
 
-.cat-abc__letra:hover {
-  background-color: var(--color-vidrio-hover);
-  border-color: var(--color-vidrio-borde);
+/* EL HOVER, SÓLO DONDE HAY PUNTERO. El abecedario es un scroller táctil: al
+   arrastrarlo, el dedo aterriza sobre una letra y el navegador le deja el
+   estado `:hover` PEGADO hasta el siguiente toque en otro sitio — y como el
+   estado pinta fondo y borde, quedaba una letra resaltada que el visitante no
+   eligió, justo al lado de la que sí marca `aria-current`. Dos «letras
+   activas» a la vez. `@media (hover: hover)` reserva el gesto para el ratón;
+   en táctil el único resalte es el real. */
+@media (hover: hover) {
+  .cat-abc__letra:hover {
+    background-color: var(--color-vidrio-hover);
+    border-color: var(--color-vidrio-borde);
+  }
 }
 
 /* La letra que se está viendo: MÁS tinta, nunca más clara (regla A.5). */
