@@ -124,14 +124,51 @@
   grid-template-rows: auto auto;
   align-content: start;
   height: 100%;
-  /* El alto de la celda. En espacios.html la tarjeta mide 100dvh porque es
-     una portada por espacio; aquí es una de tres en una rejilla de
-     escaparate, así que el alto sale de un mínimo fluido y, por encima de
-     él, de la tarjeta más alta de la fila (`height: 100%` sobre la rejilla).
-     Se declara como propiedad propia y no como número suelto para que el
-     ajuste tenga un solo sitio. */
-  --alto-tarjeta-espacio: clamp(25rem, 17rem + 21vw, 32rem);
-  min-height: var(--alto-tarjeta-espacio);
+  /* v31 · SE RETIRA EL SUELO DE ALTURA `--alto-tarjeta-espacio`, Y ES EL BUG
+     QUE REPORTÓ EL CLIENTE: «se ve muy separado en celular», sobre una
+     captura de iPhone del bloque de los cinco verbos (Celebrar · Reunir ·
+     Trabajar · Cuidarse · Aprender).
+
+     QUÉ HABÍA AQUÍ. Un mínimo fluido —`clamp(25rem, 17rem + 21vw, 32rem)`—
+     pensado, como dice su propio nombre, para las tarjetas de ESPACIOS: las
+     de `.home-rejilla--tres`, que llevan `.home-tarjeta__portada` (foto
+     CUADRADA, 1:1 contra el ancho de columna) y placa con nombre + aforo +
+     frase. Pero la regla no distinguía bloque: caía también sobre las
+     tarjetas de VERBOS, que llevan `.marco--3-2` (alto = 2/3 del ancho de
+     columna, no 1/1) y una placa de dos líneas.
+
+     LA MEDICIÓN, en el navegador, `.home-rejilla--dos` (verbos), aire
+     sobrante DEBAJO de la placa contra el alto total de la tarjeta:
+         375 px   143 px de aire sobre 400 px de tarjeta   (36 %)
+         390 px   138 px sobre 400 px  ← la captura del cliente
+         428 px   150 px sobre 400 px
+         768 px   101 px sobre 433 px
+        1024 px   153 px sobre 487 px
+        1440 px   114 px sobre 512 px
+     Es decir: NO era un defecto de móvil, era de siempre; en móvil sólo se
+     ve peor porque el aire es más de un tercio de la pieza. `align-content:
+     start` (arriba) manda ese sobrante al pie de la tarjeta, así que se leía
+     como un hueco entre el botón «Ver el plan» y la tarjeta siguiente —
+     exactamente lo que el cliente llama «separado».
+
+     POR QUÉ SE BORRA EN VEZ DE AFINARSE. El mismo aparato de medida muestra
+     que sobre las tarjetas de ESPACIOS el suelo NUNCA llegaba a actuar: su
+     foto cuadrada ya las lleva a 525-661 px, muy por encima del mínimo
+     (400-512 px) en los seis anchos medidos. O sea: el token era INERTE
+     donde se había escrito para servir, y sólo tenía efecto donde sobraba.
+     Un suelo así no se recalibra, se retira.
+
+     QUÉ SOSTIENE EL ALTO AHORA. El mismo que ya lo sostenía por encima del
+     mínimo: `height: 100%` contra el `<li>`, que iguala todas las tarjetas
+     de una fila a la más alta. Se comprobó tras el cambio en los seis
+     anchos: el aire baja a 8 px (el margen inferior de la placa) y sube como
+     mucho a 34 px en la tarjeta de frase corta que comparte fila con una de
+     frase larga — que es igualación de fila legítima, no hueco. Y las
+     tarjetas de espacios miden exactamente lo mismo que antes.
+
+     NO SE TOCA usos.css: allí `min-height: 32rem` sí es un suelo vivo, con
+     otro oficio (una tarjeta de 100dvh que en teléfono apaisado necesita
+     piso). Esto era otra cosa. */
   text-decoration: none;
   color: var(--color-texto);
   transition: transform var(--transicion);
@@ -387,9 +424,13 @@
    ~1,5 a ~3 pantallas de móvil. Se paga porque es el pedido explícito del
    cliente y porque el bloque sigue teniendo su salida arriba —los cinco
    espacios completos están a un toque en espacios.html—; y se abarata donde
-   se puede: la tarjeta mide `--alto-tarjeta-espacio` (23rem en 375 px), no
-   los 100dvh de espacios.html, así que sigue siendo un escaparate y no cinco
-   portadas a pantalla completa.
+   se puede: la tarjeta mide lo que miden su foto cuadrada y su placa —525 px
+   en 375 px de ventana, medido—, no los 100dvh de espacios.html, así que
+   sigue siendo un escaparate y no cinco portadas a pantalla completa.
+   (v31 · esta frase decía «mide `--alto-tarjeta-espacio` (23rem en 375 px)».
+   Ese token se retiró —ver la nota larga en `.home-tarjeta`— y además nunca
+   fue lo que medía esta tarjeta: su cuadrado ya la llevaba muy por encima
+   del mínimo. Se corrige la cifra por la medida real.)
 
    La clase `home-rejilla--fila` se retiró también del HTML: una regla que
    nadie usa es una invitación a resucitarla.                              */
