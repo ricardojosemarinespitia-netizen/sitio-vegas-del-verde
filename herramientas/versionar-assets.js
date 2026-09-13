@@ -50,6 +50,11 @@ const PAGINAS = [
   // arreglo en catalogo-plantas.css o .js se quedaría en caché 10 minutos.
   'catalogo-plantas.html',
   'condiciones-de-alquiler.html',
+  // v20 · reglamento.html: página suelta del reglamento para visitantes,
+  // se había quedado fuera de la lista al crearla — mismo motivo que
+  // catalogo-plantas.html arriba, aquí no comparte hoja/script con nadie
+  // pero sí referencia js/app.js y styles/shell.css, que sí cambian.
+  'reglamento.html',
   'politica-de-datos.html', 'terminos.html', '404.html',
   // Fragmentos que traen su propia dependencia de js/: el <script src> de
   // momentos/naturaleza/espacios/nosotros y el import() dinámico de hero.
