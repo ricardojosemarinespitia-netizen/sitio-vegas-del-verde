@@ -12,6 +12,7 @@
      existe es peor que no declarar ninguna. Se añadirá cuando /en/ se rehaga
      con paridad (PLAN-REDISENO-V4 §7.5). -->
 <link rel="alternate" hreflang="es" href="https://vegasdelverde.co/planes.html">
+<link rel="alternate" hreflang="en" href="https://vegasdelverde.co/en/plans.html">
 
 <meta property="og:type" content="website">
 <meta property="og:title" content="Planes y eventos al aire libre · Vegas del Verde">
@@ -35,13 +36,13 @@
 <link rel="preload" as="font" type="font/woff2" crossorigin href="styles/fonts/dm-sans-latin.woff2?v=89c7ce3a">
 <link rel="preload" as="font" type="font/woff2" crossorigin href="styles/fonts/josefin-sans-latin.woff2?v=0ff5ba86">
 
-<link rel="stylesheet" href="styles/tokens.css?v=128cd142">
+<link rel="stylesheet" href="styles/tokens.css?v=e12e8d10">
 <link rel="stylesheet" href="styles/base.css?v=a9f3ede7">
-<link rel="stylesheet" href="styles/shell.css?v=66218bd2">
+<link rel="stylesheet" href="styles/shell.css?v=ad875ced">
 <!-- Este bloque lo REESCRIBE herramientas/ensamblar.js a partir de PAGINAS.
      No lo edites a mano: la lista buena está allí. -->
-<link rel="stylesheet" href="styles/sections/home.css?v=cc008854">
-<link rel="stylesheet" href="styles/sections/planes.css?v=72b37611">
+<link rel="stylesheet" href="styles/sections/home.css?v=9cd2b333">
+<link rel="stylesheet" href="styles/sections/planes.css?v=6a5c14b9">
 <link rel="stylesheet" href="styles/sections/pie.css?v=0a889dce">
 <link rel="stylesheet" href="styles/lightbox.css?v=92a48a1f">
 
@@ -55,6 +56,33 @@
   ]
 }
 </script>
+
+<!-- Meta Pixel Code -->
+<script>
+!function(f,b,e,v,n,t,s)
+{if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+n.queue=[];t=b.createElement(e);t.async=!0;
+t.src=v;s=b.getElementsByTagName(e)[0];
+s.parentNode.insertBefore(t,s)}(window, document,'script',
+'https://connect.facebook.net/en_US/fbevents.js');
+fbq('init', '2840830879589956');
+fbq('track', 'PageView');
+</script>
+<noscript><img height="1" width="1" style="display:none"
+src="https://www.facebook.com/tr?id=2840830879589956&ev=PageView&noscript=1"
+/></noscript>
+<!-- End Meta Pixel Code -->
+<!-- Microsoft Clarity -->
+<script type="text/javascript">
+    (function(c,l,a,r,i,t,y){
+        c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+        t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
+        y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y)
+    })(window, document, "clarity", "script", "yhhdzmiljc");
+</script>
+<!-- End Microsoft Clarity -->
 </head>
 <body>
 <!-- ==========================================================================
@@ -139,11 +167,22 @@
            cualquier página.
 
            «Nosotros» sigue siendo un ancla porque sigue siendo una sección de
-           la portada; por eso va marcada como secundaria (shell.css la
-           esconde por debajo de 1280 px, donde la cabecera desborda).
-           «Colegios» y «Plan vecino» bajan al pie del panel móvil y al pie de
-           página: son destinos, no navegación, y meterlas aquí partiría el
-           menú en dos filas.
+           la portada. v32 · YA NO SE ESCONDE POR ANCHO: la clase
+           `nav__item--secundario` se conserva por si vuelve a hacer falta
+           distinguirla, pero la regla que la ocultaba por debajo de 1280 px se
+           eliminó de shell.css. Existía porque con siete rótulos en fila la
+           cabecera desbordaba; ahora la navegación entera vive dentro del
+           panel del botón de tres líneas, donde cabe sin competir con nadie.
+           «Colegios» y «Plan vecino» siguen en el pie del panel y en el pie de
+           página: son destinos, no navegación.
+
+           v32 · ESTE MENÚ YA NO ES «EL MENÚ MÓVIL». Pedido del cliente sobre la
+           captura del escritorio: que el logo mande en la cabecera y que
+           «espacios, planes y demás» se guarden en el botón de las tres líneas.
+           El panel es ahora el único menú del sitio en TODOS los anchos —mismo
+           marcado, mismo mecanismo (`data-menu`, `aria-expanded`,
+           `body.menu-abierto`, velo, cerrojo de foco y Escape en js/app.js, que
+           nunca miró el ancho de pantalla)—. Ver shell.css §2.
 
            NINGÚN ENLACE PUEDE SER UN ANCLA SUELTA: este fragmento se inserta
            en todas las páginas del sitio, así que todos llevan el nombre del
@@ -158,11 +197,12 @@
         <li><a class="nav__enlace" href="contacto.html">Contacto</a></li>
       </ul>
 
-      <!-- Sólo visible dentro del panel móvil -->
+      <!-- Pie del panel: visible siempre que el panel esté abierto, en
+           cualquier ancho (v32; antes shell.css lo escondía en escritorio). -->
       <div class="nav__pie">
         <!-- v18 · Las dos páginas de destino que no caben en la barra. Aquí
              son un objetivo táctil de bloque entero, no una línea de cuatro
-             palabras: es el ancho completo del panel móvil. -->
+             palabras: es el ancho completo del panel. -->
         <a class="btn btn-secundario btn-bloque" href="colegios.html">Salidas escolares</a>
         <a class="btn btn-secundario btn-bloque" href="plan-vecino.html">Plan vecino</a>
         <a
@@ -245,6 +285,19 @@
      de cualquier futuro modal (ver --z-modal en tokens.css si existe). El
      pulso es sólo opacity —GPU, y se apaga solo con prefers-reduced-motion,
      que shell.css ya resuelve para toda animación infinita del sitio. -->
+<!-- v1 · Botón de llamada directa, pedido por el cliente para sumar una vía
+     de contacto además de WhatsApp. Mismo número, mismo patrón visual que
+     `.whatsapp-flotante` (círculo fijo, mismo tamaño), apilado ENCIMA de él
+     (mayor `bottom`) para que ambos convivan sin superponerse. -->
+<a
+  class="llamar-flotante"
+  href="tel:+573166758362"
+  aria-label="Llamar a Vegas del Verde"
+>
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+    <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92Z"/>
+  </svg>
+</a>
 <a
   class="whatsapp-flotante"
   href="https://wa.me/573166758362?text=Hola%2C%20quiero%20informaci%C3%B3n%20sobre%20Vegas%20del%20Verde"
@@ -316,135 +369,44 @@
 <!-- ==========================================================================
      FRAGMENTO: PLANES POR OCASIÓN  ·  id="planes"
      CSS propio: styles/sections/planes.css
-     JS: ninguno propio. Sólo .reveal / .reveal-secuencia del script global y
-     el disparador de .icono-traza, los dos de js/app.js.
+     JS: ninguno propio. Sólo .reveal / .reveal-secuencia del script global,
+     el disparador de .icono-traza (los dos en js/app.js) y la fauna ambiente
+     (js/fauna-ambiente.js, montada al final de este fragmento).
 
-     QUÉ VENDE: los USOS del predio, no los contenedores. Cinco carriles por
-     tipo de cliente, probados con fotos de eventos que de verdad pasaron aquí.
+     QUÉ VENDE: los USOS del predio, no los contenedores. Cinco fichas por
+     tipo de cliente, con fotos de eventos que de verdad pasaron aquí.
 
-     REGLAS QUE SE RESPETAN AQUÍ, para quien venga a tocar esto:
-     · Ningún carril describe un espacio ni da su aforo. Lo NOMBRA y lo enlaza
-       a #espacios, y ahí se acaba. NO vuelvas a meter la capacidad en un
-       atributo title «porque no se ve»: el title sale como tooltip y lo
-       anuncian los lectores de pantalla, así que es publicar el aforo por la
-       puerta de atrás. Los aforos son de #espacios y de nadie más.
-     · Los cinco carriles NO se maquetan igual, a propósito:
-         01 fiesta    → portada a sangre + díptico asimétrico   (la foto manda)
-         02 familia   → texto + mosaico 55/45 + banda ancha     (texto primero)
-         03 empresa   → dossier: retrato + par apaisado         (partido 50/50)
-         04 bienestar → banda a sangre + bloque verde           (único negativo)
-         05 talleres  → banda tipográfica, sin galería          (silencio)
-       Si los cinco fueran galería + lista + botón, la repetición que sacamos
-       de la página se colaría otra vez dentro de una sola sección.
-     · Y NO OCUPAN EL MISMO ANCHO (revisión de agosto de 2026). Aunque por
-       dentro cada carril era distinto, los cinco medían 1200 px clavados y
-       empezaban en la misma x: cinco losas apiladas. Ahora cada uno tiene su
-       propia caja y se alternan izquierda y derecha:
-         01 la portada y el díptico SALEN del contenedor (a sangre completa)
-         02 el texto entra una columna y el mosaico SALE por la derecha
-         03 pega a la izquierda y se queda a dos columnas del borde derecho
-         04 la banda sale a sangre y el bloque verde entra dos columnas
-         05 pega a la izquierda y ocupa sólo ocho de las doce columnas
-       Las medidas están en planes.css; aquí sólo viajan los modificadores.
-     · El 04 conserva .seccion--oscura y el 05 sigue en CLARO: justo después
-       de #planes entra #momentos, que es una banda carbón a todo el ancho, y
-       dos bloques oscuros seguidos anularían esa puntuación.
-     · El carril 05 va SIN GALERÍA a conciencia: no tiene tira de fotos como
-       los otros cuatro. Lo que sí tiene, desde que entró al banco la imagen
-       del taller educativo, es UNA sola fotografía de fondo con el texto
-       posado encima en una lámina de cristal. Sigue siendo el raro de los
-       cinco: es el único donde el texto va SOBRE la foto y no al lado.
-     · CTA: el rótulo «Atrévete a un plan distinto» es el mismo en los cinco
-       —es el rótulo de la sección—; lo que cambia es el mensaje de WhatsApp
-       y el remate para lector de pantalla. En el 01 ese mismo rótulo va como
-       enlace con flecha dentro de la tarjeta flotante (agosto de 2026: en
-       escritorio se posa sobre la foto como en el diseño original; en
-       móvil/táctil no se muestra), no como botón: la tarjeta es la única
-       superficie sólida del carril y meterle un botón coral la convertía en
-       un banner.
-       v9 · EL CORAL SE DOSIFICA: los CTA del 03 y del 05 pasan también a
-       .enlace-flecha (mismo rótulo, mismo destino, mismo solo-lectores).
-       Quedan DOS botones coral —02 y 04— anclando las dos mitades del
-       scroll; los carriles callados (dossier y colofón) rematan como el 01.
-       Cuatro botones idénticos apilados es lenguaje de catálogo; un coral
-       dosificado es una decisión por carril. El alto táctil de 44 px lo
-       conserva planes.css §2 (v9).
-
-     REVISIÓN v4 «orgánica» (agosto de 2026) — TRES CAMBIOS, TODOS DE FORMA.
-     Ni un hecho, ni un titular, ni un destino de enlace se mueven.
-     1. EL ÍNDICE SE HACE ANCLA. «01…05» eran cinco cifras de 13 px al lado de
-        su etiqueta; ahora son la cifra grande que abre cada carril, con la
-        ocasión debajo.
-     2. LAS FOTOS DEJAN LA ESQUINA VIVA cuando están DENTRO de la maqueta.
-        Cada carril recorta con un contorno propio y ninguno repite el del
-        carril de arriba. Los valores están en planes.css §8.
-     3. CADA CARRIL ENTRA DE UNA MANERA, y la entrada coincide con su caja:
-        01 llega desde la izquierda, que es por donde sangra;
-        02 desde la derecha, que es por donde se sale su mosaico;
-        03 con zoom, porque es un dossier y no tiene lado;
-        04 con velo, porque es un bloque de color que sube como un telón;
-        05 recto, sin desvío, porque es el colofón.
-        Cinco hijos con .reveal dentro de .reveal-secuencia: el escalonado no
-        pasa de cinco, muy por debajo del tope de ocho.
-
-     REVISIÓN v6 (fases 3 y 4 de PLAN-HERO-V6.md) — TRES REDIAGRAMACIONES.
-     Ni un hecho nuevo, ni un titular reescrito, ni un enlace movido.
-     A. CARRIL 01, EN DOS ACTOS. El h3 «La fiesta empieza cuando se encienden
-        los bombillos» se PROMUEVE a marca de agua tipográfica gigante sobre
-        `boda-3.jpg` a sangre completa, y por tanto DESAPARECE de abajo: un
-        hecho, un dueño (ARQUITECTURA-V3). El contorno es atmósfera; la
-        información y el CTA viven en la tarjeta sólida que flota encima.
-        Debajo, `boda-2` y `boda-1` en díptico desfasado. `boda-4` sale de
-        este carril: se va a #espacios, que no tiene foto de La Vega.
-     B. CARRIL 02, DE CUATRO CLONES A UN MOSAICO. Eran cuatro retratos en
-        fila, el defecto de plantilla que v5 ya había corregido en la tira de
-        aves de #inicio. Ahora `infantil-4` —el niño saltando a atrapar
-        pompas, la mejor foto emocional del banco— manda al 55 % del ancho,
-        `infantil-2` y `cumpleanos-1` la acompañan a dos alturas distintas, e
-        `infantil-3` (cuadrada, hasta hoy sin publicar) entra recortada en
-        banda ancha como foto de contexto. `infantil-1` sale a #colegios.
-     C. CARRIL 04, LA BANDA QUE FALTABA. `yoga-2` estaba en 16:9 dentro del
-        bloque verde. Sale del bloque y pasa a banda a sangre completa con el
-        índice y el titular en negativo sobre el césped en sombra del tercio
-        izquierdo. Es el único carril en negativo del sitio y hasta hoy no lo
-        aprovechaba.
+     REDISEÑO v20 · «CINCO FICHAS, UN MISMO PLIEGO» (septiembre de 2026).
+     Pedido directo del cliente, con capturas: la sección se veía vacía y
+     desordenada, y el titular gigante de contorno sobre la foto nocturna de
+     la carpa tenía que desaparecer. Lo que cambia, todo de FORMA:
+       · LA FOTO ES LA FOTO. Ninguna de las cinco fichas pone texto encima de
+         una fotografía: ni marca de agua de contorno, ni tarjeta flotante,
+         ni cristal, ni velo. Las fotos van en .marco (base.css) y el texto
+         va al lado, sobre la crema. Se retiran la escena por scroll del 01
+         (js/escena-planes.js), el diorama del 02, la banda con respiración
+         del 04 (js/respiracion-bienestar.js) y el cristal del 05: cuatro
+         armados distintos eran cuatro maneras de tapar la foto.
+       · UNA SOLA GRAMÁTICA. Las cinco fichas comparten el mismo esqueleto
+         —dúo de fotos + columna de texto— y se alternan izquierda/derecha
+         como las páginas de un pliego. Lo que distingue a cada una es su
+         contenido, no su maqueta.
+       · EL ÍNDICE ES NAVEGACIÓN. Los ordinales 01…05 ya existían; ahora
+         además encabezan la sección como un índice de anclas, para que
+         quien llega buscando «empresas» baje de un toque a su ficha.
+     NO cambia ni un hecho, ni un titular, ni un texto, ni un destino de
+     enlace, ni un alt. Los aforos siguen siendo de #espacios (aquí sólo se
+     NOMBRA el espacio y se enlaza). El rótulo «Atrévete a un plan distinto»
+     sigue siendo uno solo con su remate para lector de pantalla por ficha.
      ========================================================================== -->
 <section id="planes" class="seccion planes" aria-labelledby="planes-titulo">
   <div class="contenedor">
 
-    <!-- ================================================================
-         LA APERTURA DEL CAPÍTULO «EVENTOS Y ACTIVIDADES»
-         (DIRECTRICES-ANIMACION.md §1). #planes, #momentos y #colegios son
-         UN SOLO capítulo, y esta cabecera es la única de las tres que lo
-         abre. Por eso, y sólo aquí:
-           · el eyebrow lleva el NÚMERO de capítulo además del rótulo
-             compartido «Eventos y actividades»;
-           · la sección lleva el filete de apertura a todo lo ancho
-             (planes.css §0 bis). #momentos y #colegios abren sin filete: es
-             lo que dice visualmente «esto sigue siendo lo mismo».
-         El h2 conserva la ocasión concreta de esta sección, como manda el
-         tratamiento de capítulo.
-
-         EL HEADER PASA DE .reveal A .reveal-secuencia. Ya no revela: sólo
-         reparte tiempos entre sus tres hijos, que ahora entran por separado.
-         Es el mismo cambio, y por el mismo motivo, que hizo .col-jornada en
-         #colegios: el titular necesita su propio .reveal para poder llevar
-         .reveal-texto, y en este sitio los .reveal no se anidan.
-
-         LA PERSIANA SE GASTA AQUÍ Y EN NINGÚN OTRO SITIO DEL CAPÍTULO
-         (§3 del documento): es el gesto caro y va una vez por capítulo, en
-         el titular que lo abre. #momentos y #colegios llevan .reveal-texto
-         a secas. Los cortes de renglón están escritos a mano porque son
-         parte del dibujo, no del navegador.
-         ================================================================ -->
-    <!-- v19 · DOBLE ENCABEZADO RESUELTO. El eyebrow «Eventos y actividades» y
-         la entradilla de esta cabecera repetían, palabra por palabra y dos
-         dedos más abajo, lo que ya dicen el eyebrow y la entradilla de
-         .pagina-encabezado (sections/enc-planes.html). Se quedan el <h2> con
-         su id —lo apunta el aria-labelledby de la sección— y su persiana. El
-         <header> sigue siendo .reveal-secuencia porque el h2 lleva su propio
-         .reveal: un solo hijo también se reparte bien. -->
-    <header class="seccion-encabezado reveal-secuencia">
+    <!-- LA CABECERA DEL CAPÍTULO. El <h1> de la página vive en
+         sections/enc-planes.html (v19); aquí queda el <h2> con su persiana
+         —el gesto caro va una vez por capítulo, DIRECTRICES-ANIMACION §3— y
+         debajo el índice de las cinco fichas. -->
+    <header class="planes__cabecera reveal-secuencia">
       <h2
         id="planes-titulo"
         class="titulo-seccion reveal reveal-texto reveal-texto--persiana"
@@ -452,408 +414,115 @@
         <span class="reveal-texto__linea">Dime a quién traes</span>
         <span class="reveal-texto__linea">y te digo dónde</span>
       </h2>
+
+      <nav class="planes__indice reveal" aria-label="Los cinco planes">
+        <ol class="planes__indice-lista">
+          <li><a class="planes__indice-enlace" href="#plan-fiesta"><span class="planes__indice-num">01</span>Bodas y conciertos</a></li>
+          <li><a class="planes__indice-enlace" href="#plan-familia"><span class="planes__indice-num">02</span>Cumpleaños y familia</a></li>
+          <li><a class="planes__indice-enlace" href="#plan-empresa"><span class="planes__indice-num">03</span>Empresas</a></li>
+          <li><a class="planes__indice-enlace" href="#plan-bienestar"><span class="planes__indice-num">04</span>Bienestar</a></li>
+          <li><a class="planes__indice-enlace" href="#plan-talleres"><span class="planes__indice-num">05</span>Talleres</a></li>
+        </ol>
+      </nav>
     </header>
 
-    <ul class="planes__carriles reveal-secuencia">
+    <ul class="planes__fichas">
 
       <!-- ============================================================ 01/05
-           BODAS Y CONCIERTOS — dos actos.
-
-           ACTO 1 · LA PIEZA DE CONTORNO.
-           `boda-3.jpg` a sangre completa (100vw × --alto-hero) y ESQUINA
-           VIVA: una foto que llega al borde de la ventana no se redondea.
-           Encima, la frase del carril en Fraunces a peso 320, relleno
-           transparente y contorno crema. CAJA ALTA Y BAJA: el referente de
-           esta pieza va en mayúsculas y CONTRATO-V2 §3 las prohíbe a partir
-           de 24 px. El gesto del referente no es el caps —es la escala, el
-           hueco del contorno y el cruce sobre la foto—, y los tres se
-           conservan. Con una serif de ascendentes y descendentes el contorno
-           dibuja además mejor que en versalitas.
-
-           LAS TRES MEDIDAS DE CONTRASTE, porque una sola no basta sobre una
-           fotografía:
-             1. El contorno va `aria-hidden` y la frase entera viaja en un
-                `.solo-lectores` dentro del mismo h3. Para el lector de
-                pantalla el titular se anuncia una vez y entero; para el ojo
-                es una marca de agua. Nadie oye tres renglones sueltos.
-             2. Un velo acotado a la banda alta —donde está el cielo de hora
-                azul— sube el contraste medido de la crema contra la foto de
-                9,1:1 a 11,0:1 y baja del 14,4 % al 0,17 % los píxeles por
-                debajo de 3:1.
-             3. La tarjeta sólida. Ahí viven el índice, el texto y el CTA, con
-                contraste real de 14,8:1 (texto) y 5,7:1 (enlace) sobre
-                --color-superficie-solida. El contorno es atmósfera; la
-                tarjeta es la información.
-
-           Dos versiones de la marca, las dos decorativas: tres renglones
-           desiguales de tableta para arriba y dos en móvil, donde tres
-           renglones a esa escala no caben en la ventana. Sólo una está
-           visible a la vez (planes.css §3).
-
-           ACTO 2 · EL DÍPTICO. `boda-2` (5 de 12 columnas, desbordando por
-           arriba) y `boda-1` (7 columnas, alineada abajo). El remate del
-           texto cae en el aire que deja el desfase, no debajo de las fotos.
+           BODAS Y CONCIERTOS. La carpa nocturna con el cincuenta luminoso es
+           la foto principal; la ceremonia bajo el árbol, la secundaria. El
+           titular «La fiesta empieza cuando se encienden los bombillos» deja
+           de ser marca de agua sobre la foto y vuelve a ser el <h3> de la
+           ficha, sobre la crema, como en las otras cuatro.
            ================================================================ -->
-      <li id="plan-fiesta" class="planes-carril planes-carril--fiesta reveal reveal--izq">
+      <li id="plan-fiesta" class="planes-ficha reveal">
 
-        <!-- ESCENA POR SCROLL DEL ACTO 1 (en TODOS los anchos; se apaga sólo
-             con `.js` ausente o con prefers-reduced-motion — ver planes.css
-             junto a §3). La pista es este `<div>`; el escenario clavado sigue
-             siendo `.planes-fiesta__acto1` de siempre, CERO marcado nuevo
-             dentro: la foto, la marca de agua y la tarjeta son las mismas
-             piezas ya medidas por contraste, sólo se les cuelgan las variables
-             `--entrada`/`--texto` que escribe js/escena-planes.js cuadro a
-             cuadro. Sin JS o con movimiento reducido este `<div>` no pinta
-             nada (altura auto, posición estática) y el carril se ve como
-             siempre. Ya NO hay un segundo armado para pantalla estrecha: el
-             teléfono ve la misma escena que el escritorio, que es lo que pidió
-             el cliente y lo que evita que la marca de agua se encime. -->
-        <div class="planes-fiesta__escena">
-        <div class="planes-fiesta__acto1">
-
-          <div class="planes-portada">
-            <!-- v3 · SIZES CORREGIDO (agosto 2026). El cliente reportó lag en
-                 esta foto en celular; medido en producción: `sizes="100vw"`
-                 estaba mal para esta pieza. La caja es a pantalla completa
-                 con `object-fit: cover` sobre una fuente 4:3 (ver
-                 planes.css, `.planes-portada__foto`) — `cover` ajusta por el
-                 ALTO, no por el ancho de ventana, así que el ancho de fuente
-                 que realmente hace falta es alto_de_pantalla × 4/3, no
-                 100vw. En un teléfono alto y angosto eso es hasta 2,7 veces
-                 más que 100vw: el navegador reescalaba (upsampleaba) el
-                 derivado servido en cada repintado, trabajo de más en cada
-                 cuadro de scroll. `max(100vw, 133vh)` cubre los dos casos
-                 (pantallas anchas y bajas vs. angostas y altas) sin tener
-                 que declarar un ancho por breakpoint. -->
+        <div class="planes-ficha__fotos">
+          <figure class="marco planes-ficha__foto planes-ficha__foto--principal">
             <img
-              class="planes-portada__foto"
               src="img/eventos/boda-carpa-50-nocturna.jpg"
               srcset="img/eventos/boda-carpa-50-nocturna-400.jpg 400w, img/eventos/boda-carpa-50-nocturna-600.jpg 600w, img/eventos/boda-carpa-50-nocturna-800.jpg 800w, img/eventos/boda-carpa-50-nocturna-1200.jpg 1200w, img/eventos/boda-carpa-50-nocturna.jpg 1600w"
-              sizes="max(100vw, 133vh)"
+              sizes="(max-width: 61.99em) 62vw, 36vw"
               width="1600"
               height="1200"
               loading="lazy"
               decoding="async"
               alt="Evento nocturno al atardecer: carpa blanca iluminada con guirnaldas de bombillos colgadas entre las ramas, invitados sentados en sofás de estibas y pacas de paja repartidas sobre el césped, y un cincuenta luminoso encendido en el fondo."
             />
+          </figure>
 
-            <span class="planes-portada__velo" aria-hidden="true"></span>
-
-            <!-- LA NOCHE QUE SE ENCIENDE — la guirnalda que responde al
-                 titular. El titular promete que «la fiesta empieza cuando se
-                 encienden los bombillos»; estos nueve puntos son los que lo
-                 cumplen: nueve resplandores cálidos posados sobre la curva
-                 visible de la guirnalda de la foto (del alero izquierdo de la
-                 carpa hacia el árbol de la derecha) que se ENCIENDEN uno tras
-                 otro mientras la lámina sube, gobernados por la MISMA
-                 `--entrada` que ya escribe js/escena-planes.js — cero motores
-                 nuevos, ver planes.css §3 ter. Son decoración pura: sin JS o
-                 con movimiento reducido quedan encendidos y quietos, nunca
-                 apagados. Las coordenadas y el orden de encendido viven en el
-                 CSS (:nth-child), no aquí: el HTML sólo pone los nueve
-                 cuerpos. -->
-            <span class="planes-portada__guirnalda" aria-hidden="true">
-              <span class="planes-portada__bombillo"></span>
-              <span class="planes-portada__bombillo"></span>
-              <span class="planes-portada__bombillo"></span>
-              <span class="planes-portada__bombillo"></span>
-              <span class="planes-portada__bombillo"></span>
-              <span class="planes-portada__bombillo"></span>
-              <span class="planes-portada__bombillo"></span>
-              <span class="planes-portada__bombillo"></span>
-              <span class="planes-portada__bombillo"></span>
-            </span>
-
-            <h3 class="planes-portada__marca">
-              <span class="solo-lectores">La fiesta empieza cuando se encienden los bombillos</span>
-
-              <span class="planes-portada__version planes-portada__version--ancha" aria-hidden="true">
-                <span class="planes-portada__renglon">La fiesta empieza</span>
-                <span class="planes-portada__renglon">cuando se encienden</span>
-                <span class="planes-portada__renglon">los bombillos</span>
-              </span>
-
-              <!-- CINCO RENGLONES EN MOVIL, NO DOS (agosto de 2026).
-                   Con dos, el renglon mas largo medido a 375 px daba 563 px de
-                   ancho: se perdian "cuando" y "bombillos", o sea las dos
-                   palabras que rematan la frase, y eso ya no es el sangrado
-                   de una marca de agua sino un titular partido. Es lo que el
-                   cliente reporta una y otra vez como "texto cortado".
-                   Las mismas ocho palabras, repartidas de otra manera: medido en
-                   pantalla, el renglon mas ancho pasa de 379 px a 358 y ya
-                   cabe en la ventana de cualquier telefono corriente.
-                   El cuerpo NO baja: sigue por encima del piso de 48 px que
-                   necesita el contorno hueco para no empastarse. -->
-              <span class="planes-portada__version planes-portada__version--corta" aria-hidden="true">
-                <span class="planes-portada__renglon">La fiesta</span>
-                <span class="planes-portada__renglon">empieza</span>
-                <span class="planes-portada__renglon">cuando</span>
-                <span class="planes-portada__renglon">se encienden</span>
-                <span class="planes-portada__renglon">los bombillos</span>
-              </span>
-            </h3>
-          </div>
-
-          <!-- LA TARJETA, DE VUELTA SOBRE LA FOTO EN ESCRITORIO (agosto de
-               2026, pedido definitivo del cliente viendo una captura de
-               escritorio: la tarjeta debe verse superpuesta a la derecha,
-               como el diseño original). Es HERMANA de la portada, no hija:
-               en escritorio (≥64em) se posa sobre la foto con
-               `position: absolute` (planes.css §3); en móvil/táctil se
-               oculta por completo con `display: none` —nada de tarjeta
-               suelta en el flujo, sólo la foto con el titular—. El estado de
-               las dos cosas está en el CSS estático: aquí no hay ni un
-               atributo de estilo. Es el mismo `<div class="planes-portada__tarjeta">`
-               de siempre (herramientas/validar.js sigue viendo el mismo
-               dueño único del rótulo «Atrévete a un plan distinto»). -->
-          <div class="planes-portada__tarjeta">
-
-            <!-- El bombillo que enciende la frase de arriba. Firma de icono
-                 que reconoce herramientas/hornear-trazos.js (viewBox de 24,
-                 sin relleno, trazo heredado) y con el `pathLength` YA
-                 HORNEADO en el HTML: el trazo nace oculto en el primer
-                 pintado y no hay un solo fotograma con el icono entero antes
-                 de dibujarse.
-                 Se probó primero una guirnalda de tres bombillos y a 32 px
-                 era una mancha; uno solo se reconoce al instante. -->
-            <svg
-              class="icono-traza planes-portada__icono"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              stroke-width="1.5"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              aria-hidden="true"
-              focusable="false"
-            >
-              <path pathLength="1" d="M12 2.6a6.4 6.4 0 0 0-3.7 11.6v2.3h7.4v-2.3A6.4 6.4 0 0 0 12 2.6Z" />
-              <path pathLength="1" d="M9.2 19h5.6" />
-              <path pathLength="1" d="M10.1 21.4h3.8" />
-            </svg>
-
-            <p class="planes-carril__ocasion">
-              <span class="planes-carril__indice">01</span> Bodas y conciertos
-            </p>
-
-            <!-- RECORTE DE AGOSTO DE 2026 («quiero orden y poco texto, y el
-                 poco que haya que incentive alquilar»). Se va la primera
-                 frase, que sólo repetía el rótulo de al lado —«Bodas y
-                 conciertos»— y por tanto no aportaba un hecho. Lo que queda
-                 es la imagen: ceremonia, carpa y música. -->
-            <p class="planes-carril__copy">
-              La ceremonia bajo el árbol, la carpa con bombillos y la música hasta que el
-              cielo se ponga azul.
-            </p>
-
-            <a
-              class="enlace-flecha planes-portada__cta"
-              href="https://wa.me/573166758362?text=Hola%2C%20quiero%20cotizar%20Vegas%20del%20Verde%20para%20un%20matrimonio%20o%20un%20concierto."
-              target="_blank"
-              rel="noopener"
-            >
-              Atrévete a un plan distinto<span class="solo-lectores">: matrimonio o concierto</span>
-            </a>
-          </div>
-        </div>
+          <figure class="marco planes-ficha__foto planes-ficha__foto--secundaria">
+            <img
+              src="img/eventos/boda-2.jpg"
+              srcset="img/eventos/boda-2-400.jpg 400w, img/eventos/boda-2-600.jpg 600w, img/eventos/boda-2.jpg 844w"
+              sizes="(max-width: 61.99em) 36vw, 20vw"
+              width="844"
+              height="1500"
+              loading="lazy"
+              decoding="async"
+              alt="Ceremonia montada sobre el césped: pasillo bordeado de flores blancas hacia dos sillas bajo telas beige colgadas de un árbol enorme, con una saxofonista tocando a un lado."
+            />
+          </figure>
         </div>
 
-        <!-- v15 · EL DÍPTICO SE RETIRA. La apaisada (boda-1.jpg, carpa
-             nocturna con bombillos) repetía la misma escena que la portada
-             del carril entera (boda-carpa-50-nocturna.jpg) dos pantallas más
-             arriba — pedido directo del cliente: «quita esta segunda foto
-             que se repite». Sólo queda la vertical (la ceremonia bajo el
-             árbol, pasillo de flores blancas), que pasa de "una foto más del
-             díptico" a pieza única: pantalla completa en móvil, óvalo fijo
-             en escritorio, sin el efecto de scroll que sí tiene la portada
-             de arriba (planes.css §3 bis). El texto de remate se queda,
-             ahora debajo de la foto en vez de al lado. -->
-        <figure class="marco planes-fiesta__vertical">
-          <img
-            src="img/eventos/boda-2.jpg"
-            srcset="img/eventos/boda-2-400.jpg 400w, img/eventos/boda-2-600.jpg 600w, img/eventos/boda-2.jpg 844w"
-            sizes="(max-width: 47.99em) 100vw, 51vw"
-            width="844"
-            height="1500"
-            loading="lazy"
-            decoding="async"
-            alt="Ceremonia montada sobre el césped: pasillo bordeado de flores blancas hacia dos sillas bajo telas beige colgadas de un árbol enorme, con una saxofonista tocando a un lado."
-          />
-        </figure>
+        <div class="planes-carril__texto">
+          <p class="planes-carril__ocasion">
+            <span class="planes-carril__indice">01</span> Bodas y conciertos
+          </p>
 
-        <!-- v19 · El remate se queda SÓLO con la nota de dónde se monta. La
-             frase «Ese momento no se decora…» era comentario sobre la foto que
-             está justo encima: la foto ya lo dice. -->
-        <div class="planes-carril__texto planes-fiesta__remate">
+          <h3 class="titulo-seccion titulo-seccion--sm">
+            La fiesta empieza cuando se encienden los bombillos
+          </h3>
+
+          <p class="planes-carril__copy">
+            La ceremonia bajo el árbol, la carpa con bombillos y la música hasta que el
+            cielo se ponga azul.
+          </p>
+
           <p class="nota planes-carril__donde">
             Se monta en la
             <a href="espacios.html">Alameda</a>
             o en
             <a href="espacios.html">La Vega</a>.
           </p>
+
+          <a
+            class="btn btn-whatsapp planes-carril__cta"
+            href="https://wa.me/573166758362?text=Hola%2C%20quiero%20cotizar%20Vegas%20del%20Verde%20para%20un%20matrimonio%20o%20un%20concierto."
+            target="_blank"
+            rel="noopener"
+          >
+            Atrévete a un plan distinto<span class="solo-lectores">: matrimonio o concierto</span>
+          </a>
         </div>
 
       </li>
 
       <!-- ============================================================ 02/05
-           CUMPLEAÑOS Y FAMILIA — aquí el texto va delante y las fotos van
-           detrás, en mosaico. El texto entra una columna por la izquierda y
-           el mosaico se sale por la derecha, al revés que el carril 01.
-
-           v6 · SE ACABARON LOS CUATRO RETRATOS EN FILA. Eran cuatro verticales
-           del mismo tipo alineadas de izquierda a derecha; por muy desiguales
-           que fueran las columnas seguían leyéndose como una hoja de
-           contactos. Ahora hay una protagonista al 55 % —el niño saltando a
-           atrapar pompas, que es la única foto del banco con un gesto y no
-           con un montaje— y a su lado dos verticales que arrancan a alturas
-           distintas. Debajo, `infantil-3` recortada en banda: es la única
-           cuadrada del banco y la única que enseña el círculo de césped
-           entero con el grupo completo, así que hace de plano general de
-           todas las de arriba.
-           Mismo criterio de tamaños y alturas que la tira de aves de #inicio.
+           CUMPLEAÑOS Y FAMILIA. El niño saltando a atrapar pompas —la mejor
+           foto emocional del banco— manda; el picnic decorado la acompaña.
            ================================================================ -->
-      <li id="plan-familia" class="planes-carril planes-carril--familia reveal reveal--der">
+      <li id="plan-familia" class="planes-ficha reveal">
 
-        <!-- ============================================================
-             PORTADA POR SCROLL «EL DIORAMA DEL CUMPLEAÑOS» (v2, sustituye
-             al prototipo A del díptico, que el cliente descartó).
-
-             QUÉ ES. Un escenario con PROFUNDIDAD de verdad, no una foto que
-             se abre: tres capas a distinta velocidad de scroll.
-               · El FONDO: `infantil-4` (el niño saltando) en una banda ancha
-                 cuyo recorte se ABRE de cinta de cine a cuadro completo
-                 mientras la foto de dentro se posa desde un 14 % de más y
-                 deriva más despacio que la página (paralaje de fondo).
-               · La HOJA FLOTANTE: `cumpleanos-1` como tarjeta en primer
-                 término, colgando por debajo del borde del fondo, que sube
-                 A CONTRAMARCHA del fondo. Dos velocidades opuestas es lo que
-                 el ojo lee como profundidad; una sola foto que se mueve es
-                 sólo una foto que se mueve.
-               · El DESTELLO: una franja de luz crema en `screen` que cruza
-                 la foto una vez con el scroll — la misma familia de gesto
-                 que los claros de luz del hero (inicio.css), no un invento.
-
-             Y LAS MARIPOSAS. Tres piezas SVG dibujadas aquí mismo —no los
-             recortes PNG del enjambre del hero: ésos tienen sus colores de
-             fotografía y éstas estrenan tonos del sistema (amarillo, coral
-             claro y teal del logo)— que revolotean sobre el tercio alto de
-             la escena con la MISMA técnica de compases del enjambre: aleteo
-             en cierre de alas (scale X), deriva y balanceo, cada una a su
-             ritmo y ninguno múltiplo de otro. Van `aria-hidden`: decoración.
-
-             UN SOLO MOTOR, Y ES EL NATIVO. Todo el movimiento de scroll es
-             `animation-timeline: view()` dentro de `@supports` + movimiento
-             no reducido, igual que el §10 de planes.css: donde no exista,
-             NO hay respaldo de JavaScript —no hace falta— y la escena queda
-             quieta, abierta y legible desde el CSS estático. Es la lección
-             del prototipo A: dos motores sobre la misma pieza es el bug.
-             Con `prefers-reduced-motion` tampoco vuelan las mariposas.
-             ================================================================ -->
-        <div class="planes-diorama">
-          <div class="planes-diorama__marco">
-            <!-- v6 · restaurada tal cual estaba: el cliente pidió dejar esta
-                 foto del arco como era. -->
+        <div class="planes-ficha__fotos">
+          <figure class="marco planes-ficha__foto planes-ficha__foto--principal">
             <img
-              class="planes-diorama__fondo"
               src="img/eventos/infantil-4.jpg"
               srcset="img/eventos/infantil-4-400.jpg 400w, img/eventos/infantil-4-600.jpg 600w, img/eventos/infantil-4-800.jpg 800w, img/eventos/infantil-4.jpg 1125w"
-              sizes="100vw"
+              sizes="(max-width: 61.99em) 62vw, 36vw"
               width="1125"
               height="1500"
               loading="lazy"
               decoding="async"
               alt="Un niño salta con los brazos en alto a atrapar pompas de jabón junto a la mesa de picnic donde el resto del grupo se ríe."
             />
+          </figure>
 
-            <span class="planes-diorama__destello" aria-hidden="true"></span>
-            <span class="planes-diorama__velo" aria-hidden="true"></span>
-
-            <!-- LAS POMPAS QUE SIGUEN SUBIENDO. Las de la foto son píxeles y
-                 no se mueven; estas cinco son dibujadas y ascienden por la
-                 misma zona, para continuar el gesto del niño en vez de
-                 contradecirlo. Decorativas y sin puntero; el motor entero
-                 vive en planes.css §4 bis. -->
-            <div class="planes-diorama__pompas" aria-hidden="true">
-              <span class="planes-diorama__pompa planes-diorama__pompa--a"></span>
-              <span class="planes-diorama__pompa planes-diorama__pompa--b"></span>
-              <span class="planes-diorama__pompa planes-diorama__pompa--c"></span>
-              <span class="planes-diorama__pompa planes-diorama__pompa--d"></span>
-              <span class="planes-diorama__pompa planes-diorama__pompa--e"></span>
-            </div>
-
-            <!-- Las cuatro mariposas de tonos nuevos. La forma es una sola —dos
-                 alas por lado y el cuerpo— y cada pieza la tiñe con sus
-                 variables; el vuelo entero vive en planes.css §4 bis. -->
-            <div class="planes-diorama__mariposas" aria-hidden="true">
-              <svg class="planes-diorama__mariposa planes-diorama__mariposa--sol" viewBox="0 0 24 24" focusable="false">
-                <g class="planes-diorama__ala-par">
-                  <path class="planes-diorama__ala" d="M11.2 11.2C8.6 5.4 3.4 3.9 2.6 7.1c-.7 2.9 3.8 5.6 8.6 5.1Z" />
-                  <path class="planes-diorama__ala-honda" d="M11.2 13.1c-3.4-.3-6.6 2.3-5.4 4.8 1.1 2.3 4.6.6 5.6-2.6Z" />
-                </g>
-                <g class="planes-diorama__ala-par planes-diorama__ala-par--der">
-                  <path class="planes-diorama__ala" d="M12.8 11.2c2.6-5.8 7.8-7.3 8.6-4.1.7 2.9-3.8 5.6-8.6 5.1Z" />
-                  <path class="planes-diorama__ala-honda" d="M12.8 13.1c3.4-.3 6.6 2.3 5.4 4.8-1.1 2.3-4.6.6-5.6-2.6Z" />
-                </g>
-                <ellipse class="planes-diorama__cuerpo" cx="12" cy="13" rx="1" ry="4" />
-                <path class="planes-diorama__antenas" d="M11.4 9.4C10.6 7.6 9.8 6.6 8.6 5.8M12.6 9.4c.8-1.8 1.6-2.8 2.8-3.6" />
-              </svg>
-
-              <svg class="planes-diorama__mariposa planes-diorama__mariposa--coral" viewBox="0 0 24 24" focusable="false">
-                <g class="planes-diorama__ala-par">
-                  <path class="planes-diorama__ala" d="M11.2 11.2C8.6 5.4 3.4 3.9 2.6 7.1c-.7 2.9 3.8 5.6 8.6 5.1Z" />
-                  <path class="planes-diorama__ala-honda" d="M11.2 13.1c-3.4-.3-6.6 2.3-5.4 4.8 1.1 2.3 4.6.6 5.6-2.6Z" />
-                </g>
-                <g class="planes-diorama__ala-par planes-diorama__ala-par--der">
-                  <path class="planes-diorama__ala" d="M12.8 11.2c2.6-5.8 7.8-7.3 8.6-4.1.7 2.9-3.8 5.6-8.6 5.1Z" />
-                  <path class="planes-diorama__ala-honda" d="M12.8 13.1c3.4-.3 6.6 2.3 5.4 4.8-1.1 2.3-4.6.6-5.6-2.6Z" />
-                </g>
-                <ellipse class="planes-diorama__cuerpo" cx="12" cy="13" rx="1" ry="4" />
-                <path class="planes-diorama__antenas" d="M11.4 9.4C10.6 7.6 9.8 6.6 8.6 5.8M12.6 9.4c.8-1.8 1.6-2.8 2.8-3.6" />
-              </svg>
-
-              <svg class="planes-diorama__mariposa planes-diorama__mariposa--teal" viewBox="0 0 24 24" focusable="false">
-                <g class="planes-diorama__ala-par">
-                  <path class="planes-diorama__ala" d="M11.2 11.2C8.6 5.4 3.4 3.9 2.6 7.1c-.7 2.9 3.8 5.6 8.6 5.1Z" />
-                  <path class="planes-diorama__ala-honda" d="M11.2 13.1c-3.4-.3-6.6 2.3-5.4 4.8 1.1 2.3 4.6.6 5.6-2.6Z" />
-                </g>
-                <g class="planes-diorama__ala-par planes-diorama__ala-par--der">
-                  <path class="planes-diorama__ala" d="M12.8 11.2c2.6-5.8 7.8-7.3 8.6-4.1.7 2.9-3.8 5.6-8.6 5.1Z" />
-                  <path class="planes-diorama__ala-honda" d="M12.8 13.1c3.4-.3 6.6 2.3 5.4 4.8-1.1 2.3-4.6.6-5.6-2.6Z" />
-                </g>
-                <ellipse class="planes-diorama__cuerpo" cx="12" cy="13" rx="1" ry="4" />
-                <path class="planes-diorama__antenas" d="M11.4 9.4C10.6 7.6 9.8 6.6 8.6 5.8M12.6 9.4c.8-1.8 1.6-2.8 2.8-3.6" />
-              </svg>
-
-              <svg class="planes-diorama__mariposa planes-diorama__mariposa--menta" viewBox="0 0 24 24" focusable="false">
-                <g class="planes-diorama__ala-par">
-                  <path class="planes-diorama__ala" d="M11.2 11.2C8.6 5.4 3.4 3.9 2.6 7.1c-.7 2.9 3.8 5.6 8.6 5.1Z" />
-                  <path class="planes-diorama__ala-honda" d="M11.2 13.1c-3.4-.3-6.6 2.3-5.4 4.8 1.1 2.3 4.6.6 5.6-2.6Z" />
-                </g>
-                <g class="planes-diorama__ala-par planes-diorama__ala-par--der">
-                  <path class="planes-diorama__ala" d="M12.8 11.2c2.6-5.8 7.8-7.3 8.6-4.1.7 2.9-3.8 5.6-8.6 5.1Z" />
-                  <path class="planes-diorama__ala-honda" d="M12.8 13.1c3.4-.3 6.6 2.3 5.4 4.8-1.1 2.3-4.6.6-5.6-2.6Z" />
-                </g>
-                <ellipse class="planes-diorama__cuerpo" cx="12" cy="13" rx="1" ry="4" />
-                <path class="planes-diorama__antenas" d="M11.4 9.4C10.6 7.6 9.8 6.6 8.6 5.8M12.6 9.4c.8-1.8 1.6-2.8 2.8-3.6" />
-              </svg>
-            </div>
-          </div>
-
-          <!-- v18 · LA HOJA FLOTANTE, RESTAURADA. El comentario de arriba
-               («LA HOJA FLOTANTE: `cumpleanos-1` como tarjeta en primer
-               término…») describía esta pieza desde que nació el diorama,
-               pero el <figure> se quedó sin escribir en el commit que lo
-               documentó y luego, en la limpieza donde el cliente pidió
-               «elimina esas dos fotos» del mosaico viejo, sólo volvió la
-               foto del niño (infantil-4) — ésta quedó retirada por error.
-               Es HERMANA del marco, no hija: cuelga por debajo de su borde
-               y sube a contramarcha del fondo (planes.css §4 bis), que es
-               la segunda velocidad que el ojo lee como profundidad. -->
-          <figure class="marco planes-diorama__flotante">
+          <figure class="marco planes-ficha__foto planes-ficha__foto--secundaria">
             <img
               src="img/eventos/cumpleanos-1.jpg"
               srcset="img/eventos/cumpleanos-1-400.jpg 400w, img/eventos/cumpleanos-1-600.jpg 600w, img/eventos/cumpleanos-1.jpg 844w"
-              sizes="(max-width: 47.99em) 98vw, 32vw"
+              sizes="(max-width: 61.99em) 36vw, 20vw"
               width="844"
               height="1500"
               loading="lazy"
@@ -861,30 +530,16 @@
               alt="Picnic decorado sobre el césped: mesas bajas de huacal con manteles de cuadros, cojines en el suelo, guirnaldas de flecos rosados y un cartel de feliz cumpleaños colgado entre dos árboles."
             />
           </figure>
-
         </div>
 
         <div class="planes-carril__texto">
-          <!-- EL RÓTULO DEL CARRIL, AGRUPADO (agosto de 2026).
-               Ni una palabra nueva ni una palabra menos: el <p> de la ocasión
-               y el <h3> son EXACTAMENTE los de siempre, sólo que ahora viajan
-               juntos dentro de una caja. Hace falta para el pedido del
-               cliente —«que todos los carriles se vean como portada en el
-               celular»—: en móvil esta caja se posa DENTRO de la fotografía
-               de cabeza compartiendo celda de rejilla con ella (planes.css
-               §11), y para eso tiene que ser una pieza colocable y no dos
-               párrafos sueltos en medio del bloque de texto.
-               De 1024 px para arriba la caja vuelve a `display: contents` y
-               el folio de margen sigue funcionando igual que antes. -->
-          <div class="planes-carril__rotulo">
-            <p class="planes-carril__ocasion">
-              <span class="planes-carril__indice">02</span> Cumpleaños y familia
-            </p>
+          <p class="planes-carril__ocasion">
+            <span class="planes-carril__indice">02</span> Cumpleaños y familia
+          </p>
 
-            <h3 class="titulo-seccion titulo-seccion--sm">
-              Sopla las velas bajo un árbol
-            </h3>
-          </div>
+          <h3 class="titulo-seccion titulo-seccion--sm">
+            Sopla las velas bajo un árbol
+          </h3>
 
           <p class="planes-carril__copy">
             Mesas de picnic, guirnaldas entre las ramas y sitio de sobra para correr.
@@ -907,39 +562,33 @@
           </a>
         </div>
 
-        <!-- v2 · pedido directo del cliente: «quita estas fotos del ítem 2,
-             está entre el 2 y el 3». El mosaico (infantil-2, la torta) y la
-             foto de contexto (infantil-3) que quedaban colgando entre el
-             rótulo del carril y el inicio del 03 se retiran. El carril 02
-             termina en el CTA de arriba. -->
-
       </li>
 
       <!-- ============================================================ 03/05
-           EMPRESAS — el dossier que se arma. Ni galería ni tira: DOS
-           piezas de peso distinto que se montan una sobre otra.
-           v16 · DOS FOTOS Y NADA MÁS, pedido del cliente: el grupo (la
-           gente) y la carpa de vidrio (el montaje). La segunda hoja del
-           par —que además repetía `empresa-carpa-vidrio-dia` con otro
-           alt— se retira; la caja del par se queda con hija única.
-           v17 · EN ESCRITORIO SON LÁMINA Y SATÉLITE (planes.css §5 ter):
-           la carpa manda, apaisada y grande, y el retrato del grupo se
-           monta sobre su esquina inferior izquierda con borde de
-           passe-partout. El orden del DOM NO cambia y no debe cambiar: el
-           retrato va primero porque en móvil (§11) es la portada a sangre
-           del carril. La composición de escritorio se resuelve entera con
-           `grid-column` sobre una misma fila de rejilla.
+           EMPRESAS. La carpa de vidrio (el montaje) manda y el grupo (la
+           gente) la acompaña: las dos fotos que pidió el cliente en v16.
            ================================================================ -->
-      <li id="plan-empresa" class="planes-carril planes-carril--empresa reveal reveal--zoom">
+      <li id="plan-empresa" class="planes-ficha reveal">
 
-        <div class="planes-dossier">
-          <!-- Foto de cabeza del 03: portada a sangre en móvil, retrato del
-               dossier de tableta para arriba. -->
-          <figure class="marco planes-dossier__retrato planes-carril__portada">
+        <div class="planes-ficha__fotos">
+          <figure class="marco planes-ficha__foto planes-ficha__foto--principal">
+            <img
+              src="img/parque/empresa-carpa-vidrio-dia.jpg"
+              srcset="img/parque/empresa-carpa-vidrio-dia-400.jpg 400w, img/parque/empresa-carpa-vidrio-dia-600.jpg 600w, img/parque/empresa-carpa-vidrio-dia-800.jpg 800w, img/parque/empresa-carpa-vidrio-dia-1200.jpg 1200w, img/parque/empresa-carpa-vidrio-dia.jpg 1600w"
+              sizes="(max-width: 61.99em) 62vw, 36vw"
+              width="1600"
+              height="1066"
+              loading="lazy"
+              decoding="async"
+              alt="Carpa de techo transparente sobre el césped: mesas altas de madera natural con sillas de mimbre crema, sofás de terciopelo verde y turquesa repartidos alrededor, y heliconias rojas en macetas."
+            />
+          </figure>
+
+          <figure class="marco planes-ficha__foto planes-ficha__foto--secundaria">
             <img
               src="img/parque/parque-21.jpg"
               srcset="img/parque/parque-21-400.jpg 400w, img/parque/parque-21-600.jpg 600w, img/parque/parque-21.jpg 900w"
-              sizes="(max-width: 47.99em) 100vw, 36vw"
+              sizes="(max-width: 61.99em) 36vw, 20vw"
               width="900"
               height="1200"
               loading="lazy"
@@ -947,34 +596,16 @@
               alt="Trece adultos posando juntos en fila sobre el césped, a la sombra de los árboles, al terminar una jornada en el predio."
             />
           </figure>
-
-          <div class="planes-dossier__par">
-            <figure class="marco marco--3-2">
-              <img
-                src="img/parque/empresa-carpa-vidrio-dia.jpg"
-                srcset="img/parque/empresa-carpa-vidrio-dia-400.jpg 400w, img/parque/empresa-carpa-vidrio-dia-600.jpg 600w, img/parque/empresa-carpa-vidrio-dia-800.jpg 800w, img/parque/empresa-carpa-vidrio-dia-1200.jpg 1200w, img/parque/empresa-carpa-vidrio-dia.jpg 1600w"
-                sizes="(max-width: 47.99em) 96vw, 46vw"
-                width="1600"
-                height="1066"
-                loading="lazy"
-                decoding="async"
-                alt="Carpa de techo transparente sobre el césped: mesas altas de madera natural con sillas de mimbre crema, sofás de terciopelo verde y turquesa repartidos alrededor, y heliconias rojas en macetas."
-              />
-            </figure>
-          </div>
         </div>
 
         <div class="planes-carril__texto">
-          <!-- Mismo agrupamiento que en el carril 02, y por el mismo motivo. -->
-          <div class="planes-carril__rotulo">
-            <p class="planes-carril__ocasion">
-              <span class="planes-carril__indice">03</span> Empresas
-            </p>
+          <p class="planes-carril__ocasion">
+            <span class="planes-carril__indice">03</span> Empresas
+          </p>
 
-            <h3 class="titulo-seccion titulo-seccion--sm">
-              Saca a tu equipo de la sala de juntas
-            </h3>
-          </div>
+          <h3 class="titulo-seccion titulo-seccion--sm">
+            Saca a tu equipo de la sala de juntas
+          </h3>
 
           <p class="planes-carril__copy">
             Carpa translúcida sobre el césped, mesas altas para el café y un corro de
@@ -988,10 +619,6 @@
             <a href="espacios.html">Taller</a>.
           </p>
 
-          <!-- v19 · VUELVE A SER BOTÓN. La dosificación del coral de v9 dejaba
-               el carril de empresas rematando con un enlace de texto: en móvil
-               eso es un CTA que no se ve como tal. El rótulo, el destino y el
-               remate solo-lectores no cambian; cambia la forma. -->
           <a
             class="btn btn-whatsapp planes-carril__cta"
             href="https://wa.me/573166758362?text=Hola%2C%20quiero%20cotizar%20Vegas%20del%20Verde%20para%20una%20reuni%C3%B3n%20corporativa%20o%20un%20evento%20de%20empresa."
@@ -1005,466 +632,240 @@
       </li>
 
       <!-- ============================================================ 04/05
-           BIENESTAR — el único carril en negativo. La clase .seccion--oscura
-           sigue en el <li>, para heredar de base.css los colores inversos ya
-           verificados (eyebrow, entradilla, enlaces, viñetas) sin declarar ni
-           un valor propio. Lo que cambia en v6 es dónde vive el VERDE: ya no
-           en el <li> —que ahora contiene una banda a sangre y no podría
-           pintarse por debajo de ella— sino en .planes-bienestar__bloque.
-           El <li> se queda sólo con el rol de color.
-
-           LA BANDA. `yoga-2` es la única apaisada del carril y estaba metida
-           en un 16:9 dentro del bloque verde, que es exactamente donde una
-           foto de un grupo en círculo sobre el césped no se ve. Sale a
-           sangre completa, esquina viva, y el índice y el titular van en
-           negativo sobre el tercio izquierdo, que es césped en sombra. El
-           velo direccional que lo sostiene está medido en planes.css §6.
+           BIENESTAR. La postura de yoga entre los árboles manda; la copa del
+           árbol sobre el césped en sombra (parque-48) la acompaña como foto
+           de contexto: no aporta un hecho que no esté escrito, así que
+           conserva su alt vacío. La caja de la fauna ambiente
+           (`.planes__aire`) vive DENTRO del marco de la foto principal: la
+           regla dura del módulo es que caiga sobre foto y nunca sobre un
+           párrafo, y aquí ya no hay ninguna banda a sangre donde ponerla.
+           Los siete glifos de trazo de la lista se conservan tal cual.
            ================================================================ -->
-      <!-- v7 · SALE `.seccion--oscura`: el carril dejó de ser negativo por
-           pedido directo del cliente («no quiere tonos oscuros en la página
-           ni fotos oscuras»). El velo de la banda y el cristal del bloque
-           giraron a --luz en planes.css §6/§6 ter y todo el texto vuelve al
-           color de la página clara. -->
-      <li id="plan-bienestar" class="planes-carril planes-carril--bienestar reveal reveal--velo">
+      <li id="plan-bienestar" class="planes-ficha reveal">
 
-        <div class="planes-bienestar__banda">
-          <!-- v5 · EL MARCO DE LA FOTO. Un envoltorio y no un adorno: desde
-               que el rótulo salió de encima de la fotografía (orden del
-               cliente, «el texto NO debe tapar la foto»), la banda es una
-               rejilla de dos filas y la foto necesita una caja propia que
-               mida el formato y recorte la respiración de §6 ter, que la
-               escala un 1,2 %. Sin él, ese 1,2 % se derramaría sobre la
-               placa del rótulo. -->
-          <span class="planes-bienestar__marco">
-          <img
-            class="planes-bienestar__foto"
-            src="img/eventos/yoga-3.jpg"
-            srcset="img/eventos/yoga-3-400.jpg 400w, img/eventos/yoga-3-600.jpg 600w, img/eventos/yoga-3-800.jpg 800w, img/eventos/yoga-3-1200.jpg 1200w, img/eventos/yoga-3.jpg 1500w"
-            sizes="100vw"
-            width="1500"
-            height="2667"
-            loading="lazy"
-            decoding="async"
-            alt="Mujer en una postura de yoga de pie, con los brazos elevados sobre la cabeza, sobre un tapete entre los árboles."
-          />
-          </span>
+        <div class="planes-ficha__fotos">
+          <figure class="marco planes-ficha__foto planes-ficha__foto--principal">
+            <img
+              src="img/eventos/yoga-3.jpg"
+              srcset="img/eventos/yoga-3-400.jpg 400w, img/eventos/yoga-3-600.jpg 600w, img/eventos/yoga-3-800.jpg 800w, img/eventos/yoga-3-1200.jpg 1200w, img/eventos/yoga-3.jpg 1500w"
+              sizes="(max-width: 61.99em) 62vw, 36vw"
+              width="1500"
+              height="2667"
+              loading="lazy"
+              decoding="async"
+              alt="Mujer en una postura de yoga de pie, con los brazos elevados sobre la cabeza, sobre un tapete entre los árboles."
+            />
+            <div class="planes__aire" aria-hidden="true"></div>
+          </figure>
 
-          <span class="planes-bienestar__velo" aria-hidden="true"></span>
+          <figure class="marco planes-ficha__foto planes-ficha__foto--secundaria">
+            <img
+              src="img/parque/parque-48.jpg"
+              srcset="img/parque/parque-48-400.jpg 400w, img/parque/parque-48.jpg 675w"
+              sizes="(max-width: 61.99em) 36vw, 20vw"
+              width="675"
+              height="1200"
+              loading="lazy"
+              decoding="async"
+              alt=""
+            />
+          </figure>
+        </div>
 
-          <div class="planes-bienestar__rotulo">
-            <!-- Figura en loto: la postura de meditación dibujada con el
-                 mismo trazo que el bombillo del carril 01, y con el
-                 `pathLength` horneado para que el dibujado nazca oculto.
-                 Antes había aquí unas ondas concéntricas que se leían como un
-                 icono de wifi y no decían nada de bienestar.
-                 Cinco trazos y no más: cabeza, torso, los dos brazos que
-                 bajan a apoyarse en las rodillas y la base de las piernas
-                 cruzadas. Se probó primero con el torso y los brazos en un
-                 solo arco cerrado y a 48 px la figura se empastaba en una
-                 mancha ovalada; separando los brazos del cuenco de las
-                 piernas la silueta queda triangular y las contraformas
-                 abiertas. -->
-            <svg
-              class="icono-traza planes-bienestar__icono"
-              viewBox="0 0 24 24"
+        <div class="planes-carril__texto">
+          <p class="planes-carril__ocasion">
+            <span class="planes-carril__indice">04</span> Bienestar
+          </p>
+
+          <h3 class="titulo-seccion titulo-seccion--sm">
+            Respira hondo, que aquí sobra aire
+          </h3>
+
+          <!-- SIETE VIÑETAS, SIETE DIBUJOS (v10). Cada actividad con su propio
+               icono de trazo, viewBox de 24, sin relleno, `pathLength`
+               horneado para que el dibujado nazca oculto. Se alternan FIGURA
+               y OBJETO y no hay dos figuras seguidas. .reveal-secuencia
+               escalona la entrada; el dibujado lo dispara .traza-lista. -->
+          <ul class="lista-hojas planes-bienestar__lista reveal-secuencia">
+            <li class="reveal">
+              <svg class="icono-traza planes-bienestar__glifo" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+                <circle pathLength="1" cx="14.2" cy="4.3" r="2.1" />
+                <path pathLength="1" d="M13.6 6.9 11.4 12.6" />
+                <path pathLength="1" d="M8.4 7.4 12.9 8.6 16.8 11.2" />
+                <path pathLength="1" d="M16.2 20.8 14.9 15.4 11.4 12.6 7.9 16.2 6.4 21" />
+              </svg>
+              <span>Caminatas terapéuticas</span>
+            </li>
+            <li class="reveal">
+              <svg class="icono-traza planes-bienestar__glifo" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+                <path pathLength="1" d="M9.3 8.6V7.1a2.7 2.7 0 0 1 5.4 0v1.5" />
+                <path pathLength="1" d="M12 8.4c-3.6 0-6 3.4-6 7.2 0 2.7 1.6 4.2 6 4.2s6-1.5 6-4.2c0-3.8-2.4-7.2-6-7.2Z" />
+              </svg>
+              <span>Entrenamiento funcional</span>
+            </li>
+            <li class="reveal">
+              <svg class="icono-traza planes-bienestar__glifo" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+                <path pathLength="1" d="M10.1 2.2h3.8" />
+                <path pathLength="1" d="M12 2.2v2.1" />
+                <circle pathLength="1" cx="12" cy="13.5" r="7.3" />
+                <path pathLength="1" d="M12 9.5v4.2l3 1.9" />
+              </svg>
+              <span>Sesiones de acondicionamiento físico</span>
+            </li>
+            <li class="reveal">
+              <svg class="icono-traza planes-bienestar__glifo" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+                <circle pathLength="1" cx="6.5" cy="9.2" r="1.9" />
+                <path pathLength="1" d="M7.3 10.9 10.2 19.4 17.8 11.9" />
+                <path pathLength="1" d="M8.4 14 15.7 14.2" />
+                <path pathLength="1" d="M3.4 20.8h17.2" />
+              </svg>
+              <span>Pilates</span>
+            </li>
+            <li class="reveal">
+              <svg class="icono-traza planes-bienestar__glifo" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+                <path pathLength="1" d="M9.5 6.6 12 2.5l2.5 4.1" />
+                <circle pathLength="1" cx="12" cy="9.3" r="1.9" />
+                <path pathLength="1" d="M12 11.2v9.6" />
+                <path pathLength="1" d="M12 14.2 8.2 16.5 11.3 13.6" />
+                <path pathLength="1" d="M7.8 20.8h8.4" />
+              </svg>
+              <span>Yoga</span>
+            </li>
+            <li class="reveal">
+              <svg class="icono-traza planes-bienestar__glifo" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+                <path pathLength="1" d="M16.5 5.9A7.6 7.6 0 1 0 19.3 9.7" />
+                <path pathLength="1" d="M9.7 13.4c-.4-2.6.9-4.3 3.7-5-.2 3-1.5 4.6-3.7 5Z" />
+              </svg>
+              <span>Mindfulness</span>
+            </li>
+            <li class="reveal">
+              <svg class="icono-traza planes-bienestar__glifo" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+                <path pathLength="1" d="M12 12.9S7 10 7 6.9a2.7 2.7 0 0 1 5-1.4 2.7 2.7 0 0 1 5 1.4c0 3.1-5 6-5 6Z" />
+                <path pathLength="1" d="M4.4 13.6c0 4.2 3.4 6.9 7.6 6.9s7.6-2.7 7.6-6.9" />
+              </svg>
+              <span>Taller para el manejo de las emociones</span>
+            </li>
+          </ul>
+
+          <p class="planes-carril__copy">
+            Y un gimnasio al aire libre, para quien prefiere sudar.
+          </p>
+
+          <p class="nota planes-carril__donde">
+            Se hace en el
+            <a href="espacios.html">Teatrino</a>
+            o en la
+            <a href="espacios.html">Cancha</a>.
+          </p>
+
+          <a
+            class="btn btn-whatsapp planes-carril__cta"
+            href="https://wa.me/573166758362?text=Hola%2C%20quiero%20cotizar%20Vegas%20del%20Verde%20para%20una%20actividad%20de%20bienestar%3A%20yoga%2C%20pilates%20o%20mindfulness."
+            target="_blank"
+            rel="noopener"
+          >
+            Atrévete a un plan distinto<span class="solo-lectores">: actividad de bienestar</span>
+          </a>
+        </div>
+
+      </li>
+
+      <!-- ============================================================ 05/05
+           TALLERES. Una sola fotografía —el corro de niños con el cuento— y
+           el texto al lado, ya no encima. El subrayado dibujado del titular
+           se conserva: es decorativo (aria-hidden) y NO lleva la firma de
+           icono para que hornear-trazos.js no le cuelgue un segundo motor.
+           ================================================================ -->
+      <li id="plan-talleres" class="planes-ficha planes-ficha--sola reveal">
+
+        <div class="planes-ficha__fotos">
+          <figure class="marco planes-ficha__foto planes-ficha__foto--principal">
+            <picture>
+              <source srcset="img/eventos/taller-educativo-cuento.avif" type="image/avif" />
+              <source srcset="img/eventos/taller-educativo-cuento.webp" type="image/webp" />
+              <img
+                src="img/eventos/taller-educativo-cuento.jpg"
+                srcset="img/eventos/taller-educativo-cuento-400.jpg 400w, img/eventos/taller-educativo-cuento-600.jpg 600w, img/eventos/taller-educativo-cuento-800.jpg 800w, img/eventos/taller-educativo-cuento-1200.jpg 1200w, img/eventos/taller-educativo-cuento.jpg 1600w"
+                sizes="(max-width: 61.99em) 100vw, 56vw"
+                width="1600"
+                height="1600"
+                loading="lazy"
+                decoding="async"
+                alt="Taller al aire libre sobre el césped: un corro de niños sentados escucha a una monitora que les muestra las páginas de un cuento ilustrado, con otra acompañante a un lado, aros de colores repartidos en la hierba y el prado arbolado del predio al fondo."
+              />
+            </picture>
+          </figure>
+        </div>
+
+        <div class="planes-carril__texto">
+          <p class="planes-carril__ocasion">
+            <span class="planes-carril__indice">05</span> Talleres
+          </p>
+
+          <h3 class="titulo-seccion titulo-seccion--sm">
+            Un taller donde la mesa está afuera
+          </h3>
+
+          <svg
+            class="planes-talleres__traza"
+            viewBox="0 0 96 24"
+            preserveAspectRatio="xMinYMid meet"
+            aria-hidden="true"
+            focusable="false"
+          >
+            <path
+              class="planes-talleres__traza-linea"
+              pathLength="1"
+              d="M1 16C10.5 12.6 20 19.4 29.5 16C39 12.6 48.5 19.4 58 16C61.7 14.7 66 14 70 13.5C70 6 76 2 84 2C84 9 78 13.5 70 13.5"
               fill="none"
               stroke="currentColor"
               stroke-width="1.4"
               stroke-linecap="round"
               stroke-linejoin="round"
-              aria-hidden="true"
-              focusable="false"
-            >
-              <circle pathLength="1" cx="12" cy="4.3" r="1.9" />
-              <path pathLength="1" d="M12 6.4v6.3" />
-              <path pathLength="1" d="M11.3 8.9c-2.3 1.3-4 3.5-4.8 6.4" />
-              <path pathLength="1" d="M12.7 8.9c2.3 1.3 4 3.5 4.8 6.4" />
-              <path pathLength="1" d="M4.9 19.4c1-3.7 4.1-5.1 7.1-3.1 3-2 6.1-.6 7.1 3.1" />
-            </svg>
+            />
+            <circle class="planes-talleres__mota" cx="13" cy="7.5" r="1.7" />
+            <circle class="planes-talleres__mota" cx="35" cy="5.5" r="1.2" />
+            <circle class="planes-talleres__mota" cx="51" cy="21" r="1.4" />
+          </svg>
 
-            <p class="planes-carril__ocasion">
-              <span class="planes-carril__indice">04</span> Bienestar
-            </p>
+          <ul class="lista-hojas planes-talleres__lista">
+            <li>Talleres educativos</li>
+            <li>Talleres de jardinería</li>
+            <li>Talleres de pintura al aire libre</li>
+          </ul>
 
-            <h3 class="titulo-seccion titulo-seccion--sm">
-              Respira hondo, que aquí sobra aire
-            </h3>
-          </div>
+          <p class="planes-carril__copy">
+            Trae el grupo y el tema; el bosque pone la luz y el modelo.
+          </p>
 
-          <!-- LA CAJA DONDE VUELA LA FAUNA AMBIENTE (DIRECTRICES §2).
-               Vacía, decorativa y `aria-hidden`: el módulo compartido
-               js/fauna-ambiente.js le cuelga dentro los recortes y toda la
-               animación vive en base.css §v7. Aquí no se escribe ni una
-               mariposa propia.
+          <p class="nota planes-carril__donde">
+            Se hace en el
+            <a href="espacios.html">Taller</a>
+            y en el
+            <a href="espacios.html">Teatrino</a>.
+          </p>
 
-               POR QUÉ ESTÁ EXACTAMENTE AQUÍ Y NO EN OTRO PUNTO DE #planes.
-               La regla dura del módulo es que la caja caiga sobre FOTO o
-               color plano y nunca sobre un párrafo. La banda de bienestar es
-               la única pieza de la sección que cumple las dos condiciones en
-               TODOS los anchos: es fotografía a sangre, está siempre
-               presente y su texto vive acotado al tercio izquierdo, así que
-               el tercio derecho —césped iluminado— está libre de letra a
-               cualquier tamaño de pantalla. Puesta sobre el fondo crema de
-               la sección habría funcionado sólo de tableta para arriba,
-               porque en móvil los carriles ocupan el ancho entero y no queda
-               un solo hueco sin texto.
-               La caja va SIEMPRE a la derecha, que es el lado contrario al
-               del rótulo (planes.css §6 bis). -->
-          <div class="planes__aire" aria-hidden="true"></div>
-        </div>
+          <!-- EL ENLACE A colegios.html: un hecho, un dueño. La jornada con
+               colegios vive entera en esa página; aquí sólo se nombra y se
+               enlaza, como puerta principal. -->
+          <p class="nota planes-carril__donde planes-carril__donde--colegios">
+            ¿Vienes con un colegio o buscas un curso para ti?
+          </p>
+          <a
+            class="enlace-flecha planes-carril__cta planes-carril__cta--colegios"
+            href="colegios.html"
+          >
+            Ver los cursos para colegios
+          </a>
 
-        <!-- v10 · EL BLOQUE DEJA DE SER UN VERDE PLANO.
-             Pedido literal del cliente: «pon una foto de Vegas de fondo con
-             liquid glass». Debajo de todo entra `parque-48` —la copa de un
-             árbol grande sobre el césped en sombra, sin una sola persona: la
-             única foto del banco que dice «bienestar» sin repetir lo que ya
-             cuentan la banda de arriba y el trío de la derecha—, encima un
-             velo que la asienta, y sobre los dos el cuerpo de texto dentro de
-             una lámina de cristal. El degradado verde del bloque NO se
-             retira: sigue debajo y es lo que se ve mientras la foto carga y
-             lo que sostiene el contraste si la foto no llegara.
-             La foto es DECORACIÓN pura: no aporta un hecho que no esté
-             escrito, así que va con `alt` vacío y `aria-hidden`. -->
-        <div class="planes-bienestar__bloque">
-          <img
-            class="planes-bienestar__fondo"
-            src="img/parque/parque-48.jpg"
-            srcset="img/parque/parque-48-400.jpg 400w, img/parque/parque-48.jpg 675w"
-            sizes="(max-width: 47.99em) 98vw, 85vw"
-            width="675"
-            height="1200"
-            loading="lazy"
-            decoding="async"
-            alt=""
-            aria-hidden="true"
-          />
-
-          <span class="planes-bienestar__fondo-velo" aria-hidden="true"></span>
-
-          <div class="planes-bienestar__cuerpo">
-
-            <div class="planes-carril__texto planes-bienestar__vidrio">
-              <p class="planes-carril__copy">
-                Las esterillas en círculo sobre el césped.
-              </p>
-
-              <!-- v10 · SIETE VIÑETAS, SIETE DIBUJOS.
-                   Pedido literal: «lleno de logos animados». La hojita
-                   genérica de .lista-hojas —la misma siete veces— se retira
-                   aquí (y sólo aquí) y cada actividad estrena su propio
-                   icono de trazo, dibujado con las coordenadas de esta casa:
-                   viewBox de 24, sin relleno, trazo heredado y `pathLength`
-                   horneado en cada forma para que el dibujado nazca oculto
-                   sin un fotograma de parpadeo. Ningún path viene de una
-                   librería.
-
-                   POR QUÉ CADA UNO ES EL QUE ES, y por qué ninguno se puede
-                   confundir con su vecino a 22 px: se alternan FIGURA y
-                   OBJETO, y no hay dos figuras seguidas.
-                     · caminata   figura en zancada
-                     · pesa rusa  objeto (entrenamiento funcional)
-                     · cronómetro objeto (las «sesiones», que se miden)
-                     · pilates    figura sentada en V sobre la esterilla
-                     · yoga       figura de pie en el árbol, manos en punta
-                     · enso       el círculo abierto del zen, con su hoja
-                     · corazón    sostenido en una palma abierta
-
-                   Cada forma lleva UNA sola `M`: un camino con trazos
-                   sueltos no se puede recorrer con el guion y saldría
-                   entrecortado (base.css, «iconos que se dibujan solos»).
-
-                   .reveal-secuencia escalona la ENTRADA de las siete;
-                   el DIBUJADO lo escalona planes.css §6 quater, con siete
-                   pares retardo/duración que no se repiten. -->
-              <ul class="lista-hojas planes-bienestar__lista reveal-secuencia">
-                <li class="reveal">
-                  <svg
-                    class="icono-traza planes-bienestar__glifo planes-bienestar__glifo--caminata"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    stroke-width="1.5"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    aria-hidden="true"
-                    focusable="false"
-                  >
-                  <circle pathLength="1" cx="14.2" cy="4.3" r="2.1" />
-                  <path pathLength="1" d="M13.6 6.9 11.4 12.6" />
-                  <path pathLength="1" d="M8.4 7.4 12.9 8.6 16.8 11.2" />
-                  <path pathLength="1" d="M16.2 20.8 14.9 15.4 11.4 12.6 7.9 16.2 6.4 21" />
-                  </svg>
-                  <span>Caminatas terapéuticas</span>
-                </li>
-                <li class="reveal">
-                  <svg
-                    class="icono-traza planes-bienestar__glifo planes-bienestar__glifo--pesa"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    stroke-width="1.5"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    aria-hidden="true"
-                    focusable="false"
-                  >
-                  <path pathLength="1" d="M9.3 8.6V7.1a2.7 2.7 0 0 1 5.4 0v1.5" />
-                  <path pathLength="1" d="M12 8.4c-3.6 0-6 3.4-6 7.2 0 2.7 1.6 4.2 6 4.2s6-1.5 6-4.2c0-3.8-2.4-7.2-6-7.2Z" />
-                  </svg>
-                  <span>Entrenamiento funcional</span>
-                </li>
-                <li class="reveal">
-                  <svg
-                    class="icono-traza planes-bienestar__glifo planes-bienestar__glifo--crono"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    stroke-width="1.5"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    aria-hidden="true"
-                    focusable="false"
-                  >
-                  <path pathLength="1" d="M10.1 2.2h3.8" />
-                  <path pathLength="1" d="M12 2.2v2.1" />
-                  <circle pathLength="1" cx="12" cy="13.5" r="7.3" />
-                  <path pathLength="1" d="M12 9.5v4.2l3 1.9" />
-                  </svg>
-                  <span>Sesiones de acondicionamiento físico</span>
-                </li>
-                <li class="reveal">
-                  <svg
-                    class="icono-traza planes-bienestar__glifo planes-bienestar__glifo--pilates"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    stroke-width="1.5"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    aria-hidden="true"
-                    focusable="false"
-                  >
-                  <circle pathLength="1" cx="6.5" cy="9.2" r="1.9" />
-                  <path pathLength="1" d="M7.3 10.9 10.2 19.4 17.8 11.9" />
-                  <path pathLength="1" d="M8.4 14 15.7 14.2" />
-                  <path pathLength="1" d="M3.4 20.8h17.2" />
-                  </svg>
-                  <span>Pilates</span>
-                </li>
-                <li class="reveal">
-                  <svg
-                    class="icono-traza planes-bienestar__glifo planes-bienestar__glifo--yoga"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    stroke-width="1.5"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    aria-hidden="true"
-                    focusable="false"
-                  >
-                  <path pathLength="1" d="M9.5 6.6 12 2.5l2.5 4.1" />
-                  <circle pathLength="1" cx="12" cy="9.3" r="1.9" />
-                  <path pathLength="1" d="M12 11.2v9.6" />
-                  <path pathLength="1" d="M12 14.2 8.2 16.5 11.3 13.6" />
-                  <path pathLength="1" d="M7.8 20.8h8.4" />
-                  </svg>
-                  <span>Yoga</span>
-                </li>
-                <li class="reveal">
-                  <svg
-                    class="icono-traza planes-bienestar__glifo planes-bienestar__glifo--enso"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    stroke-width="1.5"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    aria-hidden="true"
-                    focusable="false"
-                  >
-                  <path pathLength="1" d="M16.5 5.9A7.6 7.6 0 1 0 19.3 9.7" />
-                  <path pathLength="1" d="M9.7 13.4c-.4-2.6.9-4.3 3.7-5-.2 3-1.5 4.6-3.7 5Z" />
-                  </svg>
-                  <span>Mindfulness</span>
-                </li>
-                <li class="reveal">
-                  <svg
-                    class="icono-traza planes-bienestar__glifo planes-bienestar__glifo--emociones"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    stroke-width="1.5"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    aria-hidden="true"
-                    focusable="false"
-                  >
-                  <path pathLength="1" d="M12 12.9S7 10 7 6.9a2.7 2.7 0 0 1 5-1.4 2.7 2.7 0 0 1 5 1.4c0 3.1-5 6-5 6Z" />
-                  <path pathLength="1" d="M4.4 13.6c0 4.2 3.4 6.9 7.6 6.9s7.6-2.7 7.6-6.9" />
-                  </svg>
-                  <span>Taller para el manejo de las emociones</span>
-                </li>
-              </ul>
-
-              <p class="planes-carril__copy">
-                Y un gimnasio al aire libre, para quien prefiere sudar.
-              </p>
-
-              <p class="nota planes-carril__donde">
-                Se hace en el
-                <a href="espacios.html">Teatrino</a>
-                o en la
-                <a href="espacios.html">Cancha</a>.
-              </p>
-
-              <a
-                class="btn btn-whatsapp planes-carril__cta"
-                href="https://wa.me/573166758362?text=Hola%2C%20quiero%20cotizar%20Vegas%20del%20Verde%20para%20una%20actividad%20de%20bienestar%3A%20yoga%2C%20pilates%20o%20mindfulness."
-                target="_blank"
-                rel="noopener"
-              >
-                Atrévete a un plan distinto<span class="solo-lectores">: actividad de bienestar</span>
-              </a>
-            </div>
-
-          </div>
-        </div>
-      </li>
-
-      <!-- ============================================================ 05/05
-           TALLERES — agosto de 2026: el carril DEJA DE SER TIPOGRÁFICO.
-           Apareció en el banco la foto que faltaba —un taller educativo al
-           aire libre, el corro de niños escuchando el cuento sobre el
-           césped— y con ella cae el motivo por el que este carril se componía
-           sin imagen. La foto pasa a fondo a sangre de la tarjeta y todo el
-           contenido se posa sobre un CRISTAL (.planes-vidrio, planes.css §7):
-           el mismo recurso que el bloque de bienestar del 04, no un segundo
-           sistema paralelo.
-           El brote decorativo se retira: ocupaba «el sitio de la fotografía
-           que este carril no tiene», y ahora esa fotografía está.
-           ================================================================ -->
-      <li id="plan-talleres" class="planes-carril planes-carril--talleres reveal">
-
-        <!-- El fondo. No es adorno: enseña exactamente lo que se alquila, así
-             que lleva alt real y no aria-hidden. Cuadrada de origen (1600),
-             recortada por CSS con object-position hacia el corro.
-             v3 · la foto SIGUE AQUÍ. Lo que molestaba no era ella sino el
-             crema plano que quedaba alrededor; eso se resuelve en planes.css
-             §7 con el velo de follaje y el marco degradado, no quitándola. -->
-        <picture class="planes-talleres__fondo">
-          <source srcset="img/eventos/taller-educativo-cuento.avif" type="image/avif" />
-          <source srcset="img/eventos/taller-educativo-cuento.webp" type="image/webp" />
-          <img
-            src="img/eventos/taller-educativo-cuento.jpg"
-            srcset="img/eventos/taller-educativo-cuento-400.jpg 400w, img/eventos/taller-educativo-cuento-600.jpg 600w, img/eventos/taller-educativo-cuento-800.jpg 800w, img/eventos/taller-educativo-cuento-1200.jpg 1200w, img/eventos/taller-educativo-cuento.jpg 1600w"
-            sizes="100vw"
-            width="1600"
-            height="1600"
-            loading="lazy"
-            decoding="async"
-            alt="Taller al aire libre sobre el césped: un corro de niños sentados escucha a una monitora que les muestra las páginas de un cuento ilustrado, con otra acompañante a un lado, aros de colores repartidos en la hierba y el prado arbolado del predio al fondo."
-          />
-        </picture>
-
-        <div class="planes-talleres__vidrio">
-
-        <p class="planes-carril__ocasion">
-          <span class="planes-carril__indice">05</span> Talleres
-        </p>
-
-        <h3 class="titulo-seccion titulo-seccion--sm planes-talleres__titulo">
-          Un taller donde la mesa está afuera
-        </h3>
-
-        <!-- EL SUBRAYADO QUE ALGUIEN DIBUJA (ver planes.css §7 bis).
-             Decorativo puro: lo que dice ya lo dice el titular, así que va
-             aria-hidden y sin texto alternativo.
-             OJO CON LA FIRMA: este SVG lleva `fill` y `stroke` en las FORMAS
-             y no en el elemento raíz, y su viewBox no es el cuadrado de 24.
-             Es deliberado: así herramientas/hornear-trazos.js no lo reconoce
-             como icono y no le añade `icono-traza` en una pasada futura, que
-             es lo que le colgaría encima el motor de base.css además del
-             suyo — el bug de los dos motores. El `pathLength="1"` sí está
-             horneado a mano, igual que en los glifos de espacios.html. -->
-        <svg
-          class="planes-talleres__traza"
-          viewBox="0 0 96 24"
-          preserveAspectRatio="xMinYMid meet"
-          aria-hidden="true"
-          focusable="false"
-        >
-          <path
-            class="planes-talleres__traza-linea"
-            pathLength="1"
-            d="M1 16C10.5 12.6 20 19.4 29.5 16C39 12.6 48.5 19.4 58 16C61.7 14.7 66 14 70 13.5C70 6 76 2 84 2C84 9 78 13.5 70 13.5"
-            fill="none"
-            stroke="currentColor"
-            stroke-width="1.4"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-          />
-          <circle class="planes-talleres__mota planes-talleres__mota--1" cx="13" cy="7.5" r="1.7" />
-          <circle class="planes-talleres__mota planes-talleres__mota--2" cx="35" cy="5.5" r="1.2" />
-          <circle class="planes-talleres__mota planes-talleres__mota--3" cx="51" cy="21" r="1.4" />
-        </svg>
-
-        <ul class="planes-talleres__lista">
-          <li>Talleres educativos</li>
-          <li>Talleres de jardinería</li>
-          <li>Talleres de pintura al aire libre</li>
-        </ul>
-
-        <p class="planes-carril__copy planes-talleres__copy">
-          Trae el grupo y el tema; el bosque pone la luz y el modelo.
-        </p>
-
-        <p class="nota planes-carril__donde">
-          Se hace en el
-          <a href="espacios.html">Taller</a>
-          y en el
-          <a href="espacios.html">Teatrino</a>.
-        </p>
-
-        <!-- EL ENLACE A #colegios (agosto de 2026; v2 «suplink»). Un carril
-             nuevo, no: un hecho, un dueño (ARQUITECTURA-V3) — la jornada
-             pedagógica con colegios y la salida para particulares que
-             quieren un curso viven enteras en #colegios, aquí sólo se NOMBRA
-             el destino y se enlaza. Hasta la v1 era un link de una palabra
-             metido dentro de la frase — el cliente lo pidió más visible:
-             ahora la pregunta queda como rótulo aparte y el enlace pasa a
-             .enlace-flecha, el mismo componente de CTA con flecha que ya usa
-             el botón de WhatsApp de abajo. Reutiliza .planes-carril__cta a
-             propósito: hereda su color inverso dentro del cristal
-             (planes.css §7, `.planes-talleres__vidrio .planes-carril__cta`)
-             y su alto de 44px de dedo, sin declarar ni un token nuevo.
-             v3 (v15 del sitio) · el destino deja de ser un ancla de esta
-             misma página y pasa a ser colegios.html: la sección salió del
-             <main> por pedido del cliente. Este enlace es ahora la puerta
-             principal a esa página. -->
-        <p class="nota planes-carril__donde planes-carril__donde--colegios">
-          ¿Vienes con un colegio o buscas un curso para ti?
-        </p>
-        <a
-          class="enlace-flecha planes-carril__cta planes-carril__cta--colegios"
-          href="colegios.html"
-        >
-          Ver los cursos para colegios
-        </a>
-
-        <!-- v19 · VUELVE A SER BOTÓN, por el mismo motivo que el del 03. El
-             enlace a colegios de aquí arriba SE QUEDA en .enlace-flecha: dos
-             botones seguidos dentro del mismo cristal compiten, y el de
-             WhatsApp es el que cierra el carril. -->
-        <a
-          class="btn btn-whatsapp planes-carril__cta"
-          href="https://wa.me/573166758362?text=Hola%2C%20quiero%20cotizar%20Vegas%20del%20Verde%20para%20un%20taller%20educativo%2C%20de%20jardiner%C3%ADa%20o%20de%20pintura%20al%20aire%20libre."
-          target="_blank"
-          rel="noopener"
-        >
-          Atrévete a un plan distinto<span class="solo-lectores">: taller educativo, de jardinería o de pintura</span>
-        </a>
-
+          <a
+            class="btn btn-whatsapp planes-carril__cta"
+            href="https://wa.me/573166758362?text=Hola%2C%20quiero%20cotizar%20Vegas%20del%20Verde%20para%20un%20taller%20educativo%2C%20de%20jardiner%C3%ADa%20o%20de%20pintura%20al%20aire%20libre."
+            target="_blank"
+            rel="noopener"
+          >
+            Atrévete a un plan distinto<span class="solo-lectores">: taller educativo, de jardinería o de pintura</span>
+          </a>
         </div>
 
       </li>
@@ -1474,18 +875,12 @@
   </div>
 
   <!-- ====================================================================
-       EL MONTAJE DE LA FAUNA AMBIENTE
-       Densidad `minima` (2 piezas) y semilla 2: es el reparto acordado en la
-       tabla del §2 del documento del director de arte, no una elección de
-       esta zona. Si las nueve secciones llevaran `viva`, el sitio sería una
-       plaga; #planes es una sección de venta con mucha información y le toca
-       el escalón más bajo. Sin colibrí: ese gesto sale UNA sola vez en toda
-       la página, en #naturaleza.
-
-       El cerrojo de `prefers-reduced-motion` va aquí fuera además de dentro
-       del módulo: quien pidió menos movimiento no descarga ni el archivo.
-       El `.catch()` vacío es deliberado: si el módulo no está o falla, la
-       sección se queda exactamente como está y no se rompe nada.
+       EL MONTAJE DE LA FAUNA AMBIENTE (DIRECTRICES §2). La caja
+       `.planes__aire` vive dentro del marco de la foto principal de la
+       ficha 04: sobre fotografía, nunca sobre un párrafo. El cerrojo de
+       `prefers-reduced-motion` va aquí fuera además de dentro del módulo:
+       quien pidió menos movimiento no descarga ni el archivo. El `.catch()`
+       vacío es deliberado: si el módulo falla, la sección queda igual.
        ==================================================================== -->
   <script type="module">
     if (!matchMedia('(prefers-reduced-motion: reduce)').matches) {
@@ -1496,41 +891,6 @@
             { densidad: 'abundante', especies: ['mariposa', 'ave'], semilla: 2 },
           ),
         )
-        .catch(() => {});
-    }
-  </script>
-
-  <!-- ====================================================================
-       LA ESCENA POR SCROLL DEL ACTO 1 (CARRIL 01).
-       Mismo cerrojo de `prefers-reduced-motion` que la fauna de arriba, y por
-       el mismo motivo: quien pidió menos movimiento no descarga ni el
-       archivo. El motor en sí (js/escena-planes.js) vuelve a comprobar la
-       media query por si algo lo importa desde otro lado, pero comprobarlo
-       aquí también evita la descarga del módulo cuando no hace falta.
-       `.catch()` vacío: si el módulo falla, el CSS de planes.css ya deja la
-       escena resuelta en una sola pantalla (regla dura del director de
-       arte), así que no hay nada que romper. -->
-  <script type="module">
-    if (!matchMedia('(prefers-reduced-motion: reduce)').matches) {
-      import('./js/escena-planes.js?v=8eba6ca2')
-        .then((m) => m.activarEscenaFiesta())
-        .catch(() => {});
-    }
-  </script>
-
-  <!-- ====================================================================
-       LA RESPIRACIÓN DE LA BANDA DEL CARRIL 04.
-       El módulo sólo pone/quita la clase `respirando` sobre la banda con un
-       IntersectionObserver; los @keyframes viven en planes.css §6 ter.
-       Mismo cerrojo doble de `prefers-reduced-motion` y mismo `.catch()`
-       vacío que los dos bloques de arriba, por los mismos motivos: quien
-       pidió menos movimiento no descarga el archivo, y si el módulo falla
-       la banda queda quieta con el velo pleno — legible desde el primer
-       pintado, sin nada que romper. -->
-  <script type="module">
-    if (!matchMedia('(prefers-reduced-motion: reduce)').matches) {
-      import('./js/respiracion-bienestar.js?v=c51748e1')
-        .then((m) => m.activarRespiracionBienestar())
         .catch(() => {});
     }
   </script>
@@ -1569,7 +929,10 @@
            ve no tiene por qué seguir en el DOM. -->
       <p class="pie-final__antetitulo reveal">Oasis para la recreación y el bienestar</p>
       <p class="pie-final__titular reveal reveal-texto">
-        <span class="reveal-texto__linea">El verde te está</span>
+        <!-- Blanco final dentro del primer renglón: los <span> son bloques y
+             en pantalla van en dos líneas, pero al copiar o aplanar el DOM
+             salían pegados («estáesperando»). No se pinta, no cambia nada. -->
+        <span class="reveal-texto__linea">El verde te está </span>
         <span class="reveal-texto__linea">esperando.</span>
       </p>
       <!-- v18 · Deja de ser el ancla #ubicacion y pasa a ser contacto.html.
@@ -1663,6 +1026,7 @@
         <li><a href="colegios.html">Salidas escolares</a></li>
         <li><a href="plan-vecino.html">Plan vecino</a></li>
         <li><a href="condiciones-de-alquiler.html">Condiciones de alquiler</a></li>
+        <li><a href="reglamento.html">Reglamento para visitantes</a></li>
         <li><a href="politica-de-datos.html">Política de tratamiento de datos</a></li>
         <li><a href="terminos.html">Términos y condiciones</a></li>
       </ul>
@@ -1676,6 +1040,7 @@
 
   </div>
 </footer>
-<script src="js/app.js?v=d2757e52" defer></script>
+<script src="js/app.js?v=560eb0e8" defer></script>
+<script>if (typeof fbq === 'function') fbq('track', 'ViewContent', {content_name: 'Planes'});</script>
 </body>
 </html>

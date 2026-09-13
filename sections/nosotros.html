@@ -102,6 +102,27 @@
      Ver la nota al pie de este archivo y la cabecera de sections/compromiso.html.
      Esta sección queda con un solo bloque: el predio dentro de la foto.
 
+     v20 — EL TEXTO DEJA DE TAPAR LA FOTO (pedido del cliente en su momento)
+     Hasta v19 el discurso, ya en placa sólida sin velo, se apoyaba sobre la
+     foto y le tapaba el 93 % del área medida a 375 px. v20 separó la escena
+     en dos filas —marco de la foto arriba, placa del discurso debajo— para
+     que la fotografía se viera entera.
+
+     v23 — EL CLIENTE CAMBIA DE OPINIÓN: EL TEXTO VUELVE ENCIMA DE LA FOTO
+     (sep-2026). Mostró dos capturas —el discurso en fondo crema plano y la
+     foto vertical del sendero, que es exactamente nosotros-reja.jpg— y pidió,
+     literal, volver a como estaba antes de v20: el discurso SUPERPUESTO a la
+     fotografía. La escena vuelve a la mecánica de v13-v19 (foto de fondo
+     absoluta, discurso en flujo normal encima, alto decidido por el
+     contenido), con una diferencia a propósito frente a v14-v18: el velo ya
+     NO cubre la banda entera, vive sólo dentro de `.nosotros__discurso` —
+     mismo tamaño que esa caja—, así que la mitad de arriba de la fotografía
+     queda sin un solo píxel filtrado. Es la SEGUNDA excepción documentada a
+     «la foto es la foto» (herramientas/validar.js §h y validar.py; la
+     primera es `.inicio__portada-velo`, en el hero). Ver la nota completa
+     junto a `.nosotros__escena` más abajo y junto a `.nosotros__escena-velo`
+     en nosotros.css §1.
+
      Bloques: (a) el predio + lo básico resuelto DENTRO de la foto del umbral
      Foto: nosotros-reja.jpg (el sendero de losas entrando bajo los árboles).
      Única sección sin CTA a WhatsApp: aquí todavía no se cotiza nada.
@@ -168,23 +189,40 @@
          esta banda queda una pantalla por debajo (checklist §6 de
          DIRECTRICES-ANIMACION). `width`/`height` escritos aunque la imagen vaya
          absoluta: no cuesta nada y documenta el archivo. -->
-    <!-- v18 · SALE `.sobre-oscuro`: el velo de la escena pasó a claro (--luz,
-         nosotros.css §1) por pedido del cliente («ni fotos oscuras, las
-         originales y punto») y el foco/botón vuelven al registro claro. -->
+    <!-- v23 · EL TEXTO VUELVE A ENCIMA DE LA FOTO — orden explícita del
+         cliente, mostrando dos capturas (el discurso en fondo crema plano, y
+         la foto vertical del sendero que es exactamente nosotros-reja.jpg):
+         «ponlo de nuevo así, el texto encima de la foto, como antes».
+
+         v20 había separado foto y discurso en dos filas de rejilla porque el
+         cliente, en ese momento, había pedido lo contrario («el texto NO debe
+         tapar la foto»). Ahora pide recuperar el espíritu de v13-v19: la
+         fotografía vuelve a ser el FONDO absoluto de la banda entera —
+         `.nosotros__escena-marco` deja de ser una fila propia con su
+         `aspect-ratio` y vuelve a ser una capa `position: absolute; inset: 0`
+         detrás de todo (nosotros.css §1)— y el discurso flota encima, en flujo
+         normal, con el alto de la escena decidido por su propio contenido
+         (el mismo mecanismo de v13-v19, no el de v20).
+
+         LA EXCEPCIÓN A «LA FOTO ES LA FOTO» (herramientas/validar.js §h,
+         herramientas/validar.py). El sitio prohíbe veladuras sobre
+         fotografías; la única excepción hasta ahora era
+         `.inicio__portada-velo` (hero), pedida también por el cliente. Aquí
+         se abre una SEGUNDA excepción, igual de puntual: `.nosotros__escena-
+         velo` vuelve a existir (no es display:none), pero YA NO cubre la foto
+         entera como en v14-v18 — vive DENTRO de `.nosotros__discurso`, del
+         mismo tamaño que esa caja y nada más, así que el velo sólo aparece
+         detrás del bloque de texto. La mitad de arriba de la fotografía (todo
+         lo que queda por encima del discurso) se ve sin un solo píxel
+         filtrado. Fecha del pedido: sep-2026. Cifras de contraste y la nota
+         completa del degradado, en nosotros.css junto a la regla. -->
     <div class="nosotros__escena reveal reveal--velo"
          data-foto-focus data-foco="50% 38%" data-zoom="0.09">
 
-      <!-- v20 · EL MARCO DE LA FOTO. Orden directa del cliente sobre todo el
-           sitio: «el texto NO debe tapar la foto». Hasta la v19 la fotografía
-           del umbral era el FONDO de la banda (absoluta, a sangre) y el
-           discurso, aunque ya fuera una placa sólida sin velo, se apoyaba
-           encima y le tapaba el 93 % del área medido a 375 px. Ahora la
-           escena es una rejilla de dos filas —marco de la foto arriba, placa
-           del discurso debajo— y la fotografía se ve entera: es el contrato
-           que base.css §4b escribe para `.foto-placa`.
-           El marco es un elemento propio y no basta con darle formato a la
-           <img>, porque foto-focus escala y desplaza la imagen: sin una caja
-           que recorte, ese movimiento se derramaría sobre la placa. -->
+      <!-- EL MARCO DE LA FOTO — capa de fondo, a sangre de canto a canto.
+           Elemento propio y no formato sobre la <img> porque foto-focus
+           escala y desplaza la imagen: sin una caja que recorte, ese
+           movimiento se derramaría fuera de la banda. -->
       <span class="nosotros__escena-marco">
       <img
         class="nosotros__escena-foto"
@@ -199,6 +237,47 @@
       />
       </span>
 
+      <!-- v26 · EL VELO VUELVE A CUBRIR LA BANDA ENTERA, Y ES LA ÚNICA FORMA
+           DE QUE NO HAYA UNA LÍNEA DURA. Reporte del cliente con dos capturas
+           (sep-2026): «arriba, justo antes del titular, se ve una raya
+           horizontal cruzando la foto; y abajo también». Medido con
+           getBoundingClientRect() a 1440 px, el diagnóstico es exacto y es de
+           CAJA, no de degradado:
+
+             · la banda (`.nosotros__escena`) iba de y=8685,6 a y=9592,4
+             · el velo —que vivía DENTRO de `.nosotros__discurso`, del tamaño
+               de esa caja— iba de y=8805,6 a y=9472,4
+
+           O sea que el borde SUPERIOR del <span> del velo caía 120 px por
+           debajo del borde de la foto, y en ese píxel el degradado ya valía
+           0,32 de alfa: por encima, foto limpia; por debajo, 32 % de negro de
+           golpe. Eso ES la raya. Ningún retoque de los porcentajes internos
+           podía arreglarlo, porque el salto no estaba en el degradado sino en
+           el canto del elemento que lo pinta. Por el mismo motivo, abajo la
+           rampa de apagado quedaba comprimida en los 48 px del
+           `padding-block-end` del discurso —0,88 → 0 en 48 px se lee como un
+           filo, no como una veladura—.
+
+           LA CORRECCIÓN: el velo sale del discurso y pasa a ser hermano del
+           marco, con `inset: 0` sobre la BANDA ENTERA, y su degradado arranca
+           y termina en alfa 0 en sus dos extremos. Así ningún borde de
+           contenedor coincide nunca con un valor de opacidad distinto de
+           cero, sea cual sea el ancho de pantalla o lo que crezca el texto.
+           Las dos rampas caen íntegras dentro de relleno puro —el
+           `padding-block` de la escena más el del discurso—, o sea donde no
+           hay una sola letra: el titular sigue entrando exactamente en el
+           0,32 de siempre y el botón del pie sigue sobre 0,88 macizo. Las
+           cifras, ancladas a longitudes y no a porcentajes, en nosotros.css §1.
+
+           SIGUE SIENDO LA SEGUNDA EXCEPCIÓN DOCUMENTADA a «la foto es la
+           foto» (herramientas/validar.js §h y validar.py, que la tienen en
+           lista blanca por nombre de clase); lo que cambia es dónde vive el
+           <span>, no que exista. En capa propia y no en un `background` del
+           contenedor por el motivo de siempre: tiene que quedar ENTRE la foto
+           y el texto para que el zoom de foto-focus mueva la imagen por
+           debajo sin arrastrar la veladura — que es justo por lo que va FUERA
+           de `.nosotros__escena-marco` (la caja que recorta ese zoom) y no
+           dentro. -->
       <span class="nosotros__escena-velo" aria-hidden="true"></span>
 
       <!-- v13 · LAS HOJAS QUE SE DIBUJAN SOLAS Y DERIVAN CON EL SCROLL -------
@@ -280,10 +359,20 @@
            tendrían que esperar a que terminase su padre y el escalonado —que es
            justo lo que el cliente pidió que se notara— se perdería. Aquí el
            contenedor sólo coloca; quienes entran son las figuras, una a una. -->
-      <!-- v20 · `placa placa--lg`: la superficie sólida deja de estar escrita
-           a mano en nosotros.css y pasa a ser el componente del sistema
-           (base.css §4b). Mismo dibujo, un solo dueño. -->
-      <div class="nosotros__discurso placa placa--lg contenedor contenedor--ancho">
+      <!-- v23 · YA NO ES `.placa`: ese componente es una SUPERFICIE SÓLIDA en
+           su propio espacio, exactamente lo que v20 necesitaba para no tapar
+           la foto y exactamente lo que ya no aplica aquí. El discurso vuelve
+           a flotar sobre la fotografía con `.sobre-oscuro` (base.css: invierte
+           foco visible y botón fantasma) y su propio velo local, ver abajo. -->
+      <div class="nosotros__discurso sobre-oscuro contenedor contenedor--ancho">
+
+        <!-- v26 · EL VELO YA NO VIVE AQUÍ DENTRO. Estuvo en esta caja desde
+             v23, del mismo tamaño que ella, y ese era exactamente el defecto
+             que el cliente reportó: el canto superior de este <div> caía 120 px
+             por debajo del borde de la foto y el degradado ya valía 0,32 de
+             alfa ahí mismo, o sea una raya horizontal cruzando la fotografía
+             justo antes del titular. Ahora es hermano del marco y cubre la
+             banda entera; ver la nota v26 completa junto a él, más arriba. -->
       <!-- v17 · EL TITULAR SE MUDA DENTRO DE LA FOTO, Y CAMBIA DE TEXTO -------
            Pedido del cliente, explícito: «integra ese texto en la foto, pero
            tampoco me gusta ese texto, cámbialo». Dos cosas en un mismo golpe.
@@ -528,10 +617,12 @@
            fondo oscuro» (base.css)—: relleno crema al 92 % con tinta encima,
            13,2:1, y contorno propio contra la foto. El rótulo no cambia. -->
       <p class="grupo-botones">
-        <!-- v18 · Vuelve a `btn-secundario`: el velo es claro ahora y el botón
-             crema de `btn-claro` se fundía con él. El contorno bosque da el
-             3:1 de WCAG 1.4.11 sobre el velo --luz. -->
-        <a class="btn btn-secundario" href="#espacios">Ver eventos y actividades</a>
+        <!-- v23 · VUELVE `btn-claro`: el velo local vuelve a ser oscuro en el
+             pie de la caja (0,88 de alfa), donde cae este botón, y el
+             contorno bosque de `btn-secundario` se fundiría otra vez con él.
+             Ver la nota v13 completa arriba: sigue siendo obligatorio, no un
+             gusto. -->
+        <a class="btn btn-claro" href="#espacios">Ver eventos y actividades</a>
       </p>
       </div>
 

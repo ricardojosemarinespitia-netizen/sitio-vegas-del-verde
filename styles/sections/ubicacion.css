@@ -62,6 +62,12 @@
      tinta (--color-texto) ...................................... 11,9:1
      gris de rótulo (--color-texto-suave) ....................... 5,2:1
      terracota (--color-acento-texto) ........................... 4,6:1
+   v33 · La sección pasa de .seccion--alt a .seccion--trama (salvia al 55 %
+   sobre el papel: compone #e4e6d6, más clara). Los tres pares de arriba
+   suben —12,9 / 5,6 / 4,6→4,64— y siguen siendo los peores casos válidos;
+   los decorativos «oliva al 45 % / 38 % sobre la salvia» que se citan más
+   abajo (§ punto del mapa, § pastilla) se aclaran un punto y siguen siendo
+   decoración, no texto.
    Los campos del formulario siguen midiéndose contra el papel del panel
    (--color-superficie-solida), que no ha cambiado: su filete oliva sigue
    dando 5,3:1 y el bosque del foco 11,4:1.
@@ -725,7 +731,12 @@
   line-height: var(--alto-linea-titulo);
   text-transform: uppercase;
   letter-spacing: var(--tracking-rotulo);
-  color: var(--color-acento-alt);
+  /* v33 · era --color-acento-alt (oliva). Sobre la banda de esta sección el
+     oliva se queda en 4,29:1 a 13 px —naturaleza.css ya lo tenía escrito y
+     por eso su .nat-giro no lo usa—. El rótulo pasa al gris de eyebrow del
+     sistema (base.css .eyebrow), 5,2:1 sobre salvia y 5,6:1 sobre trama:
+     es el mismo registro que llevan todos los antetítulos del sitio. */
+  color: var(--color-texto-suave);
 }
 
 /* --- Referencias ----------------------------------------------------------
@@ -1336,7 +1347,10 @@ a.ubi-canal--destacado:focus-visible {
   gap: 0.4em;
   font-size: var(--fs-micro);
   font-weight: var(--peso-medio);
-  color: var(--color-alerta);
+  /* v33 · era --color-alerta (la baya del logo): 3,1:1 sobre el papel del
+     panel, por debajo de AA en el texto más pequeño del sitio. La versión
+     legible es --color-alerta-texto (tokens.css §2): 6,3:1 aquí. */
+  color: var(--color-alerta-texto);
 }
 
 /* Mientras está vacío no ocupa sitio ni se anuncia. */
@@ -1353,7 +1367,9 @@ a.ubi-canal--destacado:focus-visible {
   flex: none;
   margin-top: 0.15em;
   border-radius: var(--radio-full);
-  background-color: var(--color-alerta);
+  /* La viñeta lleva texto (el «!» en crema): mismo token legible que el
+     mensaje, 5,3:1. Con la baya plena daba 3,07:1. */
+  background-color: var(--color-alerta-texto);
   color: var(--color-texto-inverso);
   font-size: var(--fs-micro);
   line-height: 1;

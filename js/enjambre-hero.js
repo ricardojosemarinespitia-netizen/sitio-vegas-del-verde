@@ -96,7 +96,11 @@ export function montarEnjambre(caja) {
   elegidas.forEach((m, i) => {
     const img = document.createElement('img');
     img.className = 'inicio__bicho inicio__mariposa';
-    img.src = 'img/plan-vecino/mariposa-' + dos(m.n) + '.png';
+    /* Ruta resuelta contra la URL del propio módulo (/js/), no contra el
+       documento: así el mismo archivo sirve a index.html en la raíz y a
+       en/index.html, que con una ruta relativa al documento pedía
+       /en/img/plan-vecino/… y se traía ocho 404 y una portada sin mariposas. */
+    img.src = new URL('../img/plan-vecino/mariposa-' + dos(m.n) + '.png', import.meta.url).href;
     img.alt = '';
     img.setAttribute('aria-hidden', 'true');
     img.decoding = 'async';

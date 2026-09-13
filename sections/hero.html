@@ -97,17 +97,39 @@
          entienda y no descarga los otros. El <img> conserva fetchpriority
          alto, width/height para reservar la caja antes de que llegue un
          byte, y NADA de loading perezoso: es el LCP.  -->
+    <!-- v33 · LA PORTADA DE ESCRITORIO CAMBIA DE AVE (otra vez) Y SÓLO LA DE
+         ESCRITORIO. El cliente mandó la captura del colibrí de la galería de
+         naturaleza —`img/aves/ave-39-colibri.jpg`, «Foto: Jesus Lopez»— y pidió
+         «para pc usa esta foto de hero pero editada que se vea más clara».
+         Literal: PARA PC. El bloque de `media: (max-width: 47.99em)` sigue
+         siendo `hero-ave-rosada` y no se toca.
+
+         POR QUÉ HAY UN ARCHIVO NUEVO Y NO SE EDITÓ EL ORIGINAL. La foto de la
+         galería vive con su crédito y se queda como está. `img/hero-colibri.*`
+         es una COPIA revelada aparte: recorte apaisado a 1600×1092 —la misma
+         caja que tenía `hero-ave-flor`, así que width/height no se mueven ni
+         hay salto de layout— y un revelado más claro (gamma sobre medios y
+         sombras, no brillo plano: el brillo plano lava el fondo y despega al
+         pájaro). Nada de esto es un filtro CSS: la foto llega ya revelada y el
+         §h del contrato —«la foto es la foto»— se cumple igual que antes.
+
+         EL RECORTE ES RECORTE DE VERDAD, NO `object-position`. El original es
+         casi cuadrado (1300×1040) y el hueco del hero es apaisado: dejarlo al
+         `cover` le cortaba al colibrí la cola o las flores del pie según el
+         ancho. Recortando la franja en el archivo, el ave queda al 46 % del
+         alto y el `--pos-foto-y: 42%` de inicio.css —que también consume
+         js/particulas-hero.js— sigue valiendo sin tocar una línea de CSS. -->
     <picture>
       <source media="(max-width: 47.99em)" srcset="img/hero-ave-rosada.avif" type="image/avif" />
       <source media="(max-width: 47.99em)" srcset="img/hero-ave-rosada.webp" type="image/webp" />
-      <source srcset="img/hero-ave-flor.avif" type="image/avif" />
-      <source srcset="img/hero-ave-flor.webp" type="image/webp" />
+      <source srcset="img/hero-colibri.avif" type="image/avif" />
+      <source srcset="img/hero-colibri.webp" type="image/webp" />
       <img
         class="inicio__portada-foto"
-        src="img/hero-ave-flor.jpg"
+        src="img/hero-colibri.jpg"
         width="1600"
         height="1092"
-        alt="Ave posada en el bosque de Vegas del Verde."
+        alt="Un colibrí en vuelo bebiendo de una flor morada, entre tallos de verbena y follaje del bosque de Vegas del Verde."
         fetchpriority="high"
         decoding="async"
       />
@@ -343,7 +365,7 @@
              uno de los dos módulos falla, el otro sigue vivo. Los PNG de las
              mariposas no se piden hasta aquí, así que no compiten con el LCP
              ni por red ni por decodificación. */
-          import('./js/enjambre-hero.js?v=21a60875')
+          import('./js/enjambre-hero.js?v=ca06d234')
             .then((m) => m?.montarEnjambre(document.querySelector('.inicio__enjambre')))
             .catch(() => {}),
         ]))

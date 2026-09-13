@@ -97,8 +97,8 @@ const HECHOS = [
  ['Los tres pilares', ['compromiso'], ['educacion ambiental','conciencia social','relaciones sanas'], false],
  ['Servicios del predio (Wifi/Banos/Vigilancia/Parqueadero)', ['nosotros'], ['\\bwifi\\b','vigilancia privada','\\bparqueadero\\b'], false],
  ['«Proximamente: arenero»', ['nosotros'], ['\\barenero\\b'], false],
- ['Aforo Alameda 150', ['espacios'], ['\\b150 personas\\b'], false],
- ['Aforo La Vega 100', ['espacios'], ['\\b100 personas\\b'], false],
+ ['Aforo Alameda 100', ['espacios'], ['\\b100 personas\\b'], false],
+ ['Aforo La Vega 150', ['espacios'], ['\\b150 personas\\b'], false],
  ['Aforo Teatrino 70', ['espacios'], ['\\b70 personas\\b'], false],
  ['Aforo Taller 45', ['espacios'], ['\\b45 personas\\b'], false],
  ['Aforo Cancha 30/20', ['espacios'], ['\\b30 jugadores\\b','\\b20 espectadores\\b'], false],
@@ -348,15 +348,26 @@ console.log(`   Lorem Ipsum           : ${cuenta(doc.toLowerCase(), 'lorem ipsum
  * quedan fuera por la lista blanca o por el filtro de máscaras. */
 const RE_TINTE = /(linear-gradient|radial-gradient|conic-gradient|backdrop-filter|mix-blend-mode)/;
 const RE_VELO_SEL = /velo|scrim|overlay|veladura/i;
-// v17 · `.inicio__portada-velo` es la ÚNICA excepción de todo el sitio a
-// esta regla, y es por orden explícita y textual del cliente: «rompe esa
-// regla en el hero y ponlo como estaba antes» (después de ver que la
-// cartela sólida de v16 tapaba media fotografía). El velo claro (--luz) del
-// hero vuelve, ver el historial completo en el comentario de la regla en
-// styles/sections/inicio.css. No es una excepción técnica ni un olvido:
-// que quede aquí, a la vista, para que nadie la retire creyendo que es un
-// hallazgo real.
-const RE_BLANCA = /lightbox|modal|velo-menu|menu__velo|dialogo|inicio__portada-velo/i;
+// v17/v23 · HAY DOS EXCEPCIONES DE TODO EL SITIO A ESTA REGLA, y las dos son
+// por orden explícita y textual del cliente:
+//
+//   1. `.inicio__portada-velo` (v17, el hero): «rompe esa regla en el hero y
+//      ponlo como estaba antes» (después de ver que la cartela sólida de v16
+//      tapaba media fotografía). El velo claro (--luz) del hero vuelve; ver
+//      el historial completo junto a la regla en styles/sections/inicio.css.
+//   2. `.nosotros__escena-velo` (v23, #nosotros, sep-2026): el cliente mostró
+//      dos capturas —el discurso en fondo crema plano y la foto vertical del
+//      sendero (nosotros-reja.jpg)— y pidió volver a poner el texto ENCIMA de
+//      la foto, como antes de v20. A diferencia del velo de v14-v18, éste ya
+//      no cubre la banda entera: vive dentro de `.nosotros__discurso`, del
+//      mismo tamaño que esa caja, así que sólo vela el área con letras. Ver
+//      el historial completo junto a la regla en
+//      styles/sections/nosotros.css §1 (el bloque que empieza con
+//      «v23 · EL VELO — SEGUNDA EXCEPCIÓN DOCUMENTADA»).
+//
+// Ninguna es una excepción técnica ni un olvido: que queden aquí, a la
+// vista, para que nadie las retire creyendo que son un hallazgo real.
+const RE_BLANCA = /lightbox|modal|velo-menu|menu__velo|dialogo|inicio__portada-velo|nosotros__escena-velo/i;
 const RE_FOTO_SEL = /(^|[\s>+~])(img|video)\b|foto|imagen|media\b|clip|thumb/i;
 
 // Las declaraciones de máscara se retiran ANTES de mirar: un degradado en

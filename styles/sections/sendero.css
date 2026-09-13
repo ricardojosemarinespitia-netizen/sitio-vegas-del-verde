@@ -771,3 +771,177 @@
     display: none;
   }
 }
+
+/* ==========================================================================
+   9. EL CAMINO EN CUATRO PASOS — el friso de fotos (v7)
+
+   Cuatro fotografías verticales del recorrido, debajo de la apertura. Es el
+   eco en foto del carril de vídeo de §3 y toma de él, a propósito, las tres
+   decisiones que impiden que cuatro verticales en fila se lean como un muro
+   de archivo: ALTURAS DESFASADAS (múltiplos distintos de --snd-desfase, y
+   ninguno de los que usa el carril, para que el ritmo rime sin calcarse),
+   SILUETA DE HOJA (dos esquinas abiertas, dos cerradas, alternando la
+   diagonal foto a foto) y NADA REPETIDO.
+
+   EN MÓVIL son dos columnas —a 375 px cuatro verticales en fila serían
+   sellos— con la segunda columna colgando medio paso más abajo: la
+   asimetría se conserva a escala.
+
+   LA FOTO ES LA FOTO: ni velo, ni filtro, ni degradado. La sombra va DEBAJO
+   del marco; el único gesto al pasar por encima es que la foto se acerca
+   dentro de su recorte (el mismo de .marco--zoom en base.css). El pie va
+   fuera de la foto, en el gris del .credito que base.css ya audita para AA
+   sobre la crema. El disparador es un <button> a todo el ancho de la foto:
+   el área táctil es la foto entera, muy por encima de 44 px, y el foco
+   visible lo pone el :focus-visible global de base.css.
+   ========================================================================== */
+.snd-pasos {
+  margin-block-start: var(--esp-seccion-sm);
+  padding-inline: var(--nat-margen);
+}
+
+.snd-pasos__cabecera {
+  display: flex;
+  flex-direction: column;
+  gap: var(--esp-2xs);
+  max-width: var(--medida-corta);
+  margin-block-end: var(--esp-lg);
+}
+
+.snd-pasos__titulo {
+  margin: 0;
+}
+
+.snd-pasos__nota {
+  margin: 0;
+  font-size: var(--fs-pequeno);
+  line-height: var(--alto-linea-base);
+  color: var(--color-texto-suave);
+}
+
+ul.snd-pasos__friso {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--gap-sm);
+  align-items: start;
+}
+
+/* Reset de base ANTES de los desfases: .snd-paso y .snd-paso--dos/tres/cuatro
+   tienen la MISMA especificidad (una clase), así que quien va después en el
+   código gana, sin importar el medio. Este bloque tiene que ir aquí —antes
+   de los @media de abajo— para que el `margin: 0` de base no borre el
+   margin-block-start que ponen luego el nth-child(even) de móvil y las
+   variantes de escritorio (bug real: con el reset después, las cuatro fotos
+   de escritorio caían a la misma altura y la silueta escalonada desaparecía
+   por completo). */
+.snd-paso {
+  margin: 0;
+}
+
+/* La segunda columna cuelga medio paso: en móvil es todo el desfase que cabe
+   sin que la primera fila deje un hueco de aire muerto. */
+@media (max-width: 61.99em) {
+  .snd-paso:nth-child(even) {
+    margin-block-start: var(--esp-lg);
+  }
+}
+
+@media (min-width: 62em) {
+  ul.snd-pasos__friso {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: var(--gap);
+  }
+
+  /* Múltiplos 0 · 1.2 · 0.35 · 1.9: ni crecientes ni simétricos, y ninguno
+     de los del carril de §3 (0 · 1.6 · 0.6 · 2.3), para que las dos filas
+     de cuatro rimen sin ser la misma. */
+  .snd-paso--dos {
+    margin-block-start: calc(var(--snd-desfase) * 1.2);
+  }
+
+  .snd-paso--tres {
+    margin-block-start: calc(var(--snd-desfase) * 0.35);
+  }
+
+  .snd-paso--cuatro {
+    margin-block-start: calc(var(--snd-desfase) * 1.9);
+  }
+}
+
+.snd-paso__figura {
+  margin: 0;
+}
+
+/* El disparador: un botón desnudo que envuelve la foto. Mismo contrato que
+   .nat-obra__disparador del muro de aves —sin relleno, sin borde, cursor de
+   mano— pero con la sombra corta del sistema debajo, que es lo que aquí
+   dice «pieza apoyada» sobre el papel botánico (v23, lección de la cartela). */
+.snd-paso__disparador {
+  display: block;
+  width: 100%;
+  padding: 0;
+  border: 0;
+  background: none;
+  cursor: pointer;
+  box-shadow: var(--sombra-md);
+  transition: transform var(--transicion);
+}
+
+/* Las fotos son 9:16 de origen; el marco las recorta a 3:4 para que el friso
+   no doble el alto de la apertura. `cover` centrado: en las cuatro el motivo
+   vive en el centro del encuadre, no hace falta object-position. */
+.snd-paso__marco {
+  aspect-ratio: 3 / 4;
+  overflow: clip;
+}
+
+/* LA SILUETA DE HOJA, CUATRO VECES Y NUNCA IGUAL — la misma cuenta que §3,
+   sobre el marco, que es quien recorta la imagen. El botón no lleva radio: la
+   sombra sigue al marco por ser hijo a todo el ancho. */
+.snd-paso--uno .snd-paso__marco,
+.snd-paso--uno .snd-paso__disparador {
+  border-start-end-radius: var(--snd-hoja);
+  border-end-start-radius: var(--snd-hoja);
+  border-start-start-radius: var(--radio-xs);
+  border-end-end-radius: var(--radio-xs);
+}
+
+.snd-paso--dos .snd-paso__marco,
+.snd-paso--dos .snd-paso__disparador {
+  border-start-start-radius: var(--snd-hoja);
+  border-end-end-radius: var(--snd-hoja);
+  border-start-end-radius: var(--radio-xs);
+  border-end-start-radius: var(--radio-xs);
+}
+
+.snd-paso--tres .snd-paso__marco,
+.snd-paso--tres .snd-paso__disparador {
+  border-end-end-radius: var(--snd-hoja);
+  border-end-start-radius: var(--snd-hoja);
+  border-start-start-radius: var(--radio-xs);
+  border-start-end-radius: var(--radio-xs);
+}
+
+.snd-paso--cuatro .snd-paso__marco,
+.snd-paso--cuatro .snd-paso__disparador {
+  border-start-start-radius: var(--snd-hoja);
+  border-end-start-radius: var(--snd-hoja);
+  border-start-end-radius: var(--radio-xs);
+  border-end-end-radius: var(--radio-xs);
+}
+
+/* El único gesto: la foto se acerca dentro de su recorte. Sólo transform. */
+.snd-paso__disparador:hover .marco > img,
+.snd-paso__disparador:focus-visible .marco > img {
+  transform: scale(var(--escala-hover));
+}
+
+/* El pie, fuera de la foto y en el contrato de .credito (base.css), con el
+   mismo aire que los pies del carril de §3. */
+.snd-paso__pie {
+  display: block;
+  margin-block-start: var(--esp-xs);
+}

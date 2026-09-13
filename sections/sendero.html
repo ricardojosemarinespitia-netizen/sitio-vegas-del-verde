@@ -151,7 +151,13 @@
           id="sendero-titulo"
           class="titulo-seccion snd-hero__titulo reveal reveal-texto"
         >
-          <span class="reveal-texto__linea">Se anda poco,</span>
+          <!-- El espacio tras la coma va DENTRO del primer renglón a propósito:
+               los dos <span> son bloques (base.css §reveal-texto) y en pantalla
+               ya se leen en dos líneas, pero al copiar el texto, en un lector
+               de pantalla o en cualquier extractor que aplane el DOM salían
+               pegados («poco,se»). Un blanco final en un bloque no se pinta,
+               así que el dibujo no cambia. -->
+          <span class="reveal-texto__linea">Se anda poco, </span>
           <span class="reveal-texto__linea">se para mucho</span>
         </h2>
         <!-- v2 · Recortada por pedido del cliente («resume, más fotos menos
@@ -480,6 +486,13 @@
              nombres ya están escritos al lado y el orden lo da el flujo. -->
         <p class="nat-ruta">
           <span class="nat-ruta__punto">Quebrada Aranzoque</span>
+          <!-- Conector sólo para lectores y para el texto copiado: en pantalla
+               los dos chips y el cauce SVG ya separan los nombres, pero como
+               el trazo es aria-hidden y el <p> es flex, al aplanar el DOM
+               salían pegados («AranzoqueRiachuelo»). .solo-lectores es
+               position:absolute, así que no entra en el flujo flex y el
+               dibujo no cambia. -->
+          <span class="solo-lectores"> y </span>
           <svg
             class="nat-ruta__cauce"
             viewBox="0 0 16 64"
@@ -547,6 +560,179 @@
 
     </div>
 
+  </div>
+
+  <!-- ======================================================================
+       2 · EL CAMINO EN CUATRO PASOS — el friso de fotos del sendero (v7)
+
+       PEDIDO DIRECTO DEL CLIENTE: «pon más fotos del sendero». Mandó diez
+       originales de teléfono (carpeta Sendero de su Drive). De las diez
+       quedan CUATRO, y no es tacañería: seis eran variaciones del mismo
+       tramo —el seto de crotones con el camino de pasto y el cielo— que la
+       portada de arriba ya cuenta dos veces (marco grande + detalle). Meter
+       las seis habría sido repetir la misma estampa en distintas alturas de
+       cámara. Las cuatro que quedan enseñan cuatro cosas DISTINTAS del
+       recorrido que la página todavía no mostraba:
+         · la sombra: un túnel de ramas que se abre a un claro con sol;
+         · el guadual, que el texto de la columna nombra («Guaduas a lado y
+           lado») y que hasta ahora sólo existía como palabra;
+         · el tramo de hojarasca entre hojas anchas;
+         · los crotones DE CERCA, a la altura de la mano, que es el único
+           parentesco con la portada y por eso cierra el friso, no lo abre.
+
+       POR QUÉ UN FRISO Y NO UN MURO. Es el eco fotográfico del hero: el
+       carril de arriba son «cuatro planos del mismo camino» en vídeo; esto
+       son cuatro pasos del mismo camino en foto. Misma cuenta, mismo
+       vocabulario —silueta de hoja, alturas desfasadas, nada repetido—, y
+       cierra la sección con imagen en vez de con texto, que es lo que el
+       cliente lleva pidiendo desde v2 («más fotos menos texto»).
+
+       LIGHTBOX: el global de js/app.js, por [data-lightbox], en su propio
+       grupo «sendero-pasos» (flechas entre las cuatro, cerrar con Escape,
+       foco devuelto al disparador). Es el mismo marcado de #usos y del muro
+       de aves —botón que envuelve la imagen, data-lightbox-src con el
+       original—; cero JS nuevo.
+
+       LAS REGLAS DE LA CASA, aquí:
+         · la foto es la foto: sin velo, sin filtro; la sombra va DEBAJO;
+         · un archivo un papel: cuatro archivos nuevos, ninguno usado en otra
+           parte de la página;
+         · un hecho un dueño: los pies describen lo que se ve. No se nombra
+           ninguna especie ni distancia ni aforo que no esté ya escrito en el
+           sitio («guadual» y «crotones» sí lo están: en #espacios y en el
+           alt de la portada de arriba). No se afirma cuál tramo es la
+           quebrada porque ninguna de las cuatro la muestra.
+       ====================================================================== -->
+  <div class="snd-pasos">
+
+    <div class="snd-pasos__cabecera reveal">
+      <h3 class="titulo-seccion titulo-seccion--xs snd-pasos__titulo">
+        El camino, en cuatro pasos
+      </h3>
+      <p class="snd-pasos__nota">
+        Fotos del recorrido, tal cual salieron del teléfono. Toca una para verla entera.
+      </p>
+    </div>
+
+    <ul class="snd-pasos__friso reveal-secuencia" role="list">
+
+      <!-- ------------------------------------------------------ 01/04
+           La entrada en sombra. Abre el friso porque es el plano más
+           distinto de la portada soleada: aquí el sol está al fondo. -->
+      <li class="snd-paso snd-paso--uno">
+        <figure class="snd-paso__figura reveal reveal--velo">
+          <button
+            type="button"
+            class="snd-paso__disparador"
+            data-lightbox="sendero-pasos"
+            data-lightbox-caption="Un tramo en sombra del sendero, bajo un túnel de ramas que se abre a un claro con sol"
+            data-lightbox-src="img/sendero/sendero-sombra.jpg"
+          >
+            <div class="marco snd-paso__marco">
+              <img
+                src="img/sendero/sendero-sombra.jpg"
+                srcset="img/sendero/sendero-sombra-400.jpg 400w, img/sendero/sendero-sombra-600.jpg 600w, img/sendero/sendero-sombra-800.jpg 800w, img/sendero/sendero-sombra-1200.jpg 1200w, img/sendero/sendero-sombra.jpg 2400w"
+                sizes="(max-width: 61.99em) 46vw, 22vw"
+                width="2400"
+                height="4267"
+                loading="lazy"
+                decoding="async"
+                alt="Un tramo en sombra del sendero: el camino de hojarasca pasa bajo un túnel de ramas y hojas y se abre al fondo a un claro de pasto con sol"
+              />
+            </div>
+          </button>
+          <figcaption class="credito snd-paso__pie">Bajo las ramas</figcaption>
+        </figure>
+      </li>
+
+      <!-- ------------------------------------------------------ 02/04
+           El guadual: las cañas y el suelo cubierto de sus hojas secas. Es la
+           foto que le pone imagen al «Guaduas a lado y lado» de la columna. -->
+      <li class="snd-paso snd-paso--dos">
+        <figure class="snd-paso__figura reveal reveal--velo">
+          <button
+            type="button"
+            class="snd-paso__disparador"
+            data-lightbox="sendero-pasos"
+            data-lightbox-caption="El guadual del sendero: cañas altas y el suelo cubierto de hojas secas, con la luz entrando de lado"
+            data-lightbox-src="img/sendero/sendero-guadual.jpg"
+          >
+            <div class="marco snd-paso__marco">
+              <img
+                src="img/sendero/sendero-guadual.jpg"
+                srcset="img/sendero/sendero-guadual-400.jpg 400w, img/sendero/sendero-guadual-600.jpg 600w, img/sendero/sendero-guadual-800.jpg 800w, img/sendero/sendero-guadual-1200.jpg 1200w, img/sendero/sendero-guadual.jpg 2400w"
+                sizes="(max-width: 61.99em) 46vw, 22vw"
+                width="2400"
+                height="4267"
+                loading="lazy"
+                decoding="async"
+                alt="El guadual del sendero: cañas de guadua altas y delgadas, el suelo cubierto de sus hojas secas y la luz entrando de lado entre los tallos"
+              />
+            </div>
+          </button>
+          <figcaption class="credito snd-paso__pie">El guadual</figcaption>
+        </figure>
+      </li>
+
+      <!-- ------------------------------------------------------ 03/04
+           El tramo de hojarasca entre hojas anchas, con el pasto asomando al
+           fondo. Es el suelo que no se ve en ninguna otra foto de la página. -->
+      <li class="snd-paso snd-paso--tres">
+        <figure class="snd-paso__figura reveal reveal--velo">
+          <button
+            type="button"
+            class="snd-paso__disparador"
+            data-lightbox="sendero-pasos"
+            data-lightbox-caption="Un tramo de hojarasca del sendero entre matas de hojas anchas, con el pasto asomando al fondo"
+            data-lightbox-src="img/sendero/sendero-hojas-anchas.jpg"
+          >
+            <div class="marco snd-paso__marco">
+              <img
+                src="img/sendero/sendero-hojas-anchas.jpg"
+                srcset="img/sendero/sendero-hojas-anchas-400.jpg 400w, img/sendero/sendero-hojas-anchas-600.jpg 600w, img/sendero/sendero-hojas-anchas-800.jpg 800w, img/sendero/sendero-hojas-anchas-1200.jpg 1200w, img/sendero/sendero-hojas-anchas.jpg 2400w"
+                sizes="(max-width: 61.99em) 46vw, 22vw"
+                width="2400"
+                height="4267"
+                loading="lazy"
+                decoding="async"
+                alt="Un tramo del sendero cubierto de hojarasca, con matas de hojas anchas a la izquierda, árboles cerrando arriba y el pasto asomando al fondo"
+              />
+            </div>
+          </button>
+          <figcaption class="credito snd-paso__pie">Entre hojas anchas</figcaption>
+        </figure>
+      </li>
+
+      <!-- ------------------------------------------------------ 04/04
+           Los crotones de cerca. Es la única de las cuatro emparentada con
+           la portada, así que cierra el friso: se llega a ellos al final. -->
+      <li class="snd-paso snd-paso--cuatro">
+        <figure class="snd-paso__figura reveal reveal--velo">
+          <button
+            type="button"
+            class="snd-paso__disparador"
+            data-lightbox="sendero-pasos"
+            data-lightbox-caption="Los crotones del camino vistos de cerca, con el pasto del sendero siguiendo a la izquierda"
+            data-lightbox-src="img/sendero/sendero-crotones-cerca.jpg"
+          >
+            <div class="marco snd-paso__marco">
+              <img
+                src="img/sendero/sendero-crotones-cerca.jpg"
+                srcset="img/sendero/sendero-crotones-cerca-400.jpg 400w, img/sendero/sendero-crotones-cerca-600.jpg 600w, img/sendero/sendero-crotones-cerca-800.jpg 800w, img/sendero/sendero-crotones-cerca-1200.jpg 1200w, img/sendero/sendero-crotones-cerca.jpg 2400w"
+                sizes="(max-width: 61.99em) 46vw, 22vw"
+                width="2400"
+                height="4267"
+                loading="lazy"
+                decoding="async"
+                alt="Crotones de hoja roja, amarilla y verde vistos de cerca al borde del sendero, con el camino de pasto siguiendo a la izquierda bajo los árboles"
+              />
+            </div>
+          </button>
+          <figcaption class="credito snd-paso__pie">Los crotones, de cerca</figcaption>
+        </figure>
+      </li>
+
+    </ul>
   </div>
 
   <!-- El motor de reproducción perezosa de los clips del hero. Va DENTRO del

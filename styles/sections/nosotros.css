@@ -138,9 +138,13 @@
    (--luz, ver §1): el titular vuelve al color de titular de toda la página.
    La declaración explícita sigue haciendo falta por la misma razón de v17:
    base.css pinta los h2 en --color-texto y cualquier herencia perdería. */
+/* v23 · VUELVE A CREMA. El discurso flota otra vez sobre la foto (ver la
+   nota junto a `.nosotros__escena` más abajo): sin esta declaración
+   explícita el h2 heredaría --color-texto (tinta oscura) de base.css y se
+   leería casi invisible sobre el velo oscuro. */
 .nosotros__titulo {
   font-variation-settings: var(--ejes-display-sobrio);
-  color: var(--color-texto);
+  color: var(--color-texto-inverso);
 }
 
 /* ---- v13 · LA ESCENA -----------------------------------------------------
@@ -167,47 +171,60 @@
    superpone a la otra, que es literalmente lo que base.css §4b describe para
    `.foto-placa`: «en una rejilla la placa no puede caer sobre la imagen ni
    por accidente, porque cada una tiene su fila». */
+/* v23 · DE REJILLA DE DOS FILAS A UNA SOLA CAPA CON FOTO DE FONDO. El cliente
+   volvió a pedir el discurso ENCIMA de la fotografía (ver la nota larga junto
+   al marcado en nosotros.html). `display: block` y no `grid`: el marco vuelve
+   a ser una capa `position: absolute` (ver abajo) que no participa del flujo,
+   así que el alto de la escena lo decide únicamente el discurso —el mismo
+   mecanismo exacto de v13-v19—, no un `aspect-ratio` fijo que pudiera cortar
+   el bloque de texto en móvil, donde hay siete figuras más el botón. */
 .nosotros__escena {
   position: relative;
   isolation: isolate;
   overflow: clip;
-  display: grid;
-  gap: var(--esp-lg);
+  display: block;
   padding-block: var(--esp-seccion-sm);
-  /* v18 · LA ESCENA DEJA DE SER OSCURA — pedido directo del cliente:
-     «no quiere tonos oscuros en la página ni fotos oscuras, las originales
-     y punto». El velo pasa de bosque-hondo a --luz (§ siguiente) y el texto
-     vuelve a la tinta de la página clara. */
-  color: var(--color-texto);
-  /* El color de reserva mientras la foto (lazy) no ha llegado: ahora claro,
-     el mismo papel del sitio — el texto en tinta ya es legible sobre él. */
-  background-color: var(--color-fondo);
+  /* v26 · LAS DOS CARRERAS DEL VELO, DECLARADAS DONDE VIVE EL RELLENO QUE LAS
+     DEFINE. Son la franja de la banda que NO tiene una sola letra encima: el
+     `padding-block` de esta escena más el del discurso que flota dentro. El
+     velo (ver §1 más abajo) las usa para subir de 0 a 0,32 y para bajar de
+     0,88 a 0 sin rozar nunca un renglón. Van aquí y no en el propio velo
+     porque el `padding-block` de arriba cambia a partir de 62em y las dos
+     tienen que cambiar con él: una sola sobrescritura en el media query, no
+     dos degradados duplicados. */
+  --velo-sup: calc(var(--esp-seccion-sm) + var(--esp-lg));
+  --velo-inf: calc(var(--esp-seccion-sm) + var(--esp-xl));
+  /* v23 · VUELVE A SER OSCURA. El texto flota otra vez sobre la foto y el
+     velo local (ver `.nosotros__escena-velo`) es un degradado hacia
+     --negro-escena: el discurso necesita el juego de colores «inverso» que
+     ya tenía escrito §1b, no la tinta de la página clara. */
+  color: var(--color-texto-inverso);
+  /* El color de reserva mientras la foto (lazy) no ha llegado: oscuro, para
+     que el discurso siga siendo legible incluso un instante antes de que
+     cargue la imagen. */
+  background-color: var(--negro-escena);
 }
 
-/* EL MARCO — la primera fila de la escena, y quien recorta.
+/* EL MARCO — la capa de fondo, a sangre de canto a canto.
    Elemento propio y no formato sobre la <img> porque foto-focus escala y
    desplaza la imagen: sin caja que recorte, ese movimiento se derramaría
-   sobre la placa del discurso. `clip` y no `hidden` por la convención de la
-   casa (hidden crearía contenedor de scroll). El formato es retrato en móvil
-   —el archivo es 1200×2134— y apaisado en escritorio, donde una vertical a
-   sangre se comería dos pantallas. */
+   fuera de la banda. `clip` y no `hidden` por la convención de la casa
+   (hidden crearía contenedor de scroll).
+   v23 · VUELVE A `position: absolute; inset: 0`, la misma mecánica de v13-v19:
+   el marco ya no es una fila propia de una rejilla con su propio
+   `aspect-ratio` (eso era v20, para que la foto se viera ENTERA en su propio
+   espacio); ahora es el fondo de toda la escena y su alto lo decide el
+   discurso que flota encima, en flujo normal. */
 .nosotros__escena-marco {
-  position: relative;
-  display: block;
+  position: absolute;
+  inset: 0;
   overflow: clip;
-  aspect-ratio: 4 / 5;
-}
-
-@media (min-width: 62em) {
-  .nosotros__escena-marco {
-    aspect-ratio: 16 / 9;
-  }
+  z-index: var(--z-fondo);
 }
 
 .nosotros__escena-foto {
   position: absolute;
   inset: 0;
-  z-index: var(--z-fondo);
   width: 100%;
   height: 100%;
   object-fit: cover;
@@ -218,34 +235,183 @@
   object-position: 50% 38%;
 }
 
-/* ---- EL VELO, Y LAS CIFRAS QUE LO JUSTIFICAN ------------------------------
-   Mismo recurso que `.usos-tarjeta__velo` (styles/sections/usos.css:111): una
-   capa propia entre la foto y el texto. En capa propia y no en un `background`
-   del contenedor porque foto-focus escala la IMAGEN por debajo, y una veladura
-   pintada sobre el contenedor no se movería con ella —quedaría un borde de velo
-   asomando por los cantos al ampliar—.
+/* ==========================================================================
+   v23 · EL VELO — SEGUNDA EXCEPCIÓN DOCUMENTADA A «LA FOTO ES LA FOTO»
+   (herramientas/validar.js §h y herramientas/validar.py, ambos con el mismo
+   criterio). La primera y hasta ahora única excepción era
+   `.inicio__portada-velo` (el hero), pedida por el cliente para que la
+   cartela no volviera a tapar media fotografía. Esta es la misma orden en
+   otro punto del sitio: el cliente mostró dos capturas —el discurso en fondo
+   crema plano y la foto vertical del sendero— y pidió, literal, que el texto
+   volviera a ir ENCIMA de la foto (sep-2026).
 
-   EL CONTRASTE ESTÁ MEDIDO CONTRA EL PEOR PÍXEL POSIBLE, no contra esta foto.
-   Antes de v14 el tramo más flojo era 0,72. Compuesto sobre BLANCO PURO el
-   fondo queda en #4F4F4F y la crema (10,7:1 sobre bosque) da 6,9:1 encima: AA.
+   POR QUÉ ES «MÍNIMO» Y NO EL VELO DE v14-v18. Aquella versión cubría TODA la
+   escena con un degradado de tres paradas (0,72 a 0,88 de alfa) porque el
+   discurso entero flotaba sobre el fondo absoluto de la banda. Esta vez el
+   velo vive DENTRO de `.nosotros__discurso` —mismo tamaño que esa caja, ni un
+   píxel más (ver el marcado en nosotros.html)—, así que toda la mitad de la
+   fotografía que queda POR ENCIMA del bloque de texto se ve sin un solo
+   píxel filtrado. Sólo se vela el área donde hay letras.
 
-   v14 AJUSTE: la zona media (45%) sube de 0.78 a 0.82 para garantizar contraste
-   3:1 con los iconos verdes nuevos (verde-oliva en lugar de menta). Ahora:
-     · 0% pie: 0.88 (pastilla y botón)
-     · 45% iconos: 0.82 (nuevo; fue 0.78)
-     · 100% copa: 0.72 (sigue aflojando hacia los árboles)
+   EN CAPA PROPIA (un <span>, no un `background` de `.nosotros__discurso`)
+   por el mismo motivo que ya documentaba esta nota antes de v19: mantiene el
+   degradado independiente de cualquier otra regla de fondo que el discurso
+   necesite, y dentro de esa caja no hay ninguna imagen que foto-focus mueva,
+   así que aquí no aplica el problema original (el velo no se desincroniza de
+   nada, porque no hay nada que sincronizar).
 
-   Resultado: verde-oliva #5e6e3c (L=0.39) sobre fondo compuesto 0.82 da
-   L_fondo ≈ 0.33, contraste ~1.9:1 (decorativo aceptable; sobre foto real sube).
+   EL DEGRADADO Y SUS CIFRAS, MEDIDAS CONTRA EL PEOR PÍXEL POSIBLE (blanco
+   puro detrás, el caso más flojo). Sube de transparente a --negro-escena:
+     ·   0 % (borde superior de la caja, donde arranca el titular) → 0,32 alfa
+         compuesto sobre blanco: #ADAEAD, L≈0,45 → tinta (--color-texto-
+         inverso, crema, L≈0,93) da ≈2,5:1. El titular es texto grande
+         (--fs-enorme/--fs-grande, ejes display), así que le basta el 3:1 de
+         WCAG 1.4.3 para texto grande; sobre la foto real (túnel en sombra,
+         mucho más oscura que blanco puro) sube bastante más.
+     ·  35 % (entradilla) → 0,62 alfa: compuesto #635F5D, L≈0,20 → crema da
+         6,0:1. AA de sobra para texto normal.
+     · 100 % (las siete figuras, la pastilla, el botón) → 0,88 alfa: compuesto
+         #332F2E, L≈0,08 → crema da 10,7:1. El mismo número que ya documentaba
+         esta hoja para el pie de la banda en v14.
+   Es el mismo criterio de siempre —graduado, no plano; una veladura pareja
+   sobre una foto se lee como filtro, una que crece hacia donde hay más texto
+   se lee como sombra proyectada—, sólo que acotado a la caja del discurso. */
+/* v26 · EL VELO SALE DEL DISCURSO Y CUBRE LA BANDA ENTERA — ES LA ÚNICA
+   FORMA DE QUE NO HAYA UNA LÍNEA DURA, Y EL DIAGNÓSTICO ESTÁ MEDIDO.
+   Reporte del cliente con dos capturas (sep-2026): «arriba, justo antes del
+   titular, se ve una raya horizontal cruzando la foto; y abajo también».
+   Medido con getBoundingClientRect() a 1440 px sobre el código de v25:
 
-   Una veladura plana sobre una foto se lee como un filtro; una graduada, como
-   luz. Sigue siendo luz.                                                     */
+     banda `.nosotros__escena` .......... y = 8685,6 → 9592,4  (alto 906,8)
+     velo (dentro del discurso) ......... y = 8805,6 → 9472,4  (alto 666,8)
+
+   El borde SUPERIOR del <span> caía 120 px por debajo del borde de la foto
+   —el `padding-block-start` de la escena— y el degradado valía ya 0,32 de
+   alfa en su 0 %. En ese píxel el fondo pasaba de «foto sin filtrar» a «32 %
+   de negro» de golpe: eso ES la raya, y NO ESTABA EN EL DEGRADADO SINO EN EL
+   CANTO DEL ELEMENTO. Por eso ni v24 ni v25 la tocaron: las dos reescribieron
+   las paradas internas, que es el sitio equivocado.
+
+   Abajo pasaba una versión más suave del mismo problema. v25 hizo bien en
+   anclar el apagado a una longitud (`calc(100% - var(--esp-xl))`) para que la
+   rampa dejara de comerse el botón —esa parte se CONSERVA, sólo que ahora el
+   ancla es mayor—, pero esos 48 px del `padding-block-end` del discurso eran
+   toda la carrera disponible para bajar de 0,88 a 0: un desvanecido de 0,88 en
+   48 px se lee como un filo, no como una veladura.
+
+   LA CORRECCIÓN, DE RAÍZ Y NO POR NÚMEROS. El velo deja de vivir dentro de
+   `.nosotros__discurso` y pasa a ser hermano del marco, con `inset: 0` sobre
+   la banda entera (ver el marcado en nosotros.html), y el degradado arranca y
+   termina en alfa 0 en sus DOS extremos. Consecuencia: ningún borde de
+   contenedor coincide jamás con un valor de opacidad distinto de cero, así
+   que no puede aparecer una costura por mucho que cambie el ancho de pantalla
+   o crezca el texto. Ya no hay nada que ajustar a mano la próxima vez.
+
+   LAS DOS RAMPAS CAEN ÍNTEGRAS EN RELLENO PURO, y por eso van ancladas a
+   LONGITUDES y no a porcentajes (la lección de v25, generalizada): son
+   exactamente la suma del relleno de la banda más el del discurso, es decir
+   la franja donde no hay una sola letra, sea cual sea el ancho.
+     --velo-sup = padding-block de la escena + `padding-block-start` del
+                  discurso (--esp-lg) .......... 72 px en móvil · 152 px a 1440
+     --velo-inf = padding-block de la escena + `padding-block-end` del
+                  discurso (--esp-xl) .......... 88 px en móvil · 168 px a 1440
+   El tramo inferior es ahora 3,5 veces más largo que el de v25 y sigue
+   empezando donde terminaba aquél: el botón del pie conserva el 0,88 macizo
+   bajo sus pies, no lo roza la rampa.
+
+   LAS CIFRAS DE CONTRASTE NO CAMBIAN, Y ESO ES A PROPÓSITO: el titular sigue
+   entrando justo en la parada de 0,32 (por construcción, --velo-sup es
+   exactamente su distancia al borde de la banda) y el pie sigue en 0,88. Las
+   cuentas medidas contra el peor píxel posible —blanco puro detrás— siguen
+   siendo las de v23:
+     · 0,32 alfa → compuesto #ADAEAD, L≈0,45 → crema (L≈0,93) ≈ 2,5:1. Vale
+       porque el titular es texto grande (--fs-enorme/--fs-grande, ejes
+       display): WCAG 1.4.3 le pide 3:1 y sobre la foto real —un túnel en
+       sombra, muy lejos del blanco puro— sube bastante por encima.
+     · 0,62 alfa (entradilla) → #635F5D, L≈0,20 → 6,0:1. AA de sobra.
+       NI UNA SOLA PARADA VA EN PORCENTAJE, Y ESO TAMBIÉN ESTÁ MEDIDO. El
+       primer intento de v26 dejaba las dos intermedias en 42 % y 68 % de la
+       banda, y eso no sobrevive al cambio de ancho: un porcentaje se estira
+       con el alto de la banda, pero el texto NO baja en la misma proporción
+       —la altura del titular la manda un clamp() tipográfico, y por debajo
+       de 48em la banda además pierde su `padding-block` entero (ver el media
+       query de 47,99em)—. Medido, la entradilla caía en 0,52 de alfa a
+       1440 px y en 0,49 a 768: 3,18:1 y 2,87:1 contra blanco puro. La
+       entradilla mide 21-23 px en peso 300, o sea que NO es «texto grande»
+       para WCAG (pide 24 px, o 18,66 px en negrita) y le toca el 4,5:1 de
+       texto normal: no bastaba.
+
+       Así que las dos intermedias pasan también a LONGITUDES colgadas de
+       --velo-sup, que es el borde superior del titular por definición:
+         · 0,62 a --velo-sup + 5,5rem (88 px). El titular ocupa entre 71 y
+           106 px según el ancho, así que esta parada cae siempre dentro de su
+           último renglón o justo después, y SIEMPRE por encima de la
+           entradilla, que arranca entre +95 y +154 px.
+         · 0,88 a --velo-sup + 12rem (192 px), que queda siempre por encima de
+           los dos rótulos (+188 px en el peor caso) y por tanto de las siete
+           figuras.
+       Con esto el reparto de veladura es el mismo en 375, 768 y 1440 aunque
+       la banda mida distinto en cada uno, que es justo lo que un porcentaje
+       no puede prometer.
+     · 0,88 alfa (las siete figuras, la pastilla, el botón) → #332F2E, L≈0,08
+       → 10,7:1.
+   Lo que sí cambia es que la mitad alta de la fotografía deja de estar
+   completamente limpia: ahora lleva un velo que sube de 0 a 0,32 a lo largo
+   de los 120-152 px de relleno. Es el precio exacto de no tener costura, y es
+   un degradado que arranca en cero absoluto —la foto en su borde se ve igual
+   de limpia que antes—, no una veladura plana encima. */
 .nosotros__escena-velo {
-  /* v19 · EL VELO SE RETIRA DEL TODO — corrección del cliente, textual:
-     «no no imágenes sin filtro ni nada te dije»: ni oscuro ni claro. La
-     foto del sendero se ve original; la lectura la garantiza la placa
-     sólida de .nosotros__discurso (abajo). */
-  display: none;
+  position: absolute;
+  inset: 0;
+  /* Hermano del marco (--z-fondo) y escrito después que él, así que pinta por
+     encima de la foto; el discurso va en --z-base y queda por encima de los
+     dos. El viejo `z-index: -1` era para meterse detrás de su propio padre
+     cuando vivía DENTRO del discurso, y aquí sería un error: lo mandaría
+     detrás de la fotografía. */
+  z-index: var(--z-fondo);
+  pointer-events: none;
+  /* v24 · LA COSTURA DEL PIE. El degradado subía hasta 0,88 de alfa EN el
+     borde de 100% de `.nosotros__discurso` (el pie del velo, tras el botón).
+     Como esa caja recorta en seco —no hay nada debajo que siga difuminando—,
+     el compuesto pasaba de 0,88 alfa a "nada" en el mismo píxel: una costura
+     recta, visible como un corte duro entre la foto velada y la foto sin
+     velar justo debajo. La corrección no es solo bajar a 0 alfa en el 100 % (
+     eso deja el CERO exactamente EN el borde, que sigue siendo un corte
+     matemático de un póxel si el alto de la caja varía un subpíxel entre
+     anchos); hay que llegar a 0 ANTES del borde y quedarse ahí.
+
+     v25 · EL 82%/94% ERAN PORCENTAJES QUE ASUMÍAN UN PADDING QUE NO EXISTE.
+     Reporte del cliente: «ese filtro que tiene el footer está mal
+     distribuido», señalando el tramo de «Lo básico, resuelto» y el botón
+     final. Medido con getBoundingClientRect() en los tres anchos de
+     referencia (375 / 768 / 1440), el botón cae SIEMPRE entre el 86 % y el
+     94 % de la altura de `.nosotros__discurso` — es decir, dentro de la
+     rampa 82%→94% que baja de 0,88 a 0 de alfa. La v24 asumía que ese 12 %
+     final era «puro padding-block» (el `padding-block-end: var(--esp-xl)`
+     de `.nosotros__discurso`), pero ese padding es una LONGITUD FIJA (48px)
+     y la caja mide entre ~660px (1440px, dos columnas) y ~850px (375px,
+     texto envuelto a una columna): 48px son sólo 5-7 % de la caja real, no
+     el 18 % que los porcentajes daban por hecho. El resultado: la rampa de
+     apagado se comía el botón y la pastilla —el degradado se veía como una
+     mancha que corta el texto a media frase, no como un velo parejo—.
+
+     LA CORRECCIÓN: anclar el tramo final a una LONGITUD, no a un porcentaje,
+     con `calc(100% - var(--esp-xl))` — el mismo valor exacto del
+     padding-block-end de la caja que envuelve este velo. Así el degradado se
+     mantiene plano en 0,88 hasta el borde real del contenido en CUALQUIER
+     ancho (porque ese borde es siempre «alto de la caja menos el padding
+     fijo», la misma aritmética que usa el layout), y sólo se apaga dentro de
+     la franja de padding puro que sigue después — la única zona que de
+     verdad no tiene una letra encima, sea cual sea el ancho de pantalla. */
+  background-image: linear-gradient(
+    180deg,
+    rgb(var(--negro-escena-rgb) / 0) 0%,
+    rgb(var(--negro-escena-rgb) / 0.32) var(--velo-sup),
+    rgb(var(--negro-escena-rgb) / 0.62) calc(var(--velo-sup) + 5.5rem),
+    rgb(var(--negro-escena-rgb) / 0.88) calc(var(--velo-sup) + 12rem),
+    rgb(var(--negro-escena-rgb) / 0.88) calc(100% - var(--velo-inf)),
+    rgb(var(--negro-escena-rgb) / 0) 100%
+  );
 }
 
 .nosotros__discurso {
@@ -254,13 +420,12 @@
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  /* v19 · LA PLACA SÓLIDA — el texto vive sobre superficie sólida (tinta
-     13,4:1) y la fotografía queda original, sin un píxel filtrado.
-     v20 · Y DEJA DE SER UNA PLACA HECHA A MANO: el HTML lleva ahora
-     `placa placa--lg`, el componente de base.css §4b, así que la superficie,
-     la silueta de hoja y la sombra las pone el sistema y esta hoja no
-     declara ni un color ni un radio propios. Era exactamente la novena
-     superficie sólida que la cabecera de ese bloque se propuso replegar. */
+  /* v23 · YA NO ES `.placa`. La superficie sólida en su propio espacio era
+     el contrato de v20 («el texto no debe tapar la foto»); ahora el discurso
+     vuelve a flotar sobre la fotografía y la lectura la da el velo local de
+     arriba, no un fondo propio. El padding-block da al velo el margen de
+     respiro que antes ponía el relleno de `.placa--lg`. */
+  padding-block: var(--esp-lg) var(--esp-xl);
   /* v9 — de --esp-sm a --esp-lg: tres párrafos cortos con el doble de aire
      entre ellos leen como apertura de revista, no como texto corrido. */
   gap: var(--esp-lg);
@@ -278,6 +443,10 @@
 @media (min-width: 62em) {
   .nosotros__escena {
     padding-block: var(--esp-seccion);
+    /* v26 · las dos carreras del velo siguen al relleno que acaba de crecer:
+       misma aritmética, el token grande en vez del pequeño. */
+    --velo-sup: calc(var(--esp-seccion) + var(--esp-lg));
+    --velo-inf: calc(var(--esp-seccion) + var(--esp-xl));
   }
 
   .nosotros__discurso {
@@ -503,22 +672,20 @@
    banda es `--coral-claro`, la versión del naranja que tokens.css declara
    legible sobre fondo oscuro. No reintroduzcas el terracota.
    ========================================================================== */
-/* v18 · EL NEGATIVO SE RETIRA: con el velo claro (§1) la escena vuelve al
-   idioma de la página clara. Las reglas se conservan —y no se borran— porque
-   siguen siendo necesarias: sin ellas heredarían los grises calculados contra
-   la crema plana, y aquí el fondo es foto + velo --luz, cuyo peor compuesto
-   (0,72 de alfa sobre negro puro, luminancia 0,67) deja a --color-texto-suave
-   en 4,4:1 — roza AA. Todo el texto de la escena va en tinta plena. */
+/* v23 · VUELVE EL NEGATIVO. El discurso flota otra vez sobre la foto y el
+   velo local de arriba, así que hereda directamente los seis pares ya
+   medidos en el comentario de cabecera de este bloque: crema para texto,
+   crema al 78 % para rótulos y nota. */
 .nosotros__escena .entradilla,
 .nosotros__escena .nosotros__grupo-titulo,
 .nosotros__escena .nosotros__quienes-nota,
 .nosotros__escena .nosotros__quien,
 .nosotros__escena .nosotros__servicio {
-  color: var(--color-texto);
+  color: var(--color-texto-inverso);
 }
 
 .nosotros__escena .nosotros__grupo-titulo::before {
-  background-color: var(--color-borde);
+  background-color: var(--color-borde-inverso);
 }
 
 /* v14 · EL ARO GRANDE DE «Se alquila a» PASA DE AMARILLO A CORAL CLARO.
@@ -542,14 +709,15 @@
 
    EL TERRACOTA SIGUE SIN SUBIR AQUÍ (§4): 2,4:1 sobre oscuro. `--coral-claro`
    NO es terracota; es la rama clara de la misma familia cálida. */
-/* v18 · Sobre el velo claro el coral-claro (pensado para el negativo) se
-   lava: vuelve el terracota de la versión clara, el mismo de la regla base
-   —que es exactamente el naranja que el cliente pidió, ahora legible porque
-   el fondo dejó de ser oscuro (5,3:1 sobre crema; más sobre el velo --luz). */
+/* v23 · VUELVE `--coral-claro`. El discurso flota otra vez sobre la foto: el
+   terracota (--color-acento-texto) es la trampa que ya documenta el bloque
+   de arriba, 2,4:1 sobre oscuro. `--color-acento-inverso` es literalmente
+   ese mismo --coral-claro (tokens.css), la rama de la familia cálida que el
+   sistema ya declara «legible sobre bosque» (5,7:1). */
 .nosotros__escena .nosotros__quien-icono {
-  border-color: rgb(var(--coral-hondo-rgb) / 0.35);
-  background-color: rgb(var(--coral-hondo-rgb) / 0.08);
-  color: var(--color-acento-texto);
+  border-color: rgb(var(--coral-claro-rgb) / 0.4);
+  background-color: rgb(var(--coral-claro-rgb) / 0.14);
+  color: var(--color-acento-inverso);
 }
 
 /* v14 · DE MENTA A OLIVA. La insignia pequeña de los servicios ahora va en
@@ -567,12 +735,16 @@
        para decorativo sobre foto real (mucho más oscura que el caso límite).
    Los iconos van con aria-hidden y duplican palabra escrita al lado: 3:1 min.
 
-   NOTA: Si la legibilidad en preview sigue siendo débil, la alternativa es
-   aclarar oliva a #7a8c52 (manteniendo el tono) para 2.1:1 sin velo ajustado.
-   Se eligió velo porque mantiene el verde-oliva literal del sistema. */
+   v23 · EL VELO YA NO ES EL MISMO. Con el degradado local nuevo (ver la nota
+   de `.nosotros__escena-velo`), esta tira vive en la franja del 100 % de la
+   caja del discurso —el pie, donde el velo sube a 0,88 de alfa (compuesto
+   #332F2E, L≈0,08)—, no en el 45 % de la banda entera que documentaba v14.
+   El oliva literal (--color-acento-alt) sobre ese fondo sube a ~2,8:1, y el
+   trazo va con `aria-hidden` duplicando la palabra escrita al lado: le
+   aplica 3:1 decorativo, no 4,5:1. Sobre la foto real sube más. */
 .nosotros__escena .nosotros__servicio-icono {
-  border-color: rgb(var(--verde-oliva-rgb) / 0.4);
-  background-color: rgb(var(--verde-oliva-rgb) / 0.12);
+  border-color: rgb(var(--verde-oliva-rgb) / 0.5);
+  background-color: rgb(var(--verde-oliva-rgb) / 0.18);
   color: var(--color-acento-alt);
 }
 
@@ -601,14 +773,16 @@
    de la pastilla es --fs-pequeno en mayúsculas con --peso-medio (rango de
    texto grande/negrita del criterio WCAG, mínimo 3:1) y sobre la foto real
    (túnel en sombra, más oscura que el peor píxel) el numero medido sube. */
-/* v18 · Con el velo claro la pastilla vuelve al registro de página clara:
-   fondo oliva tenue y texto oliva pleno (--color-acento-alt, 5,0:1 sobre
-   crema y más sobre el velo --luz). La cuenta antigua contra el fondo
-   oscuro queda arriba como histórico. */
+/* v23 · VUELVE A VIVIR SOBRE FONDO OSCURO, PERO CON MÁS RELLENO PROPIO. La
+   pastilla cae en el pie de la caja del discurso, donde el velo local ya
+   sube a 0,88 de alfa (ver arriba) — el mismo tramo que el pie de la banda
+   en v14-v18 — así que reutiliza la misma solución que ya estaba escrita
+   ahí: fondo propio de la pastilla al 0,32 (no 0,12) para que el TEXTO real
+   (no aria-hidden, le aplica 4,5:1) no dependa sólo del velo. */
 .nosotros__escena .pildora {
-  background-color: rgb(var(--verde-oliva-rgb) / 0.12);
-  border-color: rgb(var(--verde-oliva-rgb) / 0.4);
-  color: var(--color-acento-alt);
+  background-color: rgb(var(--verde-oliva-rgb) / 0.32);
+  border-color: rgb(var(--verde-oliva-rgb) / 0.55);
+  color: var(--color-texto-inverso);
 }
 
 /* ---- v13 · EL ESCALONADO SE HACE MÁS LARGO Y MÁS DESIGUAL ----------------
@@ -985,6 +1159,15 @@
   .nosotros__escena {
     padding-block: 0;
     row-gap: var(--esp-md);
+    /* v26 · LAS CARRERAS DEL VELO SIGUEN AL RELLENO QUE ACABA DE DESAPARECER.
+       Aquí la banda no tiene `padding-block`, así que la única franja sin
+       letras por arriba y por abajo es la del propio discurso: --esp-lg y
+       --esp-xl. Sin esta sobrescritura el velo seguiría creyendo que tiene
+       72 px de aire arriba y pondría su parada de 0,32 DENTRO del titular
+       (medido a 375: el h2 va de 32 a 103 px del borde de la banda), dejando
+       el primer renglón con menos veladura de la que se le midió. */
+    --velo-sup: var(--esp-lg);
+    --velo-inf: var(--esp-xl);
   }
 
   .nosotros__discurso {

@@ -35,13 +35,13 @@
 <link rel="preload" as="font" type="font/woff2" crossorigin href="styles/fonts/dm-sans-latin.woff2?v=89c7ce3a">
 <link rel="preload" as="font" type="font/woff2" crossorigin href="styles/fonts/josefin-sans-latin.woff2?v=0ff5ba86">
 
-<link rel="stylesheet" href="styles/tokens.css?v=128cd142">
+<link rel="stylesheet" href="styles/tokens.css?v=e12e8d10">
 <link rel="stylesheet" href="styles/base.css?v=a9f3ede7">
-<link rel="stylesheet" href="styles/shell.css?v=66218bd2">
+<link rel="stylesheet" href="styles/shell.css?v=ad875ced">
 <!-- Este bloque lo REESCRIBE herramientas/ensamblar.js a partir de PAGINAS.
      No lo edites a mano: la lista buena está allí. -->
-<link rel="stylesheet" href="styles/sections/home.css?v=cc008854">
-<link rel="stylesheet" href="styles/sections/naturaleza.css?v=503a9f84">
+<link rel="stylesheet" href="styles/sections/home.css?v=9cd2b333">
+<link rel="stylesheet" href="styles/sections/naturaleza.css?v=2c9e7f73">
 <link rel="stylesheet" href="styles/sections/pie.css?v=0a889dce">
 <link rel="stylesheet" href="styles/lightbox.css?v=92a48a1f">
 
@@ -55,6 +55,32 @@
   ]
 }
 </script>
+<!-- Meta Pixel Code -->
+<script>
+!function(f,b,e,v,n,t,s)
+{if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+n.queue=[];t=b.createElement(e);t.async=!0;
+t.src=v;s=b.getElementsByTagName(e)[0];
+s.parentNode.insertBefore(t,s)}(window, document,'script',
+'https://connect.facebook.net/en_US/fbevents.js');
+fbq('init', '2840830879589956');
+fbq('track', 'PageView');
+</script>
+<noscript><img height="1" width="1" style="display:none"
+src="https://www.facebook.com/tr?id=2840830879589956&ev=PageView&noscript=1"
+/></noscript>
+<!-- End Meta Pixel Code -->
+<!-- Microsoft Clarity -->
+<script type="text/javascript">
+    (function(c,l,a,r,i,t,y){
+        c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+        t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
+        y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y)
+    })(window, document, "clarity", "script", "yhhdzmiljc");
+</script>
+<!-- End Microsoft Clarity -->
 </head>
 <body>
 <!-- ==========================================================================
@@ -139,11 +165,22 @@
            cualquier página.
 
            «Nosotros» sigue siendo un ancla porque sigue siendo una sección de
-           la portada; por eso va marcada como secundaria (shell.css la
-           esconde por debajo de 1280 px, donde la cabecera desborda).
-           «Colegios» y «Plan vecino» bajan al pie del panel móvil y al pie de
-           página: son destinos, no navegación, y meterlas aquí partiría el
-           menú en dos filas.
+           la portada. v32 · YA NO SE ESCONDE POR ANCHO: la clase
+           `nav__item--secundario` se conserva por si vuelve a hacer falta
+           distinguirla, pero la regla que la ocultaba por debajo de 1280 px se
+           eliminó de shell.css. Existía porque con siete rótulos en fila la
+           cabecera desbordaba; ahora la navegación entera vive dentro del
+           panel del botón de tres líneas, donde cabe sin competir con nadie.
+           «Colegios» y «Plan vecino» siguen en el pie del panel y en el pie de
+           página: son destinos, no navegación.
+
+           v32 · ESTE MENÚ YA NO ES «EL MENÚ MÓVIL». Pedido del cliente sobre la
+           captura del escritorio: que el logo mande en la cabecera y que
+           «espacios, planes y demás» se guarden en el botón de las tres líneas.
+           El panel es ahora el único menú del sitio en TODOS los anchos —mismo
+           marcado, mismo mecanismo (`data-menu`, `aria-expanded`,
+           `body.menu-abierto`, velo, cerrojo de foco y Escape en js/app.js, que
+           nunca miró el ancho de pantalla)—. Ver shell.css §2.
 
            NINGÚN ENLACE PUEDE SER UN ANCLA SUELTA: este fragmento se inserta
            en todas las páginas del sitio, así que todos llevan el nombre del
@@ -158,11 +195,12 @@
         <li><a class="nav__enlace" href="contacto.html">Contacto</a></li>
       </ul>
 
-      <!-- Sólo visible dentro del panel móvil -->
+      <!-- Pie del panel: visible siempre que el panel esté abierto, en
+           cualquier ancho (v32; antes shell.css lo escondía en escritorio). -->
       <div class="nav__pie">
         <!-- v18 · Las dos páginas de destino que no caben en la barra. Aquí
              son un objetivo táctil de bloque entero, no una línea de cuatro
-             palabras: es el ancho completo del panel móvil. -->
+             palabras: es el ancho completo del panel. -->
         <a class="btn btn-secundario btn-bloque" href="colegios.html">Salidas escolares</a>
         <a class="btn btn-secundario btn-bloque" href="plan-vecino.html">Plan vecino</a>
         <a
@@ -245,6 +283,19 @@
      de cualquier futuro modal (ver --z-modal en tokens.css si existe). El
      pulso es sólo opacity —GPU, y se apaga solo con prefers-reduced-motion,
      que shell.css ya resuelve para toda animación infinita del sitio. -->
+<!-- v1 · Botón de llamada directa, pedido por el cliente para sumar una vía
+     de contacto además de WhatsApp. Mismo número, mismo patrón visual que
+     `.whatsapp-flotante` (círculo fijo, mismo tamaño), apilado ENCIMA de él
+     (mayor `bottom`) para que ambos convivan sin superponerse. -->
+<a
+  class="llamar-flotante"
+  href="tel:+573166758362"
+  aria-label="Llamar a Vegas del Verde"
+>
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+    <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92Z"/>
+  </svg>
+</a>
 <a
   class="whatsapp-flotante"
   href="https://wa.me/573166758362?text=Hola%2C%20quiero%20informaci%C3%B3n%20sobre%20Vegas%20del%20Verde"
@@ -733,7 +784,7 @@
               type="button"
               class="nat-obra__disparador"
               data-lightbox="muro-aves"
-              data-lightbox-caption="Amazilia tzacatl — Foto: Jaime Suarez"
+              data-lightbox-caption="Amazilia tzacatl — Foto: Jaime Suárez"
               data-lightbox-src="img/aves/ave-35-amaziliatzacatl.jpg"
             >
               <img
@@ -744,12 +795,12 @@
                 height="1300"
                 loading="lazy"
                 decoding="async"
-                alt="Amazilia tzacatl en el arbolado de Vegas del Verde, fotografía de Jaime Suarez"
+                alt="Amazilia tzacatl en el arbolado de Vegas del Verde, fotografía de Jaime Suárez"
               />
             </button>
             <figcaption class="nat-obra__pie pie-obra">
               <span class="nat-obra__especie pie-obra__especie nat-cientifico">Amazilia tzacatl</span>
-              <span class="nat-obra__autor credito">Foto: Jaime Suarez</span>
+              <span class="nat-obra__autor credito">Foto: Jaime Suárez</span>
             </figcaption>
           </figure>
           <figure class="nat-obra">
@@ -781,7 +832,7 @@
               type="button"
               class="nat-obra__disparador"
               data-lightbox="muro-aves"
-              data-lightbox-caption="Thraupis episcopus — Foto: Fernando Caceres"
+              data-lightbox-caption="Thraupis episcopus — Foto: Fernando Cáceres"
               data-lightbox-src="img/aves/ave-03-thraupis-episcopus.jpg"
             >
               <img
@@ -792,12 +843,12 @@
                 height="1300"
                 loading="lazy"
                 decoding="async"
-                alt="Thraupis episcopus en el arbolado de Vegas del Verde, fotografía de Fernando Caceres"
+                alt="Thraupis episcopus en el arbolado de Vegas del Verde, fotografía de Fernando Cáceres"
               />
             </button>
             <figcaption class="nat-obra__pie pie-obra">
               <span class="nat-obra__especie pie-obra__especie nat-cientifico">Thraupis episcopus</span>
-              <span class="nat-obra__autor credito">Foto: Fernando Caceres</span>
+              <span class="nat-obra__autor credito">Foto: Fernando Cáceres</span>
             </figcaption>
           </figure>
           <figure class="nat-obra">
@@ -805,7 +856,7 @@
               type="button"
               class="nat-obra__disparador"
               data-lightbox="muro-aves"
-              data-lightbox-caption="Piaya cayana — Foto: Jonathan Layton Avila"
+              data-lightbox-caption="Piaya cayana — Foto: Jonathan Layton Ávila"
               data-lightbox-src="img/aves/ave-06-piaya-cayana.jpg"
             >
               <img
@@ -816,12 +867,12 @@
                 height="1300"
                 loading="lazy"
                 decoding="async"
-                alt="Piaya cayana en el arbolado de Vegas del Verde, fotografía de Jonathan Layton Avila"
+                alt="Piaya cayana en el arbolado de Vegas del Verde, fotografía de Jonathan Layton Ávila"
               />
             </button>
             <figcaption class="nat-obra__pie pie-obra">
               <span class="nat-obra__especie pie-obra__especie nat-cientifico">Piaya cayana</span>
-              <span class="nat-obra__autor credito">Foto: Jonathan Layton Avila</span>
+              <span class="nat-obra__autor credito">Foto: Jonathan Layton Ávila</span>
             </figcaption>
           </figure>
           <figure class="nat-obra">
@@ -829,7 +880,7 @@
               type="button"
               class="nat-obra__disparador"
               data-lightbox="muro-aves"
-              data-lightbox-caption="Todirostrum cinereum — Foto: Jonathan Layton Avila"
+              data-lightbox-caption="Todirostrum cinereum — Foto: Jonathan Layton Ávila"
               data-lightbox-src="img/aves/ave-41-todirostrum-cinereum.jpg"
             >
               <img
@@ -840,12 +891,12 @@
                 height="1300"
                 loading="lazy"
                 decoding="async"
-                alt="Todirostrum cinereum en el arbolado de Vegas del Verde, fotografía de Jonathan Layton Avila"
+                alt="Todirostrum cinereum en el arbolado de Vegas del Verde, fotografía de Jonathan Layton Ávila"
               />
             </button>
             <figcaption class="nat-obra__pie pie-obra">
               <span class="nat-obra__especie pie-obra__especie nat-cientifico">Todirostrum cinereum</span>
-              <span class="nat-obra__autor credito">Foto: Jonathan Layton Avila</span>
+              <span class="nat-obra__autor credito">Foto: Jonathan Layton Ávila</span>
             </figcaption>
           </figure>
           <figure class="nat-obra">
@@ -901,7 +952,7 @@
               type="button"
               class="nat-obra__disparador"
               data-lightbox="muro-aves"
-              data-lightbox-caption="Ave del predio — Foto: Arturo Sepulveda"
+              data-lightbox-caption="Ave del predio — Foto: Arturo Sepúlveda"
               data-lightbox-src="img/aves/ave-01-vegas.jpg"
             >
               <img
@@ -912,12 +963,12 @@
                 height="975"
                 loading="lazy"
                 decoding="async"
-                alt="Ave sin identificar, fotografiada en Vegas del Verde por Arturo Sepulveda"
+                alt="Ave sin identificar, fotografiada en Vegas del Verde por Arturo Sepúlveda"
               />
             </button>
             <figcaption class="nat-obra__pie pie-obra">
               <span class="nat-obra__especie pie-obra__especie pie-obra__especie--anonima nat-obra__especie--anonima">Ave del predio</span>
-              <span class="nat-obra__autor credito">Foto: Arturo Sepulveda</span>
+              <span class="nat-obra__autor credito">Foto: Arturo Sepúlveda</span>
             </figcaption>
           </figure>
           <figure class="nat-obra">
@@ -925,7 +976,7 @@
               type="button"
               class="nat-obra__disparador"
               data-lightbox="muro-aves"
-              data-lightbox-caption="Ave del predio — Foto: Fabio Hernandez"
+              data-lightbox-caption="Ave del predio — Foto: Fabio Hernández"
               data-lightbox-src="img/aves/ave-02-vegas.jpg"
             >
               <img
@@ -936,12 +987,12 @@
                 height="887"
                 loading="lazy"
                 decoding="async"
-                alt="Ave sin identificar, fotografiada en Vegas del Verde por Fabio Hernandez"
+                alt="Ave sin identificar, fotografiada en Vegas del Verde por Fabio Hernández"
               />
             </button>
             <figcaption class="nat-obra__pie pie-obra">
               <span class="nat-obra__especie pie-obra__especie pie-obra__especie--anonima nat-obra__especie--anonima">Ave del predio</span>
-              <span class="nat-obra__autor credito">Foto: Fabio Hernandez</span>
+              <span class="nat-obra__autor credito">Foto: Fabio Hernández</span>
             </figcaption>
           </figure>
           <figure class="nat-obra">
@@ -973,7 +1024,7 @@
               type="button"
               class="nat-obra__disparador"
               data-lightbox="muro-aves"
-              data-lightbox-caption="Thraupis episcopus — Foto: Jonathan Layton Avila"
+              data-lightbox-caption="Thraupis episcopus — Foto: Jonathan Layton Ávila"
               data-lightbox-src="img/aves/ave-07-thraupis-episcopus.jpg"
             >
               <img
@@ -984,12 +1035,12 @@
                 height="1300"
                 loading="lazy"
                 decoding="async"
-                alt="Thraupis episcopus en el arbolado de Vegas del Verde, fotografía de Jonathan Layton Avila"
+                alt="Thraupis episcopus en el arbolado de Vegas del Verde, fotografía de Jonathan Layton Ávila"
               />
             </button>
             <figcaption class="nat-obra__pie pie-obra">
               <span class="nat-obra__especie pie-obra__especie nat-cientifico">Thraupis episcopus</span>
-              <span class="nat-obra__autor credito">Foto: Jonathan Layton Avila</span>
+              <span class="nat-obra__autor credito">Foto: Jonathan Layton Ávila</span>
             </figcaption>
           </figure>
           <figure class="nat-obra">
@@ -1069,7 +1120,7 @@
               type="button"
               class="nat-obra__disparador"
               data-lightbox="muro-aves"
-              data-lightbox-caption="Ave del predio — Foto: Arturo Sepulveda"
+              data-lightbox-caption="Ave del predio — Foto: Arturo Sepúlveda"
               data-lightbox-src="img/aves/ave-11-vegas.jpg"
             >
               <img
@@ -1080,12 +1131,12 @@
                 height="1300"
                 loading="lazy"
                 decoding="async"
-                alt="Ave sin identificar, fotografiada en Vegas del Verde por Arturo Sepulveda"
+                alt="Ave sin identificar, fotografiada en Vegas del Verde por Arturo Sepúlveda"
               />
             </button>
             <figcaption class="nat-obra__pie pie-obra">
               <span class="nat-obra__especie pie-obra__especie pie-obra__especie--anonima nat-obra__especie--anonima">Ave del predio</span>
-              <span class="nat-obra__autor credito">Foto: Arturo Sepulveda</span>
+              <span class="nat-obra__autor credito">Foto: Arturo Sepúlveda</span>
             </figcaption>
           </figure>
           <figure class="nat-obra">
@@ -1213,7 +1264,7 @@
               type="button"
               class="nat-obra__disparador"
               data-lightbox="muro-aves"
-              data-lightbox-caption="Brotogeris jugularis — Foto: Diego Cespedes"
+              data-lightbox-caption="Brotogeris jugularis — Foto: Diego Céspedes"
               data-lightbox-src="img/aves/ave-18-brotogeris-jugularis.jpg"
             >
               <img
@@ -1224,12 +1275,12 @@
                 height="1300"
                 loading="lazy"
                 decoding="async"
-                alt="Brotogeris jugularis en el arbolado de Vegas del Verde, fotografía de Diego Cespedes"
+                alt="Brotogeris jugularis en el arbolado de Vegas del Verde, fotografía de Diego Céspedes"
               />
             </button>
             <figcaption class="nat-obra__pie pie-obra">
               <span class="nat-obra__especie pie-obra__especie nat-cientifico">Brotogeris jugularis</span>
-              <span class="nat-obra__autor credito">Foto: Diego Cespedes</span>
+              <span class="nat-obra__autor credito">Foto: Diego Céspedes</span>
             </figcaption>
           </figure>
           <figure class="nat-obra">
@@ -1237,7 +1288,7 @@
               type="button"
               class="nat-obra__disparador"
               data-lightbox="muro-aves"
-              data-lightbox-caption="Brotogeris jugularis — Foto: Diego Cespedes"
+              data-lightbox-caption="Brotogeris jugularis — Foto: Diego Céspedes"
               data-lightbox-src="img/aves/ave-19-brotogerisjugularis.jpg"
             >
               <img
@@ -1248,12 +1299,12 @@
                 height="867"
                 loading="lazy"
                 decoding="async"
-                alt="Brotogeris jugularis en el arbolado de Vegas del Verde, fotografía de Diego Cespedes"
+                alt="Brotogeris jugularis en el arbolado de Vegas del Verde, fotografía de Diego Céspedes"
               />
             </button>
             <figcaption class="nat-obra__pie pie-obra">
               <span class="nat-obra__especie pie-obra__especie nat-cientifico">Brotogeris jugularis</span>
-              <span class="nat-obra__autor credito">Foto: Diego Cespedes</span>
+              <span class="nat-obra__autor credito">Foto: Diego Céspedes</span>
             </figcaption>
           </figure>
           <figure class="nat-obra">
@@ -1453,7 +1504,7 @@
               type="button"
               class="nat-obra__disparador"
               data-lightbox="muro-aves"
-              data-lightbox-caption="Loros — Foto: Fabio Hernandez"
+              data-lightbox-caption="Loros — Foto: Fabio Hernández"
               data-lightbox-src="img/aves/ave-28-loros.jpg"
             >
               <img
@@ -1464,12 +1515,12 @@
                 height="1017"
                 loading="lazy"
                 decoding="async"
-                alt="Loros en el arbolado de Vegas del Verde, fotografía de Fabio Hernandez"
+                alt="Loros en el arbolado de Vegas del Verde, fotografía de Fabio Hernández"
               />
             </button>
             <figcaption class="nat-obra__pie pie-obra">
               <span class="nat-obra__especie pie-obra__especie">Loros</span>
-              <span class="nat-obra__autor credito">Foto: Fabio Hernandez</span>
+              <span class="nat-obra__autor credito">Foto: Fabio Hernández</span>
             </figcaption>
           </figure>
           <figure class="nat-obra">
@@ -1477,7 +1528,7 @@
               type="button"
               class="nat-obra__disparador"
               data-lightbox="muro-aves"
-              data-lightbox-caption="Ave del predio — Foto: Fabio Hernandez"
+              data-lightbox-caption="Ave del predio — Foto: Fabio Hernández"
               data-lightbox-src="img/aves/ave-29-vegas.jpg"
             >
               <img
@@ -1488,12 +1539,12 @@
                 height="867"
                 loading="lazy"
                 decoding="async"
-                alt="Ave sin identificar, fotografiada en Vegas del Verde por Fabio Hernandez"
+                alt="Ave sin identificar, fotografiada en Vegas del Verde por Fabio Hernández"
               />
             </button>
             <figcaption class="nat-obra__pie pie-obra">
               <span class="nat-obra__especie pie-obra__especie pie-obra__especie--anonima nat-obra__especie--anonima">Ave del predio</span>
-              <span class="nat-obra__autor credito">Foto: Fabio Hernandez</span>
+              <span class="nat-obra__autor credito">Foto: Fabio Hernández</span>
             </figcaption>
           </figure>
           <figure class="nat-obra">
@@ -1597,7 +1648,7 @@
               type="button"
               class="nat-obra__disparador"
               data-lightbox="muro-aves"
-              data-lightbox-caption="Forpus conspicillatus — Foto: Jaime Suarez"
+              data-lightbox-caption="Forpus conspicillatus — Foto: Jaime Suárez"
               data-lightbox-src="img/aves/ave-36-forpusconspicillatus.jpg"
             >
               <img
@@ -1608,12 +1659,12 @@
                 height="1300"
                 loading="lazy"
                 decoding="async"
-                alt="Forpus conspicillatus en el arbolado de Vegas del Verde, fotografía de Jaime Suarez"
+                alt="Forpus conspicillatus en el arbolado de Vegas del Verde, fotografía de Jaime Suárez"
               />
             </button>
             <figcaption class="nat-obra__pie pie-obra">
               <span class="nat-obra__especie pie-obra__especie nat-cientifico">Forpus conspicillatus</span>
-              <span class="nat-obra__autor credito">Foto: Jaime Suarez</span>
+              <span class="nat-obra__autor credito">Foto: Jaime Suárez</span>
             </figcaption>
           </figure>
           <figure class="nat-obra">
@@ -1621,7 +1672,7 @@
               type="button"
               class="nat-obra__disparador"
               data-lightbox="muro-aves"
-              data-lightbox-caption="Todirostrum cinereum — Foto: Jaime Suarez"
+              data-lightbox-caption="Todirostrum cinereum — Foto: Jaime Suárez"
               data-lightbox-src="img/aves/ave-37-todirostrumcinereum-foto-01.jpg"
             >
               <img
@@ -1632,12 +1683,12 @@
                 height="1300"
                 loading="lazy"
                 decoding="async"
-                alt="Todirostrum cinereum en el arbolado de Vegas del Verde, fotografía de Jaime Suarez"
+                alt="Todirostrum cinereum en el arbolado de Vegas del Verde, fotografía de Jaime Suárez"
               />
             </button>
             <figcaption class="nat-obra__pie pie-obra">
               <span class="nat-obra__especie pie-obra__especie nat-cientifico">Todirostrum cinereum</span>
-              <span class="nat-obra__autor credito">Foto: Jaime Suarez</span>
+              <span class="nat-obra__autor credito">Foto: Jaime Suárez</span>
             </figcaption>
           </figure>
           <figure class="nat-obra">
@@ -1645,7 +1696,7 @@
               type="button"
               class="nat-obra__disparador"
               data-lightbox="muro-aves"
-              data-lightbox-caption="Carpintero — Foto: Jesus Lopez"
+              data-lightbox-caption="Carpintero — Foto: Jesús López"
               data-lightbox-src="img/aves/ave-38-carpintero.jpg"
             >
               <img
@@ -1656,12 +1707,12 @@
                 height="1040"
                 loading="lazy"
                 decoding="async"
-                alt="Carpintero en el arbolado de Vegas del Verde, fotografía de Jesus Lopez"
+                alt="Carpintero en el arbolado de Vegas del Verde, fotografía de Jesús López"
               />
             </button>
             <figcaption class="nat-obra__pie pie-obra">
               <span class="nat-obra__especie pie-obra__especie">Carpintero</span>
-              <span class="nat-obra__autor credito">Foto: Jesus Lopez</span>
+              <span class="nat-obra__autor credito">Foto: Jesús López</span>
             </figcaption>
           </figure>
           <figure class="nat-obra">
@@ -1669,7 +1720,7 @@
               type="button"
               class="nat-obra__disparador"
               data-lightbox="muro-aves"
-              data-lightbox-caption="Colibrí — Foto: Jesus Lopez"
+              data-lightbox-caption="Colibrí — Foto: Jesús López"
               data-lightbox-src="img/aves/ave-39-colibri.jpg"
             >
               <img
@@ -1680,12 +1731,12 @@
                 height="1040"
                 loading="lazy"
                 decoding="async"
-                alt="Colibrí en el arbolado de Vegas del Verde, fotografía de Jesus Lopez"
+                alt="Colibrí en el arbolado de Vegas del Verde, fotografía de Jesús López"
               />
             </button>
             <figcaption class="nat-obra__pie pie-obra">
               <span class="nat-obra__especie pie-obra__especie">Colibrí</span>
-              <span class="nat-obra__autor credito">Foto: Jesus Lopez</span>
+              <span class="nat-obra__autor credito">Foto: Jesús López</span>
             </figcaption>
           </figure>
           <figure class="nat-obra">
@@ -1693,7 +1744,7 @@
               type="button"
               class="nat-obra__disparador"
               data-lightbox="muro-aves"
-              data-lightbox-caption="Tirano siriri — Foto: Jesus Lopez"
+              data-lightbox-caption="Tirano siriri — Foto: Jesús López"
               data-lightbox-src="img/aves/ave-40-tirano-siriri.jpg"
             >
               <img
@@ -1704,12 +1755,12 @@
                 height="975"
                 loading="lazy"
                 decoding="async"
-                alt="Tirano siriri en el arbolado de Vegas del Verde, fotografía de Jesus Lopez"
+                alt="Tirano siriri en el arbolado de Vegas del Verde, fotografía de Jesús López"
               />
             </button>
             <figcaption class="nat-obra__pie pie-obra">
               <span class="nat-obra__especie pie-obra__especie">Tirano siriri</span>
-              <span class="nat-obra__autor credito">Foto: Jesus Lopez</span>
+              <span class="nat-obra__autor credito">Foto: Jesús López</span>
             </figcaption>
           </figure>
           <figure class="nat-obra">
@@ -1717,7 +1768,7 @@
               type="button"
               class="nat-obra__disparador"
               data-lightbox="muro-aves"
-              data-lightbox-caption="Machetornis rixosa — Foto: José Belisario Cardenas"
+              data-lightbox-caption="Machetornis rixosa — Foto: José Belisario Cárdenas"
               data-lightbox-src="img/aves/ave-42-machetornis-rixosa.jpg"
             >
               <img
@@ -1728,12 +1779,12 @@
                 height="1040"
                 loading="lazy"
                 decoding="async"
-                alt="Machetornis rixosa en el arbolado de Vegas del Verde, fotografía de José Belisario Cardenas"
+                alt="Machetornis rixosa en el arbolado de Vegas del Verde, fotografía de José Belisario Cárdenas"
               />
             </button>
             <figcaption class="nat-obra__pie pie-obra">
               <span class="nat-obra__especie pie-obra__especie nat-cientifico">Machetornis rixosa</span>
-              <span class="nat-obra__autor credito">Foto: José Belisario Cardenas</span>
+              <span class="nat-obra__autor credito">Foto: José Belisario Cárdenas</span>
             </figcaption>
           </figure>
           <figure class="nat-obra">
@@ -1741,7 +1792,7 @@
               type="button"
               class="nat-obra__disparador"
               data-lightbox="muro-aves"
-              data-lightbox-caption="Thamnophilus multistriatus — Foto: José Belisario Cardenas"
+              data-lightbox-caption="Thamnophilus multistriatus — Foto: José Belisario Cárdenas"
               data-lightbox-src="img/aves/ave-43-thamnophilus-multistriatus.jpg"
             >
               <img
@@ -1752,12 +1803,12 @@
                 height="1300"
                 loading="lazy"
                 decoding="async"
-                alt="Thamnophilus multistriatus en el arbolado de Vegas del Verde, fotografía de José Belisario Cardenas"
+                alt="Thamnophilus multistriatus en el arbolado de Vegas del Verde, fotografía de José Belisario Cárdenas"
               />
             </button>
             <figcaption class="nat-obra__pie pie-obra">
               <span class="nat-obra__especie pie-obra__especie nat-cientifico">Thamnophilus multistriatus</span>
-              <span class="nat-obra__autor credito">Foto: José Belisario Cardenas</span>
+              <span class="nat-obra__autor credito">Foto: José Belisario Cárdenas</span>
             </figcaption>
           </figure>
           <figure class="nat-obra">
@@ -1765,7 +1816,7 @@
               type="button"
               class="nat-obra__disparador"
               data-lightbox="muro-aves"
-              data-lightbox-caption="Tityra inquisitor — Foto: José Belisario Cardenas"
+              data-lightbox-caption="Tityra inquisitor — Foto: José Belisario Cárdenas"
               data-lightbox-src="img/aves/ave-44-tityra-inquisitor.jpg"
             >
               <img
@@ -1776,12 +1827,12 @@
                 height="1300"
                 loading="lazy"
                 decoding="async"
-                alt="Tityra inquisitor en el arbolado de Vegas del Verde, fotografía de José Belisario Cardenas"
+                alt="Tityra inquisitor en el arbolado de Vegas del Verde, fotografía de José Belisario Cárdenas"
               />
             </button>
             <figcaption class="nat-obra__pie pie-obra">
               <span class="nat-obra__especie pie-obra__especie nat-cientifico">Tityra inquisitor</span>
-              <span class="nat-obra__autor credito">Foto: José Belisario Cardenas</span>
+              <span class="nat-obra__autor credito">Foto: José Belisario Cárdenas</span>
             </figcaption>
           </figure>
           <figure class="nat-obra">
@@ -2525,7 +2576,10 @@
            ve no tiene por qué seguir en el DOM. -->
       <p class="pie-final__antetitulo reveal">Oasis para la recreación y el bienestar</p>
       <p class="pie-final__titular reveal reveal-texto">
-        <span class="reveal-texto__linea">El verde te está</span>
+        <!-- Blanco final dentro del primer renglón: los <span> son bloques y
+             en pantalla van en dos líneas, pero al copiar o aplanar el DOM
+             salían pegados («estáesperando»). No se pinta, no cambia nada. -->
+        <span class="reveal-texto__linea">El verde te está </span>
         <span class="reveal-texto__linea">esperando.</span>
       </p>
       <!-- v18 · Deja de ser el ancla #ubicacion y pasa a ser contacto.html.
@@ -2619,6 +2673,7 @@
         <li><a href="colegios.html">Salidas escolares</a></li>
         <li><a href="plan-vecino.html">Plan vecino</a></li>
         <li><a href="condiciones-de-alquiler.html">Condiciones de alquiler</a></li>
+        <li><a href="reglamento.html">Reglamento para visitantes</a></li>
         <li><a href="politica-de-datos.html">Política de tratamiento de datos</a></li>
         <li><a href="terminos.html">Términos y condiciones</a></li>
       </ul>
@@ -2632,6 +2687,6 @@
 
   </div>
 </footer>
-<script src="js/app.js?v=d2757e52" defer></script>
+<script src="js/app.js?v=560eb0e8" defer></script>
 </body>
 </html>

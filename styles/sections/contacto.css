@@ -240,7 +240,10 @@ a.cont-canal:focus-visible {
   gap: 0.4em;
   font-size: var(--fs-micro);
   font-weight: var(--peso-medio);
-  color: var(--color-alerta);
+  /* v33 · era --color-alerta (la baya del logo): 3,1:1 sobre el papel del
+     panel, por debajo de AA en el texto más pequeño del sitio. La versión
+     legible es --color-alerta-texto (tokens.css §2): 6,3:1 aquí. */
+  color: var(--color-alerta-texto);
 }
 
 /* Mientras está vacío no ocupa sitio ni se anuncia. */
@@ -257,7 +260,9 @@ a.cont-canal:focus-visible {
   flex: none;
   margin-top: 0.15em;
   border-radius: var(--radio-full);
-  background-color: var(--color-alerta);
+  /* La viñeta lleva texto (el «!» en crema): mismo token legible que el
+     mensaje, 5,3:1. Con la baya plena daba 3,07:1. */
+  background-color: var(--color-alerta-texto);
   color: var(--color-texto-inverso);
   font-size: var(--fs-micro);
   line-height: 1;

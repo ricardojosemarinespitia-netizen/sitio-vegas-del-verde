@@ -774,7 +774,16 @@
      cero y .nat-registro conserva el suyo. */
   margin-top: var(--esp-seccion);
   padding-block: var(--esp-seccion-sm);
-  background-color: var(--color-fondo-alt);
+  /* v33 · era --color-fondo-alt (salvia opaca). Las otras tres franjas de
+     esta misma página (.nat-vida, .nat-muro-banda, .nat-cinta__escena) van
+     en --color-banda-trama, la veladura que deja ver el papel botánico; ésta
+     era la única plancha opaca y se leía como un parche plano entre bandas
+     con textura. Pasa al mismo token y al mismo filete de canto que
+     .seccion--trama (base.css §4), para que las cuatro sean una sola banda.
+     Los contrastes de arriba SUBEN: la trama es más clara que la salvia
+     (--color-texto-suave 5,6:1 en el peor punto, antes 5,2:1). */
+  background-color: var(--color-banda-trama);
+  border-block: 1px solid var(--color-borde-suave);
 }
 
 .nat-giro__cuerpo {

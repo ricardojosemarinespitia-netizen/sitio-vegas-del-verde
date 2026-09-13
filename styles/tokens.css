@@ -239,6 +239,28 @@
   --color-acento-inverso: var(--coral-claro);  /* 5.7:1 sobre bosque        */
   --color-destacado: var(--amarillo);          /* 7.3:1 sobre bosque        */
   --color-alerta: var(--rojo-baya);
+  /* v33 · EL ROJO BAYA SE BIFURCA, como ya lo hizo el coral (--coral /
+     --coral-hondo). --color-alerta es el rojo del logo INTACTO y sirve para
+     lo que es grafismo: el filete de un campo inválido, el fondo al 14 % del
+     icono de una condición excluida, el punto de una viñeta. Pero se estaba
+     usando también como COLOR DE TEXTO del mensaje de error de los dos
+     formularios (.campo__error, .ubi-campo__error), y ahí no pasa: medido
+     contra las superficies claras del sistema da 3,07:1 sobre crema, 2,92:1
+     sobre salvia, 3,63:1 sobre --color-superficie-solida — todos por debajo
+     de AA (4,5:1) en un texto de --fs-micro, que es el más pequeño del sitio
+     y justo el que un usuario lee cuando algo salió mal.
+     Este token es esa misma baya bajada hasta que se puede leer, con la
+     misma receta que --coral-hondo respecto de --coral (mismo matiz, menos
+     luz). Ratios medidos:
+         sobre --crema                      5,33 : 1   AA
+         sobre --salvia                     5,06 : 1   AA
+         sobre --color-banda-trama          5,1  : 1   AA
+         sobre --color-superficie-solida    6,30 : 1   AA
+         --crema encima (viñeta «!»)        5,33 : 1   AA
+     REGLA: todo texto de error va en --color-alerta-texto; --color-alerta
+     queda para borde, fondo con alfa y grafismo (ahí basta 3:1, y da 3,1). */
+  --color-alerta-texto: #a9332a;
+  --color-alerta-texto-rgb: 169 51 42;
 
   /* v13 · LA BANDA CLARA CON TRAMA — pedido directo del cliente (ago 2026):
      «no quiere tonos oscuros en la página ni fotos oscuras, las originales

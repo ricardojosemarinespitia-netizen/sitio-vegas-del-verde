@@ -112,9 +112,19 @@
      de img/plan-vecino/: no todas, porque a este tamaño varias formas casi
      idénticas no se distinguen entre sí y sólo suman peso a la lista.
      --------------------------------------------------------------------- */
+  const SELECTOR_CTA = '.btn-whatsapp, a[href^="https://wa.me/"]';
+
+  /* Meta Pixel — evento "Contact" en cualquier clic de WhatsApp, con o sin
+     animación. Va fuera del `if (!reduceMotion)` de la mariposa a propósito:
+     ese bloque no se ejecuta con prefers-reduced-motion, y el pixel tiene
+     que disparar para todos los usuarios, no sólo los que ven la animación. */
+  document.addEventListener('click', evento => {
+    if (!evento.target.closest(SELECTOR_CTA)) return;
+    if (typeof fbq === 'function') fbq('track', 'Contact');
+  });
+
   if (!reduceMotion) {
     const SILUETAS = [1, 3, 6, 8, 10, 14, 16];
-    const SELECTOR_CTA = '.btn-whatsapp, a[href^="https://wa.me/"]';
     document.addEventListener('click', evento => {
       const disparador = evento.target.closest(SELECTOR_CTA);
       if (!disparador) return;
@@ -201,6 +211,33 @@
   }
 
   /* ---------------------------------------------------------------------
+     Volver flotante: historial, no siempre index.html
+     ---------------------------------------------------------------------
+     v3 · El botón lleva `href="index.html"` para que sin JavaScript siga
+     funcionando (va al inicio, que es un destino válido). CON JavaScript,
+     el cliente pidió que "ande donde quede en la página, no que mande al
+     inicio" — es decir, que se comporte como el «atrás» del navegador, que
+     conserva el scroll de la página a la que se vuelve, en vez de un enlace
+     fijo que siempre aterriza en el tope de index.html.
+     Sólo se intercepta el clic cuando hay una página anterior DENTRO del
+     sitio a la que volver (`document.referrer` del mismo origen, o
+     `history.length` mayor que 1 dentro de esta pestaña): si alguien entra
+     directo por un enlace externo o un QR, no hay «atrás» real y el botón
+     se queda con su comportamiento normal de enlace a index.html. */
+  const volverFlotante = document.querySelector('.volver-flotante');
+  if (volverFlotante) {
+    volverFlotante.addEventListener('click', e => {
+      const hayHistorialPropio = window.history.length > 1
+        && document.referrer
+        && new URL(document.referrer).origin === window.location.origin;
+      if (hayHistorialPropio) {
+        e.preventDefault();
+        window.history.back();
+      }
+    });
+  }
+
+  /* ---------------------------------------------------------------------
      Cabecera compacta + enlace activo según sección visible
      --------------------------------------------------------------------- */
   const cabecera = document.querySelector('[data-cabecera]');
@@ -218,9 +255,21 @@
   }
 
   const enlacesNav = document.querySelectorAll('.nav__enlace');
-  const secciones = [...enlacesNav]
-    .map(a => document.querySelector(a.getAttribute('href')))
-    .filter(Boolean);
+  /* El href de un enlace de navegación NO tiene por qué ser un selector CSS
+     válido. En el sitio en español todos los que hay («#inicio»,
+     «espacios.html», «index.html#nosotros») se dejan parsear por casualidad,
+     pero en /en/ la barra apunta a páginas que aún no están traducidas con
+     rutas relativas hacia arriba («../naturaleza.html»), y ésas hacen que
+     querySelector lance SyntaxError. Sin este cerrojo la excepción mataba el
+     resto de app.js —reveals, menú, contadores, lightbox— en toda la versión
+     en inglés. Se resuelve aquí y no cambiando los href porque el mismo
+     problema lo tendría cualquier ruta absoluta («/naturaleza.html»). */
+  const seccionDe = (a) => {
+    const href = a.getAttribute('href') || '';
+    if (!href.startsWith('#') || href === '#') return null;
+    try { return document.querySelector(href); } catch (e) { return null; }
+  };
+  const secciones = [...enlacesNav].map(seccionDe).filter(Boolean);
 
   if (secciones.length && 'IntersectionObserver' in window) {
     const marcarActivo = id => {
@@ -366,7 +415,21 @@
       disparadorQueAbrio?.focus();
     }
 
-    disparadores.forEach(btn => btn.addEventListener('click', () => abrir(btn)));
+    disparadores.forEach(btn => btn.addEventListener('click', (e) => {
+      /* #usos (v25) mete el disparador del lightbox DENTRO del <summary> de
+         cada tarjeta: el <summary> ya tiene su propio comportamiento por
+         defecto (abrir/cerrar el <details>), que se dispara con cualquier
+         click que llegue a él, incluido uno que burbujea desde un botón hijo.
+         Sin este corte, tocar el ícono de ampliar abriría el lightbox Y
+         alternaría el acordeón a la vez. Se corta sólo cuando aplica —el resto
+         de disparadores del sitio (p. ej. #naturaleza) no vive dentro de un
+         <summary> y sigue igual. */
+      if (btn.closest('summary')) {
+        e.preventDefault();
+        e.stopPropagation();
+      }
+      abrir(btn);
+    }));
     overlay.querySelectorAll('[data-lightbox-cerrar]').forEach(el => el.addEventListener('click', cerrar));
     overlay.querySelector('[data-lightbox-prev]').addEventListener('click', () => mostrar(indiceActivo - 1));
     overlay.querySelector('[data-lightbox-next]').addEventListener('click', () => mostrar(indiceActivo + 1));

@@ -121,8 +121,8 @@ HECHOS = [
   [r"\bwifi\b", r"vigilancia privada", r"\bparqueadero\b"], False),
  ("«Proximamente: arenero»", ["nosotros"],
   [r"\barenero\b"], False),
- ("Aforo Alameda 150", ["espacios"], [r"\b150 personas\b"], False),
- ("Aforo La Vega 100", ["espacios"], [r"\b100 personas\b"], False),
+ ("Aforo Alameda 100", ["espacios"], [r"\b100 personas\b"], False),
+ ("Aforo La Vega 150", ["espacios"], [r"\b150 personas\b"], False),
  ("Aforo Teatrino 70",  ["espacios"], [r"\b70 personas\b"], False),
  ("Aforo Taller 45",    ["espacios"], [r"\b45 personas\b"], False),
  ("Aforo Cancha 30/20", ["espacios"], [r"\b30 jugadores\b", r"\b20 espectadores\b"], False),
@@ -403,15 +403,26 @@ print("   Lorem Ipsum           : %d" % len(re.findall(r"lorem ipsum", doc, re.I
 # o por el filtro de mascaras.
 RE_TINTE = re.compile(r"(linear-gradient|radial-gradient|conic-gradient|backdrop-filter|mix-blend-mode)")
 RE_VELO_SEL = re.compile(r"velo|scrim|overlay|veladura", re.I)
-# v17 · `.inicio__portada-velo` es la UNICA excepcion de todo el sitio a
-# esta regla, y es por orden explicita y textual del cliente: «rompe esa
-# regla en el hero y ponlo como estaba antes» (despues de ver que la
-# cartela solida de v16 tapaba media fotografia). El velo claro (--luz) del
-# hero vuelve, ver el historial completo en el comentario de la regla en
-# styles/sections/inicio.css. No es una excepcion tecnica ni un olvido: que
-# quede aqui, a la vista, para que nadie la retire creyendo que es un
-# hallazgo real.
-RE_BLANCA = re.compile(r"lightbox|modal|velo-menu|menu__velo|dialogo|inicio__portada-velo", re.I)
+# v17/v23 · HAY DOS EXCEPCIONES DE TODO EL SITIO A ESTA REGLA, y las dos son
+# por orden explicita y textual del cliente:
+#
+#   1. `.inicio__portada-velo` (v17, el hero): «rompe esa regla en el hero y
+#      ponlo como estaba antes» (despues de ver que la cartela solida de v16
+#      tapaba media fotografia). El velo claro (--luz) del hero vuelve; ver
+#      el historial completo junto a la regla en styles/sections/inicio.css.
+#   2. `.nosotros__escena-velo` (v23, #nosotros, sep-2026): el cliente mostro
+#      dos capturas —el discurso en fondo crema plano y la foto vertical del
+#      sendero (nosotros-reja.jpg)— y pidio volver a poner el texto ENCIMA de
+#      la foto, como antes de v20. A diferencia del velo de v14-v18, este ya
+#      no cubre la banda entera: vive dentro de `.nosotros__discurso`, del
+#      mismo tamano que esa caja, asi que solo vela el area con letras. Ver
+#      el historial completo junto a la regla en
+#      styles/sections/nosotros.css §1 (el bloque que empieza con
+#      «v23 · EL VELO — SEGUNDA EXCEPCION DOCUMENTADA»).
+#
+# Ninguna es una excepcion tecnica ni un olvido: que queden aqui, a la vista,
+# para que nadie las retire creyendo que son un hallazgo real.
+RE_BLANCA = re.compile(r"lightbox|modal|velo-menu|menu__velo|dialogo|inicio__portada-velo|nosotros__escena-velo", re.I)
 RE_FOTO_SEL = re.compile(r"(^|[\s>+~])(img|video)\b|foto|imagen|media\b|clip|thumb", re.I)
 RE_FILTRO = re.compile(r"(^|[^-\w])filter\s*:")
 RE_PSEUDO = re.compile(r"::(before|after)")

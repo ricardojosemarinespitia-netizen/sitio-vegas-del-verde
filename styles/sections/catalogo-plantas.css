@@ -1,0 +1,578 @@
+/* ==========================================================================
+   VEGAS DEL VERDE — styles/sections/catalogo-plantas.css  ·  v1 «el camellón»
+   Estiliza SÓLO catalogo-plantas.html (#catalogo). Se enlaza únicamente ahí.
+   Depende de tokens.css, base.css y shell.css; pie.css pinta el pie.
+
+   QUÉ ES ESTA PÁGINA
+   Las 69 plantas que produce el vivero, con foto, nombre común y nombre
+   científico. Es literalmente un catálogo, y la metáfora que lo ordena es
+   la del propio vivero: EL CAMELLÓN, la hilera de siembra. Las plantas van
+   en orden alfabético y cada inicial ocupa UNA CELDA de la misma rejilla
+   —una estaca clavada al comienzo de su tramo— en vez de partir la página
+   con separadores a todo lo ancho. Así el índice respira cada pocas fichas
+   sin dejar filas medio vacías cuando una letra tiene una sola planta
+   (la D, la J, la Y…).
+
+   LAS REGLAS DE LA CASA QUE AQUÍ SE CUMPLEN
+   · Ni un valor literal de color, tamaño, radio, sombra o duración: todo
+     sale de tokens.css.
+   · LA FOTO ES LA FOTO (validar.js, regla h): ninguna placa, velo ni texto
+     encima de la imagen. El nombre va en una .placa OPACA debajo del marco,
+     hermana y nunca superpuesta (base.css §4b).
+   · Fotos de origen desiguales (apaisadas, verticales, cuadradas, 230-530
+     px de celular) → un solo marco 1:1 con object-fit: cover. El cuadrado
+     es la proporción que menos recorta con orientaciones mezcladas: pierde
+     un tercio en el peor caso de cada lado, en vez de casi la mitad que
+     perdería un 4:5 sobre una apaisada. Las derivadas ya vienen cuadradas
+     (640 y 400 px, ampliadas por GPU desde el original), así que el
+     recorte en pantalla es cero y el `cover` sólo compensa redondeos.
+   · Sólo transform y opacity se animan. Los reveals son los de base.css §6
+     (.reveal + IntersectionObserver de js/app.js): cero motor nuevo.
+   · Reduced motion: las duraciones bajan a ~0 desde tokens.css; aquí no
+     se escribe ninguna animación que dependa de otra cosa.
+
+   CONTRASTE (medido contra la superficie real donde va cada texto)
+     --color-texto        sobre --color-superficie-solida (placa)  14,2:1
+     --color-texto-suave  sobre la placa (nombre científico)        6,2:1
+     --verde-bosque       sobre --color-fondo-alt (glifo de letra)   9,3:1
+     --color-texto-suave  sobre --color-fondo-alt (rótulo letra)     5,4:1
+     --verde-bosque       sobre el vidrio del abecedario            10,0:1
+   ========================================================================== */
+
+/* --------------------------------------------------------------------------
+   0. TOKENS LOCALES
+   -------------------------------------------------------------------------- */
+.cat {
+  /* La hoja de las fichas: el radio menor, porque la ficha es pequeña y la
+     curva grande se comería la esquina de la foto (mismo criterio que
+     --viv-hoja en vivero.css). */
+  --cat-hoja: var(--radio-hoja-menor);
+  /* Alto de la barra de herramientas pegajosa, para el scroll-margin de las
+     letras: sin él, al saltar desde el abecedario la letra quedaría tapada
+     por la propia barra. */
+  --cat-alto-barra: 3.75rem;
+}
+
+/* La salida de la cabecera compacta. En una línea siempre; por debajo de
+   30em «Volver al» sobra —a 375 px el botón de dos renglones empujaba el
+   nombre de la marca fuera de la barra— y queda «Vivero», que con la
+   flecha ya dice adónde va. El aria-label conserva la frase entera. */
+.cat-volver {
+  white-space: nowrap;
+}
+
+@media (max-width: 30em) {
+  .cat-volver__largo {
+    display: none;
+  }
+}
+
+/* --------------------------------------------------------------------------
+   1. PORTADA DE LA PÁGINA — sin fotografía, a propósito (misma decisión que
+      .pagina-encabezado en home.css: ninguna imagen que un texto pueda tapar).
+      El respiro superior es el de la cabecera fija (.pagina-interior).
+   -------------------------------------------------------------------------- */
+.cat-portada {
+  padding-block: calc(var(--alto-header) + var(--esp-xl)) var(--esp-lg);
+}
+
+.cat-portada__interior {
+  display: flex;
+  flex-direction: column;
+  gap: var(--esp-xs);
+  max-width: var(--medida);
+}
+
+.cat-portada__titulo {
+  font-family: var(--fuente-display);
+  font-size: var(--fs-h1);
+  font-weight: var(--peso-display);
+  font-optical-sizing: auto;
+  font-variation-settings: var(--ejes-display);
+  letter-spacing: var(--tracking-display);
+  line-height: var(--alto-linea-titulo);
+  text-wrap: balance;
+  margin: 0;
+}
+
+/* La cifra del catálogo va dentro del titular, no aparte: es el dato y el
+   titular a la vez («69 plantas»), y en el peso de las cifras del sistema. */
+.cat-portada__cifra {
+  font-weight: var(--peso-fuerte);
+  color: var(--color-acento-texto);
+}
+
+/* --------------------------------------------------------------------------
+   2. LA BARRA DE HERRAMIENTAS — buscador + abecedario
+      Pegajosa bajo la cabecera fija: en un índice de 69 fichas la forma de
+      moverse tiene que viajar con quien se mueve. Fondo OPACO de papel
+      (--color-fondo) y filete: debajo pasan fotos, y sobre una foto no cabe
+      ni vidrio ni velo (regla h). z-index de la capa pegajosa del sistema.
+   -------------------------------------------------------------------------- */
+.cat-herramientas {
+  position: sticky;
+  top: var(--alto-header);
+  z-index: var(--z-pegajoso);
+  background-color: var(--color-fondo);
+  border-block: 1px solid var(--color-borde-suave);
+}
+
+.cat-herramientas__interior {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--esp-xs) var(--esp-md);
+  min-height: var(--cat-alto-barra);
+  padding-block: var(--esp-2xs);
+}
+
+/* Buscador: un campo con la lupa de trazo a la izquierda. El campo es un
+   control real (<input type="search">), no un div: teclado, lector de
+   pantalla y autocompletado del navegador vienen gratis.
+   Sin JS no hay filtro, así que el campo NO se muestra (.no-js): un
+   buscador que no busca es peor que ninguno. */
+.cat-buscar {
+  position: relative;
+  flex: 1 1 14rem;
+  max-width: 26rem;
+}
+
+.no-js .cat-buscar {
+  display: none;
+}
+
+.cat-buscar__lupa {
+  position: absolute;
+  left: 0.85rem;
+  top: 50%;
+  width: 1.1rem;
+  height: 1.1rem;
+  transform: translateY(-50%);
+  color: var(--color-texto-suave);
+  pointer-events: none;
+}
+
+.cat-buscar__campo {
+  width: 100%;
+  min-height: 2.75rem;
+  padding: 0.55rem 0.9rem 0.55rem 2.6rem;
+  border: 1px solid var(--color-borde-fuerte);
+  border-radius: var(--radio-control);
+  background-color: var(--blanco); /* affordance de «aquí se escribe» (tokens.css, --luz) */
+  color: var(--color-texto);
+  font-family: var(--fuente-cuerpo);
+  /* 16 px literales de suelo: por debajo iOS hace zoom al enfocar el campo. */
+  font-size: max(16px, var(--fs-cuerpo));
+  line-height: 1.3;
+  transition: border-color var(--transicion-rapida), box-shadow var(--transicion-rapida);
+}
+
+.cat-buscar__campo::placeholder {
+  color: var(--color-texto-suave);
+  opacity: 1;
+}
+
+.cat-buscar__campo:focus-visible {
+  outline: none;
+  border-color: var(--verde-bosque);
+  box-shadow: var(--anillo-foco);
+}
+
+/* El «×» nativo de type=search es distinto en cada navegador; se quita y
+   el vaciado lo da el propio estado vacío (§5) y la tecla Escape. */
+.cat-buscar__campo::-webkit-search-cancel-button {
+  -webkit-appearance: none;
+  appearance: none;
+}
+
+/* Cuántas se están viendo. aria-live para que el lector de pantalla oiga
+   el recuento cambiar mientras se escribe. */
+.cat-cuenta {
+  flex: none;
+  margin: 0;
+  font-family: var(--fuente-titulo);
+  font-size: var(--fs-pequeno);
+  color: var(--color-texto-suave);
+  white-space: nowrap;
+  font-variant-numeric: tabular-nums;
+}
+
+/* Abecedario: sólo las letras que existen en el catálogo. En móvil es una
+   tira que se desplaza en horizontal (contenedor de scroll propio, NO el
+   body); desde 62em cabe entera al lado del buscador. */
+/* El hijo flex de la barra es el <nav>, no el <ul>: las medidas de reparto
+   van en él. OBLIGATORIO el `min-width: 0`: la tira sin wrap tiene un
+   min-content igual a la suma de sus letras (908 px medidos) y un hijo flex
+   trae `min-width: auto`, así que sin esta línea no encoge, se sale del
+   viewport y el body entero pasa a medir 927 px en un móvil de 375. Con 0,
+   el ancho lo pone la barra y el sobrante se desplaza DENTRO de la tira. */
+.cat-abc-nav {
+  flex: 1 1 100%;
+  min-width: 0;
+}
+
+.cat-abc {
+  display: flex;
+  gap: var(--esp-3xs);
+  margin: 0;
+  padding: 0 0 var(--esp-3xs);
+  list-style: none;
+  overflow-x: auto;
+  overscroll-behavior-x: contain;
+  scrollbar-width: thin;
+  -webkit-overflow-scrolling: touch;
+}
+
+.cat-abc__letra {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 2.25rem;
+  min-height: 2.25rem;
+  padding-inline: 0.4rem;
+  border: 1px solid transparent;
+  border-radius: var(--radio-control);
+  font-family: var(--fuente-display);
+  font-size: var(--fs-pequeno);
+  font-weight: var(--peso-display-menor);
+  letter-spacing: var(--tracking-display);
+  color: var(--verde-bosque);
+  text-decoration: none;
+  transition:
+    background-color var(--transicion-rapida),
+    border-color var(--transicion-rapida),
+    color var(--transicion-rapida);
+}
+
+.cat-abc__letra:hover {
+  background-color: var(--color-vidrio-hover);
+  border-color: var(--color-vidrio-borde);
+}
+
+/* La letra que se está viendo: MÁS tinta, nunca más clara (regla A.5). */
+.cat-abc__letra[aria-current="true"] {
+  background-color: var(--verde-bosque);
+  border-color: var(--verde-bosque);
+  color: var(--color-texto-inverso);
+}
+
+/* Una letra cuyo tramo el buscador ha vaciado se atenúa y deja de saltar. */
+.cat-abc__letra[aria-disabled="true"] {
+  color: var(--color-texto-suave);
+  opacity: 0.45;
+  pointer-events: none;
+}
+
+@media (min-width: 62em) {
+  .cat-abc-nav {
+    flex: 1 1 auto;
+  }
+
+  .cat-abc {
+    padding-bottom: 0;
+    overflow-x: visible;
+    flex-wrap: wrap;
+  }
+}
+
+@media (pointer: coarse), (max-width: 63.99em) {
+  .cat-abc__letra {
+    min-width: 2.75rem;
+    min-height: 2.75rem;
+  }
+}
+
+/* --------------------------------------------------------------------------
+   3. EL CAMELLÓN — la rejilla
+      Columnas explícitas y no auto-fill: el atributo `sizes` de cada <img>
+      está calculado sobre estos cuatro anchos, y un auto-fill que decidiera
+      por su cuenta desmentiría al navegador la medida que le prometimos.
+   -------------------------------------------------------------------------- */
+.cat-rejilla {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--gap-sm);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+@media (min-width: 40em) {
+  .cat-rejilla {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: var(--gap);
+  }
+}
+
+@media (min-width: 62em) {
+  .cat-rejilla {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+}
+
+@media (min-width: 75em) {
+  .cat-rejilla {
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+  }
+}
+
+.cat-seccion {
+  padding-block: var(--esp-lg) var(--esp-seccion);
+}
+
+/* --------------------------------------------------------------------------
+   4. LA FICHA
+      Marco 1:1 arriba, placa opaca debajo. Las dos piezas se apilan en una
+      rejilla de dos filas: la placa NO puede caer sobre la foto ni por
+      accidente (misma garantía que .foto-placa en base.css §4b).
+   -------------------------------------------------------------------------- */
+.cat-ficha {
+  display: grid;
+  grid-template-rows: auto 1fr;
+  gap: var(--esp-2xs);
+  min-width: 0;
+}
+
+.cat-ficha__marco {
+  aspect-ratio: 1 / 1;
+  /* La silueta de hoja del sistema (tokens.css §6), en su radio menor. */
+  border-radius: 0 var(--cat-hoja) 0 var(--cat-hoja);
+  background-color: rgb(var(--gris-verde-rgb) / 0.3);
+}
+
+/* Se alterna la diagonal ficha a ficha para que la firma se lea como sistema
+   y no como plantilla — es la misma regla de .placa--alterna. Las letras no
+   cuentan en la alternancia porque tienen su propia silueta. */
+.cat-ficha:nth-child(even) .cat-ficha__marco {
+  border-radius: var(--cat-hoja) 0 var(--cat-hoja) 0;
+}
+
+.cat-ficha__marco picture,
+.cat-ficha__marco img {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.cat-ficha__marco img {
+  object-fit: cover;
+  transition: transform var(--dur-lenta) var(--ease-suave);
+}
+
+/* La foto se acerca al pasar por encima: acercarse a la planta, como en el
+   camellón. Sólo transform. En puntero grueso no hay hover y no pasa nada. */
+@media (hover: hover) {
+  .cat-ficha:hover .cat-ficha__marco img {
+    transform: scale(var(--escala-hover));
+  }
+}
+
+/* LAS DOS SIN FOTO (Enredadera, Té rojo). Ni hueco roto ni foto inventada:
+   la hoja de trazo del sistema sobre salvia, que se dibuja sola al entrar la
+   sección (icono-traza, app.js). role="img" + aria-label en el HTML dicen
+   con palabras lo que la hoja dice con el dibujo. */
+.cat-ficha__sin-foto {
+  display: grid;
+  place-items: center;
+  width: 100%;
+  height: 100%;
+  background-color: var(--color-fondo-alt);
+  color: var(--verde-oliva);
+}
+
+.cat-ficha__hoja {
+  width: 38%;
+  height: 38%;
+  stroke-width: 0.9;
+}
+
+/* La placa hereda .placa.placa--sm de base.css (superficie, sombra, hoja).
+   Aquí sólo se le da su reparto interior. Diagonal alterna también aquí,
+   siguiendo al marco de su misma ficha. */
+.cat-ficha__placa {
+  display: flex;
+  flex-direction: column;
+  gap: var(--esp-3xs);
+  min-width: 0;
+}
+
+.cat-ficha:nth-child(even) .cat-ficha__placa {
+  border-radius: var(--cat-hoja) 0 var(--cat-hoja) 0;
+}
+
+/* El nombre común es la pieza: display, peso menor (por debajo de 40 px la
+   monolineal necesita el 400, base.css §2), tinta plena. */
+.cat-ficha__nombre {
+  margin: 0;
+  font-family: var(--fuente-display);
+  font-size: var(--fs-h4);
+  font-weight: var(--peso-display-menor);
+  letter-spacing: var(--tracking-display);
+  line-height: var(--alto-linea-titulo);
+  color: var(--color-texto);
+  text-wrap: balance;
+  overflow-wrap: anywhere;
+}
+
+/* El científico es la letra pequeña del botánico: cuerpo pequeño, gris
+   suave (6,2:1 sobre la placa) y la cursiva REAL del <em> del marcado. Nada
+   de asteriscos: el énfasis markdown de la fuente se convirtió en <em>. */
+.cat-ficha__cientifico {
+  margin: 0;
+  font-size: var(--fs-pequeno);
+  line-height: var(--alto-linea-titulo);
+  color: var(--color-texto-suave);
+  overflow-wrap: anywhere;
+}
+
+.cat-ficha__cientifico em {
+  font-style: italic;
+}
+
+.cat-ficha__nota {
+  font-size: var(--fs-micro);
+}
+
+/* «Especie por confirmar»: estado PENDIENTE visible, no rellenado. Va en
+   cursiva y suave para que se lea como nota y no como nombre. */
+.cat-ficha__cientifico--pendiente {
+  font-style: italic;
+}
+
+/* Preguntar por esta planta: el canal espinal del sitio, en voz baja y una
+   vez por ficha. Es un enlace de texto con el glifo de WhatsApp; 44 px de
+   alto táctil; se empuja al fondo de la placa para que todas las fichas de
+   una fila alineen el enlace aunque los nombres ocupen líneas distintas. */
+.cat-ficha__preguntar {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4em;
+  align-self: flex-start;
+  margin-top: auto;
+  padding-top: var(--esp-2xs);
+  min-height: 2.75rem;
+  font-family: var(--fuente-titulo);
+  font-size: var(--fs-micro);
+  font-weight: var(--peso-medio);
+  text-transform: uppercase;
+  letter-spacing: var(--tracking-rotulo);
+  text-decoration: none;
+  color: var(--verde-texto);
+  transition: color var(--transicion-rapida);
+}
+
+.cat-ficha__preguntar svg {
+  width: 1.15em;
+  height: 1.15em;
+  flex: none;
+}
+
+.cat-ficha__preguntar:hover,
+.cat-ficha__preguntar:focus-visible {
+  color: var(--color-acento-texto);
+}
+
+/* --------------------------------------------------------------------------
+   4b. LA ESTACA — la celda de inicial
+      Misma celda que una ficha, sobre salvia plena, con la inicial en display
+      grande. El <h2> «Plantas con A» es la estructura real (jerarquía h1 →
+      h2 → h3 de ficha) y se muestra como rótulo en la base de la celda; el
+      glifo grande es decoración (aria-hidden) de esa misma letra.
+      Alineación: `align-self: stretch` la hace tan alta como la fila; en
+      una fila corta (móvil, dos columnas) sigue cuadrando con la ficha de
+      al lado porque la ficha manda la altura.
+   -------------------------------------------------------------------------- */
+.cat-letra {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  min-height: 100%;
+  padding: var(--esp-sm);
+  background-color: var(--color-fondo-alt);
+  border-radius: 0 var(--radio-hoja) 0 var(--radio-hoja);
+  /* Al saltar desde el abecedario, la letra aterriza bajo la barra pegajosa
+     y la cabecera fija, no detrás de ellas. */
+  scroll-margin-top: calc(var(--alto-header) + var(--cat-alto-barra) + var(--esp-sm));
+}
+
+.cat-letra__glifo {
+  font-family: var(--fuente-display);
+  font-size: var(--fs-hero);
+  font-weight: var(--peso-display);
+  line-height: 1;
+  letter-spacing: var(--tracking-display);
+  color: var(--verde-bosque);
+}
+
+.cat-letra__titulo {
+  margin: 0;
+  font-family: var(--fuente-titulo);
+  font-size: var(--fs-micro);
+  font-weight: var(--peso-medio);
+  text-transform: uppercase;
+  letter-spacing: var(--tracking-rotulo);
+  color: var(--color-texto-suave);
+}
+
+/* --------------------------------------------------------------------------
+   5. ESTADO VACÍO — ningún error sin salida
+      Aparece sólo cuando el buscador deja cero fichas. Dice qué pasó, con
+      qué se buscó, y ofrece las dos salidas: limpiar, o preguntar por
+      WhatsApp (puede que la planta exista y no esté en la lista).
+   -------------------------------------------------------------------------- */
+.cat-vacio {
+  display: none;
+  max-width: var(--medida-corta);
+  margin-block: var(--esp-lg);
+}
+
+.cat-vacio[data-visible="true"] {
+  display: block;
+}
+
+.cat-vacio__titulo {
+  margin: 0 0 var(--esp-2xs);
+  font-family: var(--fuente-display);
+  font-size: var(--fs-h3);
+  font-weight: var(--peso-display-menor);
+  letter-spacing: var(--tracking-display);
+  line-height: var(--alto-linea-titulo);
+}
+
+.cat-vacio__texto {
+  margin: 0 0 var(--esp-md);
+  color: var(--color-texto-suave);
+}
+
+/* La ficha filtrada sale del flujo (no del DOM): al borrar la búsqueda
+   vuelve a su sitio sin reordenar nada. `hidden` lo pone el JS. */
+.cat-ficha[hidden],
+.cat-letra[hidden] {
+  display: none;
+}
+
+/* --------------------------------------------------------------------------
+   6. CIERRE — la salida al vivero y a WhatsApp, en su propia franja
+   -------------------------------------------------------------------------- */
+.cat-cierre {
+  border-block-start: 1px solid var(--color-borde-suave);
+  padding-block: var(--esp-seccion-sm);
+}
+
+.cat-cierre__interior {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--esp-md);
+}
+
+.cat-cierre__texto {
+  margin: 0;
+  max-width: var(--medida-corta);
+  font-size: var(--fs-grande);
+  font-weight: var(--peso-ligero);
+  line-height: var(--alto-linea-suelto);
+  color: var(--color-texto-suave);
+  text-wrap: pretty;
+}

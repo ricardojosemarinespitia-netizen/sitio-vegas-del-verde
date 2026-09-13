@@ -65,9 +65,12 @@
 
      LA SÍNTESIS. Se recupera la PRESENCIA sin recuperar el SOLAPAMIENTO:
        · La fotografía deja de ser una fila más y vuelve a ser la tarjeta: se
-         queda con TODO el alto sobrante (`1fr`), a sangre de borde a borde y
-         con la silueta de arco que crece con el scroll (§ARCO), que es la
-         personalidad que el cliente reconoce de la versión que le gustaba.
+         queda con TODO el alto sobrante (`1fr`), a sangre de borde a borde,
+         que es la presencia que el cliente reconoce de la versión que le
+         gustaba. (Hasta la v24 llevaba además una silueta de arco que crecía
+         con el scroll; el propio cliente la mandó retirar —«cuadradas no
+         curvas»— y hoy el borde es recto: §RECORTE. La PRESENCIA, que es lo
+         que pidió recuperar aquí, no dependía del arco y no se toca.)
        · El texto baja a UNA sola pieza —la placa del sistema, `.placa` en el
          HTML— con su superficie opaca, su silueta de hoja y su sombra.
          Ya no es una plancha a todo ancho pegada al borde: va con margen, así
@@ -97,8 +100,69 @@
   min-height: 32rem;
 }
 
-/* ---- §ARCO · EL ARCO QUE CRECE ------------------------------------------
-   v17 · SE RETIRA js/usos-arco.js ENTERO. Pedido del cliente sobre la
+/* ---- §RECORTE · LA FOTO, RECTANGULAR Y DE ESQUINAS RECTAS ----------------
+   v25 · SE RETIRA EL ARCO QUE CRECÍA CON EL SCROLL. Pedido del cliente sobre
+   una captura de la tarjeta «Cancha» —la foto de la malla, con el borde de
+   arriba en forma de medio punto—: «que todas las fotos sean cuadradas no
+   curvas como estaban antes».
+
+   QUÉ PIDIÓ EXACTAMENTE, Y QUÉ NO. Hay dos maneras de leer «cuadrada» y las
+   dos se probaron en el navegador antes de escribir una línea:
+
+   (a) CUADRADA COMO PROPORCIÓN 1:1. Medido en el preview real, con la
+       tarjeta tal como está: en 375 px la fila de la fotografía mide
+       375 × 452 y en 892 px de ventana mide 877 × 365. Un `aspect-ratio:
+       1 / 1` a sangre daría 877 × 877 en escritorio: la foto sola pasaría a
+       ser MÁS ALTA que la ventana (694 px), y con la placa debajo cada
+       tarjeta mediría del orden de 1.200 px — cinco pantallas y media de
+       fotos gigantes en lugar de cinco portadas. Para que 1:1 cupiera habría
+       que toparle el ancho y centrarla, o sea convertir la fotografía a
+       sangre —«se queda con TODO el alto sobrante, a sangre de borde a
+       borde», §TARJETA— en una estampa chica flotando en crema. Eso no es lo
+       que el cliente señaló: no se quejó del TAMAÑO de la foto, que es el
+       gesto que él mismo pidió recuperar en la v20, sino de su SILUETA.
+       Se descarta.
+
+   (b) CUADRADA COMO OPUESTO DE CURVA — la que se aplica. «Cuadrada» aquí es
+       «de esquinas rectas»: fuera el medio punto de arriba y fuera la
+       animación que lo hacía crecer. La fotografía sigue siendo la tarjeta,
+       a sangre y a pantalla completa, exactamente como está aprobada; lo
+       único que cambia es que su borde superior deja de ser un arco y pasa a
+       ser una línea recta. Es también lo que ya se hizo, con la misma frase
+       del cliente, en la rejilla del home (`styles/sections/home.css` §1b,
+       v25: «que las fotos sean siempre cuadradas, no con este efecto»), así
+       que las dos páginas quedan diciendo lo mismo.
+
+   EL RADIO QUE QUEDA: `--radio-md` en las CUATRO esquinas, el mismo que ya
+   llevaban las dos de abajo y el mismo que el home le puso a su portada
+   cuadrada. No es «curva»: son 14 px de suavizado del sistema, el radio de
+   casa, no un medio punto de la mitad del ancho. Poner 0 dejaría esta única
+   pieza con canto vivo en un sitio donde ninguna superficie lo tiene.
+
+   QUÉ SE BORRA CON ESTO: el `@supports (clip-path: inset(…round…))` que le
+   daba la silueta, el `@supports (animation-timeline: view())` que la hacía
+   crecer, y el `@keyframes usos-arco-crece`. No queda ningún `clip-path`
+   sobre esta pieza: la silueta tiene un solo dueño otra vez, el
+   `border-radius` de `.usos-tarjeta > picture` con su `overflow: hidden`.
+   Tampoco hace falta ya el guardia de `prefers-reduced-motion` que tenía
+   §ARCO —existía sólo porque una animación con línea de tiempo de scroll no
+   se apaga acortando duraciones—: sin animación no hay nada que guardar. La
+   entrada de la placa (§PLACA) no se toca; ésa es otra pieza y sigue con el
+   suyo.
+
+   EL ÍCONO DE «VER FOTO COMPLETA» (§AMPLIAR) MEJORA SOLO, y por eso no se
+   mueve: con el arco, a 16 px del canto superior derecho el círculo caía
+   justo en la zona que el medio punto recortaba, o sea medio sobre el papel
+   crema; sobre un rectángulo de esquina recta cae entero sobre la
+   fotografía, que es donde un control de «ampliar» se espera. Los 16 px de
+   `--esp-sm` despejan de sobra el radio de 14 px.
+
+   ── LO QUE SIGUE ES LA MEMORIA DEL ARCO RETIRADO, que se conserva porque
+   documenta un bug real de rendimiento en celular y la razón por la que la
+   solución NO era optimizar JavaScript. Si alguien vuelve a pedir un gesto
+   de silueta cronometrado por scroll, esto es lo que hay que volver a leer.
+
+   v17 · SE RETIRÓ js/usos-arco.js ENTERO. Pedido del cliente sobre la
    tarjeta de la foto nocturna bajo la carpa: «ESTA IMAGEN EN CELULAR SE
    LAGUE APEGA BRINCOS MINIS» — en celular el scroll sobre la tarjeta se
    traba y da micro-saltos.
@@ -213,15 +277,13 @@
    cuentas de arriba intactas; lo único que cambia es que el 100 % del alto
    contra el que se resuelven los porcentajes ya no es la ventana entera sino
    la fila de la foto. El máximo sigue cayendo con la fotografía centrada en
-   la ventana, que es el momento que la curva quería marcar. */
-@supports (clip-path: inset(0 round 50% 50% 1px 1px)) {
-  .usos-tarjeta > picture {
-    border-radius: 0;
-    clip-path: inset(0 0 0 0 round 50% 50% var(--radio-md) var(--radio-md));
-  }
-}
+   la ventana, que es el momento que la curva quería marcar.
+   ── FIN DE LA MEMORIA DEL ARCO. Todo lo de arriba describe una pieza que
+   ya NO existe: el bloque `@supports (clip-path: inset(… round …))` que
+   dibujaba el fotograma de reposo se retira en la v25, y con él el único
+   `clip-path` que había sobre la fotografía. */
 
-/* Se escriben las longhands y NO el atajo `animation:`, por lo mismo que
+/* Se escribían las longhands y NO el atajo `animation:`, por lo mismo que
    explica #momentos: el atajo reinicia `animation-duration`, y una animación
    con línea de tiempo de scroll necesita `auto` para repartirse a lo largo
    del recorrido.
@@ -242,34 +304,13 @@
    `--ease` (cubic-bezier(0.4, 0, 0.2, 1)) hace de suavizado simétrico en
    cada mitad del triángulo, que es el papel que cumplía el `smoothstep`
    aritmético del script. Es la curva de la casa más cercana a esa forma;
-   no se escribe un cubic-bezier suelto para clavar el decimal. */
-@supports (animation-timeline: view()) {
-  @media (prefers-reduced-motion: no-preference) {
-    .usos-tarjeta > picture {
-      animation-name: usos-arco-crece;
-      animation-duration: auto;
-      animation-timing-function: var(--ease);
-      animation-fill-mode: both;
-      animation-timeline: view();
-      animation-range: cover 25% cover 75%;
-    }
-  }
-}
-
-@keyframes usos-arco-crece {
-  from {
-    clip-path: inset(0 0 0 0 round 50% 50% var(--radio-md) var(--radio-md));
-  }
-
-  50% {
-    clip-path: inset(-70% -35% 0 -35% round 50% 50%
-      calc(var(--radio-md) * 1.7) calc(var(--radio-md) * 1.7));
-  }
-
-  to {
-    clip-path: inset(0 0 0 0 round 50% 50% var(--radio-md) var(--radio-md));
-  }
-}
+   no se escribía un cubic-bezier suelto para clavar el decimal.
+   ── v25 · Este `@supports (animation-timeline: view())` y su
+   `@keyframes usos-arco-crece` se retiran enteros junto con el arco. La
+   fotografía de esta sección ya no anima nada: se queda quieta, rectangular
+   y con el radio del sistema en las cuatro esquinas. La única animación que
+   sobrevive sobre la tarjeta es la entrada de la placa (§PLACA), que es
+   texto que asienta, no una silueta que crece. */
 
 .usos-tarjeta::-webkit-details-marker {
   display: none;
@@ -287,9 +328,9 @@
   object-fit: cover;
   object-position: 50% 38%;
   /* Sin recorte propio, ni estático ni animado: la foto llena su caja y
-     quien la recorta es SIEMPRE `.usos-tarjeta` con la silueta de arco
-     (§ARCO más arriba). Una sola silueta para toda la tarjeta —foto, velo,
-     texto y pastilla de aforo entran y salen del arco a la vez. */
+     quien la recorta es el `<picture>` que la contiene, con su
+     `border-radius` de las cuatro esquinas y su `overflow: hidden`
+     (§RECORTE más arriba). Una sola silueta y un solo dueño. */
 }
 
 /* Alameda: en una caja de 100dvh el recorte por defecto se va a la copa de
@@ -299,6 +340,25 @@
    no se usa en el sitio; la tarjeta lleva img/espacios/alameda-2.jpg.) */
 .usos-item:first-child .usos-tarjeta__foto {
   object-position: 50% 62%;
+}
+
+/* Teatrino (boda-4.jpg): el 38% por defecto deja la foto centrada en el
+   cielo nublado de arriba —más de la mitad del encuadre— y recorta la carpa
+   con las luces y la gente/mesas, que es el sujeto real. Pedido del cliente
+   sobre esta misma captura: «que enfoque más abajo de la foto». La carpa
+   arranca cerca del 57% del alto y la gente/mesas llegan casi al borde
+   inferior, así que el foco baja a 80%. */
+.usos-item:nth-child(3) .usos-tarjeta__foto {
+  object-position: 50% 80%;
+}
+
+/* Taller (taller-1.jpg): el 38% por defecto se queda en la cubierta de caña
+   y los bombillos colgados —el techo, no el espacio—. Mismo pedido del
+   cliente sobre esta captura: la pared con los cuadros y el escritorio,
+   el sujeto real, vive en la banda media de la foto (entre 40% y 65% del
+   alto), así que el foco baja a 55%. */
+.usos-item:nth-child(4) .usos-tarjeta__foto {
+  object-position: 50% 55%;
 }
 
 /* Velo de legibilidad: más denso abajo, donde vive el texto, casi limpio
@@ -334,18 +394,114 @@
    obligatorio: sin él, un ítem de rejilla no baja de su tamaño de contenido
    y la fila `1fr` se desbordaría con la altura natural de la fotografía.
 
-   `border-radius` aquí es el arco de reposo en su versión más terca —la que
-   sobrevive sin `clip-path`, sin líneas de tiempo de scroll y sin
-   JavaScript—: la misma silueta medida que tenía `.espacio--medio` (el
-   Teatrino) en la extinta #espacios (`git log -p -- styles/sections/espacios.css`,
-   commit 87dbb40). No se inventa una proporción nueva: se reutiliza la que el
-   cliente ya vio y pidió. `overflow: hidden` es lo que la hace efectiva. */
-.usos-tarjeta > picture {
+   `border-radius` aquí es AHORA LA ÚNICA SILUETA de la fotografía, y por eso
+   es el único valor que cambia en la v25 (§RECORTE): de
+   `50% 50% var(--radio-md) var(--radio-md)` —el medio punto de arriba, el
+   arco de reposo que el `clip-path` retirado hacía crecer— a `--radio-md` en
+   las cuatro, que es la petición del cliente («cuadradas no curvas») escrita
+   en el radio del sistema y el mismo valor que el home le dio a su portada.
+   `overflow: hidden` es lo que la hace efectiva. */
+/* ---- §AMPLIAR · TODA LA FOTO ABRE EL VISOR -------------------------------
+   v26 · CAMBIA EL DUEÑO DEL CLIC EN LA FOTO. Pedido del cliente sobre
+   Teatrino y Taller: «que al darle click en cualquier parte de la foto se
+   amplíe» — hasta la v25 la foto entera abría/cerraba el acordeón de usos
+   recomendados (comportamiento nativo del `<summary>` que la envolvía) y
+   sólo un ícono chico, superpuesto en la esquina, abría el visor.
+
+   SE INVIERTEN LOS PAPELES, NO SE AÑADE UN SEGUNDO CONTROL. La fotografía
+   entera —antes un `<picture>` suelto, hermano del botón— pasa a vivir
+   DENTRO de un único `<button>` que ocupa toda su caja: ese botón es ahora
+   el disparador del lightbox en cualquier punto de la foto, y el ícono de
+   lupa que antes era el único gatillo se queda dentro del mismo botón como
+   refuerzo visual —no hay dos controles haciendo lo mismo—. La PLACA de
+   abajo (`.usos-tarjeta__marco`) queda fuera de ese botón, como `<span>`
+   plano de siempre: un clic ahí sigue burbujeando hasta el `<summary>` y
+   abriendo/cerrando el acordeón exactamente igual que antes. Es la misma
+   tarjeta con la superficie clicable de cada acción invertida: antes
+   foto=acordeón/ícono=visor, ahora foto=visor/placa=acordeón, que es donde
+   semánticamente vive «ver los usos de este espacio».
+
+   `<button>` DENTRO DE `<summary>` SIGUE SIENDO HTML VÁLIDO exactamente por
+   la misma razón que en la v25: `<summary>` no es «contenido interactivo»
+   del estándar, así que anidar un botón real no rompe el árbol. Lo que sigue
+   pidiendo es el mismo corte de `js/app.js` §Lightbox —comprobar si el
+   disparador vive dentro de un `<summary>` y cortar ahí `stopPropagation`—,
+   que no cambió una línea: seguía siendo genérico (cualquier
+   `[data-lightbox]` dentro de un `<summary>`), sin importar cuánta área
+   cubra el botón.
+
+   `.usos-tarjeta__foto-disparador` HEREDA lo que antes llevaba
+   `.usos-tarjeta > picture`: es el ítem de la fila `1fr` de la rejilla de
+   `.usos-tarjeta`, `min-height: 0` para poder encogerse dentro de esa fila,
+   `overflow: hidden` + `border-radius` para el recorte de esquinas rectas
+   (§RECORTE). El reset de apariencia de botón (`border: 0`, `background:
+   none`, `padding: 0`, `font: inherit`, `text-align: inherit`) es para que
+   no se note que por debajo es un `<button>` y no un `<picture>`: la foto
+   debe verse igual que en la v25, no como un botón. `cursor: zoom-in` es la
+   convención que introduce este cambio para «esto amplía»; el resto de la
+   tarjeta (la placa) conserva el `cursor: pointer` que ya tenía `.usos-
+   tarjeta`, la misma pareja lupa/mano que usa el visor de #naturaleza. */
+.usos-tarjeta__foto-disparador {
   position: relative;
   display: block;
-  overflow: hidden;
+  width: 100%;
   min-height: 0;
-  border-radius: 50% 50% var(--radio-md) var(--radio-md);
+  overflow: hidden;
+  border-radius: var(--radio-md);
+  border: 0;
+  margin: 0;
+  padding: 0;
+  background: none;
+  font: inherit;
+  text-align: inherit;
+  color: inherit;
+  cursor: zoom-in;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.usos-tarjeta__foto-disparador picture {
+  position: absolute;
+  inset: 0;
+  display: block;
+}
+
+.usos-tarjeta__foto-disparador:focus-visible {
+  outline: none;
+  box-shadow: inset var(--anillo-foco);
+}
+
+/* El ícono de lupa: mismo lenguaje visual que en la v25 (vidrio —fondo
+   `--tinta` translúcido + borde inverso—, el mismo que `.lightbox__cerrar`/
+   `.lightbox__nav` en lightbox.css), pero ahora es un `<span>` decorativo
+   dentro del botón, no un segundo control: `pointer-events: none` para que
+   nunca compita por el clic con el botón que lo envuelve. 2.75rem = 44px,
+   el mínimo táctil del sistema, se conserva aunque ya no sea su propia
+   zona interactiva —sigue marcando dónde «amplía» a simple vista—. */
+.usos-tarjeta__ampliar {
+  position: absolute;
+  top: var(--esp-sm);
+  right: var(--esp-sm);
+  z-index: 2;
+  display: grid;
+  place-items: center;
+  width: 2.75rem;
+  height: 2.75rem;
+  border-radius: var(--radio-full);
+  border: 1px solid var(--color-borde-inverso);
+  background: rgb(var(--tinta-rgb) / 0.55);
+  color: var(--color-texto-inverso);
+  pointer-events: none;
+  transition: var(--transicion-rapida);
+}
+
+.usos-tarjeta__ampliar svg {
+  width: 1.25rem;
+  height: 1.25rem;
+}
+
+.usos-tarjeta__foto-disparador:hover .usos-tarjeta__ampliar,
+.usos-tarjeta__foto-disparador:focus-visible .usos-tarjeta__ampliar {
+  background: rgb(var(--tinta-rgb) / 0.75);
 }
 
 /* ---- §PLACA · LA FICHA DEL ESPACIO --------------------------------------
@@ -461,24 +617,23 @@
    leyera como «01 de 05» y no como el encabezado de un párrafo. El filete es
    `::after` sin texto ni puntero, así que no entra en ninguna cuenta de
    contraste; la cifra sí, y --color-acento-texto sobre la placa mide 5,4:1. */
+/* v26 · SE RETIRA EL FILETE. El cliente, sobre una captura de «03 Teatrino»:
+   «quita las líneas». El `::after` que corría desde la cifra hasta el borde
+   de la placa se va, y con él el `display: flex` y el `gap` que sólo
+   existían para tenderlo. La cifra queda sola, como el índice de las fichas
+   de #planes (`.planes-carril__indice`), que nunca llevó línea: la serie
+   «01 de 05» la sigue diciendo la cifra en display y en el acento. El hueco
+   que deja se rellena con aire, no con otro adorno: el margen inferior sube
+   un paso (2xs → xs) para que el nombre no se pegue al índice. */
 .usos-tarjeta__orden {
   grid-area: orden;
-  display: flex;
-  align-items: center;
-  gap: var(--esp-sm);
+  display: block;
   font-family: var(--fuente-display);
   font-size: var(--fs-h4);
   line-height: 1;
   letter-spacing: 0.12em;
   color: var(--color-acento-texto);
-  margin-bottom: var(--esp-2xs);
-}
-
-.usos-tarjeta__orden::after {
-  content: '';
-  flex: 1;
-  height: 1px;
-  background-color: var(--color-borde-suave);
+  margin-bottom: var(--esp-xs);
 }
 
 /* v20 · De un clamp escrito a mano (2 → 3 rem) al paso 5 de la escala,
@@ -549,10 +704,10 @@
    1. VIVE EN LA ESQUINA SUPERIOR, no en la inferior. `.usos-tarjeta__marco`
       ya ocupa todo el borde inferior (nombre, frase, aviso) con
       `justify-content: flex-end`; una pastilla ahí competiría por el mismo
-      espacio y en pantallas bajas se encimaría con la frase. El arco de la
-      silueta además deja más foto «respirando» arriba —el medio punto no
-      recorta esa zona— así que es donde mejor se lee una pastilla clara
-      sobre foto oscura.
+      espacio y en pantallas bajas se encimaría con la frase. (Cuando esto
+      se escribió, el arco de la silueta además dejaba más foto «respirando»
+      arriba; desde la v25 no hay arco —§RECORTE— y la razón de fondo, que la
+      esquina superior está libre, sigue valiendo igual sobre un rectángulo.)
    2. NO SE APAGA CON EL SCROLL. `.usos-tarjeta__marco` lleva su propia
       animación de entrada; el dato de aforo es información, no un gesto
       decorativo, así que queda fuera de ese elemento y de su animación — el
@@ -613,7 +768,10 @@
 
 /* --------------------------------------------------------------------------
    A PARTIR DE 48em LA PLACA SE ABRE EN DOS COLUMNAS: la ficha a la izquierda
-   y el aforo a la derecha, separado por un filete. En móvil eso no cabe —el
+   y el aforo a la derecha, separados sólo por aire (v26: el filete vertical
+   que los dividía se retiró junto con el del índice —«quita las líneas»—;
+   el `column-gap` de la rejilla y un relleno mediano bastan para que la
+   cifra se lea como columna propia). En móvil eso no cabe —el
    nombre a --fs-h1 en media columna de 375 px se partiría en cuatro
    renglones— y por eso allí el aforo va arriba, en su propia línea.
    -------------------------------------------------------------------------- */
@@ -655,8 +813,7 @@
     text-align: right;
     gap: var(--esp-2xs);
     margin-bottom: 0;
-    padding-inline-start: var(--esp-xl);
-    border-inline-start: 1px solid var(--color-borde-suave);
+    padding-inline-start: var(--esp-md);
   }
 }
 

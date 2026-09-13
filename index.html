@@ -65,14 +65,14 @@
 <link rel="preload" as="image" type="image/avif" fetchpriority="high"
       media="(max-width: 47.99em)" href="img/hero-ave-rosada.avif">
 <link rel="preload" as="image" type="image/avif" fetchpriority="high"
-      media="(min-width: 48em)" href="img/hero-ave-flor.avif">
+      media="(min-width: 48em)" href="img/hero-colibri.avif">
 
-<link rel="stylesheet" href="styles/tokens.css?v=128cd142">
+<link rel="stylesheet" href="styles/tokens.css?v=e12e8d10">
 <link rel="stylesheet" href="styles/base.css?v=a9f3ede7">
-<link rel="stylesheet" href="styles/shell.css?v=66218bd2">
+<link rel="stylesheet" href="styles/shell.css?v=ad875ced">
 <link rel="stylesheet" href="styles/sections/inicio.css?v=7de985e1">
-<link rel="stylesheet" href="styles/sections/home.css?v=cc008854">
-<link rel="stylesheet" href="styles/sections/nosotros.css?v=cb7b6df3">
+<link rel="stylesheet" href="styles/sections/home.css?v=9cd2b333">
+<link rel="stylesheet" href="styles/sections/nosotros.css?v=f4f1052a">
 <link rel="stylesheet" href="styles/sections/pie.css?v=0a889dce">
 <link rel="stylesheet" href="styles/lightbox.css?v=92a48a1f">
 
@@ -108,6 +108,32 @@
   "logo": "https://vegasdelverde.co/img/logo/simbolo-vegas.png"
 }
 </script>
+<!-- Meta Pixel Code -->
+<script>
+!function(f,b,e,v,n,t,s)
+{if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+n.queue=[];t=b.createElement(e);t.async=!0;
+t.src=v;s=b.getElementsByTagName(e)[0];
+s.parentNode.insertBefore(t,s)}(window, document,'script',
+'https://connect.facebook.net/en_US/fbevents.js');
+fbq('init', '2840830879589956');
+fbq('track', 'PageView');
+</script>
+<noscript><img height="1" width="1" style="display:none"
+src="https://www.facebook.com/tr?id=2840830879589956&ev=PageView&noscript=1"
+/></noscript>
+<!-- End Meta Pixel Code -->
+<!-- Microsoft Clarity -->
+<script type="text/javascript">
+    (function(c,l,a,r,i,t,y){
+        c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+        t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
+        y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y)
+    })(window, document, "clarity", "script", "yhhdzmiljc");
+</script>
+<!-- End Microsoft Clarity -->
 </head>
 <body>
 <!-- ==========================================================================
@@ -192,11 +218,22 @@
            cualquier página.
 
            «Nosotros» sigue siendo un ancla porque sigue siendo una sección de
-           la portada; por eso va marcada como secundaria (shell.css la
-           esconde por debajo de 1280 px, donde la cabecera desborda).
-           «Colegios» y «Plan vecino» bajan al pie del panel móvil y al pie de
-           página: son destinos, no navegación, y meterlas aquí partiría el
-           menú en dos filas.
+           la portada. v32 · YA NO SE ESCONDE POR ANCHO: la clase
+           `nav__item--secundario` se conserva por si vuelve a hacer falta
+           distinguirla, pero la regla que la ocultaba por debajo de 1280 px se
+           eliminó de shell.css. Existía porque con siete rótulos en fila la
+           cabecera desbordaba; ahora la navegación entera vive dentro del
+           panel del botón de tres líneas, donde cabe sin competir con nadie.
+           «Colegios» y «Plan vecino» siguen en el pie del panel y en el pie de
+           página: son destinos, no navegación.
+
+           v32 · ESTE MENÚ YA NO ES «EL MENÚ MÓVIL». Pedido del cliente sobre la
+           captura del escritorio: que el logo mande en la cabecera y que
+           «espacios, planes y demás» se guarden en el botón de las tres líneas.
+           El panel es ahora el único menú del sitio en TODOS los anchos —mismo
+           marcado, mismo mecanismo (`data-menu`, `aria-expanded`,
+           `body.menu-abierto`, velo, cerrojo de foco y Escape en js/app.js, que
+           nunca miró el ancho de pantalla)—. Ver shell.css §2.
 
            NINGÚN ENLACE PUEDE SER UN ANCLA SUELTA: este fragmento se inserta
            en todas las páginas del sitio, así que todos llevan el nombre del
@@ -211,11 +248,12 @@
         <li><a class="nav__enlace" href="contacto.html">Contacto</a></li>
       </ul>
 
-      <!-- Sólo visible dentro del panel móvil -->
+      <!-- Pie del panel: visible siempre que el panel esté abierto, en
+           cualquier ancho (v32; antes shell.css lo escondía en escritorio). -->
       <div class="nav__pie">
         <!-- v18 · Las dos páginas de destino que no caben en la barra. Aquí
              son un objetivo táctil de bloque entero, no una línea de cuatro
-             palabras: es el ancho completo del panel móvil. -->
+             palabras: es el ancho completo del panel. -->
         <a class="btn btn-secundario btn-bloque" href="colegios.html">Salidas escolares</a>
         <a class="btn btn-secundario btn-bloque" href="plan-vecino.html">Plan vecino</a>
         <a
@@ -298,6 +336,19 @@
      de cualquier futuro modal (ver --z-modal en tokens.css si existe). El
      pulso es sólo opacity —GPU, y se apaga solo con prefers-reduced-motion,
      que shell.css ya resuelve para toda animación infinita del sitio. -->
+<!-- v1 · Botón de llamada directa, pedido por el cliente para sumar una vía
+     de contacto además de WhatsApp. Mismo número, mismo patrón visual que
+     `.whatsapp-flotante` (círculo fijo, mismo tamaño), apilado ENCIMA de él
+     (mayor `bottom`) para que ambos convivan sin superponerse. -->
+<a
+  class="llamar-flotante"
+  href="tel:+573166758362"
+  aria-label="Llamar a Vegas del Verde"
+>
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+    <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92Z"/>
+  </svg>
+</a>
 <a
   class="whatsapp-flotante"
   href="https://wa.me/573166758362?text=Hola%2C%20quiero%20informaci%C3%B3n%20sobre%20Vegas%20del%20Verde"
@@ -437,17 +488,39 @@
          entienda y no descarga los otros. El <img> conserva fetchpriority
          alto, width/height para reservar la caja antes de que llegue un
          byte, y NADA de loading perezoso: es el LCP.  -->
+    <!-- v33 · LA PORTADA DE ESCRITORIO CAMBIA DE AVE (otra vez) Y SÓLO LA DE
+         ESCRITORIO. El cliente mandó la captura del colibrí de la galería de
+         naturaleza —`img/aves/ave-39-colibri.jpg`, «Foto: Jesus Lopez»— y pidió
+         «para pc usa esta foto de hero pero editada que se vea más clara».
+         Literal: PARA PC. El bloque de `media: (max-width: 47.99em)` sigue
+         siendo `hero-ave-rosada` y no se toca.
+
+         POR QUÉ HAY UN ARCHIVO NUEVO Y NO SE EDITÓ EL ORIGINAL. La foto de la
+         galería vive con su crédito y se queda como está. `img/hero-colibri.*`
+         es una COPIA revelada aparte: recorte apaisado a 1600×1092 —la misma
+         caja que tenía `hero-ave-flor`, así que width/height no se mueven ni
+         hay salto de layout— y un revelado más claro (gamma sobre medios y
+         sombras, no brillo plano: el brillo plano lava el fondo y despega al
+         pájaro). Nada de esto es un filtro CSS: la foto llega ya revelada y el
+         §h del contrato —«la foto es la foto»— se cumple igual que antes.
+
+         EL RECORTE ES RECORTE DE VERDAD, NO `object-position`. El original es
+         casi cuadrado (1300×1040) y el hueco del hero es apaisado: dejarlo al
+         `cover` le cortaba al colibrí la cola o las flores del pie según el
+         ancho. Recortando la franja en el archivo, el ave queda al 46 % del
+         alto y el `--pos-foto-y: 42%` de inicio.css —que también consume
+         js/particulas-hero.js— sigue valiendo sin tocar una línea de CSS. -->
     <picture>
       <source media="(max-width: 47.99em)" srcset="img/hero-ave-rosada.avif" type="image/avif" />
       <source media="(max-width: 47.99em)" srcset="img/hero-ave-rosada.webp" type="image/webp" />
-      <source srcset="img/hero-ave-flor.avif" type="image/avif" />
-      <source srcset="img/hero-ave-flor.webp" type="image/webp" />
+      <source srcset="img/hero-colibri.avif" type="image/avif" />
+      <source srcset="img/hero-colibri.webp" type="image/webp" />
       <img
         class="inicio__portada-foto"
-        src="img/hero-ave-flor.jpg"
+        src="img/hero-colibri.jpg"
         width="1600"
         height="1092"
-        alt="Ave posada en el bosque de Vegas del Verde."
+        alt="Un colibrí en vuelo bebiendo de una flor morada, entre tallos de verbena y follaje del bosque de Vegas del Verde."
         fetchpriority="high"
         decoding="async"
       />
@@ -683,7 +756,7 @@
              uno de los dos módulos falla, el otro sigue vivo. Los PNG de las
              mariposas no se piden hasta aquí, así que no compiten con el LCP
              ni por red ni por decodificación. */
-          import('./js/enjambre-hero.js?v=21a60875')
+          import('./js/enjambre-hero.js?v=ca06d234')
             .then((m) => m?.montarEnjambre(document.querySelector('.inicio__enjambre')))
             .catch(() => {}),
         ]))
@@ -796,14 +869,14 @@
           <span class="marco marco--3-2">
             <img
               class="home-tarjeta__foto"
-              src="img/parque/parque-32.jpg"
-              srcset="img/parque/parque-32-400.jpg 400w, img/parque/parque-32-600.jpg 600w, img/parque/parque-32-800.jpg 800w, img/parque/parque-32.jpg 900w"
+              src="img/parque/empresa-carpa-vidrio-dia.jpg"
+              srcset="img/parque/empresa-carpa-vidrio-dia-400.jpg 400w, img/parque/empresa-carpa-vidrio-dia-600.jpg 600w, img/parque/empresa-carpa-vidrio-dia-800.jpg 800w, img/parque/empresa-carpa-vidrio-dia-1200.jpg 1200w, img/parque/empresa-carpa-vidrio-dia.jpg 1600w"
               sizes="(max-width: 39.99em) 45vw, (max-width: 63.99em) 46vw, 31vw"
-              width="900"
-              height="1200"
+              width="1600"
+              height="1066"
               loading="lazy"
               decoding="async"
-              alt="Reunión en mesas bajo la cubierta de caña del Taller, con una persona exponiendo de pie y el jardín al fondo."
+              alt="Carpa de techo transparente sobre el césped: mesas altas de madera natural con sillas de mimbre crema y sofás de terciopelo verde y turquesa alrededor, montada para un evento de empresa."
             />
           </span>
           <span class="home-tarjeta__cuerpo">
@@ -973,7 +1046,7 @@
           <span class="home-tarjeta__cuerpo placa placa--sm">
             <span class="home-tarjeta__nombre">Alameda</span>
             <span class="home-tarjeta__dato">
-              <span class="home-tarjeta__dato-cifra">150</span> personas
+              <span class="home-tarjeta__dato-cifra">100</span> personas
             </span>
             <span class="home-tarjeta__frase">La grama mejor cuidada del predio.</span>
             <span class="home-tarjeta__ir">Ver los usos</span>
@@ -998,7 +1071,7 @@
           <span class="home-tarjeta__cuerpo placa placa--sm placa--alterna">
             <span class="home-tarjeta__nombre">La Vega</span>
             <span class="home-tarjeta__dato">
-              <span class="home-tarjeta__dato-cifra">100</span> personas
+              <span class="home-tarjeta__dato-cifra">150</span> personas
             </span>
             <span class="home-tarjeta__frase">Una explanada plana: cabe el escenario y lo que se monte.</span>
             <span class="home-tarjeta__ir">Ver los usos</span>
@@ -1317,7 +1390,7 @@
              Ningún hecho vive en ella: el qué del sendero está en esta primera
              frase, y el desarrollo, en sendero-ecovital.html. -->
         <p class="entradilla">
-          Un recorrido guiado para mirar aves y reconocer las plantas del lugar.
+          Se camina despacio, con guía, para ver aves y reconocer las plantas del lugar.
         </p>
         <p class="grupo-botones">
           <a class="btn btn-primario" href="sendero-ecovital.html">Ver el Sendero Ecovital</a>
@@ -1545,6 +1618,27 @@
      Ver la nota al pie de este archivo y la cabecera de sections/compromiso.html.
      Esta sección queda con un solo bloque: el predio dentro de la foto.
 
+     v20 — EL TEXTO DEJA DE TAPAR LA FOTO (pedido del cliente en su momento)
+     Hasta v19 el discurso, ya en placa sólida sin velo, se apoyaba sobre la
+     foto y le tapaba el 93 % del área medida a 375 px. v20 separó la escena
+     en dos filas —marco de la foto arriba, placa del discurso debajo— para
+     que la fotografía se viera entera.
+
+     v23 — EL CLIENTE CAMBIA DE OPINIÓN: EL TEXTO VUELVE ENCIMA DE LA FOTO
+     (sep-2026). Mostró dos capturas —el discurso en fondo crema plano y la
+     foto vertical del sendero, que es exactamente nosotros-reja.jpg— y pidió,
+     literal, volver a como estaba antes de v20: el discurso SUPERPUESTO a la
+     fotografía. La escena vuelve a la mecánica de v13-v19 (foto de fondo
+     absoluta, discurso en flujo normal encima, alto decidido por el
+     contenido), con una diferencia a propósito frente a v14-v18: el velo ya
+     NO cubre la banda entera, vive sólo dentro de `.nosotros__discurso` —
+     mismo tamaño que esa caja—, así que la mitad de arriba de la fotografía
+     queda sin un solo píxel filtrado. Es la SEGUNDA excepción documentada a
+     «la foto es la foto» (herramientas/validar.js §h y validar.py; la
+     primera es `.inicio__portada-velo`, en el hero). Ver la nota completa
+     junto a `.nosotros__escena` más abajo y junto a `.nosotros__escena-velo`
+     en nosotros.css §1.
+
      Bloques: (a) el predio + lo básico resuelto DENTRO de la foto del umbral
      Foto: nosotros-reja.jpg (el sendero de losas entrando bajo los árboles).
      Única sección sin CTA a WhatsApp: aquí todavía no se cotiza nada.
@@ -1611,23 +1705,40 @@
          esta banda queda una pantalla por debajo (checklist §6 de
          DIRECTRICES-ANIMACION). `width`/`height` escritos aunque la imagen vaya
          absoluta: no cuesta nada y documenta el archivo. -->
-    <!-- v18 · SALE `.sobre-oscuro`: el velo de la escena pasó a claro (--luz,
-         nosotros.css §1) por pedido del cliente («ni fotos oscuras, las
-         originales y punto») y el foco/botón vuelven al registro claro. -->
+    <!-- v23 · EL TEXTO VUELVE A ENCIMA DE LA FOTO — orden explícita del
+         cliente, mostrando dos capturas (el discurso en fondo crema plano, y
+         la foto vertical del sendero que es exactamente nosotros-reja.jpg):
+         «ponlo de nuevo así, el texto encima de la foto, como antes».
+
+         v20 había separado foto y discurso en dos filas de rejilla porque el
+         cliente, en ese momento, había pedido lo contrario («el texto NO debe
+         tapar la foto»). Ahora pide recuperar el espíritu de v13-v19: la
+         fotografía vuelve a ser el FONDO absoluto de la banda entera —
+         `.nosotros__escena-marco` deja de ser una fila propia con su
+         `aspect-ratio` y vuelve a ser una capa `position: absolute; inset: 0`
+         detrás de todo (nosotros.css §1)— y el discurso flota encima, en flujo
+         normal, con el alto de la escena decidido por su propio contenido
+         (el mismo mecanismo de v13-v19, no el de v20).
+
+         LA EXCEPCIÓN A «LA FOTO ES LA FOTO» (herramientas/validar.js §h,
+         herramientas/validar.py). El sitio prohíbe veladuras sobre
+         fotografías; la única excepción hasta ahora era
+         `.inicio__portada-velo` (hero), pedida también por el cliente. Aquí
+         se abre una SEGUNDA excepción, igual de puntual: `.nosotros__escena-
+         velo` vuelve a existir (no es display:none), pero YA NO cubre la foto
+         entera como en v14-v18 — vive DENTRO de `.nosotros__discurso`, del
+         mismo tamaño que esa caja y nada más, así que el velo sólo aparece
+         detrás del bloque de texto. La mitad de arriba de la fotografía (todo
+         lo que queda por encima del discurso) se ve sin un solo píxel
+         filtrado. Fecha del pedido: sep-2026. Cifras de contraste y la nota
+         completa del degradado, en nosotros.css junto a la regla. -->
     <div class="nosotros__escena reveal reveal--velo"
          data-foto-focus data-foco="50% 38%" data-zoom="0.09">
 
-      <!-- v20 · EL MARCO DE LA FOTO. Orden directa del cliente sobre todo el
-           sitio: «el texto NO debe tapar la foto». Hasta la v19 la fotografía
-           del umbral era el FONDO de la banda (absoluta, a sangre) y el
-           discurso, aunque ya fuera una placa sólida sin velo, se apoyaba
-           encima y le tapaba el 93 % del área medido a 375 px. Ahora la
-           escena es una rejilla de dos filas —marco de la foto arriba, placa
-           del discurso debajo— y la fotografía se ve entera: es el contrato
-           que base.css §4b escribe para `.foto-placa`.
-           El marco es un elemento propio y no basta con darle formato a la
-           <img>, porque foto-focus escala y desplaza la imagen: sin una caja
-           que recorte, ese movimiento se derramaría sobre la placa. -->
+      <!-- EL MARCO DE LA FOTO — capa de fondo, a sangre de canto a canto.
+           Elemento propio y no formato sobre la <img> porque foto-focus
+           escala y desplaza la imagen: sin una caja que recorte, ese
+           movimiento se derramaría fuera de la banda. -->
       <span class="nosotros__escena-marco">
       <img
         class="nosotros__escena-foto"
@@ -1642,6 +1753,47 @@
       />
       </span>
 
+      <!-- v26 · EL VELO VUELVE A CUBRIR LA BANDA ENTERA, Y ES LA ÚNICA FORMA
+           DE QUE NO HAYA UNA LÍNEA DURA. Reporte del cliente con dos capturas
+           (sep-2026): «arriba, justo antes del titular, se ve una raya
+           horizontal cruzando la foto; y abajo también». Medido con
+           getBoundingClientRect() a 1440 px, el diagnóstico es exacto y es de
+           CAJA, no de degradado:
+
+             · la banda (`.nosotros__escena`) iba de y=8685,6 a y=9592,4
+             · el velo —que vivía DENTRO de `.nosotros__discurso`, del tamaño
+               de esa caja— iba de y=8805,6 a y=9472,4
+
+           O sea que el borde SUPERIOR del <span> del velo caía 120 px por
+           debajo del borde de la foto, y en ese píxel el degradado ya valía
+           0,32 de alfa: por encima, foto limpia; por debajo, 32 % de negro de
+           golpe. Eso ES la raya. Ningún retoque de los porcentajes internos
+           podía arreglarlo, porque el salto no estaba en el degradado sino en
+           el canto del elemento que lo pinta. Por el mismo motivo, abajo la
+           rampa de apagado quedaba comprimida en los 48 px del
+           `padding-block-end` del discurso —0,88 → 0 en 48 px se lee como un
+           filo, no como una veladura—.
+
+           LA CORRECCIÓN: el velo sale del discurso y pasa a ser hermano del
+           marco, con `inset: 0` sobre la BANDA ENTERA, y su degradado arranca
+           y termina en alfa 0 en sus dos extremos. Así ningún borde de
+           contenedor coincide nunca con un valor de opacidad distinto de
+           cero, sea cual sea el ancho de pantalla o lo que crezca el texto.
+           Las dos rampas caen íntegras dentro de relleno puro —el
+           `padding-block` de la escena más el del discurso—, o sea donde no
+           hay una sola letra: el titular sigue entrando exactamente en el
+           0,32 de siempre y el botón del pie sigue sobre 0,88 macizo. Las
+           cifras, ancladas a longitudes y no a porcentajes, en nosotros.css §1.
+
+           SIGUE SIENDO LA SEGUNDA EXCEPCIÓN DOCUMENTADA a «la foto es la
+           foto» (herramientas/validar.js §h y validar.py, que la tienen en
+           lista blanca por nombre de clase); lo que cambia es dónde vive el
+           <span>, no que exista. En capa propia y no en un `background` del
+           contenedor por el motivo de siempre: tiene que quedar ENTRE la foto
+           y el texto para que el zoom de foto-focus mueva la imagen por
+           debajo sin arrastrar la veladura — que es justo por lo que va FUERA
+           de `.nosotros__escena-marco` (la caja que recorta ese zoom) y no
+           dentro. -->
       <span class="nosotros__escena-velo" aria-hidden="true"></span>
 
       <!-- v13 · LAS HOJAS QUE SE DIBUJAN SOLAS Y DERIVAN CON EL SCROLL -------
@@ -1723,10 +1875,20 @@
            tendrían que esperar a que terminase su padre y el escalonado —que es
            justo lo que el cliente pidió que se notara— se perdería. Aquí el
            contenedor sólo coloca; quienes entran son las figuras, una a una. -->
-      <!-- v20 · `placa placa--lg`: la superficie sólida deja de estar escrita
-           a mano en nosotros.css y pasa a ser el componente del sistema
-           (base.css §4b). Mismo dibujo, un solo dueño. -->
-      <div class="nosotros__discurso placa placa--lg contenedor contenedor--ancho">
+      <!-- v23 · YA NO ES `.placa`: ese componente es una SUPERFICIE SÓLIDA en
+           su propio espacio, exactamente lo que v20 necesitaba para no tapar
+           la foto y exactamente lo que ya no aplica aquí. El discurso vuelve
+           a flotar sobre la fotografía con `.sobre-oscuro` (base.css: invierte
+           foco visible y botón fantasma) y su propio velo local, ver abajo. -->
+      <div class="nosotros__discurso sobre-oscuro contenedor contenedor--ancho">
+
+        <!-- v26 · EL VELO YA NO VIVE AQUÍ DENTRO. Estuvo en esta caja desde
+             v23, del mismo tamaño que ella, y ese era exactamente el defecto
+             que el cliente reportó: el canto superior de este <div> caía 120 px
+             por debajo del borde de la foto y el degradado ya valía 0,32 de
+             alfa ahí mismo, o sea una raya horizontal cruzando la fotografía
+             justo antes del titular. Ahora es hermano del marco y cubre la
+             banda entera; ver la nota v26 completa junto a él, más arriba. -->
       <!-- v17 · EL TITULAR SE MUDA DENTRO DE LA FOTO, Y CAMBIA DE TEXTO -------
            Pedido del cliente, explícito: «integra ese texto en la foto, pero
            tampoco me gusta ese texto, cámbialo». Dos cosas en un mismo golpe.
@@ -1971,10 +2133,12 @@
            fondo oscuro» (base.css)—: relleno crema al 92 % con tinta encima,
            13,2:1, y contorno propio contra la foto. El rótulo no cambia. -->
       <p class="grupo-botones">
-        <!-- v18 · Vuelve a `btn-secundario`: el velo es claro ahora y el botón
-             crema de `btn-claro` se fundía con él. El contorno bosque da el
-             3:1 de WCAG 1.4.11 sobre el velo --luz. -->
-        <a class="btn btn-secundario" href="#espacios">Ver eventos y actividades</a>
+        <!-- v23 · VUELVE `btn-claro`: el velo local vuelve a ser oscuro en el
+             pie de la caja (0,88 de alfa), donde cae este botón, y el
+             contorno bosque de `btn-secundario` se fundiría otra vez con él.
+             Ver la nota v13 completa arriba: sigue siendo obligatorio, no un
+             gusto. -->
+        <a class="btn btn-claro" href="#espacios">Ver eventos y actividades</a>
       </p>
       </div>
 
@@ -2318,7 +2482,10 @@
            ve no tiene por qué seguir en el DOM. -->
       <p class="pie-final__antetitulo reveal">Oasis para la recreación y el bienestar</p>
       <p class="pie-final__titular reveal reveal-texto">
-        <span class="reveal-texto__linea">El verde te está</span>
+        <!-- Blanco final dentro del primer renglón: los <span> son bloques y
+             en pantalla van en dos líneas, pero al copiar o aplanar el DOM
+             salían pegados («estáesperando»). No se pinta, no cambia nada. -->
+        <span class="reveal-texto__linea">El verde te está </span>
         <span class="reveal-texto__linea">esperando.</span>
       </p>
       <!-- v18 · Deja de ser el ancla #ubicacion y pasa a ser contacto.html.
@@ -2412,6 +2579,7 @@
         <li><a href="colegios.html">Salidas escolares</a></li>
         <li><a href="plan-vecino.html">Plan vecino</a></li>
         <li><a href="condiciones-de-alquiler.html">Condiciones de alquiler</a></li>
+        <li><a href="reglamento.html">Reglamento para visitantes</a></li>
         <li><a href="politica-de-datos.html">Política de tratamiento de datos</a></li>
         <li><a href="terminos.html">Términos y condiciones</a></li>
       </ul>
@@ -2425,7 +2593,7 @@
 
   </div>
 </footer>
-<script src="js/app.js?v=d2757e52" defer></script>
+<script src="js/app.js?v=560eb0e8" defer></script>
 <!-- v18 · js/mapa.js SALE de la portada con su seccion: el mapa satelital
      y su vuelo de descenso viven ahora en contacto.html, que es la unica
      pagina con un #mapa-vegas que montar. Cargarlo aqui era descargar 13 KB

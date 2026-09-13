@@ -1,12 +1,19 @@
 <!-- ==========================================================================
      FRAGMENTO: USOS  ·  ancla #usos
      CSS propio: styles/sections/usos.css
-     JS propio: NINGUNO. v17 · se retiró js/usos-arco.js: el arco que crece
-     con el scroll pasó a `animation-timeline: view()` dentro de usos.css
-     (§ARCO), porque gobernarlo desde un listener de scroll lo dejaba un
-     cuadro por detrás de la fotografía en celular —el «SE LAGUE APEGA
-     BRINCOS MINIS» que reportó el cliente—. Toda la explicación y las
-     mediciones están en la cabecera de §ARCO en usos.css.
+     JS propio: NINGUNO. v17 · se retiró js/usos-arco.js (el arco que crecía
+     con el scroll pasó a `animation-timeline: view()` dentro de usos.css,
+     porque gobernarlo desde un listener de scroll lo dejaba un cuadro por
+     detrás de la fotografía en celular —el «SE LAGUE APEGA BRINCOS MINIS»
+     que reportó el cliente—).
+     v25 · Y EL ARCO ENTERO SE RETIRA, por pedido del cliente sobre una
+     captura de la tarjeta «Cancha»: «que todas las fotos sean cuadradas no
+     curvas como estaban antes». La fotografía sigue a sangre y a pantalla
+     completa —eso no se toca, es lo que él mismo pidió recuperar— y lo único
+     que cambia es su silueta: el medio punto de arriba pasa a esquina recta,
+     con el radio del sistema en las cuatro. Por qué «cuadrada» no se leyó
+     como proporción 1:1, con las medidas del preview que lo descartan, está
+     en la cabecera de §RECORTE en usos.css.
 
      QUÉ ES Y POR QUÉ EXISTE. Entre la portada y la ficha técnica de
      #espacios (aforos, botón de WhatsApp, condiciones) faltaba una pregunta
@@ -75,25 +82,39 @@
     <li class="usos-item">
       <details class="usos-detalle">
         <summary class="usos-tarjeta">
-          <picture>
-            <img
-              class="usos-tarjeta__foto"
-              src="img/espacios/alameda-2.jpg"
-              width="1500"
-              height="1000"
-              loading="lazy"
-              decoding="async"
-              alt=""
-            />
-          </picture>
+          <button
+            type="button"
+            class="usos-tarjeta__foto-disparador"
+            data-lightbox="usos-espacios"
+            data-lightbox-caption="Alameda"
+            data-lightbox-src="img/espacios/alameda-2.jpg"
+            aria-label="Ver foto completa de Alameda"
+          >
+            <picture>
+              <img
+                class="usos-tarjeta__foto"
+                src="img/espacios/alameda-2.jpg"
+                width="1500"
+                height="1000"
+                loading="lazy"
+                decoding="async"
+                alt=""
+              />
+            </picture>
+            <span class="usos-tarjeta__ampliar" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                <path d="M4 9V4h5M4 4l6 6M20 9V4h-5M20 4l-6 6M4 15v5h5M4 20l6-6M20 15v5h-5M20 20l-6-6"/>
+              </svg>
+            </span>
+          </button>
           <span class="usos-tarjeta__marco placa">
             <span class="usos-tarjeta__aforo">
-              <span class="usos-tarjeta__aforo-cifra">150</span>
+              <span class="usos-tarjeta__aforo-cifra">100</span>
               <span class="usos-tarjeta__aforo-texto">Personas como máximo</span>
             </span>
             <span class="usos-tarjeta__orden" aria-hidden="true">01</span>
             <span class="usos-tarjeta__nombre">Alameda</span>
-            <span class="usos-tarjeta__frase">La grama mejor cuidada del predio, para el día que no se repite.</span>
+            <span class="usos-tarjeta__frase">Un prado abierto y sombra en las orillas, para el día que quieres que no se acabe.</span>
             <span class="usos-tarjeta__aviso">
               <span class="usos-tarjeta__aviso-movil">Toca para ver los usos</span>
               <span class="usos-tarjeta__aviso-escritorio">Ver los usos de este espacio</span>
@@ -139,26 +160,40 @@
     <li class="usos-item">
       <details class="usos-detalle">
         <summary class="usos-tarjeta">
-          <picture>
-            <source media="(max-width: 47.99em)" srcset="img/eventos/vega-vertical.jpg" />
-            <img
-              class="usos-tarjeta__foto"
-              src="img/eventos/vega-horizontal.jpg"
-              width="1600"
-              height="900"
-              loading="lazy"
-              decoding="async"
-              alt=""
-            />
-          </picture>
+          <button
+            type="button"
+            class="usos-tarjeta__foto-disparador"
+            data-lightbox="usos-espacios"
+            data-lightbox-caption="La Vega"
+            data-lightbox-src="img/eventos/vega-horizontal.jpg"
+            aria-label="Ver foto completa de La Vega"
+          >
+            <picture>
+              <source media="(max-width: 47.99em)" srcset="img/eventos/vega-vertical.jpg" />
+              <img
+                class="usos-tarjeta__foto"
+                src="img/eventos/vega-horizontal.jpg"
+                width="1600"
+                height="900"
+                loading="lazy"
+                decoding="async"
+                alt=""
+              />
+            </picture>
+            <span class="usos-tarjeta__ampliar" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                <path d="M4 9V4h5M4 4l6 6M20 9V4h-5M20 4l-6 6M4 15v5h5M4 20l6-6M20 15v5h-5M20 20l-6-6"/>
+              </svg>
+            </span>
+          </button>
           <span class="usos-tarjeta__marco placa placa--alterna">
             <span class="usos-tarjeta__aforo">
-              <span class="usos-tarjeta__aforo-cifra">100</span>
+              <span class="usos-tarjeta__aforo-cifra">150</span>
               <span class="usos-tarjeta__aforo-texto">Personas como máximo</span>
             </span>
             <span class="usos-tarjeta__orden" aria-hidden="true">02</span>
             <span class="usos-tarjeta__nombre">La Vega</span>
-            <span class="usos-tarjeta__frase">Una explanada sin un solo desnivel: aquí cabe el escenario y lo que se le monte.</span>
+            <span class="usos-tarjeta__frase">Una explanada llana de punta a punta: la carpa, la pista y la música se montan y ya.</span>
             <span class="usos-tarjeta__aviso">
               <span class="usos-tarjeta__aviso-movil">Toca para ver los usos</span>
               <span class="usos-tarjeta__aviso-escritorio">Ver los usos de este espacio</span>
@@ -205,17 +240,31 @@
     <li class="usos-item">
       <details class="usos-detalle">
         <summary class="usos-tarjeta">
-          <picture>
-            <img
-              class="usos-tarjeta__foto"
-              src="img/eventos/boda-4.jpg"
-              width="1500"
-              height="1000"
-              loading="lazy"
-              decoding="async"
-              alt=""
-            />
-          </picture>
+          <button
+            type="button"
+            class="usos-tarjeta__foto-disparador"
+            data-lightbox="usos-espacios"
+            data-lightbox-caption="Teatrino"
+            data-lightbox-src="img/eventos/boda-4.jpg"
+            aria-label="Ver foto completa de Teatrino"
+          >
+            <picture>
+              <img
+                class="usos-tarjeta__foto"
+                src="img/eventos/boda-4.jpg"
+                width="1500"
+                height="1000"
+                loading="lazy"
+                decoding="async"
+                alt=""
+              />
+            </picture>
+            <span class="usos-tarjeta__ampliar" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                <path d="M4 9V4h5M4 4l6 6M20 9V4h-5M20 4l-6 6M4 15v5h5M4 20l6-6M20 15v5h-5M20 20l-6-6"/>
+              </svg>
+            </span>
+          </button>
           <span class="usos-tarjeta__marco placa">
             <span class="usos-tarjeta__aforo">
               <span class="usos-tarjeta__aforo-cifra">70</span>
@@ -223,7 +272,7 @@
             </span>
             <span class="usos-tarjeta__orden" aria-hidden="true">03</span>
             <span class="usos-tarjeta__nombre">Teatrino</span>
-            <span class="usos-tarjeta__frase">El más recogido de los cinco: la gente cabe en un solo corro.</span>
+            <span class="usos-tarjeta__frase">Un claro bajo el árbol grande donde todos caben en un solo corro. El más íntimo de los cinco.</span>
             <span class="usos-tarjeta__aviso">
               <span class="usos-tarjeta__aviso-movil">Toca para ver los usos</span>
               <span class="usos-tarjeta__aviso-escritorio">Ver los usos de este espacio</span>
@@ -269,17 +318,31 @@
     <li class="usos-item">
       <details class="usos-detalle">
         <summary class="usos-tarjeta">
-          <picture>
-            <img
-              class="usos-tarjeta__foto"
-              src="img/espacios/taller-1.jpg"
-              width="900"
-              height="1200"
-              loading="lazy"
-              decoding="async"
-              alt=""
-            />
-          </picture>
+          <button
+            type="button"
+            class="usos-tarjeta__foto-disparador"
+            data-lightbox="usos-espacios"
+            data-lightbox-caption="Taller"
+            data-lightbox-src="img/espacios/taller-1.jpg"
+            aria-label="Ver foto completa de Taller"
+          >
+            <picture>
+              <img
+                class="usos-tarjeta__foto"
+                src="img/espacios/taller-1.jpg"
+                width="900"
+                height="1200"
+                loading="lazy"
+                decoding="async"
+                alt=""
+              />
+            </picture>
+            <span class="usos-tarjeta__ampliar" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                <path d="M4 9V4h5M4 4l6 6M20 9V4h-5M20 4l-6 6M4 15v5h5M4 20l6-6M20 15v5h-5M20 20l-6-6"/>
+              </svg>
+            </span>
+          </button>
           <span class="usos-tarjeta__marco placa placa--alterna">
             <span class="usos-tarjeta__aforo">
               <span class="usos-tarjeta__aforo-cifra">45</span>
@@ -287,7 +350,7 @@
             </span>
             <span class="usos-tarjeta__orden" aria-hidden="true">04</span>
             <span class="usos-tarjeta__nombre">Taller</span>
-            <span class="usos-tarjeta__frase">Aquí el clima no manda: la cubierta de caña se encarga.</span>
+            <span class="usos-tarjeta__frase">Techo de caña y piso firme: aquí la lluvia mira desde afuera y el plan sigue.</span>
             <span class="usos-tarjeta__aviso">
               <span class="usos-tarjeta__aviso-movil">Toca para ver los usos</span>
               <span class="usos-tarjeta__aviso-escritorio">Ver los usos de este espacio</span>
@@ -333,26 +396,40 @@
     <li class="usos-item">
       <details class="usos-detalle">
         <summary class="usos-tarjeta">
-          <picture>
-            <!-- v24 · SIN ART-DIRECTION. Hasta la v23 esta tarjeta tenía dos
-                 fotos: cancha-vertical.jpg por debajo de 48em y
-                 cancha-horizontal.jpg en escritorio. El cliente pidió
-                 —«quiero la de celular donde se ve la malla en todos los
-                 dispositivos»— dejar la vertical en todos los anchos, así que
-                 el <source> se retira y queda un solo <img>, como en las
-                 tarjetas 1, 3 y 4. width/height son los reales de la vertical
-                 (900×1600): dejar los 1600×900 de la horizontal reservaba un
-                 hueco con la proporción equivocada y saltaba el layout. -->
-            <img
-              class="usos-tarjeta__foto"
-              src="img/eventos/cancha-vertical.jpg"
-              width="900"
-              height="1600"
-              loading="lazy"
-              decoding="async"
-              alt=""
-            />
-          </picture>
+          <button
+            type="button"
+            class="usos-tarjeta__foto-disparador"
+            data-lightbox="usos-espacios"
+            data-lightbox-caption="Cancha"
+            data-lightbox-src="img/eventos/cancha-vertical.jpg"
+            aria-label="Ver foto completa de Cancha"
+          >
+            <picture>
+              <!-- v24 · SIN ART-DIRECTION. Hasta la v23 esta tarjeta tenía dos
+                   fotos: cancha-vertical.jpg por debajo de 48em y
+                   cancha-horizontal.jpg en escritorio. El cliente pidió
+                   —«quiero la de celular donde se ve la malla en todos los
+                   dispositivos»— dejar la vertical en todos los anchos, así que
+                   el <source> se retira y queda un solo <img>, como en las
+                   tarjetas 1, 3 y 4. width/height son los reales de la vertical
+                   (900×1600): dejar los 1600×900 de la horizontal reservaba un
+                   hueco con la proporción equivocada y saltaba el layout. -->
+              <img
+                class="usos-tarjeta__foto"
+                src="img/eventos/cancha-vertical.jpg"
+                width="900"
+                height="1600"
+                loading="lazy"
+                decoding="async"
+                alt=""
+              />
+            </picture>
+            <span class="usos-tarjeta__ampliar" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                <path d="M4 9V4h5M4 4l6 6M20 9V4h-5M20 4l-6 6M4 15v5h5M4 20l6-6M20 15v5h-5M20 20l-6-6"/>
+              </svg>
+            </span>
+          </button>
           <span class="usos-tarjeta__marco placa">
             <span class="usos-tarjeta__aforo">
               <span class="usos-tarjeta__aforo-cifra">30</span>
@@ -360,7 +437,7 @@
             </span>
             <span class="usos-tarjeta__orden" aria-hidden="true">05</span>
             <span class="usos-tarjeta__nombre">Cancha</span>
-            <span class="usos-tarjeta__frase">Campo abierto de punta a punta: aquí se viene a jugar.</span>
+            <span class="usos-tarjeta__frase">Campo abierto con el guadual de borde y de sombra: aquí se viene a jugar hasta que se acabe la luz.</span>
             <span class="usos-tarjeta__aviso">
               <span class="usos-tarjeta__aviso-movil">Toca para ver los usos</span>
               <span class="usos-tarjeta__aviso-escritorio">Ver los usos de este espacio</span>

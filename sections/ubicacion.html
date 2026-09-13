@@ -56,7 +56,14 @@
      Instagram, las ocho referencias y las siete distancias siguen aquí y
      siguen diciendo exactamente lo mismo.
      ========================================================================== -->
-<section id="ubicacion" class="seccion seccion--alt ubi" aria-labelledby="ubicacion-titulo">
+<!-- v33 · seccion--alt → seccion--trama. Era la única página del sitio
+     (junto con colegios) sentada ENTERA sobre salvia opaca: la plancha
+     tapaba de arriba abajo el papel botánico de body::before, y el cliente
+     lo leía como «un bloque plano». La banda con trama es semitransparente
+     (tokens.css --color-banda-trama) y deja correr el papel por debajo,
+     igual que vivero.html. Ningún par de texto pierde: la trama es más
+     clara que la salvia, así que todo contraste sube (ver ubicacion.css). -->
+<section id="ubicacion" class="seccion seccion--trama ubi" aria-labelledby="ubicacion-titulo">
 
   <!-- ================= 1 · PORTADA: TITULAR + DIRECCIÓN ==================== -->
   <!-- v6 · LA CAJA DE AIRE DE LA SECCIÓN. Vacía, decorativa y `aria-hidden`:
@@ -720,6 +727,8 @@
         }
 
         var url = "https://wa.me/" + TELEFONO + "?text=" + encodeURIComponent(componer());
+
+        if (typeof fbq === "function") { fbq("track", "Lead"); }
 
         if (directo) {
           directo.href = url;

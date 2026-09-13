@@ -35,13 +35,13 @@
 <link rel="preload" as="font" type="font/woff2" crossorigin href="styles/fonts/dm-sans-latin.woff2?v=89c7ce3a">
 <link rel="preload" as="font" type="font/woff2" crossorigin href="styles/fonts/josefin-sans-latin.woff2?v=0ff5ba86">
 
-<link rel="stylesheet" href="styles/tokens.css?v=128cd142">
+<link rel="stylesheet" href="styles/tokens.css?v=e12e8d10">
 <link rel="stylesheet" href="styles/base.css?v=a9f3ede7">
-<link rel="stylesheet" href="styles/shell.css?v=66218bd2">
+<link rel="stylesheet" href="styles/shell.css?v=ad875ced">
 <!-- Este bloque lo REESCRIBE herramientas/ensamblar.js a partir de PAGINAS.
      No lo edites a mano: la lista buena está allí. -->
-<link rel="stylesheet" href="styles/sections/home.css?v=cc008854">
-<link rel="stylesheet" href="styles/sections/ubicacion.css?v=819eab91">
+<link rel="stylesheet" href="styles/sections/home.css?v=9cd2b333">
+<link rel="stylesheet" href="styles/sections/ubicacion.css?v=716963d3">
 <link rel="stylesheet" href="styles/sections/pie.css?v=0a889dce">
 <link rel="stylesheet" href="styles/lightbox.css?v=92a48a1f">
 
@@ -55,6 +55,32 @@
   ]
 }
 </script>
+<!-- Meta Pixel Code -->
+<script>
+!function(f,b,e,v,n,t,s)
+{if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+n.queue=[];t=b.createElement(e);t.async=!0;
+t.src=v;s=b.getElementsByTagName(e)[0];
+s.parentNode.insertBefore(t,s)}(window, document,'script',
+'https://connect.facebook.net/en_US/fbevents.js');
+fbq('init', '2840830879589956');
+fbq('track', 'PageView');
+</script>
+<noscript><img height="1" width="1" style="display:none"
+src="https://www.facebook.com/tr?id=2840830879589956&ev=PageView&noscript=1"
+/></noscript>
+<!-- End Meta Pixel Code -->
+<!-- Microsoft Clarity -->
+<script type="text/javascript">
+    (function(c,l,a,r,i,t,y){
+        c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+        t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
+        y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y)
+    })(window, document, "clarity", "script", "yhhdzmiljc");
+</script>
+<!-- End Microsoft Clarity -->
 </head>
 <body>
 <!-- ==========================================================================
@@ -139,11 +165,22 @@
            cualquier página.
 
            «Nosotros» sigue siendo un ancla porque sigue siendo una sección de
-           la portada; por eso va marcada como secundaria (shell.css la
-           esconde por debajo de 1280 px, donde la cabecera desborda).
-           «Colegios» y «Plan vecino» bajan al pie del panel móvil y al pie de
-           página: son destinos, no navegación, y meterlas aquí partiría el
-           menú en dos filas.
+           la portada. v32 · YA NO SE ESCONDE POR ANCHO: la clase
+           `nav__item--secundario` se conserva por si vuelve a hacer falta
+           distinguirla, pero la regla que la ocultaba por debajo de 1280 px se
+           eliminó de shell.css. Existía porque con siete rótulos en fila la
+           cabecera desbordaba; ahora la navegación entera vive dentro del
+           panel del botón de tres líneas, donde cabe sin competir con nadie.
+           «Colegios» y «Plan vecino» siguen en el pie del panel y en el pie de
+           página: son destinos, no navegación.
+
+           v32 · ESTE MENÚ YA NO ES «EL MENÚ MÓVIL». Pedido del cliente sobre la
+           captura del escritorio: que el logo mande en la cabecera y que
+           «espacios, planes y demás» se guarden en el botón de las tres líneas.
+           El panel es ahora el único menú del sitio en TODOS los anchos —mismo
+           marcado, mismo mecanismo (`data-menu`, `aria-expanded`,
+           `body.menu-abierto`, velo, cerrojo de foco y Escape en js/app.js, que
+           nunca miró el ancho de pantalla)—. Ver shell.css §2.
 
            NINGÚN ENLACE PUEDE SER UN ANCLA SUELTA: este fragmento se inserta
            en todas las páginas del sitio, así que todos llevan el nombre del
@@ -158,11 +195,12 @@
         <li><a class="nav__enlace" href="contacto.html">Contacto</a></li>
       </ul>
 
-      <!-- Sólo visible dentro del panel móvil -->
+      <!-- Pie del panel: visible siempre que el panel esté abierto, en
+           cualquier ancho (v32; antes shell.css lo escondía en escritorio). -->
       <div class="nav__pie">
         <!-- v18 · Las dos páginas de destino que no caben en la barra. Aquí
              son un objetivo táctil de bloque entero, no una línea de cuatro
-             palabras: es el ancho completo del panel móvil. -->
+             palabras: es el ancho completo del panel. -->
         <a class="btn btn-secundario btn-bloque" href="colegios.html">Salidas escolares</a>
         <a class="btn btn-secundario btn-bloque" href="plan-vecino.html">Plan vecino</a>
         <a
@@ -245,6 +283,19 @@
      de cualquier futuro modal (ver --z-modal en tokens.css si existe). El
      pulso es sólo opacity —GPU, y se apaga solo con prefers-reduced-motion,
      que shell.css ya resuelve para toda animación infinita del sitio. -->
+<!-- v1 · Botón de llamada directa, pedido por el cliente para sumar una vía
+     de contacto además de WhatsApp. Mismo número, mismo patrón visual que
+     `.whatsapp-flotante` (círculo fijo, mismo tamaño), apilado ENCIMA de él
+     (mayor `bottom`) para que ambos convivan sin superponerse. -->
+<a
+  class="llamar-flotante"
+  href="tel:+573166758362"
+  aria-label="Llamar a Vegas del Verde"
+>
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+    <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92Z"/>
+  </svg>
+</a>
 <a
   class="whatsapp-flotante"
   href="https://wa.me/573166758362?text=Hola%2C%20quiero%20informaci%C3%B3n%20sobre%20Vegas%20del%20Verde"
@@ -370,7 +421,14 @@
      Instagram, las ocho referencias y las siete distancias siguen aquí y
      siguen diciendo exactamente lo mismo.
      ========================================================================== -->
-<section id="ubicacion" class="seccion seccion--alt ubi" aria-labelledby="ubicacion-titulo">
+<!-- v33 · seccion--alt → seccion--trama. Era la única página del sitio
+     (junto con colegios) sentada ENTERA sobre salvia opaca: la plancha
+     tapaba de arriba abajo el papel botánico de body::before, y el cliente
+     lo leía como «un bloque plano». La banda con trama es semitransparente
+     (tokens.css --color-banda-trama) y deja correr el papel por debajo,
+     igual que vivero.html. Ningún par de texto pierde: la trama es más
+     clara que la salvia, así que todo contraste sube (ver ubicacion.css). -->
+<section id="ubicacion" class="seccion seccion--trama ubi" aria-labelledby="ubicacion-titulo">
 
   <!-- ================= 1 · PORTADA: TITULAR + DIRECCIÓN ==================== -->
   <!-- v6 · LA CAJA DE AIRE DE LA SECCIÓN. Vacía, decorativa y `aria-hidden`:
@@ -1035,6 +1093,8 @@
 
         var url = "https://wa.me/" + TELEFONO + "?text=" + encodeURIComponent(componer());
 
+        if (typeof fbq === "function") { fbq("track", "Lead"); }
+
         if (directo) {
           directo.href = url;
           directo.hidden = false;
@@ -1112,7 +1172,10 @@
            ve no tiene por qué seguir en el DOM. -->
       <p class="pie-final__antetitulo reveal">Oasis para la recreación y el bienestar</p>
       <p class="pie-final__titular reveal reveal-texto">
-        <span class="reveal-texto__linea">El verde te está</span>
+        <!-- Blanco final dentro del primer renglón: los <span> son bloques y
+             en pantalla van en dos líneas, pero al copiar o aplanar el DOM
+             salían pegados («estáesperando»). No se pinta, no cambia nada. -->
+        <span class="reveal-texto__linea">El verde te está </span>
         <span class="reveal-texto__linea">esperando.</span>
       </p>
       <!-- v18 · Deja de ser el ancla #ubicacion y pasa a ser contacto.html.
@@ -1206,6 +1269,7 @@
         <li><a href="colegios.html">Salidas escolares</a></li>
         <li><a href="plan-vecino.html">Plan vecino</a></li>
         <li><a href="condiciones-de-alquiler.html">Condiciones de alquiler</a></li>
+        <li><a href="reglamento.html">Reglamento para visitantes</a></li>
         <li><a href="politica-de-datos.html">Política de tratamiento de datos</a></li>
         <li><a href="terminos.html">Términos y condiciones</a></li>
       </ul>
@@ -1219,7 +1283,7 @@
 
   </div>
 </footer>
-<script src="js/app.js?v=d2757e52" defer></script>
+<script src="js/app.js?v=560eb0e8" defer></script>
 <script src="js/mapa.js?v=d689bff8" defer></script>
 </body>
 </html>

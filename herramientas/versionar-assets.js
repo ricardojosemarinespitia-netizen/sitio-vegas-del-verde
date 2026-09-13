@@ -45,6 +45,10 @@ const PAGINAS = [
   'espacios.html', 'planes.html', 'naturaleza.html',
   'sendero-ecovital.html', 'vivero.html', 'contacto.html',
   'plan-vecino.html', 'colegios.html',
+  // v19 · catalogo-plantas.html: página suelta del vivero (69 fichas), con
+  // hoja y script propios. Mismo motivo que las demás: sin ella aquí, un
+  // arreglo en catalogo-plantas.css o .js se quedaría en caché 10 minutos.
+  'catalogo-plantas.html',
   'condiciones-de-alquiler.html',
   'politica-de-datos.html', 'terminos.html', '404.html',
   // Fragmentos que traen su propia dependencia de js/: el <script src> de

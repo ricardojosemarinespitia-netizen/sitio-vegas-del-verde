@@ -98,10 +98,31 @@
 
    `minmax(0, 1fr) auto`: el 0 de mínimo es obligatorio — sin él la fila de
    la foto no baja de la altura natural de la imagen y se desborda. Misma
-   razón que el `min-height: 0` del <picture> en usos.css. */
+   razón que el `min-height: 0` del <picture> en usos.css.
+
+   v26 · `1fr` PASA A `auto`, Y SE FIJA `align-content: start`. La fila de
+   la foto dejó de forzarse a un alto (ver la nota larga junto a
+   `.home-tarjeta > .marco`, más abajo): el marco ahora mide lo que dicta su
+   `aspect-ratio` contra el ancho de columna, igual en toda una fila de la
+   rejilla exterior. Con la fila de la foto todavía en `minmax(0, 1fr)`, esa
+   fila seguía reclamando TODO el alto sobrante de la tarjeta —la tarjeta
+   más alta de la fila exterior lo fija vía `height: 100%`— y el marco, más
+   chico que su fila, quedaba arriba con un hueco debajo: el mismo defecto
+   que v24 quiso tapar, sólo que ahora sin romper el ancho.
+
+   Cambiar la fila a `auto` (mide lo que su contenido —el marco— necesita, ni
+   más) resuelve el hueco intermedio, pero abre una rendija distinta: si el
+   contenido (marco + placa) mide menos que el alto de la tarjeta, `normal`
+   —el valor por defecto de `align-content` en una rejilla— equivale a
+   `stretch` y las filas `auto` se reparten ese sobrante, así que el marco
+   volvería a estirarse más allá de su proporción. `align-content: start`
+   apaga ese reparto: el sobrante, si lo hay, se queda como aire DEBAJO de la
+   placa —el borde inferior de la tarjeta, no una costura entre foto y
+   texto—, y ni el marco ni la placa cambian de alto por él. */
 .home-tarjeta {
   display: grid;
-  grid-template-rows: minmax(0, 1fr) auto;
+  grid-template-rows: auto auto;
+  align-content: start;
   height: 100%;
   /* El alto de la celda. En espacios.html la tarjeta mide 100dvh porque es
      una portada por espacio; aquí es una de tres en una rejilla de
@@ -135,42 +156,66 @@
   display: block;
 }
 
-/* v24 · EL MARCO LLENA SU FILA, SIEMPRE. Corrección de un hueco que el
-   cliente vio en capturas de móvil, en la tarjeta «Celebrar» del bloque de
-   los cinco verbos: entre la fotografía y la placa quedaba una franja vacía
-   de más de cien píxeles, y de tamaño distinto en cada tarjeta.
+/* v24 · EL MARCO LLENA SU FILA, SIEMPRE (retirado en v26, ver nota abajo).
+   Corrección de un hueco que el cliente vio en capturas de móvil, en la
+   tarjeta «Celebrar» del bloque de los cinco verbos: entre la fotografía y
+   la placa quedaba una franja vacía de más de cien píxeles, y de tamaño
+   distinto en cada tarjeta.
 
-   LA CAUSA MEDIDA (Chrome, 375 px, dos columnas): la tarjeta mide 400 px
-   —su `min-height` fluido—, la fila de la foto es `minmax(0, 1fr)` y por
-   tanto la celda de la foto medía ~250 px… pero el `<span class="marco
+   LA CAUSA MEDIDA EN v24 (Chrome, 375 px, dos columnas): la tarjeta mide
+   400 px —su `min-height` fluido—, la fila de la foto es `minmax(0, 1fr)` y
+   por tanto la celda de la foto medía ~250 px… pero el `<span class="marco
    marco--3-2">` medía 106 px. `aspect-ratio` (base.css) fija el alto contra
    el ancho de columna —159 × 2/3 = 106— y ese alto GANA al estirado normal
-   del ítem de rejilla: `align-self: stretch` sólo estira cajas de alto
-   `auto`, y una caja con proporción declarada ya no lo tiene. El marco se
-   quedaba arriba de su celda y el resto de la fila era aire. Como el alto de
-   la fila lo manda la tarjeta más alta —la de la frase más larga— el hueco
-   era distinto tarjeta a tarjeta: 152 px en «Celebrar» contra 128 px en
-   «Reunir». Por eso se veía como un defecto de esa tarjeta y no del patrón.
+   del ítem de rejilla. El marco se quedaba arriba de su celda y el resto de
+   la fila era aire.
 
-   EL ARREGLO: alto explícito del 100 % de la celda de rejilla. Un alto
-   declarado deja sin trabajo a `aspect-ratio` —la proporción sólo resuelve
-   ejes `auto`—, así que el marco pasa a medir exactamente lo que la fila,
-   toque o no la placa de la tarjeta vecina. El recorte lo sigue haciendo
-   `object-fit: cover` de `.home-tarjeta__foto`, de modo que la fotografía
-   llena sin deformarse. `min-height: 0` acompaña por lo mismo que en §1b:
-   sin él el mínimo automático de la fila lo pondría el contenido y la
-   tarjeta se desbordaría en las fotos en retrato.
+   v26 · SE RETIRA EL ALTO FORZADO: ROMPÍA EL ANCHO EN VEZ DEL HUECO.
+   Bug reportado por el cliente en iPad: «la Alameda es más alta que la Vega
+   y Teatrino» / «Aprender está más grande que Cuidarse» — dos tarjetas de la
+   MISMA fila (mismo ancho de columna) con la foto de tamaño distinto.
+
+   LA CAUSA MEDIDA (Chrome, 820 px, `.home-rejilla--tres` en su régimen de
+   DOS columnas — 40em-64em cubre exactamente el rango "iPad" que reporta el
+   cliente): columna = 358,94 px en ambos lados. La tarjeta 1 (Alameda,
+   frase corta) medía `.home-tarjeta__portada` = 383,86 × 383,86 px; la
+   tarjeta 2 (misma fila, frase distinta) medía 358,94 × 358,94 px —EXACTO el
+   ancho de columna—. La diferencia es la placa: `.home-tarjeta` reparte
+   `minmax(0, 1fr) auto` DENTRO de cada tarjeta por separado —no hay subgrid
+   entre tarjetas—, así que el alto de la fila 1 (la foto) de cada tarjeta es
+   independiente y depende sólo de cuánto ocupe SU PROPIA placa, no la de la
+   vecina. Con `height: 100%` ahí, ese alto de fila —distinto tarjeta a
+   tarjeta— se volvía la altura de una caja con `aspect-ratio` y ancho
+   `auto`: por la fórmula del cuadrado (o del 3:2), un alto mayor exige un
+   ANCHO mayor, y el marco se salía de su columna en vez de quedarse cuadrado
+   dentro de ella. Eso es lo que el cliente ve como «más grande»: no es sólo
+   más alta, es más ancha que su columna.
+
+   EL ARREGLO: quitar el alto forzado y dejar que el marco calcule su tamaño
+   desde el ANCHO, que es lo único igual entre tarjetas de una misma fila
+   (columnas `1fr` iguales). Sin `height: 100%` puesto a mano, un elemento de
+   rejilla con `aspect-ratio` declarada y ancho `auto` NO se estira contra el
+   alto de su celda —así lo define la spec de `aspect-ratio` para cajas que
+   estirarían por `stretch`—: usa el ancho ya resuelto (el de la columna) y
+   calcula el alto con su proporción. Resultado: dos tarjetas en la misma
+   fila, mismo ancho de columna, mismo cuadrado (o mismo 3:2) exacto, sin
+   importar cuánto mida la placa de cada una. El posible costo es que el
+   conjunto marco+placa puede medir menos que el alto de la tarjeta cuando
+   la vecina de la misma fila tiene una placa más alta; ese sobrante se
+   resuelve en la propia `.home-tarjeta` (`grid-template-rows` pasa de
+   `minmax(0, 1fr) auto` a `auto auto` + `align-content: start`, ver la nota
+   junto a esa regla) para que caiga como aire al final de la tarjeta y no
+   como una fila que vuelva a estirar el marco.
+
+   `min-height: 0` se mantiene: sigue haciendo falta para que el marco no
+   imponga su alto mínimo de contenido sobre su fila en fotos verticales
+   (misma razón que en §1b).
 
    NO SE TOCAN los otros tres selectores de arriba (`home-duo__medio`,
    `home-muro__figura`, `home-tira`): ahí el marco NO es una fila de una
-   rejilla de alto compartido y su proporción fija es justo lo que se quiere.
-   Tampoco cambia nada en el bloque de los espacios, cuyo marco es
-   `.home-tarjeta__portada` —sin proporción, ya llenaba la fila— salvo que
-   ahora lo declara explícitamente en vez de depender del estirado. */
+   rejilla de alto compartido y su proporción fija es justo lo que se quiere. */
 .home-tarjeta > .marco {
-  height: 100%;
   min-height: 0;
-  align-self: stretch;
 }
 
 .home-tarjeta__foto {
@@ -192,115 +237,60 @@
    `position: absolute; inset: 0` es exactamente lo que hace
    `.usos-tarjeta__foto`, y por esto mismo: sacada del flujo, la fotografía
    no aporta altura, la fila la manda la rejilla y las cinco tarjetas miden
-   igual. El recorte lo sigue haciendo `object-fit: cover` y la silueta el
-   arco de §1b — la <img> no lleva recorte propio, ni estático ni animado. */
+   igual. El recorte lo sigue haciendo `object-fit: cover` — la <img> no
+   lleva recorte propio. */
 .home-tarjeta__portada > .home-tarjeta__foto {
   position: absolute;
   inset: 0;
 }
 
 /* ------------------------------------------------------------------ §1b */
-/* LA PORTADA A SANGRE Y EL ARCO QUE CRECE — el mismo gesto de espacios.html.
+/* LA PORTADA CUADRADA — bloque «Cinco espacios, un mismo bosque» de la home.
    ---------------------------------------------------------------------------
-   ORIGEN. Es la técnica de `styles/sections/usos.css` §ARCO, traída aquí
-   entera y adaptada al contexto de rejilla; allí están las mediciones y la
-   aritmética completa (por qué `inset()` y no `path()`, de dónde salen el
-   −70 %, el −35 % y el 1,7). Aquí sólo se anota lo que CAMBIA, para no
-   duplicar tres páginas de comentario que ya tienen dueño.
+   v25 · SE RETIRA EL ARCO, CORRECCIÓN DIRECTA DEL CLIENTE. Hasta v24 esta
+   caja llevaba el mismo gesto que usos.css §ARCO —un `clip-path` con la
+   parte de arriba curva, animado con el scroll—. El cliente lo vio en
+   captura y dijo: «que las fotos sean siempre cuadradas, no con este
+   efecto». Se retira el `clip-path`, la animación y su `@keyframes`
+   enteros; la caja pasa a un cuadrado simple con `aspect-ratio: 1 / 1` y
+   `object-fit: cover` (ya declarado en §1) hace el recorte.
 
-   QUÉ ES IGUAL, a propósito: la geometría del arco (mismo fotograma de
-   reposo, mismo fotograma de crecimiento, mismos radios), el reparto en tres
-   estados legibles —sin `inset() round` manda el `border-radius`; con él pero
-   sin líneas de tiempo o con `prefers-reduced-motion: reduce` manda el
-   `clip-path` estático, que dibuja el MISMO arco de reposo; con todo, el arco
-   crece y vuelve— y el hecho de que el arco recorta SÓLO la fila de la foto,
-   nunca la placa.
+   NO TOCA usos.css/espacios.html: el arco de esa página es una pieza
+   distinta, aprobada aparte, con su propio dueño (`.usos-tarjeta > picture`)
+   — este selector (`.home-tarjeta__portada`) sólo existe en el bloque de
+   espacios de la HOME.
 
-   QUÉ CAMBIA, y por qué:
-   1. EL DUEÑO. En usos.css el recorte lo lleva `.usos-tarjeta > picture`;
-      aquí no hay <picture> —el contenido de un <a> lleva <span>—, así que lo
-      lleva `.home-tarjeta__portada`, que es ese <span>.
-   2. EL RANGO. Allí es `cover 25% cover 75%`, calculado para una tarjeta que
-      mide exactamente lo que la ventana: en ese caso el 25 % y el 75 % del
-      recorrido `cover` caen media ventana antes y media ventana después del
-      centrado. Aquí la tarjeta mide una fracción de la ventana y ese mismo
-      rango dejaría el arco creciendo durante casi todo el scroll de la
-      página, con el máximo tan lejos del reposo que el gesto se pierde. Se
-      cierra a `cover 35% cover 65%`: el crecimiento arranca con la tarjeta
-      ya entrando de verdad en cuadro y culmina —igual que allí— con la
-      tarjeta centrada. El momento que la curva quería marcar es el mismo; lo
-      que se acorta es la carrerilla, porque la pieza es más pequeña.
-
-      Y NO ES 35–65 %, que es lo que da la aritmética de servilleta. El
-      recorrido `cover` no se mide contra la ventana entera: `<html>` lleva
-      `scroll-padding-top: 88px` por la cabecera pegajosa, y la línea de
-      tiempo de vista descuenta ese margen, así que el punto medio del rango
-      no cae donde lo pondría la cuenta a mano. Medido en el navegador a
-      375 × 812 barriendo el scroll en los dos sentidos —el máximo aparece en
-      el mismo sitio subiendo y bajando, así que no es un desfase de lectura—:
-      con 35–65 % el máximo caía con el borde superior de la tarjeta a 330 px
-      del alto de ventana, ochenta píxeles por debajo del centro de la zona
-      visible (88–812). Diez puntos más tarde lo clavan: 45–75 %.
-   3. EL @media DE MOVIMIENTO REDUCIDO SIGUE SIENDO OBLIGATORIO aquí y no en
-      el bloque global de base.css, por lo mismo que explica usos.css: ese
-      bloque acorta duraciones, y una animación con línea de tiempo de scroll
-      no tiene duración en tiempo. Sin este guardia seguiría creciendo.
-
-   `.marco` (base.css) ya pone `position: relative` y `overflow: hidden`; lo
-   que se le quita es la proporción fija —la foto va a sangre, el alto lo
-   manda la fila `1fr`— y el `border-radius: 0`, que aquí sería una tarjeta
-   rectangular en el navegador sin `clip-path`. */
+   `.marco` (base.css) ya pone `position: relative` y `overflow: hidden`;
+   aquí sólo se fija la proporción cuadrada. */
 .home-tarjeta__portada {
   min-height: 0;
-  border-radius: 50% 50% var(--radio-md) var(--radio-md);
+  aspect-ratio: 1 / 1;
+  border-radius: var(--radio-md);
 }
 
-@supports (clip-path: inset(0 round 50% 50% 1px 1px)) {
-  .home-tarjeta__portada {
-    /* Con `overflow: hidden` activo, un `border-radius` de medio punto
-       seguiría recortando la caja al arco pequeño y el crecimiento no se
-       vería: la silueta pasa a tener un solo dueño, el `clip-path`. */
-    border-radius: 0;
-    clip-path: inset(0 0 0 0 round 50% 50% var(--radio-md) var(--radio-md));
-  }
-}
-
-/* Longhands y no el atajo `animation:`, porque el atajo reinicia
-   `animation-duration` y una animación con línea de tiempo de scroll necesita
-   `auto` para repartirse a lo largo del recorrido. */
-@supports (animation-timeline: view()) {
-  @media (prefers-reduced-motion: no-preference) {
-    .home-tarjeta__portada {
-      animation-name: home-espacio-arco-crece;
-      animation-duration: auto;
-      animation-timing-function: var(--ease);
-      animation-fill-mode: both;
-      animation-timeline: view();
-      animation-range: cover 45% cover 75%;
-    }
-  }
-}
-
-@keyframes home-espacio-arco-crece {
-  from {
-    clip-path: inset(0 0 0 0 round 50% 50% var(--radio-md) var(--radio-md));
-  }
-
-  50% {
-    clip-path: inset(-70% -35% 0 -35% round 50% 50%
-      calc(var(--radio-md) * 1.7) calc(var(--radio-md) * 1.7));
-  }
-
-  to {
-    clip-path: inset(0 0 0 0 round 50% 50% var(--radio-md) var(--radio-md));
-  }
-}
 
 /* Alameda: en una caja alta el recorte por defecto se va a la copa de los
    árboles y pierde el prado, que es el sujeto real de la foto. Mismo ajuste
    que en usos.css, y por la misma razón. */
 .home-rejilla--tres > li:first-child .home-tarjeta__foto {
   object-position: 50% 62%;
+}
+
+/* Cuidarse (yoga-3.jpg) y Aprender (taller-educativo-cuento.jpg), en el
+   bloque de los cinco verbos: correcciones puntuales del cliente sobre
+   capturas. En Cuidarse el recorte 3:2 por defecto centraba la caja verti-
+   calmente y dejaba la figura empujada hacia abajo con las manos casi en el
+   borde superior; bajar el foco al 61% dentro de la imagen deja la postura
+   completa (manos arriba, pies abajo) dentro del recorte. En Aprender el
+   recorte por defecto (50% 50%) se queda con pasto y árboles arriba y los
+   niños casi fuera por abajo; subir el foco al 78% baja el encuadre visible
+   hasta la zona donde están sentados escuchando el cuento. */
+.home-rejilla--dos > li:nth-child(4) .home-tarjeta__foto {
+  object-position: 50% 61%;
+}
+
+.home-rejilla--dos > li:nth-child(5) .home-tarjeta__foto {
+  object-position: 50% 78%;
 }
 
 /* LA PLACA. Fila propia de la rejilla, superficie opaca, debajo de la foto.

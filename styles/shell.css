@@ -160,6 +160,43 @@
   display: inline;
 }
 
+/* v32 · EL LOCKUP CRECE EN ESCRITORIO — pedido literal del cliente: «que el
+   logo de Vegas tenga protagonismo». No es un capricho de tamaño: hasta v31 la
+   marca compartía la fila con siete rótulos y por eso vivía comprimida (símbolo
+   capado a 2,75 rem, nombre a --fs-h4). Al mudarse la navegación al panel, la
+   cabecera se queda con tres piezas y el espacio liberado es real: a 1440 px la
+   barra tenía ~620 px de enlaces y ahora están vacíos.
+
+   Las proporciones, medidas, no inventadas:
+     · símbolo: de `--alto-header - --esp-lg` (52 px a 1440, capado a 44) pasa a
+       `--alto-header - --esp-md` (60 px), capado a 3.5rem = 56 px. Sube 27 %.
+       El tope sigue existiendo y sigue siendo lo que garantiza que el símbolo
+       nunca estire la barra: la cabecera mide `--alto-header` (84 px máx.) y
+       56 + 24 de aire cierran justo.
+     · nombre: de --fs-h4 (--paso-1, ≤23,2 px) a --fs-h3 (--paso-2, ≤30,4 px).
+       Se sube un paso de la escala, no un número suelto: el lockup conserva la
+       misma relación símbolo/texto que tenía, sólo que más grande.
+   No se toca el color (--verde-texto, 6,0:1 medido) ni el eje tipográfico: a
+   este cuerpo --teal seguiría quedándose en 3,67:1, así que la nota de arriba
+   sigue vigente.
+
+   Va a partir de 62 em porque es donde v31 dejaba de encoger el nombre: por
+   debajo mandan las reglas de celular, que ya están medidas ancho por ancho. */
+@media (min-width: 62em) {
+  .marca {
+    gap: 0.9rem;
+  }
+
+  .marca__simbolo {
+    height: calc(var(--alto-header) - var(--esp-md));
+    max-height: 3.5rem;
+  }
+
+  .marca__nombre {
+    font-size: var(--fs-h3);
+  }
+}
+
 /* ---- Navegación ---------------------------------------------------------- */
 .nav__lista {
   display: flex;
@@ -283,8 +320,16 @@
 }
 
 /* ---- Botón hamburguesa --------------------------------------------------- */
+/* v32 · SIEMPRE VISIBLE, en cualquier ancho. Hasta v31 estaba en `display:none`
+   y sólo se encendía por debajo de 62 em, porque en escritorio la navegación
+   vivía en una barra horizontal de siete enlaces. Pedido del cliente: que el
+   logo sea la pieza principal de la cabecera y que «espacios, planes y demás»
+   se guarden en el botón de las tres líneas. Al soltar esos siete rótulos, la
+   barra pasa a tener sólo tres piezas —marca grande · idioma · menú— y el
+   patrón «todo colapsado, se despliega al tocar» deja de ser un modo móvil
+   para ser EL patrón del sitio. */
 .boton-menu {
-  display: none;
+  display: inline-flex;
   align-items: center;
   justify-content: center;
   width: 2.75rem;
@@ -426,6 +471,55 @@
   }
 }
 
+/* ---- Llamar flotante --------------------------------------------------
+   v1 · Pedido por el cliente para sumar contacto directo por teléfono,
+   además de WhatsApp. Mismo patrón que `.whatsapp-flotante` (círculo fijo,
+   mismo tamaño, misma esquina), apilado justo ENCIMA de él: `bottom` suma
+   el alto del círculo de WhatsApp más un respiro de --esp-sm, así que si
+   el tamaño de cualquiera de los dos cambia por breakpoint hay que ajustar
+   ambos `bottom` en el mismo punto (ver el `@media` de abajo). */
+.llamar-flotante {
+  position: fixed;
+  right: var(--esp-md);
+  bottom: calc(var(--esp-md) + 3.25rem + var(--esp-sm));
+  z-index: calc(var(--z-menu) - 1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 3.25rem;
+  height: 3.25rem;
+  border-radius: var(--radio-full);
+  background-color: var(--color-accion);
+  color: #fff;
+  box-shadow: var(--sombra-md);
+  transition: transform var(--transicion-rapida), box-shadow var(--transicion-rapida);
+}
+
+.llamar-flotante svg {
+  width: 1.5rem;
+  height: 1.5rem;
+}
+
+.llamar-flotante:hover,
+.llamar-flotante:focus-visible {
+  transform: scale(1.06);
+  box-shadow: var(--sombra-lg);
+}
+
+@media (max-width: 40em) {
+  .llamar-flotante {
+    right: var(--esp-sm);
+    bottom: calc(var(--esp-sm) + 3rem + var(--esp-sm));
+    width: 3rem;
+    height: 3rem;
+  }
+
+  .llamar-flotante svg {
+    width: 1.35rem;
+    height: 1.35rem;
+  }
+}
+
 /* ---- Volver flotante --------------------------------------------------- */
 /* v1 · Mismo patrón que `.whatsapp-flotante`, esquina opuesta. Oculto por
    defecto; sólo se enciende en páginas interiores, detectadas por una
@@ -507,13 +601,94 @@ body.menu-abierto {
 }
 
 /* ==========================================================================
-   2. NAVEGACIÓN MÓVIL  (< 62em)
+   2. NAVEGACIÓN  —  PANEL ÚNICO EN TODOS LOS ANCHOS
    ========================================================================== */
-@media (max-width: 61.99em) {
-  .boton-menu {
-    display: inline-flex;
-  }
+/* v32 · El panel deja de ser «la versión móvil» del menú y pasa a ser el menú,
+   punto. Estas reglas estaban dentro de `@media (max-width: 61.99em)` y por
+   encima de ese ancho había una barra horizontal con los siete enlaces; el
+   bloque `@media (min-width: 62em)` que la sostenía (y que escondía el velo,
+   el pie del panel y «Nosotros») se eliminó entero. Nada aquí depende del
+   ancho: el mecanismo —`body.menu-abierto`, el velo, el cerrojo de foco y el
+   Escape de js/app.js— es exactamente el mismo que ya estaba probado en
+   celular, y app.js nunca consultó el ancho para nada, así que no hubo que
+   tocarlo.
 
+   Se conserva el panel lateral derecho en vez de inventar un desplegable bajo
+   el botón para escritorio: es el mismo gesto en todos los dispositivos, ya
+   tiene velo, atrapa el foco y cabe entero sin scroll (siete enlaces + cuatro
+   botones de pie), mientras que un dropdown anclado obligaría a un segundo
+   mecanismo de cierre, un segundo cálculo de posición y un segundo juego de
+   estados que mantener. El ancho sí se acota arriba (ver más abajo): en un
+   monitor de 1512 px una franja del 84 % del viewport sería absurda. */
+.nav {
+  position: fixed;
+  inset-block: 0;
+  inset-inline-end: 0;
+  z-index: var(--z-menu);
+  width: min(21rem, 84vw);
+  padding: calc(var(--alto-header) + var(--esp-lg)) var(--esp-lg) var(--esp-xl);
+  background-color: var(--color-fondo);
+  border-left: 1px solid var(--color-borde-suave);
+  box-shadow: var(--sombra-xl);
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  transform: translateX(102%);
+  visibility: hidden;
+  transition:
+    transform var(--dur-lenta) var(--ease-salida),
+    visibility 0s linear var(--dur-lenta);
+}
+
+body.menu-abierto .nav {
+  transform: translateX(0);
+  visibility: visible;
+  transition-delay: 0s;
+}
+
+.nav__lista {
+  flex-direction: column;
+  align-items: stretch;
+  gap: 0;
+}
+
+.nav__lista li + li {
+  border-top: 1px solid var(--color-borde-suave);
+}
+
+.nav__enlace {
+  display: block;
+  padding-block: var(--esp-sm);
+  font-size: var(--fs-cuerpo);
+  letter-spacing: var(--tracking-rotulo);
+  /* El margen negativo de arriba recuperaba el hueco del tracking ENTRE
+     rótulos de una fila horizontal. En vertical no hay vecino a la derecha:
+     lo único que hacía era acortar el objetivo táctil por el lado final. */
+  margin-inline-end: 0;
+}
+
+/* El filete animado era del enlace de barra horizontal; en fila vertical el
+   estado actual se lee por color (--color-acento-texto, regla de arriba). */
+.nav__enlace::after {
+  display: none;
+}
+
+.nav__pie {
+  margin-top: var(--esp-lg);
+  display: flex;
+  flex-direction: column;
+  gap: var(--esp-xs);
+}
+
+/* Franja fija a partir de tablet: sin el tope, `84vw` daría un panel de
+   1270 px en un monitor de 1512 y el menú taparía la página entera para
+   mostrar once enlaces. */
+@media (min-width: 48em) {
+  .nav {
+    width: 22rem;
+  }
+}
+
+@media (max-width: 61.99em) {
   /* v31 · EL NOMBRE VUELVE AL CELULAR. v30 lo escondía por debajo de 62 em
      dando por supuesto que no cabía; el cliente lo rechazó —con razón: sin el
      nombre la cabecera no dice de quién es el sitio, y el símbolo solo no
@@ -567,76 +742,17 @@ body.menu-abierto {
     padding-inline: 0;
   }
 
-  .nav {
-    position: fixed;
-    inset-block: 0;
-    inset-inline-end: 0;
-    z-index: var(--z-menu);
-    width: min(21rem, 84vw);
-    padding: calc(var(--alto-header) + var(--esp-lg)) var(--esp-lg) var(--esp-xl);
-    background-color: var(--color-fondo);
-    border-left: 1px solid var(--color-borde-suave);
-    box-shadow: var(--sombra-xl);
-    overflow-y: auto;
-    overscroll-behavior: contain;
-    transform: translateX(102%);
-    visibility: hidden;
-    transition:
-      transform var(--dur-lenta) var(--ease-salida),
-      visibility 0s linear var(--dur-lenta);
-  }
-
-  body.menu-abierto .nav {
-    transform: translateX(0);
-    visibility: visible;
-    transition-delay: 0s;
-  }
-
-  .nav__lista {
-    flex-direction: column;
-    align-items: stretch;
-    gap: 0;
-  }
-
-  .nav__lista li + li {
-    border-top: 1px solid var(--color-borde-suave);
-  }
-
-  .nav__enlace {
-    display: block;
-    padding-block: var(--esp-sm);
-    font-size: var(--fs-cuerpo);
-    letter-spacing: var(--tracking-rotulo);
-  }
-
-  .nav__enlace::after {
-    display: none;
-  }
-
-  .nav__pie {
-    margin-top: var(--esp-lg);
-    display: flex;
-    flex-direction: column;
-    gap: var(--esp-xs);
-  }
 }
 
-@media (min-width: 62em) {
-  .velo-menu {
-    display: none;
-  }
-
-  .nav__pie {
-    display: none;
-  }
-
-  /* La barra fija se queda con las cinco anclas de destino. «Nosotros» y
-     «Contacto» siguen en el menú móvil, en el pie y por scroll: si se
-     muestran aquí, la cabecera desborda por debajo de 1280 px. */
-  .nav__item--secundario {
-    display: none;
-  }
-}
+/* v32 · AQUÍ ESTABA `@media (min-width: 62em)`, y se fue entero. Contenía tres
+   reglas y las tres eran consecuencia de la barra horizontal que ya no existe:
+   `.velo-menu { display:none }` (no había panel que velar en escritorio),
+   `.nav__pie { display:none }` (Salidas escolares, Plan vecino, WhatsApp e
+   inglés sólo cabían dentro del panel) y `.nav__item--secundario { display:none }`
+   que escondía «Nosotros» porque con siete rótulos la cabecera desbordaba por
+   debajo de 1280 px. Con la navegación dentro del panel no sobra ni falta
+   espacio: «Nosotros» aparece en todos los anchos como las demás, y el pie del
+   panel también. */
 
 /* v31 · MARCA APILADA — último tramo antes de que el nombre no quepa.
 

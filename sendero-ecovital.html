@@ -35,14 +35,14 @@
 <link rel="preload" as="font" type="font/woff2" crossorigin href="styles/fonts/dm-sans-latin.woff2?v=89c7ce3a">
 <link rel="preload" as="font" type="font/woff2" crossorigin href="styles/fonts/josefin-sans-latin.woff2?v=0ff5ba86">
 
-<link rel="stylesheet" href="styles/tokens.css?v=128cd142">
+<link rel="stylesheet" href="styles/tokens.css?v=e12e8d10">
 <link rel="stylesheet" href="styles/base.css?v=a9f3ede7">
-<link rel="stylesheet" href="styles/shell.css?v=66218bd2">
+<link rel="stylesheet" href="styles/shell.css?v=ad875ced">
 <!-- Este bloque lo REESCRIBE herramientas/ensamblar.js a partir de PAGINAS.
      No lo edites a mano: la lista buena está allí. -->
-<link rel="stylesheet" href="styles/sections/home.css?v=cc008854">
-<link rel="stylesheet" href="styles/sections/naturaleza.css?v=503a9f84">
-<link rel="stylesheet" href="styles/sections/sendero.css?v=1baabab8">
+<link rel="stylesheet" href="styles/sections/home.css?v=9cd2b333">
+<link rel="stylesheet" href="styles/sections/naturaleza.css?v=2c9e7f73">
+<link rel="stylesheet" href="styles/sections/sendero.css?v=8d6b4dc9">
 <link rel="stylesheet" href="styles/sections/pie.css?v=0a889dce">
 <link rel="stylesheet" href="styles/lightbox.css?v=92a48a1f">
 
@@ -56,6 +56,32 @@
   ]
 }
 </script>
+<!-- Meta Pixel Code -->
+<script>
+!function(f,b,e,v,n,t,s)
+{if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+n.queue=[];t=b.createElement(e);t.async=!0;
+t.src=v;s=b.getElementsByTagName(e)[0];
+s.parentNode.insertBefore(t,s)}(window, document,'script',
+'https://connect.facebook.net/en_US/fbevents.js');
+fbq('init', '2840830879589956');
+fbq('track', 'PageView');
+</script>
+<noscript><img height="1" width="1" style="display:none"
+src="https://www.facebook.com/tr?id=2840830879589956&ev=PageView&noscript=1"
+/></noscript>
+<!-- End Meta Pixel Code -->
+<!-- Microsoft Clarity -->
+<script type="text/javascript">
+    (function(c,l,a,r,i,t,y){
+        c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+        t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
+        y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y)
+    })(window, document, "clarity", "script", "yhhdzmiljc");
+</script>
+<!-- End Microsoft Clarity -->
 </head>
 <body>
 <!-- ==========================================================================
@@ -140,11 +166,22 @@
            cualquier página.
 
            «Nosotros» sigue siendo un ancla porque sigue siendo una sección de
-           la portada; por eso va marcada como secundaria (shell.css la
-           esconde por debajo de 1280 px, donde la cabecera desborda).
-           «Colegios» y «Plan vecino» bajan al pie del panel móvil y al pie de
-           página: son destinos, no navegación, y meterlas aquí partiría el
-           menú en dos filas.
+           la portada. v32 · YA NO SE ESCONDE POR ANCHO: la clase
+           `nav__item--secundario` se conserva por si vuelve a hacer falta
+           distinguirla, pero la regla que la ocultaba por debajo de 1280 px se
+           eliminó de shell.css. Existía porque con siete rótulos en fila la
+           cabecera desbordaba; ahora la navegación entera vive dentro del
+           panel del botón de tres líneas, donde cabe sin competir con nadie.
+           «Colegios» y «Plan vecino» siguen en el pie del panel y en el pie de
+           página: son destinos, no navegación.
+
+           v32 · ESTE MENÚ YA NO ES «EL MENÚ MÓVIL». Pedido del cliente sobre la
+           captura del escritorio: que el logo mande en la cabecera y que
+           «espacios, planes y demás» se guarden en el botón de las tres líneas.
+           El panel es ahora el único menú del sitio en TODOS los anchos —mismo
+           marcado, mismo mecanismo (`data-menu`, `aria-expanded`,
+           `body.menu-abierto`, velo, cerrojo de foco y Escape en js/app.js, que
+           nunca miró el ancho de pantalla)—. Ver shell.css §2.
 
            NINGÚN ENLACE PUEDE SER UN ANCLA SUELTA: este fragmento se inserta
            en todas las páginas del sitio, así que todos llevan el nombre del
@@ -159,11 +196,12 @@
         <li><a class="nav__enlace" href="contacto.html">Contacto</a></li>
       </ul>
 
-      <!-- Sólo visible dentro del panel móvil -->
+      <!-- Pie del panel: visible siempre que el panel esté abierto, en
+           cualquier ancho (v32; antes shell.css lo escondía en escritorio). -->
       <div class="nav__pie">
         <!-- v18 · Las dos páginas de destino que no caben en la barra. Aquí
              son un objetivo táctil de bloque entero, no una línea de cuatro
-             palabras: es el ancho completo del panel móvil. -->
+             palabras: es el ancho completo del panel. -->
         <a class="btn btn-secundario btn-bloque" href="colegios.html">Salidas escolares</a>
         <a class="btn btn-secundario btn-bloque" href="plan-vecino.html">Plan vecino</a>
         <a
@@ -246,6 +284,19 @@
      de cualquier futuro modal (ver --z-modal en tokens.css si existe). El
      pulso es sólo opacity —GPU, y se apaga solo con prefers-reduced-motion,
      que shell.css ya resuelve para toda animación infinita del sitio. -->
+<!-- v1 · Botón de llamada directa, pedido por el cliente para sumar una vía
+     de contacto además de WhatsApp. Mismo número, mismo patrón visual que
+     `.whatsapp-flotante` (círculo fijo, mismo tamaño), apilado ENCIMA de él
+     (mayor `bottom`) para que ambos convivan sin superponerse. -->
+<a
+  class="llamar-flotante"
+  href="tel:+573166758362"
+  aria-label="Llamar a Vegas del Verde"
+>
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+    <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92Z"/>
+  </svg>
+</a>
 <a
   class="whatsapp-flotante"
   href="https://wa.me/573166758362?text=Hola%2C%20quiero%20informaci%C3%B3n%20sobre%20Vegas%20del%20Verde"
@@ -465,7 +516,13 @@
           id="sendero-titulo"
           class="titulo-seccion snd-hero__titulo reveal reveal-texto"
         >
-          <span class="reveal-texto__linea">Se anda poco,</span>
+          <!-- El espacio tras la coma va DENTRO del primer renglón a propósito:
+               los dos <span> son bloques (base.css §reveal-texto) y en pantalla
+               ya se leen en dos líneas, pero al copiar el texto, en un lector
+               de pantalla o en cualquier extractor que aplane el DOM salían
+               pegados («poco,se»). Un blanco final en un bloque no se pinta,
+               así que el dibujo no cambia. -->
+          <span class="reveal-texto__linea">Se anda poco, </span>
           <span class="reveal-texto__linea">se para mucho</span>
         </h2>
         <!-- v2 · Recortada por pedido del cliente («resume, más fotos menos
@@ -794,6 +851,13 @@
              nombres ya están escritos al lado y el orden lo da el flujo. -->
         <p class="nat-ruta">
           <span class="nat-ruta__punto">Quebrada Aranzoque</span>
+          <!-- Conector sólo para lectores y para el texto copiado: en pantalla
+               los dos chips y el cauce SVG ya separan los nombres, pero como
+               el trazo es aria-hidden y el <p> es flex, al aplanar el DOM
+               salían pegados («AranzoqueRiachuelo»). .solo-lectores es
+               position:absolute, así que no entra en el flujo flex y el
+               dibujo no cambia. -->
+          <span class="solo-lectores"> y </span>
           <svg
             class="nat-ruta__cauce"
             viewBox="0 0 16 64"
@@ -863,6 +927,179 @@
 
   </div>
 
+  <!-- ======================================================================
+       2 · EL CAMINO EN CUATRO PASOS — el friso de fotos del sendero (v7)
+
+       PEDIDO DIRECTO DEL CLIENTE: «pon más fotos del sendero». Mandó diez
+       originales de teléfono (carpeta Sendero de su Drive). De las diez
+       quedan CUATRO, y no es tacañería: seis eran variaciones del mismo
+       tramo —el seto de crotones con el camino de pasto y el cielo— que la
+       portada de arriba ya cuenta dos veces (marco grande + detalle). Meter
+       las seis habría sido repetir la misma estampa en distintas alturas de
+       cámara. Las cuatro que quedan enseñan cuatro cosas DISTINTAS del
+       recorrido que la página todavía no mostraba:
+         · la sombra: un túnel de ramas que se abre a un claro con sol;
+         · el guadual, que el texto de la columna nombra («Guaduas a lado y
+           lado») y que hasta ahora sólo existía como palabra;
+         · el tramo de hojarasca entre hojas anchas;
+         · los crotones DE CERCA, a la altura de la mano, que es el único
+           parentesco con la portada y por eso cierra el friso, no lo abre.
+
+       POR QUÉ UN FRISO Y NO UN MURO. Es el eco fotográfico del hero: el
+       carril de arriba son «cuatro planos del mismo camino» en vídeo; esto
+       son cuatro pasos del mismo camino en foto. Misma cuenta, mismo
+       vocabulario —silueta de hoja, alturas desfasadas, nada repetido—, y
+       cierra la sección con imagen en vez de con texto, que es lo que el
+       cliente lleva pidiendo desde v2 («más fotos menos texto»).
+
+       LIGHTBOX: el global de js/app.js, por [data-lightbox], en su propio
+       grupo «sendero-pasos» (flechas entre las cuatro, cerrar con Escape,
+       foco devuelto al disparador). Es el mismo marcado de #usos y del muro
+       de aves —botón que envuelve la imagen, data-lightbox-src con el
+       original—; cero JS nuevo.
+
+       LAS REGLAS DE LA CASA, aquí:
+         · la foto es la foto: sin velo, sin filtro; la sombra va DEBAJO;
+         · un archivo un papel: cuatro archivos nuevos, ninguno usado en otra
+           parte de la página;
+         · un hecho un dueño: los pies describen lo que se ve. No se nombra
+           ninguna especie ni distancia ni aforo que no esté ya escrito en el
+           sitio («guadual» y «crotones» sí lo están: en #espacios y en el
+           alt de la portada de arriba). No se afirma cuál tramo es la
+           quebrada porque ninguna de las cuatro la muestra.
+       ====================================================================== -->
+  <div class="snd-pasos">
+
+    <div class="snd-pasos__cabecera reveal">
+      <h3 class="titulo-seccion titulo-seccion--xs snd-pasos__titulo">
+        El camino, en cuatro pasos
+      </h3>
+      <p class="snd-pasos__nota">
+        Fotos del recorrido, tal cual salieron del teléfono. Toca una para verla entera.
+      </p>
+    </div>
+
+    <ul class="snd-pasos__friso reveal-secuencia" role="list">
+
+      <!-- ------------------------------------------------------ 01/04
+           La entrada en sombra. Abre el friso porque es el plano más
+           distinto de la portada soleada: aquí el sol está al fondo. -->
+      <li class="snd-paso snd-paso--uno">
+        <figure class="snd-paso__figura reveal reveal--velo">
+          <button
+            type="button"
+            class="snd-paso__disparador"
+            data-lightbox="sendero-pasos"
+            data-lightbox-caption="Un tramo en sombra del sendero, bajo un túnel de ramas que se abre a un claro con sol"
+            data-lightbox-src="img/sendero/sendero-sombra.jpg"
+          >
+            <div class="marco snd-paso__marco">
+              <img
+                src="img/sendero/sendero-sombra.jpg"
+                srcset="img/sendero/sendero-sombra-400.jpg 400w, img/sendero/sendero-sombra-600.jpg 600w, img/sendero/sendero-sombra-800.jpg 800w, img/sendero/sendero-sombra-1200.jpg 1200w, img/sendero/sendero-sombra.jpg 2400w"
+                sizes="(max-width: 61.99em) 46vw, 22vw"
+                width="2400"
+                height="4267"
+                loading="lazy"
+                decoding="async"
+                alt="Un tramo en sombra del sendero: el camino de hojarasca pasa bajo un túnel de ramas y hojas y se abre al fondo a un claro de pasto con sol"
+              />
+            </div>
+          </button>
+          <figcaption class="credito snd-paso__pie">Bajo las ramas</figcaption>
+        </figure>
+      </li>
+
+      <!-- ------------------------------------------------------ 02/04
+           El guadual: las cañas y el suelo cubierto de sus hojas secas. Es la
+           foto que le pone imagen al «Guaduas a lado y lado» de la columna. -->
+      <li class="snd-paso snd-paso--dos">
+        <figure class="snd-paso__figura reveal reveal--velo">
+          <button
+            type="button"
+            class="snd-paso__disparador"
+            data-lightbox="sendero-pasos"
+            data-lightbox-caption="El guadual del sendero: cañas altas y el suelo cubierto de hojas secas, con la luz entrando de lado"
+            data-lightbox-src="img/sendero/sendero-guadual.jpg"
+          >
+            <div class="marco snd-paso__marco">
+              <img
+                src="img/sendero/sendero-guadual.jpg"
+                srcset="img/sendero/sendero-guadual-400.jpg 400w, img/sendero/sendero-guadual-600.jpg 600w, img/sendero/sendero-guadual-800.jpg 800w, img/sendero/sendero-guadual-1200.jpg 1200w, img/sendero/sendero-guadual.jpg 2400w"
+                sizes="(max-width: 61.99em) 46vw, 22vw"
+                width="2400"
+                height="4267"
+                loading="lazy"
+                decoding="async"
+                alt="El guadual del sendero: cañas de guadua altas y delgadas, el suelo cubierto de sus hojas secas y la luz entrando de lado entre los tallos"
+              />
+            </div>
+          </button>
+          <figcaption class="credito snd-paso__pie">El guadual</figcaption>
+        </figure>
+      </li>
+
+      <!-- ------------------------------------------------------ 03/04
+           El tramo de hojarasca entre hojas anchas, con el pasto asomando al
+           fondo. Es el suelo que no se ve en ninguna otra foto de la página. -->
+      <li class="snd-paso snd-paso--tres">
+        <figure class="snd-paso__figura reveal reveal--velo">
+          <button
+            type="button"
+            class="snd-paso__disparador"
+            data-lightbox="sendero-pasos"
+            data-lightbox-caption="Un tramo de hojarasca del sendero entre matas de hojas anchas, con el pasto asomando al fondo"
+            data-lightbox-src="img/sendero/sendero-hojas-anchas.jpg"
+          >
+            <div class="marco snd-paso__marco">
+              <img
+                src="img/sendero/sendero-hojas-anchas.jpg"
+                srcset="img/sendero/sendero-hojas-anchas-400.jpg 400w, img/sendero/sendero-hojas-anchas-600.jpg 600w, img/sendero/sendero-hojas-anchas-800.jpg 800w, img/sendero/sendero-hojas-anchas-1200.jpg 1200w, img/sendero/sendero-hojas-anchas.jpg 2400w"
+                sizes="(max-width: 61.99em) 46vw, 22vw"
+                width="2400"
+                height="4267"
+                loading="lazy"
+                decoding="async"
+                alt="Un tramo del sendero cubierto de hojarasca, con matas de hojas anchas a la izquierda, árboles cerrando arriba y el pasto asomando al fondo"
+              />
+            </div>
+          </button>
+          <figcaption class="credito snd-paso__pie">Entre hojas anchas</figcaption>
+        </figure>
+      </li>
+
+      <!-- ------------------------------------------------------ 04/04
+           Los crotones de cerca. Es la única de las cuatro emparentada con
+           la portada, así que cierra el friso: se llega a ellos al final. -->
+      <li class="snd-paso snd-paso--cuatro">
+        <figure class="snd-paso__figura reveal reveal--velo">
+          <button
+            type="button"
+            class="snd-paso__disparador"
+            data-lightbox="sendero-pasos"
+            data-lightbox-caption="Los crotones del camino vistos de cerca, con el pasto del sendero siguiendo a la izquierda"
+            data-lightbox-src="img/sendero/sendero-crotones-cerca.jpg"
+          >
+            <div class="marco snd-paso__marco">
+              <img
+                src="img/sendero/sendero-crotones-cerca.jpg"
+                srcset="img/sendero/sendero-crotones-cerca-400.jpg 400w, img/sendero/sendero-crotones-cerca-600.jpg 600w, img/sendero/sendero-crotones-cerca-800.jpg 800w, img/sendero/sendero-crotones-cerca-1200.jpg 1200w, img/sendero/sendero-crotones-cerca.jpg 2400w"
+                sizes="(max-width: 61.99em) 46vw, 22vw"
+                width="2400"
+                height="4267"
+                loading="lazy"
+                decoding="async"
+                alt="Crotones de hoja roja, amarilla y verde vistos de cerca al borde del sendero, con el camino de pasto siguiendo a la izquierda bajo los árboles"
+              />
+            </div>
+          </button>
+          <figcaption class="credito snd-paso__pie">Los crotones, de cerca</figcaption>
+        </figure>
+      </li>
+
+    </ul>
+  </div>
+
   <!-- El motor de reproducción perezosa de los clips del hero. Va DENTRO del
        fragmento a propósito: index.html se ensambla con
        herramientas/ensamblar.js, que copia las secciones tal cual pero NO
@@ -928,7 +1165,10 @@
            ve no tiene por qué seguir en el DOM. -->
       <p class="pie-final__antetitulo reveal">Oasis para la recreación y el bienestar</p>
       <p class="pie-final__titular reveal reveal-texto">
-        <span class="reveal-texto__linea">El verde te está</span>
+        <!-- Blanco final dentro del primer renglón: los <span> son bloques y
+             en pantalla van en dos líneas, pero al copiar o aplanar el DOM
+             salían pegados («estáesperando»). No se pinta, no cambia nada. -->
+        <span class="reveal-texto__linea">El verde te está </span>
         <span class="reveal-texto__linea">esperando.</span>
       </p>
       <!-- v18 · Deja de ser el ancla #ubicacion y pasa a ser contacto.html.
@@ -1022,6 +1262,7 @@
         <li><a href="colegios.html">Salidas escolares</a></li>
         <li><a href="plan-vecino.html">Plan vecino</a></li>
         <li><a href="condiciones-de-alquiler.html">Condiciones de alquiler</a></li>
+        <li><a href="reglamento.html">Reglamento para visitantes</a></li>
         <li><a href="politica-de-datos.html">Política de tratamiento de datos</a></li>
         <li><a href="terminos.html">Términos y condiciones</a></li>
       </ul>
@@ -1035,6 +1276,6 @@
 
   </div>
 </footer>
-<script src="js/app.js?v=d2757e52" defer></script>
+<script src="js/app.js?v=560eb0e8" defer></script>
 </body>
 </html>
