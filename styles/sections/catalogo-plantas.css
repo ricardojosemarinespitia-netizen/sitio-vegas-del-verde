@@ -4,7 +4,7 @@
    Depende de tokens.css, base.css y shell.css; pie.css pinta el pie.
 
    QUÉ ES ESTA PÁGINA
-   Las 69 plantas que produce el vivero, con foto, nombre común y nombre
+   Las 85 plantas que produce el vivero, con foto, nombre común y nombre
    científico. Es literalmente un catálogo, y la metáfora que lo ordena es
    la del propio vivero: EL CAMELLÓN, la hilera de siembra. Las plantas van
    en orden alfabético y cada inicial ocupa UNA CELDA de la misma rejilla
@@ -96,7 +96,7 @@
 }
 
 /* La cifra del catálogo va dentro del titular, no aparte: es el dato y el
-   titular a la vez («69 plantas»), y en el peso de las cifras del sistema. */
+   titular a la vez («85 plantas»), y en el peso de las cifras del sistema. */
 .cat-portada__cifra {
   font-weight: var(--peso-fuerte);
   color: var(--color-acento-texto);
@@ -104,7 +104,7 @@
 
 /* --------------------------------------------------------------------------
    2. LA BARRA DE HERRAMIENTAS — buscador + abecedario
-      Pegajosa bajo la cabecera fija: en un índice de 69 fichas la forma de
+      Pegajosa bajo la cabecera fija: en un índice de 85 fichas la forma de
       moverse tiene que viajar con quien se mueve. Fondo OPACO de papel
       (--color-fondo) y filete: debajo pasan fotos, y sobre una foto no cabe
       ni vidrio ni velo (regla h). z-index de la capa pegajosa del sistema.
@@ -446,6 +446,54 @@
    cursiva y suave para que se lea como nota y no como nombre. */
 .cat-ficha__cientifico--pendiente {
   font-style: italic;
+}
+
+/* --------------------------------------------------------------------------
+   4a. LOS TRES DATOS DE LA FICHA — dónde va, para qué y cuidados
+      Vienen del catálogo que entregó el cliente. Son una <dl> real (rótulo →
+      dato), no párrafos con dos puntos: el lector de pantalla los lee como
+      pares y el buscador del navegador los encuentra igual.
+
+      SIN NINGUNA ALTURA FIJA, a propósito. Ni min-height, ni clamp() de alto,
+      ni line-clamp: los textos del cliente miden entre 30 y 90 caracteres y
+      cualquier altura impuesta abriría huecos en las fichas cortas o cortaría
+      las largas —el mismo error que costó quitar --alto-tarjeta-espacio de
+      home.css—. La fila de la rejilla ya iguala a la ficha más alta, y el
+      enlace «Preguntar» va pegado al fondo con margin-top:auto, así que las
+      fichas de una misma fila alinean su salida aunque el texto no mida igual.
+   -------------------------------------------------------------------------- */
+.cat-ficha__datos {
+  display: flex;
+  flex-direction: column;
+  gap: var(--esp-3xs);
+  margin: var(--esp-3xs) 0 0;
+  padding-top: var(--esp-3xs);
+  border-top: 1px solid var(--color-borde-suave);
+}
+
+.cat-ficha__dato {
+  min-width: 0;
+}
+
+/* El rótulo, en la voz de rótulo del sistema; el dato, en tinta suave
+   (6,2:1 sobre la placa). El bloque no compite con el nombre. */
+.cat-ficha__rotulo {
+  margin: 0;
+  font-family: var(--fuente-titulo);
+  font-size: var(--fs-micro);
+  font-weight: var(--peso-medio);
+  text-transform: uppercase;
+  letter-spacing: var(--tracking-rotulo);
+  color: var(--verde-texto);
+}
+
+.cat-ficha__valor {
+  margin: 0;
+  font-size: var(--fs-micro);
+  line-height: var(--alto-linea-titulo);
+  color: var(--color-texto-suave);
+  text-wrap: pretty;
+  overflow-wrap: anywhere;
 }
 
 /* Preguntar por esta planta: el canal espinal del sitio, en voz baja y una

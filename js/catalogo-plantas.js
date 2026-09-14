@@ -83,7 +83,7 @@
     campo.addEventListener('input', () => {
       clearTimeout(temporizador);
       // 120 ms: por debajo del umbral en que se nota la espera, por encima
-      // del ritmo de tecleo — no se filtra 69 fichas a cada pulsación.
+      // del ritmo de tecleo — no se filtra 85 fichas a cada pulsación.
       temporizador = setTimeout(() => filtrar(campo.value), 120);
     });
     campo.addEventListener('keydown', e => {
