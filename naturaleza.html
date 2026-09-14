@@ -36,12 +36,12 @@
 <link rel="preload" as="font" type="font/woff2" crossorigin href="styles/fonts/josefin-sans-latin.woff2?v=0ff5ba86">
 
 <link rel="stylesheet" href="styles/tokens.css?v=e12e8d10">
-<link rel="stylesheet" href="styles/base.css?v=0333391e">
+<link rel="stylesheet" href="styles/base.css?v=cd31c700">
 <link rel="stylesheet" href="styles/shell.css?v=794e787c">
 <!-- Este bloque lo REESCRIBE herramientas/ensamblar.js a partir de PAGINAS.
      No lo edites a mano: la lista buena está allí. -->
-<link rel="stylesheet" href="styles/sections/home.css?v=4fcd0fb5">
-<link rel="stylesheet" href="styles/sections/naturaleza.css?v=63795e9f">
+<link rel="stylesheet" href="styles/sections/home.css?v=58608817">
+<link rel="stylesheet" href="styles/sections/naturaleza.css?v=af63d809">
 <link rel="stylesheet" href="styles/sections/pie.css?v=0a889dce">
 <link rel="stylesheet" href="styles/lightbox.css?v=92a48a1f">
 
@@ -131,14 +131,17 @@ src="https://www.facebook.com/tr?id=2840830879589956&ev=PageView&noscript=1"
 
            Las páginas sueltas que no usan este fragmento siguen como estaban:
            no era el pedido. -->
-      <img
-        class="marca__simbolo"
-        src="img/logo/simbolo-transparente.png"
-        width="744"
-        height="351"
-        alt=""
-        decoding="async"
-      />
+      <picture>
+        <source type="image/webp" srcset="img/logo/simbolo-transparente.webp" />
+        <img
+          class="marca__simbolo"
+          src="img/logo/simbolo-transparente.png"
+          width="744"
+          height="351"
+          alt=""
+          decoding="async"
+        />
+      </picture>
       <!-- v31 · El nombre viene partido en dos <span> por una razón de layout,
            no de semántica: por debajo de 23 em (≈368 px) «Vegas del Verde» no
            cabe en una línea al lado del símbolo, y la única forma de que el
@@ -603,88 +606,160 @@ src="https://www.facebook.com/tr?id=2840830879589956&ev=PageView&noscript=1"
 
           <div class="nat-cinta__fila nat-cinta__fila--ida">
             <div class="nat-cinta__grupo">
-              <img src="img/aves/ave-46-momotus-subrufescens.jpg"
+              <picture>
+                <source type="image/webp" srcset="img/aves/ave-46-momotus-subrufescens-400.webp 400w, img/aves/ave-46-momotus-subrufescens-600.webp 600w, img/aves/ave-46-momotus-subrufescens.webp 867w" sizes="(max-width: 47.99em) 98vw, 100vw" />
+                <img src="img/aves/ave-46-momotus-subrufescens.jpg"
                 srcset="img/aves/ave-46-momotus-subrufescens-400.jpg 400w, img/aves/ave-46-momotus-subrufescens-600.jpg 600w, img/aves/ave-46-momotus-subrufescens.jpg 867w"
                 sizes="(max-width: 47.99em) 98vw, 100vw" width="867" height="1300" loading="lazy" decoding="async" alt="" />
-              <img src="img/aves/ave-04-azulejo-palmero.jpg"
+              </picture>
+              <picture>
+                <source type="image/webp" srcset="img/aves/ave-04-azulejo-palmero-400.webp 400w, img/aves/ave-04-azulejo-palmero-600.webp 600w, img/aves/ave-04-azulejo-palmero-800.webp 800w, img/aves/ave-04-azulejo-palmero.webp 1300w" sizes="(max-width: 47.99em) 98vw, 100vw" />
+                <img src="img/aves/ave-04-azulejo-palmero.jpg"
                 srcset="img/aves/ave-04-azulejo-palmero-400.jpg 400w, img/aves/ave-04-azulejo-palmero-600.jpg 600w, img/aves/ave-04-azulejo-palmero-800.jpg 800w, img/aves/ave-04-azulejo-palmero.jpg 1300w"
                 sizes="(max-width: 47.99em) 98vw, 100vw" width="1300" height="1039" loading="lazy" decoding="async" alt="" />
-              <img src="img/aves/ave-12-barranquero.jpg"
+              </picture>
+              <picture>
+                <source type="image/webp" srcset="img/aves/ave-12-barranquero-400.webp 400w, img/aves/ave-12-barranquero-600.webp 600w, img/aves/ave-12-barranquero.webp 975w" sizes="(max-width: 47.99em) 53vw, 55vw" />
+                <img src="img/aves/ave-12-barranquero.jpg"
                 srcset="img/aves/ave-12-barranquero-400.jpg 400w, img/aves/ave-12-barranquero-600.jpg 600w, img/aves/ave-12-barranquero.jpg 975w"
                 sizes="(max-width: 47.99em) 53vw, 55vw" width="975" height="1300" loading="lazy" decoding="async" alt="" />
-              <img src="img/aves/ave-27-colibri.jpg"
+              </picture>
+              <picture>
+                <source type="image/webp" srcset="img/aves/ave-27-colibri-400.webp 400w, img/aves/ave-27-colibri-600.webp 600w, img/aves/ave-27-colibri.webp 867w" sizes="(max-width: 47.99em) 53vw, 55vw" />
+                <img src="img/aves/ave-27-colibri.jpg"
                 srcset="img/aves/ave-27-colibri-400.jpg 400w, img/aves/ave-27-colibri-600.jpg 600w, img/aves/ave-27-colibri.jpg 867w"
                 sizes="(max-width: 47.99em) 53vw, 55vw" width="867" height="1300" loading="lazy" decoding="async" alt="" />
-              <img src="img/aves/ave-18-brotogeris-jugularis.jpg"
+              </picture>
+              <picture>
+                <source type="image/webp" srcset="img/aves/ave-18-brotogeris-jugularis-400.webp 400w, img/aves/ave-18-brotogeris-jugularis-600.webp 600w, img/aves/ave-18-brotogeris-jugularis.webp 975w" sizes="(max-width: 47.99em) 53vw, 55vw" />
+                <img src="img/aves/ave-18-brotogeris-jugularis.jpg"
                 srcset="img/aves/ave-18-brotogeris-jugularis-400.jpg 400w, img/aves/ave-18-brotogeris-jugularis-600.jpg 600w, img/aves/ave-18-brotogeris-jugularis.jpg 975w"
                 sizes="(max-width: 47.99em) 53vw, 55vw" width="975" height="1300" loading="lazy" decoding="async" alt="" />
-              <img src="img/aves/ave-49-azulejo.jpg"
+              </picture>
+              <picture>
+                <source type="image/webp" srcset="img/aves/ave-49-azulejo-400.webp 400w, img/aves/ave-49-azulejo-600.webp 600w, img/aves/ave-49-azulejo-800.webp 800w, img/aves/ave-49-azulejo.webp 1300w" sizes="(max-width: 47.99em) 53vw, 55vw" />
+                <img src="img/aves/ave-49-azulejo.jpg"
                 srcset="img/aves/ave-49-azulejo-400.jpg 400w, img/aves/ave-49-azulejo-600.jpg 600w, img/aves/ave-49-azulejo-800.jpg 800w, img/aves/ave-49-azulejo.jpg 1300w"
                 sizes="(max-width: 47.99em) 53vw, 55vw" width="1300" height="900" loading="lazy" decoding="async" alt="" />
-              <img src="img/aves/ave-35-amaziliatzacatl.jpg"
+              </picture>
+              <picture>
+                <source type="image/webp" srcset="img/aves/ave-35-amaziliatzacatl-400.webp 400w, img/aves/ave-35-amaziliatzacatl-600.webp 600w, img/aves/ave-35-amaziliatzacatl-800.webp 800w, img/aves/ave-35-amaziliatzacatl.webp 1040w" sizes="(max-width: 47.99em) 53vw, 55vw" />
+                <img src="img/aves/ave-35-amaziliatzacatl.jpg"
                 srcset="img/aves/ave-35-amaziliatzacatl-400.jpg 400w, img/aves/ave-35-amaziliatzacatl-600.jpg 600w, img/aves/ave-35-amaziliatzacatl-800.jpg 800w, img/aves/ave-35-amaziliatzacatl.jpg 1040w"
                 sizes="(max-width: 47.99em) 53vw, 55vw" width="1040" height="1300" loading="lazy" decoding="async" alt="" />
-              <img src="img/aves/ave-14-saltador-pio.jpg"
+              </picture>
+              <picture>
+                <source type="image/webp" srcset="img/aves/ave-14-saltador-pio-400.webp 400w, img/aves/ave-14-saltador-pio-600.webp 600w, img/aves/ave-14-saltador-pio-800.webp 800w, img/aves/ave-14-saltador-pio.webp 1300w" sizes="(max-width: 47.99em) 53vw, 55vw" />
+                <img src="img/aves/ave-14-saltador-pio.jpg"
                 srcset="img/aves/ave-14-saltador-pio-400.jpg 400w, img/aves/ave-14-saltador-pio-600.jpg 600w, img/aves/ave-14-saltador-pio-800.jpg 800w, img/aves/ave-14-saltador-pio.jpg 1300w"
                 sizes="(max-width: 47.99em) 53vw, 55vw" width="1300" height="975" loading="lazy" decoding="async" alt="" />
+              </picture>
             </div>
           </div>
 
           <div class="nat-cinta__fila nat-cinta__fila--vuelta">
             <div class="nat-cinta__grupo">
-              <img src="img/aves/ave-34-eufonia-piquigruesa.jpg"
+              <picture>
+                <source type="image/webp" srcset="img/aves/ave-34-eufonia-piquigruesa-400.webp 400w, img/aves/ave-34-eufonia-piquigruesa-600.webp 600w, img/aves/ave-34-eufonia-piquigruesa-800.webp 800w, img/aves/ave-34-eufonia-piquigruesa.webp 1040w" sizes="(max-width: 47.99em) 53vw, 55vw" />
+                <img src="img/aves/ave-34-eufonia-piquigruesa.jpg"
                 srcset="img/aves/ave-34-eufonia-piquigruesa-400.jpg 400w, img/aves/ave-34-eufonia-piquigruesa-600.jpg 600w, img/aves/ave-34-eufonia-piquigruesa-800.jpg 800w, img/aves/ave-34-eufonia-piquigruesa.jpg 1040w"
                 sizes="(max-width: 47.99em) 53vw, 55vw" width="1040" height="1300" loading="lazy" decoding="async" alt="" />
-              <img src="img/aves/ave-16-tytira-inquisitor-macho.jpg"
+              </picture>
+              <picture>
+                <source type="image/webp" srcset="img/aves/ave-16-tytira-inquisitor-macho-400.webp 400w, img/aves/ave-16-tytira-inquisitor-macho-600.webp 600w, img/aves/ave-16-tytira-inquisitor-macho-800.webp 800w, img/aves/ave-16-tytira-inquisitor-macho.webp 1300w" sizes="(max-width: 47.99em) 98vw, 100vw" />
+                <img src="img/aves/ave-16-tytira-inquisitor-macho.jpg"
                 srcset="img/aves/ave-16-tytira-inquisitor-macho-400.jpg 400w, img/aves/ave-16-tytira-inquisitor-macho-600.jpg 600w, img/aves/ave-16-tytira-inquisitor-macho-800.jpg 800w, img/aves/ave-16-tytira-inquisitor-macho.jpg 1300w"
                 sizes="(max-width: 47.99em) 98vw, 100vw" width="1300" height="867" loading="lazy" decoding="async" alt="" />
-              <img src="img/aves/ave-45-chondrohierax-uncinatus.jpg"
+              </picture>
+              <picture>
+                <source type="image/webp" srcset="img/aves/ave-45-chondrohierax-uncinatus-400.webp 400w, img/aves/ave-45-chondrohierax-uncinatus-600.webp 600w, img/aves/ave-45-chondrohierax-uncinatus.webp 867w" sizes="(max-width: 47.99em) 53vw, 55vw" />
+                <img src="img/aves/ave-45-chondrohierax-uncinatus.jpg"
                 srcset="img/aves/ave-45-chondrohierax-uncinatus-400.jpg 400w, img/aves/ave-45-chondrohierax-uncinatus-600.jpg 600w, img/aves/ave-45-chondrohierax-uncinatus.jpg 867w"
                 sizes="(max-width: 47.99em) 53vw, 55vw" width="867" height="1300" loading="lazy" decoding="async" alt="" />
-              <img src="img/aves/ave-30-azulejo.jpg"
+              </picture>
+              <picture>
+                <source type="image/webp" srcset="img/aves/ave-30-azulejo-400.webp 400w, img/aves/ave-30-azulejo-600.webp 600w, img/aves/ave-30-azulejo.webp 867w" sizes="(max-width: 47.99em) 53vw, 55vw" />
+                <img src="img/aves/ave-30-azulejo.jpg"
                 srcset="img/aves/ave-30-azulejo-400.jpg 400w, img/aves/ave-30-azulejo-600.jpg 600w, img/aves/ave-30-azulejo.jpg 867w"
                 sizes="(max-width: 47.99em) 53vw, 55vw" width="867" height="1300" loading="lazy" decoding="async" alt="" />
-              <img src="img/aves/ave-38-carpintero.jpg"
+              </picture>
+              <picture>
+                <source type="image/webp" srcset="img/aves/ave-38-carpintero-400.webp 400w, img/aves/ave-38-carpintero-600.webp 600w, img/aves/ave-38-carpintero-800.webp 800w, img/aves/ave-38-carpintero.webp 1300w" sizes="(max-width: 47.99em) 53vw, 55vw" />
+                <img src="img/aves/ave-38-carpintero.jpg"
                 srcset="img/aves/ave-38-carpintero-400.jpg 400w, img/aves/ave-38-carpintero-600.jpg 600w, img/aves/ave-38-carpintero-800.jpg 800w, img/aves/ave-38-carpintero.jpg 1300w"
                 sizes="(max-width: 47.99em) 53vw, 55vw" width="1300" height="1040" loading="lazy" decoding="async" alt="" />
-              <img src="img/aves/ave-06-piaya-cayana.jpg"
+              </picture>
+              <picture>
+                <source type="image/webp" srcset="img/aves/ave-06-piaya-cayana-400.webp 400w, img/aves/ave-06-piaya-cayana-600.webp 600w, img/aves/ave-06-piaya-cayana.webp 1040w" sizes="(max-width: 47.99em) 53vw, 55vw" />
+                <img src="img/aves/ave-06-piaya-cayana.jpg"
                 srcset="img/aves/ave-06-piaya-cayana-400.jpg 400w, img/aves/ave-06-piaya-cayana-600.jpg 600w, img/aves/ave-06-piaya-cayana.jpg 1040w"
                 sizes="(max-width: 47.99em) 53vw, 55vw" width="1040" height="1300" loading="lazy" decoding="async" alt="" />
-              <img src="img/aves/ave-24-vegas.jpg"
+              </picture>
+              <picture>
+                <source type="image/webp" srcset="img/aves/ave-24-vegas-400.webp 400w, img/aves/ave-24-vegas-600.webp 600w, img/aves/ave-24-vegas-800.webp 800w, img/aves/ave-24-vegas.webp 1300w" sizes="(max-width: 47.99em) 53vw, 55vw" />
+                <img src="img/aves/ave-24-vegas.jpg"
                 srcset="img/aves/ave-24-vegas-400.jpg 400w, img/aves/ave-24-vegas-600.jpg 600w, img/aves/ave-24-vegas-800.jpg 800w, img/aves/ave-24-vegas.jpg 1300w"
                 sizes="(max-width: 47.99em) 53vw, 55vw" width="1300" height="1098" loading="lazy" decoding="async" alt="" />
-              <img src="img/aves/ave-53-cucarachero.jpg"
+              </picture>
+              <picture>
+                <source type="image/webp" srcset="img/aves/ave-53-cucarachero-400.webp 400w, img/aves/ave-53-cucarachero-600.webp 600w, img/aves/ave-53-cucarachero-800.webp 800w, img/aves/ave-53-cucarachero.webp 1300w" sizes="(max-width: 47.99em) 53vw, 55vw" />
+                <img src="img/aves/ave-53-cucarachero.jpg"
                 srcset="img/aves/ave-53-cucarachero-400.jpg 400w, img/aves/ave-53-cucarachero-600.jpg 600w, img/aves/ave-53-cucarachero-800.jpg 800w, img/aves/ave-53-cucarachero.jpg 1300w"
                 sizes="(max-width: 47.99em) 53vw, 55vw" width="1300" height="865" loading="lazy" decoding="async" alt="" />
+              </picture>
             </div>
           </div>
 
           <div class="nat-cinta__fila nat-cinta__fila--ida nat-cinta__fila--tercera">
             <div class="nat-cinta__grupo">
-              <img src="img/aves/ave-03-thraupis-episcopus.jpg"
+              <picture>
+                <source type="image/webp" srcset="img/aves/ave-03-thraupis-episcopus-400.webp 400w, img/aves/ave-03-thraupis-episcopus-600.webp 600w, img/aves/ave-03-thraupis-episcopus-800.webp 800w, img/aves/ave-03-thraupis-episcopus.webp 1040w" sizes="(max-width: 47.99em) 46vw, 49vw" />
+                <img src="img/aves/ave-03-thraupis-episcopus.jpg"
                 srcset="img/aves/ave-03-thraupis-episcopus-400.jpg 400w, img/aves/ave-03-thraupis-episcopus-600.jpg 600w, img/aves/ave-03-thraupis-episcopus-800.jpg 800w, img/aves/ave-03-thraupis-episcopus.jpg 1040w"
                 sizes="(max-width: 47.99em) 46vw, 49vw" width="1040" height="1300" loading="lazy" decoding="async" alt="" />
-              <img src="img/aves/ave-28-loros.jpg"
+              </picture>
+              <picture>
+                <source type="image/webp" srcset="img/aves/ave-28-loros-400.webp 400w, img/aves/ave-28-loros-600.webp 600w, img/aves/ave-28-loros-800.webp 800w, img/aves/ave-28-loros.webp 1300w" sizes="(max-width: 47.99em) 47vw, 33vw" />
+                <img src="img/aves/ave-28-loros.jpg"
                 srcset="img/aves/ave-28-loros-400.jpg 400w, img/aves/ave-28-loros-600.jpg 600w, img/aves/ave-28-loros-800.jpg 800w, img/aves/ave-28-loros.jpg 1300w"
                 sizes="(max-width: 47.99em) 47vw, 33vw" width="1300" height="1017" loading="lazy" decoding="async" alt="" />
-              <img src="img/aves/ave-41-todirostrum-cinereum.jpg"
+              </picture>
+              <picture>
+                <source type="image/webp" srcset="img/aves/ave-41-todirostrum-cinereum-400.webp 400w, img/aves/ave-41-todirostrum-cinereum-600.webp 600w, img/aves/ave-41-todirostrum-cinereum.webp 1040w" sizes="(max-width: 47.99em) 46vw, 49vw" />
+                <img src="img/aves/ave-41-todirostrum-cinereum.jpg"
                 srcset="img/aves/ave-41-todirostrum-cinereum-400.jpg 400w, img/aves/ave-41-todirostrum-cinereum-600.jpg 600w, img/aves/ave-41-todirostrum-cinereum.jpg 1040w"
                 sizes="(max-width: 47.99em) 46vw, 49vw" width="1040" height="1300" loading="lazy" decoding="async" alt="" />
-              <img src="img/aves/ave-31-periquito-bronceado.jpg"
+              </picture>
+              <picture>
+                <source type="image/webp" srcset="img/aves/ave-31-periquito-bronceado-400.webp 400w, img/aves/ave-31-periquito-bronceado-600.webp 600w, img/aves/ave-31-periquito-bronceado.webp 867w" sizes="(max-width: 47.99em) 47vw, 33vw" />
+                <img src="img/aves/ave-31-periquito-bronceado.jpg"
                 srcset="img/aves/ave-31-periquito-bronceado-400.jpg 400w, img/aves/ave-31-periquito-bronceado-600.jpg 600w, img/aves/ave-31-periquito-bronceado.jpg 867w"
                 sizes="(max-width: 47.99em) 47vw, 33vw" width="867" height="1300" loading="lazy" decoding="async" alt="" />
-              <img src="img/aves/ave-54-sinsonte.jpg"
+              </picture>
+              <picture>
+                <source type="image/webp" srcset="img/aves/ave-54-sinsonte-400.webp 400w, img/aves/ave-54-sinsonte-600.webp 600w, img/aves/ave-54-sinsonte-800.webp 800w, img/aves/ave-54-sinsonte.webp 1300w" sizes="(max-width: 47.99em) 47vw, 33vw" />
+                <img src="img/aves/ave-54-sinsonte.jpg"
                 srcset="img/aves/ave-54-sinsonte-400.jpg 400w, img/aves/ave-54-sinsonte-600.jpg 600w, img/aves/ave-54-sinsonte-800.jpg 800w, img/aves/ave-54-sinsonte.jpg 1300w"
                 sizes="(max-width: 47.99em) 47vw, 33vw" width="1300" height="867" loading="lazy" decoding="async" alt="" />
-              <img src="img/aves/ave-33-loro-real.jpg"
+              </picture>
+              <picture>
+                <source type="image/webp" srcset="img/aves/ave-33-loro-real-400.webp 400w, img/aves/ave-33-loro-real-600.webp 600w, img/aves/ave-33-loro-real.webp 867w" sizes="(max-width: 47.99em) 47vw, 33vw" />
+                <img src="img/aves/ave-33-loro-real.jpg"
                 srcset="img/aves/ave-33-loro-real-400.jpg 400w, img/aves/ave-33-loro-real-600.jpg 600w, img/aves/ave-33-loro-real.jpg 867w"
                 sizes="(max-width: 47.99em) 47vw, 33vw" width="867" height="1300" loading="lazy" decoding="async" alt="" />
-              <img src="img/aves/ave-08-cucu-ardilla.jpg"
+              </picture>
+              <picture>
+                <source type="image/webp" srcset="img/aves/ave-08-cucu-ardilla-400.webp 400w, img/aves/ave-08-cucu-ardilla-600.webp 600w, img/aves/ave-08-cucu-ardilla-800.webp 800w, img/aves/ave-08-cucu-ardilla.webp 1300w" sizes="(max-width: 47.99em) 47vw, 33vw" />
+                <img src="img/aves/ave-08-cucu-ardilla.jpg"
                 srcset="img/aves/ave-08-cucu-ardilla-400.jpg 400w, img/aves/ave-08-cucu-ardilla-600.jpg 600w, img/aves/ave-08-cucu-ardilla-800.jpg 800w, img/aves/ave-08-cucu-ardilla.jpg 1300w"
                 sizes="(max-width: 47.99em) 47vw, 33vw" width="1300" height="1023" loading="lazy" decoding="async" alt="" />
-              <img src="img/aves/ave-47-stilpnia-cyanicollis.jpg"
+              </picture>
+              <picture>
+                <source type="image/webp" srcset="img/aves/ave-47-stilpnia-cyanicollis-400.webp 400w, img/aves/ave-47-stilpnia-cyanicollis-600.webp 600w, img/aves/ave-47-stilpnia-cyanicollis.webp 867w" sizes="(max-width: 47.99em) 47vw, 33vw" />
+                <img src="img/aves/ave-47-stilpnia-cyanicollis.jpg"
                 srcset="img/aves/ave-47-stilpnia-cyanicollis-400.jpg 400w, img/aves/ave-47-stilpnia-cyanicollis-600.jpg 600w, img/aves/ave-47-stilpnia-cyanicollis.jpg 867w"
                 sizes="(max-width: 47.99em) 47vw, 33vw" width="867" height="1300" loading="lazy" decoding="async" alt="" />
+              </picture>
             </div>
           </div>
 
@@ -739,7 +814,9 @@ src="https://www.facebook.com/tr?id=2840830879589956&ev=PageView&noscript=1"
               data-lightbox-caption="Momotus subrufescens — Foto: Leyner Lozano"
               data-lightbox-src="img/aves/ave-46-momotus-subrufescens.jpg"
             >
-              <img
+              <picture>
+                <source type="image/webp" srcset="img/aves/ave-46-momotus-subrufescens-400.webp 400w, img/aves/ave-46-momotus-subrufescens-600.webp 600w, img/aves/ave-46-momotus-subrufescens.webp 867w" sizes="(max-width: 47.99em) 98vw, 100vw" />
+                <img
                 src="img/aves/ave-46-momotus-subrufescens.jpg"
                 srcset="img/aves/ave-46-momotus-subrufescens-400.jpg 400w, img/aves/ave-46-momotus-subrufescens-600.jpg 600w, img/aves/ave-46-momotus-subrufescens.jpg 867w"
                 sizes="(max-width: 47.99em) 98vw, 100vw"
@@ -749,6 +826,7 @@ src="https://www.facebook.com/tr?id=2840830879589956&ev=PageView&noscript=1"
                 decoding="async"
                 alt="Momotus subrufescens en el arbolado de Vegas del Verde, fotografía de Leyner Lozano"
               />
+              </picture>
             </button>
             <figcaption class="nat-obra__pie pie-obra">
               <span class="nat-obra__especie pie-obra__especie nat-cientifico">Momotus subrufescens</span>
@@ -763,7 +841,9 @@ src="https://www.facebook.com/tr?id=2840830879589956&ev=PageView&noscript=1"
               data-lightbox-caption="Eufonia piquigruesa — Foto: Francheska Salazar"
               data-lightbox-src="img/aves/ave-34-eufonia-piquigruesa.jpg"
             >
-              <img
+              <picture>
+                <source type="image/webp" srcset="img/aves/ave-34-eufonia-piquigruesa-400.webp 400w, img/aves/ave-34-eufonia-piquigruesa-600.webp 600w, img/aves/ave-34-eufonia-piquigruesa-800.webp 800w, img/aves/ave-34-eufonia-piquigruesa.webp 1040w" sizes="(max-width: 47.99em) 53vw, 55vw" />
+                <img
                 src="img/aves/ave-34-eufonia-piquigruesa.jpg"
                 srcset="img/aves/ave-34-eufonia-piquigruesa-400.jpg 400w, img/aves/ave-34-eufonia-piquigruesa-600.jpg 600w, img/aves/ave-34-eufonia-piquigruesa-800.jpg 800w, img/aves/ave-34-eufonia-piquigruesa.jpg 1040w"
                 sizes="(max-width: 47.99em) 53vw, 55vw"
@@ -773,6 +853,7 @@ src="https://www.facebook.com/tr?id=2840830879589956&ev=PageView&noscript=1"
                 decoding="async"
                 alt="Eufonia piquigruesa en el arbolado de Vegas del Verde, fotografía de Francheska Salazar"
               />
+              </picture>
             </button>
             <figcaption class="nat-obra__pie pie-obra">
               <span class="nat-obra__especie pie-obra__especie">Eufonia piquigruesa</span>
@@ -787,7 +868,9 @@ src="https://www.facebook.com/tr?id=2840830879589956&ev=PageView&noscript=1"
               data-lightbox-caption="Amazilia tzacatl — Foto: Jaime Suárez"
               data-lightbox-src="img/aves/ave-35-amaziliatzacatl.jpg"
             >
-              <img
+              <picture>
+                <source type="image/webp" srcset="img/aves/ave-35-amaziliatzacatl-400.webp 400w, img/aves/ave-35-amaziliatzacatl-600.webp 600w, img/aves/ave-35-amaziliatzacatl-800.webp 800w, img/aves/ave-35-amaziliatzacatl.webp 1040w" sizes="(max-width: 47.99em) 53vw, 55vw" />
+                <img
                 src="img/aves/ave-35-amaziliatzacatl.jpg"
                 srcset="img/aves/ave-35-amaziliatzacatl-400.jpg 400w, img/aves/ave-35-amaziliatzacatl-600.jpg 600w, img/aves/ave-35-amaziliatzacatl-800.jpg 800w, img/aves/ave-35-amaziliatzacatl.jpg 1040w"
                 sizes="(max-width: 47.99em) 53vw, 55vw"
@@ -797,6 +880,7 @@ src="https://www.facebook.com/tr?id=2840830879589956&ev=PageView&noscript=1"
                 decoding="async"
                 alt="Amazilia tzacatl en el arbolado de Vegas del Verde, fotografía de Jaime Suárez"
               />
+              </picture>
             </button>
             <figcaption class="nat-obra__pie pie-obra">
               <span class="nat-obra__especie pie-obra__especie nat-cientifico">Amazilia tzacatl</span>
@@ -811,7 +895,9 @@ src="https://www.facebook.com/tr?id=2840830879589956&ev=PageView&noscript=1"
               data-lightbox-caption="Azulejo palmero — Foto: Francheska Salazar"
               data-lightbox-src="img/aves/ave-04-azulejo-palmero.jpg"
             >
-              <img
+              <picture>
+                <source type="image/webp" srcset="img/aves/ave-04-azulejo-palmero-400.webp 400w, img/aves/ave-04-azulejo-palmero-600.webp 600w, img/aves/ave-04-azulejo-palmero-800.webp 800w, img/aves/ave-04-azulejo-palmero.webp 1300w" sizes="(max-width: 47.99em) 98vw, 100vw" />
+                <img
                 src="img/aves/ave-04-azulejo-palmero.jpg"
                 srcset="img/aves/ave-04-azulejo-palmero-400.jpg 400w, img/aves/ave-04-azulejo-palmero-600.jpg 600w, img/aves/ave-04-azulejo-palmero-800.jpg 800w, img/aves/ave-04-azulejo-palmero.jpg 1300w"
                 sizes="(max-width: 47.99em) 98vw, 100vw"
@@ -821,6 +907,7 @@ src="https://www.facebook.com/tr?id=2840830879589956&ev=PageView&noscript=1"
                 decoding="async"
                 alt="Azulejo palmero en el arbolado de Vegas del Verde, fotografía de Francheska Salazar"
               />
+              </picture>
             </button>
             <figcaption class="nat-obra__pie pie-obra">
               <span class="nat-obra__especie pie-obra__especie">Azulejo palmero</span>
@@ -835,7 +922,9 @@ src="https://www.facebook.com/tr?id=2840830879589956&ev=PageView&noscript=1"
               data-lightbox-caption="Thraupis episcopus — Foto: Fernando Cáceres"
               data-lightbox-src="img/aves/ave-03-thraupis-episcopus.jpg"
             >
-              <img
+              <picture>
+                <source type="image/webp" srcset="img/aves/ave-03-thraupis-episcopus-400.webp 400w, img/aves/ave-03-thraupis-episcopus-600.webp 600w, img/aves/ave-03-thraupis-episcopus-800.webp 800w, img/aves/ave-03-thraupis-episcopus.webp 1040w" sizes="(max-width: 47.99em) 46vw, 49vw" />
+                <img
                 src="img/aves/ave-03-thraupis-episcopus.jpg"
                 srcset="img/aves/ave-03-thraupis-episcopus-400.jpg 400w, img/aves/ave-03-thraupis-episcopus-600.jpg 600w, img/aves/ave-03-thraupis-episcopus-800.jpg 800w, img/aves/ave-03-thraupis-episcopus.jpg 1040w"
                 sizes="(max-width: 47.99em) 46vw, 49vw"
@@ -845,6 +934,7 @@ src="https://www.facebook.com/tr?id=2840830879589956&ev=PageView&noscript=1"
                 decoding="async"
                 alt="Thraupis episcopus en el arbolado de Vegas del Verde, fotografía de Fernando Cáceres"
               />
+              </picture>
             </button>
             <figcaption class="nat-obra__pie pie-obra">
               <span class="nat-obra__especie pie-obra__especie nat-cientifico">Thraupis episcopus</span>
@@ -859,7 +949,9 @@ src="https://www.facebook.com/tr?id=2840830879589956&ev=PageView&noscript=1"
               data-lightbox-caption="Piaya cayana — Foto: Jonathan Layton Ávila"
               data-lightbox-src="img/aves/ave-06-piaya-cayana.jpg"
             >
-              <img
+              <picture>
+                <source type="image/webp" srcset="img/aves/ave-06-piaya-cayana-400.webp 400w, img/aves/ave-06-piaya-cayana-600.webp 600w, img/aves/ave-06-piaya-cayana.webp 1040w" sizes="(max-width: 47.99em) 53vw, 55vw" />
+                <img
                 src="img/aves/ave-06-piaya-cayana.jpg"
                 srcset="img/aves/ave-06-piaya-cayana-400.jpg 400w, img/aves/ave-06-piaya-cayana-600.jpg 600w, img/aves/ave-06-piaya-cayana.jpg 1040w"
                 sizes="(max-width: 47.99em) 53vw, 55vw"
@@ -869,6 +961,7 @@ src="https://www.facebook.com/tr?id=2840830879589956&ev=PageView&noscript=1"
                 decoding="async"
                 alt="Piaya cayana en el arbolado de Vegas del Verde, fotografía de Jonathan Layton Ávila"
               />
+              </picture>
             </button>
             <figcaption class="nat-obra__pie pie-obra">
               <span class="nat-obra__especie pie-obra__especie nat-cientifico">Piaya cayana</span>
@@ -883,7 +976,9 @@ src="https://www.facebook.com/tr?id=2840830879589956&ev=PageView&noscript=1"
               data-lightbox-caption="Todirostrum cinereum — Foto: Jonathan Layton Ávila"
               data-lightbox-src="img/aves/ave-41-todirostrum-cinereum.jpg"
             >
-              <img
+              <picture>
+                <source type="image/webp" srcset="img/aves/ave-41-todirostrum-cinereum-400.webp 400w, img/aves/ave-41-todirostrum-cinereum-600.webp 600w, img/aves/ave-41-todirostrum-cinereum.webp 1040w" sizes="(max-width: 47.99em) 46vw, 49vw" />
+                <img
                 src="img/aves/ave-41-todirostrum-cinereum.jpg"
                 srcset="img/aves/ave-41-todirostrum-cinereum-400.jpg 400w, img/aves/ave-41-todirostrum-cinereum-600.jpg 600w, img/aves/ave-41-todirostrum-cinereum.jpg 1040w"
                 sizes="(max-width: 47.99em) 46vw, 49vw"
@@ -893,6 +988,7 @@ src="https://www.facebook.com/tr?id=2840830879589956&ev=PageView&noscript=1"
                 decoding="async"
                 alt="Todirostrum cinereum en el arbolado de Vegas del Verde, fotografía de Jonathan Layton Ávila"
               />
+              </picture>
             </button>
             <figcaption class="nat-obra__pie pie-obra">
               <span class="nat-obra__especie pie-obra__especie nat-cientifico">Todirostrum cinereum</span>
@@ -907,7 +1003,9 @@ src="https://www.facebook.com/tr?id=2840830879589956&ev=PageView&noscript=1"
               data-lightbox-caption="Tityra inquisitor · macho — Foto: Daniel Arango"
               data-lightbox-src="img/aves/ave-16-tytira-inquisitor-macho.jpg"
             >
-              <img
+              <picture>
+                <source type="image/webp" srcset="img/aves/ave-16-tytira-inquisitor-macho-400.webp 400w, img/aves/ave-16-tytira-inquisitor-macho-600.webp 600w, img/aves/ave-16-tytira-inquisitor-macho-800.webp 800w, img/aves/ave-16-tytira-inquisitor-macho.webp 1300w" sizes="(max-width: 47.99em) 98vw, 100vw" />
+                <img
                 src="img/aves/ave-16-tytira-inquisitor-macho.jpg"
                 srcset="img/aves/ave-16-tytira-inquisitor-macho-400.jpg 400w, img/aves/ave-16-tytira-inquisitor-macho-600.jpg 600w, img/aves/ave-16-tytira-inquisitor-macho-800.jpg 800w, img/aves/ave-16-tytira-inquisitor-macho.jpg 1300w"
                 sizes="(max-width: 47.99em) 98vw, 100vw"
@@ -917,6 +1015,7 @@ src="https://www.facebook.com/tr?id=2840830879589956&ev=PageView&noscript=1"
                 decoding="async"
                 alt="Tityra inquisitor · macho en el arbolado de Vegas del Verde, fotografía de Daniel Arango"
               />
+              </picture>
             </button>
             <figcaption class="nat-obra__pie pie-obra">
               <span class="nat-obra__especie pie-obra__especie nat-cientifico">Tityra inquisitor · macho</span>
@@ -931,7 +1030,9 @@ src="https://www.facebook.com/tr?id=2840830879589956&ev=PageView&noscript=1"
               data-lightbox-caption="Chondrohierax uncinatus — Foto: Leyner Lozano"
               data-lightbox-src="img/aves/ave-45-chondrohierax-uncinatus.jpg"
             >
-              <img
+              <picture>
+                <source type="image/webp" srcset="img/aves/ave-45-chondrohierax-uncinatus-400.webp 400w, img/aves/ave-45-chondrohierax-uncinatus-600.webp 600w, img/aves/ave-45-chondrohierax-uncinatus.webp 867w" sizes="(max-width: 47.99em) 53vw, 55vw" />
+                <img
                 src="img/aves/ave-45-chondrohierax-uncinatus.jpg"
                 srcset="img/aves/ave-45-chondrohierax-uncinatus-400.jpg 400w, img/aves/ave-45-chondrohierax-uncinatus-600.jpg 600w, img/aves/ave-45-chondrohierax-uncinatus.jpg 867w"
                 sizes="(max-width: 47.99em) 53vw, 55vw"
@@ -941,6 +1042,7 @@ src="https://www.facebook.com/tr?id=2840830879589956&ev=PageView&noscript=1"
                 decoding="async"
                 alt="Chondrohierax uncinatus en el arbolado de Vegas del Verde, fotografía de Leyner Lozano"
               />
+              </picture>
             </button>
             <figcaption class="nat-obra__pie pie-obra">
               <span class="nat-obra__especie pie-obra__especie nat-cientifico">Chondrohierax uncinatus</span>
@@ -955,7 +1057,9 @@ src="https://www.facebook.com/tr?id=2840830879589956&ev=PageView&noscript=1"
               data-lightbox-caption="Ave del predio — Foto: Arturo Sepúlveda"
               data-lightbox-src="img/aves/ave-01-vegas.jpg"
             >
-              <img
+              <picture>
+                <source type="image/webp" srcset="img/aves/ave-01-vegas-400.webp 400w, img/aves/ave-01-vegas-600.webp 600w, img/aves/ave-01-vegas-800.webp 800w, img/aves/ave-01-vegas.webp 1300w" sizes="(max-width: 47.99em) 47vw, 33vw" />
+                <img
                 src="img/aves/ave-01-vegas.jpg"
                 srcset="img/aves/ave-01-vegas-400.jpg 400w, img/aves/ave-01-vegas-600.jpg 600w, img/aves/ave-01-vegas-800.jpg 800w, img/aves/ave-01-vegas.jpg 1300w"
                 sizes="(max-width: 47.99em) 47vw, 33vw"
@@ -965,6 +1069,7 @@ src="https://www.facebook.com/tr?id=2840830879589956&ev=PageView&noscript=1"
                 decoding="async"
                 alt="Ave sin identificar, fotografiada en Vegas del Verde por Arturo Sepúlveda"
               />
+              </picture>
             </button>
             <figcaption class="nat-obra__pie pie-obra">
               <span class="nat-obra__especie pie-obra__especie pie-obra__especie--anonima nat-obra__especie--anonima">Ave del predio</span>
@@ -979,7 +1084,9 @@ src="https://www.facebook.com/tr?id=2840830879589956&ev=PageView&noscript=1"
               data-lightbox-caption="Ave del predio — Foto: Fabio Hernández"
               data-lightbox-src="img/aves/ave-02-vegas.jpg"
             >
-              <img
+              <picture>
+                <source type="image/webp" srcset="img/aves/ave-02-vegas-400.webp 400w, img/aves/ave-02-vegas-600.webp 600w, img/aves/ave-02-vegas-800.webp 800w, img/aves/ave-02-vegas.webp 1300w" sizes="(max-width: 47.99em) 47vw, 33vw" />
+                <img
                 src="img/aves/ave-02-vegas.jpg"
                 srcset="img/aves/ave-02-vegas-400.jpg 400w, img/aves/ave-02-vegas-600.jpg 600w, img/aves/ave-02-vegas-800.jpg 800w, img/aves/ave-02-vegas.jpg 1300w"
                 sizes="(max-width: 47.99em) 47vw, 33vw"
@@ -989,6 +1096,7 @@ src="https://www.facebook.com/tr?id=2840830879589956&ev=PageView&noscript=1"
                 decoding="async"
                 alt="Ave sin identificar, fotografiada en Vegas del Verde por Fabio Hernández"
               />
+              </picture>
             </button>
             <figcaption class="nat-obra__pie pie-obra">
               <span class="nat-obra__especie pie-obra__especie pie-obra__especie--anonima nat-obra__especie--anonima">Ave del predio</span>
@@ -1003,7 +1111,9 @@ src="https://www.facebook.com/tr?id=2840830879589956&ev=PageView&noscript=1"
               data-lightbox-caption="Zorzal piquinegro — Foto: Francheska Salazar"
               data-lightbox-src="img/aves/ave-05-zorzal-piquinegro.jpg"
             >
-              <img
+              <picture>
+                <source type="image/webp" srcset="img/aves/ave-05-zorzal-piquinegro-400.webp 400w, img/aves/ave-05-zorzal-piquinegro-600.webp 600w, img/aves/ave-05-zorzal-piquinegro-800.webp 800w, img/aves/ave-05-zorzal-piquinegro.webp 1300w" sizes="(max-width: 47.99em) 47vw, 33vw" />
+                <img
                 src="img/aves/ave-05-zorzal-piquinegro.jpg"
                 srcset="img/aves/ave-05-zorzal-piquinegro-400.jpg 400w, img/aves/ave-05-zorzal-piquinegro-600.jpg 600w, img/aves/ave-05-zorzal-piquinegro-800.jpg 800w, img/aves/ave-05-zorzal-piquinegro.jpg 1300w"
                 sizes="(max-width: 47.99em) 47vw, 33vw"
@@ -1013,6 +1123,7 @@ src="https://www.facebook.com/tr?id=2840830879589956&ev=PageView&noscript=1"
                 decoding="async"
                 alt="Zorzal piquinegro en el arbolado de Vegas del Verde, fotografía de Francheska Salazar"
               />
+              </picture>
             </button>
             <figcaption class="nat-obra__pie pie-obra">
               <span class="nat-obra__especie pie-obra__especie">Zorzal piquinegro</span>
@@ -1027,7 +1138,9 @@ src="https://www.facebook.com/tr?id=2840830879589956&ev=PageView&noscript=1"
               data-lightbox-caption="Thraupis episcopus — Foto: Jonathan Layton Ávila"
               data-lightbox-src="img/aves/ave-07-thraupis-episcopus.jpg"
             >
-              <img
+              <picture>
+                <source type="image/webp" srcset="img/aves/ave-07-thraupis-episcopus-400.webp 400w, img/aves/ave-07-thraupis-episcopus-600.webp 600w, img/aves/ave-07-thraupis-episcopus-800.webp 800w, img/aves/ave-07-thraupis-episcopus.webp 1040w" sizes="(max-width: 47.99em) 47vw, 33vw" />
+                <img
                 src="img/aves/ave-07-thraupis-episcopus.jpg"
                 srcset="img/aves/ave-07-thraupis-episcopus-400.jpg 400w, img/aves/ave-07-thraupis-episcopus-600.jpg 600w, img/aves/ave-07-thraupis-episcopus-800.jpg 800w, img/aves/ave-07-thraupis-episcopus.jpg 1040w"
                 sizes="(max-width: 47.99em) 47vw, 33vw"
@@ -1037,6 +1150,7 @@ src="https://www.facebook.com/tr?id=2840830879589956&ev=PageView&noscript=1"
                 decoding="async"
                 alt="Thraupis episcopus en el arbolado de Vegas del Verde, fotografía de Jonathan Layton Ávila"
               />
+              </picture>
             </button>
             <figcaption class="nat-obra__pie pie-obra">
               <span class="nat-obra__especie pie-obra__especie nat-cientifico">Thraupis episcopus</span>
@@ -1051,7 +1165,9 @@ src="https://www.facebook.com/tr?id=2840830879589956&ev=PageView&noscript=1"
               data-lightbox-caption="Cucú ardilla — Foto: Andrea Elizabeth"
               data-lightbox-src="img/aves/ave-08-cucu-ardilla.jpg"
             >
-              <img
+              <picture>
+                <source type="image/webp" srcset="img/aves/ave-08-cucu-ardilla-400.webp 400w, img/aves/ave-08-cucu-ardilla-600.webp 600w, img/aves/ave-08-cucu-ardilla-800.webp 800w, img/aves/ave-08-cucu-ardilla.webp 1300w" sizes="(max-width: 47.99em) 47vw, 33vw" />
+                <img
                 src="img/aves/ave-08-cucu-ardilla.jpg"
                 srcset="img/aves/ave-08-cucu-ardilla-400.jpg 400w, img/aves/ave-08-cucu-ardilla-600.jpg 600w, img/aves/ave-08-cucu-ardilla-800.jpg 800w, img/aves/ave-08-cucu-ardilla.jpg 1300w"
                 sizes="(max-width: 47.99em) 47vw, 33vw"
@@ -1061,6 +1177,7 @@ src="https://www.facebook.com/tr?id=2840830879589956&ev=PageView&noscript=1"
                 decoding="async"
                 alt="Cucú ardilla en el arbolado de Vegas del Verde, fotografía de Andrea Elizabeth"
               />
+              </picture>
             </button>
             <figcaption class="nat-obra__pie pie-obra">
               <span class="nat-obra__especie pie-obra__especie">Cucú ardilla</span>
@@ -1075,7 +1192,9 @@ src="https://www.facebook.com/tr?id=2840830879589956&ev=PageView&noscript=1"
               data-lightbox-caption="Eufonia piquigruesa — Foto: Andrea Elizabeth"
               data-lightbox-src="img/aves/ave-09-eugenia-piquigruesa.jpg"
             >
-              <img
+              <picture>
+                <source type="image/webp" srcset="img/aves/ave-09-eugenia-piquigruesa-400.webp 400w, img/aves/ave-09-eugenia-piquigruesa-600.webp 600w, img/aves/ave-09-eugenia-piquigruesa-800.webp 800w, img/aves/ave-09-eugenia-piquigruesa.webp 1121w" sizes="(max-width: 47.99em) 47vw, 33vw" />
+                <img
                 src="img/aves/ave-09-eugenia-piquigruesa.jpg"
                 srcset="img/aves/ave-09-eugenia-piquigruesa-400.jpg 400w, img/aves/ave-09-eugenia-piquigruesa-600.jpg 600w, img/aves/ave-09-eugenia-piquigruesa-800.jpg 800w, img/aves/ave-09-eugenia-piquigruesa.jpg 1121w"
                 sizes="(max-width: 47.99em) 47vw, 33vw"
@@ -1085,6 +1204,7 @@ src="https://www.facebook.com/tr?id=2840830879589956&ev=PageView&noscript=1"
                 decoding="async"
                 alt="Eufonia piquigruesa en el arbolado de Vegas del Verde, fotografía de Andrea Elizabeth"
               />
+              </picture>
             </button>
             <figcaption class="nat-obra__pie pie-obra">
               <span class="nat-obra__especie pie-obra__especie">Eufonia piquigruesa</span>
@@ -1099,7 +1219,9 @@ src="https://www.facebook.com/tr?id=2840830879589956&ev=PageView&noscript=1"
               data-lightbox-caption="Trepatroncos — Foto: Andrea Elizabeth"
               data-lightbox-src="img/aves/ave-10-trepa-troncos.jpg"
             >
-              <img
+              <picture>
+                <source type="image/webp" srcset="img/aves/ave-10-trepa-troncos-400.webp 400w, img/aves/ave-10-trepa-troncos-600.webp 600w, img/aves/ave-10-trepa-troncos.webp 813w" sizes="(max-width: 47.99em) 47vw, 33vw" />
+                <img
                 src="img/aves/ave-10-trepa-troncos.jpg"
                 srcset="img/aves/ave-10-trepa-troncos-400.jpg 400w, img/aves/ave-10-trepa-troncos-600.jpg 600w, img/aves/ave-10-trepa-troncos.jpg 813w"
                 sizes="(max-width: 47.99em) 47vw, 33vw"
@@ -1109,6 +1231,7 @@ src="https://www.facebook.com/tr?id=2840830879589956&ev=PageView&noscript=1"
                 decoding="async"
                 alt="Trepatroncos en el arbolado de Vegas del Verde, fotografía de Andrea Elizabeth"
               />
+              </picture>
             </button>
             <figcaption class="nat-obra__pie pie-obra">
               <span class="nat-obra__especie pie-obra__especie">Trepatroncos</span>
@@ -1123,7 +1246,9 @@ src="https://www.facebook.com/tr?id=2840830879589956&ev=PageView&noscript=1"
               data-lightbox-caption="Ave del predio — Foto: Arturo Sepúlveda"
               data-lightbox-src="img/aves/ave-11-vegas.jpg"
             >
-              <img
+              <picture>
+                <source type="image/webp" srcset="img/aves/ave-11-vegas-400.webp 400w, img/aves/ave-11-vegas.webp 651w" sizes="(max-width: 47.99em) 47vw, 33vw" />
+                <img
                 src="img/aves/ave-11-vegas.jpg"
                 srcset="img/aves/ave-11-vegas-400.jpg 400w, img/aves/ave-11-vegas.jpg 651w"
                 sizes="(max-width: 47.99em) 47vw, 33vw"
@@ -1133,6 +1258,7 @@ src="https://www.facebook.com/tr?id=2840830879589956&ev=PageView&noscript=1"
                 decoding="async"
                 alt="Ave sin identificar, fotografiada en Vegas del Verde por Arturo Sepúlveda"
               />
+              </picture>
             </button>
             <figcaption class="nat-obra__pie pie-obra">
               <span class="nat-obra__especie pie-obra__especie pie-obra__especie--anonima nat-obra__especie--anonima">Ave del predio</span>
@@ -1147,7 +1273,9 @@ src="https://www.facebook.com/tr?id=2840830879589956&ev=PageView&noscript=1"
               data-lightbox-caption="Barranquero — Foto: Carlos Serrano"
               data-lightbox-src="img/aves/ave-12-barranquero.jpg"
             >
-              <img
+              <picture>
+                <source type="image/webp" srcset="img/aves/ave-12-barranquero-400.webp 400w, img/aves/ave-12-barranquero-600.webp 600w, img/aves/ave-12-barranquero.webp 975w" sizes="(max-width: 47.99em) 53vw, 55vw" />
+                <img
                 src="img/aves/ave-12-barranquero.jpg"
                 srcset="img/aves/ave-12-barranquero-400.jpg 400w, img/aves/ave-12-barranquero-600.jpg 600w, img/aves/ave-12-barranquero.jpg 975w"
                 sizes="(max-width: 47.99em) 53vw, 55vw"
@@ -1157,6 +1285,7 @@ src="https://www.facebook.com/tr?id=2840830879589956&ev=PageView&noscript=1"
                 decoding="async"
                 alt="Barranquero en el arbolado de Vegas del Verde, fotografía de Carlos Serrano"
               />
+              </picture>
             </button>
             <figcaption class="nat-obra__pie pie-obra">
               <span class="nat-obra__especie pie-obra__especie">Barranquero</span>
@@ -1171,7 +1300,9 @@ src="https://www.facebook.com/tr?id=2840830879589956&ev=PageView&noscript=1"
               data-lightbox-caption="Batará carcajada — Foto: Carlos Serrano"
               data-lightbox-src="img/aves/ave-13-batara-carcajad.jpg"
             >
-              <img
+              <picture>
+                <source type="image/webp" srcset="img/aves/ave-13-batara-carcajad-400.webp 400w, img/aves/ave-13-batara-carcajad-600.webp 600w, img/aves/ave-13-batara-carcajad.webp 975w" sizes="(max-width: 47.99em) 47vw, 33vw" />
+                <img
                 src="img/aves/ave-13-batara-carcajad.jpg"
                 srcset="img/aves/ave-13-batara-carcajad-400.jpg 400w, img/aves/ave-13-batara-carcajad-600.jpg 600w, img/aves/ave-13-batara-carcajad.jpg 975w"
                 sizes="(max-width: 47.99em) 47vw, 33vw"
@@ -1181,6 +1312,7 @@ src="https://www.facebook.com/tr?id=2840830879589956&ev=PageView&noscript=1"
                 decoding="async"
                 alt="Batará carcajada en el arbolado de Vegas del Verde, fotografía de Carlos Serrano"
               />
+              </picture>
             </button>
             <figcaption class="nat-obra__pie pie-obra">
               <span class="nat-obra__especie pie-obra__especie">Batará carcajada</span>
@@ -1195,7 +1327,9 @@ src="https://www.facebook.com/tr?id=2840830879589956&ev=PageView&noscript=1"
               data-lightbox-caption="Saltador pío — Foto: Carlos Serrano"
               data-lightbox-src="img/aves/ave-14-saltador-pio.jpg"
             >
-              <img
+              <picture>
+                <source type="image/webp" srcset="img/aves/ave-14-saltador-pio-400.webp 400w, img/aves/ave-14-saltador-pio-600.webp 600w, img/aves/ave-14-saltador-pio-800.webp 800w, img/aves/ave-14-saltador-pio.webp 1300w" sizes="(max-width: 47.99em) 53vw, 55vw" />
+                <img
                 src="img/aves/ave-14-saltador-pio.jpg"
                 srcset="img/aves/ave-14-saltador-pio-400.jpg 400w, img/aves/ave-14-saltador-pio-600.jpg 600w, img/aves/ave-14-saltador-pio-800.jpg 800w, img/aves/ave-14-saltador-pio.jpg 1300w"
                 sizes="(max-width: 47.99em) 53vw, 55vw"
@@ -1205,6 +1339,7 @@ src="https://www.facebook.com/tr?id=2840830879589956&ev=PageView&noscript=1"
                 decoding="async"
                 alt="Saltador pío en el arbolado de Vegas del Verde, fotografía de Carlos Serrano"
               />
+              </picture>
             </button>
             <figcaption class="nat-obra__pie pie-obra">
               <span class="nat-obra__especie pie-obra__especie">Saltador pío</span>
@@ -1219,7 +1354,9 @@ src="https://www.facebook.com/tr?id=2840830879589956&ev=PageView&noscript=1"
               data-lightbox-caption="Tityra inquisitor · hembra — Foto: Daniel Arango"
               data-lightbox-src="img/aves/ave-15-tytira-inquisitor-hembra.jpg"
             >
-              <img
+              <picture>
+                <source type="image/webp" srcset="img/aves/ave-15-tytira-inquisitor-hembra-400.webp 400w, img/aves/ave-15-tytira-inquisitor-hembra-600.webp 600w, img/aves/ave-15-tytira-inquisitor-hembra-800.webp 800w, img/aves/ave-15-tytira-inquisitor-hembra.webp 1300w" sizes="(max-width: 47.99em) 47vw, 33vw" />
+                <img
                 src="img/aves/ave-15-tytira-inquisitor-hembra.jpg"
                 srcset="img/aves/ave-15-tytira-inquisitor-hembra-400.jpg 400w, img/aves/ave-15-tytira-inquisitor-hembra-600.jpg 600w, img/aves/ave-15-tytira-inquisitor-hembra-800.jpg 800w, img/aves/ave-15-tytira-inquisitor-hembra.jpg 1300w"
                 sizes="(max-width: 47.99em) 47vw, 33vw"
@@ -1229,6 +1366,7 @@ src="https://www.facebook.com/tr?id=2840830879589956&ev=PageView&noscript=1"
                 decoding="async"
                 alt="Tityra inquisitor · hembra en el arbolado de Vegas del Verde, fotografía de Daniel Arango"
               />
+              </picture>
             </button>
             <figcaption class="nat-obra__pie pie-obra">
               <span class="nat-obra__especie pie-obra__especie nat-cientifico">Tityra inquisitor · hembra</span>
@@ -1243,7 +1381,9 @@ src="https://www.facebook.com/tr?id=2840830879589956&ev=PageView&noscript=1"
               data-lightbox-caption="Tityra inquisitor · hembra — Foto: Daniel Arango"
               data-lightbox-src="img/aves/ave-17-tytira-inquisitor-hembra.jpg"
             >
-              <img
+              <picture>
+                <source type="image/webp" srcset="img/aves/ave-17-tytira-inquisitor-hembra-400.webp 400w, img/aves/ave-17-tytira-inquisitor-hembra-600.webp 600w, img/aves/ave-17-tytira-inquisitor-hembra-800.webp 800w, img/aves/ave-17-tytira-inquisitor-hembra.webp 1300w" sizes="(max-width: 47.99em) 47vw, 33vw" />
+                <img
                 src="img/aves/ave-17-tytira-inquisitor-hembra.jpg"
                 srcset="img/aves/ave-17-tytira-inquisitor-hembra-400.jpg 400w, img/aves/ave-17-tytira-inquisitor-hembra-600.jpg 600w, img/aves/ave-17-tytira-inquisitor-hembra-800.jpg 800w, img/aves/ave-17-tytira-inquisitor-hembra.jpg 1300w"
                 sizes="(max-width: 47.99em) 47vw, 33vw"
@@ -1253,6 +1393,7 @@ src="https://www.facebook.com/tr?id=2840830879589956&ev=PageView&noscript=1"
                 decoding="async"
                 alt="Tityra inquisitor · hembra en el arbolado de Vegas del Verde, fotografía de Daniel Arango"
               />
+              </picture>
             </button>
             <figcaption class="nat-obra__pie pie-obra">
               <span class="nat-obra__especie pie-obra__especie nat-cientifico">Tityra inquisitor · hembra</span>
@@ -1267,7 +1408,9 @@ src="https://www.facebook.com/tr?id=2840830879589956&ev=PageView&noscript=1"
               data-lightbox-caption="Brotogeris jugularis — Foto: Diego Céspedes"
               data-lightbox-src="img/aves/ave-18-brotogeris-jugularis.jpg"
             >
-              <img
+              <picture>
+                <source type="image/webp" srcset="img/aves/ave-18-brotogeris-jugularis-400.webp 400w, img/aves/ave-18-brotogeris-jugularis-600.webp 600w, img/aves/ave-18-brotogeris-jugularis.webp 975w" sizes="(max-width: 47.99em) 53vw, 55vw" />
+                <img
                 src="img/aves/ave-18-brotogeris-jugularis.jpg"
                 srcset="img/aves/ave-18-brotogeris-jugularis-400.jpg 400w, img/aves/ave-18-brotogeris-jugularis-600.jpg 600w, img/aves/ave-18-brotogeris-jugularis.jpg 975w"
                 sizes="(max-width: 47.99em) 53vw, 55vw"
@@ -1277,6 +1420,7 @@ src="https://www.facebook.com/tr?id=2840830879589956&ev=PageView&noscript=1"
                 decoding="async"
                 alt="Brotogeris jugularis en el arbolado de Vegas del Verde, fotografía de Diego Céspedes"
               />
+              </picture>
             </button>
             <figcaption class="nat-obra__pie pie-obra">
               <span class="nat-obra__especie pie-obra__especie nat-cientifico">Brotogeris jugularis</span>
@@ -1291,7 +1435,9 @@ src="https://www.facebook.com/tr?id=2840830879589956&ev=PageView&noscript=1"
               data-lightbox-caption="Brotogeris jugularis — Foto: Diego Céspedes"
               data-lightbox-src="img/aves/ave-19-brotogerisjugularis.jpg"
             >
-              <img
+              <picture>
+                <source type="image/webp" srcset="img/aves/ave-19-brotogerisjugularis-400.webp 400w, img/aves/ave-19-brotogerisjugularis-600.webp 600w, img/aves/ave-19-brotogerisjugularis-800.webp 800w, img/aves/ave-19-brotogerisjugularis.webp 1300w" sizes="(max-width: 47.99em) 47vw, 33vw" />
+                <img
                 src="img/aves/ave-19-brotogerisjugularis.jpg"
                 srcset="img/aves/ave-19-brotogerisjugularis-400.jpg 400w, img/aves/ave-19-brotogerisjugularis-600.jpg 600w, img/aves/ave-19-brotogerisjugularis-800.jpg 800w, img/aves/ave-19-brotogerisjugularis.jpg 1300w"
                 sizes="(max-width: 47.99em) 47vw, 33vw"
@@ -1301,6 +1447,7 @@ src="https://www.facebook.com/tr?id=2840830879589956&ev=PageView&noscript=1"
                 decoding="async"
                 alt="Brotogeris jugularis en el arbolado de Vegas del Verde, fotografía de Diego Céspedes"
               />
+              </picture>
             </button>
             <figcaption class="nat-obra__pie pie-obra">
               <span class="nat-obra__especie pie-obra__especie nat-cientifico">Brotogeris jugularis</span>
@@ -1315,7 +1462,9 @@ src="https://www.facebook.com/tr?id=2840830879589956&ev=PageView&noscript=1"
               data-lightbox-caption="Ave del predio — Foto: Diego Fernando Salazar"
               data-lightbox-src="img/aves/ave-20-vegas.jpg"
             >
-              <img
+              <picture>
+                <source type="image/webp" srcset="img/aves/ave-20-vegas-400.webp 400w, img/aves/ave-20-vegas-600.webp 600w, img/aves/ave-20-vegas-800.webp 800w, img/aves/ave-20-vegas.webp 1300w" sizes="(max-width: 47.99em) 47vw, 33vw" />
+                <img
                 src="img/aves/ave-20-vegas.jpg"
                 srcset="img/aves/ave-20-vegas-400.jpg 400w, img/aves/ave-20-vegas-600.jpg 600w, img/aves/ave-20-vegas-800.jpg 800w, img/aves/ave-20-vegas.jpg 1300w"
                 sizes="(max-width: 47.99em) 47vw, 33vw"
@@ -1325,6 +1474,7 @@ src="https://www.facebook.com/tr?id=2840830879589956&ev=PageView&noscript=1"
                 decoding="async"
                 alt="Ave sin identificar, fotografiada en Vegas del Verde por Diego Fernando Salazar"
               />
+              </picture>
             </button>
             <figcaption class="nat-obra__pie pie-obra">
               <span class="nat-obra__especie pie-obra__especie pie-obra__especie--anonima nat-obra__especie--anonima">Ave del predio</span>
@@ -1339,7 +1489,9 @@ src="https://www.facebook.com/tr?id=2840830879589956&ev=PageView&noscript=1"
               data-lightbox-caption="Ave del predio — Foto: Diego Fernando Salazar"
               data-lightbox-src="img/aves/ave-21-vegas.jpg"
             >
-              <img
+              <picture>
+                <source type="image/webp" srcset="img/aves/ave-21-vegas-400.webp 400w, img/aves/ave-21-vegas-600.webp 600w, img/aves/ave-21-vegas-800.webp 800w, img/aves/ave-21-vegas.webp 1300w" sizes="(max-width: 47.99em) 47vw, 33vw" />
+                <img
                 src="img/aves/ave-21-vegas.jpg"
                 srcset="img/aves/ave-21-vegas-400.jpg 400w, img/aves/ave-21-vegas-600.jpg 600w, img/aves/ave-21-vegas-800.jpg 800w, img/aves/ave-21-vegas.jpg 1300w"
                 sizes="(max-width: 47.99em) 47vw, 33vw"
@@ -1349,6 +1501,7 @@ src="https://www.facebook.com/tr?id=2840830879589956&ev=PageView&noscript=1"
                 decoding="async"
                 alt="Ave sin identificar, fotografiada en Vegas del Verde por Diego Fernando Salazar"
               />
+              </picture>
             </button>
             <figcaption class="nat-obra__pie pie-obra">
               <span class="nat-obra__especie pie-obra__especie pie-obra__especie--anonima nat-obra__especie--anonima">Ave del predio</span>
@@ -1363,7 +1516,9 @@ src="https://www.facebook.com/tr?id=2840830879589956&ev=PageView&noscript=1"
               data-lightbox-caption="Ave del predio — Foto: Diego Fernando Salazar"
               data-lightbox-src="img/aves/ave-22-vegas.jpg"
             >
-              <img
+              <picture>
+                <source type="image/webp" srcset="img/aves/ave-22-vegas-400.webp 400w, img/aves/ave-22-vegas-600.webp 600w, img/aves/ave-22-vegas-800.webp 800w, img/aves/ave-22-vegas.webp 1300w" sizes="(max-width: 47.99em) 47vw, 33vw" />
+                <img
                 src="img/aves/ave-22-vegas.jpg"
                 srcset="img/aves/ave-22-vegas-400.jpg 400w, img/aves/ave-22-vegas-600.jpg 600w, img/aves/ave-22-vegas-800.jpg 800w, img/aves/ave-22-vegas.jpg 1300w"
                 sizes="(max-width: 47.99em) 47vw, 33vw"
@@ -1373,6 +1528,7 @@ src="https://www.facebook.com/tr?id=2840830879589956&ev=PageView&noscript=1"
                 decoding="async"
                 alt="Ave sin identificar, fotografiada en Vegas del Verde por Diego Fernando Salazar"
               />
+              </picture>
             </button>
             <figcaption class="nat-obra__pie pie-obra">
               <span class="nat-obra__especie pie-obra__especie pie-obra__especie--anonima nat-obra__especie--anonima">Ave del predio</span>
@@ -1387,7 +1543,9 @@ src="https://www.facebook.com/tr?id=2840830879589956&ev=PageView&noscript=1"
               data-lightbox-caption="Ave del predio — Foto: Diego Fernando Salazar"
               data-lightbox-src="img/aves/ave-23-vegas.jpg"
             >
-              <img
+              <picture>
+                <source type="image/webp" srcset="img/aves/ave-23-vegas-400.webp 400w, img/aves/ave-23-vegas-600.webp 600w, img/aves/ave-23-vegas-800.webp 800w, img/aves/ave-23-vegas.webp 1300w" sizes="(max-width: 47.99em) 47vw, 33vw" />
+                <img
                 src="img/aves/ave-23-vegas.jpg"
                 srcset="img/aves/ave-23-vegas-400.jpg 400w, img/aves/ave-23-vegas-600.jpg 600w, img/aves/ave-23-vegas-800.jpg 800w, img/aves/ave-23-vegas.jpg 1300w"
                 sizes="(max-width: 47.99em) 47vw, 33vw"
@@ -1397,6 +1555,7 @@ src="https://www.facebook.com/tr?id=2840830879589956&ev=PageView&noscript=1"
                 decoding="async"
                 alt="Ave sin identificar, fotografiada en Vegas del Verde por Diego Fernando Salazar"
               />
+              </picture>
             </button>
             <figcaption class="nat-obra__pie pie-obra">
               <span class="nat-obra__especie pie-obra__especie pie-obra__especie--anonima nat-obra__especie--anonima">Ave del predio</span>
@@ -1411,7 +1570,9 @@ src="https://www.facebook.com/tr?id=2840830879589956&ev=PageView&noscript=1"
               data-lightbox-caption="Aves del predio — Foto: Diego Fernando Salazar"
               data-lightbox-src="img/aves/ave-24-vegas.jpg"
             >
-              <img
+              <picture>
+                <source type="image/webp" srcset="img/aves/ave-24-vegas-400.webp 400w, img/aves/ave-24-vegas-600.webp 600w, img/aves/ave-24-vegas-800.webp 800w, img/aves/ave-24-vegas.webp 1300w" sizes="(max-width: 47.99em) 53vw, 55vw" />
+                <img
                 src="img/aves/ave-24-vegas.jpg"
                 srcset="img/aves/ave-24-vegas-400.jpg 400w, img/aves/ave-24-vegas-600.jpg 600w, img/aves/ave-24-vegas-800.jpg 800w, img/aves/ave-24-vegas.jpg 1300w"
                 sizes="(max-width: 47.99em) 53vw, 55vw"
@@ -1421,6 +1582,7 @@ src="https://www.facebook.com/tr?id=2840830879589956&ev=PageView&noscript=1"
                 decoding="async"
                 alt="Dos periquitos verdes posados en un tronco seco, recortados contra el cielo, fotografiados en Vegas del Verde por Diego Fernando Salazar"
               />
+              </picture>
             </button>
             <figcaption class="nat-obra__pie pie-obra">
               <span class="nat-obra__especie pie-obra__especie pie-obra__especie--anonima nat-obra__especie--anonima">Aves del predio</span>
@@ -1435,7 +1597,9 @@ src="https://www.facebook.com/tr?id=2840830879589956&ev=PageView&noscript=1"
               data-lightbox-caption="Eufonia piquigruesa — Foto: Erit Moratto"
               data-lightbox-src="img/aves/ave-25-eufonia-piquigruesa.jpg"
             >
-              <img
+              <picture>
+                <source type="image/webp" srcset="img/aves/ave-25-eufonia-piquigruesa-400.webp 400w, img/aves/ave-25-eufonia-piquigruesa-600.webp 600w, img/aves/ave-25-eufonia-piquigruesa-800.webp 800w, img/aves/ave-25-eufonia-piquigruesa.webp 1300w" sizes="(max-width: 47.99em) 47vw, 33vw" />
+                <img
                 src="img/aves/ave-25-eufonia-piquigruesa.jpg"
                 srcset="img/aves/ave-25-eufonia-piquigruesa-400.jpg 400w, img/aves/ave-25-eufonia-piquigruesa-600.jpg 600w, img/aves/ave-25-eufonia-piquigruesa-800.jpg 800w, img/aves/ave-25-eufonia-piquigruesa.jpg 1300w"
                 sizes="(max-width: 47.99em) 47vw, 33vw"
@@ -1445,6 +1609,7 @@ src="https://www.facebook.com/tr?id=2840830879589956&ev=PageView&noscript=1"
                 decoding="async"
                 alt="Eufonia piquigruesa en el arbolado de Vegas del Verde, fotografía de Erit Moratto"
               />
+              </picture>
             </button>
             <figcaption class="nat-obra__pie pie-obra">
               <span class="nat-obra__especie pie-obra__especie">Eufonia piquigruesa</span>
@@ -1459,7 +1624,9 @@ src="https://www.facebook.com/tr?id=2840830879589956&ev=PageView&noscript=1"
               data-lightbox-caption="Azulejo — Foto: Erit Moratto"
               data-lightbox-src="img/aves/ave-26-azulejo-01.jpg"
             >
-              <img
+              <picture>
+                <source type="image/webp" srcset="img/aves/ave-26-azulejo-01-400.webp 400w, img/aves/ave-26-azulejo-01-600.webp 600w, img/aves/ave-26-azulejo-01.webp 867w" sizes="(max-width: 47.99em) 47vw, 33vw" />
+                <img
                 src="img/aves/ave-26-azulejo-01.jpg"
                 srcset="img/aves/ave-26-azulejo-01-400.jpg 400w, img/aves/ave-26-azulejo-01-600.jpg 600w, img/aves/ave-26-azulejo-01.jpg 867w"
                 sizes="(max-width: 47.99em) 47vw, 33vw"
@@ -1469,6 +1636,7 @@ src="https://www.facebook.com/tr?id=2840830879589956&ev=PageView&noscript=1"
                 decoding="async"
                 alt="Azulejo en el arbolado de Vegas del Verde, fotografía de Erit Moratto"
               />
+              </picture>
             </button>
             <figcaption class="nat-obra__pie pie-obra">
               <span class="nat-obra__especie pie-obra__especie">Azulejo</span>
@@ -1483,7 +1651,9 @@ src="https://www.facebook.com/tr?id=2840830879589956&ev=PageView&noscript=1"
               data-lightbox-caption="Colibrí — Foto: Erit Moratto"
               data-lightbox-src="img/aves/ave-27-colibri.jpg"
             >
-              <img
+              <picture>
+                <source type="image/webp" srcset="img/aves/ave-27-colibri-400.webp 400w, img/aves/ave-27-colibri-600.webp 600w, img/aves/ave-27-colibri.webp 867w" sizes="(max-width: 47.99em) 53vw, 55vw" />
+                <img
                 src="img/aves/ave-27-colibri.jpg"
                 srcset="img/aves/ave-27-colibri-400.jpg 400w, img/aves/ave-27-colibri-600.jpg 600w, img/aves/ave-27-colibri.jpg 867w"
                 sizes="(max-width: 47.99em) 53vw, 55vw"
@@ -1493,6 +1663,7 @@ src="https://www.facebook.com/tr?id=2840830879589956&ev=PageView&noscript=1"
                 decoding="async"
                 alt="Colibrí en el arbolado de Vegas del Verde, fotografía de Erit Moratto"
               />
+              </picture>
             </button>
             <figcaption class="nat-obra__pie pie-obra">
               <span class="nat-obra__especie pie-obra__especie">Colibrí</span>
@@ -1507,7 +1678,9 @@ src="https://www.facebook.com/tr?id=2840830879589956&ev=PageView&noscript=1"
               data-lightbox-caption="Loros — Foto: Fabio Hernández"
               data-lightbox-src="img/aves/ave-28-loros.jpg"
             >
-              <img
+              <picture>
+                <source type="image/webp" srcset="img/aves/ave-28-loros-400.webp 400w, img/aves/ave-28-loros-600.webp 600w, img/aves/ave-28-loros-800.webp 800w, img/aves/ave-28-loros.webp 1300w" sizes="(max-width: 47.99em) 47vw, 33vw" />
+                <img
                 src="img/aves/ave-28-loros.jpg"
                 srcset="img/aves/ave-28-loros-400.jpg 400w, img/aves/ave-28-loros-600.jpg 600w, img/aves/ave-28-loros-800.jpg 800w, img/aves/ave-28-loros.jpg 1300w"
                 sizes="(max-width: 47.99em) 47vw, 33vw"
@@ -1517,6 +1690,7 @@ src="https://www.facebook.com/tr?id=2840830879589956&ev=PageView&noscript=1"
                 decoding="async"
                 alt="Loros en el arbolado de Vegas del Verde, fotografía de Fabio Hernández"
               />
+              </picture>
             </button>
             <figcaption class="nat-obra__pie pie-obra">
               <span class="nat-obra__especie pie-obra__especie">Loros</span>
@@ -1531,7 +1705,9 @@ src="https://www.facebook.com/tr?id=2840830879589956&ev=PageView&noscript=1"
               data-lightbox-caption="Ave del predio — Foto: Fabio Hernández"
               data-lightbox-src="img/aves/ave-29-vegas.jpg"
             >
-              <img
+              <picture>
+                <source type="image/webp" srcset="img/aves/ave-29-vegas-400.webp 400w, img/aves/ave-29-vegas-600.webp 600w, img/aves/ave-29-vegas-800.webp 800w, img/aves/ave-29-vegas.webp 1300w" sizes="(max-width: 47.99em) 47vw, 33vw" />
+                <img
                 src="img/aves/ave-29-vegas.jpg"
                 srcset="img/aves/ave-29-vegas-400.jpg 400w, img/aves/ave-29-vegas-600.jpg 600w, img/aves/ave-29-vegas-800.jpg 800w, img/aves/ave-29-vegas.jpg 1300w"
                 sizes="(max-width: 47.99em) 47vw, 33vw"
@@ -1541,6 +1717,7 @@ src="https://www.facebook.com/tr?id=2840830879589956&ev=PageView&noscript=1"
                 decoding="async"
                 alt="Ave sin identificar, fotografiada en Vegas del Verde por Fabio Hernández"
               />
+              </picture>
             </button>
             <figcaption class="nat-obra__pie pie-obra">
               <span class="nat-obra__especie pie-obra__especie pie-obra__especie--anonima nat-obra__especie--anonima">Ave del predio</span>
@@ -1555,7 +1732,9 @@ src="https://www.facebook.com/tr?id=2840830879589956&ev=PageView&noscript=1"
               data-lightbox-caption="Azulejo — Foto: Fabiola Rueda"
               data-lightbox-src="img/aves/ave-30-azulejo.jpg"
             >
-              <img
+              <picture>
+                <source type="image/webp" srcset="img/aves/ave-30-azulejo-400.webp 400w, img/aves/ave-30-azulejo-600.webp 600w, img/aves/ave-30-azulejo.webp 867w" sizes="(max-width: 47.99em) 53vw, 55vw" />
+                <img
                 src="img/aves/ave-30-azulejo.jpg"
                 srcset="img/aves/ave-30-azulejo-400.jpg 400w, img/aves/ave-30-azulejo-600.jpg 600w, img/aves/ave-30-azulejo.jpg 867w"
                 sizes="(max-width: 47.99em) 53vw, 55vw"
@@ -1565,6 +1744,7 @@ src="https://www.facebook.com/tr?id=2840830879589956&ev=PageView&noscript=1"
                 decoding="async"
                 alt="Azulejo en el arbolado de Vegas del Verde, fotografía de Fabiola Rueda"
               />
+              </picture>
             </button>
             <figcaption class="nat-obra__pie pie-obra">
               <span class="nat-obra__especie pie-obra__especie">Azulejo</span>
@@ -1579,7 +1759,9 @@ src="https://www.facebook.com/tr?id=2840830879589956&ev=PageView&noscript=1"
               data-lightbox-caption="Periquito bronceado — Foto: Fabiola Rueda"
               data-lightbox-src="img/aves/ave-31-periquito-bronceado.jpg"
             >
-              <img
+              <picture>
+                <source type="image/webp" srcset="img/aves/ave-31-periquito-bronceado-400.webp 400w, img/aves/ave-31-periquito-bronceado-600.webp 600w, img/aves/ave-31-periquito-bronceado.webp 867w" sizes="(max-width: 47.99em) 47vw, 33vw" />
+                <img
                 src="img/aves/ave-31-periquito-bronceado.jpg"
                 srcset="img/aves/ave-31-periquito-bronceado-400.jpg 400w, img/aves/ave-31-periquito-bronceado-600.jpg 600w, img/aves/ave-31-periquito-bronceado.jpg 867w"
                 sizes="(max-width: 47.99em) 47vw, 33vw"
@@ -1589,6 +1771,7 @@ src="https://www.facebook.com/tr?id=2840830879589956&ev=PageView&noscript=1"
                 decoding="async"
                 alt="Periquito bronceado en el arbolado de Vegas del Verde, fotografía de Fabiola Rueda"
               />
+              </picture>
             </button>
             <figcaption class="nat-obra__pie pie-obra">
               <span class="nat-obra__especie pie-obra__especie">Periquito bronceado</span>
@@ -1603,7 +1786,9 @@ src="https://www.facebook.com/tr?id=2840830879589956&ev=PageView&noscript=1"
               data-lightbox-caption="Euphonia — Foto: Fabiola Rueda"
               data-lightbox-src="img/aves/ave-32-euphonia.jpg"
             >
-              <img
+              <picture>
+                <source type="image/webp" srcset="img/aves/ave-32-euphonia-400.webp 400w, img/aves/ave-32-euphonia-600.webp 600w, img/aves/ave-32-euphonia-800.webp 800w, img/aves/ave-32-euphonia.webp 1300w" sizes="(max-width: 47.99em) 47vw, 33vw" />
+                <img
                 src="img/aves/ave-32-euphonia.jpg"
                 srcset="img/aves/ave-32-euphonia-400.jpg 400w, img/aves/ave-32-euphonia-600.jpg 600w, img/aves/ave-32-euphonia-800.jpg 800w, img/aves/ave-32-euphonia.jpg 1300w"
                 sizes="(max-width: 47.99em) 47vw, 33vw"
@@ -1613,6 +1798,7 @@ src="https://www.facebook.com/tr?id=2840830879589956&ev=PageView&noscript=1"
                 decoding="async"
                 alt="Euphonia en el arbolado de Vegas del Verde, fotografía de Fabiola Rueda"
               />
+              </picture>
             </button>
             <figcaption class="nat-obra__pie pie-obra">
               <span class="nat-obra__especie pie-obra__especie nat-cientifico">Euphonia</span>
@@ -1627,7 +1813,9 @@ src="https://www.facebook.com/tr?id=2840830879589956&ev=PageView&noscript=1"
               data-lightbox-caption="Loro real — Foto: Fabiola Rueda"
               data-lightbox-src="img/aves/ave-33-loro-real.jpg"
             >
-              <img
+              <picture>
+                <source type="image/webp" srcset="img/aves/ave-33-loro-real-400.webp 400w, img/aves/ave-33-loro-real-600.webp 600w, img/aves/ave-33-loro-real.webp 867w" sizes="(max-width: 47.99em) 47vw, 33vw" />
+                <img
                 src="img/aves/ave-33-loro-real.jpg"
                 srcset="img/aves/ave-33-loro-real-400.jpg 400w, img/aves/ave-33-loro-real-600.jpg 600w, img/aves/ave-33-loro-real.jpg 867w"
                 sizes="(max-width: 47.99em) 47vw, 33vw"
@@ -1637,6 +1825,7 @@ src="https://www.facebook.com/tr?id=2840830879589956&ev=PageView&noscript=1"
                 decoding="async"
                 alt="Loro real en el arbolado de Vegas del Verde, fotografía de Fabiola Rueda"
               />
+              </picture>
             </button>
             <figcaption class="nat-obra__pie pie-obra">
               <span class="nat-obra__especie pie-obra__especie">Loro real</span>
@@ -1651,7 +1840,9 @@ src="https://www.facebook.com/tr?id=2840830879589956&ev=PageView&noscript=1"
               data-lightbox-caption="Forpus conspicillatus — Foto: Jaime Suárez"
               data-lightbox-src="img/aves/ave-36-forpusconspicillatus.jpg"
             >
-              <img
+              <picture>
+                <source type="image/webp" srcset="img/aves/ave-36-forpusconspicillatus-400.webp 400w, img/aves/ave-36-forpusconspicillatus-600.webp 600w, img/aves/ave-36-forpusconspicillatus.webp 1040w" sizes="(max-width: 47.99em) 47vw, 33vw" />
+                <img
                 src="img/aves/ave-36-forpusconspicillatus.jpg"
                 srcset="img/aves/ave-36-forpusconspicillatus-400.jpg 400w, img/aves/ave-36-forpusconspicillatus-600.jpg 600w, img/aves/ave-36-forpusconspicillatus.jpg 1040w"
                 sizes="(max-width: 47.99em) 47vw, 33vw"
@@ -1661,6 +1852,7 @@ src="https://www.facebook.com/tr?id=2840830879589956&ev=PageView&noscript=1"
                 decoding="async"
                 alt="Forpus conspicillatus en el arbolado de Vegas del Verde, fotografía de Jaime Suárez"
               />
+              </picture>
             </button>
             <figcaption class="nat-obra__pie pie-obra">
               <span class="nat-obra__especie pie-obra__especie nat-cientifico">Forpus conspicillatus</span>
@@ -1675,7 +1867,9 @@ src="https://www.facebook.com/tr?id=2840830879589956&ev=PageView&noscript=1"
               data-lightbox-caption="Todirostrum cinereum — Foto: Jaime Suárez"
               data-lightbox-src="img/aves/ave-37-todirostrumcinereum-foto-01.jpg"
             >
-              <img
+              <picture>
+                <source type="image/webp" srcset="img/aves/ave-37-todirostrumcinereum-foto-01-400.webp 400w, img/aves/ave-37-todirostrumcinereum-foto-01-600.webp 600w, img/aves/ave-37-todirostrumcinereum-foto-01-800.webp 800w, img/aves/ave-37-todirostrumcinereum-foto-01.webp 1107w" sizes="(max-width: 47.99em) 47vw, 33vw" />
+                <img
                 src="img/aves/ave-37-todirostrumcinereum-foto-01.jpg"
                 srcset="img/aves/ave-37-todirostrumcinereum-foto-01-400.jpg 400w, img/aves/ave-37-todirostrumcinereum-foto-01-600.jpg 600w, img/aves/ave-37-todirostrumcinereum-foto-01-800.jpg 800w, img/aves/ave-37-todirostrumcinereum-foto-01.jpg 1107w"
                 sizes="(max-width: 47.99em) 47vw, 33vw"
@@ -1685,6 +1879,7 @@ src="https://www.facebook.com/tr?id=2840830879589956&ev=PageView&noscript=1"
                 decoding="async"
                 alt="Todirostrum cinereum en el arbolado de Vegas del Verde, fotografía de Jaime Suárez"
               />
+              </picture>
             </button>
             <figcaption class="nat-obra__pie pie-obra">
               <span class="nat-obra__especie pie-obra__especie nat-cientifico">Todirostrum cinereum</span>
@@ -1699,7 +1894,9 @@ src="https://www.facebook.com/tr?id=2840830879589956&ev=PageView&noscript=1"
               data-lightbox-caption="Carpintero — Foto: Jesús López"
               data-lightbox-src="img/aves/ave-38-carpintero.jpg"
             >
-              <img
+              <picture>
+                <source type="image/webp" srcset="img/aves/ave-38-carpintero-400.webp 400w, img/aves/ave-38-carpintero-600.webp 600w, img/aves/ave-38-carpintero-800.webp 800w, img/aves/ave-38-carpintero.webp 1300w" sizes="(max-width: 47.99em) 53vw, 55vw" />
+                <img
                 src="img/aves/ave-38-carpintero.jpg"
                 srcset="img/aves/ave-38-carpintero-400.jpg 400w, img/aves/ave-38-carpintero-600.jpg 600w, img/aves/ave-38-carpintero-800.jpg 800w, img/aves/ave-38-carpintero.jpg 1300w"
                 sizes="(max-width: 47.99em) 53vw, 55vw"
@@ -1709,6 +1906,7 @@ src="https://www.facebook.com/tr?id=2840830879589956&ev=PageView&noscript=1"
                 decoding="async"
                 alt="Carpintero en el arbolado de Vegas del Verde, fotografía de Jesús López"
               />
+              </picture>
             </button>
             <figcaption class="nat-obra__pie pie-obra">
               <span class="nat-obra__especie pie-obra__especie">Carpintero</span>
@@ -1723,7 +1921,9 @@ src="https://www.facebook.com/tr?id=2840830879589956&ev=PageView&noscript=1"
               data-lightbox-caption="Colibrí — Foto: Jesús López"
               data-lightbox-src="img/aves/ave-39-colibri.jpg"
             >
-              <img
+              <picture>
+                <source type="image/webp" srcset="img/aves/ave-39-colibri-400.webp 400w, img/aves/ave-39-colibri-600.webp 600w, img/aves/ave-39-colibri-800.webp 800w, img/aves/ave-39-colibri.webp 1300w" sizes="(max-width: 47.99em) 47vw, 33vw" />
+                <img
                 src="img/aves/ave-39-colibri.jpg"
                 srcset="img/aves/ave-39-colibri-400.jpg 400w, img/aves/ave-39-colibri-600.jpg 600w, img/aves/ave-39-colibri-800.jpg 800w, img/aves/ave-39-colibri.jpg 1300w"
                 sizes="(max-width: 47.99em) 47vw, 33vw"
@@ -1733,6 +1933,7 @@ src="https://www.facebook.com/tr?id=2840830879589956&ev=PageView&noscript=1"
                 decoding="async"
                 alt="Colibrí en el arbolado de Vegas del Verde, fotografía de Jesús López"
               />
+              </picture>
             </button>
             <figcaption class="nat-obra__pie pie-obra">
               <span class="nat-obra__especie pie-obra__especie">Colibrí</span>
@@ -1747,7 +1948,9 @@ src="https://www.facebook.com/tr?id=2840830879589956&ev=PageView&noscript=1"
               data-lightbox-caption="Tirano siriri — Foto: Jesús López"
               data-lightbox-src="img/aves/ave-40-tirano-siriri.jpg"
             >
-              <img
+              <picture>
+                <source type="image/webp" srcset="img/aves/ave-40-tirano-siriri-400.webp 400w, img/aves/ave-40-tirano-siriri-600.webp 600w, img/aves/ave-40-tirano-siriri-800.webp 800w, img/aves/ave-40-tirano-siriri.webp 1300w" sizes="(max-width: 47.99em) 47vw, 33vw" />
+                <img
                 src="img/aves/ave-40-tirano-siriri.jpg"
                 srcset="img/aves/ave-40-tirano-siriri-400.jpg 400w, img/aves/ave-40-tirano-siriri-600.jpg 600w, img/aves/ave-40-tirano-siriri-800.jpg 800w, img/aves/ave-40-tirano-siriri.jpg 1300w"
                 sizes="(max-width: 47.99em) 47vw, 33vw"
@@ -1757,6 +1960,7 @@ src="https://www.facebook.com/tr?id=2840830879589956&ev=PageView&noscript=1"
                 decoding="async"
                 alt="Tirano siriri en el arbolado de Vegas del Verde, fotografía de Jesús López"
               />
+              </picture>
             </button>
             <figcaption class="nat-obra__pie pie-obra">
               <span class="nat-obra__especie pie-obra__especie">Tirano siriri</span>
@@ -1771,7 +1975,9 @@ src="https://www.facebook.com/tr?id=2840830879589956&ev=PageView&noscript=1"
               data-lightbox-caption="Machetornis rixosa — Foto: José Belisario Cárdenas"
               data-lightbox-src="img/aves/ave-42-machetornis-rixosa.jpg"
             >
-              <img
+              <picture>
+                <source type="image/webp" srcset="img/aves/ave-42-machetornis-rixosa-400.webp 400w, img/aves/ave-42-machetornis-rixosa-600.webp 600w, img/aves/ave-42-machetornis-rixosa-800.webp 800w, img/aves/ave-42-machetornis-rixosa.webp 1300w" sizes="(max-width: 47.99em) 47vw, 33vw" />
+                <img
                 src="img/aves/ave-42-machetornis-rixosa.jpg"
                 srcset="img/aves/ave-42-machetornis-rixosa-400.jpg 400w, img/aves/ave-42-machetornis-rixosa-600.jpg 600w, img/aves/ave-42-machetornis-rixosa-800.jpg 800w, img/aves/ave-42-machetornis-rixosa.jpg 1300w"
                 sizes="(max-width: 47.99em) 47vw, 33vw"
@@ -1781,6 +1987,7 @@ src="https://www.facebook.com/tr?id=2840830879589956&ev=PageView&noscript=1"
                 decoding="async"
                 alt="Machetornis rixosa en el arbolado de Vegas del Verde, fotografía de José Belisario Cárdenas"
               />
+              </picture>
             </button>
             <figcaption class="nat-obra__pie pie-obra">
               <span class="nat-obra__especie pie-obra__especie nat-cientifico">Machetornis rixosa</span>
@@ -1795,7 +2002,9 @@ src="https://www.facebook.com/tr?id=2840830879589956&ev=PageView&noscript=1"
               data-lightbox-caption="Thamnophilus multistriatus — Foto: José Belisario Cárdenas"
               data-lightbox-src="img/aves/ave-43-thamnophilus-multistriatus.jpg"
             >
-              <img
+              <picture>
+                <source type="image/webp" srcset="img/aves/ave-43-thamnophilus-multistriatus-400.webp 400w, img/aves/ave-43-thamnophilus-multistriatus-600.webp 600w, img/aves/ave-43-thamnophilus-multistriatus-800.webp 800w, img/aves/ave-43-thamnophilus-multistriatus.webp 1040w" sizes="(max-width: 47.99em) 47vw, 33vw" />
+                <img
                 src="img/aves/ave-43-thamnophilus-multistriatus.jpg"
                 srcset="img/aves/ave-43-thamnophilus-multistriatus-400.jpg 400w, img/aves/ave-43-thamnophilus-multistriatus-600.jpg 600w, img/aves/ave-43-thamnophilus-multistriatus-800.jpg 800w, img/aves/ave-43-thamnophilus-multistriatus.jpg 1040w"
                 sizes="(max-width: 47.99em) 47vw, 33vw"
@@ -1805,6 +2014,7 @@ src="https://www.facebook.com/tr?id=2840830879589956&ev=PageView&noscript=1"
                 decoding="async"
                 alt="Thamnophilus multistriatus en el arbolado de Vegas del Verde, fotografía de José Belisario Cárdenas"
               />
+              </picture>
             </button>
             <figcaption class="nat-obra__pie pie-obra">
               <span class="nat-obra__especie pie-obra__especie nat-cientifico">Thamnophilus multistriatus</span>
@@ -1819,7 +2029,9 @@ src="https://www.facebook.com/tr?id=2840830879589956&ev=PageView&noscript=1"
               data-lightbox-caption="Tityra inquisitor — Foto: José Belisario Cárdenas"
               data-lightbox-src="img/aves/ave-44-tityra-inquisitor.jpg"
             >
-              <img
+              <picture>
+                <source type="image/webp" srcset="img/aves/ave-44-tityra-inquisitor-400.webp 400w, img/aves/ave-44-tityra-inquisitor-600.webp 600w, img/aves/ave-44-tityra-inquisitor.webp 1040w" sizes="(max-width: 47.99em) 47vw, 33vw" />
+                <img
                 src="img/aves/ave-44-tityra-inquisitor.jpg"
                 srcset="img/aves/ave-44-tityra-inquisitor-400.jpg 400w, img/aves/ave-44-tityra-inquisitor-600.jpg 600w, img/aves/ave-44-tityra-inquisitor.jpg 1040w"
                 sizes="(max-width: 47.99em) 47vw, 33vw"
@@ -1829,6 +2041,7 @@ src="https://www.facebook.com/tr?id=2840830879589956&ev=PageView&noscript=1"
                 decoding="async"
                 alt="Tityra inquisitor en el arbolado de Vegas del Verde, fotografía de José Belisario Cárdenas"
               />
+              </picture>
             </button>
             <figcaption class="nat-obra__pie pie-obra">
               <span class="nat-obra__especie pie-obra__especie nat-cientifico">Tityra inquisitor</span>
@@ -1843,7 +2056,9 @@ src="https://www.facebook.com/tr?id=2840830879589956&ev=PageView&noscript=1"
               data-lightbox-caption="Stilpnia cyanicollis — Foto: Leyner Lozano"
               data-lightbox-src="img/aves/ave-47-stilpnia-cyanicollis.jpg"
             >
-              <img
+              <picture>
+                <source type="image/webp" srcset="img/aves/ave-47-stilpnia-cyanicollis-400.webp 400w, img/aves/ave-47-stilpnia-cyanicollis-600.webp 600w, img/aves/ave-47-stilpnia-cyanicollis.webp 867w" sizes="(max-width: 47.99em) 47vw, 33vw" />
+                <img
                 src="img/aves/ave-47-stilpnia-cyanicollis.jpg"
                 srcset="img/aves/ave-47-stilpnia-cyanicollis-400.jpg 400w, img/aves/ave-47-stilpnia-cyanicollis-600.jpg 600w, img/aves/ave-47-stilpnia-cyanicollis.jpg 867w"
                 sizes="(max-width: 47.99em) 47vw, 33vw"
@@ -1853,6 +2068,7 @@ src="https://www.facebook.com/tr?id=2840830879589956&ev=PageView&noscript=1"
                 decoding="async"
                 alt="Stilpnia cyanicollis en el arbolado de Vegas del Verde, fotografía de Leyner Lozano"
               />
+              </picture>
             </button>
             <figcaption class="nat-obra__pie pie-obra">
               <span class="nat-obra__especie pie-obra__especie nat-cientifico">Stilpnia cyanicollis</span>
@@ -1867,7 +2083,9 @@ src="https://www.facebook.com/tr?id=2840830879589956&ev=PageView&noscript=1"
               data-lightbox-caption="Azulejo — Foto: Myriam Villalba"
               data-lightbox-src="img/aves/ave-48-azulejo-01.jpg"
             >
-              <img
+              <picture>
+                <source type="image/webp" srcset="img/aves/ave-48-azulejo-01-400.webp 400w, img/aves/ave-48-azulejo-01-600.webp 600w, img/aves/ave-48-azulejo-01-800.webp 800w, img/aves/ave-48-azulejo-01.webp 1300w" sizes="(max-width: 47.99em) 47vw, 33vw" />
+                <img
                 src="img/aves/ave-48-azulejo-01.jpg"
                 srcset="img/aves/ave-48-azulejo-01-400.jpg 400w, img/aves/ave-48-azulejo-01-600.jpg 600w, img/aves/ave-48-azulejo-01-800.jpg 800w, img/aves/ave-48-azulejo-01.jpg 1300w"
                 sizes="(max-width: 47.99em) 47vw, 33vw"
@@ -1877,6 +2095,7 @@ src="https://www.facebook.com/tr?id=2840830879589956&ev=PageView&noscript=1"
                 decoding="async"
                 alt="Azulejo en el arbolado de Vegas del Verde, fotografía de Myriam Villalba"
               />
+              </picture>
             </button>
             <figcaption class="nat-obra__pie pie-obra">
               <span class="nat-obra__especie pie-obra__especie">Azulejo</span>
@@ -1891,7 +2110,9 @@ src="https://www.facebook.com/tr?id=2840830879589956&ev=PageView&noscript=1"
               data-lightbox-caption="Azulejo — Foto: Myriam Villalba"
               data-lightbox-src="img/aves/ave-49-azulejo.jpg"
             >
-              <img
+              <picture>
+                <source type="image/webp" srcset="img/aves/ave-49-azulejo-400.webp 400w, img/aves/ave-49-azulejo-600.webp 600w, img/aves/ave-49-azulejo-800.webp 800w, img/aves/ave-49-azulejo.webp 1300w" sizes="(max-width: 47.99em) 53vw, 55vw" />
+                <img
                 src="img/aves/ave-49-azulejo.jpg"
                 srcset="img/aves/ave-49-azulejo-400.jpg 400w, img/aves/ave-49-azulejo-600.jpg 600w, img/aves/ave-49-azulejo-800.jpg 800w, img/aves/ave-49-azulejo.jpg 1300w"
                 sizes="(max-width: 47.99em) 53vw, 55vw"
@@ -1901,6 +2122,7 @@ src="https://www.facebook.com/tr?id=2840830879589956&ev=PageView&noscript=1"
                 decoding="async"
                 alt="Azulejo en el arbolado de Vegas del Verde, fotografía de Myriam Villalba"
               />
+              </picture>
             </button>
             <figcaption class="nat-obra__pie pie-obra">
               <span class="nat-obra__especie pie-obra__especie">Azulejo</span>
@@ -1915,7 +2137,9 @@ src="https://www.facebook.com/tr?id=2840830879589956&ev=PageView&noscript=1"
               data-lightbox-caption="Canario — Foto: Myriam Villalba"
               data-lightbox-src="img/aves/ave-50-canario.jpg"
             >
-              <img
+              <picture>
+                <source type="image/webp" srcset="img/aves/ave-50-canario-400.webp 400w, img/aves/ave-50-canario-600.webp 600w, img/aves/ave-50-canario-800.webp 800w, img/aves/ave-50-canario.webp 1300w" sizes="(max-width: 47.99em) 47vw, 33vw" />
+                <img
                 src="img/aves/ave-50-canario.jpg"
                 srcset="img/aves/ave-50-canario-400.jpg 400w, img/aves/ave-50-canario-600.jpg 600w, img/aves/ave-50-canario-800.jpg 800w, img/aves/ave-50-canario.jpg 1300w"
                 sizes="(max-width: 47.99em) 47vw, 33vw"
@@ -1925,6 +2149,7 @@ src="https://www.facebook.com/tr?id=2840830879589956&ev=PageView&noscript=1"
                 decoding="async"
                 alt="Canario en el arbolado de Vegas del Verde, fotografía de Myriam Villalba"
               />
+              </picture>
             </button>
             <figcaption class="nat-obra__pie pie-obra">
               <span class="nat-obra__especie pie-obra__especie">Canario</span>
@@ -1939,7 +2164,9 @@ src="https://www.facebook.com/tr?id=2840830879589956&ev=PageView&noscript=1"
               data-lightbox-caption="Azulejo — Foto: Rutbel Rueda"
               data-lightbox-src="img/aves/ave-51-azulejo.jpg"
             >
-              <img
+              <picture>
+                <source type="image/webp" srcset="img/aves/ave-51-azulejo-400.webp 400w, img/aves/ave-51-azulejo-600.webp 600w, img/aves/ave-51-azulejo-800.webp 800w, img/aves/ave-51-azulejo.webp 1300w" sizes="(max-width: 47.99em) 47vw, 33vw" />
+                <img
                 src="img/aves/ave-51-azulejo.jpg"
                 srcset="img/aves/ave-51-azulejo-400.jpg 400w, img/aves/ave-51-azulejo-600.jpg 600w, img/aves/ave-51-azulejo-800.jpg 800w, img/aves/ave-51-azulejo.jpg 1300w"
                 sizes="(max-width: 47.99em) 47vw, 33vw"
@@ -1949,6 +2176,7 @@ src="https://www.facebook.com/tr?id=2840830879589956&ev=PageView&noscript=1"
                 decoding="async"
                 alt="Azulejo en el arbolado de Vegas del Verde, fotografía de Rutbel Rueda"
               />
+              </picture>
             </button>
             <figcaption class="nat-obra__pie pie-obra">
               <span class="nat-obra__especie pie-obra__especie">Azulejo</span>
@@ -1963,7 +2191,9 @@ src="https://www.facebook.com/tr?id=2840830879589956&ev=PageView&noscript=1"
               data-lightbox-caption="Canario — Foto: Rutbel Rueda"
               data-lightbox-src="img/aves/ave-52-canario.jpg"
             >
-              <img
+              <picture>
+                <source type="image/webp" srcset="img/aves/ave-52-canario-400.webp 400w, img/aves/ave-52-canario-600.webp 600w, img/aves/ave-52-canario-800.webp 800w, img/aves/ave-52-canario.webp 1300w" sizes="(max-width: 47.99em) 47vw, 33vw" />
+                <img
                 src="img/aves/ave-52-canario.jpg"
                 srcset="img/aves/ave-52-canario-400.jpg 400w, img/aves/ave-52-canario-600.jpg 600w, img/aves/ave-52-canario-800.jpg 800w, img/aves/ave-52-canario.jpg 1300w"
                 sizes="(max-width: 47.99em) 47vw, 33vw"
@@ -1973,6 +2203,7 @@ src="https://www.facebook.com/tr?id=2840830879589956&ev=PageView&noscript=1"
                 decoding="async"
                 alt="Canario en el arbolado de Vegas del Verde, fotografía de Rutbel Rueda"
               />
+              </picture>
             </button>
             <figcaption class="nat-obra__pie pie-obra">
               <span class="nat-obra__especie pie-obra__especie">Canario</span>
@@ -1987,7 +2218,9 @@ src="https://www.facebook.com/tr?id=2840830879589956&ev=PageView&noscript=1"
               data-lightbox-caption="Cucarachero — Foto: Rutbel Rueda"
               data-lightbox-src="img/aves/ave-53-cucarachero.jpg"
             >
-              <img
+              <picture>
+                <source type="image/webp" srcset="img/aves/ave-53-cucarachero-400.webp 400w, img/aves/ave-53-cucarachero-600.webp 600w, img/aves/ave-53-cucarachero-800.webp 800w, img/aves/ave-53-cucarachero.webp 1300w" sizes="(max-width: 47.99em) 53vw, 55vw" />
+                <img
                 src="img/aves/ave-53-cucarachero.jpg"
                 srcset="img/aves/ave-53-cucarachero-400.jpg 400w, img/aves/ave-53-cucarachero-600.jpg 600w, img/aves/ave-53-cucarachero-800.jpg 800w, img/aves/ave-53-cucarachero.jpg 1300w"
                 sizes="(max-width: 47.99em) 53vw, 55vw"
@@ -1997,6 +2230,7 @@ src="https://www.facebook.com/tr?id=2840830879589956&ev=PageView&noscript=1"
                 decoding="async"
                 alt="Cucarachero en el arbolado de Vegas del Verde, fotografía de Rutbel Rueda"
               />
+              </picture>
             </button>
             <figcaption class="nat-obra__pie pie-obra">
               <span class="nat-obra__especie pie-obra__especie">Cucarachero</span>
@@ -2011,7 +2245,9 @@ src="https://www.facebook.com/tr?id=2840830879589956&ev=PageView&noscript=1"
               data-lightbox-caption="Sinsonte — Foto: Sergio Barreto"
               data-lightbox-src="img/aves/ave-54-sinsonte.jpg"
             >
-              <img
+              <picture>
+                <source type="image/webp" srcset="img/aves/ave-54-sinsonte-400.webp 400w, img/aves/ave-54-sinsonte-600.webp 600w, img/aves/ave-54-sinsonte-800.webp 800w, img/aves/ave-54-sinsonte.webp 1300w" sizes="(max-width: 47.99em) 47vw, 33vw" />
+                <img
                 src="img/aves/ave-54-sinsonte.jpg"
                 srcset="img/aves/ave-54-sinsonte-400.jpg 400w, img/aves/ave-54-sinsonte-600.jpg 600w, img/aves/ave-54-sinsonte-800.jpg 800w, img/aves/ave-54-sinsonte.jpg 1300w"
                 sizes="(max-width: 47.99em) 47vw, 33vw"
@@ -2021,6 +2257,7 @@ src="https://www.facebook.com/tr?id=2840830879589956&ev=PageView&noscript=1"
                 decoding="async"
                 alt="Sinsonte en el arbolado de Vegas del Verde, fotografía de Sergio Barreto"
               />
+              </picture>
             </button>
             <figcaption class="nat-obra__pie pie-obra">
               <span class="nat-obra__especie pie-obra__especie">Sinsonte</span>
@@ -2035,7 +2272,9 @@ src="https://www.facebook.com/tr?id=2840830879589956&ev=PageView&noscript=1"
               data-lightbox-caption="Carpintero — Foto: Yeraldilsa Gamboa"
               data-lightbox-src="img/aves/ave-55-carpintero.jpg"
             >
-              <img
+              <picture>
+                <source type="image/webp" srcset="img/aves/ave-55-carpintero-400.webp 400w, img/aves/ave-55-carpintero-600.webp 600w, img/aves/ave-55-carpintero-800.webp 800w, img/aves/ave-55-carpintero.webp 1300w" sizes="(max-width: 47.99em) 47vw, 33vw" />
+                <img
                 src="img/aves/ave-55-carpintero.jpg"
                 srcset="img/aves/ave-55-carpintero-400.jpg 400w, img/aves/ave-55-carpintero-600.jpg 600w, img/aves/ave-55-carpintero-800.jpg 800w, img/aves/ave-55-carpintero.jpg 1300w"
                 sizes="(max-width: 47.99em) 47vw, 33vw"
@@ -2045,6 +2284,7 @@ src="https://www.facebook.com/tr?id=2840830879589956&ev=PageView&noscript=1"
                 decoding="async"
                 alt="Carpintero en el arbolado de Vegas del Verde, fotografía de Yeraldilsa Gamboa"
               />
+              </picture>
             </button>
             <figcaption class="nat-obra__pie pie-obra">
               <span class="nat-obra__especie pie-obra__especie">Carpintero</span>
@@ -2059,7 +2299,9 @@ src="https://www.facebook.com/tr?id=2840830879589956&ev=PageView&noscript=1"
               data-lightbox-caption="Canario — Foto: Yeraldilsa Gamboa"
               data-lightbox-src="img/aves/ave-56-canario.jpg"
             >
-              <img
+              <picture>
+                <source type="image/webp" srcset="img/aves/ave-56-canario-400.webp 400w, img/aves/ave-56-canario-600.webp 600w, img/aves/ave-56-canario-800.webp 800w, img/aves/ave-56-canario.webp 1300w" sizes="(max-width: 47.99em) 47vw, 33vw" />
+                <img
                 src="img/aves/ave-56-canario.jpg"
                 srcset="img/aves/ave-56-canario-400.jpg 400w, img/aves/ave-56-canario-600.jpg 600w, img/aves/ave-56-canario-800.jpg 800w, img/aves/ave-56-canario.jpg 1300w"
                 sizes="(max-width: 47.99em) 47vw, 33vw"
@@ -2069,6 +2311,7 @@ src="https://www.facebook.com/tr?id=2840830879589956&ev=PageView&noscript=1"
                 decoding="async"
                 alt="Canario en el arbolado de Vegas del Verde, fotografía de Yeraldilsa Gamboa"
               />
+              </picture>
             </button>
             <figcaption class="nat-obra__pie pie-obra">
               <span class="nat-obra__especie pie-obra__especie">Canario</span>
@@ -2083,7 +2326,9 @@ src="https://www.facebook.com/tr?id=2840830879589956&ev=PageView&noscript=1"
               data-lightbox-caption="Churica, azulejo y tángara palmarum — Foto: Yeraldilsa Gamboa"
               data-lightbox-src="img/aves/ave-57-churica-azulejo-tangara-palmarum.jpg"
             >
-              <img
+              <picture>
+                <source type="image/webp" srcset="img/aves/ave-57-churica-azulejo-tangara-palmarum-400.webp 400w, img/aves/ave-57-churica-azulejo-tangara-palmarum-600.webp 600w, img/aves/ave-57-churica-azulejo-tangara-palmarum-800.webp 800w, img/aves/ave-57-churica-azulejo-tangara-palmarum.webp 1300w" sizes="(max-width: 47.99em) 47vw, 33vw" />
+                <img
                 src="img/aves/ave-57-churica-azulejo-tangara-palmarum.jpg"
                 srcset="img/aves/ave-57-churica-azulejo-tangara-palmarum-400.jpg 400w, img/aves/ave-57-churica-azulejo-tangara-palmarum-600.jpg 600w, img/aves/ave-57-churica-azulejo-tangara-palmarum-800.jpg 800w, img/aves/ave-57-churica-azulejo-tangara-palmarum.jpg 1300w"
                 sizes="(max-width: 47.99em) 47vw, 33vw"
@@ -2093,6 +2338,7 @@ src="https://www.facebook.com/tr?id=2840830879589956&ev=PageView&noscript=1"
                 decoding="async"
                 alt="Churica, azulejo y tángara palmarum en el arbolado de Vegas del Verde, fotografía de Yeraldilsa Gamboa"
               />
+              </picture>
             </button>
             <figcaption class="nat-obra__pie pie-obra">
               <span class="nat-obra__especie pie-obra__especie">Churica, azulejo y tángara palmarum</span>
@@ -2263,7 +2509,9 @@ src="https://www.facebook.com/tr?id=2840830879589956&ev=PageView&noscript=1"
 
       <figure class="nat-endemica__lamina reveal reveal--velo">
         <div class="nat-endemica__marco">
-          <img
+          <picture>
+            <source type="image/webp" srcset="img/aves/ortalis-columbiana-referencia-400.webp 400w, img/aves/ortalis-columbiana-referencia-600.webp 600w, img/aves/ortalis-columbiana-referencia-800.webp 800w, img/aves/ortalis-columbiana-referencia.webp 1010w" sizes="(max-width: 47.99em) 100vw, 47vw" />
+            <img
             class="nat-endemica__foto"
             src="img/aves/ortalis-columbiana-referencia.jpg"
             srcset="img/aves/ortalis-columbiana-referencia-400.jpg 400w, img/aves/ortalis-columbiana-referencia-600.jpg 600w, img/aves/ortalis-columbiana-referencia-800.jpg 800w, img/aves/ortalis-columbiana-referencia.jpg 1010w"
@@ -2274,6 +2522,7 @@ src="https://www.facebook.com/tr?id=2840830879589956&ev=PageView&noscript=1"
             decoding="async"
             alt="Chachalaca colombiana (Ortalis columbiana) posada en una rama con musgo entre el follaje. Fotografía de referencia de Félix Uribe tomada en Rionegro, Antioquia, con licencia CC BY-SA 2.0 — no fue tomada en el predio de Vegas del Verde"
           />
+          </picture>
         </div>
         <!-- EL PIE DE FOTO. Primero el hecho que el visitante tiene que
              entender de un vistazo, en tinta plena; después la procedencia,
@@ -2438,7 +2687,9 @@ src="https://www.facebook.com/tr?id=2840830879589956&ev=PageView&noscript=1"
                foto necesita una caja propia que mida el alto y recorte la
                deriva de paralaje, que le da un 116 % de altura. -->
           <span class="nat-habitat__marco">
-          <img
+          <picture>
+            <source type="image/webp" srcset="img/naturaleza-jardin-hero-400.webp 400w, img/naturaleza-jardin-hero-600.webp 600w, img/naturaleza-jardin-hero-800.webp 800w, img/naturaleza-jardin-hero-1200.webp 1200w, img/naturaleza-jardin-hero.webp 2268w" sizes="100vw" />
+            <img
             class="nat-habitat__foto"
             src="img/naturaleza-jardin-hero.jpg"
             srcset="img/naturaleza-jardin-hero-400.jpg 400w, img/naturaleza-jardin-hero-600.jpg 600w, img/naturaleza-jardin-hero-800.jpg 800w, img/naturaleza-jardin-hero-1200.jpg 1200w, img/naturaleza-jardin-hero.jpg 2268w"
@@ -2449,6 +2700,7 @@ src="https://www.facebook.com/tr?id=2840830879589956&ev=PageView&noscript=1"
             decoding="async"
             alt="Espiga de verbena con flores moradas a contraluz, en primer plano y a pleno sol, con el jardín del predio florecido y desenfocado detrás"
           />
+          </picture>
           </span>
           <figcaption class="nat-habitat__cuerpo">
             <p class="nat-habitat__lugar">El jardín</p>
@@ -2619,15 +2871,18 @@ src="https://www.facebook.com/tr?id=2840830879589956&ev=PageView&noscript=1"
            texto real, así que la imagen es decorativa y repetirlo sería
            leer «Vegas del Verde» dos veces con lector de pantalla. -->
       <div class="pie-final__marca">
-        <img
-          class="pie-final__simbolo"
-          src="img/logo/simbolo-transparente.png"
-          width="744"
-          height="351"
-          alt=""
-          loading="lazy"
-          decoding="async"
-        />
+        <picture>
+          <source type="image/webp" srcset="img/logo/simbolo-transparente.webp" />
+          <img
+            class="pie-final__simbolo"
+            src="img/logo/simbolo-transparente.png"
+            width="744"
+            height="351"
+            alt=""
+            loading="lazy"
+            decoding="async"
+          />
+        </picture>
         <p class="pie-final__nombre">Vegas del Verde</p>
       </div>
 

@@ -74,15 +74,18 @@
            texto real, así que la imagen es decorativa y repetirlo sería
            leer «Vegas del Verde» dos veces con lector de pantalla. -->
       <div class="pie-final__marca">
-        <img
-          class="pie-final__simbolo"
-          src="img/logo/simbolo-transparente.png"
-          width="744"
-          height="351"
-          alt=""
-          loading="lazy"
-          decoding="async"
-        />
+        <picture>
+          <source type="image/webp" srcset="img/logo/simbolo-transparente.webp" />
+          <img
+            class="pie-final__simbolo"
+            src="img/logo/simbolo-transparente.png"
+            width="744"
+            height="351"
+            alt=""
+            loading="lazy"
+            decoding="async"
+          />
+        </picture>
         <p class="pie-final__nombre">Vegas del Verde</p>
       </div>
 

@@ -222,6 +222,14 @@
   z-index: var(--z-fondo);
 }
 
+/* <picture> es un envoltorio transparente: el mismo patrón de
+   plan-vecino.css (.pv-pieza > picture) para que la <img> con
+   `position: absolute; inset: 0` siga posicionándose contra
+   `.nosotros__escena-marco` y no contra la caja del propio <picture>. */
+.nosotros__escena-marco > picture {
+  display: contents;
+}
+
 .nosotros__escena-foto {
   position: absolute;
   inset: 0;
@@ -1343,6 +1351,14 @@
   inset: 0;
   z-index: -2;
   overflow: hidden;
+}
+
+/* <picture> envoltorio transparente, mismo patrón que .nosotros__escena-marco
+   > picture arriba: sin esto, `.compromiso__foto { width:100%; height:100% }`
+   resolvería el porcentaje contra la caja inline del <picture>, no contra
+   `.compromiso__escena`. */
+.compromiso__escena > picture {
+  display: contents;
 }
 
 /* EL ENCUADRE. La foto es vertical (2268x4032) y la banda es apaisada en

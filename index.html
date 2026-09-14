@@ -68,11 +68,11 @@
       media="(min-width: 48em)" href="img/hero-colibri.avif">
 
 <link rel="stylesheet" href="styles/tokens.css?v=e12e8d10">
-<link rel="stylesheet" href="styles/base.css?v=0333391e">
+<link rel="stylesheet" href="styles/base.css?v=cd31c700">
 <link rel="stylesheet" href="styles/shell.css?v=794e787c">
 <link rel="stylesheet" href="styles/sections/inicio.css?v=7de985e1">
-<link rel="stylesheet" href="styles/sections/home.css?v=4fcd0fb5">
-<link rel="stylesheet" href="styles/sections/nosotros.css?v=f4f1052a">
+<link rel="stylesheet" href="styles/sections/home.css?v=58608817">
+<link rel="stylesheet" href="styles/sections/nosotros.css?v=108c4b71">
 <link rel="stylesheet" href="styles/sections/pie.css?v=0a889dce">
 <link rel="stylesheet" href="styles/lightbox.css?v=92a48a1f">
 
@@ -184,14 +184,17 @@ src="https://www.facebook.com/tr?id=2840830879589956&ev=PageView&noscript=1"
 
            Las páginas sueltas que no usan este fragmento siguen como estaban:
            no era el pedido. -->
-      <img
-        class="marca__simbolo"
-        src="img/logo/simbolo-transparente.png"
-        width="744"
-        height="351"
-        alt=""
-        decoding="async"
-      />
+      <picture>
+        <source type="image/webp" srcset="img/logo/simbolo-transparente.webp" />
+        <img
+          class="marca__simbolo"
+          src="img/logo/simbolo-transparente.png"
+          width="744"
+          height="351"
+          alt=""
+          decoding="async"
+        />
+      </picture>
       <!-- v31 · El nombre viene partido en dos <span> por una razón de layout,
            no de semántica: por debajo de 23 em (≈368 px) «Vegas del Verde» no
            cabe en una línea al lado del símbolo, y la única forma de que el
@@ -821,17 +824,24 @@ src="https://www.facebook.com/tr?id=2840830879589956&ev=PageView&noscript=1"
              (ver `sections/planes.html`), no una foto nueva sin probar. -->
         <a class="home-tarjeta reveal" href="planes.html#plan-fiesta">
           <span class="marco marco--3-2">
-            <img
-              class="home-tarjeta__foto"
-              src="img/eventos/boda-2.jpg"
-              srcset="img/eventos/boda-2-400.jpg 400w, img/eventos/boda-2-600.jpg 600w, img/eventos/boda-2.jpg 844w"
-              sizes="(max-width: 39.99em) 45vw, (max-width: 63.99em) 46vw, 31vw"
-              width="844"
-              height="1500"
-              loading="lazy"
-              decoding="async"
-              alt="Ceremonia de matrimonio al aire libre bajo un árbol grande, con sillas dispuestas en dos filas y una saxofonista tocando en vivo a un lado."
-            />
+            <picture>
+              <source
+                type="image/webp"
+                srcset="img/eventos/boda-2-400.webp 400w, img/eventos/boda-2-600.webp 600w, img/eventos/boda-2.webp 844w"
+                sizes="(max-width: 39.99em) 45vw, (max-width: 63.99em) 46vw, 31vw"
+              />
+              <img
+                class="home-tarjeta__foto"
+                src="img/eventos/boda-2.jpg"
+                srcset="img/eventos/boda-2-400.jpg 400w, img/eventos/boda-2-600.jpg 600w, img/eventos/boda-2.jpg 844w"
+                sizes="(max-width: 39.99em) 45vw, (max-width: 63.99em) 46vw, 31vw"
+                width="844"
+                height="1500"
+                loading="lazy"
+                decoding="async"
+                alt="Ceremonia de matrimonio al aire libre bajo un árbol grande, con sillas dispuestas en dos filas y una saxofonista tocando en vivo a un lado."
+              />
+            </picture>
           </span>
           <span class="home-tarjeta__cuerpo">
             <span class="home-tarjeta__nombre">Celebrar</span>
@@ -844,17 +854,24 @@ src="https://www.facebook.com/tr?id=2840830879589956&ev=PageView&noscript=1"
       <li>
         <a class="home-tarjeta reveal" href="planes.html#plan-familia">
           <span class="marco marco--3-2">
-            <img
-              class="home-tarjeta__foto"
-              src="img/eventos/infantil-4.jpg"
-              srcset="img/eventos/infantil-4-400.jpg 400w, img/eventos/infantil-4-600.jpg 600w, img/eventos/infantil-4-800.jpg 800w, img/eventos/infantil-4.jpg 1125w"
-              sizes="(max-width: 39.99em) 45vw, (max-width: 63.99em) 46vw, 31vw"
-              width="1125"
-              height="1500"
-              loading="lazy"
-              decoding="async"
-              alt="Un niño salta con los brazos en alto a atrapar pompas de jabón junto a la mesa de picnic donde el resto del grupo se ríe."
-            />
+            <picture>
+              <source
+                type="image/webp"
+                srcset="img/eventos/infantil-4-400.webp 400w, img/eventos/infantil-4-600.webp 600w, img/eventos/infantil-4-800.webp 800w, img/eventos/infantil-4.webp 1125w"
+                sizes="(max-width: 39.99em) 45vw, (max-width: 63.99em) 46vw, 31vw"
+              />
+              <img
+                class="home-tarjeta__foto"
+                src="img/eventos/infantil-4.jpg"
+                srcset="img/eventos/infantil-4-400.jpg 400w, img/eventos/infantil-4-600.jpg 600w, img/eventos/infantil-4-800.jpg 800w, img/eventos/infantil-4.jpg 1125w"
+                sizes="(max-width: 39.99em) 45vw, (max-width: 63.99em) 46vw, 31vw"
+                width="1125"
+                height="1500"
+                loading="lazy"
+                decoding="async"
+                alt="Un niño salta con los brazos en alto a atrapar pompas de jabón junto a la mesa de picnic donde el resto del grupo se ríe."
+              />
+            </picture>
           </span>
           <span class="home-tarjeta__cuerpo">
             <span class="home-tarjeta__nombre">Reunir</span>
@@ -867,17 +884,24 @@ src="https://www.facebook.com/tr?id=2840830879589956&ev=PageView&noscript=1"
       <li>
         <a class="home-tarjeta reveal" href="planes.html#plan-empresa">
           <span class="marco marco--3-2">
-            <img
-              class="home-tarjeta__foto"
-              src="img/parque/empresa-carpa-vidrio-dia.jpg"
-              srcset="img/parque/empresa-carpa-vidrio-dia-400.jpg 400w, img/parque/empresa-carpa-vidrio-dia-600.jpg 600w, img/parque/empresa-carpa-vidrio-dia-800.jpg 800w, img/parque/empresa-carpa-vidrio-dia-1200.jpg 1200w, img/parque/empresa-carpa-vidrio-dia.jpg 1600w"
-              sizes="(max-width: 39.99em) 45vw, (max-width: 63.99em) 46vw, 31vw"
-              width="1600"
-              height="1066"
-              loading="lazy"
-              decoding="async"
-              alt="Carpa de techo transparente sobre el césped: mesas altas de madera natural con sillas de mimbre crema y sofás de terciopelo verde y turquesa alrededor, montada para un evento de empresa."
-            />
+            <picture>
+              <source
+                type="image/webp"
+                srcset="img/parque/empresa-carpa-vidrio-dia-400.webp 400w, img/parque/empresa-carpa-vidrio-dia-600.webp 600w, img/parque/empresa-carpa-vidrio-dia-800.webp 800w, img/parque/empresa-carpa-vidrio-dia-1200.webp 1200w, img/parque/empresa-carpa-vidrio-dia.webp 1600w"
+                sizes="(max-width: 39.99em) 45vw, (max-width: 63.99em) 46vw, 31vw"
+              />
+              <img
+                class="home-tarjeta__foto"
+                src="img/parque/empresa-carpa-vidrio-dia.jpg"
+                srcset="img/parque/empresa-carpa-vidrio-dia-400.jpg 400w, img/parque/empresa-carpa-vidrio-dia-600.jpg 600w, img/parque/empresa-carpa-vidrio-dia-800.jpg 800w, img/parque/empresa-carpa-vidrio-dia-1200.jpg 1200w, img/parque/empresa-carpa-vidrio-dia.jpg 1600w"
+                sizes="(max-width: 39.99em) 45vw, (max-width: 63.99em) 46vw, 31vw"
+                width="1600"
+                height="1066"
+                loading="lazy"
+                decoding="async"
+                alt="Carpa de techo transparente sobre el césped: mesas altas de madera natural con sillas de mimbre crema y sofás de terciopelo verde y turquesa alrededor, montada para un evento de empresa."
+              />
+            </picture>
           </span>
           <span class="home-tarjeta__cuerpo">
             <span class="home-tarjeta__nombre">Trabajar</span>
@@ -897,17 +921,24 @@ src="https://www.facebook.com/tr?id=2840830879589956&ev=PageView&noscript=1"
              `yoga-2.jpg` — sigue en uso en planes.html y usos.html. -->
         <a class="home-tarjeta reveal" href="planes.html#plan-bienestar">
           <span class="marco marco--3-2">
-            <img
-              class="home-tarjeta__foto"
-              src="img/eventos/yoga-3.jpg"
-              srcset="img/eventos/yoga-3-400.jpg 400w, img/eventos/yoga-3-600.jpg 600w, img/eventos/yoga-3-800.jpg 800w, img/eventos/yoga-3-1200.jpg 1200w, img/eventos/yoga-3.jpg 1500w"
-              sizes="(max-width: 39.99em) 45vw, (max-width: 63.99em) 46vw, 31vw"
-              width="1500"
-              height="2667"
-              loading="lazy"
-              decoding="async"
-              alt="Mujer en una postura de yoga de pie, con los brazos elevados, sobre un tapete entre los árboles."
-            />
+            <picture>
+              <source
+                type="image/webp"
+                srcset="img/eventos/yoga-3-400.webp 400w, img/eventos/yoga-3-600.webp 600w, img/eventos/yoga-3-800.webp 800w, img/eventos/yoga-3-1200.webp 1200w, img/eventos/yoga-3.webp 1500w"
+                sizes="(max-width: 39.99em) 45vw, (max-width: 63.99em) 46vw, 31vw"
+              />
+              <img
+                class="home-tarjeta__foto"
+                src="img/eventos/yoga-3.jpg"
+                srcset="img/eventos/yoga-3-400.jpg 400w, img/eventos/yoga-3-600.jpg 600w, img/eventos/yoga-3-800.jpg 800w, img/eventos/yoga-3-1200.jpg 1200w, img/eventos/yoga-3.jpg 1500w"
+                sizes="(max-width: 39.99em) 45vw, (max-width: 63.99em) 46vw, 31vw"
+                width="1500"
+                height="2667"
+                loading="lazy"
+                decoding="async"
+                alt="Mujer en una postura de yoga de pie, con los brazos elevados, sobre un tapete entre los árboles."
+              />
+            </picture>
           </span>
           <span class="home-tarjeta__cuerpo">
             <span class="home-tarjeta__nombre">Cuidarse</span>
@@ -920,17 +951,24 @@ src="https://www.facebook.com/tr?id=2840830879589956&ev=PageView&noscript=1"
       <li>
         <a class="home-tarjeta reveal" href="planes.html#plan-talleres">
           <span class="marco marco--3-2">
-            <img
-              class="home-tarjeta__foto"
-              src="img/eventos/taller-educativo-cuento.jpg"
-              srcset="img/eventos/taller-educativo-cuento-400.jpg 400w, img/eventos/taller-educativo-cuento-600.jpg 600w, img/eventos/taller-educativo-cuento-800.jpg 800w, img/eventos/taller-educativo-cuento-1200.jpg 1200w, img/eventos/taller-educativo-cuento.jpg 1600w"
-              sizes="(max-width: 39.99em) 45vw, (max-width: 63.99em) 46vw, 31vw"
-              width="1600"
-              height="1600"
-              loading="lazy"
-              decoding="async"
-              alt="Taller al aire libre: un grupo de niños escuchando un cuento sentados sobre el césped."
-            />
+            <picture>
+              <source
+                type="image/webp"
+                srcset="img/eventos/taller-educativo-cuento-400.webp 400w, img/eventos/taller-educativo-cuento-600.webp 600w, img/eventos/taller-educativo-cuento-800.webp 800w, img/eventos/taller-educativo-cuento-1200.webp 1200w, img/eventos/taller-educativo-cuento.webp 1600w"
+                sizes="(max-width: 39.99em) 45vw, (max-width: 63.99em) 46vw, 31vw"
+              />
+              <img
+                class="home-tarjeta__foto"
+                src="img/eventos/taller-educativo-cuento.jpg"
+                srcset="img/eventos/taller-educativo-cuento-400.jpg 400w, img/eventos/taller-educativo-cuento-600.jpg 600w, img/eventos/taller-educativo-cuento-800.jpg 800w, img/eventos/taller-educativo-cuento-1200.jpg 1200w, img/eventos/taller-educativo-cuento.jpg 1600w"
+                sizes="(max-width: 39.99em) 45vw, (max-width: 63.99em) 46vw, 31vw"
+                width="1600"
+                height="1600"
+                loading="lazy"
+                decoding="async"
+                alt="Taller al aire libre: un grupo de niños escuchando un cuento sentados sobre el césped."
+              />
+            </picture>
           </span>
           <span class="home-tarjeta__cuerpo">
             <span class="home-tarjeta__nombre">Aprender</span>
@@ -1041,16 +1079,19 @@ src="https://www.facebook.com/tr?id=2840830879589956&ev=PageView&noscript=1"
       <li>
         <a class="home-tarjeta reveal" href="https://wa.me/573166758362?text=Hola%2C%20quiero%20reservar%20la%20Alameda%20para%20mi%20evento" target="_blank" rel="noopener">
           <span class="marco home-tarjeta__portada">
-            <img
-              class="home-tarjeta__foto"
-              src="img/espacios/alameda-2.jpg"
-              sizes="(max-width: 39.99em) 92vw, (max-width: 63.99em) 46vw, 31vw"
-              width="1500"
-              height="844"
-              loading="lazy"
-              decoding="async"
-              alt="La Alameda: un prado abierto de grama corta bordeado de árboles altos."
-            />
+            <picture>
+              <source type="image/webp" srcset="img/espacios/alameda-2.webp" />
+              <img
+                class="home-tarjeta__foto"
+                src="img/espacios/alameda-2.jpg"
+                sizes="(max-width: 39.99em) 92vw, (max-width: 63.99em) 46vw, 31vw"
+                width="1500"
+                height="844"
+                loading="lazy"
+                decoding="async"
+                alt="La Alameda: un prado abierto de grama corta bordeado de árboles altos."
+              />
+            </picture>
           </span>
           <span class="home-tarjeta__cuerpo placa placa--sm">
             <span class="home-tarjeta__nombre">Alameda</span>
@@ -1066,16 +1107,19 @@ src="https://www.facebook.com/tr?id=2840830879589956&ev=PageView&noscript=1"
       <li>
         <a class="home-tarjeta reveal" href="https://wa.me/573166758362?text=Hola%2C%20quiero%20reservar%20La%20Vega%20para%20mi%20evento" target="_blank" rel="noopener">
           <span class="marco home-tarjeta__portada">
-            <img
-              class="home-tarjeta__foto"
-              src="img/eventos/vega-horizontal.jpg"
-              sizes="(max-width: 39.99em) 92vw, (max-width: 63.99em) 46vw, 31vw"
-              width="1600"
-              height="900"
-              loading="lazy"
-              decoding="async"
-              alt="La Vega: una explanada de césped completamente plana, con la arboleda al fondo."
-            />
+            <picture>
+              <source type="image/webp" srcset="img/eventos/vega-horizontal.webp" />
+              <img
+                class="home-tarjeta__foto"
+                src="img/eventos/vega-horizontal.jpg"
+                sizes="(max-width: 39.99em) 92vw, (max-width: 63.99em) 46vw, 31vw"
+                width="1600"
+                height="900"
+                loading="lazy"
+                decoding="async"
+                alt="La Vega: una explanada de césped completamente plana, con la arboleda al fondo."
+              />
+            </picture>
           </span>
           <span class="home-tarjeta__cuerpo placa placa--sm placa--alterna">
             <span class="home-tarjeta__nombre">La Vega</span>
@@ -1091,16 +1135,19 @@ src="https://www.facebook.com/tr?id=2840830879589956&ev=PageView&noscript=1"
       <li>
         <a class="home-tarjeta reveal" href="https://wa.me/573166758362?text=Hola%2C%20quiero%20reservar%20el%20Teatrino%20para%20mi%20evento" target="_blank" rel="noopener">
           <span class="marco home-tarjeta__portada">
-            <img
-              class="home-tarjeta__foto"
-              src="img/eventos/boda-4.jpg"
-              sizes="(max-width: 39.99em) 92vw, (max-width: 63.99em) 46vw, 31vw"
-              width="1500"
-              height="1000"
-              loading="lazy"
-              decoding="async"
-              alt="El Teatrino: un claro recogido bajo la copa de un árbol grande, con sillas dispuestas en semicírculo."
-            />
+            <picture>
+              <source type="image/webp" srcset="img/eventos/boda-4.webp" />
+              <img
+                class="home-tarjeta__foto"
+                src="img/eventos/boda-4.jpg"
+                sizes="(max-width: 39.99em) 92vw, (max-width: 63.99em) 46vw, 31vw"
+                width="1500"
+                height="1000"
+                loading="lazy"
+                decoding="async"
+                alt="El Teatrino: un claro recogido bajo la copa de un árbol grande, con sillas dispuestas en semicírculo."
+              />
+            </picture>
           </span>
           <span class="home-tarjeta__cuerpo placa placa--sm">
             <span class="home-tarjeta__nombre">Teatrino</span>
@@ -1116,16 +1163,19 @@ src="https://www.facebook.com/tr?id=2840830879589956&ev=PageView&noscript=1"
       <li>
         <a class="home-tarjeta reveal" href="https://wa.me/573166758362?text=Hola%2C%20quiero%20reservar%20el%20Taller%20para%20mi%20evento" target="_blank" rel="noopener">
           <span class="marco home-tarjeta__portada">
-            <img
-              class="home-tarjeta__foto"
-              src="img/espacios/taller-1.jpg"
-              sizes="(max-width: 39.99em) 92vw, (max-width: 63.99em) 46vw, 31vw"
-              width="849"
-              height="1500"
-              loading="lazy"
-              decoding="async"
-              alt="El Taller: espacio techado con cubierta de caña y mesas de trabajo, abierto por los costados."
-            />
+            <picture>
+              <source type="image/webp" srcset="img/espacios/taller-1.webp" />
+              <img
+                class="home-tarjeta__foto"
+                src="img/espacios/taller-1.jpg"
+                sizes="(max-width: 39.99em) 92vw, (max-width: 63.99em) 46vw, 31vw"
+                width="849"
+                height="1500"
+                loading="lazy"
+                decoding="async"
+                alt="El Taller: espacio techado con cubierta de caña y mesas de trabajo, abierto por los costados."
+              />
+            </picture>
           </span>
           <span class="home-tarjeta__cuerpo placa placa--sm placa--alterna">
             <span class="home-tarjeta__nombre">Taller</span>
@@ -1141,16 +1191,19 @@ src="https://www.facebook.com/tr?id=2840830879589956&ev=PageView&noscript=1"
       <li>
         <a class="home-tarjeta reveal" href="https://wa.me/573166758362?text=Hola%2C%20quiero%20reservar%20la%20Cancha%20para%20mi%20evento" target="_blank" rel="noopener">
           <span class="marco home-tarjeta__portada">
-            <img
-              class="home-tarjeta__foto"
-              src="img/eventos/cancha-vertical.jpg"
-              sizes="(max-width: 39.99em) 92vw, (max-width: 63.99em) 46vw, 31vw"
-              width="900"
-              height="1600"
-              loading="lazy"
-              decoding="async"
-              alt="La Cancha: campo de juego abierto sobre césped, con los árboles del predio al fondo."
-            />
+            <picture>
+              <source type="image/webp" srcset="img/eventos/cancha-vertical.webp" />
+              <img
+                class="home-tarjeta__foto"
+                src="img/eventos/cancha-vertical.jpg"
+                sizes="(max-width: 39.99em) 92vw, (max-width: 63.99em) 46vw, 31vw"
+                width="900"
+                height="1600"
+                loading="lazy"
+                decoding="async"
+                alt="La Cancha: campo de juego abierto sobre césped, con los árboles del predio al fondo."
+              />
+            </picture>
           </span>
           <span class="home-tarjeta__cuerpo placa placa--sm">
             <span class="home-tarjeta__nombre">Cancha</span>
@@ -1241,11 +1294,14 @@ src="https://www.facebook.com/tr?id=2840830879589956&ev=PageView&noscript=1"
       <li>
         <figure class="home-muro__figura reveal">
           <span class="marco marco--1-1">
-            <img class="home-muro__foto"
+            <picture>
+              <source type="image/webp" srcset="img/aves/ave-04-azulejo-palmero-400.webp 400w, img/aves/ave-04-azulejo-palmero-600.webp 600w, img/aves/ave-04-azulejo-palmero.webp 1300w" sizes="(max-width: 39.99em) 31vw, (max-width: 63.99em) 31vw, 23vw" />
+              <img class="home-muro__foto"
               src="img/aves/ave-04-azulejo-palmero.jpg"
               srcset="img/aves/ave-04-azulejo-palmero-400.jpg 400w, img/aves/ave-04-azulejo-palmero-600.jpg 600w, img/aves/ave-04-azulejo-palmero.jpg 1300w"
               sizes="(max-width: 39.99em) 31vw, (max-width: 63.99em) 31vw, 23vw"
               width="1300" height="1039" loading="lazy" decoding="async" alt="" />
+            </picture>
           </span>
           <figcaption class="home-muro__pie pie-obra">
             <span class="home-muro__especie pie-obra__especie">Azulejo Palmero</span>
@@ -1257,11 +1313,14 @@ src="https://www.facebook.com/tr?id=2840830879589956&ev=PageView&noscript=1"
       <li>
         <figure class="home-muro__figura reveal">
           <span class="marco marco--1-1">
-            <img class="home-muro__foto"
+            <picture>
+              <source type="image/webp" srcset="img/aves/ave-06-piaya-cayana-400.webp 400w, img/aves/ave-06-piaya-cayana-600.webp 600w, img/aves/ave-06-piaya-cayana.webp 1040w" sizes="(max-width: 39.99em) 31vw, (max-width: 63.99em) 31vw, 23vw" />
+              <img class="home-muro__foto"
               src="img/aves/ave-06-piaya-cayana.jpg"
               srcset="img/aves/ave-06-piaya-cayana-400.jpg 400w, img/aves/ave-06-piaya-cayana-600.jpg 600w, img/aves/ave-06-piaya-cayana.jpg 1040w"
               sizes="(max-width: 39.99em) 31vw, (max-width: 63.99em) 31vw, 23vw"
               width="1040" height="1300" loading="lazy" decoding="async" alt="" />
+            </picture>
           </span>
           <figcaption class="home-muro__pie pie-obra">
             <span class="home-muro__especie pie-obra__especie">Piaya Cayana</span>
@@ -1273,11 +1332,14 @@ src="https://www.facebook.com/tr?id=2840830879589956&ev=PageView&noscript=1"
       <li>
         <figure class="home-muro__figura reveal">
           <span class="marco marco--1-1">
-            <img class="home-muro__foto"
+            <picture>
+              <source type="image/webp" srcset="img/aves/ave-08-cucu-ardilla-400.webp 400w, img/aves/ave-08-cucu-ardilla-600.webp 600w, img/aves/ave-08-cucu-ardilla.webp 1300w" sizes="(max-width: 39.99em) 31vw, (max-width: 63.99em) 31vw, 23vw" />
+              <img class="home-muro__foto"
               src="img/aves/ave-08-cucu-ardilla.jpg"
               srcset="img/aves/ave-08-cucu-ardilla-400.jpg 400w, img/aves/ave-08-cucu-ardilla-600.jpg 600w, img/aves/ave-08-cucu-ardilla.jpg 1300w"
               sizes="(max-width: 39.99em) 31vw, (max-width: 63.99em) 31vw, 23vw"
               width="1300" height="1023" loading="lazy" decoding="async" alt="" />
+            </picture>
           </span>
           <figcaption class="home-muro__pie pie-obra">
             <span class="home-muro__especie pie-obra__especie">Cucú Ardilla</span>
@@ -1289,11 +1351,14 @@ src="https://www.facebook.com/tr?id=2840830879589956&ev=PageView&noscript=1"
       <li>
         <figure class="home-muro__figura reveal">
           <span class="marco marco--1-1">
-            <img class="home-muro__foto"
+            <picture>
+              <source type="image/webp" srcset="img/aves/ave-12-barranquero-400.webp 400w, img/aves/ave-12-barranquero-600.webp 600w, img/aves/ave-12-barranquero.webp 975w" sizes="(max-width: 39.99em) 31vw, (max-width: 63.99em) 31vw, 23vw" />
+              <img class="home-muro__foto"
               src="img/aves/ave-12-barranquero.jpg"
               srcset="img/aves/ave-12-barranquero-400.jpg 400w, img/aves/ave-12-barranquero-600.jpg 600w, img/aves/ave-12-barranquero.jpg 975w"
               sizes="(max-width: 39.99em) 31vw, (max-width: 63.99em) 31vw, 23vw"
               width="975" height="1300" loading="lazy" decoding="async" alt="" />
+            </picture>
           </span>
           <figcaption class="home-muro__pie pie-obra">
             <span class="home-muro__especie pie-obra__especie">Barranquero</span>
@@ -1305,11 +1370,14 @@ src="https://www.facebook.com/tr?id=2840830879589956&ev=PageView&noscript=1"
       <li>
         <figure class="home-muro__figura reveal">
           <span class="marco marco--1-1">
-            <img class="home-muro__foto"
+            <picture>
+              <source type="image/webp" srcset="img/aves/ave-13-batara-carcajad-400.webp 400w, img/aves/ave-13-batara-carcajad-600.webp 600w, img/aves/ave-13-batara-carcajad.webp 975w" sizes="(max-width: 39.99em) 31vw, (max-width: 63.99em) 31vw, 23vw" />
+              <img class="home-muro__foto"
               src="img/aves/ave-13-batara-carcajad.jpg"
               srcset="img/aves/ave-13-batara-carcajad-400.jpg 400w, img/aves/ave-13-batara-carcajad-600.jpg 600w, img/aves/ave-13-batara-carcajad.jpg 975w"
               sizes="(max-width: 39.99em) 31vw, (max-width: 63.99em) 31vw, 23vw"
               width="975" height="1300" loading="lazy" decoding="async" alt="" />
+            </picture>
           </span>
           <figcaption class="home-muro__pie pie-obra">
             <span class="home-muro__especie pie-obra__especie">Batará Carcajada</span>
@@ -1321,11 +1389,14 @@ src="https://www.facebook.com/tr?id=2840830879589956&ev=PageView&noscript=1"
       <li>
         <figure class="home-muro__figura reveal">
           <span class="marco marco--1-1">
-            <img class="home-muro__foto"
+            <picture>
+              <source type="image/webp" srcset="img/aves/ave-16-tytira-inquisitor-macho-400.webp 400w, img/aves/ave-16-tytira-inquisitor-macho-600.webp 600w, img/aves/ave-16-tytira-inquisitor-macho.webp 1300w" sizes="(max-width: 39.99em) 31vw, (max-width: 63.99em) 31vw, 23vw" />
+              <img class="home-muro__foto"
               src="img/aves/ave-16-tytira-inquisitor-macho.jpg"
               srcset="img/aves/ave-16-tytira-inquisitor-macho-400.jpg 400w, img/aves/ave-16-tytira-inquisitor-macho-600.jpg 600w, img/aves/ave-16-tytira-inquisitor-macho.jpg 1300w"
               sizes="(max-width: 39.99em) 31vw, (max-width: 63.99em) 31vw, 23vw"
               width="1300" height="867" loading="lazy" decoding="async" alt="" />
+            </picture>
           </span>
           <figcaption class="home-muro__pie pie-obra">
             <span class="home-muro__especie pie-obra__especie">Titira Inquisidor, macho</span>
@@ -1374,7 +1445,9 @@ src="https://www.facebook.com/tr?id=2840830879589956&ev=PageView&noscript=1"
 
       <figure class="home-duo__medio reveal">
         <span class="marco marco--retrato">
-          <img
+          <picture>
+            <source type="image/webp" srcset="img/sendero/sendero-hero-400.webp 400w, img/sendero/sendero-hero-600.webp 600w, img/sendero/sendero-hero-800.webp 800w, img/sendero/sendero-hero-1200.webp 1200w, img/sendero/sendero-hero.webp 2400w" sizes="(max-width: 55.99em) 92vw, 46vw" />
+            <img
             class="home-duo__foto"
             src="img/sendero/sendero-hero.jpg"
             srcset="img/sendero/sendero-hero-400.jpg 400w, img/sendero/sendero-hero-600.jpg 600w, img/sendero/sendero-hero-800.jpg 800w, img/sendero/sendero-hero-1200.jpg 1200w, img/sendero/sendero-hero.jpg 2400w"
@@ -1385,6 +1458,7 @@ src="https://www.facebook.com/tr?id=2840830879589956&ev=PageView&noscript=1"
             decoding="async"
             alt="El camino del recorrido guiado entre guaduas altas, con la vegetación cerrándose sobre el sendero de tierra."
           />
+          </picture>
         </span>
       </figure>
 
@@ -1435,7 +1509,9 @@ src="https://www.facebook.com/tr?id=2840830879589956&ev=PageView&noscript=1"
 
       <figure class="home-duo__medio reveal">
         <span class="marco marco--retrato">
-          <img
+          <picture>
+            <source type="image/webp" srcset="img/vivero/vivero-02-400.webp 400w, img/vivero/vivero-02-600.webp 600w, img/vivero/vivero-02-800.webp 800w, img/vivero/vivero-02-1200.webp 1200w, img/vivero/vivero-02.webp 2000w" sizes="(max-width: 55.99em) 92vw, 46vw" />
+            <img
             class="home-duo__foto"
             src="img/vivero/vivero-02.jpg"
             srcset="img/vivero/vivero-02-400.jpg 400w, img/vivero/vivero-02-600.jpg 600w, img/vivero/vivero-02-800.jpg 800w, img/vivero/vivero-02-1200.jpg 1200w, img/vivero/vivero-02.jpg 2000w"
@@ -1446,6 +1522,7 @@ src="https://www.facebook.com/tr?id=2840830879589956&ev=PageView&noscript=1"
             decoding="async"
             alt="Una trabajadora del vivero con gorra de Vegas del Verde, guantes y botas, sonriendo con un manojo de esquejes en la mano junto a un camellón de filodendros y acalifas rojizas sembrados en bolsa, bajo la malla de sombra."
           />
+          </picture>
         </span>
       </figure>
 
@@ -1482,40 +1559,52 @@ src="https://www.facebook.com/tr?id=2840830879589956&ev=PageView&noscript=1"
     <ul class="home-tira reveal-secuencia" role="list">
       <li class="reveal">
         <span class="marco marco--retrato">
-          <img class="home-tira__foto"
+          <picture>
+            <source type="image/webp" srcset="img/vivero/vivero-01-400.webp 400w, img/vivero/vivero-01-600.webp 600w, img/vivero/vivero-01-800.webp 800w, img/vivero/vivero-01.webp 2000w" sizes="(max-width: 47.99em) 62vw, 23vw" />
+            <img class="home-tira__foto"
             src="img/vivero/vivero-01.jpg"
             srcset="img/vivero/vivero-01-400.jpg 400w, img/vivero/vivero-01-600.jpg 600w, img/vivero/vivero-01-800.jpg 800w, img/vivero/vivero-01.jpg 2000w"
             sizes="(max-width: 47.99em) 62vw, 23vw"
             width="2000" height="3556" loading="lazy" decoding="async"
             alt="Materas de terracota con palmas, lengua de suegra y buganvilias rosadas sobre la gravilla, contra el cerramiento de guadua del vivero." />
+          </picture>
         </span>
       </li>
       <li class="reveal">
         <span class="marco marco--retrato">
-          <img class="home-tira__foto"
+          <picture>
+            <source type="image/webp" srcset="img/vivero/vivero-03-400.webp 400w, img/vivero/vivero-03-600.webp 600w, img/vivero/vivero-03-800.webp 800w, img/vivero/vivero-03.webp 2000w" sizes="(max-width: 47.99em) 62vw, 23vw" />
+            <img class="home-tira__foto"
             src="img/vivero/vivero-03.jpg"
             srcset="img/vivero/vivero-03-400.jpg 400w, img/vivero/vivero-03-600.jpg 600w, img/vivero/vivero-03-800.jpg 800w, img/vivero/vivero-03.jpg 2000w"
             sizes="(max-width: 47.99em) 62vw, 23vw"
             width="2000" height="3556" loading="lazy" decoding="async"
             alt="Camellones del vivero con plantas jóvenes sembradas en bolsa bajo la malla de sombra." />
+          </picture>
         </span>
       </li>
       <li class="reveal">
         <span class="marco marco--retrato">
-          <img class="home-tira__foto"
+          <picture>
+            <source type="image/webp" srcset="img/vivero/vivero-04-400.webp 400w, img/vivero/vivero-04-600.webp 600w, img/vivero/vivero-04-800.webp 800w, img/vivero/vivero-04.webp 2000w" sizes="(max-width: 47.99em) 62vw, 23vw" />
+            <img class="home-tira__foto"
             src="img/vivero/vivero-04.jpg"
             srcset="img/vivero/vivero-04-400.jpg 400w, img/vivero/vivero-04-600.jpg 600w, img/vivero/vivero-04-800.jpg 800w, img/vivero/vivero-04.jpg 2000w"
             sizes="(max-width: 47.99em) 62vw, 23vw"
             width="2000" height="3556" loading="lazy" decoding="async"
             alt="Plantas ornamentales de hoja ancha en materas, listas para llevar, en el área de venta del vivero." />
+          </picture>
         </span>
       </li>
       <li class="reveal">
         <span class="marco marco--retrato">
-          <img class="home-tira__foto"
+          <picture>
+            <source type="image/webp" srcset="img/parque/parque-61.webp" />
+            <img class="home-tira__foto"
             src="img/parque/parque-61.jpg"
             width="900" height="1200" loading="lazy" decoding="async"
             alt="Camino de losas de piedra entre el jardín del predio, sembrado con plantas que salen del vivero." />
+          </picture>
         </span>
       </li>
     </ul>
@@ -1749,17 +1838,24 @@ src="https://www.facebook.com/tr?id=2840830879589956&ev=PageView&noscript=1"
            escala y desplaza la imagen: sin una caja que recorte, ese
            movimiento se derramaría fuera de la banda. -->
       <span class="nosotros__escena-marco">
-      <img
-        class="nosotros__escena-foto"
-        src="img/nosotros-reja.jpg"
-        srcset="img/nosotros-reja-400.jpg 400w, img/nosotros-reja-600.jpg 600w, img/nosotros-reja-800.jpg 800w, img/nosotros-reja.jpg 1200w"
-        sizes="100vw"
-        width="1200"
-        height="2134"
-        alt="Camino de losas de piedra entre el césped, entrando bajo un túnel de árboles del predio, con matas de lengua de suegra y flores moradas a lado y lado."
-        loading="lazy"
-        decoding="async"
-      />
+      <picture>
+        <source
+          type="image/webp"
+          srcset="img/nosotros-reja-400.webp 400w, img/nosotros-reja-600.webp 600w, img/nosotros-reja-800.webp 800w, img/nosotros-reja.webp 1200w"
+          sizes="100vw"
+        />
+        <img
+          class="nosotros__escena-foto"
+          src="img/nosotros-reja.jpg"
+          srcset="img/nosotros-reja-400.jpg 400w, img/nosotros-reja-600.jpg 600w, img/nosotros-reja-800.jpg 800w, img/nosotros-reja.jpg 1200w"
+          sizes="100vw"
+          width="1200"
+          height="2134"
+          alt="Camino de losas de piedra entre el césped, entrando bajo un túnel de árboles del predio, con matas de lengua de suegra y flores moradas a lado y lado."
+          loading="lazy"
+          decoding="async"
+        />
+      </picture>
       </span>
 
       <!-- v26 · EL VELO VUELVE A CUBRIR LA BANDA ENTERA, Y ES LA ÚNICA FORMA
@@ -2284,17 +2380,24 @@ src="https://www.facebook.com/tr?id=2840830879589956&ev=PageView&noscript=1"
        `object-fit: cover` en la hoja, así que esa proporción no manda en la
        forma final de la banda. -->
   <div class="compromiso__escena">
-    <img
-      class="compromiso__foto"
-      src="img/compromiso-fondo.jpg"
-      srcset="img/compromiso-fondo-400.jpg 400w, img/compromiso-fondo-600.jpg 600w, img/compromiso-fondo-800.jpg 800w, img/compromiso-fondo-1200.jpg 1200w, img/compromiso-fondo.jpg 2268w"
-      sizes="100vw"
-      width="2268"
-      height="4032"
-      alt="Camino de piedra del predio entre matas de flores rojas y árboles altos, con la luz de la mañana entrando entre las hojas."
-      loading="lazy"
-      decoding="async"
-    />
+    <picture>
+      <source
+        type="image/webp"
+        srcset="img/compromiso-fondo-400.webp 400w, img/compromiso-fondo-600.webp 600w, img/compromiso-fondo-800.webp 800w, img/compromiso-fondo-1200.webp 1200w, img/compromiso-fondo.webp 2268w"
+        sizes="100vw"
+      />
+      <img
+        class="compromiso__foto"
+        src="img/compromiso-fondo.jpg"
+        srcset="img/compromiso-fondo-400.jpg 400w, img/compromiso-fondo-600.jpg 600w, img/compromiso-fondo-800.jpg 800w, img/compromiso-fondo-1200.jpg 1200w, img/compromiso-fondo.jpg 2268w"
+        sizes="100vw"
+        width="2268"
+        height="4032"
+        alt="Camino de piedra del predio entre matas de flores rojas y árboles altos, con la luz de la mañana entrando entre las hojas."
+        loading="lazy"
+        decoding="async"
+      />
+    </picture>
   </div>
   <div class="compromiso__velo" aria-hidden="true"></div>
 
@@ -2534,15 +2637,18 @@ src="https://www.facebook.com/tr?id=2840830879589956&ev=PageView&noscript=1"
            texto real, así que la imagen es decorativa y repetirlo sería
            leer «Vegas del Verde» dos veces con lector de pantalla. -->
       <div class="pie-final__marca">
-        <img
-          class="pie-final__simbolo"
-          src="img/logo/simbolo-transparente.png"
-          width="744"
-          height="351"
-          alt=""
-          loading="lazy"
-          decoding="async"
-        />
+        <picture>
+          <source type="image/webp" srcset="img/logo/simbolo-transparente.webp" />
+          <img
+            class="pie-final__simbolo"
+            src="img/logo/simbolo-transparente.png"
+            width="744"
+            height="351"
+            alt=""
+            loading="lazy"
+            decoding="async"
+          />
+        </picture>
         <p class="pie-final__nombre">Vegas del Verde</p>
       </div>
 

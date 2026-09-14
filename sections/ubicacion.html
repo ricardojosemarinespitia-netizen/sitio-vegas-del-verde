@@ -114,28 +114,34 @@
 
       <!-- Respaldo real: es lo que se ve mientras el mapa carga, lo que queda
            si Leaflet no está disponible y lo único que se ve sin JavaScript. -->
-      <img
-        class="ubi-mapa__respaldo"
-        src="img/mapa-ubicacion.jpg"
-        width="1200"
-        height="1111"
-        alt="Vista aérea del sector: Vegas del Verde señalado entre los árboles, con las referencias cercanas marcadas — Conjunto Natura, Anillo Vial Floridablanca-Girón, Alkosto, Makro, PriceSmart, Mediterráneo Fútbol Park, Mediterráneo Royal y los centros comerciales Cañaveral, La Florida y Caracolí, con Bucaramanga y la cordillera al fondo."
-        loading="lazy"
-        decoding="async"
-      />
+      <picture>
+        <source type="image/webp" srcset="img/mapa-ubicacion.webp" />
+        <img
+          class="ubi-mapa__respaldo"
+          src="img/mapa-ubicacion.jpg"
+          width="1200"
+          height="1111"
+          alt="Vista aérea del sector: Vegas del Verde señalado entre los árboles, con las referencias cercanas marcadas — Conjunto Natura, Anillo Vial Floridablanca-Girón, Alkosto, Makro, PriceSmart, Mediterráneo Fútbol Park, Mediterráneo Royal y los centros comerciales Cañaveral, La Florida y Caracolí, con Bucaramanga y la cordillera al fondo."
+          loading="lazy"
+          decoding="async"
+        />
+      </picture>
 
       <!-- Capa HUD (decorativa, no intercepta el puntero) -->
       <div class="ubi-hud" aria-hidden="true">
         <span class="ubi-hud__marca">
-          <img
-            class="ubi-hud__simbolo"
-            src="img/logo/simbolo-vegas.png"
-            width="512"
-            height="512"
-            alt=""
-            loading="lazy"
-            decoding="async"
-          />
+          <picture>
+            <source type="image/webp" srcset="img/logo/simbolo-vegas.webp" />
+            <img
+              class="ubi-hud__simbolo"
+              src="img/logo/simbolo-vegas.png"
+              width="512"
+              height="512"
+              alt=""
+              loading="lazy"
+              decoding="async"
+            />
+          </picture>
           Vegas del Verde
         </span>
         <span class="ubi-hud__etiqueta">Vista satelital</span>

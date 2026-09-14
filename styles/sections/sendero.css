@@ -547,7 +547,7 @@
    paralaje de naturaleza.css (nat-deriva, height 118 %) no se toca: anima
    transform y convive con cualquier object-position.
    ========================================================================== */
-.sendero .nat-apertura__principal .marco > img {
+.sendero .nat-apertura__principal .marco > picture > img {
   object-position: center 74%;
 }
 
@@ -767,7 +767,7 @@
 /* El recorte del detalle: los crotones de hoja roja y amarilla viven en el
    tercio derecho, mitad baja del original 2400×4268. Con cover en un marco
    1:1, este par de porcentajes centra el cogollo de color. */
-.snd-detalle__marco > img {
+.snd-detalle__marco > picture > img {
   object-position: 78% 72%;
 }
 
@@ -970,12 +970,12 @@ ul.snd-pasos__friso {
    gesto. El :focus-visible se queda fuera del media query: el teclado necesita
    ver dónde está, haya puntero o no. */
 @media (hover: hover) {
-  .snd-paso__disparador:hover .marco > img {
+  .snd-paso__disparador:hover .marco > picture > img {
     transform: scale(var(--escala-hover));
   }
 }
 
-.snd-paso__disparador:focus-visible .marco > img {
+.snd-paso__disparador:focus-visible .marco > picture > img {
   transform: scale(var(--escala-hover));
 }
 

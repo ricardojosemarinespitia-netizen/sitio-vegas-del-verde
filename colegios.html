@@ -25,13 +25,13 @@
   <link rel="preload" as="font" type="font/woff2" crossorigin href="styles/fonts/dm-sans-latin.woff2?v=89c7ce3a">
   <link rel="preload" as="font" type="font/woff2" crossorigin href="styles/fonts/josefin-sans-latin.woff2?v=0ff5ba86">
   <link rel="stylesheet" href="styles/tokens.css?v=e12e8d10" />
-  <link rel="stylesheet" href="styles/base.css?v=0333391e" />
+  <link rel="stylesheet" href="styles/base.css?v=cd31c700" />
   <link rel="stylesheet" href="styles/shell.css?v=794e787c" />
   <!-- La hoja de la sección se conserva TAL CUAL: al salir de index.html el
        bloque no cambia de marcado ni de clases, sólo de página. Por eso
        colegios.css deja de ir en CSS_SECCIONES del ensamblador y pasa a
        enlazarse aquí, que es el único sitio donde ya se usa. -->
-  <link rel="stylesheet" href="styles/sections/colegios.css?v=cfa38c9c" />
+  <link rel="stylesheet" href="styles/sections/colegios.css?v=d1648f67" />
   <script>document.documentElement.classList.remove('no-js');document.documentElement.classList.add('js');</script>
   <script type="application/ld+json">
   {
@@ -90,7 +90,7 @@ src="https://www.facebook.com/tr?id=2840830879589956&ev=PageView&noscript=1"
            el ensamblador. El lockup viejo (logo-vegas-barra.png a 1390 px)
            dejaba una cabecera de 260 px que tapaba la portada. -->
       <a class="marca" href="index.html" aria-label="Vegas del Verde, ir al inicio">
-        <img class="marca__simbolo" src="img/logo/simbolo-transparente.png" width="744" height="351" alt="" decoding="async" />
+        <picture><source type="image/webp" srcset="img/logo/simbolo-transparente.webp" /><img class="marca__simbolo" src="img/logo/simbolo-transparente.png" width="744" height="351" alt="" decoding="async" /></picture>
         <span class="marca__nombre"><span class="marca__nombre-linea">Vegas del</span> <span class="marca__nombre-linea">Verde</span></span>
       </a>
       <a class="btn btn-secundario btn-pequeno" href="planes.html">Volver a los planes</a>
@@ -236,13 +236,17 @@ src="https://www.facebook.com/tr?id=2840830879589956&ev=PageView&noscript=1"
             <li class="col-aula col-aula--2 reveal-secuencia">
               <figure class="col-aula__foto reveal">
                 <div class="marco">
-                  <img
-                    src="img/parque/parque-18.jpg"
-                    sizes="(min-width: 62em) 40vw, (min-width: 34rem) 34rem, 100vw"
-                    width="900" height="1200"
-                    alt="Camino de losas de piedra entre heliconias y árboles del bosque."
-                    loading="lazy" decoding="async"
-                  />
+                  <picture>
+                    <source type="image/webp" srcset="img/parque/parque-18-400.webp 400w, img/parque/parque-18-600.webp 600w, img/parque/parque-18.webp 900w" sizes="(min-width: 62em) 40vw, (min-width: 34rem) 34rem, 100vw" />
+                    <img
+                      src="img/parque/parque-18.jpg"
+                      srcset="img/parque/parque-18-400.jpg 400w, img/parque/parque-18-600.jpg 600w, img/parque/parque-18.jpg 900w"
+                      sizes="(min-width: 62em) 40vw, (min-width: 34rem) 34rem, 100vw"
+                      width="900" height="1200"
+                      alt="Camino de losas de piedra entre heliconias y árboles del bosque."
+                      loading="lazy" decoding="async"
+                    />
+                  </picture>
                 </div>
               </figure>
               <div class="placa placa--alterna col-aula__placa reveal reveal--izq">
@@ -260,14 +264,17 @@ src="https://www.facebook.com/tr?id=2840830879589956&ev=PageView&noscript=1"
             <li class="col-aula col-aula--3 reveal-secuencia">
               <figure class="col-aula__foto reveal">
                 <div class="marco">
-                  <img
-                    src="img/naturaleza-jardin-hero-1200.jpg"
-                    srcset="img/naturaleza-jardin-hero-600.jpg 600w, img/naturaleza-jardin-hero-800.jpg 800w, img/naturaleza-jardin-hero-1200.jpg 1200w"
-                    sizes="(min-width: 62em) 40vw, (min-width: 34rem) 34rem, 100vw"
-                    width="1200" height="2133"
-                    alt="Espiga de verbena morada a contraluz en el jardín de polinizadores."
-                    loading="lazy" decoding="async"
-                  />
+                  <picture>
+                    <source type="image/webp" srcset="img/naturaleza-jardin-hero-400.webp 400w, img/naturaleza-jardin-hero-600.webp 600w, img/naturaleza-jardin-hero-800.webp 800w, img/naturaleza-jardin-hero-1200.webp 1200w" sizes="(min-width: 62em) 40vw, (min-width: 34rem) 34rem, 100vw" />
+                    <img
+                      src="img/naturaleza-jardin-hero-1200.jpg"
+                      srcset="img/naturaleza-jardin-hero-400.jpg 400w, img/naturaleza-jardin-hero-600.jpg 600w, img/naturaleza-jardin-hero-800.jpg 800w, img/naturaleza-jardin-hero-1200.jpg 1200w"
+                      sizes="(min-width: 62em) 40vw, (min-width: 34rem) 34rem, 100vw"
+                      width="1200" height="2133"
+                      alt="Espiga de verbena morada a contraluz en el jardín de polinizadores."
+                      loading="lazy" decoding="async"
+                    />
+                  </picture>
                 </div>
               </figure>
               <div class="placa col-aula__placa reveal reveal--der">
@@ -290,14 +297,17 @@ src="https://www.facebook.com/tr?id=2840830879589956&ev=PageView&noscript=1"
             <li class="col-aula col-aula--4 col-aula--apaisada reveal-secuencia">
               <figure class="col-aula__foto reveal">
                 <div class="marco">
-                  <img
-                    src="img/parque/parque-32.jpg"
-                    srcset="img/parque/parque-32-400.jpg 400w, img/parque/parque-32-600.jpg 600w, img/parque/parque-32.jpg 900w"
-                    sizes="(min-width: 62em) 40vw, (min-width: 34rem) 34rem, 100vw"
-                    width="900" height="1200"
-                    alt="Un grupo en mesas de trabajo bajo la pérgola del taller, con el prado detrás."
-                    loading="lazy" decoding="async"
-                  />
+                  <picture>
+                    <source type="image/webp" srcset="img/parque/parque-32-400.webp 400w, img/parque/parque-32-600.webp 600w, img/parque/parque-32.webp 900w" sizes="(min-width: 62em) 40vw, (min-width: 34rem) 34rem, 100vw" />
+                    <img
+                      src="img/parque/parque-32.jpg"
+                      srcset="img/parque/parque-32-400.jpg 400w, img/parque/parque-32-600.jpg 600w, img/parque/parque-32.jpg 900w"
+                      sizes="(min-width: 62em) 40vw, (min-width: 34rem) 34rem, 100vw"
+                      width="900" height="1200"
+                      alt="Un grupo en mesas de trabajo bajo la pérgola del taller, con el prado detrás."
+                      loading="lazy" decoding="async"
+                    />
+                  </picture>
                 </div>
               </figure>
               <div class="placa placa--alterna col-aula__placa reveal reveal--izq">
@@ -315,13 +325,17 @@ src="https://www.facebook.com/tr?id=2840830879589956&ev=PageView&noscript=1"
             <li class="col-aula col-aula--5 col-aula--apaisada reveal-secuencia">
               <figure class="col-aula__foto reveal">
                 <div class="marco">
-                  <img
-                    src="img/eventos/cancha-horizontal.jpg"
-                    sizes="(min-width: 62em) 40vw, (min-width: 34rem) 34rem, 100vw"
-                    width="1600" height="900"
-                    alt="La cancha de fútbol sobre el prado, con los arcos blancos a la sombra de los árboles."
-                    loading="lazy" decoding="async"
-                  />
+                  <picture>
+                    <source type="image/webp" srcset="img/eventos/cancha-horizontal-400.webp 400w, img/eventos/cancha-horizontal-800.webp 800w, img/eventos/cancha-horizontal.webp 1600w" sizes="(min-width: 62em) 40vw, (min-width: 34rem) 34rem, 100vw" />
+                    <img
+                      src="img/eventos/cancha-horizontal.jpg"
+                      srcset="img/eventos/cancha-horizontal-400.jpg 400w, img/eventos/cancha-horizontal-800.jpg 800w, img/eventos/cancha-horizontal.jpg 1600w"
+                      sizes="(min-width: 62em) 40vw, (min-width: 34rem) 34rem, 100vw"
+                      width="1600" height="900"
+                      alt="La cancha de fútbol sobre el prado, con los arcos blancos a la sombra de los árboles."
+                      loading="lazy" decoding="async"
+                    />
+                  </picture>
                 </div>
               </figure>
               <div class="placa col-aula__placa reveal reveal--der">

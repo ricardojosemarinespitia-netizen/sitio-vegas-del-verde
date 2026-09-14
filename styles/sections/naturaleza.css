@@ -302,7 +302,7 @@
     border-radius: 0 var(--radio-xl) var(--radio-lg) 0;
   }
 
-  .nat-apertura__principal .marco > img {
+  .nat-apertura__principal .marco > picture > img {
     object-position: center 62%;
   }
 }
@@ -334,7 +334,7 @@
 
 @media (prefers-reduced-motion: no-preference) and (min-width: 62em) {
   @supports (animation-timeline: view()) {
-    .nat-apertura__principal .marco > img {
+    .nat-apertura__principal .marco > picture > img {
       /* 118 % de alto: el sobrante es lo que se recorre. Al final del
          recorrido la foto sigue tapando el marco entero, así que no hay
          ningún instante con una franja vacía debajo. */
@@ -2201,7 +2201,7 @@
   pointer-events: none;
 }
 
-.nat-obra__disparador > img {
+.nat-obra__disparador > picture > img {
   width: 100%;
   height: auto;
   transition: transform var(--dur-lenta) var(--ease-suave);
@@ -2215,12 +2215,12 @@
    concurso, justo donde se reportó que algo se movía sin motivo—. El teclado
    conserva su marca siempre. */
 @media (hover: hover) {
-  .nat-obra__disparador:hover > img {
+  .nat-obra__disparador:hover > picture > img {
     transform: scale(var(--escala-hover));
   }
 }
 
-.nat-obra__disparador:focus-visible > img {
+.nat-obra__disparador:focus-visible > picture > img {
   transform: scale(var(--escala-hover));
 }
 

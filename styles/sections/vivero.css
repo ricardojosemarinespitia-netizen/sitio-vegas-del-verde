@@ -323,8 +323,8 @@
 /* Encuadres: los tres originales son verticales y dos huecos no lo son del
    todo, así que se declara qué franja enseñar. Materas en el tercio bajo del
    original (65 %); el abanico de la variegada, en la franja media-alta. */
-.viv .viv-foto--a .marco > img { object-position: center 62%; }
-.viv .viv-foto--c .marco > img { object-position: center 42%; }
+.viv .viv-foto--a .marco > picture > img { object-position: center 62%; }
+.viv .viv-foto--c .marco > picture > img { object-position: center 42%; }
 
 /* La apaisada cierra el tablero cruzando las dos columnas, en móvil y sólo en
    móvil: en tableta y escritorio tiene su propia celda (abajo). */
@@ -464,7 +464,7 @@
      En absoluto, la imagen no aporta alto: las dos filas las miden las cuatro
      fotos del mosaico y el marco se queda con lo que sobra. Es el mismo
      recurso que usa .inicio__ave en inicio.css, y por el mismo motivo. */
-  .viv .viv-foto--principal .marco > img {
+  .viv .viv-foto--principal .marco > picture > img {
     position: absolute;
     inset-block-start: 0;
     inset-inline-start: 0;
@@ -575,8 +575,8 @@
    ligada al scroll (§8) y las dos cosas se disputarían el mismo `transform`.
    Los registros quedan repartidos —la pieza dominante se mueve con el scroll,
    las cuatro del mosaico con el puntero— en vez de pelearse. */
-.viv-foto:not(.viv-foto--principal):hover .marco > img,
-.viv-foto:not(.viv-foto--principal):focus-within .marco > img {
+.viv-foto:not(.viv-foto--principal):hover .marco > picture > img,
+.viv-foto:not(.viv-foto--principal):focus-within .marco > picture > img {
   transform: scale(var(--escala-hover));
 }
 

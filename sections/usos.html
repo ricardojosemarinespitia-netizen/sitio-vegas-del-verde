@@ -91,6 +91,7 @@
             aria-label="Ver foto completa de Alameda"
           >
             <picture>
+              <source type="image/webp" srcset="img/espacios/alameda-2.webp" />
               <img
                 class="usos-tarjeta__foto"
                 src="img/espacios/alameda-2.jpg"
@@ -125,26 +126,43 @@
           <h3 class="solo-lectores">Usos recomendados en Alameda</h3>
           <ul class="usos-panel__lista" role="list">
             <li class="usos-panel__uso">
-              <img src="img/parque/parque-01.jpg"
-                srcset="img/parque/parque-01-400.jpg 400w, img/parque/parque-01-600.jpg 600w, img/parque/parque-01.jpg 675w"
-                sizes="(max-width: 47.99em) 98vw, 32vw" width="800" height="533" loading="lazy" decoding="async"
-                   alt="Ceremonia montada bajo el árbol grande: sillas de madera en filas, un pasillo de flores blancas y telas claras colgadas entre las ramas." />
+              <picture>
+                <source type="image/webp" srcset="img/parque/parque-01.webp" />
+                <img src="img/parque/parque-01.jpg"
+                  srcset="img/parque/parque-01-400.jpg 400w, img/parque/parque-01-600.jpg 600w, img/parque/parque-01.jpg 675w"
+                  sizes="(max-width: 47.99em) 98vw, 32vw" width="800" height="533" loading="lazy" decoding="async"
+                     alt="Ceremonia montada bajo el árbol grande: sillas de madera en filas, un pasillo de flores blancas y telas claras colgadas entre las ramas." />
+              </picture>
               <p class="usos-panel__tipo">Bodas</p>
               <p class="usos-panel__razon">En el prado entero cabe una ceremonia grande, con sombra en los bordes para los invitados.</p>
             </li>
             <li class="usos-panel__uso">
-              <img src="img/eventos/noche-evento-1.jpg"
-                srcset="img/eventos/noche-evento-1-400.jpg 400w, img/eventos/noche-evento-1-600.jpg 600w, img/eventos/noche-evento-1-800.jpg 800w, img/eventos/noche-evento-1-1200.jpg 1200w, img/eventos/noche-evento-1.jpg 1800w"
-                sizes="(max-width: 47.99em) 98vw, 32vw" width="800" height="533" loading="lazy" decoding="async"
-                   alt="Fiesta de noche en el césped junto a una carpa blanca, con bombillos colgados, sofás de huacal y pacas de heno." />
+              <picture>
+                <source
+                  type="image/webp"
+                  srcset="img/eventos/noche-evento-1-400.webp 400w, img/eventos/noche-evento-1-600.webp 600w, img/eventos/noche-evento-1-800.webp 800w, img/eventos/noche-evento-1-1200.webp 1200w, img/eventos/noche-evento-1.webp 1800w"
+                  sizes="(max-width: 47.99em) 98vw, 32vw"
+                />
+                <img src="img/eventos/noche-evento-1.jpg"
+                  srcset="img/eventos/noche-evento-1-400.jpg 400w, img/eventos/noche-evento-1-600.jpg 600w, img/eventos/noche-evento-1-800.jpg 800w, img/eventos/noche-evento-1-1200.jpg 1200w, img/eventos/noche-evento-1.jpg 1800w"
+                  sizes="(max-width: 47.99em) 98vw, 32vw" width="800" height="533" loading="lazy" decoding="async"
+                     alt="Fiesta de noche en el césped junto a una carpa blanca, con bombillos colgados, sofás de huacal y pacas de heno." />
+              </picture>
               <p class="usos-panel__tipo">Empresarial</p>
               <p class="usos-panel__razon">Es el que más gente admite: cabe un lanzamiento o una convención de pie.</p>
             </li>
             <li class="usos-panel__uso">
-              <img src="img/parque/parque-28.jpg"
-                srcset="img/parque/parque-28-400.jpg 400w, img/parque/parque-28-600.jpg 600w, img/parque/parque-28-800.jpg 800w, img/parque/parque-28.jpg 900w"
-                sizes="(max-width: 47.99em) 98vw, 32vw" width="800" height="533" loading="lazy" decoding="async"
-                   alt="Cumpleaños infantil en una mesa de picnic sobre el césped, con la torta encendida y guirnaldas de flecos de colores entre los árboles." />
+              <picture>
+                <source
+                  type="image/webp"
+                  srcset="img/parque/parque-28-400.webp 400w, img/parque/parque-28-600.webp 600w, img/parque/parque-28.webp 900w"
+                  sizes="(max-width: 47.99em) 98vw, 32vw"
+                />
+                <img src="img/parque/parque-28.jpg"
+                  srcset="img/parque/parque-28-400.jpg 400w, img/parque/parque-28-600.jpg 600w, img/parque/parque-28-800.jpg 800w, img/parque/parque-28.jpg 900w"
+                  sizes="(max-width: 47.99em) 98vw, 32vw" width="800" height="533" loading="lazy" decoding="async"
+                     alt="Cumpleaños infantil en una mesa de picnic sobre el césped, con la torta encendida y guirnaldas de flecos de colores entre los árboles." />
+              </picture>
               <p class="usos-panel__tipo">Cumpleaños</p>
               <p class="usos-panel__razon">Sitio de sobra para la piñata, la mesa larga y los que salen corriendo.</p>
             </li>
@@ -169,7 +187,9 @@
             aria-label="Ver foto completa de La Vega"
           >
             <picture>
+              <source media="(max-width: 47.99em)" type="image/webp" srcset="img/eventos/vega-vertical.webp" />
               <source media="(max-width: 47.99em)" srcset="img/eventos/vega-vertical.jpg" />
+              <source type="image/webp" srcset="img/eventos/vega-horizontal.webp" />
               <img
                 class="usos-tarjeta__foto"
                 src="img/eventos/vega-horizontal.jpg"
@@ -206,25 +226,42 @@
             <li class="usos-panel__uso">
               <!-- boda-4.jpg no tiene derivados -400/-600: va con `src` simple, sin
                    srcset/sizes. La foto pesa lo justo y el recorte 3/2 lo hace el CSS. -->
-              <img src="img/eventos/boda-4.jpg"
-                width="800" height="533" loading="lazy" decoding="async"
-                   alt="Carpa blanca iluminada al anochecer sobre la explanada, con los invitados sentados en sofás y mesas sobre el césped." />
+              <picture>
+                <source type="image/webp" srcset="img/eventos/boda-4.webp" />
+                <img src="img/eventos/boda-4.jpg"
+                  width="800" height="533" loading="lazy" decoding="async"
+                     alt="Carpa blanca iluminada al anochecer sobre la explanada, con los invitados sentados en sofás y mesas sobre el césped." />
+              </picture>
               <p class="usos-panel__tipo">Bodas</p>
               <p class="usos-panel__razon">Sin un solo desnivel: la carpa y la pista se montan derechas, sin nivelar nada.</p>
             </li>
             <li class="usos-panel__uso">
-              <img src="img/eventos/infantil-1.jpg"
-                srcset="img/eventos/infantil-1-400.jpg 400w, img/eventos/infantil-1-600.jpg 600w, img/eventos/infantil-1.jpg 844w"
-                sizes="(max-width: 47.99em) 98vw, 67vw" width="800" height="533" loading="lazy" decoding="async"
-                   alt="Guirnaldas de flecos de colores tendidas entre los árboles sobre la explanada de césped, en una fiesta infantil." />
+              <picture>
+                <source
+                  type="image/webp"
+                  srcset="img/eventos/infantil-1-400.webp 400w, img/eventos/infantil-1-600.webp 600w, img/eventos/infantil-1.webp 844w"
+                  sizes="(max-width: 47.99em) 98vw, 67vw"
+                />
+                <img src="img/eventos/infantil-1.jpg"
+                  srcset="img/eventos/infantil-1-400.jpg 400w, img/eventos/infantil-1-600.jpg 600w, img/eventos/infantil-1.jpg 844w"
+                  sizes="(max-width: 47.99em) 98vw, 67vw" width="800" height="533" loading="lazy" decoding="async"
+                     alt="Guirnaldas de flecos de colores tendidas entre los árboles sobre la explanada de césped, en una fiesta infantil." />
+              </picture>
               <p class="usos-panel__tipo">Cumpleaños</p>
               <p class="usos-panel__razon">Piso parejo de punta a punta: entran inflables y juegos sin buscarles un tramo plano.</p>
             </li>
             <li class="usos-panel__uso">
-              <img src="img/eventos/yoga-1.jpg"
-                srcset="img/eventos/yoga-1-400.jpg 400w, img/eventos/yoga-1-600.jpg 600w, img/eventos/yoga-1-800.jpg 800w, img/eventos/yoga-1.jpg 1125w"
-                sizes="(max-width: 47.99em) 98vw, 32vw" width="800" height="533" loading="lazy" decoding="async"
-                   alt="Sesión de acondicionamiento al aire libre: un grupo de adultos mayores sentados en sillas, con los tapetes extendidos sobre el césped." />
+              <picture>
+                <source
+                  type="image/webp"
+                  srcset="img/eventos/yoga-1-400.webp 400w, img/eventos/yoga-1-600.webp 600w, img/eventos/yoga-1-800.webp 800w, img/eventos/yoga-1.webp 1125w"
+                  sizes="(max-width: 47.99em) 98vw, 32vw"
+                />
+                <img src="img/eventos/yoga-1.jpg"
+                  srcset="img/eventos/yoga-1-400.jpg 400w, img/eventos/yoga-1-600.jpg 600w, img/eventos/yoga-1-800.jpg 800w, img/eventos/yoga-1.jpg 1125w"
+                  sizes="(max-width: 47.99em) 98vw, 32vw" width="800" height="533" loading="lazy" decoding="async"
+                     alt="Sesión de acondicionamiento al aire libre: un grupo de adultos mayores sentados en sillas, con los tapetes extendidos sobre el césped." />
+              </picture>
               <p class="usos-panel__tipo">Bienestar</p>
               <p class="usos-panel__razon">Superficie pareja de borde a borde: los tapetes quedan todos a la misma altura.</p>
             </li>
@@ -249,6 +286,7 @@
             aria-label="Ver foto completa de Teatrino"
           >
             <picture>
+              <source type="image/webp" srcset="img/eventos/boda-4.webp" />
               <img
                 class="usos-tarjeta__foto"
                 src="img/eventos/boda-4.jpg"
@@ -283,26 +321,47 @@
           <h3 class="solo-lectores">Usos recomendados en Teatrino</h3>
           <ul class="usos-panel__lista" role="list">
             <li class="usos-panel__uso">
-              <img src="img/eventos/boda-3.jpg"
-                srcset="img/eventos/boda-3-400.jpg 400w, img/eventos/boda-3-600.jpg 600w, img/eventos/boda-3-800.jpg 800w, img/eventos/boda-3-1200.jpg 1200w, img/eventos/boda-3.jpg 1500w"
-                sizes="(max-width: 47.99em) 98vw, 32vw" width="800" height="533" loading="lazy" decoding="async"
-                   alt="Ceremonia íntima bajo la sombra de un árbol grande, con pocas sillas dispuestas en semicírculo." />
+              <picture>
+                <source
+                  type="image/webp"
+                  srcset="img/eventos/boda-3-400.webp 400w, img/eventos/boda-3-600.webp 600w, img/eventos/boda-3-800.webp 800w, img/eventos/boda-3-1200.webp 1200w, img/eventos/boda-3.webp 1500w"
+                  sizes="(max-width: 47.99em) 98vw, 32vw"
+                />
+                <img src="img/eventos/boda-3.jpg"
+                  srcset="img/eventos/boda-3-400.jpg 400w, img/eventos/boda-3-600.jpg 600w, img/eventos/boda-3-800.jpg 800w, img/eventos/boda-3-1200.jpg 1200w, img/eventos/boda-3.jpg 1500w"
+                  sizes="(max-width: 47.99em) 98vw, 32vw" width="800" height="533" loading="lazy" decoding="async"
+                     alt="Ceremonia íntima bajo la sombra de un árbol grande, con pocas sillas dispuestas en semicírculo." />
+              </picture>
               <p class="usos-panel__tipo">Bodas íntimas</p>
               <p class="usos-panel__razon">La copa del árbol hace de techo: ceremonias pequeñas, más recogidas que en la Alameda.</p>
             </li>
             <li class="usos-panel__uso">
-              <img src="img/eventos/cumpleanos-1.jpg"
-                srcset="img/eventos/cumpleanos-1-400.jpg 400w, img/eventos/cumpleanos-1-600.jpg 600w, img/eventos/cumpleanos-1.jpg 844w"
-                sizes="(max-width: 47.99em) 98vw, 32vw" width="800" height="533" loading="lazy" decoding="async"
-                   alt="Picnic de cumpleaños decorado sobre el césped: mesas bajas de huacal con manteles de cuadros, cojines y guirnaldas de flecos entre dos árboles." />
+              <picture>
+                <source
+                  type="image/webp"
+                  srcset="img/eventos/cumpleanos-1-400.webp 400w, img/eventos/cumpleanos-1-600.webp 600w, img/eventos/cumpleanos-1.webp 844w"
+                  sizes="(max-width: 47.99em) 98vw, 32vw"
+                />
+                <img src="img/eventos/cumpleanos-1.jpg"
+                  srcset="img/eventos/cumpleanos-1-400.jpg 400w, img/eventos/cumpleanos-1-600.jpg 600w, img/eventos/cumpleanos-1.jpg 844w"
+                  sizes="(max-width: 47.99em) 98vw, 32vw" width="800" height="533" loading="lazy" decoding="async"
+                     alt="Picnic de cumpleaños decorado sobre el césped: mesas bajas de huacal con manteles de cuadros, cojines y guirnaldas de flecos entre dos árboles." />
+              </picture>
               <p class="usos-panel__tipo">Cumpleaños</p>
               <p class="usos-panel__razon">La sombra del árbol cubre casi todo el claro: la fiesta no necesita toldo aparte.</p>
             </li>
             <li class="usos-panel__uso">
-              <img src="img/parque/parque-31.jpg"
-                srcset="img/parque/parque-31-400.jpg 400w, img/parque/parque-31-600.jpg 600w, img/parque/parque-31-800.jpg 800w, img/parque/parque-31.jpg 1200w"
-                sizes="(max-width: 47.99em) 98vw, 32vw" width="800" height="533" loading="lazy" decoding="async"
-                   alt="Grupo sentado en sillas puestas en círculo sobre el césped, con la instructora al frente." />
+              <picture>
+                <source
+                  type="image/webp"
+                  srcset="img/parque/parque-31-400.webp 400w, img/parque/parque-31-600.webp 600w, img/parque/parque-31-800.webp 800w, img/parque/parque-31.webp 1200w"
+                  sizes="(max-width: 47.99em) 98vw, 32vw"
+                />
+                <img src="img/parque/parque-31.jpg"
+                  srcset="img/parque/parque-31-400.jpg 400w, img/parque/parque-31-600.jpg 600w, img/parque/parque-31-800.jpg 800w, img/parque/parque-31.jpg 1200w"
+                  sizes="(max-width: 47.99em) 98vw, 32vw" width="800" height="533" loading="lazy" decoding="async"
+                     alt="Grupo sentado en sillas puestas en círculo sobre el césped, con la instructora al frente." />
+              </picture>
               <p class="usos-panel__tipo">Charlas y talleres</p>
               <p class="usos-panel__razon">El césped hace de platea natural para un grupo pequeño reunido en círculo.</p>
             </li>
@@ -327,6 +386,7 @@
             aria-label="Ver foto completa de Taller"
           >
             <picture>
+              <source type="image/webp" srcset="img/espacios/taller-1.webp" />
               <img
                 class="usos-tarjeta__foto"
                 src="img/espacios/taller-1.jpg"
@@ -361,26 +421,47 @@
           <h3 class="solo-lectores">Usos recomendados en Taller</h3>
           <ul class="usos-panel__lista" role="list">
             <li class="usos-panel__uso">
-              <img src="img/parque/parque-32.jpg"
-                srcset="img/parque/parque-32-400.jpg 400w, img/parque/parque-32-600.jpg 600w, img/parque/parque-32-800.jpg 800w, img/parque/parque-32.jpg 900w"
-                sizes="(max-width: 47.99em) 98vw, 32vw" width="800" height="533" loading="lazy" decoding="async"
-                   alt="Reunión en mesas bajo la cubierta de caña del Taller, con el jardín al fondo." />
+              <picture>
+                <source
+                  type="image/webp"
+                  srcset="img/parque/parque-32-400.webp 400w, img/parque/parque-32-600.webp 600w, img/parque/parque-32.webp 900w"
+                  sizes="(max-width: 47.99em) 98vw, 32vw"
+                />
+                <img src="img/parque/parque-32.jpg"
+                  srcset="img/parque/parque-32-400.jpg 400w, img/parque/parque-32-600.jpg 600w, img/parque/parque-32-800.jpg 800w, img/parque/parque-32.jpg 900w"
+                  sizes="(max-width: 47.99em) 98vw, 32vw" width="800" height="533" loading="lazy" decoding="async"
+                     alt="Reunión en mesas bajo la cubierta de caña del Taller, con el jardín al fondo." />
+              </picture>
               <p class="usos-panel__tipo">Empresarial</p>
               <p class="usos-panel__razon">Es el único techado del predio: la reunión sigue igual aunque llueva.</p>
             </li>
             <li class="usos-panel__uso">
-              <img src="img/eventos/infantil-3.jpg"
-                srcset="img/eventos/infantil-3-400.jpg 400w, img/eventos/infantil-3-600.jpg 600w, img/eventos/infantil-3-800.jpg 800w, img/eventos/infantil-3-1200.jpg 1200w, img/eventos/infantil-3.jpg 1500w"
-                sizes="(max-width: 47.99em) 98vw, 32vw" width="800" height="533" loading="lazy" decoding="async"
-                   alt="Lectura de cuentos con un grupo de niños sentados sobre el césped, con los aros de juego a un lado." />
+              <picture>
+                <source
+                  type="image/webp"
+                  srcset="img/eventos/infantil-3-400.webp 400w, img/eventos/infantil-3-600.webp 600w, img/eventos/infantil-3-800.webp 800w, img/eventos/infantil-3-1200.webp 1200w, img/eventos/infantil-3.webp 1500w"
+                  sizes="(max-width: 47.99em) 98vw, 32vw"
+                />
+                <img src="img/eventos/infantil-3.jpg"
+                  srcset="img/eventos/infantil-3-400.jpg 400w, img/eventos/infantil-3-600.jpg 600w, img/eventos/infantil-3-800.jpg 800w, img/eventos/infantil-3-1200.jpg 1200w, img/eventos/infantil-3.jpg 1500w"
+                  sizes="(max-width: 47.99em) 98vw, 32vw" width="800" height="533" loading="lazy" decoding="async"
+                     alt="Lectura de cuentos con un grupo de niños sentados sobre el césped, con los aros de juego a un lado." />
+              </picture>
               <p class="usos-panel__tipo">Cumpleaños infantil</p>
               <p class="usos-panel__razon">Piso firme y seco para los juegos de los más chicos, sin barro ni sol directo.</p>
             </li>
             <li class="usos-panel__uso">
-              <img src="img/eventos/taller-educativo-cuento.jpg"
-                srcset="img/eventos/taller-educativo-cuento-400.jpg 400w, img/eventos/taller-educativo-cuento-600.jpg 600w, img/eventos/taller-educativo-cuento-800.jpg 800w, img/eventos/taller-educativo-cuento-1200.jpg 1200w, img/eventos/taller-educativo-cuento.jpg 1600w"
-                sizes="(max-width: 47.99em) 98vw, 32vw" width="800" height="533" loading="lazy" decoding="async"
-                   alt="Taller al aire libre: un corro de niños sentados sobre el césped escucha a la monitora que les muestra un cuento." />
+              <picture>
+                <source
+                  type="image/webp"
+                  srcset="img/eventos/taller-educativo-cuento-400.webp 400w, img/eventos/taller-educativo-cuento-600.webp 600w, img/eventos/taller-educativo-cuento-800.webp 800w, img/eventos/taller-educativo-cuento-1200.webp 1200w, img/eventos/taller-educativo-cuento.webp 1600w"
+                  sizes="(max-width: 47.99em) 98vw, 32vw"
+                />
+                <img src="img/eventos/taller-educativo-cuento.jpg"
+                  srcset="img/eventos/taller-educativo-cuento-400.jpg 400w, img/eventos/taller-educativo-cuento-600.jpg 600w, img/eventos/taller-educativo-cuento-800.jpg 800w, img/eventos/taller-educativo-cuento-1200.jpg 1200w, img/eventos/taller-educativo-cuento.jpg 1600w"
+                  sizes="(max-width: 47.99em) 98vw, 32vw" width="800" height="533" loading="lazy" decoding="async"
+                     alt="Taller al aire libre: un corro de niños sentados sobre el césped escucha a la monitora que les muestra un cuento." />
+              </picture>
               <p class="usos-panel__tipo">Talleres</p>
               <p class="usos-panel__razon">Una clase entera cabe sentada, con el material a resguardo.</p>
             </li>
@@ -414,6 +495,7 @@
                    tarjetas 1, 3 y 4. width/height son los reales de la vertical
                    (900×1600): dejar los 1600×900 de la horizontal reservaba un
                    hueco con la proporción equivocada y saltaba el layout. -->
+              <source type="image/webp" srcset="img/eventos/cancha-vertical.webp" />
               <img
                 class="usos-tarjeta__foto"
                 src="img/eventos/cancha-vertical.jpg"
@@ -448,26 +530,43 @@
           <h3 class="solo-lectores">Usos recomendados en Cancha</h3>
           <ul class="usos-panel__lista" role="list">
             <li class="usos-panel__uso">
-              <img src="img/parque/parque-29.jpg"
-                srcset="img/parque/parque-29-400.jpg 400w, img/parque/parque-29-600.jpg 600w, img/parque/parque-29-800.jpg 800w, img/parque/parque-29.jpg 900w"
-                sizes="(max-width: 47.99em) 98vw, 32vw" width="800" height="533" loading="lazy" decoding="async"
-                   alt="Niños en una mesa de picnic sobre el campo abierto, uno de pie atrapando pompas de jabón." />
+              <picture>
+                <source
+                  type="image/webp"
+                  srcset="img/parque/parque-29-400.webp 400w, img/parque/parque-29-600.webp 600w, img/parque/parque-29.webp 900w"
+                  sizes="(max-width: 47.99em) 98vw, 32vw"
+                />
+                <img src="img/parque/parque-29.jpg"
+                  srcset="img/parque/parque-29-400.jpg 400w, img/parque/parque-29-600.jpg 600w, img/parque/parque-29-800.jpg 800w, img/parque/parque-29.jpg 900w"
+                  sizes="(max-width: 47.99em) 98vw, 32vw" width="800" height="533" loading="lazy" decoding="async"
+                     alt="Niños en una mesa de picnic sobre el campo abierto, uno de pie atrapando pompas de jabón." />
+              </picture>
               <p class="usos-panel__tipo">Cumpleaños deportivos</p>
               <p class="usos-panel__razon">El campo despejado alcanza para un torneo entero o los juegos de la fiesta.</p>
             </li>
             <li class="usos-panel__uso">
-              <img src="img/parque/parque-21.jpg"
-                srcset="img/parque/parque-21-400.jpg 400w, img/parque/parque-21-600.jpg 600w, img/parque/parque-21.jpg 900w"
-                sizes="(max-width: 47.99em) 98vw, 32vw" width="800" height="533" loading="lazy" decoding="async"
-                   alt="Trece adultos posando juntos sobre el césped, a la sombra de los árboles, al terminar una jornada de equipo." />
+              <picture>
+                <source
+                  type="image/webp"
+                  srcset="img/parque/parque-21-400.webp 400w, img/parque/parque-21-600.webp 600w, img/parque/parque-21.webp 900w"
+                  sizes="(max-width: 47.99em) 98vw, 32vw"
+                />
+                <img src="img/parque/parque-21.jpg"
+                  srcset="img/parque/parque-21-400.jpg 400w, img/parque/parque-21-600.jpg 600w, img/parque/parque-21.jpg 900w"
+                  sizes="(max-width: 47.99em) 98vw, 32vw" width="800" height="533" loading="lazy" decoding="async"
+                     alt="Trece adultos posando juntos sobre el césped, a la sombra de los árboles, al terminar una jornada de equipo." />
+              </picture>
               <p class="usos-panel__tipo">Integración empresarial</p>
               <p class="usos-panel__razon">Un partido de por medio cambia cualquier jornada de equipo.</p>
             </li>
             <li class="usos-panel__uso">
               <!-- parque-27.jpg no tiene derivados -400/-600: `src` simple. -->
-              <img src="img/parque/parque-27.jpg"
-                width="800" height="533" loading="lazy" decoding="async"
-                   alt="Niños sentados en círculo sobre el césped con dos monitoras, bajo guirnaldas de colores tendidas entre los árboles." />
+              <picture>
+                <source type="image/webp" srcset="img/parque/parque-27.webp" />
+                <img src="img/parque/parque-27.jpg"
+                  width="800" height="533" loading="lazy" decoding="async"
+                     alt="Niños sentados en círculo sobre el césped con dos monitoras, bajo guirnaldas de colores tendidas entre los árboles." />
+              </picture>
               <p class="usos-panel__tipo">Familiares</p>
               <p class="usos-panel__razon">Tardes de fútbol y juegos con el guadual haciendo de borde y de sombra.</p>
             </li>

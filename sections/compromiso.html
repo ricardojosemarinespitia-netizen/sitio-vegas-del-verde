@@ -103,17 +103,24 @@
        `object-fit: cover` en la hoja, así que esa proporción no manda en la
        forma final de la banda. -->
   <div class="compromiso__escena">
-    <img
-      class="compromiso__foto"
-      src="img/compromiso-fondo.jpg"
-      srcset="img/compromiso-fondo-400.jpg 400w, img/compromiso-fondo-600.jpg 600w, img/compromiso-fondo-800.jpg 800w, img/compromiso-fondo-1200.jpg 1200w, img/compromiso-fondo.jpg 2268w"
-      sizes="100vw"
-      width="2268"
-      height="4032"
-      alt="Camino de piedra del predio entre matas de flores rojas y árboles altos, con la luz de la mañana entrando entre las hojas."
-      loading="lazy"
-      decoding="async"
-    />
+    <picture>
+      <source
+        type="image/webp"
+        srcset="img/compromiso-fondo-400.webp 400w, img/compromiso-fondo-600.webp 600w, img/compromiso-fondo-800.webp 800w, img/compromiso-fondo-1200.webp 1200w, img/compromiso-fondo.webp 2268w"
+        sizes="100vw"
+      />
+      <img
+        class="compromiso__foto"
+        src="img/compromiso-fondo.jpg"
+        srcset="img/compromiso-fondo-400.jpg 400w, img/compromiso-fondo-600.jpg 600w, img/compromiso-fondo-800.jpg 800w, img/compromiso-fondo-1200.jpg 1200w, img/compromiso-fondo.jpg 2268w"
+        sizes="100vw"
+        width="2268"
+        height="4032"
+        alt="Camino de piedra del predio entre matas de flores rojas y árboles altos, con la luz de la mañana entrando entre las hojas."
+        loading="lazy"
+        decoding="async"
+      />
+    </picture>
   </div>
   <div class="compromiso__velo" aria-hidden="true"></div>
 

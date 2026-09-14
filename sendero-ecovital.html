@@ -36,13 +36,13 @@
 <link rel="preload" as="font" type="font/woff2" crossorigin href="styles/fonts/josefin-sans-latin.woff2?v=0ff5ba86">
 
 <link rel="stylesheet" href="styles/tokens.css?v=e12e8d10">
-<link rel="stylesheet" href="styles/base.css?v=0333391e">
+<link rel="stylesheet" href="styles/base.css?v=cd31c700">
 <link rel="stylesheet" href="styles/shell.css?v=794e787c">
 <!-- Este bloque lo REESCRIBE herramientas/ensamblar.js a partir de PAGINAS.
      No lo edites a mano: la lista buena está allí. -->
-<link rel="stylesheet" href="styles/sections/home.css?v=4fcd0fb5">
-<link rel="stylesheet" href="styles/sections/naturaleza.css?v=63795e9f">
-<link rel="stylesheet" href="styles/sections/sendero.css?v=28c32d68">
+<link rel="stylesheet" href="styles/sections/home.css?v=58608817">
+<link rel="stylesheet" href="styles/sections/naturaleza.css?v=af63d809">
+<link rel="stylesheet" href="styles/sections/sendero.css?v=becd0dde">
 <link rel="stylesheet" href="styles/sections/pie.css?v=0a889dce">
 <link rel="stylesheet" href="styles/lightbox.css?v=92a48a1f">
 
@@ -132,14 +132,17 @@ src="https://www.facebook.com/tr?id=2840830879589956&ev=PageView&noscript=1"
 
            Las páginas sueltas que no usan este fragmento siguen como estaban:
            no era el pedido. -->
-      <img
-        class="marca__simbolo"
-        src="img/logo/simbolo-transparente.png"
-        width="744"
-        height="351"
-        alt=""
-        decoding="async"
-      />
+      <picture>
+        <source type="image/webp" srcset="img/logo/simbolo-transparente.webp" />
+        <img
+          class="marca__simbolo"
+          src="img/logo/simbolo-transparente.png"
+          width="744"
+          height="351"
+          alt=""
+          decoding="async"
+        />
+      </picture>
       <!-- v31 · El nombre viene partido en dos <span> por una razón de layout,
            no de semántica: por debajo de 23 em (≈368 px) «Vegas del Verde» no
            cabe en una línea al lado del símbolo, y la única forma de que el
@@ -692,7 +695,9 @@ src="https://www.facebook.com/tr?id=2840830879589956&ev=PageView&noscript=1"
            object-position está en sendero.css §5, no aquí. -->
       <figure class="nat-apertura__principal">
         <div class="marco marco--retrato">
-          <img
+          <picture>
+            <source type="image/webp" srcset="img/sendero/sendero-hero-400.webp 400w, img/sendero/sendero-hero-600.webp 600w, img/sendero/sendero-hero-800.webp 800w, img/sendero/sendero-hero-1200.webp 1200w, img/sendero/sendero-hero.webp 2400w" sizes="(max-width: 47.99em) 94vw, 96vw" />
+            <img
             src="img/sendero/sendero-hero.jpg"
             srcset="img/sendero/sendero-hero-400.jpg 400w, img/sendero/sendero-hero-600.jpg 600w, img/sendero/sendero-hero-800.jpg 800w, img/sendero/sendero-hero-1200.jpg 1200w, img/sendero/sendero-hero.jpg 2400w"
             sizes="(max-width: 47.99em) 94vw, 96vw"
@@ -702,6 +707,7 @@ src="https://www.facebook.com/tr?id=2840830879589956&ev=PageView&noscript=1"
             decoding="async"
             alt="El camino de pasto del Sendero Ecovital entre el seto y una hilera de crotones de hoja roja y amarilla, bajo árboles altos y cielo despejado"
           />
+          </picture>
         </div>
       </figure>
 
@@ -723,7 +729,9 @@ src="https://www.facebook.com/tr?id=2840830879589956&ev=PageView&noscript=1"
            rótulo visible. -->
       <figure class="snd-detalle reveal reveal--velo">
         <div class="marco marco--1-1 snd-detalle__marco">
-          <img
+          <picture>
+            <source type="image/webp" srcset="img/sendero/sendero-hero-400.webp 400w, img/sendero/sendero-hero-800.webp 800w" sizes="(max-width: 47.99em) 34vw, 10rem" />
+            <img
             src="img/sendero/sendero-hero-800.jpg"
             srcset="img/sendero/sendero-hero-400.jpg 400w, img/sendero/sendero-hero-800.jpg 800w"
             sizes="(max-width: 47.99em) 34vw, 10rem"
@@ -733,13 +741,16 @@ src="https://www.facebook.com/tr?id=2840830879589956&ev=PageView&noscript=1"
             decoding="async"
             alt=""
           />
+          </picture>
         </div>
         <figcaption class="credito snd-detalle__pie">Crotones del camino</figcaption>
       </figure>
 
       <figure class="nat-apertura__inset">
         <div class="marco marco--1-1">
-          <img
+          <picture>
+            <source type="image/webp" srcset="img/parque/parque-45-400.webp 400w, img/parque/parque-45.webp 675w" sizes="(max-width: 47.99em) 43vw, 25vw" />
+            <img
             src="img/parque/parque-45.jpg"
             srcset="img/parque/parque-45-400.jpg 400w, img/parque/parque-45.jpg 675w"
             sizes="(max-width: 47.99em) 43vw, 25vw"
@@ -749,6 +760,7 @@ src="https://www.facebook.com/tr?id=2840830879589956&ev=PageView&noscript=1"
             decoding="async"
             alt="Cerramiento de cañas de guadua del predio, con orquídeas colgadas de una vara y materas de barro sobre la gravilla"
           />
+          </picture>
         </div>
         <figcaption class="credito nat-apertura__pie">Guadua del predio</figcaption>
       </figure>
@@ -994,7 +1006,9 @@ src="https://www.facebook.com/tr?id=2840830879589956&ev=PageView&noscript=1"
             data-lightbox-src="img/sendero/sendero-sombra.jpg"
           >
             <div class="marco snd-paso__marco">
-              <img
+              <picture>
+                <source type="image/webp" srcset="img/sendero/sendero-sombra-400.webp 400w, img/sendero/sendero-sombra-600.webp 600w, img/sendero/sendero-sombra-800.webp 800w, img/sendero/sendero-sombra-1200.webp 1200w, img/sendero/sendero-sombra.webp 2400w" sizes="(max-width: 61.99em) 46vw, 22vw" />
+                <img
                 src="img/sendero/sendero-sombra.jpg"
                 srcset="img/sendero/sendero-sombra-400.jpg 400w, img/sendero/sendero-sombra-600.jpg 600w, img/sendero/sendero-sombra-800.jpg 800w, img/sendero/sendero-sombra-1200.jpg 1200w, img/sendero/sendero-sombra.jpg 2400w"
                 sizes="(max-width: 61.99em) 46vw, 22vw"
@@ -1004,6 +1018,7 @@ src="https://www.facebook.com/tr?id=2840830879589956&ev=PageView&noscript=1"
                 decoding="async"
                 alt="Un tramo en sombra del sendero: el camino de hojarasca pasa bajo un túnel de ramas y hojas y se abre al fondo a un claro de pasto con sol"
               />
+              </picture>
             </div>
           </button>
           <figcaption class="credito snd-paso__pie">Bajo las ramas</figcaption>
@@ -1023,7 +1038,9 @@ src="https://www.facebook.com/tr?id=2840830879589956&ev=PageView&noscript=1"
             data-lightbox-src="img/sendero/sendero-guadual.jpg"
           >
             <div class="marco snd-paso__marco">
-              <img
+              <picture>
+                <source type="image/webp" srcset="img/sendero/sendero-guadual-400.webp 400w, img/sendero/sendero-guadual-600.webp 600w, img/sendero/sendero-guadual-800.webp 800w, img/sendero/sendero-guadual-1200.webp 1200w, img/sendero/sendero-guadual.webp 2400w" sizes="(max-width: 61.99em) 46vw, 22vw" />
+                <img
                 src="img/sendero/sendero-guadual.jpg"
                 srcset="img/sendero/sendero-guadual-400.jpg 400w, img/sendero/sendero-guadual-600.jpg 600w, img/sendero/sendero-guadual-800.jpg 800w, img/sendero/sendero-guadual-1200.jpg 1200w, img/sendero/sendero-guadual.jpg 2400w"
                 sizes="(max-width: 61.99em) 46vw, 22vw"
@@ -1033,6 +1050,7 @@ src="https://www.facebook.com/tr?id=2840830879589956&ev=PageView&noscript=1"
                 decoding="async"
                 alt="El guadual del sendero: cañas de guadua altas y delgadas, el suelo cubierto de sus hojas secas y la luz entrando de lado entre los tallos"
               />
+              </picture>
             </div>
           </button>
           <figcaption class="credito snd-paso__pie">El guadual</figcaption>
@@ -1052,7 +1070,9 @@ src="https://www.facebook.com/tr?id=2840830879589956&ev=PageView&noscript=1"
             data-lightbox-src="img/sendero/sendero-hojas-anchas.jpg"
           >
             <div class="marco snd-paso__marco">
-              <img
+              <picture>
+                <source type="image/webp" srcset="img/sendero/sendero-hojas-anchas-400.webp 400w, img/sendero/sendero-hojas-anchas-600.webp 600w, img/sendero/sendero-hojas-anchas-800.webp 800w, img/sendero/sendero-hojas-anchas-1200.webp 1200w, img/sendero/sendero-hojas-anchas.webp 2400w" sizes="(max-width: 61.99em) 46vw, 22vw" />
+                <img
                 src="img/sendero/sendero-hojas-anchas.jpg"
                 srcset="img/sendero/sendero-hojas-anchas-400.jpg 400w, img/sendero/sendero-hojas-anchas-600.jpg 600w, img/sendero/sendero-hojas-anchas-800.jpg 800w, img/sendero/sendero-hojas-anchas-1200.jpg 1200w, img/sendero/sendero-hojas-anchas.jpg 2400w"
                 sizes="(max-width: 61.99em) 46vw, 22vw"
@@ -1062,6 +1082,7 @@ src="https://www.facebook.com/tr?id=2840830879589956&ev=PageView&noscript=1"
                 decoding="async"
                 alt="Un tramo del sendero cubierto de hojarasca, con matas de hojas anchas a la izquierda, árboles cerrando arriba y el pasto asomando al fondo"
               />
+              </picture>
             </div>
           </button>
           <figcaption class="credito snd-paso__pie">Entre hojas anchas</figcaption>
@@ -1081,7 +1102,9 @@ src="https://www.facebook.com/tr?id=2840830879589956&ev=PageView&noscript=1"
             data-lightbox-src="img/sendero/sendero-crotones-cerca.jpg"
           >
             <div class="marco snd-paso__marco">
-              <img
+              <picture>
+                <source type="image/webp" srcset="img/sendero/sendero-crotones-cerca-400.webp 400w, img/sendero/sendero-crotones-cerca-600.webp 600w, img/sendero/sendero-crotones-cerca-800.webp 800w, img/sendero/sendero-crotones-cerca-1200.webp 1200w, img/sendero/sendero-crotones-cerca.webp 2400w" sizes="(max-width: 61.99em) 46vw, 22vw" />
+                <img
                 src="img/sendero/sendero-crotones-cerca.jpg"
                 srcset="img/sendero/sendero-crotones-cerca-400.jpg 400w, img/sendero/sendero-crotones-cerca-600.jpg 600w, img/sendero/sendero-crotones-cerca-800.jpg 800w, img/sendero/sendero-crotones-cerca-1200.jpg 1200w, img/sendero/sendero-crotones-cerca.jpg 2400w"
                 sizes="(max-width: 61.99em) 46vw, 22vw"
@@ -1091,6 +1114,7 @@ src="https://www.facebook.com/tr?id=2840830879589956&ev=PageView&noscript=1"
                 decoding="async"
                 alt="Crotones de hoja roja, amarilla y verde vistos de cerca al borde del sendero, con el camino de pasto siguiendo a la izquierda bajo los árboles"
               />
+              </picture>
             </div>
           </button>
           <figcaption class="credito snd-paso__pie">Los crotones, de cerca</figcaption>
@@ -1208,15 +1232,18 @@ src="https://www.facebook.com/tr?id=2840830879589956&ev=PageView&noscript=1"
            texto real, así que la imagen es decorativa y repetirlo sería
            leer «Vegas del Verde» dos veces con lector de pantalla. -->
       <div class="pie-final__marca">
-        <img
-          class="pie-final__simbolo"
-          src="img/logo/simbolo-transparente.png"
-          width="744"
-          height="351"
-          alt=""
-          loading="lazy"
-          decoding="async"
-        />
+        <picture>
+          <source type="image/webp" srcset="img/logo/simbolo-transparente.webp" />
+          <img
+            class="pie-final__simbolo"
+            src="img/logo/simbolo-transparente.png"
+            width="744"
+            height="351"
+            alt=""
+            loading="lazy"
+            decoding="async"
+          />
+        </picture>
         <p class="pie-final__nombre">Vegas del Verde</p>
       </div>
 

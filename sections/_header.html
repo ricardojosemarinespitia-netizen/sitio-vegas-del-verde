@@ -46,14 +46,17 @@
 
            Las páginas sueltas que no usan este fragmento siguen como estaban:
            no era el pedido. -->
-      <img
-        class="marca__simbolo"
-        src="img/logo/simbolo-transparente.png"
-        width="744"
-        height="351"
-        alt=""
-        decoding="async"
-      />
+      <picture>
+        <source type="image/webp" srcset="img/logo/simbolo-transparente.webp" />
+        <img
+          class="marca__simbolo"
+          src="img/logo/simbolo-transparente.png"
+          width="744"
+          height="351"
+          alt=""
+          decoding="async"
+        />
+      </picture>
       <!-- v31 · El nombre viene partido en dos <span> por una razón de layout,
            no de semántica: por debajo de 23 em (≈368 px) «Vegas del Verde» no
            cabe en una línea al lado del símbolo, y la única forma de que el

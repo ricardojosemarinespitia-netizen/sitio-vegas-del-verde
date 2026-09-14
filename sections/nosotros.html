@@ -224,17 +224,24 @@
            escala y desplaza la imagen: sin una caja que recorte, ese
            movimiento se derramaría fuera de la banda. -->
       <span class="nosotros__escena-marco">
-      <img
-        class="nosotros__escena-foto"
-        src="img/nosotros-reja.jpg"
-        srcset="img/nosotros-reja-400.jpg 400w, img/nosotros-reja-600.jpg 600w, img/nosotros-reja-800.jpg 800w, img/nosotros-reja.jpg 1200w"
-        sizes="100vw"
-        width="1200"
-        height="2134"
-        alt="Camino de losas de piedra entre el césped, entrando bajo un túnel de árboles del predio, con matas de lengua de suegra y flores moradas a lado y lado."
-        loading="lazy"
-        decoding="async"
-      />
+      <picture>
+        <source
+          type="image/webp"
+          srcset="img/nosotros-reja-400.webp 400w, img/nosotros-reja-600.webp 600w, img/nosotros-reja-800.webp 800w, img/nosotros-reja.webp 1200w"
+          sizes="100vw"
+        />
+        <img
+          class="nosotros__escena-foto"
+          src="img/nosotros-reja.jpg"
+          srcset="img/nosotros-reja-400.jpg 400w, img/nosotros-reja-600.jpg 600w, img/nosotros-reja-800.jpg 800w, img/nosotros-reja.jpg 1200w"
+          sizes="100vw"
+          width="1200"
+          height="2134"
+          alt="Camino de losas de piedra entre el césped, entrando bajo un túnel de árboles del predio, con matas de lengua de suegra y flores moradas a lado y lado."
+          loading="lazy"
+          decoding="async"
+        />
+      </picture>
       </span>
 
       <!-- v26 · EL VELO VUELVE A CUBRIR LA BANDA ENTERA, Y ES LA ÚNICA FORMA
