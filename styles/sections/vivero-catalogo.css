@@ -1,0 +1,262 @@
+/* ==========================================================================
+   VEGAS DEL VERDE — styles/sections/vivero-catalogo.css
+   LA PUERTA AL CATÁLOGO DENTRO DE LA SECCIÓN DEL VIVERO
+
+   La usa SÓLO vivero.html, y el ensamblador la enlaza DESPUÉS de
+   catalogo-plantas.css: este archivo reutiliza la ficha del catálogo tal
+   cual (.cat-ficha) y sólo matiza lo que cambia al plantarla aquí. Si se
+   cargara antes, `.viv-muestra .cat-ficha` seguiría ganando por
+   especificidad, pero el orden declarado es el que se probó y el que
+   documenta la dependencia.
+
+   LA IDEA
+   El catálogo ya tiene un lenguaje propio —número de ficha, foto 1:1 a
+   sangre, nombre en display, fila técnica con rótulo, barra de marca— y una
+   metáfora, EL CAMELLÓN (la hilera de siembra; catalogo-plantas.css §0). El
+   vivero es el sitio donde ese camellón existe de verdad. Así que la puerta
+   al catálogo no es un botón: es UN TRAMO DEL CAMELLÓN plantado dentro de la
+   sección del vivero, con las mismas fichas, y al final del tramo LA ESTACA
+   —la celda de inicial del catálogo (§4c)— convertida en la puerta que dice
+   «86».
+
+   Nació como styles/sections/vivero-mockup.css §1–§3 (propuesta A, aprobada
+   por el cliente en septiembre de 2026). La propuesta B —la tira de fichas
+   de índice colgando del servicio 01— se descartó y no sobrevive aquí nada
+   suyo; el archivo de maqueta y sus dos HTML se borraron.
+
+   Reglas de la casa: ni un valor literal de color, tamaño, radio, sombra o
+   duración; sin !important; sólo transform/opacity se animan; ningún texto
+   sobre foto (regla h de validar.js).
+
+   CONTRASTE (peor caso, medido contra --color-fondo-alt salvia, que es el
+   fondo de la estaca; el resto hereda las cuentas de catalogo-plantas.css):
+     --verde-bosque sobre salvia ............ 9,3:1
+     --color-texto-suave sobre salvia ....... 5,4:1
+     crema sobre bosque (estaca en hover) ... 10,7:1
+   ========================================================================== */
+
+/* --------------------------------------------------------------------------
+   1. EL CTA DEL ENCABEZADO DE PÁGINA
+      Antes la única puerta al catálogo era un botón fantasma al pie de la
+      página. La primera pantalla de vivero.html debe nombrar el catálogo con
+      su cifra. Botón secundario (vidrio): es «cuéntame más». El «reserva»
+      sigue siendo el WhatsApp de abajo — un solo primario por página.
+   -------------------------------------------------------------------------- */
+.enc-acciones {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--esp-sm) var(--esp-md);
+  margin-top: var(--esp-xs);
+}
+
+/* La cifra dentro del botón, en el peso de las cifras del sistema. */
+.enc-acciones .btn strong {
+  font-weight: var(--peso-fuerte);
+}
+
+/* .btn trae `overflow-wrap: anywhere`, que a 375 px partía «fichas» por la
+   mitad; el rótulo es corto y cabe entero en dos renglones sanos. */
+.enc-acciones .btn {
+  overflow-wrap: normal;
+  line-height: 1.2;
+}
+
+.enc-acciones__nota {
+  margin: 0;
+  font-size: var(--fs-pequeno);
+  color: var(--color-texto-suave);
+}
+
+/* --------------------------------------------------------------------------
+   2. LA ESTACA — la puerta al catálogo
+      Es la celda de inicial del catálogo (.cat-letra, catalogo-plantas.css
+      §4c) con el glifo cambiado por la cifra: donde el catálogo clava «A»,
+      «B», «C», el vivero clava «86». Enlace entero, objetivo táctil de sobra.
+      Hover: MÁS tinta (fondo bosque, crema encima), nunca más claro.
+   -------------------------------------------------------------------------- */
+.viv-estaca {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: var(--esp-md);
+  min-height: 100%;
+  padding: var(--esp-md);
+  background-color: var(--color-fondo-alt);
+  border-radius: 0 var(--radio-hoja) 0 var(--radio-hoja);
+  color: var(--verde-bosque);
+  text-decoration: none;
+  transition:
+    background-color var(--transicion),
+    color var(--transicion),
+    transform var(--transicion-rapida);
+}
+
+.viv-estaca:hover,
+.viv-estaca:focus-visible {
+  background-color: var(--verde-bosque);
+  color: var(--color-texto-inverso);
+}
+
+.viv-estaca:active {
+  transform: scale(0.98);
+}
+
+.viv-estaca__glifo {
+  display: block;
+  font-family: var(--fuente-display);
+  font-size: var(--fs-hero);
+  font-weight: var(--peso-display);
+  line-height: 1;
+  letter-spacing: var(--tracking-display);
+  font-variant-numeric: tabular-nums;
+}
+
+.viv-estaca__pie {
+  display: flex;
+  flex-direction: column;
+  gap: var(--esp-2xs);
+}
+
+.viv-estaca__titulo {
+  font-family: var(--fuente-titulo);
+  font-size: var(--fs-micro);
+  font-weight: var(--peso-medio);
+  text-transform: uppercase;
+  letter-spacing: var(--tracking-rotulo);
+}
+
+.viv-estaca__ir {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4em;
+  font-family: var(--fuente-titulo);
+  font-size: var(--fs-pequeno);
+  font-weight: var(--peso-medio);
+}
+
+.viv-estaca__ir svg {
+  width: 1.1em;
+  height: 1.1em;
+  flex: none;
+  transition: transform var(--transicion-rapida);
+}
+
+@media (hover: hover) {
+  .viv-estaca:hover .viv-estaca__ir svg {
+    transform: translateX(var(--esp-3xs));
+  }
+}
+
+/* --------------------------------------------------------------------------
+   3. EL TRAMO DE MUESTRA
+      Bloque propio entre el friso de fotos y el cuerpo de servicios: cinco
+      fichas COMPLETAS del catálogo (mismo marcado, misma hoja) y la estaca.
+      Escritorio: rejilla de tres columnas, dos filas (5 + 1).
+      Móvil: el camellón se RECORRE — tira horizontal con scroll-snap, que es
+      andar la hilera; nada de apilar seis tarjetas en columna.
+   -------------------------------------------------------------------------- */
+.viv-muestra {
+  margin-top: var(--esp-seccion-sm);
+}
+
+.viv-muestra__cabecera {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: var(--esp-sm) var(--esp-lg);
+  margin-bottom: var(--esp-md);
+}
+
+.viv-muestra__titulo {
+  margin: 0;
+  max-width: var(--medida-corta);
+  font-family: var(--fuente-display);
+  font-size: var(--fs-h3);
+  font-weight: var(--peso-display-menor);
+  letter-spacing: var(--tracking-display);
+  line-height: var(--alto-linea-titulo);
+  text-wrap: balance;
+}
+
+.viv-muestra__ver {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4em;
+  min-height: var(--esp-xl);
+  font-family: var(--fuente-titulo);
+  font-size: var(--fs-pequeno);
+  font-weight: var(--peso-medio);
+  color: var(--verde-bosque);
+}
+
+.viv-muestra__ver svg {
+  width: 1.1em;
+  height: 1.1em;
+}
+
+/* La tira. Es un <ul> con clase: base.css le quita el padding (ul[class]),
+   así que el relleno se declara aquí. */
+.viv-muestra__rejilla {
+  display: flex;
+  gap: var(--gap-sm);
+  margin: 0;
+  padding: 0 0 var(--esp-xs);
+  list-style: none;
+  overflow-x: auto;
+  overscroll-behavior-x: contain;
+  scroll-snap-type: x mandatory;
+  scroll-padding-inline: var(--padding-contenedor);
+  scrollbar-width: thin;
+  -webkit-overflow-scrolling: touch;
+  /* Sin esto el navegador no sabe que el gesto es solo horizontal: un swipe
+     con la mínima componente vertical se lo queda la página entera (rebote/
+     scroll vertical de golpe) en vez de quedarse dentro de la tira. Es el
+     arreglo del bug que reportó el cliente —«al deslizar en horizontal se
+     mueve mucho, así para en toda la página»— y lo necesita cualquier
+     scroller horizontal táctil anidado. NO SE QUITA. */
+  touch-action: pan-x;
+}
+
+.viv-muestra__rejilla > li {
+  flex: 0 0 min(72vw, 18rem);
+  scroll-snap-align: start;
+}
+
+/* La ficha del catálogo reserva su ancho con `sizes` para la rejilla de
+   allá; aquí es una tira y el ancho es el de la celda. Nada más cambia. */
+.viv-muestra .cat-ficha {
+  height: 100%;
+}
+
+/* EN MODO TIRA LAS FICHAS NO SE REVELAN UNA A UNA. El IntersectionObserver
+   de app.js respeta el recorte del scroller: una ficha que está a la derecha
+   del borde visible «no intersecta», se queda en opacity 0 y sólo aparecería
+   al arrastrar la tira — y el visitante vería aparecer tarjetas mientras
+   desplaza. Por eso el <ul> lleva su propio .reveal (entra como bloque) y
+   aquí se neutraliza el de cada <li>.
+   Especificidad (0,3,0) sobre `.js .reveal` (0,2,0): gana por peso, y es
+   layout, no color, así que no pisa nada de base.css. */
+@media (max-width: 47.99em) {
+  .js .viv-muestra__rejilla > .reveal {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+}
+
+@media (min-width: 48em) {
+  .viv-muestra__rejilla {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: var(--gap);
+    padding-bottom: 0;
+    overflow: visible;
+  }
+
+  .viv-muestra__rejilla > li {
+    flex: none;
+    min-width: 0;
+  }
+}

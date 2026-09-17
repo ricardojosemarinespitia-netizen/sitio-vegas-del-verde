@@ -105,7 +105,12 @@ PAGINAS = [
     {
         "archivo": "vivero.html",
         "orden": [("portada-vivero", "enc-vivero.html"), ("vivero", "vivero.html")],
+        # catalogo-plantas.css DESPUÉS de vivero.css y vivero-catalogo.css al
+        # final: el tramo de muestra reutiliza tal cual la ficha del catálogo
+        # (.cat-ficha) y sólo la matiza. Ver vivero-catalogo.css, cabecera.
         "css": ["styles/sections/home.css", "styles/sections/vivero.css",
+                "styles/sections/catalogo-plantas.css",
+                "styles/sections/vivero-catalogo.css",
                 "styles/sections/pie.css"],
     },
     {

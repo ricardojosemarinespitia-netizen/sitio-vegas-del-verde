@@ -135,7 +135,14 @@ const PAGINAS = [
   {
     archivo: 'vivero.html',
     orden: [['portada-vivero', 'enc-vivero.html'], ['vivero', 'vivero.html']],
-    css: ['styles/sections/home.css', 'styles/sections/vivero.css', 'styles/sections/pie.css'],
+    // catalogo-plantas.css DESPUÉS de vivero.css, y vivero-catalogo.css al
+    // final: el tramo de muestra que abre la puerta al catálogo reutiliza tal
+    // cual la ficha del catálogo (.cat-ficha) y sólo la matiza. Ver la
+    // cabecera de styles/sections/vivero-catalogo.css.
+    css: ['styles/sections/home.css', 'styles/sections/vivero.css',
+          'styles/sections/catalogo-plantas.css',
+          'styles/sections/vivero-catalogo.css',
+          'styles/sections/pie.css'],
   },
   {
     archivo: 'contacto.html',
