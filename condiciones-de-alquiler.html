@@ -23,7 +23,7 @@
   <link rel="preload" as="font" type="font/woff2" crossorigin href="styles/fonts/josefin-sans-latin.woff2?v=0ff5ba86">
   <link rel="stylesheet" href="styles/tokens.css?v=e12e8d10" />
   <link rel="stylesheet" href="styles/base.css?v=cd31c700" />
-  <link rel="stylesheet" href="styles/shell.css?v=3d8d01cf" />
+  <link rel="stylesheet" href="styles/shell.css?v=4b1a44ce" />
   <link rel="stylesheet" href="styles/sections/condiciones.css?v=748e25f6" />
   <script>document.documentElement.classList.remove('no-js');document.documentElement.classList.add('js');</script>
 <!-- Meta Pixel Code -->
@@ -59,13 +59,28 @@ src="https://www.facebook.com/tr?id=2840830879589956&ev=PageView&noscript=1"
 
   <header class="cabecera cabecera--compacta">
     <div class="cabecera__interior contenedor contenedor--ancho">
+      <!-- v33 · «REGRESAR», INTEGRADO EN LA BARRA. Copia literal del control que
+           sections/_header.html inserta en las páginas ensambladas; ésta no pasa
+           por el ensamblador (mantiene su propio <header> a mano), así que va aquí
+           a mano. Si algún día entra al ensamblador, este bloque se borra.
+           Antes era una píldora flotante abajo a la izquierda; el cliente pidió
+           (sep-2026) que subiera arriba a la izquierda, integrada con la barra.
+           Ni el destino ni la regla de visibilidad cambian: shell.css lo apaga
+           sólo en la portada (body:has(#inicio)) y js/app.js sigue haciendo
+           history.back() cuando hay una página anterior del mismo origen. -->
+      <a class="cabecera__volver" href="index.html#espacios" aria-label="Volver a los espacios">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+          <path d="M19 12H5"/>
+          <path d="M11 18l-6-6 6-6"/>
+        </svg>
+        <span class="cabecera__volver-texto">Regresar</span>
+      </a>
       <!-- v1 · Mismo lockup símbolo+nombre que sections/_header.html (v30/v31),
            replicado a mano: esta página no pasa por el ensamblador. -->
       <a class="marca" href="index.html" aria-label="Vegas del Verde, ir al inicio">
         <picture><source type="image/webp" srcset="img/logo/simbolo-transparente.webp" /><img class="marca__simbolo" src="img/logo/simbolo-transparente.png" width="744" height="351" alt="" decoding="async" /></picture>
         <span class="marca__nombre"><span class="marca__nombre-linea">Vegas del</span> <span class="marca__nombre-linea">Verde</span></span>
       </a>
-      <a class="btn btn-secundario btn-pequeno" href="index.html#espacios">Volver a los espacios</a>
     </div>
   </header>
 
@@ -187,27 +202,12 @@ src="https://www.facebook.com/tr?id=2840830879589956&ev=PageView&noscript=1"
   </svg>
 </a>
 
-<!-- ==========================================================================
-     VOLVER FLOTANTE — copia literal del que sections/_header.html inserta en
-     las páginas ensambladas. Esta página NO pasa por el ensamblador (mantiene
-     su propio <header> a mano), así que el botón se pone aquí a mano.
-     Si algún día esta página entra al ensamblador, este bloque se borra: el
-     fragmento compartido ya lo trae.
-     Visibilidad: shell.css v3 lo muestra SIEMPRE que exista en el DOM y sólo
-     lo apaga en la portada (body:has(#inicio)). -->
 <!-- Botón de llamada directa, mismo patrón que el de WhatsApp del header
      compartido. Esta página no usa ese fragmento, así que se pone a mano. -->
 <a class="llamar-flotante" href="tel:+573166758362" aria-label="Llamar a Vegas del Verde">
   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
     <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92Z"/>
   </svg>
-</a>
-<a class="volver-flotante" href="index.html" aria-label="Volver al inicio de Vegas del Verde">
-  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
-    <path d="M19 12H5"/>
-    <path d="M11 18l-6-6 6-6"/>
-  </svg>
-  Regresar
 </a>
 </body>
 </html>

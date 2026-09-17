@@ -37,7 +37,7 @@
 
 <link rel="stylesheet" href="styles/tokens.css?v=e12e8d10">
 <link rel="stylesheet" href="styles/base.css?v=cd31c700">
-<link rel="stylesheet" href="styles/shell.css?v=3d8d01cf">
+<link rel="stylesheet" href="styles/shell.css?v=4b1a44ce">
 <!-- Este bloque lo REESCRIBE herramientas/ensamblar.js a partir de PAGINAS.
      No lo edites a mano: la lista buena está allí. -->
 <link rel="stylesheet" href="styles/sections/home.css?v=58608817">
@@ -91,6 +91,38 @@ src="https://www.facebook.com/tr?id=2840830879589956&ev=PageView&noscript=1"
 
 <header class="cabecera" id="cabecera" data-cabecera>
   <div class="cabecera__interior contenedor contenedor--ancho">
+
+    <!-- v33 · «REGRESAR» DEJA DE FLOTAR ABAJO Y ENTRA A LA BARRA -----------
+         Pedido directo del cliente (sep-2026): que el botón de volver deje de
+         ser una píldora suelta abajo a la izquierda y aparezca ARRIBA A LA
+         IZQUIERDA, «integrado» con la franja del logo, el ES/EN y el menú.
+         Por eso ya no vive al final de este fragmento junto al WhatsApp y el
+         teléfono flotantes: ahora es el PRIMER hijo de `.cabecera__interior`,
+         o sea una pieza más de la barra, con el mismo borde de 1 px y la
+         misma esquina viva que `.idiomas` y `.boton-menu`. No es un flotante
+         reposicionado con `position: fixed`: es un control de la cabecera, y
+         por eso comparte su vidrio, su alto y su comportamiento compacto.
+
+         NO CAMBIA NI EL DESTINO NI LA REGLA DE CUÁNDO SE VE. Sigue con
+         `href="index.html"` para funcionar sin JavaScript, js/app.js sigue
+         interceptando el clic para hacer `history.back()` cuando hay una
+         página anterior del mismo origen, y shell.css lo sigue apagando en
+         la portada con el mismo criterio `body:has(#inicio)` de siempre
+         («volver al inicio» estando en el inicio no significa nada).
+
+         EL RÓTULO VA EN SU PROPIO <span> porque por debajo de 30 em la barra
+         no da para el lockup completo de la marca MÁS este control: ahí el
+         que cede es el NOMBRE de la marca (el símbolo se queda, y sigue
+         siendo el enlace al inicio con su aria-label), nunca la palabra
+         «Regresar» —el cliente ya pidió una vez que el botón se entendiera
+         sin adivinar qué hace—. Ver shell.css. -->
+    <a class="cabecera__volver" href="index.html" aria-label="Volver al inicio de Vegas del Verde">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+        <path d="M19 12H5"/>
+        <path d="M11 18l-6-6 6-6"/>
+      </svg>
+      <span class="cabecera__volver-texto">Regresar</span>
+    </a>
 
     <!-- v18 · La marca apunta a index.html#inicio y no a #inicio a secas: este
          fragmento se inserta en TODAS las páginas del sitio, y desde
@@ -314,30 +346,17 @@ src="https://www.facebook.com/tr?id=2840830879589956&ev=PageView&noscript=1"
 </a>
 
 <!-- ==========================================================================
-     VOLVER FLOTANTE — v1, pedido directo del cliente.
-     Mismo patrón que el WhatsApp flotante de arriba: fuera de la cabecera,
-     `position: fixed` al viewport, visible en cualquier punto del scroll.
-     Va en la esquina opuesta (abajo-IZQUIERDA) para no montarse con el de
-     WhatsApp. Éste SÍ se apaga por CSS en la portada y en las páginas que
-     no traen este fragmento (404, /en/): no tiene sentido «volver al
-     inicio» estando ya en el inicio. shell.css lo oculta con
-     `body:has(...)` contra selectores que sólo existen en páginas
-     interiores (`.pagina-encabezado`, `.pagina-interior`, `#colegios`,
-     `.pv-carrete`) — cero HTML por página que tocar, y como el detector
-     es la propia página, no se desincroniza si mañana se agrega una
-     página interior más con cualquiera de esas piezas ya puestas. -->
-<!-- v2 · El círculo con sólo la flecha no se entendía — el cliente lo vio
-     en captura y pidió "que sea entendible fácil". Se agrega la palabra
-     "Regresar" visible (además del aria-label, que ya la decía a quien usa
-     lector de pantalla): ahora el botón se explica solo, sin depender del
-     ícono. -->
-<a class="volver-flotante" href="index.html" aria-label="Volver al inicio de Vegas del Verde">
-  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
-    <path d="M19 12H5"/>
-    <path d="M11 18l-6-6 6-6"/>
-  </svg>
-  Regresar
-</a>
+     VOLVER — YA NO FLOTA AQUÍ ABAJO (v33).
+     Historial de la pieza, para que nadie la devuelva a este sitio por
+     inercia: v1 la puso fuera de la cabecera, `position: fixed` abajo a la
+     IZQUIERDA (la esquina opuesta al WhatsApp), como un flotante más; v2 le
+     agregó la palabra «Regresar» porque el círculo con sólo la flecha no se
+     entendía. v33 atiende el pedido siguiente del cliente —«arriba a la
+     izquierda, integrado con la barra de arriba»— y el control se muda al
+     principio de `.cabecera__interior`, unas líneas más arriba en este mismo
+     fragmento, donde está su nota completa.
+     Lo único que sigue flotando en esta esquina de abajo es el par
+     teléfono + WhatsApp, que no cambió. ========================================================================== -->
 <main id="contenido">
 <!-- ==========================================================================
      ENCABEZADO DE PÁGINA: Lo que vuela, lo que crece y quién lo fotografió
@@ -2942,6 +2961,6 @@ src="https://www.facebook.com/tr?id=2840830879589956&ev=PageView&noscript=1"
 
   </div>
 </footer>
-<script src="js/app.js?v=560eb0e8" defer></script>
+<script src="js/app.js?v=196ece03" defer></script>
 </body>
 </html>

@@ -1153,10 +1153,39 @@
    NO SE TOCA NADA DEL MOVIMIENTO: `reveal--velo` de la banda, los siete
    escalonados desiguales, las hojas, la rama y foto-focus siguen exactamente
    igual. Lo que cambia es cuánto alto ocupa la caja, no cómo entra.          */
+/* ---- v27 · EL CUADRO NEGRO DE MÓVIL — SE RETIRA EL `aspect-ratio: 1 / 1` ---
+   Reporte del cliente con captura de su celular (sep-2026): la banda de
+   «Dejas el ruido atrás y entras a otro aire» se veía como un RECTÁNGULO
+   NEGRO; la fotografía sólo asomaba en la franja de arriba.
+
+   LA CAUSA EXACTA, MEDIDA A 375 px EN EL NAVEGADOR (no deducida):
+     · `.nosotros__escena` .......... 375 × 849 px  (su alto lo pone el
+       discurso, que en móvil son siete figuras, la pastilla y el botón)
+     · `.nosotros__escena-velo` ..... 375 × 849 px  (absoluto, `inset: 0`)
+     · `.nosotros__escena-marco` .... 375 × 375 px  ← el defecto
+   El marco es la capa que lleva la foto. Con `aspect-ratio: 1 / 1` medía
+   cuadrado y tapaba sólo los primeros 375 px de una banda de 849: los 474 px
+   restantes quedaban con el `background-color: var(--negro-escena)` de
+   reserva de la escena, o sea negro macizo bajo el texto. Eso ES el cuadro
+   negro de la captura; no era la imagen sin cargar ni el velo demasiado
+   opaco (la foto cargaba bien: `nosotros-reja-800.webp`, 375 × 667).
+
+   POR QUÉ ESTABA ESE `aspect-ratio` Y POR QUÉ YA NO APLICA. Lo puso v22 para
+   recortar alto de página, y entonces era correcto: en v20 el marco era una
+   FILA de una rejilla —una caja en flujo, con su propio espacio— y darle
+   proporción cuadrada le quitaba 94 px reales al alto de la sección. v23
+   devolvió el marco a `position: absolute; inset: 0` (capa de fondo a sangre,
+   ver §1) y desde ese momento el `aspect-ratio` dejó de ahorrar un solo píxel
+   —una capa absoluta no ocupa alto— y pasó a hacer únicamente daño: limitar
+   hasta dónde llega la foto. Al retirarlo, el marco vuelve a cubrir la banda
+   entera, la foto se ve COMPLETA con su mismo `object-fit: cover` y su mismo
+   `object-position: 50% 38%`, y el alto de la página no cambia ni un píxel.
+
+   LO QUE SIGUE VIVO DE v22 es lo que de verdad recortaba alto: el
+   `padding-block: 0` de la escena en móvil, aquí debajo, y el aire del
+   discurso. El movimiento tampoco se toca: `reveal--velo`, los siete
+   escalonados desiguales, las hojas, la rama y foto-focus siguen igual. */
 @media (max-width: 47.99em) {
-  .nosotros__escena-marco {
-    aspect-ratio: 1 / 1;
-  }
 
   /* EL RELLENO DE LA ESCENA ERA AIRE DUPLICADO. La banda ponía --esp-lg
      arriba y abajo DENTRO de una sección que ya trae los 80/60 px de

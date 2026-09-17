@@ -91,6 +91,124 @@
   min-height: var(--alto-header);
 }
 
+/* ---- Regresar, integrado en la barra ------------------------------------- */
+/* v33 · EL BOTÓN DE VOLVER SUBE A LA CABECERA.
+   Pedido del cliente (sep-2026): que «Regresar» deje de ser una píldora
+   flotante abajo a la izquierda y aparezca ARRIBA A LA IZQUIERDA, integrado
+   con la franja donde ya viven el logo, el ES/EN y la hamburguesa.
+
+   INTEGRADO QUIERE DECIR QUE ES UNA PIEZA DE LA BARRA, no un flotante
+   reposicionado: vive dentro de `.cabecera__interior` (ver sections/_header.html)
+   y por eso hereda su vidrio, su alto y su estado compacto sin una sola
+   declaración de `position`. Viste exactamente el mismo uniforme que sus dos
+   vecinos de la derecha —borde de 1 px en `--verde-oliva-rgb / 0.22`, esquina
+   viva (`border-radius: 0`) y el mismo hover de oliva al 8 %—: si mañana ese
+   uniforme cambia, cambia para los tres.
+
+   El rótulo usa la misma familia, cuerpo y tracking de rótulo que `.idiomas__opcion`
+   (--fuente-titulo, --fs-micro, --tracking-rotulo): dentro de la barra el
+   cuerpo de píldora que tenía de flotante (--fs-pequeno) se leía como un
+   botón de otra página pegado encima de ésta. */
+.cabecera__volver {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--esp-2xs);
+  flex: none; /* como el idioma y el menú: nunca cede ancho */
+  height: 2.75rem;
+  padding-inline: 0.55rem 0.75rem;
+  border: 1px solid rgb(var(--verde-oliva-rgb) / 0.22);
+  border-radius: 0;
+  color: var(--color-texto);
+  text-decoration: none;
+  font-family: var(--fuente-titulo);
+  font-size: var(--fs-micro);
+  font-weight: var(--peso-medio);
+  letter-spacing: var(--tracking-rotulo);
+  text-transform: uppercase;
+  white-space: nowrap;
+  transition: background-color var(--transicion-rapida);
+  /* LA ENTRADA. Un solo motor sobre el <a>: opacidad y `translate3d`, las dos
+     propiedades de compositor, nunca `left` ni `width`. Entra deslizándose
+     desde fuera del canto izquierdo de la barra —el mismo lado hacia el que
+     apunta su flecha, o sea el gesto dice lo que hace el botón— con la curva
+     de salida de la casa (--ease-salida) y la duración lenta del vocabulario
+     cerrado de tokens.css: ni un número literal. El pequeño retardo deja que
+     la cabecera se asiente primero y que el control llegue después, que es lo
+     que lo hace leer como una pieza que «aparece» y no como una que estaba.
+     `both` mantiene el fotograma inicial durante el retardo: sin él el botón
+     parpadearía a plena opacidad antes de arrancar.
+     Bajo `prefers-reduced-motion` no hace falta apagarlo aquí: base.css ya
+     lleva toda animación del sitio a ~0 ms (duración mínima, nunca
+     `animation: none`, que anularía el fotograma final). */
+  animation: cabecera-volver-entra var(--dur-lenta) var(--ease-salida)
+             var(--dur-rapida) both;
+}
+
+@keyframes cabecera-volver-entra {
+  from {
+    opacity: 0;
+    transform: translate3d(-0.75rem, 0, 0);
+  }
+  to {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+.cabecera__volver svg {
+  width: 1.05rem;
+  height: 1.05rem;
+  flex: none;
+  /* La flecha tiene su propio motor porque es su propio elemento: al pasar el
+     puntero (o al enfocar con teclado) se adelanta un paso hacia la izquierda,
+     el mismo gesto que ya hace `.enlace-flecha` del sitio. */
+  transition: transform var(--transicion-rapida);
+}
+
+.cabecera__volver:hover,
+.cabecera__volver:focus-visible {
+  background-color: rgb(var(--verde-oliva-rgb) / 0.08);
+}
+
+.cabecera__volver:hover svg,
+.cabecera__volver:focus-visible svg {
+  transform: translate3d(-0.15rem, 0, 0);
+}
+
+/* LA ÚNICA EXCLUSIÓN, y es la misma de siempre: la portada. El fragmento de
+   cabecera es idéntico en las ocho páginas, así que la decisión «aquí no va»
+   la toma la propia página: `<section id="inicio">` (sections/hero.html) sólo
+   existe en index.html y en/index.html. Se mantiene el criterio literal que
+   ya documentaba `.volver-flotante` más abajo —no se inventa una clase
+   `body.portada`— porque los cuatro scripts de herramientas/ buscan el
+   literal `<body>` y tocarlo rompería el ensamblado. */
+body:has(#inicio) .cabecera__volver {
+  display: none;
+}
+
+/* POR DEBAJO DE 30 em MANDA EL CONTROL, NO EL RÓTULO DE LA MARCA.
+   Medido a 375 px: la barra tiene 337 px útiles, de los que el idioma y el
+   menú se llevan 126 fijos (no ceden, por contrato) y el lockup completo de
+   la marca 197. No caben los tres. El que cede es el NOMBRE de la marca: el
+   símbolo se queda —sigue siendo el enlace al inicio y conserva su
+   aria-label, así que ni la identidad ni el lector de pantalla pierden nada—
+   y «Regresar» se queda entero, porque el cliente ya pidió una vez
+   explícitamente que este botón se entendiera sin tener que adivinar qué
+   hace y esconder la palabra sería deshacer esa corrección.
+   Se acota con `:has()` a las barras que TRAEN el control, y con
+   `body:not(:has(#inicio))` a las páginas donde ese control SE VE. Las dos
+   condiciones hacen falta: el fragmento de cabecera es idéntico en las ocho
+   páginas, así que en la portada el <a> existe en el DOM aunque esté apagado,
+   y `:has()` —que mira el árbol, no el `display`— lo encontraría igual. Sin
+   el `:not`, la portada perdía el nombre de la marca para dejarle sitio a un
+   botón que no está. (Defecto visto en el navegador a 375 px antes de
+   publicar, no en teoría.) */
+@media (max-width: 30em) {
+  body:not(:has(#inicio)) .cabecera__interior:has(.cabecera__volver) .marca__nombre {
+    display: none;
+  }
+}
+
 /* ---- Marca --------------------------------------------------------------- */
 /* Cede ancho antes que nadie: si la barra se queda corta, encoge el logotipo
    en vez de empujar fuera de pantalla al idioma o al menú. */
@@ -526,6 +644,14 @@
 }
 
 /* ---- Volver flotante --------------------------------------------------- */
+/* v33 · ESTA PIEZA YA NO SE USA EN EL SITIO EN ESPAÑOL. El botón de volver
+   subió a la barra de cabecera (`.cabecera__volver`, arriba en esta misma
+   hoja) por pedido del cliente. Estas reglas siguen vivas porque las páginas
+   de /en/ conservan el flotante: su cabecera es otra —trae su propio «Back to
+   home» dentro de la barra— y meterles un segundo control de volver ahí
+   dentro sería duplicar la misma acción a dos dedos de distancia. Si algún
+   día /en/ se pasa al fragmento compartido, este bloque se borra entero.
+   Lo de abajo es el historial original de la pieza, intacto. */
 /* v2 · Un círculo con sólo la flecha no se entendía — el cliente lo vio en
    captura y pidió "que sea entendible fácil". Pasa de círculo a píldora con
    la palabra "Regresar" al lado del ícono: mismo patrón de fondo sólido +

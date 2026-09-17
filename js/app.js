@@ -223,10 +223,27 @@
      sitio a la que volver (`document.referrer` del mismo origen, o
      `history.length` mayor que 1 dentro de esta pestaña): si alguien entra
      directo por un enlace externo o un QR, no hay «atrás» real y el botón
-     se queda con su comportamiento normal de enlace a index.html. */
-  const volverFlotante = document.querySelector('.volver-flotante');
-  if (volverFlotante) {
-    volverFlotante.addEventListener('click', e => {
+     se queda con su comportamiento normal de enlace a index.html.
+
+     v4 · El mismo comportamiento lo pide ahora cualquier «salida» de cabecera
+     de las páginas sueltas, no sólo el botón flotante. El cliente reportó el
+     caso concreto: se entra a colegios.html desde espacios.html (por el
+     «Salidas escolares» de la navegación) y la salida de arriba —que decía
+     «Volver a los planes» y apuntaba fijo a planes.html— aterrizaba en una
+     página que el visitante no había visitado nunca. Peor: desde planes.html
+     el «Regresar» flotante hacía history.back() y lo devolvía a colegios,
+     dejándolo dando vueltas entre dos páginas sin poder llegar a espacios.
+     Una salida marcada con `data-volver-historial` conserva su href como
+     destino canónico sin JavaScript, y CON JavaScript vuelve a la página de
+     la que se llegó de verdad.
+
+     v5 · Se suma `.cabecera__volver`: en español el botón dejó de flotar
+     abajo y pasó a la barra de cabecera (shell.css §1), pero su lógica es
+     exactamente ésta y no cambia ni una línea. `.volver-flotante` se queda en
+     la lista porque las páginas de /en/ siguen con el flotante. */
+  const salidasAtras = document.querySelectorAll('.cabecera__volver, .volver-flotante, [data-volver-historial]');
+  salidasAtras.forEach(salida => {
+    salida.addEventListener('click', e => {
       const hayHistorialPropio = window.history.length > 1
         && document.referrer
         && new URL(document.referrer).origin === window.location.origin;
@@ -235,7 +252,7 @@
         window.history.back();
       }
     });
-  }
+  });
 
   /* ---------------------------------------------------------------------
      Cabecera compacta + enlace activo según sección visible
