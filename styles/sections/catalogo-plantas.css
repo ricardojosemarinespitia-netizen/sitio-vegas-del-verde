@@ -319,41 +319,61 @@
   }
 }
 
-@media (min-width: 75em) {
-  .cat-rejilla {
-    grid-template-columns: repeat(5, minmax(0, 1fr));
-  }
-}
+/* CUATRO COLUMNAS ES EL TECHO, y antes eran cinco. La ficha nueva lleva una
+   fila técnica de tres datos con su rótulo escrito: a cinco columnas la
+   tarjeta mide ~14 rem y el cuerpo útil ~12, donde los tres datos ya no
+   caben en una línea y la fila se partía en 2 + 1. A cuatro la tarjeta mide
+   ~17,5 rem, los tres datos entran de una y el nombre deja de romperse en
+   cuatro renglones. El catálogo queda una fila más largo; se gana la ficha. */
 
 .cat-seccion {
   padding-block: var(--esp-lg) var(--esp-seccion);
 }
 
 /* --------------------------------------------------------------------------
-   4. LA FICHA
-      Marco 1:1 arriba, placa opaca debajo. Las dos piezas se apilan en una
-      rejilla de dos filas: la placa NO puede caer sobre la foto ni por
-      accidente (misma garantía que .foto-placa en base.css §4b).
+   4. LA FICHA — «la lámina botánica», versión compacta
+      El cliente escogió la Propuesta C de la maqueta y pidió dos ajustes
+      sobre ella: la foto A SANGRE (sin el passe-partout ni el filete de la
+      lámina montada) y el tamaño de tarjeta de la Propuesta B (compacta, la
+      misma densidad de rejilla de siempre). Esto es exactamente eso.
+
+      Tres piezas apiladas en tres filas de un grid, nunca superpuestas:
+        1. el marco 1:1 con la foto, pegado a los cuatro bordes de la tarjeta;
+        2. el cuerpo: número de catálogo, nombre, científico, una frase y la
+           fila técnica de tres datos con rótulo escrito;
+        3. la barra de marca verde, que es además el enlace de WhatsApp.
+      La tarjeta entera es una superficie opaca con `overflow: hidden`: la
+      foto llega al borde porque la RECORTA la tarjeta, no porque se le pinte
+      nada encima. LA FOTO SIGUE SIENDO LA FOTO (validar.js, regla h): ni
+      placa, ni velo, ni texto sobre la imagen.
+
+      Radio uniforme y no la hoja alterna del resto del sitio: aquí la
+      tarjeta es una lámina de catálogo y su disciplina es la repetición: 86
+      rectángulos idénticos en columna, como un herbario. La firma de hoja
+      sigue viva en las estacas de letra (§4b), que son las que marcan el
+      ritmo de la página.
    -------------------------------------------------------------------------- */
 .cat-ficha {
   display: grid;
-  grid-template-rows: auto 1fr;
-  gap: var(--esp-2xs);
+  grid-template-rows: auto 1fr auto;
   min-width: 0;
+  background-color: var(--color-superficie-solida);
+  border: 1px solid var(--color-borde-suave);
+  border-radius: var(--cat-hoja);
+  box-shadow: var(--sombra-md);
+  overflow: hidden;
+  /* La barra de marca decide con su propio ancho si cabe la palabra
+     «Preguntar» y si cabe el nombre de la marca. Es un container query y no
+     un media query a propósito: la misma ficha vive a dos, tres, cuatro y
+     cinco columnas, y lo que manda no es el ancho de la ventana sino el
+     suyo. */
+  container: cat-ficha / inline-size;
 }
 
+/* --- 4.1 · el marco: la foto a sangre ----------------------------------- */
 .cat-ficha__marco {
   aspect-ratio: 1 / 1;
-  /* La silueta de hoja del sistema (tokens.css §6), en su radio menor. */
-  border-radius: 0 var(--cat-hoja) 0 var(--cat-hoja);
   background-color: rgb(var(--gris-verde-rgb) / 0.3);
-}
-
-/* Se alterna la diagonal ficha a ficha para que la firma se lea como sistema
-   y no como plantilla — es la misma regla de .placa--alterna. Las letras no
-   cuentan en la alternancia porque tienen su propia silueta. */
-.cat-ficha:nth-child(even) .cat-ficha__marco {
-  border-radius: var(--cat-hoja) 0 var(--cat-hoja) 0;
 }
 
 .cat-ficha__marco picture,
@@ -369,17 +389,19 @@
 }
 
 /* La foto se acerca al pasar por encima: acercarse a la planta, como en el
-   camellón. Sólo transform. En puntero grueso no hay hover y no pasa nada. */
+   camellón. Sólo transform. En puntero grueso no hay hover y no pasa nada.
+   La tarjeta en sí no se mueve: `.reveal` ya usa su `transform` para entrar
+   (base.css §6) y dos dueños para la misma propiedad es un parpadeo. */
 @media (hover: hover) {
   .cat-ficha:hover .cat-ficha__marco img {
     transform: scale(var(--escala-hover));
   }
 }
 
-/* LAS DOS SIN FOTO (Enredadera, Té rojo). Ni hueco roto ni foto inventada:
-   la hoja de trazo del sistema sobre salvia, que se dibuja sola al entrar la
-   sección (icono-traza, app.js). role="img" + aria-label en el HTML dicen
-   con palabras lo que la hoja dice con el dibujo. */
+/* LAS FICHAS SIN FOTO. Ni hueco roto ni foto inventada: la hoja de trazo del
+   sistema sobre salvia, que se dibuja sola al entrar la sección (icono-traza,
+   app.js). role="img" + aria-label en el HTML dicen con palabras lo que la
+   hoja dice con el dibujo. */
 .cat-ficha__sin-foto {
   display: grid;
   place-items: center;
@@ -395,40 +417,66 @@
   stroke-width: 0.9;
 }
 
-/* La placa hereda .placa.placa--sm de base.css (superficie, sombra, hoja).
-   Aquí sólo se le da su reparto interior. Diagonal alterna también aquí,
-   siguiendo al marco de su misma ficha. */
-.cat-ficha__placa {
+/* --- 4.2 · el cuerpo ---------------------------------------------------- */
+.cat-ficha__cuerpo {
   display: flex;
   flex-direction: column;
-  gap: var(--esp-3xs);
+  padding: var(--esp-xs);
   min-width: 0;
 }
 
-.cat-ficha:nth-child(even) .cat-ficha__placa {
-  border-radius: var(--cat-hoja) 0 var(--cat-hoja) 0;
+/* EL NÚMERO DE CATÁLOGO. Dato real: el campo `n` de _datos.json, el mismo
+   con el que el vivero ordena sus 86 plantas. Va en versalitas con la regla
+   fina que lo lleva hasta el borde del cuerpo, como el folio de una lámina.
+   Cifras tabulares para que la columna de números no baile de ficha a ficha. */
+.cat-ficha__numero {
+  display: flex;
+  align-items: center;
+  gap: var(--esp-2xs);
+  margin: 0 0 var(--esp-3xs);
+  font-family: var(--fuente-titulo);
+  font-size: var(--fs-micro);
+  font-weight: var(--peso-medio);
+  font-variant-numeric: tabular-nums;
+  text-transform: uppercase;
+  letter-spacing: var(--track-caps);
+  color: var(--verde-texto);
 }
 
-/* El nombre común es la pieza: display, peso menor (por debajo de 40 px la
-   monolineal necesita el 400, base.css §2), tinta plena. */
+.cat-ficha__numero::after {
+  content: "";
+  flex: 1;
+  height: 1px;
+  background-color: var(--color-borde-suave);
+}
+
+/* El nombre común es la pieza: display, tinta plena, interlínea apretada y
+   el tracking de display. Se queda en --fs-h4 y no sube a --fs-h3 como en la
+   maqueta: la tarjeta compacta que pidió el cliente mide entre 10 y 19 rem
+   de ancho y el cuerpo mayor partía los nombres largos en cuatro renglones. */
 .cat-ficha__nombre {
   margin: 0;
   font-family: var(--fuente-display);
   font-size: var(--fs-h4);
   font-weight: var(--peso-display-menor);
-  letter-spacing: var(--tracking-display);
-  line-height: var(--alto-linea-titulo);
+  letter-spacing: var(--track-display);
+  line-height: var(--alto-linea-apretado);
   color: var(--color-texto);
   text-wrap: balance;
-  overflow-wrap: anywhere;
+  /* `break-word` y NO `anywhere`: en la tarjeta de dos columnas del celular
+     el cuerpo mide ~8 rem y `anywhere` partía nombres largos por cualquier
+     letra («Acetaminofé / n»). Así sólo se corta la palabra que de verdad no
+     cabe sola, y cuando toca cortarla el guion lo pone la separación silábica
+     del español (la página declara lang="es"). */
+  overflow-wrap: break-word;
+  hyphens: auto;
 }
 
 /* El científico es la letra pequeña del botánico: cuerpo pequeño, gris
-   suave (6,2:1 sobre la placa) y la cursiva REAL del <em> del marcado. Nada
-   de asteriscos: el énfasis markdown de la fuente se convirtió en <em>. */
+   suave (6,2:1 sobre la placa) y la cursiva REAL del <em> del marcado. */
 .cat-ficha__cientifico {
-  margin: 0;
-  font-size: var(--fs-pequeno);
+  margin: var(--esp-3xs) 0 0;
+  font-size: var(--fs-micro);
   line-height: var(--alto-linea-titulo);
   color: var(--color-texto-suave);
   overflow-wrap: anywhere;
@@ -448,89 +496,215 @@
   font-style: italic;
 }
 
-/* --------------------------------------------------------------------------
-   4a. LOS TRES DATOS DE LA FICHA — dónde va, para qué y cuidados
-      Vienen del catálogo que entregó el cliente. Son una <dl> real (rótulo →
-      dato), no párrafos con dos puntos: el lector de pantalla los lee como
-      pares y el buscador del navegador los encuentra igual.
-
-      SIN NINGUNA ALTURA FIJA, a propósito. Ni min-height, ni clamp() de alto,
-      ni line-clamp: los textos del cliente miden entre 30 y 90 caracteres y
-      cualquier altura impuesta abriría huecos en las fichas cortas o cortaría
-      las largas —el mismo error que costó quitar --alto-tarjeta-espacio de
-      home.css—. La fila de la rejilla ya iguala a la ficha más alta, y el
-      enlace «Preguntar» va pegado al fondo con margin-top:auto, así que las
-      fichas de una misma fila alinean su salida aunque el texto no mida igual.
-   -------------------------------------------------------------------------- */
-.cat-ficha__datos {
-  display: flex;
-  flex-direction: column;
-  gap: var(--esp-3xs);
+/* LA FRASE. Es el campo `usos` del catálogo del cliente, tal cual, sin
+   rótulo: reemplaza a los tres párrafos del formato viejo, que era lo que el
+   cliente pidió recortar. Sin line-clamp y sin altura fija: los textos miden
+   entre 30 y 90 caracteres y cualquier altura impuesta abre huecos en las
+   cortas o corta las largas —el mismo error que costó quitar
+   --alto-tarjeta-espacio de home.css—. La fila de la rejilla ya iguala a la
+   ficha más alta, y la fila técnica se empuja al fondo con margin-top: auto,
+   así que todas las fichas de una fila alinean su barra de marca. */
+.cat-ficha__desc {
   margin: var(--esp-3xs) 0 0;
+  font-size: var(--fs-micro);
+  line-height: var(--alto-linea-base);
+  color: var(--color-texto-suave);
+  text-wrap: pretty;
+}
+
+/* --------------------------------------------------------------------------
+   4a. LA FILA TÉCNICA — luz, sitio y riego
+      Reemplaza a los tres bloques «Dónde va / Para qué / Cuidados» del
+      formato viejo. Sigue siendo una <dl> real (rótulo → dato), pero ahora
+      el rótulo se lee además de oírse: es una ficha técnica, no una fila de
+      etiquetas de colores.
+
+      TODO SALE DE _datos.json Y NADA SE INVENTA:
+        · SITIO y LUZ se leen del campo `ubicacion` con un mapa explícito de
+          sus 26 cadenas distintas (no una heurística).
+        · RIEGO se resume del campo `cuidados` SÓLO cuando ese texto habla de
+          agua de verdad.
+      Cuando el dato no está, la columna no se dibuja: 25 fichas muestran dos
+      columnas y 7 (las que el catálogo trae sin ficha de cultivo) no muestran
+      ninguna. Preferimos una fila corta a un dato inventado.
+
+      Por eso la rejilla es `auto-fit` con mínimo en rem y no tres columnas
+      fijas: se reparte sola entre uno, dos y tres datos, y baja a dos filas
+      en la tarjeta angosta del celular sin que nada se corte.
+
+      SIN NINGUNA ALTURA FIJA, igual que la frase de arriba: la fila de la
+      rejilla ya iguala a la ficha más alta y la barra de marca queda pegada
+      al fondo sola, porque el cuerpo es la fila `1fr` del grid de la ficha.
+   -------------------------------------------------------------------------- */
+.cat-ficha__tabla {
+  display: grid;
+  /* 4,25 rem de mínimo por columna, medido y no elegido: es el ancho al que
+     cabe entero el valor más largo de una sola palabra («Constante»,
+     «Moderado»). Con un mínimo menor la tarjeta de dos columnas del celular
+     metía dos datos por fila y partía la palabra («Moderad / o»). Con este,
+     `auto-fit` reparte tres columnas en la tarjeta de escritorio (~15,5 rem
+     de cuerpo), dos en la tableta y una en el celular, sin cortar nada. */
+  grid-template-columns: repeat(auto-fit, minmax(4.25rem, 1fr));
+  gap: var(--esp-3xs) var(--esp-xs);
+  margin: var(--esp-xs) 0 0;
   padding-top: var(--esp-3xs);
   border-top: 1px solid var(--color-borde-suave);
 }
 
-.cat-ficha__dato {
+.cat-ficha__tabla > div {
   min-width: 0;
 }
 
-/* El rótulo, en la voz de rótulo del sistema; el dato, en tinta suave
-   (6,2:1 sobre la placa). El bloque no compite con el nombre. */
 .cat-ficha__rotulo {
-  margin: 0;
+  display: flex;
+  align-items: center;
+  gap: 0.3em;
+  margin: 0 0 var(--esp-3xs);
   font-family: var(--fuente-titulo);
   font-size: var(--fs-micro);
   font-weight: var(--peso-medio);
   text-transform: uppercase;
-  letter-spacing: var(--tracking-rotulo);
+  letter-spacing: var(--track-caps);
   color: var(--verde-texto);
+}
+
+.cat-ficha__rotulo svg {
+  width: 1.05em;
+  height: 1.05em;
+  flex: none;
 }
 
 .cat-ficha__valor {
   margin: 0;
   font-size: var(--fs-micro);
   line-height: var(--alto-linea-titulo);
-  color: var(--color-texto-suave);
+  color: var(--color-texto);
   text-wrap: pretty;
-  overflow-wrap: anywhere;
+  /* Igual que el nombre: `break-word` y no `anywhere`, que partía valores de
+     una sola palabra («Moderad / o») en la columna angosta del celular. */
+  overflow-wrap: break-word;
 }
 
-/* Preguntar por esta planta: el canal espinal del sitio, en voz baja y una
-   vez por ficha. Es un enlace de texto con el glifo de WhatsApp; 44 px de
-   alto táctil; se empuja al fondo de la placa para que todas las fichas de
-   una fila alineen el enlace aunque los nombres ocupen líneas distintas. */
-.cat-ficha__preguntar {
+/* --------------------------------------------------------------------------
+   4b. LA BARRA DE MARCA — el pie de la ficha y el botón de WhatsApp
+      El cliente pidió «que esto tenga logos». El logo NO va quemado sobre la
+      foto (regla h): va en una franja OPACA al pie de la tarjeta, que es lo
+      que hacía también la referencia que trajo. Mismo lockup símbolo +
+      nombre en dos líneas que .marca de shell.css, para que el pie de la
+      ficha y la cabecera del sitio sean la misma marca y no dos versiones.
+
+      La franja ENTERA es el enlace de WhatsApp: 2,75 rem de alto, muy por
+      encima del objetivo táctil mínimo. El canal espinal del sitio, una vez
+      por ficha y en voz baja.
+      Contraste: crema sobre verde bosque, 10,0:1 (tokens.css).
+   -------------------------------------------------------------------------- */
+.cat-ficha__marca {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--esp-2xs);
+  min-height: 2.75rem;
+  padding: var(--esp-3xs) var(--esp-3xs) var(--esp-3xs) var(--esp-sm);
+  background-color: var(--color-fondo-oscuro);
+  color: var(--color-texto-inverso);
+  text-decoration: none;
+  transition: background-color var(--transicion-rapida);
+}
+
+.cat-ficha__marca:hover,
+.cat-ficha__marca:focus-visible {
+  background-color: var(--verde-bosque-hondo);
+}
+
+.cat-ficha__lockup {
   display: inline-flex;
   align-items: center;
-  gap: 0.4em;
-  align-self: flex-start;
-  margin-top: auto;
-  padding-top: var(--esp-2xs);
-  min-height: 2.75rem;
+  gap: 0.45em;
+  min-width: 0;
+}
+
+.cat-ficha__simbolo {
+  width: auto;
+  height: 1.25rem;
+  flex: none;
+}
+
+.cat-ficha__lockup-texto {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  line-height: 1.1;
+}
+
+.cat-ficha__lockup-linea {
   font-family: var(--fuente-titulo);
   font-size: var(--fs-micro);
   font-weight: var(--peso-medio);
   text-transform: uppercase;
-  letter-spacing: var(--tracking-rotulo);
-  text-decoration: none;
-  color: var(--verde-texto);
-  transition: color var(--transicion-rapida);
+  letter-spacing: var(--track-caps);
+  white-space: nowrap;
 }
 
-.cat-ficha__preguntar svg {
-  width: 1.15em;
-  height: 1.15em;
+.cat-ficha__wa {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.4em;
+  flex: none;
+  min-height: 2.25rem;
+  padding-inline: var(--esp-xs);
+  border-radius: var(--radio-control);
+  background-color: rgb(var(--crema-rgb) / 0.14);
+  font-family: var(--fuente-titulo);
+  font-size: var(--fs-micro);
+  font-weight: var(--peso-medio);
+  text-transform: uppercase;
+  letter-spacing: var(--track-boton);
+  transition: background-color var(--transicion-rapida);
+}
+
+.cat-ficha__wa svg {
+  width: 1.15rem;
+  height: 1.15rem;
   flex: none;
 }
 
-.cat-ficha__preguntar:hover,
-.cat-ficha__preguntar:focus-visible {
-  color: var(--color-acento-texto);
+.cat-ficha__marca:hover .cat-ficha__wa,
+.cat-ficha__marca:focus-visible .cat-ficha__wa {
+  background-color: rgb(var(--crema-rgb) / 0.22);
+}
+
+/* CUANDO LA TARJETA SE ESTRECHA, LA BARRA SUELTA PALABRAS EN ESTE ORDEN.
+   Medido: a cinco y a cuatro columnas la ficha mide ~15 rem y el lockup más
+   la palabra «Preguntar» no caben — lo que pasaba en la maqueta era que las
+   dos se cortaban a la vez («VEGAS DE…» + «PREGUNTA…»). Primero se va la
+   palabra del botón (el glifo de WhatsApp se reconoce solo), y sólo en la
+   tarjeta de dos columnas del celular se va también el nombre de la marca y
+   queda el símbolo. Ninguna de las dos frases se pierde para quien no ve:
+   siguen enteras en el aria-label del enlace. */
+@container cat-ficha (max-width: 17.5rem) {
+  .cat-ficha__wa span {
+    display: none;
+  }
+
+  .cat-ficha__wa {
+    width: 2.25rem;
+    padding-inline: 0;
+  }
+}
+
+@container cat-ficha (max-width: 12.5rem) {
+  .cat-ficha__lockup-texto {
+    display: none;
+  }
+
+  .cat-ficha__marca {
+    padding-left: var(--esp-2xs);
+  }
 }
 
 /* --------------------------------------------------------------------------
-   4b. LA ESTACA — la celda de inicial
+   4c. LA ESTACA — la celda de inicial
       Misma celda que una ficha, sobre salvia plena, con la inicial en display
       grande. El <h2> «Plantas con A» es la estructura real (jerarquía h1 →
       h2 → h3 de ficha) y se muestra como rótulo en la base de la celda; el
