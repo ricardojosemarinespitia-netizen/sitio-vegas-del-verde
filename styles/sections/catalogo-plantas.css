@@ -221,6 +221,10 @@
   overscroll-behavior-x: contain;
   scrollbar-width: thin;
   -webkit-overflow-scrolling: touch;
+  /* Sin esto el navegador no sabe que el gesto es solo horizontal: un swipe
+     con la mínima componente vertical se lo queda la página entera (rebote/
+     scroll vertical de golpe) en vez de quedarse dentro de la tira. */
+  touch-action: pan-x;
 }
 
 .cat-abc__letra {
