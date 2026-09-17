@@ -404,14 +404,14 @@
    círculo no debe quedar flotando encima de él. */
 .whatsapp-flotante {
   position: fixed;
-  right: var(--esp-md);
-  bottom: var(--esp-md);
+  right: var(--esp-xs);
+  bottom: var(--esp-xs);
   z-index: calc(var(--z-menu) - 1);
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 3.25rem;
-  height: 3.25rem;
+  width: 2.75rem;
+  height: 2.75rem;
   border-radius: var(--radio-full);
   background-color: #25d366; /* verde de marca de WhatsApp: identidad ajena, no token del sistema */
   color: #fff;
@@ -420,8 +420,8 @@
 }
 
 .whatsapp-flotante svg {
-  width: 1.7rem;
-  height: 1.7rem;
+  width: 1.4rem;
+  height: 1.4rem;
 }
 
 .whatsapp-flotante:hover,
@@ -464,10 +464,15 @@
 
 @media (max-width: 40em) {
   .whatsapp-flotante {
-    right: var(--esp-sm);
-    bottom: var(--esp-sm);
-    width: 3rem;
-    height: 3rem;
+    right: var(--esp-2xs);
+    bottom: var(--esp-2xs);
+    width: 2.5rem;
+    height: 2.5rem;
+  }
+
+  .whatsapp-flotante svg {
+    width: 1.25rem;
+    height: 1.25rem;
   }
 }
 
@@ -480,14 +485,14 @@
    ambos `bottom` en el mismo punto (ver el `@media` de abajo). */
 .llamar-flotante {
   position: fixed;
-  right: var(--esp-md);
-  bottom: calc(var(--esp-md) + 3.25rem + var(--esp-sm));
+  right: var(--esp-xs);
+  bottom: calc(var(--esp-xs) + 2.75rem + var(--esp-2xs));
   z-index: calc(var(--z-menu) - 1);
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 3.25rem;
-  height: 3.25rem;
+  width: 2.75rem;
+  height: 2.75rem;
   border-radius: var(--radio-full);
   background-color: var(--color-accion);
   color: #fff;
@@ -496,8 +501,8 @@
 }
 
 .llamar-flotante svg {
-  width: 1.5rem;
-  height: 1.5rem;
+  width: 1.3rem;
+  height: 1.3rem;
 }
 
 .llamar-flotante:hover,
@@ -508,15 +513,15 @@
 
 @media (max-width: 40em) {
   .llamar-flotante {
-    right: var(--esp-sm);
-    bottom: calc(var(--esp-sm) + 3rem + var(--esp-sm));
-    width: 3rem;
-    height: 3rem;
+    right: var(--esp-2xs);
+    bottom: calc(var(--esp-2xs) + 2.5rem + var(--esp-2xs));
+    width: 2.5rem;
+    height: 2.5rem;
   }
 
   .llamar-flotante svg {
-    width: 1.35rem;
-    height: 1.35rem;
+    width: 1.1rem;
+    height: 1.1rem;
   }
 }
 
