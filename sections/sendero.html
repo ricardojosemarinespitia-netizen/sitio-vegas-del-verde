@@ -378,66 +378,6 @@
         <figcaption class="credito snd-detalle__pie">Crotones del camino</figcaption>
       </figure>
 
-      <figure class="nat-apertura__inset">
-        <div class="marco marco--1-1">
-          <picture>
-            <source type="image/webp" srcset="img/parque/parque-45-400.webp 400w, img/parque/parque-45.webp 675w" sizes="(max-width: 47.99em) 43vw, 25vw" />
-            <img
-            src="img/parque/parque-45.jpg"
-            srcset="img/parque/parque-45-400.jpg 400w, img/parque/parque-45.jpg 675w"
-            sizes="(max-width: 47.99em) 43vw, 25vw"
-            width="675"
-            height="1200"
-            loading="lazy"
-            decoding="async"
-            alt="Cerramiento de cañas de guadua del predio, con orquídeas colgadas de una vara y materas de barro sobre la gravilla"
-          />
-          </picture>
-        </div>
-        <figcaption class="credito nat-apertura__pie">Guadua del predio</figcaption>
-      </figure>
-
-      <!-- v4 · EL INSERTO DE VÍDEO — el quinto clip, dentro de la fotografía.
-           Es la pieza que INTEGRA los dos bloques de la sección (pedido del
-           cliente: «integra las fotos y videos [...] una propuesta premium»):
-           el metraje del hero se asoma dentro de la apertura, en la esquina
-           baja del camino, y la foto y los clips dejan de ser dos mundos.
-           Mismo patrón que el inserto de guadua —filete de crema, sombra,
-           silueta de hoja— pero en la diagonal CONTRARIA y en la otra
-           esquina: rompe la caja una segunda vez sin calcar la primera.
-           · Mismo motor que los cuatro de arriba: [data-momento-video],
-             mudo, en bucle, preload="none", póster como suelo — cero JS
-             nuevo, js/momentos-video.js ya lo recoge solo.
-           · aria-hidden y tabindex -1 como sus hermanos: es atmósfera, el
-             pie de abajo cuenta lo que hay.
-           · El pie NO va sobre el vídeo (contraste imposible de medir, misma
-             lección de la cartela del hero): va en una pastilla de crema
-             OPACA debajo del marco, dentro de la misma figura.
-           · SÓLO EN ESCRITORIO (sendero.css §7): en móvil el carril de
-             arriba ya se arrastra con el dedo a pantalla completa y un
-             quinto clip sobre la foto sólo roba alto y datos. -->
-      <figure class="snd-clip-inset reveal reveal--velo">
-        <div class="marco snd-clip-inset__marco">
-          <video
-            class="snd-clip-inset__video"
-            data-momento-video
-            muted
-            loop
-            playsinline
-            preload="none"
-            poster="img/video/flores-del-sendero.jpg"
-            width="720"
-            height="1280"
-            aria-hidden="true"
-            tabindex="-1"
-          >
-            <source src="video/flores-del-sendero.webm" type="video/webm" />
-            <source src="video/flores-del-sendero.mp4" type="video/mp4" />
-          </video>
-        </div>
-        <figcaption class="credito snd-clip-inset__pie">El mismo verde, en movimiento</figcaption>
-      </figure>
-
       <!-- LA CAJA DE FAUNA AMBIENTE (js/fauna-ambiente.js). Vacía, decorativa
            y con `position` propia. Va AQUÍ, sobre la fotografía del camino
            —el movimiento del sendero—, y no en la parte de aves: allí ya
