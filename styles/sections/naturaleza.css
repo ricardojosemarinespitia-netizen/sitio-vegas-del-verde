@@ -1530,20 +1530,7 @@
   }
 }
 
-/* v13 · CONTORNO, no relleno — pedido del cliente: quería «un texto
-   extravagante como el que usamos en pajareo» para este titular. Es el
-   mismo recurso EXACTO del contorno «Pajareo» de la portada (§1,
-   .nat-portada__contorno): -webkit-text-stroke con el color de relleno
-   puesto a transparent, cuando el navegador lo soporta. Mismo token de
-   grosor de trazo (--nat-contorno-trazo) para que las dos palabras huecas
-   de la sección — «Pajareo» arriba, «Aquí no solo hay aves» aquí — hablen
-   el mismo idioma tipográfico sin inventar un segundo valor. */
-@supports (-webkit-text-stroke: 1px currentColor) {
-  .nat-censo__titulo {
-    -webkit-text-stroke: var(--nat-contorno-trazo) var(--color-texto);
-    color: transparent;
-  }
-}
+/* v15 · RELLENO SÓLIDO — titular con tipo y estilo normal del resto de títulos. */
 
 .nat-censo__entradilla {
   margin: 0;
