@@ -282,6 +282,24 @@
   inset: 0;
 }
 
+/* v26 · EL MISMO BUG DE ARRIBA (v23), sin corregir en el bloque de los cinco
+   verbos. El comentario de v23 describe exactamente este caso ("la del
+   Taller a 597", "la unica foto en retrato de las cinco") pero el selector
+   que aplico el arreglo quedo apuntando solo a `.home-tarjeta__portada`
+   (bloque de "Cinco espacios"), no a esta rejilla. Resultado: en Celebrar
+   (boda-2.jpg, 844x1500) y Reunir (infantil-4.jpg, retrato tambien) la fila
+   de la rejilla se estira hasta la proporcion natural de la foto en vez de
+   los 3:2 que pide `.marco--3-2`, y como la caja termina midiendo lo mismo
+   que la imagen, `object-fit: cover` no tiene nada que recortar — cualquier
+   `object-position` se vuelve invisible. Sacar la foto del flujo (mismo
+   arreglo, mismo motivo) deja que la fila mida lo que dice la rejilla y que
+   el recorte 3:2 exista de verdad. */
+.home-rejilla--dos > li .home-tarjeta__foto,
+.home-rejilla--dos > li picture > .home-tarjeta__foto {
+  position: absolute;
+  inset: 0;
+}
+
 /* ------------------------------------------------------------------ §1b */
 /* LA PORTADA CUADRADA — bloque «Cinco espacios, un mismo bosque» de la home.
    ---------------------------------------------------------------------------
@@ -329,6 +347,21 @@
 
 .home-rejilla--dos > li:nth-child(5) .home-tarjeta__foto {
   object-position: 50% 78%;
+}
+
+/* Celebrar (boda-2.jpg) y Reunir (infantil-4.jpg): mismo problema que
+   Alameda/Cuidarse/Aprender arriba, aqui se habia quedado sin corregir. En
+   Celebrar la mitad de arriba de la foto es cielo y copa de arbol; el arco,
+   las sillas y la musica en vivo estan en el tercio inferior — bajar el foco
+   al 72% deja el arco y las primeras filas dentro del recorte. En Reunir los
+   ninos y la mesa de picnic estan tambien en la mitad inferior, con arboles
+   y cielo arriba; 76% los trae al recorte visible. */
+.home-rejilla--dos > li:nth-child(1) .home-tarjeta__foto {
+  object-position: 50% 100%;
+}
+
+.home-rejilla--dos > li:nth-child(2) .home-tarjeta__foto {
+  object-position: 50% 100%;
 }
 
 /* LA PLACA. Fila propia de la rejilla, superficie opaca, debajo de la foto.
