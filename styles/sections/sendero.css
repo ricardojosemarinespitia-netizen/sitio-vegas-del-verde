@@ -731,10 +731,10 @@
    ========================================================================== */
 .snd-detalle {
   position: absolute;
-  /* Medio cuerpo por fuera del canto superior de la foto: es lo que la deja
-     montada sobre el verde del hero. El límite lo pone el solape de §6
-     (mínimo 2rem), así que con -esp-lg nunca asoma por encima de la banda. */
-  inset-block-start: calc(var(--esp-lg) * -1);
+  /* v24 · DENTRO de la foto, no a caballo del canto: el cliente vio el marco
+     cortado por arriba (sin borde ni esquina) en su tablet. Con un margen
+     positivo no hay nada que sobresalga y por tanto nada que recortar. */
+  inset-block-start: var(--esp-sm);
   inset-inline-start: var(--esp-lg);
   width: min(34%, 10rem);
   margin: 0;
@@ -764,14 +764,11 @@
   box-shadow: var(--sombra-lg);
 }
 
-/* v24 · La foto ENTERA, sin recorte: el marco toma la proporción real del
-   derivado (800×1423) en vez del 1:1 que la recortaba a los crotones. */
-.snd-detalle .snd-detalle__marco {
-  aspect-ratio: 800 / 1423;
-}
-
+/* El recorte del detalle: los crotones de hoja roja y amarilla viven en el
+   tercio derecho, mitad baja del original 2400×4268. Con cover en un marco
+   1:1, este par de porcentajes centra el cogollo de color. */
 .snd-detalle__marco > picture > img {
-  object-position: center;
+  object-position: 78% 72%;
 }
 
 /* v23 · La hermana de la pastilla anterior, con la MISMA corrección y la
