@@ -764,11 +764,14 @@
   box-shadow: var(--sombra-lg);
 }
 
-/* El recorte del detalle: los crotones de hoja roja y amarilla viven en el
-   tercio derecho, mitad baja del original 2400×4268. Con cover en un marco
-   1:1, este par de porcentajes centra el cogollo de color. */
+/* v24 · La foto ENTERA, sin recorte: el marco toma la proporción real del
+   derivado (800×1423) en vez del 1:1 que la recortaba a los crotones. */
+.snd-detalle .snd-detalle__marco {
+  aspect-ratio: 800 / 1423;
+}
+
 .snd-detalle__marco > picture > img {
-  object-position: 78% 72%;
+  object-position: center;
 }
 
 /* v23 · La hermana de la pastilla anterior, con la MISMA corrección y la
