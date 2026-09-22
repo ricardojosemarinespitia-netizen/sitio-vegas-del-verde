@@ -612,6 +612,9 @@
    ========================================================================== */
 .sendero .nat-apertura__media {
   margin-block-start: calc(var(--snd-solape-banda) * -1);
+  /* v25 · Ya no hay inserto que se solape por la derecha: sin este reserva
+     lateral la foto quedaba corrida a la izquierda en tablet vertical y móvil. */
+  padding-inline-end: 0;
 }
 
 @media (min-width: 62em) {
@@ -621,6 +624,35 @@
      la crema, alineada con el tramo de foto que quedó sobre fondo claro. */
   .sendero .nat-apertura__texto {
     padding-block-start: var(--esp-lg);
+  }
+}
+
+/* v25 · LA FOTO GRANDE, CENTRADA EN LA PÁGINA (pedido del cliente: «muévela
+   de la orilla y céntrala»). Antes sangraba por el canto izquierdo, con el
+   texto a su derecha. Ahora es una sola columna: la foto centrada con
+   margen a ambos lados y el texto debajo, a la misma medida. Sin sangrado ya
+   no hay canto del navegador donde apoyar esquinas rectas, así que recupera
+   la silueta de hoja completa (--nat-hoja-a) en sus cuatro esquinas. Sólo
+   escritorio y tablet horizontal: en móvil la rejilla ya es de una columna
+   con el margen de página. */
+@media (min-width: 62em) {
+  .sendero .nat-apertura {
+    grid-template-columns: minmax(0, 1fr);
+    justify-items: center;
+    padding-inline: var(--nat-margen);
+  }
+
+  .sendero .nat-apertura__media,
+  .sendero .nat-apertura__texto {
+    width: min(100%, 52rem);
+  }
+
+  .sendero .nat-apertura__texto {
+    padding-inline: 0;
+  }
+
+  .sendero .nat-apertura__principal .marco {
+    border-radius: var(--nat-hoja-a);
   }
 }
 
