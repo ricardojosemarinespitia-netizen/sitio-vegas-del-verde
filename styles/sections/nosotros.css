@@ -1358,7 +1358,10 @@
   position: relative;
   isolation: isolate;
   display: grid;
-  margin-top: var(--esp-seccion);
+  /* v34 · el margen de arriba baja de --esp-seccion a --esp-seccion-sm: la
+     banda vive DENTRO de #nosotros, que ya cierra con su propio relleno, y
+     los dos sumaban 240 px de papel entre el predio y la foto. */
+  margin-top: var(--esp-seccion-sm);
   /* v22 · EL PIE DE LA SECCIÓN BAJA DE --esp-seccion A --esp-lg. Debajo de
      esta banda no viene otra sección: viene el pie del sitio, que trae su
      propio relleno de apertura. El colchón de capítulo entero sumaba dos
@@ -1542,7 +1545,10 @@
    flores que queda a la vista, y es lo que hace la composición.            */
 @media (min-width: 62em) {
   .nosotros__compromiso {
-    padding-block: var(--esp-seccion-lg);
+    /* v34 · era --esp-seccion-lg (160 px arriba y abajo). En escritorio el
+       texto va en placa a la izquierda y la foto se ve entera a la derecha,
+       así que el relleno vertical no «presenta» nada: sólo mide la banda. */
+    padding-block: var(--esp-seccion);
   }
 
   .compromiso__velo {

@@ -1462,8 +1462,12 @@
   display: grid;
   align-content: center;
   gap: var(--gap-lg);
-  min-block-size: 100svh;
-  margin-block: var(--esp-seccion);
+  /* v34 · SE RETIRA `min-block-size: 100svh` Y EL MARGEN BAJA UN PELDAÑO.
+     La sala se estiraba a pantalla completa aunque el censo cupiera en
+     media, y ese estirón se repartía en papel vacío arriba y abajo de las
+     cifras (align-content: center). Pedido del cliente: la página «se ve
+     vacía». La banda mide ahora lo que mide su contenido más el relleno. */
+  margin-block: var(--esp-seccion-sm);
   padding-block: var(--esp-seccion);
   /* La misma sala que la cinta del concurso, y a propósito: la sección tiene
      ya un cuarto oscuro y no necesita un segundo. Ver §LA CINTA. */
@@ -1953,7 +1957,10 @@
    ========================================================================== */
 .nat-muro-banda {
   position: relative;
-  margin-top: var(--esp-seccion);
+  /* v34 · de --esp-seccion a --esp-seccion-sm: el muro es el cierre del
+     mismo capítulo, no uno nuevo, y el relleno superior ya crece por la
+     cresta ondulada (abajo). */
+  margin-top: var(--esp-seccion-sm);
   /* v6: la banda YA NO es lo último de la sección y por eso pierde el margen
      inferior negativo que la pegaba contra el borde. Ahora cierra la plancha
      del mural, que arranca justo donde muere el canto de la salvia —sin aire

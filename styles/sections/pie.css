@@ -45,7 +45,9 @@
    antetítulo se acerca a su titular (es su rótulo, --esp-sm) y el botón se
    aparta (es otra cosa, y se aparta con el margen de abajo). */
 .pie-final__cierre {
-  padding-block: var(--esp-xl) var(--esp-3xl);
+  /* v34 · el cierre baja de --esp-3xl a --esp-2xl por abajo: entre el CTA
+     final y la rejilla de columnas había 96 px de papel vacío. */
+  padding-block: var(--esp-xl) var(--esp-2xl);
   display: flex;
   flex-direction: column;
   align-items: flex-start;

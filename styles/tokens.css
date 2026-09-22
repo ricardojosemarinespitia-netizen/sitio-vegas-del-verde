@@ -540,14 +540,29 @@
   --esp-3xl: 6rem;
   --esp-4xl: 8rem;
 
-  /* Aire vertical de sección — fluido */
-  --esp-seccion: clamp(3.75rem, 2rem + 7vw, 7.5rem);
-  --esp-seccion-sm: clamp(2.5rem, 1.6rem + 3.8vw, 4.5rem);
-  --esp-seccion-lg: clamp(5rem, 2.5rem + 10vw, 10rem);
+  /* Aire vertical de sección — fluido.
+     v34 · LA PÁGINA SE COMPACTA (sep. 2026). Pedido textual del cliente: la
+     página «se ve vacía», con «demasiado espacio en blanco entre secciones»,
+     y quiere que se vea «más compacta». Medido en escritorio (1440 px): cada
+     costura entre dos .seccion sumaba 120 + 120 = 240 px de papel vacío, y
+     el encabezado de sección añadía otros 64 px (--gap-lg) antes del primer
+     contenido. Los tres compases bajan UN TERCIO en el techo y ~un cuarto en
+     el suelo, conservando la proporción entre ellos (sm ≈ 0,65 · lg ≈ 1,3
+     del compás común) para que el ritmo de capítulo no cambie, sólo el
+     volumen. Antes → ahora, suelo→techo:
+         --esp-seccion     60→120 px   →   44→80 px
+         --esp-seccion-sm  40→72  px   →   32→52 px
+         --esp-seccion-lg  80→160 px   →   56→104 px
+         --gap-lg          32→64  px   →   24→44 px
+     --gap y --gap-sm NO se tocan: son el aire ENTRE tarjetas, y ese no era
+     el problema; apretarlo haría que las rejillas se vieran amontonadas. */
+  --esp-seccion: clamp(2.75rem, 1.5rem + 4.5vw, 5rem);
+  --esp-seccion-sm: clamp(2rem, 1.25rem + 2.5vw, 3.25rem);
+  --esp-seccion-lg: clamp(3.5rem, 2rem + 6vw, 6.5rem);
 
   --gap: clamp(1.25rem, 0.9rem + 1.5vw, 2.25rem);
   --gap-sm: clamp(0.75rem, 0.6rem + 0.7vw, 1.25rem);
-  --gap-lg: clamp(2rem, 1.2rem + 3.4vw, 4rem);
+  --gap-lg: clamp(1.5rem, 1rem + 2.2vw, 2.75rem);
 
   /* ---------------------------------------------------------------------
      5. CONTENEDORES Y LAYOUT

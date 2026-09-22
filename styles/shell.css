@@ -1013,7 +1013,9 @@ body.menu-abierto .nav {
    ========================================================================== */
 .pagina-interior {
   padding-top: calc(var(--alto-header) + var(--esp-xl));
-  padding-bottom: var(--esp-3xl);
+  /* v34 · era --esp-3xl (96 px). Un peldaño menos: el pie trae su propio
+     relleno de apertura y los dos sumaban casi 200 px de papel. */
+  padding-bottom: var(--esp-2xl);
 }
 
 /* ==========================================================================
@@ -1042,7 +1044,10 @@ body.menu-abierto .nav {
   background-color: var(--color-banda-trama);
   border-block-start: 1px solid var(--color-borde-suave);
   color: var(--color-texto);
-  padding-block: var(--esp-3xl) var(--esp-lg);
+  /* v34 · la apertura baja de --esp-3xl (96 px) a --esp-2xl (64 px): pedido
+     del cliente de compactar; el filete superior ya separa el pie por sí
+     solo y no necesita además un colchón de capítulo. */
+  padding-block: var(--esp-2xl) var(--esp-lg);
   scroll-margin-top: calc(var(--alto-header) + var(--esp-md));
 }
 
