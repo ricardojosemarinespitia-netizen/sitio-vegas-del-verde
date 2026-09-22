@@ -48,10 +48,22 @@
      El observador vigila la SECCIÓN y no el icono: el encargo es que al
      entrar en esa parte arranquen todas a la vez.
      --------------------------------------------------------------------- */
+  /* ---------------------------------------------------------------------
+     `main` y el `body` cierran la lista de contenedores A PROPÓSITO. Las
+     páginas interiores sin secciones —condiciones-de-alquiler.html es el
+     caso— no tenían NINGÚN ancestro que casara: `closest` devolvía null,
+     el icono no se registraba, la clase `traza-lista` no llegaba nunca y
+     el trazo se quedaba para siempre en su estado de nacimiento
+     (dashoffset 1, detalles a opacidad 0). En pantalla: círculos grises
+     vacíos y, en el que empieza con linecap redondo, un puntito. El
+     fallback garantiza que todo icono tenga dueño; donde sí hay
+     `section`, `closest` la sigue encontrando antes por cercanía, así que
+     el escalonado por sección de las otras páginas no cambia.
+     --------------------------------------------------------------------- */
   const contenedoresTraza = new Set();
   document.querySelectorAll('.icono-traza').forEach(svg => {
-    const caja = svg.closest('section, .pv-pieza, footer, header');
-    if (caja) contenedoresTraza.add(caja);
+    const caja = svg.closest('section, .pv-pieza, footer, header, main') || document.body;
+    contenedoresTraza.add(caja);
   });
 
   if (reduceMotion || !('IntersectionObserver' in window)) {
