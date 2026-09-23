@@ -388,3 +388,77 @@
     --dur-reveal: var(--dur-lenta);
   }
 }
+
+/* --------------------------------------------------------------------------
+   EVENTO PUNTUAL — Conexión & Yoga (sections/enc-planes.html, #conexion-yoga)
+   Una .placa con filete bajo el <h1>: recibe el tráfico de la pauta. Reusa
+   la micro-etiqueta de .planes-carril__ocasion y el .btn-whatsapp del
+   sistema; aquí sólo van medida, ritmo y el titular. Retirar tras el evento.
+   -------------------------------------------------------------------------- */
+/* v2 · HERO CON FOTO. La maqueta es .foto-placa--lado (base.css): foto y
+   placa en celdas propias, la placa nunca encima. Aquí sólo se ajusta el
+   reparto — yoga-3 es retrato, así que en escritorio la foto toma la
+   columna ANGOSTA y la placa la ancha — y el recorte: 1:1 en móvil y 4:5 al lado. En 3:2 (el de la tarjeta Cuidarse)
+   a ancho completo no cabía la postura entera: o manos o piernas. */
+.planes-evento {
+  margin-top: var(--esp-lg);
+  scroll-margin-top: calc(var(--alto-header) + var(--esp-md));
+}
+
+.planes-evento .planes-evento__foto {
+  aspect-ratio: 1 / 1;
+  height: auto;
+  object-fit: cover;
+  object-position: 50% 45%;
+}
+
+.planes-evento__placa {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--esp-xs);
+}
+
+@media (min-width: 48em) {
+  .planes-evento.foto-placa--lado {
+    grid-template-columns: 1fr 1.25fr;
+    gap: var(--esp-lg);
+  }
+
+  .planes-evento .planes-evento__foto {
+    aspect-ratio: 4 / 5;
+    object-position: 50% 40%;
+  }
+
+  .planes-evento__placa {
+    padding: var(--esp-lg);
+  }
+}
+
+.planes-evento__rotulo {
+  margin: 0;
+  font-family: var(--fuente-titulo);
+  font-size: var(--fs-micro);
+  font-weight: var(--peso-medio);
+  text-transform: uppercase;
+  letter-spacing: var(--tracking-rotulo);
+  color: var(--color-acento-texto);
+}
+
+.planes-evento__titulo {
+  margin: 0;
+  font-family: var(--fuente-display);
+  font-size: var(--paso-3);
+  font-weight: var(--peso-display);
+  font-variation-settings: var(--ejes-display);
+  letter-spacing: var(--tracking-display);
+  line-height: var(--alto-linea-titulo);
+}
+
+.planes-evento__dato {
+  margin: 0;
+}
+
+.planes-evento__cta {
+  margin-top: var(--esp-2xs);
+}
