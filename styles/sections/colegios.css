@@ -54,14 +54,33 @@
    a 390 px: «Alianza Educativa» tapado entero). Es el mismo sumando que usa
    .pv-carrete en plan-vecino.css. El factor 0,62 se conserva: es el aire
    propio de la sección, no el de la cabecera. */
+/* v9 · COMPACTACIÓN A TOPE DE ESTA PÁGINA (pedido directo del cliente:
+   «que salidas escolares se vea bastante más apretada que el resto»). El
+   ajuste global de espaciado —los tokens --esp-seccion / --gap-lg— ya bajó
+   el sitio entero; esta hoja baja OTRO escalón por encima de aquello, y sólo
+   aquí. El método es el mismo de siempre: se sustituye cada token de aire
+   por el inmediatamente menor de la misma escala (--gap-lg → --gap →
+   --gap-sm, --esp-xl → --esp-md, etc.). Ni un literal nuevo.
+   El factor de apertura baja de 0,62 a 0,3, y la sección estrena
+   padding-block-end propio: `.seccion` reparte --esp-seccion arriba y abajo,
+   y abajo sobraba medio pliego entero. */
+/* v10 · SEGUNDA PASADA DE COMPACTACIÓN (el cliente vio v9 y pidió «achica
+   más las cosas y que quede más compacto»). Mismo método que v9 —cada token
+   de aire baja OTRO escalón de la escala de tokens.css—, más dos cosas que
+   v9 no tocó y que aquí pesan: el TAMAÑO de las láminas (las proporciones
+   bajan de 1/1 a 5/4 y de 16/10 a 16/9: son cinco filas, cada rem de alto
+   se multiplica por cinco) y el de los iconos de placa/servicio. Los gaps
+   de rejilla pasan de --gap/--gap-sm a --gap-sm/--esp-xs. Sin literales
+   nuevos salvo los tamaños de icono, que ya eran literales en v8. */
 .col {
-  padding-block-start: calc(var(--alto-header) + var(--esp-seccion) * 0.62);
-  --col-lip: var(--esp-lg);
+  padding-block-start: calc(var(--alto-header) + var(--esp-seccion) * 0.15);
+  padding-block-end: var(--esp-md);
+  --col-lip: var(--esp-sm);
 }
 
 @media (min-width: 62em) {
   .col {
-    --col-lip: var(--esp-2xl);
+    --col-lip: var(--esp-md);
   }
 }
 
@@ -100,8 +119,8 @@
 .col-portada {
   position: relative;
   display: grid;
-  gap: var(--esp-md);
-  margin-bottom: var(--gap);
+  gap: var(--esp-xs);
+  margin-bottom: var(--esp-sm);
 }
 
 .js .col-portada.reveal.visible,
@@ -130,7 +149,7 @@
   .col-portada {
     grid-template-columns: minmax(0, 1.35fr) minmax(0, 0.65fr);
     align-items: end;
-    gap: var(--gap-lg);
+    gap: var(--gap);
   }
 }
 
@@ -140,7 +159,7 @@
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  gap: var(--esp-xs);
+  gap: var(--esp-2xs);
   min-width: 0;
 }
 
@@ -161,7 +180,7 @@
   min-width: 0;
   max-width: var(--medida-corta);
   border-block-start: 1px solid var(--color-borde-fuerte);
-  padding-block-start: var(--esp-sm);
+  padding-block-start: var(--esp-2xs);
 }
 
 /* ---- Las tres cifras ------------------------------------------------------
@@ -175,16 +194,16 @@
      «40.000 m²» se partía en dos renglones (medido en v8). Con 12 rem el
      móvil apila las tres cifras y cada una queda entera. */
   grid-template-columns: repeat(auto-fit, minmax(12rem, 1fr));
-  gap: var(--gap);
+  gap: var(--esp-xs);
   list-style: none;
-  margin: 0 0 var(--gap-lg);
+  margin: 0 0 var(--esp-sm);
   padding: 0;
 }
 
 .col-cifra {
   position: relative;
   margin: 0;
-  padding-block-start: var(--esp-sm);
+  padding-block-start: var(--esp-2xs);
   border-block-start: 1px solid var(--color-borde-fuerte);
 }
 
@@ -255,15 +274,15 @@
    ========================================================================== */
 .col-aulas {
   position: relative;
-  margin-top: var(--gap);
-  padding-block-start: var(--gap);
+  margin-top: var(--esp-sm);
+  padding-block-start: var(--esp-sm);
   border-top: 1px solid var(--color-borde-fuerte);
 }
 
 .col-aulas__cabecera {
   display: grid;
-  gap: var(--esp-xs);
-  margin-bottom: var(--gap-lg);
+  gap: var(--esp-3xs);
+  margin-bottom: var(--esp-sm);
   max-width: var(--medida);
 }
 
@@ -282,20 +301,20 @@
 ol.col-aulas__lista {
   position: relative;
   display: grid;
-  gap: var(--gap-lg);
+  gap: var(--gap-sm);
   list-style: none;
   margin: 0;
   padding: 0;
   /* Sitio para el margen del cuaderno: la línea y los puntos viven en esta
      franja, a la izquierda de las láminas. En móvil es estrecha. */
-  --col-margen: var(--esp-md);
+  --col-margen: var(--esp-sm);
   padding-inline-start: var(--col-margen);
 }
 
 @media (min-width: 62em) {
   ol.col-aulas__lista {
-    --col-margen: var(--esp-xl);
-    gap: var(--esp-seccion-sm);
+    --col-margen: var(--esp-lg);
+    gap: var(--gap-sm);
   }
 }
 
@@ -366,12 +385,36 @@ ol.col-aulas__lista {
 
 /* El punto que se posa sobre la línea. Se coloca a la altura del arranque
    de la placa. Entra con la lámina (hereda el .reveal del <li>) y además se
-   hincha un poco al aparecer: `scale` en el compositor, nada de layout. */
+   hincha un poco al aparecer: `scale` en el compositor, nada de layout.
+   v11 · FIX del salto errático (bug reportado tras v9/v10): esto se
+   posicionaba con `--col-punto-y: calc(100% - <token fijo>)`, una altura
+   aproximada por RESTA desde el pie de la fila. En móvil ese 100% es la
+   altura del <li> completo, que a su vez incluye la de la PROPIA placa —y
+   la placa cambia de alto con el texto (2 vs 3 líneas): «Vivero», con su
+   párrafo de 3 líneas, tenía una placa ~26px más alta que las demás, así
+   que el punto —pensado para el mismo hueco fijo en las cinco aulas— caía
+   en un sitio distinto en cada una. Con la placa ya compacta (v10), ese
+   margen de error dejó de ser invisible.
+   Probé sacar el punto de aquí y anclarlo directo a la placa
+   (`inset-block-start: 0`, sin aproximar nada) pero ese ::before, ya
+   dentro de `.col-aula__placa` (que tiene su propio `z-index`), termina
+   pintándose DETRÁS de la foto en este motor —posible bug del visor, pero
+   no vale la pena pelearlo—. Se queda en el <li>, como siempre, y en vez
+   de `position: absolute` se convierte en un ITEM DE LA REJILLA: el <li>
+   ya es `display: grid` con la foto en la fila 1 y la placa en la fila 2
+   (mismo solape con margen negativo que usa la placa). Alineando el punto
+   a `grid-row: 2` + `align-self: start` + el MISMO margen negativo
+   (`--esp-xl`) que usa la placa, el punto quema exactamente el borde
+   superior de la fila de la placa —el pie de la FOTO, que es fija y no
+   depende del texto— sin adivinar ninguna altura. */
 .col-aula::before {
   content: "";
-  position: absolute;
-  inset-block-start: var(--col-punto-y, 0);
-  inset-inline-start: calc(var(--col-margen) * -1 - var(--esp-3xs) - 1px);
+  grid-row: 2;
+  grid-column: 1;
+  align-self: start;
+  justify-self: start;
+  margin-block-start: calc(var(--esp-xl) * -1);
+  margin-inline-start: calc(var(--col-margen) * -1 - var(--esp-3xs) - 1px);
   width: calc(var(--esp-2xs) + var(--esp-3xs));
   height: calc(var(--esp-2xs) + var(--esp-3xs));
   border-radius: var(--radio-full);
@@ -399,8 +442,16 @@ ol.col-aulas__lista {
 /* Proporción y hoja: dos diagonales alternas bajando por la lista, y las
    dos apaisadas (taller y cancha) a 4/3 porque sus archivos son apaisados.
    La curva grande sólo en la esquina que NO va a recibir la placa. */
+/* v9 · las cinco láminas eran el grueso del aire de la página: a 1280 px la
+   lista sola medía 3.429 px de los 6.056 del documento. Las proporciones
+   bajan un escalón —vertical 4/5 → 1/1, apaisada 4/3 → 3/2— y con ellas cae
+   la altura de cada fila sin tocar el encuadre: --col-foco sigue mandando
+   qué parte del archivo se ve. */
+/* v10 · otro escalón de proporción: vertical 1/1 → 5/4 y apaisada 3/2 →
+   16/9. El encuadre no se toca (--col-foco sigue mandando), pero cada fila
+   pierde una quinta parte de su alto y son cinco filas. */
 .col-aula__foto .marco {
-  aspect-ratio: 4 / 5;
+  aspect-ratio: 5 / 4;
   border-radius: var(--radio-xl) 0 var(--radio-md) 0;
 }
 
@@ -409,7 +460,7 @@ ol.col-aulas__lista {
 }
 
 .col-aula--apaisada .col-aula__foto .marco {
-  aspect-ratio: 4 / 3;
+  aspect-ratio: 16 / 9;
 }
 
 /* El encuadre de cada foto, medido contra el archivo real: el vivero tiene
@@ -434,30 +485,23 @@ ol.col-aulas__lista {
   z-index: var(--z-base);
   display: grid;
   grid-template-columns: auto 1fr;
-  gap: var(--esp-2xs) var(--esp-sm);
+  gap: var(--esp-3xs) var(--esp-2xs);
   align-items: start;
+  padding: var(--esp-xs);
   margin-block-start: calc(var(--esp-xl) * -1);
-  margin-inline-start: var(--esp-md);
+  margin-inline-start: var(--esp-sm);
   max-width: var(--ancho-xs);
-}
-
-/* Dónde se posa el punto: a la altura del arranque de la placa. Se declara
-   en el <li> porque lo lee su ::before —una variable puesta en la placa no
-   sube hasta el padre—. En móvil la placa arranca a --esp-xl del pie de la
-   lámina más su propia altura; se aproxima por el pie de la fila. */
-.col-aula {
-  --col-punto-y: calc(100% - var(--esp-3xl));
 }
 
 .col-aula:nth-of-type(even) .col-aula__placa {
   margin-inline-start: 0;
-  margin-inline-end: var(--esp-md);
+  margin-inline-end: var(--esp-sm);
 }
 
 .col-aula__icono {
   grid-row: 1 / span 2;
-  width: 2.6rem;
-  height: 2.6rem;
+  width: 2.2rem;
+  height: 2.2rem;
   stroke-width: 1.4;
   color: var(--color-acento-alt);
 }
@@ -481,9 +525,36 @@ ol.col-aulas__lista {
    las pares, al revés. El solape mide --esp-2xl, el mismo tiro que usaba el
    panel de hitos de v4. */
 @media (min-width: 62em) {
+  /* v9 · el carril de la foto cede un poco al de la placa: con proporción
+     cuadrada, cada rem que pierde la foto de ancho es un rem que pierde de
+     ALTO, y son cinco filas. De paso la placa —que era lo corto de la fila—
+     gana sitio y el hueco a su lado deja de cantar. */
   .col-aula {
-    grid-template-columns: minmax(0, 1.05fr) minmax(0, 0.95fr);
+    grid-template-columns: minmax(0, 0.92fr) minmax(0, 1.08fr);
     align-items: end;
+  }
+
+  /* Desde aquí la foto y la placa son COLUMNAS de la misma fila (ya no hay
+     fila 2 que anclar): el truco de rejilla de arriba no sirve. Vuelve el
+     punto a `position: absolute` con el mismo cálculo aproximado de
+     siempre —100% menos un hueco fijo—, que en este layout SÍ es fiable:
+     la fila mide lo que mide la foto (`align-items: end`, la placa es
+     más corta), así que el 100% de aquí ya no carga con el alto variable
+     de la placa como cargaba en móvil. */
+  .col-aula::before {
+    grid-row: auto;
+    grid-column: auto;
+    align-self: auto;
+    justify-self: auto;
+    position: absolute;
+    margin-block-start: 0;
+    margin-inline-start: 0;
+    inset-block-start: var(--col-punto-y, 0);
+    inset-inline-start: calc(var(--col-margen) * -1 - var(--esp-3xs) - 1px);
+  }
+
+  .col-aula {
+    --col-punto-y: calc(100% - var(--esp-sm) - var(--esp-2xl));
   }
 
   .col-aula__foto {
@@ -491,24 +562,20 @@ ol.col-aulas__lista {
   }
 
   .col-aula__foto .marco {
-    aspect-ratio: 3 / 4;
+    aspect-ratio: 5 / 4;
   }
 
   .col-aula--apaisada .col-aula__foto .marco {
-    aspect-ratio: 5 / 4;
+    aspect-ratio: 16 / 9;
   }
 
   .col-aula__placa {
     margin-block-start: 0;
-    margin-block-end: var(--esp-xl);
+    margin-block-end: var(--esp-sm);
     margin-inline-start: calc(var(--esp-2xl) * -1);
     margin-inline-end: 0;
     max-width: none;
-    padding: var(--esp-lg);
-  }
-
-  .col-aula {
-    --col-punto-y: calc(100% - var(--esp-xl) - var(--esp-2xl));
+    padding: var(--esp-sm);
   }
 
   .col-aula:nth-of-type(even) .col-aula__foto {
@@ -531,15 +598,16 @@ ol.col-aulas__lista {
 .col-nota {
   display: grid;
   grid-template-columns: auto 1fr;
-  gap: var(--esp-sm);
+  gap: var(--esp-2xs);
   align-items: start;
-  margin-top: var(--gap-lg);
+  padding: var(--esp-xs);
+  margin-top: var(--esp-sm);
   max-width: var(--medida);
 }
 
 .col-nota__icono {
-  width: 2rem;
-  height: 2rem;
+  width: 1.75rem;
+  height: 1.75rem;
   stroke-width: 1.5;
   color: var(--color-acento-texto);
 }
@@ -555,15 +623,15 @@ ol.col-aulas__lista {
 }
 
 .col-bloque {
-  margin-top: var(--gap-lg);
-  padding-top: var(--gap);
+  margin-top: var(--esp-sm);
+  padding-top: var(--esp-sm);
   border-top: 1px solid var(--color-borde-fuerte);
 }
 
 .col-bloque__cabecera {
   display: grid;
-  gap: var(--esp-xs);
-  margin-bottom: var(--gap);
+  gap: var(--esp-3xs);
+  margin-bottom: var(--esp-xs);
   max-width: var(--medida);
 }
 
@@ -579,7 +647,7 @@ ol.col-aulas__lista {
 .col-servicio {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(14rem, 1fr));
-  gap: var(--gap);
+  gap: var(--esp-xs) var(--gap-sm);
   list-style: none;
   margin: 0;
   padding: 0;
@@ -589,7 +657,7 @@ ol.col-aulas__lista {
   position: relative;
   display: grid;
   gap: var(--esp-3xs);
-  padding-inline-start: var(--esp-md);
+  padding-inline-start: var(--esp-sm);
   border-inline-start: 1px solid var(--color-borde-fuerte);
   min-width: 0;
 }
@@ -611,11 +679,11 @@ ol.col-aulas__lista {
 }
 
 .col-servicio__icono {
-  width: 2.2rem;
-  height: 2.2rem;
+  width: 1.9rem;
+  height: 1.9rem;
   stroke-width: 1.4;
   color: var(--color-acento-alt);
-  margin-bottom: var(--esp-2xs);
+  margin-bottom: 0;
 }
 
 .col-servicio__item h3 {
@@ -639,7 +707,7 @@ ol.col-aulas__lista {
 .col-pases {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(14rem, 1fr));
-  gap: var(--gap);
+  gap: var(--esp-xs);
   list-style: none;
   margin: 0;
   padding: 0;
@@ -648,13 +716,14 @@ ol.col-aulas__lista {
 
 @media (min-width: 48em) {
   .col-pase:nth-child(2) {
-    margin-block-start: var(--esp-lg);
+    margin-block-start: var(--esp-sm);
   }
 }
 
 .col-pase {
   display: grid;
-  gap: var(--esp-2xs);
+  gap: var(--esp-3xs);
+  padding: var(--esp-xs);
   min-width: 0;
 }
 
@@ -682,8 +751,8 @@ ol.col-aulas__lista {
 }
 
 .col-pase__precio {
-  margin: var(--esp-xs) 0 0;
-  padding-top: var(--esp-xs);
+  margin: var(--esp-3xs) 0 0;
+  padding-top: var(--esp-3xs);
   border-top: 1px dotted var(--color-borde-fuerte);
   font-family: var(--fuente-display);
   font-size: var(--fs-h2);
@@ -695,7 +764,7 @@ ol.col-aulas__lista {
 }
 
 .col-incluye {
-  margin: var(--gap) 0 0;
+  margin: var(--esp-xs) 0 0;
   max-width: var(--medida);
   font-size: var(--fs-pequeno);
   color: var(--color-texto-suave);
@@ -711,9 +780,9 @@ ol.col-aulas__lista {
 .col-extras {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(20rem, 1fr));
-  gap: var(--esp-xs) var(--gap-lg);
+  gap: 0 var(--gap-sm);
   list-style: none;
-  margin: var(--gap) 0 0;
+  margin: var(--esp-xs) 0 0;
   padding: 0;
   max-width: var(--ancho-md);
 }
@@ -723,7 +792,7 @@ ol.col-aulas__lista {
   justify-content: space-between;
   align-items: baseline;
   gap: var(--esp-sm);
-  padding-block: var(--esp-2xs);
+  padding-block: var(--esp-3xs);
   border-bottom: 1px solid var(--color-borde-suave);
   font-size: var(--fs-pequeno);
 }
@@ -750,21 +819,21 @@ ol.col-aulas__lista {
 .col-puntos {
   display: grid;
   grid-template-columns: minmax(0, 1fr);
-  gap: var(--gap);
+  gap: var(--esp-xs);
   align-items: center;
 }
 
 @media (min-width: 62em) {
   .col-puntos {
     grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
-    gap: var(--gap-lg);
+    gap: var(--gap-sm);
   }
 }
 
 .col-sellos {
   display: grid;
   grid-template-columns: repeat(6, minmax(0, 1fr));
-  gap: var(--esp-xs);
+  gap: var(--esp-2xs);
   list-style: none;
   margin: 0;
   padding: 0;
@@ -825,7 +894,7 @@ ol.col-aulas__lista {
 
 .col-puntos__texto {
   display: grid;
-  gap: var(--esp-xs);
+  gap: var(--esp-3xs);
   max-width: var(--medida-corta);
 }
 
@@ -856,14 +925,14 @@ ol.col-aulas__lista {
    7. UBICACIÓN + CIERRE CON CTA (v16 claro, hoja)
    ========================================================================== */
 .col-ubicacion {
-  margin: var(--gap-lg) 0 0;
+  margin: var(--esp-sm) 0 0;
   max-width: var(--medida);
   font-size: var(--fs-pequeno);
   color: var(--color-texto-suave);
 }
 
 .col-enlaces {
-  margin-top: var(--esp-sm);
+  margin-top: var(--esp-2xs);
   max-width: var(--medida);
 }
 
@@ -872,9 +941,9 @@ ol.col-aulas__lista {
   flex-wrap: wrap;
   align-items: center;
   justify-content: space-between;
-  gap: var(--gap);
-  margin-top: var(--gap);
-  padding: var(--esp-lg);
+  gap: var(--esp-xs) var(--gap-sm);
+  margin-top: var(--esp-sm);
+  padding: var(--esp-sm);
   border-radius: 0 var(--radio-lg) 0 var(--radio-lg);
   background-color: var(--color-superficie-solida);
   border: 1px solid var(--color-borde-suave);
@@ -884,7 +953,7 @@ ol.col-aulas__lista {
 .col-cierre__bloque {
   display: flex;
   flex-direction: column;
-  gap: var(--esp-2xs);
+  gap: var(--esp-3xs);
   min-width: 0;
   flex: 1 1 var(--ancho-xs);
 }
@@ -908,7 +977,7 @@ ol.col-aulas__lista {
 @media (min-width: 62em) {
   .col-cierre {
     flex-wrap: nowrap;
-    padding: var(--esp-xl);
+    padding: var(--esp-md);
     border-radius: 0 var(--radio-xl) 0 var(--radio-xl);
   }
 }
@@ -984,7 +1053,7 @@ ol.col-aulas__lista {
   }
 
   .js .col-sellos .col-sello,
-  .col-aula::before {
+  .col-aula__placa::before {
     opacity: 1;
     transform: none;
     transition: none;
