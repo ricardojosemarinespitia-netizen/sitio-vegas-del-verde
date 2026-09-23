@@ -612,4 +612,41 @@
     censar();
     window.addEventListener('load', censar);
   }
+
+  /* ---------------------------------------------------------------------
+     Evento flotante: aparece si no se cerró y si el evento no ha pasado
+
+     El marcado nace `hidden` (sections/_header.html). La clave de
+     localStorage lleva el id del evento, así que cerrar «Conexión & Yoga»
+     no apaga el próximo evento. Todo acceso a storage va en try/catch:
+     en navegación privada o con datos bloqueados el marbete simplemente
+     se muestra y se cierra sólo por esta visita.
+     --------------------------------------------------------------------- */
+  const eventoFlotante = document.querySelector('.evento-flotante');
+  if (eventoFlotante) {
+    const clave = 'vdv-evento-cerrado:' + (eventoFlotante.dataset.evento || '');
+    const hasta = Date.parse(eventoFlotante.dataset.eventoHasta || '');
+    let cerrado = false;
+    try { cerrado = localStorage.getItem(clave) === '1'; } catch (e) { /* sin storage */ }
+    const vencido = !Number.isNaN(hasta) && Date.now() > hasta;
+
+    if (cerrado || vencido) {
+      eventoFlotante.remove();
+    } else {
+      eventoFlotante.hidden = false;
+      // Un fotograma de por medio para que la transición de entrada corra.
+      setTimeout(() => {
+        requestAnimationFrame(() => eventoFlotante.classList.add('esta-visible'));
+      }, reduceMotion ? 0 : 900);
+
+      const cerrar = eventoFlotante.querySelector('.evento-flotante__cerrar');
+      if (cerrar) {
+        cerrar.addEventListener('click', () => {
+          try { localStorage.setItem(clave, '1'); } catch (e) { /* sin storage */ }
+          eventoFlotante.classList.remove('esta-visible');
+          setTimeout(() => eventoFlotante.remove(), reduceMotion ? 0 : 400);
+        });
+      }
+    }
+  }
 })();

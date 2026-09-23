@@ -643,6 +643,207 @@ body:has(#inicio) .cabecera__volver {
   }
 }
 
+/* ---- Evento flotante ---------------------------------------------------
+   v1 · Marbete del evento activo (marcado en sections/_header.html). Misma
+   capa y mismo z-index que teléfono y WhatsApp, pero en la esquina OPUESTA
+   (abajo a la izquierda) para no competir con ellos: la derecha es contacto,
+   la izquierda es «qué pasa en el parque».
+   Superficie de vidrio —el mismo material de los controles del sitio— y no
+   un bloque de color: se lee como parte del chrome, no como banner.
+   El ancho máximo descuenta la columna de los círculos de la derecha
+   (margen + círculo + respiro), así que en ningún ancho puede tocarlos.
+   Entra con opacity + transform (compositor); con reduced-motion base.css
+   deja las duraciones en ~0. */
+.evento-flotante {
+  position: fixed;
+  left: var(--esp-xs);
+  bottom: var(--esp-xs);
+  z-index: calc(var(--z-menu) - 1);
+  display: flex;
+  align-items: center;
+  max-width: calc(100vw - var(--esp-xs) * 3 - 2.75rem);
+  border: 1px solid var(--color-vidrio-borde);
+  border-radius: var(--radio-full);
+  background-color: var(--color-vidrio-opaco);
+  color: var(--color-texto);
+  box-shadow: var(--sombra-vidrio), var(--sombra-md);
+  opacity: 0;
+  transform: translateY(var(--esp-sm));
+  transition:
+    opacity var(--dur-media) var(--ease-salida),
+    transform var(--dur-media) var(--ease-salida),
+    box-shadow var(--transicion-rapida);
+}
+
+@supports (backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px)) {
+  .evento-flotante {
+    background-color: var(--color-vidrio-hover);
+    -webkit-backdrop-filter: var(--desenfoque-vidrio);
+    backdrop-filter: var(--desenfoque-vidrio);
+  }
+}
+
+.evento-flotante[hidden] {
+  display: none;
+}
+
+.evento-flotante.esta-visible {
+  opacity: 1;
+  transform: none;
+}
+
+.evento-flotante:hover,
+.evento-flotante:focus-within {
+  box-shadow: var(--sombra-vidrio-hover), var(--sombra-lg);
+}
+
+.evento-flotante__enlace {
+  display: flex;
+  align-items: center;
+  gap: var(--esp-xs);
+  min-width: 0;
+  min-height: 2.75rem;
+  padding-block: var(--esp-3xs);
+  padding-inline: var(--esp-sm) var(--esp-2xs);
+  border-radius: var(--radio-full);
+  color: inherit;
+  text-decoration: none;
+}
+
+.evento-flotante__enlace:focus-visible,
+.evento-flotante__cerrar:focus-visible {
+  outline: none;
+  box-shadow: var(--anillo-foco);
+}
+
+/* El punto «en vivo»: coral de acción con un halo que late despacio. Sólo
+   opacity + scale, igual que el pulso del WhatsApp. */
+.evento-flotante__punto {
+  position: relative;
+  flex: none;
+  width: var(--esp-2xs);
+  height: var(--esp-2xs);
+  border-radius: var(--radio-full);
+  background-color: var(--color-accion);
+}
+
+.evento-flotante__punto::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background-color: var(--color-accion);
+  opacity: 0;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .evento-flotante__punto::after {
+    animation: whatsapp-flotante-pulso 3.6s var(--ease-suave) infinite;
+  }
+}
+
+.evento-flotante__texto {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  line-height: var(--alto-linea-apretado);
+}
+
+.evento-flotante__rotulo {
+  font-family: var(--fuente-cuerpo);
+  font-size: var(--fs-micro);
+  font-weight: var(--peso-medio);
+  text-transform: uppercase;
+  letter-spacing: var(--track-eyebrow);
+  color: var(--color-texto-suave);
+  white-space: nowrap;
+}
+
+.evento-flotante__titulo {
+  font-family: var(--fuente-titulo);
+  font-size: var(--fs-pequeno);
+  font-weight: var(--peso-medio);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.evento-flotante__flecha {
+  flex: none;
+  width: 1rem;
+  height: 1rem;
+  color: var(--color-accion-texto);
+  transition: transform var(--transicion-rapida);
+}
+
+.evento-flotante__enlace:hover .evento-flotante__flecha,
+.evento-flotante__enlace:focus-visible .evento-flotante__flecha {
+  transform: translateX(var(--esp-3xs));
+}
+
+.evento-flotante__cerrar {
+  display: flex;
+  flex: none;
+  align-items: center;
+  justify-content: center;
+  width: 2.75rem;
+  height: 2.75rem;
+  border: 0;
+  border-left: 1px solid var(--color-borde-suave);
+  border-radius: 0 var(--radio-full) var(--radio-full) 0;
+  background: none;
+  color: var(--color-texto-suave);
+  cursor: pointer;
+  transition: color var(--transicion-rapida);
+}
+
+.evento-flotante__cerrar:hover {
+  color: var(--color-texto);
+}
+
+.evento-flotante__cerrar svg {
+  width: 1rem;
+  height: 1rem;
+}
+
+/* /en/ conserva el Volver flotante en esta misma esquina: ahí el marbete
+   sube por encima de él (alto de la píldora de Volver + respiro). */
+body:has(.volver-flotante) .evento-flotante {
+  bottom: calc(var(--esp-md) + 3.25rem + var(--esp-2xs));
+}
+
+body:has(#inicio) .evento-flotante {
+  bottom: var(--esp-xs);
+}
+
+/* Con el menú móvil abierto el marbete se retira, igual que no debe quedar
+   nada del chrome flotante encima del panel. */
+body.menu-abierto .evento-flotante {
+  opacity: 0;
+  pointer-events: none;
+}
+
+@media (max-width: 40em) {
+  .evento-flotante {
+    left: var(--esp-2xs);
+    bottom: var(--esp-2xs);
+    max-width: calc(100vw - var(--esp-2xs) * 3 - 2.5rem);
+  }
+
+  .evento-flotante__enlace {
+    gap: var(--esp-2xs);
+    padding-inline: var(--esp-xs) var(--esp-3xs);
+  }
+
+  body:has(.volver-flotante) .evento-flotante {
+    bottom: calc(var(--esp-sm) + 3rem + var(--esp-2xs));
+  }
+
+  body:has(#inicio) .evento-flotante {
+    bottom: var(--esp-2xs);
+  }
+}
+
 /* ---- Volver flotante --------------------------------------------------- */
 /* v33 · ESTA PIEZA YA NO SE USA EN EL SITIO EN ESPAÑOL. El botón de volver
    subió a la barra de cabecera (`.cabecera__volver`, arriba en esta misma
