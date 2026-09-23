@@ -175,6 +175,16 @@
   border-radius: var(--radio-xs) var(--radio-hoja-menor) var(--radio-xs) var(--radio-hoja-menor);
 }
 
+/* <picture> fuera de la caja de layout (mismo arreglo que
+   .nosotros__escena-marco > picture en nosotros.css): el reset global deja
+   <picture> en height:auto, así que el height:100% del <img> no resolvía
+   contra el marco y la foto quedaba a su alto natural, con hueco vacío
+   debajo (01 · Bodas: marco 405px, img 243px). Con display:contents el <img>
+   es hijo directo del .marco y llena la caja con object-fit:cover.        */
+.planes-ficha__foto > picture {
+  display: contents;
+}
+
 /* La ficha con una sola foto (05): el marco ocupa toda la caja de fotos y
    pasa a cuadrado, que es el formato de origen de esa fotografía.        */
 .planes-ficha--sola .planes-ficha__fotos {
@@ -409,7 +419,10 @@
   aspect-ratio: 1 / 1;
   height: auto;
   object-fit: cover;
-  object-position: 50% 45%;
+  /* yoga-3 es 9:16: la figura va de las manos (~39% del alto) a los pies
+     (~85%). Con 45% el recorte 1:1 caía en 20–76%: mucho follaje arriba y
+     las piernas cortadas a media pantorrilla. 78% lo baja a ~34–90%. */
+  object-position: 50% 78%;
 }
 
 .planes-evento__placa {
@@ -427,7 +440,8 @@
 
   .planes-evento .planes-evento__foto {
     aspect-ratio: 4 / 5;
-    object-position: 50% 40%;
+    /* 4:5 muestra ~70% del alto; 85% lo deja en ~25–95% (pose completa). */
+    object-position: 50% 85%;
   }
 
   .planes-evento__placa {
