@@ -52,6 +52,7 @@ PAGINAS = [
         "archivo": "index.html",
         "orden": [
             ("inicio",     "hero.html"),
+            ("reserva-natural", "home-reserva.html"),
             ("planes",     "home-planes.html"),
             ("espacios",   "home-espacios.html"),
             ("naturaleza", "home-naturaleza.html"),
@@ -64,6 +65,7 @@ PAGINAS = [
         "css": [
             "styles/sections/inicio.css",
             "styles/sections/home.css",
+            "styles/sections/reserva.css",
             "styles/sections/nosotros.css",
             "styles/sections/pie.css",
         ],
@@ -118,6 +120,12 @@ PAGINAS = [
         "orden": [("portada-contacto", "enc-contacto.html"),
                   ("ubicacion", "ubicacion.html")],
         "css": ["styles/sections/home.css", "styles/sections/ubicacion.css",
+                "styles/sections/pie.css"],
+    },
+    {
+        "archivo": "october-big-day.html",
+        "orden": [("big-day", "big-day.html")],
+        "css": ["styles/sections/home.css", "styles/sections/big-day.css",
                 "styles/sections/pie.css"],
     },
 ]

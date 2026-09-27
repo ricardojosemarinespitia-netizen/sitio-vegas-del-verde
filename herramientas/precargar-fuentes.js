@@ -41,7 +41,7 @@ const ESCRIBIR = process.argv.includes('--escribir');
 // ningún token las pide, así que el navegador no las baja.
 const FUENTES = [
   'styles/fonts/dm-sans-latin.woff2',
-  'styles/fonts/josefin-sans-latin.woff2',
+  'styles/fonts/hill-house-vegas.woff2',
 ];
 
 const MARCA = 'fuentes-propias';

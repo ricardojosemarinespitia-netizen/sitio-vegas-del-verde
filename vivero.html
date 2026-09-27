@@ -33,18 +33,18 @@
      a descubrir el @font-face durante el layout.
      Se regenera con herramientas/precargar-fuentes.js. -->
 <link rel="preload" as="font" type="font/woff2" crossorigin href="styles/fonts/dm-sans-latin.woff2?v=89c7ce3a">
-<link rel="preload" as="font" type="font/woff2" crossorigin href="styles/fonts/josefin-sans-latin.woff2?v=0ff5ba86">
+<link rel="preload" as="font" type="font/woff2" crossorigin href="styles/fonts/hill-house-vegas.woff2?v=a4d2ce1b">
 
-<link rel="stylesheet" href="styles/tokens.css?v=141cd236">
-<link rel="stylesheet" href="styles/base.css?v=cd31c700">
-<link rel="stylesheet" href="styles/shell.css?v=da368017">
+<link rel="stylesheet" href="styles/tokens.css?v=853cf88d">
+<link rel="stylesheet" href="styles/base.css?v=509e2a00">
+<link rel="stylesheet" href="styles/shell.css?v=4d338cb0">
 <!-- Este bloque lo REESCRIBE herramientas/ensamblar.js a partir de PAGINAS.
      No lo edites a mano: la lista buena está allí. -->
-<link rel="stylesheet" href="styles/sections/home.css?v=40984f8a">
+<link rel="stylesheet" href="styles/sections/home.css?v=080cbab0">
 <link rel="stylesheet" href="styles/sections/vivero.css?v=a8bb16c2">
 <link rel="stylesheet" href="styles/sections/catalogo-plantas.css?v=ae6f9f5b">
 <link rel="stylesheet" href="styles/sections/vivero-catalogo.css?v=3532de53">
-<link rel="stylesheet" href="styles/sections/pie.css?v=319f3919">
+<link rel="stylesheet" href="styles/sections/pie.css?v=0c990755">
 <link rel="stylesheet" href="styles/lightbox.css?v=a2679da6">
 
 <script type="application/ld+json">
@@ -164,28 +164,32 @@ src="https://www.facebook.com/tr?id=28408308795489956&ev=PageView&noscript=1"
            de que no esté.
 
            Las páginas sueltas que no usan este fragmento siguen como estaban:
-           no era el pedido. -->
-      <picture>
-        <source type="image/webp" srcset="img/logo/simbolo-transparente.webp" />
-        <img
-          class="marca__simbolo"
-          src="img/logo/simbolo-transparente.png"
-          width="744"
-          height="351"
-          alt=""
-          decoding="async"
-        />
-      </picture>
-      <!-- v31 · El nombre viene partido en dos <span> por una razón de layout,
-           no de semántica: por debajo de 23 em (≈368 px) «Vegas del Verde» no
-           cabe en una línea al lado del símbolo, y la única forma de que el
-           salto caiga SIEMPRE después de «del» —y no donde el navegador
-           decida según fuente, tracking o zoom— es marcarlo. Arriba de ese
-           ancho los dos span son inline y el espacio en blanco del HTML los
-           une en una sola línea, exactamente como antes. El nombre accesible
-           del enlace lo sigue fijando su aria-label, así que partirlo no
-           cambia lo que anuncia el lector de pantalla. -->
-      <span class="marca__nombre"><span class="marca__nombre-linea">Vegas del</span> <span class="marca__nombre-linea">Verde</span></span>
+           no era el pedido.
+
+           v35 · LOGO DEFINITIVO (decisión del cliente, 2026-09-26). El
+           símbolo pasa a `img/logo/simbolo-definitivo.svg`: VECTORIAL, trazado
+           desde el logo definitivo con los colores exactos muestreados
+           (hojas #50C58E, puntos #E74B40 y #E3CA39), nítido a cualquier
+           densidad y sin la caja gris que el `img{background}` de base.css le
+           pintaba detrás al PNG. Mismas proporciones que el recorte anterior
+           (738×351 frente a 744×351), así que las cuentas de ancho de
+           shell.css siguen valiendo. Y el nombre al lado YA ES la letra del
+           logo: --fuente-display es Hill House, la tipografía con la que está
+           compuesto el rótulo «VEGAS DEL VERDE» — el lockup de dos partes
+           ahora reproduce el logo, no lo imita. Un SVG no necesita <picture>
+           ni respaldo webp/png. -->
+      <img
+        class="marca__simbolo"
+        src="img/logo/simbolo-definitivo.svg"
+        width="738"
+        height="351"
+        alt=""
+        decoding="async"
+      />
+      <!-- v36 · El nombre es el WORDMARK VECTORIAL real del logo del cliente
+           (no texto en una fuente: el cliente lo rechazó). alt="" porque el
+           nombre accesible del enlace ya lo fija su aria-label. -->
+      <img class="marca__nombre" src="img/logo/wordmark-definitivo.svg" width="1166" height="137" alt="" decoding="async" />
     </a>
 
     <nav class="nav" id="nav-principal" aria-label="Navegación principal">
@@ -222,7 +226,13 @@ src="https://www.facebook.com/tr?id=28408308795489956&ev=PageView&noscript=1"
            NINGÚN ENLACE PUEDE SER UN ANCLA SUELTA: este fragmento se inserta
            en todas las páginas del sitio, así que todos llevan el nombre del
            archivo por delante. -->
+      <!-- October Big Day (2026-09-26): primer ítem del panel, destacado y
+           con fecha de caducidad. El widget flotante avisa desde afuera;
+           este ítem responde a quien abre el menú buscando «qué hay». No se
+           agrega franja de aviso arriba: sería un tercer aviso del mismo
+           evento y empujaría el hero. js/app.js lo oculta tras el evento. -->
       <ul class="nav__lista">
+        <li class="nav__item--evento" data-evento-hasta="2026-10-10T12:00:00-05:00"><a class="nav__enlace nav__enlace--evento" href="october-big-day.html"><span class="nav__evento-fecha">Sáb 10 oct · entrada libre</span>October Big Day</a></li>
         <li class="nav__item--secundario"><a class="nav__enlace" href="index.html#nosotros">Nosotros</a></li>
         <li><a class="nav__enlace" href="espacios.html">Espacios</a></li>
         <li><a class="nav__enlace" href="planes.html">Planes</a></li>
@@ -358,16 +368,16 @@ src="https://www.facebook.com/tr?id=28408308795489956&ev=PageView&noscript=1"
      que vuelva a verse aunque el lector haya cerrado el anterior. -->
 <aside
   class="evento-flotante"
-  data-evento="conexion-yoga-2026-09-26"
-  data-evento-hasta="2026-09-26T10:00:00-05:00"
+  data-evento="october-big-day-2026-10-10"
+  data-evento-hasta="2026-10-10T12:00:00-05:00"
   aria-label="Próximo evento"
   hidden
 >
-  <a class="evento-flotante__enlace" href="planes.html#conexion-yoga">
+  <a class="evento-flotante__enlace" href="october-big-day.html">
     <span class="evento-flotante__punto" aria-hidden="true"></span>
     <span class="evento-flotante__texto">
-      <span class="evento-flotante__rotulo">Evento · sáb 26 sep</span>
-      <span class="evento-flotante__titulo">Conexión &amp; Yoga</span>
+      <span class="evento-flotante__rotulo">Evento · sáb 10 oct</span>
+      <span class="evento-flotante__titulo">October Big Day</span>
     </span>
     <svg class="evento-flotante__flecha" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
       <path d="M5 12h14M13 6l6 6-6 6"/>
@@ -1180,20 +1190,21 @@ src="https://www.facebook.com/tr?id=28408308795489956&ev=PageView&noscript=1"
            El alt del símbolo va VACÍO: el nombre ya está aquí al lado en
            texto real, así que la imagen es decorativa y repetirlo sería
            leer «Vegas del Verde» dos veces con lector de pantalla. -->
+      <!-- v35 · LOGO DEFINITIVO (cliente, 2026-09-26): el símbolo pasa al SVG
+           vectorial `simbolo-definitivo.svg` (mismas proporciones que el
+           recorte PNG) y el nombre, que ya iba en --fuente-display, sale ahora
+           en Hill House, la letra real del logo. -->
       <div class="pie-final__marca">
-        <picture>
-          <source type="image/webp" srcset="img/logo/simbolo-transparente.webp" />
-          <img
-            class="pie-final__simbolo"
-            src="img/logo/simbolo-transparente.png"
-            width="744"
-            height="351"
-            alt=""
-            loading="lazy"
-            decoding="async"
-          />
-        </picture>
-        <p class="pie-final__nombre">Vegas del Verde</p>
+        <img
+          class="pie-final__simbolo"
+          src="img/logo/simbolo-definitivo.svg"
+          width="738"
+          height="351"
+          alt=""
+          loading="lazy"
+          decoding="async"
+        />
+        <img class="pie-final__nombre" src="img/logo/wordmark-definitivo.svg" width="1166" height="137" alt="Vegas del Verde" loading="lazy" decoding="async" />
       </div>
 
       <div class="pie-final__acciones">
@@ -1252,6 +1263,6 @@ src="https://www.facebook.com/tr?id=28408308795489956&ev=PageView&noscript=1"
 
   </div>
 </footer>
-<script src="js/app.js?v=be8cd718" defer></script>
+<script src="js/app.js?v=a4fbd319" defer></script>
 </body>
 </html>

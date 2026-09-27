@@ -47,31 +47,47 @@
            bajo cada foto. -->
     </header>
 
+    <!-- v33 · LAS CIFRAS SUBEN. `data-contador` activa el contador que ya
+         existe en js/app.js (el mismo de naturaleza.html): sube de 0 a la
+         cifra cuando la caja asoma. El número real sigue escrito en el HTML,
+         así que sin JS, o con movimiento reducido, se lee tal cual. -->
     <ul class="home-cifras reveal-secuencia" role="list">
       <li class="home-cifras__dato reveal">
-        <span class="cifra">101</span>
+        <span class="cifra" data-contador="101">101</span>
         <span class="home-cifras__pie">Especies de aves registradas</span>
       </li>
       <li class="home-cifras__dato reveal">
-        <span class="cifra">347</span>
+        <span class="cifra" data-contador="347">347</span>
         <span class="home-cifras__pie">Especies de plantas</span>
       </li>
       <li class="home-cifras__dato reveal">
-        <span class="cifra">57</span>
+        <span class="cifra" data-contador="57">57</span>
         <span class="home-cifras__pie">Fotografías del concurso, de 20 autores</span>
       </li>
     </ul>
 
+    <!-- v33 · EL MURO COMO LÁMINA DE GUÍA DE CAMPO (agente FOTOS).
+         Queja del cliente: «Azulejo Palmero, Piaya Cayana y Cucú Ardilla se
+         ven de tamaños distintos y con banda vacía». Medido a 375 px: caja de
+         104,5 × 104,5 y fotos de 83,6 / 130,6 / 82,3 px de alto —el <picture>
+         es inline dentro del marco y el <img> caía a su proporción natural—.
+         Ahora la foto sale del flujo (home.css §3) y las seis cajas miden
+         exactamente lo mismo; cada ave tiene su encuadre propio
+         (`object-position` por archivo, home.css §3 «MAPA DE ENCUADRE»).
+         · `.reveal` pasa del <figure> al <li>: así la cuelga la
+           .reveal-secuencia del <ul> y las seis entran escalonadas.
+         · `sizes` es el del maquetado real (carrusel a 72vw en móvil, tres
+           columnas después) y se suma la variante -800, que ya existía. -->
     <ul class="home-muro reveal-secuencia" role="list">
-      <li>
-        <figure class="home-muro__figura reveal">
+      <li class="reveal">
+        <figure class="home-muro__figura">
           <span class="marco marco--1-1">
             <picture>
-              <source type="image/webp" srcset="img/aves/ave-04-azulejo-palmero-400.webp 400w, img/aves/ave-04-azulejo-palmero-600.webp 600w, img/aves/ave-04-azulejo-palmero.webp 1300w" sizes="(max-width: 39.99em) 31vw, (max-width: 63.99em) 31vw, 23vw" />
+              <source type="image/webp" srcset="img/aves/ave-04-azulejo-palmero-400.webp 400w, img/aves/ave-04-azulejo-palmero-600.webp 600w, img/aves/ave-04-azulejo-palmero-800.webp 800w, img/aves/ave-04-azulejo-palmero.webp 1300w" sizes="(max-width: 39.99em) 72vw, (max-width: 63.99em) 31vw, 30rem" />
               <img class="home-muro__foto"
               src="img/aves/ave-04-azulejo-palmero.jpg"
-              srcset="img/aves/ave-04-azulejo-palmero-400.jpg 400w, img/aves/ave-04-azulejo-palmero-600.jpg 600w, img/aves/ave-04-azulejo-palmero.jpg 1300w"
-              sizes="(max-width: 39.99em) 31vw, (max-width: 63.99em) 31vw, 23vw"
+              srcset="img/aves/ave-04-azulejo-palmero-400.jpg 400w, img/aves/ave-04-azulejo-palmero-600.jpg 600w, img/aves/ave-04-azulejo-palmero-800.jpg 800w, img/aves/ave-04-azulejo-palmero.jpg 1300w"
+              sizes="(max-width: 39.99em) 72vw, (max-width: 63.99em) 31vw, 30rem"
               width="1300" height="1039" loading="lazy" decoding="async" alt="" />
             </picture>
           </span>
@@ -82,15 +98,15 @@
         </figure>
       </li>
 
-      <li>
-        <figure class="home-muro__figura reveal">
+      <li class="reveal">
+        <figure class="home-muro__figura">
           <span class="marco marco--1-1">
             <picture>
-              <source type="image/webp" srcset="img/aves/ave-06-piaya-cayana-400.webp 400w, img/aves/ave-06-piaya-cayana-600.webp 600w, img/aves/ave-06-piaya-cayana.webp 1040w" sizes="(max-width: 39.99em) 31vw, (max-width: 63.99em) 31vw, 23vw" />
+              <source type="image/webp" srcset="img/aves/ave-06-piaya-cayana-400.webp 400w, img/aves/ave-06-piaya-cayana-600.webp 600w, img/aves/ave-06-piaya-cayana-800.webp 800w, img/aves/ave-06-piaya-cayana.webp 1040w" sizes="(max-width: 39.99em) 72vw, (max-width: 63.99em) 31vw, 30rem" />
               <img class="home-muro__foto"
               src="img/aves/ave-06-piaya-cayana.jpg"
-              srcset="img/aves/ave-06-piaya-cayana-400.jpg 400w, img/aves/ave-06-piaya-cayana-600.jpg 600w, img/aves/ave-06-piaya-cayana.jpg 1040w"
-              sizes="(max-width: 39.99em) 31vw, (max-width: 63.99em) 31vw, 23vw"
+              srcset="img/aves/ave-06-piaya-cayana-400.jpg 400w, img/aves/ave-06-piaya-cayana-600.jpg 600w, img/aves/ave-06-piaya-cayana-800.jpg 800w, img/aves/ave-06-piaya-cayana.jpg 1040w"
+              sizes="(max-width: 39.99em) 72vw, (max-width: 63.99em) 31vw, 30rem"
               width="1040" height="1300" loading="lazy" decoding="async" alt="" />
             </picture>
           </span>
@@ -101,15 +117,15 @@
         </figure>
       </li>
 
-      <li>
-        <figure class="home-muro__figura reveal">
+      <li class="reveal">
+        <figure class="home-muro__figura">
           <span class="marco marco--1-1">
             <picture>
-              <source type="image/webp" srcset="img/aves/ave-08-cucu-ardilla-400.webp 400w, img/aves/ave-08-cucu-ardilla-600.webp 600w, img/aves/ave-08-cucu-ardilla.webp 1300w" sizes="(max-width: 39.99em) 31vw, (max-width: 63.99em) 31vw, 23vw" />
+              <source type="image/webp" srcset="img/aves/ave-08-cucu-ardilla-400.webp 400w, img/aves/ave-08-cucu-ardilla-600.webp 600w, img/aves/ave-08-cucu-ardilla-800.webp 800w, img/aves/ave-08-cucu-ardilla.webp 1300w" sizes="(max-width: 39.99em) 72vw, (max-width: 63.99em) 31vw, 30rem" />
               <img class="home-muro__foto"
               src="img/aves/ave-08-cucu-ardilla.jpg"
-              srcset="img/aves/ave-08-cucu-ardilla-400.jpg 400w, img/aves/ave-08-cucu-ardilla-600.jpg 600w, img/aves/ave-08-cucu-ardilla.jpg 1300w"
-              sizes="(max-width: 39.99em) 31vw, (max-width: 63.99em) 31vw, 23vw"
+              srcset="img/aves/ave-08-cucu-ardilla-400.jpg 400w, img/aves/ave-08-cucu-ardilla-600.jpg 600w, img/aves/ave-08-cucu-ardilla-800.jpg 800w, img/aves/ave-08-cucu-ardilla.jpg 1300w"
+              sizes="(max-width: 39.99em) 72vw, (max-width: 63.99em) 31vw, 30rem"
               width="1300" height="1023" loading="lazy" decoding="async" alt="" />
             </picture>
           </span>
@@ -120,15 +136,15 @@
         </figure>
       </li>
 
-      <li>
-        <figure class="home-muro__figura reveal">
+      <li class="reveal">
+        <figure class="home-muro__figura">
           <span class="marco marco--1-1">
             <picture>
-              <source type="image/webp" srcset="img/aves/ave-12-barranquero-400.webp 400w, img/aves/ave-12-barranquero-600.webp 600w, img/aves/ave-12-barranquero.webp 975w" sizes="(max-width: 39.99em) 31vw, (max-width: 63.99em) 31vw, 23vw" />
+              <source type="image/webp" srcset="img/aves/ave-12-barranquero-400.webp 400w, img/aves/ave-12-barranquero-600.webp 600w, img/aves/ave-12-barranquero-800.webp 800w, img/aves/ave-12-barranquero.webp 975w" sizes="(max-width: 39.99em) 72vw, (max-width: 63.99em) 31vw, 30rem" />
               <img class="home-muro__foto"
               src="img/aves/ave-12-barranquero.jpg"
-              srcset="img/aves/ave-12-barranquero-400.jpg 400w, img/aves/ave-12-barranquero-600.jpg 600w, img/aves/ave-12-barranquero.jpg 975w"
-              sizes="(max-width: 39.99em) 31vw, (max-width: 63.99em) 31vw, 23vw"
+              srcset="img/aves/ave-12-barranquero-400.jpg 400w, img/aves/ave-12-barranquero-600.jpg 600w, img/aves/ave-12-barranquero-800.jpg 800w, img/aves/ave-12-barranquero.jpg 975w"
+              sizes="(max-width: 39.99em) 72vw, (max-width: 63.99em) 31vw, 30rem"
               width="975" height="1300" loading="lazy" decoding="async" alt="" />
             </picture>
           </span>
@@ -139,15 +155,15 @@
         </figure>
       </li>
 
-      <li>
-        <figure class="home-muro__figura reveal">
+      <li class="reveal">
+        <figure class="home-muro__figura">
           <span class="marco marco--1-1">
             <picture>
-              <source type="image/webp" srcset="img/aves/ave-13-batara-carcajad-400.webp 400w, img/aves/ave-13-batara-carcajad-600.webp 600w, img/aves/ave-13-batara-carcajad.webp 975w" sizes="(max-width: 39.99em) 31vw, (max-width: 63.99em) 31vw, 23vw" />
+              <source type="image/webp" srcset="img/aves/ave-13-batara-carcajad-400.webp 400w, img/aves/ave-13-batara-carcajad-600.webp 600w, img/aves/ave-13-batara-carcajad-800.webp 800w, img/aves/ave-13-batara-carcajad.webp 975w" sizes="(max-width: 39.99em) 72vw, (max-width: 63.99em) 31vw, 30rem" />
               <img class="home-muro__foto"
               src="img/aves/ave-13-batara-carcajad.jpg"
-              srcset="img/aves/ave-13-batara-carcajad-400.jpg 400w, img/aves/ave-13-batara-carcajad-600.jpg 600w, img/aves/ave-13-batara-carcajad.jpg 975w"
-              sizes="(max-width: 39.99em) 31vw, (max-width: 63.99em) 31vw, 23vw"
+              srcset="img/aves/ave-13-batara-carcajad-400.jpg 400w, img/aves/ave-13-batara-carcajad-600.jpg 600w, img/aves/ave-13-batara-carcajad-800.jpg 800w, img/aves/ave-13-batara-carcajad.jpg 975w"
+              sizes="(max-width: 39.99em) 72vw, (max-width: 63.99em) 31vw, 30rem"
               width="975" height="1300" loading="lazy" decoding="async" alt="" />
             </picture>
           </span>
@@ -158,15 +174,15 @@
         </figure>
       </li>
 
-      <li>
-        <figure class="home-muro__figura reveal">
+      <li class="reveal">
+        <figure class="home-muro__figura">
           <span class="marco marco--1-1">
             <picture>
-              <source type="image/webp" srcset="img/aves/ave-16-tytira-inquisitor-macho-400.webp 400w, img/aves/ave-16-tytira-inquisitor-macho-600.webp 600w, img/aves/ave-16-tytira-inquisitor-macho.webp 1300w" sizes="(max-width: 39.99em) 31vw, (max-width: 63.99em) 31vw, 23vw" />
+              <source type="image/webp" srcset="img/aves/ave-16-tytira-inquisitor-macho-400.webp 400w, img/aves/ave-16-tytira-inquisitor-macho-600.webp 600w, img/aves/ave-16-tytira-inquisitor-macho-800.webp 800w, img/aves/ave-16-tytira-inquisitor-macho.webp 1300w" sizes="(max-width: 39.99em) 72vw, (max-width: 63.99em) 31vw, 30rem" />
               <img class="home-muro__foto"
               src="img/aves/ave-16-tytira-inquisitor-macho.jpg"
-              srcset="img/aves/ave-16-tytira-inquisitor-macho-400.jpg 400w, img/aves/ave-16-tytira-inquisitor-macho-600.jpg 600w, img/aves/ave-16-tytira-inquisitor-macho.jpg 1300w"
-              sizes="(max-width: 39.99em) 31vw, (max-width: 63.99em) 31vw, 23vw"
+              srcset="img/aves/ave-16-tytira-inquisitor-macho-400.jpg 400w, img/aves/ave-16-tytira-inquisitor-macho-600.jpg 600w, img/aves/ave-16-tytira-inquisitor-macho-800.jpg 800w, img/aves/ave-16-tytira-inquisitor-macho.jpg 1300w"
+              sizes="(max-width: 39.99em) 72vw, (max-width: 63.99em) 31vw, 30rem"
               width="1300" height="867" loading="lazy" decoding="async" alt="" />
             </picture>
           </span>

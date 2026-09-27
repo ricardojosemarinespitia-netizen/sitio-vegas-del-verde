@@ -68,7 +68,9 @@ const ESPERADO = [
   //   #sendero   -> sendero-ecovital.html
   //   #vivero    -> vivero.html
   //   #ubicacion -> contacto.html          (el ancla del escaparate es #contacto)
-  'inicio', 'planes', 'espacios', 'naturaleza', 'sendero', 'vivero',
+  // 2026-09 · #reserva-natural (bloque guia de campo, cifra 117 de eBird)
+  // entra entre la portada y los planes, por pedido del cliente.
+  'inicio', 'reserva-natural', 'planes', 'espacios', 'naturaleza', 'sendero', 'vivero',
   // #nosotros y #compromiso siguen en la portada y siguen contiguos: son el
   // bloque 7 del plan, «Nosotros + Compromiso», fusionado por posicion y no
   // por marcado para no reabrir su composicion.
@@ -118,6 +120,10 @@ const HECHOS = [
  ['Sendero Ecovital (descrito)', ['sendero'], ['sendero'], true],
  ['Quebrada Aranzoque y riachuelo La Florida', [NADIE], ['aranzoque','riachuelo'], false],
  ['101 especies de aves', ['naturaleza'], ['\\b101\\b'], false],
+ // 2026-09 · October Big Day: el 117 (aves registradas en eBird, dato del
+ // volante del cliente) vive en el hero (excepcion temporal del evento) y en
+ // #reserva-natural.
+ ['117 especies en eBird', ['inicio','reserva-natural'], ['\\b117\\b'], false],
  ['Chachalaca Colombiana endemica', [NADIE], ['chachalaca','ortalis columbiana'], false],
  ['7 especies migratorias boreales', [NADIE], ['\\b(7|siete) especies migratorias\\b','migratorias boreales'], false],
  ['347 plantas y 20 familias botanicas', ['naturaleza'], ['\\b347\\b','\\b20 familias\\b'], false],

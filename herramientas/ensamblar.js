@@ -80,6 +80,7 @@ const PAGINAS = [
     archivo: 'index.html',
     orden: [
       ['inicio',     'hero.html'],
+      ['reserva-natural', 'home-reserva.html'],
       ['planes',     'home-planes.html'],
       ['espacios',   'home-espacios.html'],
       ['naturaleza', 'home-naturaleza.html'],
@@ -94,6 +95,7 @@ const PAGINAS = [
       // La hoja de los bloques cortos nuevos. Va antes que nosotros.css
       // porque no matiza nada de ella: sólo define clases .home-* propias.
       'styles/sections/home.css',
+      'styles/sections/reserva.css',
       'styles/sections/nosotros.css',
       'styles/sections/pie.css',
     ],
@@ -148,6 +150,11 @@ const PAGINAS = [
     archivo: 'contacto.html',
     orden: [['portada-contacto', 'enc-contacto.html'], ['ubicacion', 'ubicacion.html']],
     css: ['styles/sections/home.css', 'styles/sections/ubicacion.css', 'styles/sections/pie.css'],
+  },
+  {
+    archivo: 'october-big-day.html',
+    orden: [['big-day', 'big-day.html']],
+    css: ['styles/sections/home.css', 'styles/sections/big-day.css', 'styles/sections/pie.css'],
   },
 ];
 

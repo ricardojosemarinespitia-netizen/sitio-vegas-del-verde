@@ -170,14 +170,14 @@
 
 /* La marca firma, no compite: baja de --fs-h3 a --fs-h4 para que la escala
    del pie tenga tres niveles limpios (titular hero → fila media → legal micro). */
+/* v36 · El nombre es el wordmark VECTORIAL real (img/logo/wordmark-definitivo.svg),
+   no texto en fuente: mismo criterio que .marca__nombre de la cabecera.
+   Por alto, ≈ 0,42 × el símbolo (proporción del logo original). */
 .pie-final__nombre {
-  font-family: var(--fuente-display);
-  font-size: var(--fs-h4);
-  font-weight: var(--peso-display);
-  font-variation-settings: var(--ejes-display-sobrio);
-  letter-spacing: var(--tracking-display);
-  line-height: var(--alto-linea-apretado);
-  color: var(--color-texto);
+  display: block;
+  width: auto;
+  height: clamp(1rem, 0.85rem + 0.6vw, 1.35rem);
+  flex: none;
 }
 
 .pie-final__acciones {

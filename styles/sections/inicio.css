@@ -1412,3 +1412,183 @@
    principal a EL AIRE DEL BOSQUE. */
 
 
+
+/* ==========================================================================
+   v35 · OCTOBER BIG DAY EN LA PORTADA (sáb 10 oct 2026, 6:30 a. m.–12 m.)
+   Todo lo del evento lleva [data-evento-hasta] en hero.html; js/app.js le
+   pone `hidden` al vencer. Las piezas de marca (.inicio__solo-marca) sólo se
+   esconden MIENTRAS haya una pieza de evento visible dentro del encabezado:
+   al vencer (o si app.js las borra) la portada de marca vuelve sola, sin
+   tocar una línea. Un navegador sin :has() mostraría las dos versiones
+   (evento + marca) hasta el 10 y sólo la de marca después: se degrada a
+   "más texto", nunca a portada vacía.
+   ========================================================================== */
+.inicio__encabezado [data-evento-hasta][hidden] {
+  display: none;
+}
+
+.inicio__encabezado:has([data-evento-hasta]:not([hidden])) .inicio__solo-marca {
+  display: none;
+}
+
+/* LA INSIGNIA: una etiqueta de guía de campo, no una cartela. Chip sólido
+   pequeño en el amarillo de los puntos del logo con tinta encima (≈ 10:1):
+   no vela la foto, ocupa lo que ocupa una etiqueta y se lee en cualquier
+   fondo, claro u oscuro. El nombre va en la letra del logo; la fecha, en la
+   de cuerpo, que es la que se lee de un vistazo. */
+.inicio__insignia {
+  position: relative;
+  z-index: calc(var(--z-elevado) + 2);
+  display: inline-flex;
+  flex-wrap: wrap;
+  align-items: center;
+  column-gap: var(--esp-xs);
+  row-gap: var(--esp-3xs);
+  align-self: flex-start;
+  margin: 0 0 var(--esp-sm);
+  padding: var(--esp-2xs) var(--esp-sm);
+  max-width: 100%;
+  background: var(--color-destacado);
+  color: var(--color-texto);
+  border-radius: var(--radio-control);
+  box-shadow: var(--sombra-md);
+  font-size: var(--fs-pequeno);
+  line-height: 1.25;
+}
+
+/* v36 · EL PUNTO DE ESPECIMEN — círculo sólido en el coral del sistema,
+   del mismo diámetro que una `x` minúscula del rótulo (`1em` de una fuente
+   cuyo cuerpo ya es --fs-pequeño) para que crezca y encoja con el chip sin
+   un número en px. `flex: none` para que no se aplaste si el rótulo se pasa
+   de ancho en una ventana angosta. */
+.inicio__insignia-punto {
+  flex: none;
+  width: 0.5em;
+  height: 0.5em;
+  border-radius: 50%;
+  background: var(--color-acento-texto);
+}
+
+.inicio__insignia-nombre {
+  font-family: var(--fuente-display);
+  font-weight: var(--peso-fuerte);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.inicio__insignia-fecha {
+  font-weight: var(--peso-fuerte);
+  padding-left: var(--esp-xs);
+  border-left: 1px solid currentColor;
+}
+
+/* La cifra de eBird: el mismo gesto del sitio (data-contador de app.js) en la
+   letra del logo y en el amarillo de sus puntos, con el halo de la entradilla. */
+.inicio__cifra {
+  font-family: var(--fuente-display);
+  font-weight: var(--peso-fuerte);
+  font-size: 1.35em;
+  line-height: 1;
+  color: var(--color-destacado);
+  font-variant-numeric: tabular-nums;
+  display: inline-block;
+  min-width: 2.2ch;
+}
+
+/* Primario: la reserva (acción coral del sistema). Secundario: la página del
+   evento, en papel sólido con tinta — se lee sobre la foto clara del móvil y
+   sobre la oscura del escritorio sin depender de un halo. */
+.inicio__accion-primaria {
+  background-color: var(--color-accion);
+  border-color: var(--color-accion-borde);
+  color: var(--color-accion-texto);
+}
+
+.inicio__accion-primaria:hover,
+.inicio__accion-primaria:focus-visible {
+  background-color: var(--color-accion-hover);
+  border-color: var(--color-accion-borde);
+  color: var(--color-texto-inverso);
+}
+
+.inicio__accion-evento {
+  background-color: var(--color-superficie-solida);
+  border-color: var(--color-superficie-solida);
+  color: var(--color-texto);
+}
+
+.inicio__accion-evento:hover,
+.inicio__accion-evento:focus-visible {
+  background-color: var(--color-fondo);
+  border-color: var(--color-texto);
+  color: var(--color-texto);
+}
+
+/* En móvil el bloque entero tiene que caber en el primer pantallazo: la
+   insignia se compacta y los dos botones van lado a lado si caben. */
+@media (max-width: 40.99em) {
+  .inicio__encabezado:has(.inicio__insignia:not([hidden])) .inicio__acciones {
+    margin-top: var(--esp-md);
+    gap: var(--esp-xs);
+  }
+
+  /* El secundario deja libre la columna de los botones flotantes (llamar /
+     WhatsApp, ~44 px + margen a la derecha): medido, sin esto el flotante
+     de llamar pisaba el borde derecho de «Ver el evento». */
+  .inicio__acciones > .inicio__accion-evento {
+    margin-inline-end: 3.75rem;
+  }
+
+  /* La insignia en dos renglones limpios: nombre arriba, fecha abajo, sin el
+     filete separador que en columna quedaba colgando. */
+  .inicio__insignia {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .inicio__insignia-fecha {
+    padding-left: 0;
+    border-left: 0;
+  }
+}
+
+/* MOVIMIENTO: la insignia entra con un barrido de clip-path (se "despega"
+   de izquierda a derecha) y los botones responden al toque con una leve
+   elevación. Sólo transform/opacity/clip-path; nada con movimiento reducido. */
+@media (prefers-reduced-motion: no-preference) {
+  .js .inicio__insignia {
+    animation: inicio-insignia-entra 800ms var(--ease-salida) 250ms both;
+  }
+
+  .inicio__accion-primaria,
+  .inicio__accion-evento {
+    transition:
+      transform var(--dur-media) var(--ease-salida),
+      background-color var(--dur-media) var(--ease-salida),
+      box-shadow var(--dur-media) var(--ease-salida);
+  }
+
+  .inicio__accion-primaria:hover,
+  .inicio__accion-evento:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--sombra-accion);
+  }
+
+  .inicio__accion-primaria:active,
+  .inicio__accion-evento:active {
+    transform: translateY(0) scale(0.98);
+  }
+}
+
+@keyframes inicio-insignia-entra {
+  from {
+    opacity: 0;
+    clip-path: inset(0 100% 0 0 round 0.5rem);
+    transform: translateY(6px);
+  }
+  to {
+    opacity: 1;
+    clip-path: inset(0 0 0 0 round 0.5rem);
+    transform: none;
+  }
+}

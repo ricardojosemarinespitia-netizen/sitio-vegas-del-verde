@@ -34,16 +34,16 @@
      a descubrir el @font-face durante el layout.
      Se regenera con herramientas/precargar-fuentes.js. -->
 <link rel="preload" as="font" type="font/woff2" crossorigin href="styles/fonts/dm-sans-latin.woff2?v=89c7ce3a">
-<link rel="preload" as="font" type="font/woff2" crossorigin href="styles/fonts/josefin-sans-latin.woff2?v=0ff5ba86">
+<link rel="preload" as="font" type="font/woff2" crossorigin href="styles/fonts/hill-house-vegas.woff2?v=a4d2ce1b">
 
-<link rel="stylesheet" href="styles/tokens.css?v=141cd236">
-<link rel="stylesheet" href="styles/base.css?v=cd31c700">
-<link rel="stylesheet" href="styles/shell.css?v=da368017">
+<link rel="stylesheet" href="styles/tokens.css?v=853cf88d">
+<link rel="stylesheet" href="styles/base.css?v=509e2a00">
+<link rel="stylesheet" href="styles/shell.css?v=4d338cb0">
 <!-- Este bloque lo REESCRIBE herramientas/ensamblar.js a partir de PAGINAS.
      No lo edites a mano: la lista buena está allí. -->
-<link rel="stylesheet" href="styles/sections/home.css?v=40984f8a">
-<link rel="stylesheet" href="styles/sections/planes.css?v=057093c6">
-<link rel="stylesheet" href="styles/sections/pie.css?v=319f3919">
+<link rel="stylesheet" href="styles/sections/home.css?v=080cbab0">
+<link rel="stylesheet" href="styles/sections/planes.css?v=d23e70ab">
+<link rel="stylesheet" href="styles/sections/pie.css?v=0c990755">
 <link rel="stylesheet" href="styles/lightbox.css?v=a2679da6">
 
 <script type="application/ld+json">
@@ -164,28 +164,32 @@ src="https://www.facebook.com/tr?id=28408308795489956&ev=PageView&noscript=1"
            de que no esté.
 
            Las páginas sueltas que no usan este fragmento siguen como estaban:
-           no era el pedido. -->
-      <picture>
-        <source type="image/webp" srcset="img/logo/simbolo-transparente.webp" />
-        <img
-          class="marca__simbolo"
-          src="img/logo/simbolo-transparente.png"
-          width="744"
-          height="351"
-          alt=""
-          decoding="async"
-        />
-      </picture>
-      <!-- v31 · El nombre viene partido en dos <span> por una razón de layout,
-           no de semántica: por debajo de 23 em (≈368 px) «Vegas del Verde» no
-           cabe en una línea al lado del símbolo, y la única forma de que el
-           salto caiga SIEMPRE después de «del» —y no donde el navegador
-           decida según fuente, tracking o zoom— es marcarlo. Arriba de ese
-           ancho los dos span son inline y el espacio en blanco del HTML los
-           une en una sola línea, exactamente como antes. El nombre accesible
-           del enlace lo sigue fijando su aria-label, así que partirlo no
-           cambia lo que anuncia el lector de pantalla. -->
-      <span class="marca__nombre"><span class="marca__nombre-linea">Vegas del</span> <span class="marca__nombre-linea">Verde</span></span>
+           no era el pedido.
+
+           v35 · LOGO DEFINITIVO (decisión del cliente, 2026-09-26). El
+           símbolo pasa a `img/logo/simbolo-definitivo.svg`: VECTORIAL, trazado
+           desde el logo definitivo con los colores exactos muestreados
+           (hojas #50C58E, puntos #E74B40 y #E3CA39), nítido a cualquier
+           densidad y sin la caja gris que el `img{background}` de base.css le
+           pintaba detrás al PNG. Mismas proporciones que el recorte anterior
+           (738×351 frente a 744×351), así que las cuentas de ancho de
+           shell.css siguen valiendo. Y el nombre al lado YA ES la letra del
+           logo: --fuente-display es Hill House, la tipografía con la que está
+           compuesto el rótulo «VEGAS DEL VERDE» — el lockup de dos partes
+           ahora reproduce el logo, no lo imita. Un SVG no necesita <picture>
+           ni respaldo webp/png. -->
+      <img
+        class="marca__simbolo"
+        src="img/logo/simbolo-definitivo.svg"
+        width="738"
+        height="351"
+        alt=""
+        decoding="async"
+      />
+      <!-- v36 · El nombre es el WORDMARK VECTORIAL real del logo del cliente
+           (no texto en una fuente: el cliente lo rechazó). alt="" porque el
+           nombre accesible del enlace ya lo fija su aria-label. -->
+      <img class="marca__nombre" src="img/logo/wordmark-definitivo.svg" width="1166" height="137" alt="" decoding="async" />
     </a>
 
     <nav class="nav" id="nav-principal" aria-label="Navegación principal">
@@ -222,7 +226,13 @@ src="https://www.facebook.com/tr?id=28408308795489956&ev=PageView&noscript=1"
            NINGÚN ENLACE PUEDE SER UN ANCLA SUELTA: este fragmento se inserta
            en todas las páginas del sitio, así que todos llevan el nombre del
            archivo por delante. -->
+      <!-- October Big Day (2026-09-26): primer ítem del panel, destacado y
+           con fecha de caducidad. El widget flotante avisa desde afuera;
+           este ítem responde a quien abre el menú buscando «qué hay». No se
+           agrega franja de aviso arriba: sería un tercer aviso del mismo
+           evento y empujaría el hero. js/app.js lo oculta tras el evento. -->
       <ul class="nav__lista">
+        <li class="nav__item--evento" data-evento-hasta="2026-10-10T12:00:00-05:00"><a class="nav__enlace nav__enlace--evento" href="october-big-day.html"><span class="nav__evento-fecha">Sáb 10 oct · entrada libre</span>October Big Day</a></li>
         <li class="nav__item--secundario"><a class="nav__enlace" href="index.html#nosotros">Nosotros</a></li>
         <li><a class="nav__enlace" href="espacios.html">Espacios</a></li>
         <li><a class="nav__enlace" href="planes.html">Planes</a></li>
@@ -358,16 +368,16 @@ src="https://www.facebook.com/tr?id=28408308795489956&ev=PageView&noscript=1"
      que vuelva a verse aunque el lector haya cerrado el anterior. -->
 <aside
   class="evento-flotante"
-  data-evento="conexion-yoga-2026-09-26"
-  data-evento-hasta="2026-09-26T10:00:00-05:00"
+  data-evento="october-big-day-2026-10-10"
+  data-evento-hasta="2026-10-10T12:00:00-05:00"
   aria-label="Próximo evento"
   hidden
 >
-  <a class="evento-flotante__enlace" href="planes.html#conexion-yoga">
+  <a class="evento-flotante__enlace" href="october-big-day.html">
     <span class="evento-flotante__punto" aria-hidden="true"></span>
     <span class="evento-flotante__texto">
-      <span class="evento-flotante__rotulo">Evento · sáb 26 sep</span>
-      <span class="evento-flotante__titulo">Conexión &amp; Yoga</span>
+      <span class="evento-flotante__rotulo">Evento · sáb 10 oct</span>
+      <span class="evento-flotante__titulo">October Big Day</span>
     </span>
     <svg class="evento-flotante__flecha" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
       <path d="M5 12h14M13 6l6 6-6 6"/>
@@ -396,7 +406,10 @@ src="https://www.facebook.com/tr?id=28408308795489956&ev=PageView&noscript=1"
 <!-- ==========================================================================
      ENCABEZADO DE PÁGINA: Dime a quién traes y te digo dónde
      CSS: styles/sections/home.css (bloque «PÁGINAS DE PROFUNDIDAD»)
-     JS propio: NINGUNO
+          + styles/sections/planes.css (bloque «EVENTO»: los eventos puntuales
+          de debajo del <h1>, hoy October Big Day y Conexión & Yoga)
+     JS propio: NINGUNO (el ocultado por fecha, data-evento-hasta, es de
+          js/app.js)
 
      Generado por herramientas/_crear-paginas-v18.js y mantenido a mano desde
      entonces. Lo pega el ensamblador como PRIMERA sección de planes.html.
@@ -419,18 +432,140 @@ src="https://www.facebook.com/tr?id=28408308795489956&ev=PageView&noscript=1"
       <h1 id="portada-planes-titulo" class="pagina-encabezado__titulo">Cinco planes para el mismo bosque</h1>
     </div>
 
+    <!-- ======================================================================
+         EVENTO PUNTUAL · OCTOBER BIG DAY 2026 (sáb 10 oct, 6:30 a. m.–12:00 m.)
+         Va PRIMERO porque es el próximo evento. Mismo patrón que
+         #conexion-yoga (foto-placa foto-placa--lado planes-evento): foto y
+         placa como hermanas en la rejilla, la placa bajo la foto en móvil y
+         al lado desde 48em. Nunca encima: «la foto es la foto».
+
+         LA FOTO: el barranquero de Leyner Lozano (ave-46), no el flyer.
+           · El flyer es un cartel lleno de letra: a 343 px de ancho su texto
+             baja a ~8 px y además duplica en píxeles lo que la placa ya dice
+             en HTML accesible. Entero vive en october-big-day.html.
+           · El ave que abre el flyer (arriba a la izquierda) es justamente
+             un barranquero: quien viene del anuncio de Instagram reconoce el
+             ave, y aquí la ve DE VERDAD, fotografiada en nuestro bosque.
+           · Se recorta a 4:5, el formato del feed de Instagram por el que
+             entra el 71 % del tráfico. Cabe el ave entera, de la corona a
+             la punta de la cola (ver el object-position en planes.css).
+           · sizes: entre 48 y 62em la foto se estira hasta el alto de la
+             placa (planes.css E3) y object-fit la escala por la altura, así
+             que pinta más ancho que su columna: 60vw cubre ese ancho real.
+
+         HECHOS: sólo los del flyer del cliente. Vegas del Verde PARTICIPA
+         como punto de observación del día global de eBird: nada de alianza
+         ni de logos de Cornell/eBird. La reserva NO contradice la entrada
+         libre: asegura el cupo (lo dice la nota bajo el botón).
+
+         EXPIRA SOLO: data-evento-hasta (js/app.js lo oculta pasada la hora
+         de cierre; sin JS se sigue viendo, y está bien).
+
+         EL 117 CUENTA SIN JS PROPIO: el numeral visible es un contador CSS
+         (@property, planes.css) y el número de verdad va en .solo-lectores
+         dentro de la frase, así que el lector de pantalla oye «117 aves…»
+         una sola vez y sin CSS se lee igual. CSS: planes.css «EVENTO».
+         ====================================================================== -->
+    <article
+      id="october-big-day"
+      class="foto-placa foto-placa--lado planes-evento planes-evento--bigday reveal"
+      aria-labelledby="october-big-day-titulo"
+      data-evento-hasta="2026-10-10T12:00:00-05:00"
+    >
+      <!-- El antetítulo va FUERA de la placa y a todo el ancho: en móvil
+           anuncia el evento ANTES de la foto (sin él, la primera pantalla
+           era un pájaro sin contexto) y en escritorio corona las dos
+           columnas, abierto por un filete corto que se dibuja. -->
+      <p class="planes-evento__rotulo planes-evento__antetitulo"><span>Próximo evento · <time datetime="2026-10-10">10 oct</time></span></p>
+
+      <figure class="planes-evento__figura">
+        <picture class="planes-evento__marco">
+          <source
+            type="image/webp"
+            srcset="img/aves/ave-46-momotus-subrufescens-400.webp 400w, img/aves/ave-46-momotus-subrufescens-600.webp 600w, img/aves/ave-46-momotus-subrufescens-800.webp 800w, img/aves/ave-46-momotus-subrufescens.webp 867w"
+            sizes="(max-width: 47.99em) 92vw, (max-width: 61.99em) 60vw, (max-width: 90em) 42vw, 600px"
+          />
+          <img
+            class="planes-evento__foto"
+            src="img/aves/ave-46-momotus-subrufescens.jpg"
+            srcset="img/aves/ave-46-momotus-subrufescens-400.jpg 400w, img/aves/ave-46-momotus-subrufescens-600.jpg 600w, img/aves/ave-46-momotus-subrufescens-800.jpg 800w, img/aves/ave-46-momotus-subrufescens.jpg 867w"
+            sizes="(max-width: 47.99em) 92vw, (max-width: 61.99em) 60vw, (max-width: 90em) 42vw, 600px"
+            width="867"
+            height="1300"
+            loading="eager"
+            fetchpriority="high"
+            decoding="async"
+            alt="Barranquero (Momotus subrufescens) posado en una rama del bosque de Vegas del Verde, con un fruto en el pico y su larga cola azul colgando."
+          />
+        </picture>
+        <figcaption class="planes-evento__credito credito">
+          <i lang="la">Momotus subrufescens</i> · Foto: Leyner Lozano
+        </figcaption>
+      </figure>
+
+      <div class="placa placa--filete planes-evento__placa">
+        <div class="planes-evento__cabeza">
+          <h2 id="october-big-day-titulo" class="planes-evento__titulo">October Big Day</h2>
+          <p class="planes-evento__fecha"><time datetime="2026-10-10">Sábado 10 de octubre</time></p>
+        </div>
+        <p class="planes-evento__bajada">Un día de ciencia ciudadana en que el mundo entero sale a contar aves. Nuestro bosque es punto de observación.</p>
+
+        <p class="planes-evento__cifra reveal">
+          <span class="planes-evento__numero" aria-hidden="true"></span>
+          <span class="planes-evento__cifra-texto"><span class="solo-lectores">117 </span>aves de nuestro bosque ya están registradas en eBird. Ven a observarlas.</span>
+        </p>
+
+        <dl class="planes-evento__ficha reveal">
+          <div class="planes-evento__fila">
+            <dt>Horario</dt>
+            <dd><time datetime="2026-10-10T06:30-05:00">6:30 a.&nbsp;m.</time> a <time datetime="2026-10-10T12:00-05:00">12:00 m.</time></dd>
+          </div>
+          <div class="planes-evento__fila">
+            <dt>Entrada</dt>
+            <dd>Libre, para toda la familia.</dd>
+          </div>
+          <div class="planes-evento__fila">
+            <dt>Desayunos</dt>
+            <dd>Tamal, arepa con huevos o dedito de queso, previa reserva.</dd>
+          </div>
+        </dl>
+
+        <div class="planes-evento__acciones">
+          <a
+            class="btn btn-whatsapp planes-evento__cta"
+            href="https://wa.me/573166758362?text=Hola%2C%20quiero%20reservar%20mi%20cupo%20para%20el%20October%20Big%20Day%20del%20s%C3%A1bado%2010%20de%20octubre%20en%20Vegas%20del%20Verde."
+            target="_blank"
+            rel="noopener"
+          >
+            Reservar mi cupo<span class="solo-lectores"> para el October Big Day por WhatsApp</span>
+          </a>
+          <a class="enlace-flecha planes-evento__mas" href="october-big-day.html">Ver todo el evento</a>
+        </div>
+        <p class="planes-evento__nota">La entrada es libre: reservar te asegura el cupo.</p>
+      </div>
+    </article>
+
     <!-- EVENTO PUNTUAL · Conexión & Yoga (sáb 26 sep 2026). Recibe el tráfico
          de la pauta de Meta y del reel: va arriba, antes de los cinco planes,
          para que quien llega por el anuncio reserve sin buscar. CTA ADICIONAL:
          no sustituye el WhatsApp general ni el de la ficha 04. Sólo datos
          confirmados (fecha, hora, prácticas, aliado); precio, cupo y lugar
-         dentro del predio se resuelven por WhatsApp. Retirar después del
-         evento. CSS: styles/sections/planes.css (bloque «EVENTO»). -->
+         dentro del predio se resuelven por WhatsApp. CSS:
+         styles/sections/planes.css (bloque «EVENTO»). -->
     <!-- v2 · HERO CON FOTO (pedido del cliente). Maqueta del sistema
          .foto-placa--lado (base.css): foto y placa como HERMANAS en la
          rejilla, nunca superpuestas — "la foto es la foto". Reusa la MISMA
          yoga-3 de la tarjeta Cuidarse de la home, con su srcset y su foco. -->
-    <article id="conexion-yoga" class="foto-placa foto-placa--lado planes-evento reveal" aria-labelledby="conexion-yoga-titulo">
+    <!-- v3 · YA PASÓ (era la mañana del 26 de septiembre). Baja debajo del
+         October Big Day y se oculta sola con data-evento-hasta (js/app.js).
+         Deja de ser el LCP de la página: su foto pasa a lazy y sin
+         fetchpriority, y oculta ni se descarga. -->
+    <article
+      id="conexion-yoga"
+      class="foto-placa foto-placa--lado planes-evento planes-evento--yoga reveal"
+      aria-labelledby="conexion-yoga-titulo"
+      data-evento-hasta="2026-09-26T12:00:00-05:00"
+    >
       <picture>
         <source
           type="image/webp"
@@ -444,8 +579,7 @@ src="https://www.facebook.com/tr?id=28408308795489956&ev=PageView&noscript=1"
           sizes="(max-width: 47.99em) 92vw, 40vw"
           width="1500"
           height="2667"
-          loading="eager"
-          fetchpriority="high"
+          loading="lazy"
           decoding="async"
           alt="Mujer en una postura de yoga de pie, con los brazos elevados, sobre un tapete entre los árboles."
         />
@@ -500,9 +634,16 @@ src="https://www.facebook.com/tr?id=28408308795489956&ev=PageView&noscript=1"
          además encabezan la sección como un índice de anclas, para que
          quien llega buscando «empresas» baje de un toque a su ficha.
      NO cambia ni un hecho, ni un titular, ni un texto, ni un destino de
-     enlace, ni un alt. Los aforos siguen siendo de #espacios (aquí sólo se
-     NOMBRA el espacio y se enlaza). El rótulo «Atrévete a un plan distinto»
-     sigue siendo uno solo con su remate para lector de pantalla por ficha.
+     enlace, ni un alt.
+
+     RETOQUE (agente PLANES, sept. 2026): el rótulo del botón de WhatsApp
+     era «Atrévete a un plan distinto» IDÉNTICO en las cinco fichas —cinco
+     CTA iguales en la misma pantalla leen como relleno, no como cinco
+     invitaciones distintas (crítica del auditor de diseño, punto 12). Cada
+     ficha ahora nombra SU plan; el texto para lector de pantalla que lo
+     acompañaba queda absorbido en el rótulo visible, así que no hay
+     duplicado. Los aforos siguen siendo de #espacios (aquí sólo se NOMBRA
+     el espacio y se enlaza).
      ========================================================================== -->
 <section id="planes" class="seccion planes" aria-labelledby="planes-titulo">
   <div class="contenedor">
@@ -611,7 +752,7 @@ src="https://www.facebook.com/tr?id=28408308795489956&ev=PageView&noscript=1"
             target="_blank"
             rel="noopener"
           >
-            Atrévete a un plan distinto<span class="solo-lectores">: matrimonio o concierto</span>
+            Cotizar mi boda<span class="solo-lectores"> o concierto</span>
           </a>
         </div>
 
@@ -691,7 +832,7 @@ src="https://www.facebook.com/tr?id=28408308795489956&ev=PageView&noscript=1"
             target="_blank"
             rel="noopener"
           >
-            Atrévete a un plan distinto<span class="solo-lectores">: cumpleaños o reunión familiar</span>
+            Armar el cumpleaños
           </a>
         </div>
 
@@ -772,7 +913,7 @@ src="https://www.facebook.com/tr?id=28408308795489956&ev=PageView&noscript=1"
             target="_blank"
             rel="noopener"
           >
-            Atrévete a un plan distinto<span class="solo-lectores">: reunión corporativa o evento de empresa</span>
+            Llevar a mi equipo
           </a>
         </div>
 
@@ -925,7 +1066,7 @@ src="https://www.facebook.com/tr?id=28408308795489956&ev=PageView&noscript=1"
             target="_blank"
             rel="noopener"
           >
-            Atrévete a un plan distinto<span class="solo-lectores">: actividad de bienestar</span>
+            Reservar mi clase
           </a>
         </div>
 
@@ -1029,7 +1170,7 @@ src="https://www.facebook.com/tr?id=28408308795489956&ev=PageView&noscript=1"
             target="_blank"
             rel="noopener"
           >
-            Atrévete a un plan distinto<span class="solo-lectores">: taller educativo, de jardinería o de pintura</span>
+            Agendar el taller
           </a>
         </div>
 
@@ -1136,20 +1277,21 @@ src="https://www.facebook.com/tr?id=28408308795489956&ev=PageView&noscript=1"
            El alt del símbolo va VACÍO: el nombre ya está aquí al lado en
            texto real, así que la imagen es decorativa y repetirlo sería
            leer «Vegas del Verde» dos veces con lector de pantalla. -->
+      <!-- v35 · LOGO DEFINITIVO (cliente, 2026-09-26): el símbolo pasa al SVG
+           vectorial `simbolo-definitivo.svg` (mismas proporciones que el
+           recorte PNG) y el nombre, que ya iba en --fuente-display, sale ahora
+           en Hill House, la letra real del logo. -->
       <div class="pie-final__marca">
-        <picture>
-          <source type="image/webp" srcset="img/logo/simbolo-transparente.webp" />
-          <img
-            class="pie-final__simbolo"
-            src="img/logo/simbolo-transparente.png"
-            width="744"
-            height="351"
-            alt=""
-            loading="lazy"
-            decoding="async"
-          />
-        </picture>
-        <p class="pie-final__nombre">Vegas del Verde</p>
+        <img
+          class="pie-final__simbolo"
+          src="img/logo/simbolo-definitivo.svg"
+          width="738"
+          height="351"
+          alt=""
+          loading="lazy"
+          decoding="async"
+        />
+        <img class="pie-final__nombre" src="img/logo/wordmark-definitivo.svg" width="1166" height="137" alt="Vegas del Verde" loading="lazy" decoding="async" />
       </div>
 
       <div class="pie-final__acciones">
@@ -1208,7 +1350,7 @@ src="https://www.facebook.com/tr?id=28408308795489956&ev=PageView&noscript=1"
 
   </div>
 </footer>
-<script src="js/app.js?v=be8cd718" defer></script>
+<script src="js/app.js?v=a4fbd319" defer></script>
 <script>if (typeof fbq === 'function') fbq('track', 'ViewContent', {content_name: 'Planes'});</script>
 </body>
 </html>

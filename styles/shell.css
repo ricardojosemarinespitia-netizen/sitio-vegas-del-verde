@@ -260,22 +260,30 @@ body:has(#inicio) .cabecera__volver {
    crema da 3,67:1, y a este tamaño el texto no es «grande» para la AA, así
    que se queda corto. `--verde-texto` da 6,0:1 y sigue siendo verde de
    marca. Si algún día el nombre sube de cuerpo, --teal vuelve a ser opción. */
+/* v35 · LOGO DEFINITIVO (cliente, 2026-09-26). --fuente-display ES ahora la
+   letra del rótulo del logo (Hill House), así que este nombre en texto real
+   reproduce el wordmark: versales y el tracking casi cerrado del logo
+   (0,01em; el --tracking-display de los titulares abre más para lectura).
+   El text-transform es para el respaldo mientras llega el woff2: la fuente
+   ya pinta versales por sí sola. */
+/* v36 · WORDMARK VECTORIAL REAL (cliente, 2026-09-26: «SOLO USASTE LAS
+   LETRAS, QUIERO EL LOGO ORIGINAL»). El nombre ya no se compone con una
+   fuente: es `img/logo/wordmark-definitivo.svg`, el trazado extraído de la
+   obra del cliente (teal #4A7D7B muestreado). Todo lo de v35 sobre color y
+   contraste queda sin objeto: un logotipo está exento del 1.4.3 de la WCAG,
+   y el nombre accesible lo da el aria-label del <a class="marca">, por eso
+   la imagen lleva alt="".
+   Se dimensiona por ALTO, igual que .marca__simbolo: el SVG es apaisado
+   (1166,4 × 137,2 ≈ 8,5:1) y el ancho sale proporcional. El alto ES el de
+   las versales, porque el viewBox está ceñido a las letras. Proporción con
+   el símbolo tomada del logo apilado original: texto ≈ 0,4 × alto del
+   símbolo. */
 .marca__nombre {
-  font-family: var(--fuente-display);
-  font-size: var(--fs-h4);
-  font-weight: var(--peso-display);
-  font-variation-settings: var(--ejes-display-sobrio);
-  letter-spacing: var(--tracking-display);
-  line-height: var(--alto-linea-apretado);
-  color: var(--verde-texto);
-  white-space: nowrap;
-  min-width: 0;
-}
-
-/* Sólo tienen efecto en el modo apilado de más abajo (< 23 em). Aquí son
-   inline y el espacio del HTML los deja en una sola línea. */
-.marca__nombre-linea {
-  display: inline;
+  display: block;
+  width: auto;
+  height: 1.05rem;
+  flex: none;
+  border-radius: 0;
 }
 
 /* v32 · EL LOCKUP CRECE EN ESCRITORIO — pedido literal del cliente: «que el
@@ -310,8 +318,10 @@ body:has(#inicio) .cabecera__volver {
     max-height: 3.5rem;
   }
 
+  /* v36 · 1,5 rem = 24 px de versal junto a un símbolo de 56 px (≈ 0,43,
+     la proporción del logo original): 204 px de ancho. */
   .marca__nombre {
-    font-size: var(--fs-h3);
+    height: 1.5rem;
   }
 }
 
@@ -691,7 +701,47 @@ body:has(#inicio) .cabecera__volver {
   }
 }
 
-.evento-flotante[hidden] {
+/* Aviso del evento en en/index.html: flyer pequeño + ficha, lado a lado
+   desde tablet; en móvil el flyer arriba a ancho medio. La foto no lleva
+   velo ni texto encima. */
+.evento-aviso__ficha {
+  display: grid;
+  gap: var(--gap);
+  align-items: center;
+}
+
+.evento-aviso__flyer {
+  display: block;
+  width: min(100%, 13rem);
+  justify-self: center;
+}
+
+.evento-aviso__flyer img {
+  width: 100%;
+  height: auto;
+  aspect-ratio: 3 / 4;
+  object-fit: cover;
+  border-radius: var(--radio-hoja);
+}
+
+.evento-aviso__texto > * + * {
+  margin-top: var(--esp-xs);
+}
+
+.evento-aviso__texto .enlace-flecha {
+  display: inline-flex;
+  align-items: center;
+  min-height: 2.75rem;
+}
+
+@media (min-width: 48em) {
+  .evento-aviso__ficha {
+    grid-template-columns: 13rem 1fr;
+  }
+}
+
+.evento-flotante[hidden],
+[data-evento-hasta][hidden] {
   display: none;
 }
 
@@ -767,10 +817,13 @@ body:has(#inicio) .cabecera__volver {
   white-space: nowrap;
 }
 
+/* Título en la letra del logo (decisión del cliente 2026-09-26). */
 .evento-flotante__titulo {
-  font-family: var(--fuente-titulo);
+  font-family: var(--fuente-display);
   font-size: var(--fs-pequeno);
   font-weight: var(--peso-medio);
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -1024,6 +1077,27 @@ body.menu-abierto .nav {
   display: none;
 }
 
+/* October Big Day · ítem destacado del panel: filete de acento a la
+   izquierda y la fecha como rótulo encima, en la letra del logo. Sin
+   fondo de color (el coral es sólo para botones). */
+.nav__enlace--evento {
+  position: relative;
+  padding-inline-start: var(--esp-sm);
+  font-family: var(--fuente-display);
+  color: var(--verde-bosque);
+  box-shadow: inset 3px 0 0 var(--color-destacado);
+}
+
+.nav__evento-fecha {
+  display: block;
+  margin-bottom: var(--esp-3xs);
+  font-family: var(--fuente-cuerpo);
+  font-size: var(--fs-micro);
+  font-weight: var(--peso-medio);
+  letter-spacing: var(--track-eyebrow);
+  color: var(--color-acento-texto);
+}
+
 .nav__pie {
   margin-top: var(--esp-lg);
   display: flex;
@@ -1072,10 +1146,9 @@ body.menu-abierto .nav {
      Quien cede ancho es el nombre —con un cuerpo menor— y, en el último
      tramo, el modo apilado de < 23 em. */
   .marca__nombre {
-    display: block;
-    font-size: clamp(0.875rem, 0.55rem + 1.4vw, 1.35rem);
-    /* No cede ancho: es lo que identifica el sitio. Quien cede es el símbolo
-       (max-height, abajo) y, si hiciera falta, el modo apilado de < 23 em. */
+    /* v36 · wordmark SVG: escala por alto (12 px a 375, ~15 px a 768).
+       No cede ancho: es lo que identifica el sitio. */
+    height: clamp(0.75rem, 0.45rem + 1vw, 1rem);
     flex: none;
   }
 
@@ -1137,28 +1210,16 @@ body.menu-abierto .nav {
     gap: min(0.5rem, 8px);
   }
 
+  /* v36 · El wordmark vectorial es de UNA línea (no se puede apilar como el
+     texto de v31), así que aquí cede el símbolo: baja a 24 px (≈ 51 px de
+     ancho) y el wordmark queda en 11 px de versal (≈ 94 px de ancho).
+     Cuenta a 320 px: 51 + 8 + 94 = 153 ≤ 157,6 disponibles. */
   .marca__simbolo {
-    height: min(1.875rem, 30px);
+    height: min(1.5rem, 24px);
   }
 
   .marca__nombre {
-    font-size: min(0.875rem, 14px);
-    line-height: 1.08;
-    white-space: normal;
-  }
-
-  /* `nowrap` en cada línea, y `flex: none` en el bloque: sin esto el nombre
-     es un ítem flex encogible y el cálculo de intrínseco del <img> —que
-     declara 744 px de ancho de atributo— lo comprimía a 70 px, partiendo
-     «Vegas del» en dos y dejando la marca en tres renglones. El salto lo
-     manda el marcado; el navegador no vuelve a opinar. */
-  .marca__nombre {
-    flex: none;
-  }
-
-  .marca__nombre-linea {
-    display: block;
-    white-space: nowrap;
+    height: min(0.6875rem, 11px);
   }
 }
 
@@ -1328,8 +1389,11 @@ body.menu-abierto .nav {
   align-items: flex-start;
 }
 
+/* v35 · el logo del pie legal pasa del símbolo cuadrado (simbolo-vegas.png,
+   512×512 con fondo blanco) al SVG apaisado del logo definitivo (738×351):
+   a igual alto necesita el doble de ancho. */
 .pie__logo {
-  width: clamp(3.25rem, 2.5rem + 3vw, 4.5rem);
+  width: clamp(5.5rem, 4.6rem + 3vw, 7.5rem);
   height: auto;
   background: none;
 }

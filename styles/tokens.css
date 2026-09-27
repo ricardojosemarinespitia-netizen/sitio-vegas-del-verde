@@ -25,6 +25,12 @@
      grosor único del trazo).
    · Cuerpo y etiqueta NO cambian: siguen en DM Sans.
 
+   QUÉ CAMBIÓ EN v35 (2026-09-26, DECISIÓN DEL CLIENTE, manda sobre todo lo
+   anterior): el logo del flyer «Alianza educativa» es el LOGO DEFINITIVO y
+   SU LETRA —Hill House, identificada— es la de TODOS los titulares:
+   --fuente-display pasa a «Hill House Vegas», en versales. Detalle en el
+   apartado 3.
+
    AVISO SOBRE EL <link> QUE SE DESCRIBE ABAJO: quedó obsoleto en v10. Las
    fuentes ya NO vienen de fonts.googleapis.com — viven en styles/fonts/*.woff2,
    se declaran por @font-face en base.css y se precargan desde el <head> con
@@ -390,7 +396,36 @@
      Avenir Next / Futura): si el woff2 no llega, lo que se pinta sigue
      siendo geométrico monolineal y no una serif, que es el error que había
      que arreglar. */
-  --fuente-display: "Josefin Sans", "Century Gothic", "Avenir Next", Futura,
+  /* DECISIÓN DEL CLIENTE 2026-09-26: LA LETRA DEL LOGO DEFINITIVO MANDA EN LOS
+     TÍTULOS. Pedido textual: «este es el logo definitivo de Vegas y su tipo
+     de letra, usa ese tipo de letra para los títulos». Esta decisión MANDA
+     sobre todo lo escrito arriba (v2 «títulos sin mayúsculas», v12 Josefin).
+
+     LA LETRA SÍ EXISTE Y SE IDENTIFICÓ: el rótulo «VEGAS DEL VERDE» del logo
+     es HILL HOUSE (Jon Hicks / hicksdesign, 2003), una tipografía hecha sobre
+     el rotulado de Charles Rennie Mackintosh. Coincide letra por letra (la G
+     con espolón, la A con barras bajas, la E de travesaño alto, la D y la R).
+     v12 decía que era «dibujo a mano que no existe en catálogo»: no era así.
+     Licencia del autor: «Do as you will !» — libre en todo sentido, incluido
+     @font-face (ver styles/fonts/hill-house-vegas-LICENCIA.txt).
+
+     Se sirve una ADAPTACIÓN, «Hill House Vegas» (styles/fonts/
+     hill-house-vegas.woff2, 6 KB): O y 0 llanos (la O Mackintosh original es
+     un círculo elevado con punto debajo y en «BOSQUE» o «2026» se leía como
+     «º»), los signos ¡ ¿ ! " # $ % ° que faltaban, y las minúsculas mapeadas
+     a versales. Es de CAJA ALTA: todo lo que use este token sale en
+     mayúsculas aunque el HTML venga en minúsculas. Por eso base.css §2 pone
+     además `text-transform: uppercase` en h1–h4 y en las clases de titular:
+     mientras la fuente llega (font-display: swap) el respaldo también se
+     pinta en versales y el salto al cargar es mínimo.
+
+     EXCEPCIÓN a la regla v2 «los títulos van en caja de frase»: queda
+     derogada para los titulares. .eyebrow, h5/h6 y los rótulos siguen en
+     --fuente-titulo (DM Sans) — la letra del logo es de TÍTULO, no de texto.
+
+     Respaldo: sans geométricas de sistema; Josefin ya NO va en la pila para
+     que el navegador no la descargue mientras llega Hill House. */
+  --fuente-display: "Hill House Vegas", "Century Gothic", "Avenir Next", Futura,
     "Trebuchet MS", sans-serif;
   --fuente-titulo: "DM Sans", "Jost", -apple-system, BlinkMacSystemFont,
     "Segoe UI", Roboto, Helvetica, Arial, sans-serif;

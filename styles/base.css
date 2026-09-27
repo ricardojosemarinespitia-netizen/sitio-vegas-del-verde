@@ -41,7 +41,13 @@
   font-style: normal;
   font-weight: 300 700;
   font-display: optional;
-  src: url('fonts/dm-sans-latin.woff2') format('woff2');
+  /* v35 · el ?v= NO es decorativo: tiene que ser IDÉNTICO al del <link
+     rel="preload"> del <head> (que pone herramientas/versionar-assets.js =
+     sha1 del archivo, 8 cifras). Sin él la precarga pedía «…woff2?v=…» y
+     este @font-face «…woff2» a secas: dos URL distintas, el archivo bajaba
+     DOS veces y la precarga no servía de nada (medido por CDP en index.html).
+     Si cambias el woff2, recalcula el hash y actualízalo aquí también. */
+  src: url('fonts/dm-sans-latin.woff2?v=89c7ce3a') format('woff2');
   unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC,
     U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215,
     U+FEFF, U+FFFD;
@@ -100,6 +106,50 @@
   unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC,
     U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215,
     U+FEFF, U+FFFD;
+}
+
+/* v35 · HILL HOUSE VEGAS ES --fuente-display (decisión del cliente,
+   2026-09-26): «este es el logo definitivo de Vegas y su tipo de letra, usa
+   ese tipo de letra para los títulos». Josefin Sans (arriba) queda declarada
+   pero ya no la pide ningún token, así que el navegador no la descarga.
+
+   QUÉ ES. El rótulo «VEGAS DEL VERDE» del logo definitivo está compuesto en
+   HILL HOUSE, de Jon Hicks (hicksdesign, 2003), sacada del rotulado de
+   Charles Rennie Mackintosh. Se comprobó superponiéndola al logo a la misma
+   altura de mayúscula (img/logo/_comparacion-tipografias.png): coinciden la
+   G con espolón, la A con barras, la E de travesaño alto, la D y la R. Las
+   candidatas libres que se probaron al lado (Josefin, Poiret One, Federo,
+   Megrim, Julius Sans One, Aboreto…) sólo se le parecen de lejos.
+
+   LICENCIA. La del autor, textual en el propio archivo: «Do as you will !»;
+   y en su web: libre «in every way, including embedding with @font-face».
+   Ver styles/fonts/hill-house-vegas-LICENCIA.txt.
+
+   POR QUÉ UNA ADAPTACIÓN Y NO EL ARCHIVO TAL CUAL. El original sólo trae
+   mayúsculas, no tiene ¡ ¿ ! ni tildes en minúscula, y su O es la O
+   Mackintosh (círculo elevado con un punto debajo), que en «BOSQUE» o en
+   «2026» se lee como «º». La adaptación dibuja una O y un 0 llanos (como la
+   O del lema del logo), añade ¡ ¿ ! " # $ % °, mapea las minúsculas a las
+   versales y centra la mayúscula en la caja de línea. Un solo archivo de
+   6 KB, subconjunto latino completo del español.
+
+   UN SOLO PESO, DECLARADO COMO RANGO 100–900 a propósito: así cualquier
+   --peso-* que pida un titular (300 del display, 600 de las cifras) cae en
+   este mismo archivo SIN negrita sintética, que en una monolineal engorda
+   el trazo y deforma las barras de la A.
+
+   font-display: swap (y no optional como las demás): la letra del logo tiene
+   que verse SIEMPRE, también en la primera visita desde el navegador de
+   Instagram/Facebook, donde optional casi nunca llega a tiempo. El salto es
+   pequeño porque el respaldo también va en versales (text-transform en §2).
+   Se precarga desde el <head> de cada página. */
+@font-face {
+  font-family: 'Hill House Vegas';
+  font-style: normal;
+  font-weight: 100 900;
+  font-display: swap;
+  /* mismo ?v= que el preload del <head> (sha1 del archivo); ver DM Sans. */
+  src: url('fonts/hill-house-vegas.woff2?v=a4d2ce1b') format('woff2');
 }
 
 /* v11 · BODONI MODA fue --fuente-display entre v11 y v12. Se conserva
@@ -333,6 +383,34 @@ img {
   background-color: rgb(var(--gris-verde-rgb) / 0.25);
 }
 
+/* v35 · El gris de arriba es el «hueco» de una FOTO mientras carga. Un logo
+   o un ícono vectorial con transparencia no es una foto: con ese fondo el
+   símbolo de la cabecera se veía dentro de una caja gris. Todo SVG servido
+   por <img> (logo definitivo, sello, íconos) va sin fondo. */
+img[src$=".svg"],
+img[src*=".svg?"] {
+  background-color: transparent;
+}
+
+/* v35 · EL SELLO de Vegas del Verde (img/logo/sello-vegas*.{webp,png}):
+   disco blanco + corona de hojas en acuarela + logo vectorial al centro,
+   con transparencia real. Es una pieza de MARCA, no una foto: sin el gris de
+   carga, sin radio y siempre cuadrada. El ancho lo decide quien lo usa
+   (p. ej. `inline-size: min(60vw, 18rem)`); nunca debajo de ~7rem, donde el
+   nombre del centro deja de leerse. Marcado:
+     <picture>
+       <source type="image/webp" srcset="img/logo/sello-vegas-400.webp 400w, img/logo/sello-vegas.webp 800w" sizes="(min-width: 48em) 18rem, 60vw">
+       <img class="sello-vegas" src="img/logo/sello-vegas-400.png" width="400" height="400" alt="Sello de Vegas del Verde" loading="lazy" decoding="async">
+     </picture> */
+.sello-vegas {
+  display: block;
+  aspect-ratio: 1;
+  inline-size: 100%;
+  block-size: auto;
+  background-color: transparent;
+  border-radius: 0;
+}
+
 input,
 button,
 textarea,
@@ -407,6 +485,15 @@ h4 {
   letter-spacing: var(--tracking-display);
   color: var(--color-texto);
   text-wrap: balance;
+  /* v35 · VERSALES, decisión del cliente (2026-09-26). La letra del logo
+     (Hill House Vegas) es de caja alta: la fuente ya pinta versales aunque
+     el texto venga en minúsculas, pero el text-transform hace que el
+     RESPALDO —lo que se ve mientras llega el woff2 con font-display: swap—
+     también vaya en versales, así el cambio de letra no reacomoda la línea.
+     El HTML se sigue escribiendo en caja de frase: lectores de pantalla,
+     buscadores y copiar/pegar reciben el texto normal. */
+  text-transform: uppercase;
+  font-synthesis: none;
 }
 
 h1 {
@@ -414,10 +501,12 @@ h1 {
   line-height: var(--alto-linea-apretado);
 }
 
-/* Los h2 se quedan en caja de frase a propósito: son frases largas en
-   español («Un refugio natural a veinte minutos de Bucaramanga») y en
-   mayúsculas espaciadas ocuparían tres líneas y gritarían. Sólo el rótulo
-   diminuto (.eyebrow) va en caps.                                         */
+/* v35 · DEROGADO lo de «los h2 se quedan en caja de frase»: el cliente pidió
+   la letra del logo en TODOS los títulos, y esa letra sólo existe en
+   versales. Lo que aquella regla protegía (que una frase larga no ocupe tres
+   líneas y grite) se resuelve con el cuerpo: Hill House es ESTRECHA —a igual
+   altura de mayúscula ocupa un 20 % menos que Josefin—, y la escala
+   --fs-h1/--fs-h2 de tokens.css se recalibró para versales. */
 h2 {
   font-size: var(--fs-h2);
 }
@@ -1018,7 +1107,9 @@ a:hover {
   font-weight: var(--peso-display);
   font-optical-sizing: auto;
   font-variation-settings: var(--ejes-display);
-  text-transform: none;
+  /* v35 · versales: la letra del logo es de caja alta (ver §2). */
+  text-transform: uppercase;
+  font-synthesis: none;
   letter-spacing: var(--tracking-display);
   line-height: var(--alto-linea-titulo);
   text-wrap: balance;
@@ -1045,13 +1136,16 @@ a:hover {
   font-variation-settings: var(--ejes-display);
   letter-spacing: var(--tracking-display);
   line-height: var(--alto-linea-apretado);
-  text-transform: none;
+  /* v35 · versales: la letra del logo es de caja alta (ver §2). */
+  text-transform: uppercase;
+  font-synthesis: none;
 }
 
-/* Única excepción de caps a tamaño display: el logotipo del hero, porque
-   ES el logotipo. Va en la fuente de etiqueta, nunca en el display serif. */
+/* El logotipo compuesto en texto. v35 · pasa a --fuente-display: desde
+   2026-09-26 esa ES la letra del logo (Hill House), así que un logotipo en
+   texto ya no es una imitación en la fuente de etiqueta, es el logotipo. */
 .titulo-logotipo {
-  font-family: var(--fuente-titulo);
+  font-family: var(--fuente-display);
   font-weight: var(--peso-ligero);
   text-transform: uppercase;
   letter-spacing: var(--track-caps);
@@ -1746,6 +1840,10 @@ h4,
   box-shadow: none;
   background-color: rgb(var(--gris-verde-rgb) / 0.3);
 }
+
+/* <picture> no debe ser una caja propia dentro del marco: si lo es, el img
+   toma su altura natural y quedan bandas vacias (bug conocido). */
+.marco > picture { display: contents; }
 
 .marco > img,
 .marco > picture > img {

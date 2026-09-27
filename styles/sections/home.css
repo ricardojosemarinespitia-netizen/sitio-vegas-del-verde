@@ -90,10 +90,16 @@
     /* Sangra a los cantos de la pantalla y recupera el margen por dentro:
        la primera tarjeta arranca alineada con el título, la última asoma. */
     margin-inline: calc(var(--padding-contenedor) * -1);
-    padding-inline: var(--padding-contenedor);
     scroll-padding-inline: var(--padding-contenedor);
-    padding-block-end: var(--esp-2xs);
     scrollbar-width: none;
+  }
+
+  /* v33 · `ul.` para ganarle a `ul[class] { padding: 0 }` de base.css
+     (0-1-1 contra 0-1-0): el relleno nunca se aplicaba y «Celebrar» nacía
+     pegada al canto izquierdo de la pantalla, sin el margen del título. */
+  ul.home-rejilla--dos {
+    padding-inline: var(--padding-contenedor);
+    padding-block-end: var(--esp-2xs);
   }
 
   .home-rejilla--dos::-webkit-scrollbar {
@@ -578,30 +584,93 @@
    Cada ave es una <figure> con el pie DEBAJO de la foto —el crédito al
    fotógrafo es información, y encima de la imagen ni se lee ni deja ver el
    ave—. Cuadrado 1:1 para que el muro sea un muro y no una escalera. */
+/* v33 · LÁMINA DE GUÍA DE CAMPO (agente FOTOS, pedido del cliente del
+   26-sep: «todas las fotos bien encuadradas y las que van juntas con
+   EXACTAMENTE el mismo tamaño»).
+
+   EL BUG, MEDIDO ANTES DEL ARREGLO (getBoundingClientRect, caja vs <img>):
+       375 px   caja 104,5 × 104,5   fotos de 83,6 · 130,6 · 82,3 · 139,2
+                · 139,2 · 69,8 px de alto (banda vacía de hasta 34,8 px)
+      1280 px   caja 286,1 × 286,1   fotos de 228,9 a 381,2 px de alto
+   El <picture> es inline dentro del marco: `height: 100%` del <img> no tenía
+   contra qué resolverse y caía a la proporción natural de cada archivo.
+   Las apaisadas dejaban banda gris debajo; las verticales se salían por
+   abajo y el recorte quedaba anclado ARRIBA (object-position inservible).
+
+   EL ARREGLO: la foto sale del flujo (absolute + inset 0) dentro del marco
+   1:1, que ya es `position: relative; overflow: hidden` (base.css). La caja
+   la manda la rejilla; el recorte, `object-fit: cover` + el encuadre de
+   cada ave (MAPA DE ENCUADRE, abajo). Medido después: seis cajas y seis
+   fotos idénticas al píxel en 375 y 1280.
+
+   LA MAQUETA:
+     · < 40em  carrusel con asomo, el patrón de la casa (§1, los cinco
+               verbos): el ave a 236 px en vez de 105, sin gastar alto —el
+               muro de 3 × 2 medía 399 px; el carrusel, ~330—.
+     · ≥ 40em  tres columnas, dos filas. Antes eran cuatro en escritorio:
+               4 + 2 dejaba una fila coja con media fila vacía. */
 .home-muro {
   list-style: none;
   margin: 0;
   padding: 0;
   display: grid;
-  gap: var(--gap-sm);
-  grid-template-columns: repeat(2, 1fr);
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: var(--gap) var(--gap-sm);
 }
 
-/* Tres columnas desde 22em (352 px). Cuando el muro tenia doce aves, a dos
-   columnas eran 2,8 pantallas de movil y el plan §4.2 le presupuestaba 1,5 al
-   bloque entero; con seis el margen sobra, pero la regla se queda porque el
-   criterio de tamano de la miniatura no ha cambiado. A
-   tres, un ave mide 105 px de lado en un movil de 375 px: se distingue, y
-   quien quiera verlas grandes tiene la galeria completa a un toque. */
-@media (min-width: 22em) {
+@media (max-width: 39.99em) {
   .home-muro {
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: none;
+    grid-auto-flow: column;
+    grid-auto-columns: min(72%, 17rem);
+    column-gap: var(--esp-sm);
+    overflow-x: auto;
+    /* Las dos formas, por lo mismo que documenta .home-tira (§4): Safari
+       anterior a la 16 sólo entiende la física. */
+    overscroll-behavior-inline: contain;
+    overscroll-behavior-x: contain;
+    scroll-snap-type: x mandatory;
+    margin-inline: calc(var(--padding-contenedor) * -1);
+    scroll-padding-inline: var(--padding-contenedor);
+    scrollbar-width: none;
   }
-}
 
-@media (min-width: 64em) {
-  .home-muro {
-    grid-template-columns: repeat(4, 1fr);
+  /* `ul.` y no `.home-muro` a secas: base.css pone `ul[class] { padding: 0 }`
+     (especificidad 0-1-1), que le ganaba a esta clase suelta (0-1-0) aunque
+     vaya después. Medido: padding 0 y la primera ave pegada al canto de la
+     pantalla. Mismo defecto, y mismo arreglo, en el carrusel de §1. */
+  ul.home-muro {
+    padding-inline: var(--padding-contenedor);
+    padding-block-end: var(--esp-2xs);
+  }
+
+  .home-muro::-webkit-scrollbar {
+    display: none;
+  }
+
+  .home-muro > li {
+    scroll-snap-align: start;
+  }
+
+  /* El último se ancla al final: con `mandatory` y `start` el destino cae
+     fuera del recorrido y el carrusel tironea al soltar (ver .home-tira). */
+  .home-muro > li:last-child {
+    scroll-snap-align: end;
+  }
+
+  /* DENTRO DEL CARRUSEL LA ENTRADA ES SIN DESPLAZAMIENTO. Un <li> bajado
+     28 px dentro de un contenedor con `overflow-x: auto` (que fuerza el eje
+     y a `auto`) crea un desborde vertical: el dedo que baja la página podía
+     arrastrar el carrusel medio renglón. Aquí el <li> sólo se funde; el
+     gesto de entrada lo pone la foto (zoom contenido, más abajo). Y las
+     que llegan deslizando no esperan turno: el escalonado sólo tiene
+     sentido para las dos que se ven de entrada. */
+  .js .home-muro > li.reveal {
+    transform: none;
+  }
+
+  .home-muro.reveal-secuencia > .reveal:nth-child(n + 3) {
+    --reveal-delay: 0ms;
   }
 }
 
@@ -610,24 +679,86 @@
 }
 
 .home-muro__foto {
+  position: absolute;
+  inset: 0;
   display: block;
   width: 100%;
   height: 100%;
   object-fit: cover;
 }
 
+/* EL PIE, ALINEADO ENTRE VECINAS. Con subgrid cada <li> presta sus tres
+   filas (foto · especie · crédito) a la rejilla del muro: la especie de
+   una fila empieza a la misma altura en las tres tarjetas y los créditos
+   también, aunque «Titira Inquisidor, macho» ocupe dos renglones y
+   «Barranquero» uno. Sin subgrid (navegadores de antes de 2023) cada pie
+   se apila como siempre: correcto, sólo que sin la alineación fina. */
+@supports (grid-template-rows: subgrid) {
+  .home-muro > li,
+  .home-muro__figura {
+    display: grid;
+    grid-template-rows: subgrid;
+    row-gap: 0;
+  }
+
+  .home-muro > li {
+    grid-row: span 3;
+  }
+
+  .home-muro__figura {
+    grid-row: 1 / -1;
+  }
+
+  .home-muro__pie {
+    display: grid;
+    grid-row: 2 / span 2;
+    grid-template-rows: subgrid;
+    row-gap: var(--esp-3xs);
+    align-content: start;
+  }
+}
+
 .home-muro__pie {
-  margin-top: var(--esp-2xs);
-  display: flex;
-  flex-direction: column;
+  margin-top: var(--esp-xs);
   gap: var(--esp-3xs);
 }
 
 .home-muro__especie {
   font-size: var(--fs-pequeno);
-  line-height: var(--alto-linea-apretado);
+  line-height: var(--alto-linea-titulo);
   color: var(--color-texto);
 }
+
+/* El filete de la lámina: un trazo corto de acento sobre el nombre, como la
+   raya de una cartela de museo. Vive DENTRO del nombre (no es un hijo más
+   de la rejilla, que le robaría una fila al subgrid) y se dibuja en §6. */
+.home-muro__especie::before {
+  content: "";
+  display: block;
+  inline-size: var(--esp-lg);
+  block-size: 1px;
+  margin-block-end: var(--esp-2xs);
+  background-color: var(--color-acento-texto);
+  transform-origin: left center;
+}
+
+/* MAPA DE ENCUADRE. Un recorte cuadrado de una foto apaisada o vertical
+   decide qué parte del ave se queda. Cada valor se sacó mirando el archivo
+   con una retícula al 10 %: el ave completa —pico, cabeza y cola— y con aire
+   hacia donde mira. Por archivo (atributo src) y no por posición en la
+   lista: si alguien reordena el muro, el encuadre viaja con su foto.
+     azulejo palmero  apaisada · ave entre el 25 y el 90 % del ancho
+     piaya cayana     vertical · cabeza al 22 %: el recorte sube
+     cucú ardilla     apaisada · pico al 15 %: el recorte va a la izquierda
+     barranquero      vertical · cabeza al 18 %, cola al 70 %
+     batará           vertical · ave entre el 36 y el 58 % del alto
+     titira           apaisada · ave centrada, un poco a la derecha      */
+.home-muro__foto[src*="ave-04-azulejo-palmero"] { object-position: 72% 50%; }
+.home-muro__foto[src*="ave-06-piaya-cayana"] { object-position: 50% 32%; }
+.home-muro__foto[src*="ave-08-cucu-ardilla"] { object-position: 36% 50%; }
+.home-muro__foto[src*="ave-12-barranquero"] { object-position: 50% 22%; }
+.home-muro__foto[src*="ave-13-batara-carcajad"] { object-position: 40% 45%; }
+.home-muro__foto[src*="ave-16-tytira-inquisitor-macho"] { object-position: 54% 50%; }
 
 /* ------------------------------------------------------------------ §4 */
 /* Bloque a dos columnas: foto a un lado, texto al otro. Nunca superpuestos.
@@ -663,6 +794,31 @@
   width: 100%;
   height: 100%;
   object-fit: cover;
+}
+
+/* v33 · EL MISMO BUG DEL MURO (§3), en el bloque a dos columnas. Medido a
+   375 px: marco 4:5 de 337,9 × 422,4 y foto de 337,9 × 601 —la del sendero
+   y la del vivero—; a 1280, 578 × 722,5 contra 578 × 1027,9. No había banda
+   porque las dos fotos son MÁS altas que el marco, pero el sobrante se
+   cortaba sólo por abajo: el recorte quedaba anclado arriba y ningún
+   `object-position` podía moverlo. Fuera del flujo, el marco manda y el
+   encuadre se elige (abajo). */
+.home-duo__medio > .marco > picture > .home-duo__foto {
+  position: absolute;
+  inset: 0;
+}
+
+/* Encuadre (retícula al 10 % sobre el archivo, marco 4:5 sobre foto 9:16:
+   se ve el 70 % del alto). Sendero: el camino y los crotones ocupan del 60
+   al 95 % del alto; lo que se sacrifica es el cielo de arriba. Vivero: la
+   trabajadora va de la gorra (38 %) a las botas (97 %); con el foco abajo
+   del todo entra entera, de pies a cabeza, con los esquejes en la mano. */
+#sendero .home-duo__foto {
+  object-position: 50% 72%;
+}
+
+#vivero .home-duo__foto {
+  object-position: 50% 100%;
 }
 
 .home-duo__texto {
@@ -732,6 +888,24 @@
   height: 100%;
   object-fit: cover;
 }
+
+/* v33 · Mismo arreglo que §3 y el bloque a dos columnas: medido a 375 px,
+   marcos de 209,5 × 261,9 con fotos de 372,5 (tres del vivero) y 279,3
+   (parque-61) —cuatro fotos de cuatro alturas en una tira que se lee como
+   una sola pieza—. Fuera del flujo, las cuatro miden lo que el marco. */
+.home-tira > li > .marco > picture > .home-tira__foto {
+  position: absolute;
+  inset: 0;
+}
+
+/* Encuadre de las cuatro (marco 4:5): las macetas y la guadua del 01, el
+   camellón rojo del 03 y la lengua de suegra del 04 viven en la mitad baja
+   o media de su foto; el cielo y la malla de sombra son lo que sobra. El
+   camino de losas del parque-61 está abajo del todo. */
+.home-tira__foto[src*="vivero-01"] { object-position: 50% 68%; }
+.home-tira__foto[src*="vivero-03"] { object-position: 50% 72%; }
+.home-tira__foto[src*="vivero-04"] { object-position: 50% 42%; }
+.home-tira__foto[src*="parque-61"] { object-position: 50% 100%; }
 
 /* Lista de servicios en una línea: píldoras, no párrafo. */
 .home-lista-linea {
@@ -1103,5 +1277,77 @@
 
   to {
     transform: translate3d(0, calc(-1 * var(--esp-2xs)), 0);
+  }
+}
+
+/* ==========================================================================
+   §7 · LAS FOTOS SE DESCUBREN  (v33 · agente FOTOS)
+   --------------------------------------------------------------------------
+   Pedido del cliente del 26-sep: animaciones «ultrapremium» y SUTILES en las
+   galerías. Tres gestos y ninguno nuevo en el vocabulario de la casa:
+
+   1. ZOOM CONTENIDO. La foto llega un 8 % más cerca y se asienta mientras
+      su tarjeta se funde (`.reveal` → `.visible`, el IntersectionObserver
+      de js/app.js). Pasa DENTRO del marco, que ya recorta (`overflow:
+      hidden`): la caja no se mueve ni un píxel, sólo la imagen respira.
+      La escala es --escala-hover al cuadrado (1,04² ≈ 1,08): con
+      movimiento reducido ese token vale 1 y el zoom desaparece solo.
+   2. EL FILETE QUE SE DIBUJA. El trazo corto sobre el nombre de cada ave
+      crece de izquierda a derecha un compás después de la foto, con la
+      curva de trazo de la casa (--ease-traza), la de los iconos.
+   3. ESCALONADO. Lo reparte la .reveal-secuencia del <ul> (90 ms entre
+      piezas); cada gesto hereda su --reveal-delay.
+
+   Sólo `transform`. Duración --dur-reveal (900 ms), curva --ease-salida:
+   ningún número nuevo. Con `prefers-reduced-motion` los --dur-* valen 1 ms
+   (tokens.css) y app.js marca todo `.visible` de entrada: estado final,
+   quieto y completo. Sin JS no existe `.js` y nada de esto aplica.
+   ========================================================================== */
+.js .home-muro > li.reveal .home-muro__foto,
+.js .home-duo__medio.reveal .home-duo__foto,
+.js .home-tira > li.reveal .home-tira__foto {
+  transform: scale(calc(var(--escala-hover) * var(--escala-hover)));
+  transition: transform var(--dur-reveal) var(--ease-salida);
+  transition-delay: var(--reveal-delay, 0ms);
+}
+
+.js .home-muro > li.reveal.visible .home-muro__foto,
+.js .home-duo__medio.reveal.visible .home-duo__foto,
+.js .home-tira > li.reveal.visible .home-tira__foto {
+  transform: none;
+}
+
+.js .home-muro > li.reveal .home-muro__especie::before {
+  transform: scaleX(0);
+  transition: transform var(--dur-reveal) var(--ease-traza);
+  transition-delay: calc(var(--reveal-delay, 0ms) + var(--dur-media));
+}
+
+.js .home-muro > li.reveal.visible .home-muro__especie::before {
+  transform: none;
+}
+
+/* La tira del vivero en móvil es un carrusel (overflow-x: auto): igual que
+   el muro (§3), el <li> entra sin desplazamiento vertical para no crear un
+   desborde que el dedo pueda arrastrar. */
+@media (max-width: 47.99em) {
+  .js .home-tira > li.reveal {
+    transform: none;
+  }
+}
+
+/* Las cifras suben con js/app.js (data-contador). Cifras tabulares: cada
+   dígito ocupa lo mismo y el número no baila mientras cuenta. */
+.home-cifras .cifra {
+  font-variant-numeric: tabular-nums;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .js .home-muro > li.reveal .home-muro__foto,
+  .js .home-duo__medio.reveal .home-duo__foto,
+  .js .home-tira > li.reveal .home-tira__foto,
+  .js .home-muro > li.reveal .home-muro__especie::before {
+    transform: none;
+    transition: none;
   }
 }

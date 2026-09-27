@@ -44,7 +44,7 @@
      sistema — sin swap visible. Se regenera con
      herramientas/precargar-fuentes.js. -->
 <link rel="preload" as="font" type="font/woff2" crossorigin href="styles/fonts/dm-sans-latin.woff2?v=89c7ce3a">
-<link rel="preload" as="font" type="font/woff2" crossorigin href="styles/fonts/josefin-sans-latin.woff2?v=0ff5ba86">
+<link rel="preload" as="font" type="font/woff2" crossorigin href="styles/fonts/hill-house-vegas.woff2?v=a4d2ce1b">
 
 <!-- LA FOTO DE PORTADA, PEDIDA ANTES DE QUE EXISTA EL <picture>.
      Es el LCP de la página: hasta que no está pintada, la métrica no para.
@@ -67,13 +67,14 @@
 <link rel="preload" as="image" type="image/avif" fetchpriority="high"
       media="(min-width: 48em)" href="img/hero-colibri.avif">
 
-<link rel="stylesheet" href="styles/tokens.css?v=141cd236">
-<link rel="stylesheet" href="styles/base.css?v=cd31c700">
-<link rel="stylesheet" href="styles/shell.css?v=da368017">
-<link rel="stylesheet" href="styles/sections/inicio.css?v=7de985e1">
-<link rel="stylesheet" href="styles/sections/home.css?v=40984f8a">
+<link rel="stylesheet" href="styles/tokens.css?v=853cf88d">
+<link rel="stylesheet" href="styles/base.css?v=509e2a00">
+<link rel="stylesheet" href="styles/shell.css?v=4d338cb0">
+<link rel="stylesheet" href="styles/sections/inicio.css?v=ba7f06dd">
+<link rel="stylesheet" href="styles/sections/home.css?v=080cbab0">
+<link rel="stylesheet" href="styles/sections/reserva.css?v=e35efa82">
 <link rel="stylesheet" href="styles/sections/nosotros.css?v=4a8568af">
-<link rel="stylesheet" href="styles/sections/pie.css?v=319f3919">
+<link rel="stylesheet" href="styles/sections/pie.css?v=0c990755">
 <link rel="stylesheet" href="styles/lightbox.css?v=a2679da6">
 
 <script type="application/ld+json">
@@ -215,28 +216,32 @@ src="https://www.facebook.com/tr?id=28408308795489956&ev=PageView&noscript=1"
            de que no esté.
 
            Las páginas sueltas que no usan este fragmento siguen como estaban:
-           no era el pedido. -->
-      <picture>
-        <source type="image/webp" srcset="img/logo/simbolo-transparente.webp" />
-        <img
-          class="marca__simbolo"
-          src="img/logo/simbolo-transparente.png"
-          width="744"
-          height="351"
-          alt=""
-          decoding="async"
-        />
-      </picture>
-      <!-- v31 · El nombre viene partido en dos <span> por una razón de layout,
-           no de semántica: por debajo de 23 em (≈368 px) «Vegas del Verde» no
-           cabe en una línea al lado del símbolo, y la única forma de que el
-           salto caiga SIEMPRE después de «del» —y no donde el navegador
-           decida según fuente, tracking o zoom— es marcarlo. Arriba de ese
-           ancho los dos span son inline y el espacio en blanco del HTML los
-           une en una sola línea, exactamente como antes. El nombre accesible
-           del enlace lo sigue fijando su aria-label, así que partirlo no
-           cambia lo que anuncia el lector de pantalla. -->
-      <span class="marca__nombre"><span class="marca__nombre-linea">Vegas del</span> <span class="marca__nombre-linea">Verde</span></span>
+           no era el pedido.
+
+           v35 · LOGO DEFINITIVO (decisión del cliente, 2026-09-26). El
+           símbolo pasa a `img/logo/simbolo-definitivo.svg`: VECTORIAL, trazado
+           desde el logo definitivo con los colores exactos muestreados
+           (hojas #50C58E, puntos #E74B40 y #E3CA39), nítido a cualquier
+           densidad y sin la caja gris que el `img{background}` de base.css le
+           pintaba detrás al PNG. Mismas proporciones que el recorte anterior
+           (738×351 frente a 744×351), así que las cuentas de ancho de
+           shell.css siguen valiendo. Y el nombre al lado YA ES la letra del
+           logo: --fuente-display es Hill House, la tipografía con la que está
+           compuesto el rótulo «VEGAS DEL VERDE» — el lockup de dos partes
+           ahora reproduce el logo, no lo imita. Un SVG no necesita <picture>
+           ni respaldo webp/png. -->
+      <img
+        class="marca__simbolo"
+        src="img/logo/simbolo-definitivo.svg"
+        width="738"
+        height="351"
+        alt=""
+        decoding="async"
+      />
+      <!-- v36 · El nombre es el WORDMARK VECTORIAL real del logo del cliente
+           (no texto en una fuente: el cliente lo rechazó). alt="" porque el
+           nombre accesible del enlace ya lo fija su aria-label. -->
+      <img class="marca__nombre" src="img/logo/wordmark-definitivo.svg" width="1166" height="137" alt="" decoding="async" />
     </a>
 
     <nav class="nav" id="nav-principal" aria-label="Navegación principal">
@@ -273,7 +278,13 @@ src="https://www.facebook.com/tr?id=28408308795489956&ev=PageView&noscript=1"
            NINGÚN ENLACE PUEDE SER UN ANCLA SUELTA: este fragmento se inserta
            en todas las páginas del sitio, así que todos llevan el nombre del
            archivo por delante. -->
+      <!-- October Big Day (2026-09-26): primer ítem del panel, destacado y
+           con fecha de caducidad. El widget flotante avisa desde afuera;
+           este ítem responde a quien abre el menú buscando «qué hay». No se
+           agrega franja de aviso arriba: sería un tercer aviso del mismo
+           evento y empujaría el hero. js/app.js lo oculta tras el evento. -->
       <ul class="nav__lista">
+        <li class="nav__item--evento" data-evento-hasta="2026-10-10T12:00:00-05:00"><a class="nav__enlace nav__enlace--evento" href="october-big-day.html"><span class="nav__evento-fecha">Sáb 10 oct · entrada libre</span>October Big Day</a></li>
         <li class="nav__item--secundario"><a class="nav__enlace" href="index.html#nosotros">Nosotros</a></li>
         <li><a class="nav__enlace" href="espacios.html">Espacios</a></li>
         <li><a class="nav__enlace" href="planes.html">Planes</a></li>
@@ -409,16 +420,16 @@ src="https://www.facebook.com/tr?id=28408308795489956&ev=PageView&noscript=1"
      que vuelva a verse aunque el lector haya cerrado el anterior. -->
 <aside
   class="evento-flotante"
-  data-evento="conexion-yoga-2026-09-26"
-  data-evento-hasta="2026-09-26T10:00:00-05:00"
+  data-evento="october-big-day-2026-10-10"
+  data-evento-hasta="2026-10-10T12:00:00-05:00"
   aria-label="Próximo evento"
   hidden
 >
-  <a class="evento-flotante__enlace" href="planes.html#conexion-yoga">
+  <a class="evento-flotante__enlace" href="october-big-day.html">
     <span class="evento-flotante__punto" aria-hidden="true"></span>
     <span class="evento-flotante__texto">
-      <span class="evento-flotante__rotulo">Evento · sáb 26 sep</span>
-      <span class="evento-flotante__titulo">Conexión &amp; Yoga</span>
+      <span class="evento-flotante__rotulo">Evento · sáb 10 oct</span>
+      <span class="evento-flotante__titulo">October Big Day</span>
     </span>
     <svg class="evento-flotante__flecha" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
       <path d="M5 12h14M13 6l6 6-6 6"/>
@@ -492,6 +503,10 @@ src="https://www.facebook.com/tr?id=28408308795489956&ev=PageView&noscript=1"
        Ninguna cifra de biodiversidad, ningún aforo, ninguna dirección, ningún
        horario, ninguna condición de alquiler y ningún precio. Se enlaza, no se
        resume.
+       EXCEPCIÓN TEMPORAL (v35, pedido del cliente, vence el 10 oct 2026 a
+       las 12 m.): las piezas con data-evento-hasta del October Big Day sí
+       dicen fecha, horario y la cifra de eBird. Al vencer se ocultan solas
+       y el contrato vuelve a regir tal cual.
 
      POR QUÉ EL <h1>
        La estructura de sección pide h2.titulo-seccion, y de ahí saca el peso,
@@ -688,7 +703,32 @@ src="https://www.facebook.com/tr?id=28408308795489956&ev=PageView&noscript=1"
              .reveal-texto__linea, POR FUERA del .inicio__titulo-linea, para
              que la máscara y el retardo caigan por renglón sin tocar la
              tipografía existente. -->
+        <!-- v35 · OCTOBER BIG DAY (sáb 10 oct 2026) — EXCEPCIÓN TEMPORAL AL
+             CONTRATO, pedida por el cliente: mientras dure el evento la portada
+             dice fecha, horario (6:30 a. m.–12 m.) y la cifra de eBird (117),
+             que el contrato normal le prohíbe. TODO lo del evento lleva
+             data-evento-hasta: js/app.js le pone `hidden` al vencer y la
+             portada vuelve SOLA a su versión de marca. Las piezas de marca
+             nunca salen del marcado: inicio.css las esconde con :has() SOLO
+             mientras hay una pieza de evento visible (clase
+             .inicio__solo-marca). Sin JS se ve el evento, que es lo correcto
+             antes del 10. El colibrí de la foto hace de anfitrión: no hace
+             falta otra imagen. -->
+        <!-- v36 · EL PUNTO DE ESPECIMEN. Un punto sólido en el coral del logo,
+             delante del nombre: el gesto de etiqueta de guía de campo (el
+             acento rojo de los puntos del símbolo) que pide la crítica de
+             diseño, aplicado sólo aquí y sin inventar ningún color nuevo
+             (usa --color-acento-texto). Decorativo puro: aria-hidden y sin
+             texto que perder si `.inicio__insignia` cambia de estado. -->
+        <p class="inicio__insignia" data-evento-hasta="2026-10-10T12:00:00-05:00">
+          <span class="inicio__insignia-punto" aria-hidden="true"></span>
+          <span class="inicio__insignia-nombre">October Big Day</span>
+          <span class="inicio__insignia-fecha"><time datetime="2026-10-10T06:30-05:00">Sáb 10 oct · 6:30 a.&nbsp;m.</time>–12&nbsp;m.</span>
+        </p>
+
         <h1 class="titulo-seccion inicio__titulo reveal reveal-texto reveal-texto--persiana" id="inicio-titulo">
+          <span class="reveal-texto__linea" data-evento-hasta="2026-10-10T12:00:00-05:00"><span class="inicio__titulo-linea">Ven a contar<br />aves</span></span>
+          <span class="reveal-texto__linea" data-evento-hasta="2026-10-10T12:00:00-05:00"><span class="inicio__titulo-linea inicio__titulo-linea--menor">un sábado en el bosque</span></span>
           <!-- EL QUIEBRE VA HORNEADO, Y ES UN ARREGLO MEDIDO, NO UN CAPRICHO.
              Dejado al ancho disponible, el renglón grande partía distinto según
              la ventana: en la franja de tableta (≈768–1023 px) quedaba
@@ -698,11 +738,17 @@ src="https://www.facebook.com/tr?id=28408308795489956&ev=PageView&noscript=1"
              despejaba al ave. El <br> fija esa composición —la buena— en TODOS
              los anchos: el texto no cambia ni una letra y el lector de
              pantalla lo lee seguido igual. -->
-        <span class="reveal-texto__linea"><span class="inicio__titulo-linea">Escápate<br />de la ciudad</span></span>
-          <span class="reveal-texto__linea"><span class="inicio__titulo-linea inicio__titulo-linea--menor">sin salir de ella</span></span>
+        <span class="reveal-texto__linea inicio__solo-marca"><span class="inicio__titulo-linea">Escápate<br />de la ciudad</span></span>
+          <span class="reveal-texto__linea inicio__solo-marca"><span class="inicio__titulo-linea inicio__titulo-linea--menor">sin salir de ella</span></span>
         </h1>
 
-        <p class="entradilla reveal">
+        <p class="entradilla reveal inicio__entradilla-evento" data-evento-hasta="2026-10-10T12:00:00-05:00">
+          Las <strong class="inicio__cifra" data-contador="117">117</strong> aves
+          de nuestro bosque registradas en eBird te esperan. Ciencia ciudadana
+          para toda la familia, con entrada libre.
+        </p>
+
+        <p class="entradilla reveal inicio__solo-marca">
           Cuatro hectáreas de bosque a 10&nbsp;minutos del Anillo Vial. Nosotros
           ponemos los árboles; el plan lo pones tú.
         </p>
@@ -715,7 +761,20 @@ src="https://www.facebook.com/tr?id=28408308795489956&ev=PageView&noscript=1"
                dije». El hero vuelve a su único botón, `.inicio__accion-secundaria`
                incluida (era la que le daba el relleno verde oliva a un botón
                que vuelve a ser el único de la portada). -->
-          <a class="btn btn-fantasma btn-grande inicio__accion-secundaria" href="#espacios">
+          <!-- v35 · DURANTE EL EVENTO: un primario (reserva por WhatsApp, enlace
+               directo) y un secundario (la página del evento). «Ver los
+               espacios» se esconde mientras tanto: tres botones apilados en
+               375 px empujaban el CTA bajo el pliegue y chocaban con los
+               flotantes, y #espacios queda a un scroll. Al vencer el evento
+               vuelve a ser el ÚNICO botón (orden v23 del cliente). La reserva
+               no contradice la entrada libre: asegura el cupo. -->
+          <a class="btn btn-grande inicio__accion-primaria" data-evento-hasta="2026-10-10T12:00:00-05:00" href="https://wa.me/573166758362?text=Hola%2C%20quiero%20reservar%20mi%20cupo%20para%20el%20October%20Big%20Day%20del%20s%C3%A1bado%2010%20de%20octubre%20en%20Vegas%20del%20Verde." target="_blank" rel="noopener">
+            Reservar mi cupo
+          </a>
+          <a class="btn btn-grande inicio__accion-evento" data-evento-hasta="2026-10-10T12:00:00-05:00" href="october-big-day.html">
+            Ver el evento
+          </a>
+          <a class="btn btn-fantasma btn-grande inicio__accion-secundaria inicio__solo-marca" href="#espacios">
             Ver los espacios
           </a>
         </div>
@@ -819,6 +878,99 @@ src="https://www.facebook.com/tr?id=28408308795489956&ev=PageView&noscript=1"
     }
   </script>
 
+</section>
+
+<!-- FRAGMENTO: RESERVA NATURAL (home) · ancla #reserva-natural · CSS propio: styles/sections/reserva.css
+     Lámina de guía de campo: cifra protagonista (117, dato del volante del
+     cliente), tres razones con hechos verificados en prensa, tira de aves
+     propias con crédito y ficha del October Big Day (caduca sola).
+     Aves usadas: 05, 09 y 14 (las 04/06/08/12/13/16 ya están en el main). -->
+<section class="seccion reserva-natural" id="reserva-natural" aria-labelledby="reserva-natural-titulo">
+  <div class="contenedor contenedor--ancho reserva-natural__lamina">
+
+    <header class="reserva-natural__cabeza">
+      <p class="eyebrow reveal">Reserva natural urbana · Floridablanca</p>
+      <h2 id="reserva-natural-titulo" class="titulo-seccion reveal reveal-texto">Un refugio de aves en plena ciudad</h2>
+    </header>
+
+    <div class="reserva-natural__cifra reveal">
+      <p class="reserva-natural__numero"><span class="cifra" data-contador="117">117</span></p>
+      <p class="reserva-natural__rotulo">especies de aves de nuestro bosque registradas en eBird</p>
+      <span class="reserva-natural__trazo" aria-hidden="true"></span>
+    </div>
+
+    <ol class="reserva-natural__razones">
+      <li class="reserva-natural__razon reveal">
+        <span class="reserva-natural__num" aria-hidden="true">01</span>
+        <h3 class="reserva-natural__razon-titulo">Ciencia ciudadana</h3>
+        <p>Cada ave que vemos queda en eBird, la base mundial de observación de aves.</p>
+      </li>
+      <li class="reserva-natural__razon reveal">
+        <span class="reserva-natural__num" aria-hidden="true">02</span>
+        <h3 class="reserva-natural__razon-titulo">65 especies en un día</h3>
+        <p>Es lo que se registró aquí en el Global Big Day del 9 de mayo de 2026.</p>
+      </li>
+      <li class="reserva-natural__razon reveal">
+        <span class="reserva-natural__num" aria-hidden="true">03</span>
+        <h3 class="reserva-natural__razon-titulo">En el mapa de Santander</h3>
+        <p>La prensa regional ya nos cuenta entre los puntos de observación del departamento.</p>
+      </li>
+    </ol>
+
+    <ul class="reserva-natural__aves" aria-label="Aves fotografiadas en Vegas del Verde">
+      <li class="reveal">
+        <figure class="reserva-natural__ave">
+          <span class="reserva-natural__marco">
+            <picture>
+              <source type="image/webp" srcset="img/aves/ave-05-zorzal-piquinegro-400.webp 400w, img/aves/ave-05-zorzal-piquinegro-600.webp 600w, img/aves/ave-05-zorzal-piquinegro-800.webp 800w" sizes="(min-width: 64em) 30vw, 31vw">
+              <img src="img/aves/ave-05-zorzal-piquinegro-600.jpg" srcset="img/aves/ave-05-zorzal-piquinegro-400.jpg 400w, img/aves/ave-05-zorzal-piquinegro-600.jpg 600w, img/aves/ave-05-zorzal-piquinegro-800.jpg 800w" sizes="(min-width: 64em) 30vw, 31vw" width="600" height="480" loading="lazy" decoding="async" alt="Zorzal piquinegro posado en una rama del bosque de Vegas del Verde">
+            </picture>
+          </span>
+          <figcaption><span class="reserva-natural__especie">Zorzal piquinegro</span><span class="reserva-natural__credito">Foto: Francheska Salazar</span></figcaption>
+        </figure>
+      </li>
+      <li class="reveal">
+        <figure class="reserva-natural__ave">
+          <span class="reserva-natural__marco">
+            <picture>
+              <source type="image/webp" srcset="img/aves/ave-14-saltador-pio-400.webp 400w, img/aves/ave-14-saltador-pio-600.webp 600w, img/aves/ave-14-saltador-pio-800.webp 800w" sizes="(min-width: 64em) 30vw, 31vw">
+              <img src="img/aves/ave-14-saltador-pio-600.jpg" srcset="img/aves/ave-14-saltador-pio-400.jpg 400w, img/aves/ave-14-saltador-pio-600.jpg 600w, img/aves/ave-14-saltador-pio-800.jpg 800w" sizes="(min-width: 64em) 30vw, 31vw" width="600" height="450" loading="lazy" decoding="async" alt="Saltador pío entre las hojas del bosque de Vegas del Verde">
+            </picture>
+          </span>
+          <figcaption><span class="reserva-natural__especie">Saltador pío</span><span class="reserva-natural__credito">Foto: Carlos Serrano</span></figcaption>
+        </figure>
+      </li>
+      <li class="reveal">
+        <figure class="reserva-natural__ave">
+          <span class="reserva-natural__marco">
+            <picture>
+              <source type="image/webp" srcset="img/aves/ave-09-eugenia-piquigruesa-400.webp 400w, img/aves/ave-09-eugenia-piquigruesa-600.webp 600w, img/aves/ave-09-eugenia-piquigruesa-800.webp 800w" sizes="(min-width: 64em) 30vw, 31vw">
+              <img src="img/aves/ave-09-eugenia-piquigruesa-600.jpg" srcset="img/aves/ave-09-eugenia-piquigruesa-400.jpg 400w, img/aves/ave-09-eugenia-piquigruesa-600.jpg 600w, img/aves/ave-09-eugenia-piquigruesa-800.jpg 800w" sizes="(min-width: 64em) 30vw, 31vw" width="600" height="696" loading="lazy" decoding="async" alt="Eufonia piquigruesa posada en una rama en Vegas del Verde">
+            </picture>
+          </span>
+          <figcaption><span class="reserva-natural__especie">Eufonia piquigruesa</span><span class="reserva-natural__credito">Foto: Andrea Elizabeth</span></figcaption>
+        </figure>
+      </li>
+    </ul>
+
+    <aside class="reserva-natural__evento placa placa--filete reveal" data-evento-hasta="2026-10-10T12:00:00-05:00" aria-label="October Big Day en Vegas del Verde">
+      <p class="reserva-natural__evento-rotulo">Sede de observación · Sáb 10 oct · <time datetime="2026-10-10T06:30-05:00">6:30 a. m.</time>–12 m.</p>
+      <p class="reserva-natural__evento-titulo">October Big Day 2026</p>
+      <p class="reserva-natural__evento-texto">Ven a contar aves con nosotros. Entrada libre, para toda la familia.</p>
+      <a class="btn btn-primario reserva-natural__evento-cta" href="october-big-day.html">Ver el evento</a>
+    </aside>
+
+    <div class="reserva-natural__prensa reveal">
+      <p class="reserva-natural__prensa-rotulo">En la prensa</p>
+      <ul class="reserva-natural__prensa-lista">
+        <li><a href="https://www.vanguardia.com/entretenimiento/turismo/2025/05/09/bucaramanga-con-vegas-del-verde-se-suma-al-global-big-day-un-santuario-de-aves-en-el-corazon-urbano/" target="_blank" rel="noopener"><span class="reserva-natural__medio">Vanguardia · may 2025</span>«Un santuario de aves en el corazón urbano»</a></li>
+        <li><a href="https://www.vanguardia.com/santander/2026/05/16/colombia-lidera-el-global-big-day-2025-y-santander-alza-vuelo/" target="_blank" rel="noopener"><span class="reserva-natural__medio">Vanguardia · may 2026</span>Colombia lidera el Global Big Day 2026 y Santander alza vuelo</a></li>
+      </ul>
+    </div>
+
+    <p class="reserva-natural__salida reveal"><a class="enlace-flecha" href="naturaleza.html">Conoce las aves del bosque</a></p>
+
+  </div>
 </section>
 
 <!-- ==========================================================================
@@ -1327,31 +1479,47 @@ src="https://www.facebook.com/tr?id=28408308795489956&ev=PageView&noscript=1"
            bajo cada foto. -->
     </header>
 
+    <!-- v33 · LAS CIFRAS SUBEN. `data-contador` activa el contador que ya
+         existe en js/app.js (el mismo de naturaleza.html): sube de 0 a la
+         cifra cuando la caja asoma. El número real sigue escrito en el HTML,
+         así que sin JS, o con movimiento reducido, se lee tal cual. -->
     <ul class="home-cifras reveal-secuencia" role="list">
       <li class="home-cifras__dato reveal">
-        <span class="cifra">101</span>
+        <span class="cifra" data-contador="101">101</span>
         <span class="home-cifras__pie">Especies de aves registradas</span>
       </li>
       <li class="home-cifras__dato reveal">
-        <span class="cifra">347</span>
+        <span class="cifra" data-contador="347">347</span>
         <span class="home-cifras__pie">Especies de plantas</span>
       </li>
       <li class="home-cifras__dato reveal">
-        <span class="cifra">57</span>
+        <span class="cifra" data-contador="57">57</span>
         <span class="home-cifras__pie">Fotografías del concurso, de 20 autores</span>
       </li>
     </ul>
 
+    <!-- v33 · EL MURO COMO LÁMINA DE GUÍA DE CAMPO (agente FOTOS).
+         Queja del cliente: «Azulejo Palmero, Piaya Cayana y Cucú Ardilla se
+         ven de tamaños distintos y con banda vacía». Medido a 375 px: caja de
+         104,5 × 104,5 y fotos de 83,6 / 130,6 / 82,3 px de alto —el <picture>
+         es inline dentro del marco y el <img> caía a su proporción natural—.
+         Ahora la foto sale del flujo (home.css §3) y las seis cajas miden
+         exactamente lo mismo; cada ave tiene su encuadre propio
+         (`object-position` por archivo, home.css §3 «MAPA DE ENCUADRE»).
+         · `.reveal` pasa del <figure> al <li>: así la cuelga la
+           .reveal-secuencia del <ul> y las seis entran escalonadas.
+         · `sizes` es el del maquetado real (carrusel a 72vw en móvil, tres
+           columnas después) y se suma la variante -800, que ya existía. -->
     <ul class="home-muro reveal-secuencia" role="list">
-      <li>
-        <figure class="home-muro__figura reveal">
+      <li class="reveal">
+        <figure class="home-muro__figura">
           <span class="marco marco--1-1">
             <picture>
-              <source type="image/webp" srcset="img/aves/ave-04-azulejo-palmero-400.webp 400w, img/aves/ave-04-azulejo-palmero-600.webp 600w, img/aves/ave-04-azulejo-palmero.webp 1300w" sizes="(max-width: 39.99em) 31vw, (max-width: 63.99em) 31vw, 23vw" />
+              <source type="image/webp" srcset="img/aves/ave-04-azulejo-palmero-400.webp 400w, img/aves/ave-04-azulejo-palmero-600.webp 600w, img/aves/ave-04-azulejo-palmero-800.webp 800w, img/aves/ave-04-azulejo-palmero.webp 1300w" sizes="(max-width: 39.99em) 72vw, (max-width: 63.99em) 31vw, 30rem" />
               <img class="home-muro__foto"
               src="img/aves/ave-04-azulejo-palmero.jpg"
-              srcset="img/aves/ave-04-azulejo-palmero-400.jpg 400w, img/aves/ave-04-azulejo-palmero-600.jpg 600w, img/aves/ave-04-azulejo-palmero.jpg 1300w"
-              sizes="(max-width: 39.99em) 31vw, (max-width: 63.99em) 31vw, 23vw"
+              srcset="img/aves/ave-04-azulejo-palmero-400.jpg 400w, img/aves/ave-04-azulejo-palmero-600.jpg 600w, img/aves/ave-04-azulejo-palmero-800.jpg 800w, img/aves/ave-04-azulejo-palmero.jpg 1300w"
+              sizes="(max-width: 39.99em) 72vw, (max-width: 63.99em) 31vw, 30rem"
               width="1300" height="1039" loading="lazy" decoding="async" alt="" />
             </picture>
           </span>
@@ -1362,15 +1530,15 @@ src="https://www.facebook.com/tr?id=28408308795489956&ev=PageView&noscript=1"
         </figure>
       </li>
 
-      <li>
-        <figure class="home-muro__figura reveal">
+      <li class="reveal">
+        <figure class="home-muro__figura">
           <span class="marco marco--1-1">
             <picture>
-              <source type="image/webp" srcset="img/aves/ave-06-piaya-cayana-400.webp 400w, img/aves/ave-06-piaya-cayana-600.webp 600w, img/aves/ave-06-piaya-cayana.webp 1040w" sizes="(max-width: 39.99em) 31vw, (max-width: 63.99em) 31vw, 23vw" />
+              <source type="image/webp" srcset="img/aves/ave-06-piaya-cayana-400.webp 400w, img/aves/ave-06-piaya-cayana-600.webp 600w, img/aves/ave-06-piaya-cayana-800.webp 800w, img/aves/ave-06-piaya-cayana.webp 1040w" sizes="(max-width: 39.99em) 72vw, (max-width: 63.99em) 31vw, 30rem" />
               <img class="home-muro__foto"
               src="img/aves/ave-06-piaya-cayana.jpg"
-              srcset="img/aves/ave-06-piaya-cayana-400.jpg 400w, img/aves/ave-06-piaya-cayana-600.jpg 600w, img/aves/ave-06-piaya-cayana.jpg 1040w"
-              sizes="(max-width: 39.99em) 31vw, (max-width: 63.99em) 31vw, 23vw"
+              srcset="img/aves/ave-06-piaya-cayana-400.jpg 400w, img/aves/ave-06-piaya-cayana-600.jpg 600w, img/aves/ave-06-piaya-cayana-800.jpg 800w, img/aves/ave-06-piaya-cayana.jpg 1040w"
+              sizes="(max-width: 39.99em) 72vw, (max-width: 63.99em) 31vw, 30rem"
               width="1040" height="1300" loading="lazy" decoding="async" alt="" />
             </picture>
           </span>
@@ -1381,15 +1549,15 @@ src="https://www.facebook.com/tr?id=28408308795489956&ev=PageView&noscript=1"
         </figure>
       </li>
 
-      <li>
-        <figure class="home-muro__figura reveal">
+      <li class="reveal">
+        <figure class="home-muro__figura">
           <span class="marco marco--1-1">
             <picture>
-              <source type="image/webp" srcset="img/aves/ave-08-cucu-ardilla-400.webp 400w, img/aves/ave-08-cucu-ardilla-600.webp 600w, img/aves/ave-08-cucu-ardilla.webp 1300w" sizes="(max-width: 39.99em) 31vw, (max-width: 63.99em) 31vw, 23vw" />
+              <source type="image/webp" srcset="img/aves/ave-08-cucu-ardilla-400.webp 400w, img/aves/ave-08-cucu-ardilla-600.webp 600w, img/aves/ave-08-cucu-ardilla-800.webp 800w, img/aves/ave-08-cucu-ardilla.webp 1300w" sizes="(max-width: 39.99em) 72vw, (max-width: 63.99em) 31vw, 30rem" />
               <img class="home-muro__foto"
               src="img/aves/ave-08-cucu-ardilla.jpg"
-              srcset="img/aves/ave-08-cucu-ardilla-400.jpg 400w, img/aves/ave-08-cucu-ardilla-600.jpg 600w, img/aves/ave-08-cucu-ardilla.jpg 1300w"
-              sizes="(max-width: 39.99em) 31vw, (max-width: 63.99em) 31vw, 23vw"
+              srcset="img/aves/ave-08-cucu-ardilla-400.jpg 400w, img/aves/ave-08-cucu-ardilla-600.jpg 600w, img/aves/ave-08-cucu-ardilla-800.jpg 800w, img/aves/ave-08-cucu-ardilla.jpg 1300w"
+              sizes="(max-width: 39.99em) 72vw, (max-width: 63.99em) 31vw, 30rem"
               width="1300" height="1023" loading="lazy" decoding="async" alt="" />
             </picture>
           </span>
@@ -1400,15 +1568,15 @@ src="https://www.facebook.com/tr?id=28408308795489956&ev=PageView&noscript=1"
         </figure>
       </li>
 
-      <li>
-        <figure class="home-muro__figura reveal">
+      <li class="reveal">
+        <figure class="home-muro__figura">
           <span class="marco marco--1-1">
             <picture>
-              <source type="image/webp" srcset="img/aves/ave-12-barranquero-400.webp 400w, img/aves/ave-12-barranquero-600.webp 600w, img/aves/ave-12-barranquero.webp 975w" sizes="(max-width: 39.99em) 31vw, (max-width: 63.99em) 31vw, 23vw" />
+              <source type="image/webp" srcset="img/aves/ave-12-barranquero-400.webp 400w, img/aves/ave-12-barranquero-600.webp 600w, img/aves/ave-12-barranquero-800.webp 800w, img/aves/ave-12-barranquero.webp 975w" sizes="(max-width: 39.99em) 72vw, (max-width: 63.99em) 31vw, 30rem" />
               <img class="home-muro__foto"
               src="img/aves/ave-12-barranquero.jpg"
-              srcset="img/aves/ave-12-barranquero-400.jpg 400w, img/aves/ave-12-barranquero-600.jpg 600w, img/aves/ave-12-barranquero.jpg 975w"
-              sizes="(max-width: 39.99em) 31vw, (max-width: 63.99em) 31vw, 23vw"
+              srcset="img/aves/ave-12-barranquero-400.jpg 400w, img/aves/ave-12-barranquero-600.jpg 600w, img/aves/ave-12-barranquero-800.jpg 800w, img/aves/ave-12-barranquero.jpg 975w"
+              sizes="(max-width: 39.99em) 72vw, (max-width: 63.99em) 31vw, 30rem"
               width="975" height="1300" loading="lazy" decoding="async" alt="" />
             </picture>
           </span>
@@ -1419,15 +1587,15 @@ src="https://www.facebook.com/tr?id=28408308795489956&ev=PageView&noscript=1"
         </figure>
       </li>
 
-      <li>
-        <figure class="home-muro__figura reveal">
+      <li class="reveal">
+        <figure class="home-muro__figura">
           <span class="marco marco--1-1">
             <picture>
-              <source type="image/webp" srcset="img/aves/ave-13-batara-carcajad-400.webp 400w, img/aves/ave-13-batara-carcajad-600.webp 600w, img/aves/ave-13-batara-carcajad.webp 975w" sizes="(max-width: 39.99em) 31vw, (max-width: 63.99em) 31vw, 23vw" />
+              <source type="image/webp" srcset="img/aves/ave-13-batara-carcajad-400.webp 400w, img/aves/ave-13-batara-carcajad-600.webp 600w, img/aves/ave-13-batara-carcajad-800.webp 800w, img/aves/ave-13-batara-carcajad.webp 975w" sizes="(max-width: 39.99em) 72vw, (max-width: 63.99em) 31vw, 30rem" />
               <img class="home-muro__foto"
               src="img/aves/ave-13-batara-carcajad.jpg"
-              srcset="img/aves/ave-13-batara-carcajad-400.jpg 400w, img/aves/ave-13-batara-carcajad-600.jpg 600w, img/aves/ave-13-batara-carcajad.jpg 975w"
-              sizes="(max-width: 39.99em) 31vw, (max-width: 63.99em) 31vw, 23vw"
+              srcset="img/aves/ave-13-batara-carcajad-400.jpg 400w, img/aves/ave-13-batara-carcajad-600.jpg 600w, img/aves/ave-13-batara-carcajad-800.jpg 800w, img/aves/ave-13-batara-carcajad.jpg 975w"
+              sizes="(max-width: 39.99em) 72vw, (max-width: 63.99em) 31vw, 30rem"
               width="975" height="1300" loading="lazy" decoding="async" alt="" />
             </picture>
           </span>
@@ -1438,15 +1606,15 @@ src="https://www.facebook.com/tr?id=28408308795489956&ev=PageView&noscript=1"
         </figure>
       </li>
 
-      <li>
-        <figure class="home-muro__figura reveal">
+      <li class="reveal">
+        <figure class="home-muro__figura">
           <span class="marco marco--1-1">
             <picture>
-              <source type="image/webp" srcset="img/aves/ave-16-tytira-inquisitor-macho-400.webp 400w, img/aves/ave-16-tytira-inquisitor-macho-600.webp 600w, img/aves/ave-16-tytira-inquisitor-macho.webp 1300w" sizes="(max-width: 39.99em) 31vw, (max-width: 63.99em) 31vw, 23vw" />
+              <source type="image/webp" srcset="img/aves/ave-16-tytira-inquisitor-macho-400.webp 400w, img/aves/ave-16-tytira-inquisitor-macho-600.webp 600w, img/aves/ave-16-tytira-inquisitor-macho-800.webp 800w, img/aves/ave-16-tytira-inquisitor-macho.webp 1300w" sizes="(max-width: 39.99em) 72vw, (max-width: 63.99em) 31vw, 30rem" />
               <img class="home-muro__foto"
               src="img/aves/ave-16-tytira-inquisitor-macho.jpg"
-              srcset="img/aves/ave-16-tytira-inquisitor-macho-400.jpg 400w, img/aves/ave-16-tytira-inquisitor-macho-600.jpg 600w, img/aves/ave-16-tytira-inquisitor-macho.jpg 1300w"
-              sizes="(max-width: 39.99em) 31vw, (max-width: 63.99em) 31vw, 23vw"
+              srcset="img/aves/ave-16-tytira-inquisitor-macho-400.jpg 400w, img/aves/ave-16-tytira-inquisitor-macho-600.jpg 600w, img/aves/ave-16-tytira-inquisitor-macho-800.jpg 800w, img/aves/ave-16-tytira-inquisitor-macho.jpg 1300w"
+              sizes="(max-width: 39.99em) 72vw, (max-width: 63.99em) 31vw, 30rem"
               width="1300" height="867" loading="lazy" decoding="async" alt="" />
             </picture>
           </span>
@@ -1498,14 +1666,17 @@ src="https://www.facebook.com/tr?id=28408308795489956&ev=PageView&noscript=1"
       <figure class="home-duo__medio reveal">
         <span class="marco marco--retrato">
           <picture>
-            <source type="image/webp" srcset="img/sendero/sendero-hero-400.webp 400w, img/sendero/sendero-hero-600.webp 600w, img/sendero/sendero-hero-800.webp 800w, img/sendero/sendero-hero-1200.webp 1200w, img/sendero/sendero-hero.webp 2400w" sizes="(max-width: 55.99em) 92vw, 46vw" />
+            <!-- v33 · srcset con los anchos REALES: -1200 y el original miden
+                 900 px (no 1200 ni 2400), así que el navegador creía tener
+                 una copia que no existe. Se quita el duplicado. -->
+            <source type="image/webp" srcset="img/sendero/sendero-hero-400.webp 400w, img/sendero/sendero-hero-600.webp 600w, img/sendero/sendero-hero-800.webp 800w, img/sendero/sendero-hero.webp 900w" sizes="(max-width: 55.99em) 92vw, 46vw" />
             <img
             class="home-duo__foto"
             src="img/sendero/sendero-hero.jpg"
-            srcset="img/sendero/sendero-hero-400.jpg 400w, img/sendero/sendero-hero-600.jpg 600w, img/sendero/sendero-hero-800.jpg 800w, img/sendero/sendero-hero-1200.jpg 1200w, img/sendero/sendero-hero.jpg 2400w"
+            srcset="img/sendero/sendero-hero-400.jpg 400w, img/sendero/sendero-hero-600.jpg 600w, img/sendero/sendero-hero-800.jpg 800w, img/sendero/sendero-hero.jpg 900w"
             sizes="(max-width: 55.99em) 92vw, 46vw"
-            width="2400"
-            height="4268"
+            width="900"
+            height="1600"
             loading="lazy"
             decoding="async"
             alt="El camino del recorrido guiado entre guaduas altas, con la vegetación cerrándose sobre el sendero de tierra."
@@ -1562,14 +1733,15 @@ src="https://www.facebook.com/tr?id=28408308795489956&ev=PageView&noscript=1"
       <figure class="home-duo__medio reveal">
         <span class="marco marco--retrato">
           <picture>
-            <source type="image/webp" srcset="img/vivero/vivero-02-400.webp 400w, img/vivero/vivero-02-600.webp 600w, img/vivero/vivero-02-800.webp 800w, img/vivero/vivero-02-1200.webp 1200w, img/vivero/vivero-02.webp 2000w" sizes="(max-width: 55.99em) 92vw, 46vw" />
+            <!-- v33 · anchos reales en el srcset: el original mide 900 px. -->
+            <source type="image/webp" srcset="img/vivero/vivero-02-400.webp 400w, img/vivero/vivero-02-600.webp 600w, img/vivero/vivero-02-800.webp 800w, img/vivero/vivero-02.webp 900w" sizes="(max-width: 55.99em) 92vw, 46vw" />
             <img
             class="home-duo__foto"
             src="img/vivero/vivero-02.jpg"
-            srcset="img/vivero/vivero-02-400.jpg 400w, img/vivero/vivero-02-600.jpg 600w, img/vivero/vivero-02-800.jpg 800w, img/vivero/vivero-02-1200.jpg 1200w, img/vivero/vivero-02.jpg 2000w"
+            srcset="img/vivero/vivero-02-400.jpg 400w, img/vivero/vivero-02-600.jpg 600w, img/vivero/vivero-02-800.jpg 800w, img/vivero/vivero-02.jpg 900w"
             sizes="(max-width: 55.99em) 92vw, 46vw"
-            width="2000"
-            height="3556"
+            width="900"
+            height="1600"
             loading="lazy"
             decoding="async"
             alt="Una trabajadora del vivero con gorra de Vegas del Verde, guantes y botas, sonriendo con un manojo de esquejes en la mano junto a un camellón de filodendros y acalifas rojizas sembrados en bolsa, bajo la malla de sombra."
@@ -1613,12 +1785,12 @@ src="https://www.facebook.com/tr?id=28408308795489956&ev=PageView&noscript=1"
       <li class="reveal">
         <span class="marco marco--retrato">
           <picture>
-            <source type="image/webp" srcset="img/vivero/vivero-01-400.webp 400w, img/vivero/vivero-01-600.webp 600w, img/vivero/vivero-01-800.webp 800w, img/vivero/vivero-01.webp 2000w" sizes="(max-width: 47.99em) 62vw, 23vw" />
+            <source type="image/webp" srcset="img/vivero/vivero-01-400.webp 400w, img/vivero/vivero-01-600.webp 600w, img/vivero/vivero-01-800.webp 800w, img/vivero/vivero-01.webp 900w" sizes="(max-width: 47.99em) 62vw, 23vw" />
             <img class="home-tira__foto"
             src="img/vivero/vivero-01.jpg"
-            srcset="img/vivero/vivero-01-400.jpg 400w, img/vivero/vivero-01-600.jpg 600w, img/vivero/vivero-01-800.jpg 800w, img/vivero/vivero-01.jpg 2000w"
+            srcset="img/vivero/vivero-01-400.jpg 400w, img/vivero/vivero-01-600.jpg 600w, img/vivero/vivero-01-800.jpg 800w, img/vivero/vivero-01.jpg 900w"
             sizes="(max-width: 47.99em) 62vw, 23vw"
-            width="2000" height="3556" loading="lazy" decoding="async"
+            width="900" height="1600" loading="lazy" decoding="async"
             alt="Materas de terracota con palmas, lengua de suegra y buganvilias rosadas sobre la gravilla, contra el cerramiento de guadua del vivero." />
           </picture>
         </span>
@@ -1626,12 +1798,12 @@ src="https://www.facebook.com/tr?id=28408308795489956&ev=PageView&noscript=1"
       <li class="reveal">
         <span class="marco marco--retrato">
           <picture>
-            <source type="image/webp" srcset="img/vivero/vivero-03-400.webp 400w, img/vivero/vivero-03-600.webp 600w, img/vivero/vivero-03-800.webp 800w, img/vivero/vivero-03.webp 2000w" sizes="(max-width: 47.99em) 62vw, 23vw" />
+            <source type="image/webp" srcset="img/vivero/vivero-03-400.webp 400w, img/vivero/vivero-03-600.webp 600w, img/vivero/vivero-03-800.webp 800w, img/vivero/vivero-03.webp 900w" sizes="(max-width: 47.99em) 62vw, 23vw" />
             <img class="home-tira__foto"
             src="img/vivero/vivero-03.jpg"
-            srcset="img/vivero/vivero-03-400.jpg 400w, img/vivero/vivero-03-600.jpg 600w, img/vivero/vivero-03-800.jpg 800w, img/vivero/vivero-03.jpg 2000w"
+            srcset="img/vivero/vivero-03-400.jpg 400w, img/vivero/vivero-03-600.jpg 600w, img/vivero/vivero-03-800.jpg 800w, img/vivero/vivero-03.jpg 900w"
             sizes="(max-width: 47.99em) 62vw, 23vw"
-            width="2000" height="3556" loading="lazy" decoding="async"
+            width="900" height="1600" loading="lazy" decoding="async"
             alt="Camellones del vivero con plantas jóvenes sembradas en bolsa bajo la malla de sombra." />
           </picture>
         </span>
@@ -1639,12 +1811,12 @@ src="https://www.facebook.com/tr?id=28408308795489956&ev=PageView&noscript=1"
       <li class="reveal">
         <span class="marco marco--retrato">
           <picture>
-            <source type="image/webp" srcset="img/vivero/vivero-04-400.webp 400w, img/vivero/vivero-04-600.webp 600w, img/vivero/vivero-04-800.webp 800w, img/vivero/vivero-04.webp 2000w" sizes="(max-width: 47.99em) 62vw, 23vw" />
+            <source type="image/webp" srcset="img/vivero/vivero-04-400.webp 400w, img/vivero/vivero-04-600.webp 600w, img/vivero/vivero-04-800.webp 800w, img/vivero/vivero-04.webp 900w" sizes="(max-width: 47.99em) 62vw, 23vw" />
             <img class="home-tira__foto"
             src="img/vivero/vivero-04.jpg"
-            srcset="img/vivero/vivero-04-400.jpg 400w, img/vivero/vivero-04-600.jpg 600w, img/vivero/vivero-04-800.jpg 800w, img/vivero/vivero-04.jpg 2000w"
+            srcset="img/vivero/vivero-04-400.jpg 400w, img/vivero/vivero-04-600.jpg 600w, img/vivero/vivero-04-800.jpg 800w, img/vivero/vivero-04.jpg 900w"
             sizes="(max-width: 47.99em) 62vw, 23vw"
-            width="2000" height="3556" loading="lazy" decoding="async"
+            width="900" height="1600" loading="lazy" decoding="async"
             alt="Plantas ornamentales de hoja ancha en materas, listas para llevar, en el área de venta del vivero." />
           </picture>
         </span>
@@ -1652,9 +1824,14 @@ src="https://www.facebook.com/tr?id=28408308795489956&ev=PageView&noscript=1"
       <li class="reveal">
         <span class="marco marco--retrato">
           <picture>
-            <source type="image/webp" srcset="img/parque/parque-61.webp" />
+            <!-- v33 · Era la única de la tira sin srcset: bajaba siempre el
+                 original de 900 px a una miniatura de 210. Las variantes ya
+                 existían en img/parque/. -->
+            <source type="image/webp" srcset="img/parque/parque-61-400.webp 400w, img/parque/parque-61-600.webp 600w, img/parque/parque-61-800.webp 800w, img/parque/parque-61.webp 900w" sizes="(max-width: 47.99em) 62vw, 23vw" />
             <img class="home-tira__foto"
             src="img/parque/parque-61.jpg"
+            srcset="img/parque/parque-61-400.jpg 400w, img/parque/parque-61-600.jpg 600w, img/parque/parque-61-800.jpg 800w, img/parque/parque-61.jpg 900w"
+            sizes="(max-width: 47.99em) 62vw, 23vw"
             width="900" height="1200" loading="lazy" decoding="async"
             alt="Camino de losas de piedra entre el jardín del predio, sembrado con plantas que salen del vivero." />
           </picture>
@@ -2689,20 +2866,21 @@ src="https://www.facebook.com/tr?id=28408308795489956&ev=PageView&noscript=1"
            El alt del símbolo va VACÍO: el nombre ya está aquí al lado en
            texto real, así que la imagen es decorativa y repetirlo sería
            leer «Vegas del Verde» dos veces con lector de pantalla. -->
+      <!-- v35 · LOGO DEFINITIVO (cliente, 2026-09-26): el símbolo pasa al SVG
+           vectorial `simbolo-definitivo.svg` (mismas proporciones que el
+           recorte PNG) y el nombre, que ya iba en --fuente-display, sale ahora
+           en Hill House, la letra real del logo. -->
       <div class="pie-final__marca">
-        <picture>
-          <source type="image/webp" srcset="img/logo/simbolo-transparente.webp" />
-          <img
-            class="pie-final__simbolo"
-            src="img/logo/simbolo-transparente.png"
-            width="744"
-            height="351"
-            alt=""
-            loading="lazy"
-            decoding="async"
-          />
-        </picture>
-        <p class="pie-final__nombre">Vegas del Verde</p>
+        <img
+          class="pie-final__simbolo"
+          src="img/logo/simbolo-definitivo.svg"
+          width="738"
+          height="351"
+          alt=""
+          loading="lazy"
+          decoding="async"
+        />
+        <img class="pie-final__nombre" src="img/logo/wordmark-definitivo.svg" width="1166" height="137" alt="Vegas del Verde" loading="lazy" decoding="async" />
       </div>
 
       <div class="pie-final__acciones">
@@ -2761,7 +2939,7 @@ src="https://www.facebook.com/tr?id=28408308795489956&ev=PageView&noscript=1"
 
   </div>
 </footer>
-<script src="js/app.js?v=be8cd718" defer></script>
+<script src="js/app.js?v=a4fbd319" defer></script>
 <!-- v18 · js/mapa.js SALE de la portada con su seccion: el mapa satelital
      y su vuelo de descenso viven ahora en contacto.html, que es la unica
      pagina con un #mapa-vegas que montar. Cargarlo aqui era descargar 13 KB

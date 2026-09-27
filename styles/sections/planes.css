@@ -30,6 +30,8 @@
      3. La voz común — ocasión, índice, copy, dónde, CTA
      4. Detalles propios — glifos del 04, subrayado del 05, fauna
      5. Movimiento y reduced-motion
+     E. EVENTO — los eventos puntuales bajo el <h1> (sections/enc-planes.html:
+        October Big Day y Conexión & Yoga), con su propio índice E1–E4
    ========================================================================== */
 
 /* --------------------------------------------------------------------------
@@ -399,30 +401,36 @@
   }
 }
 
+/* ==========================================================================
+   EVENTO — los eventos puntuales bajo el <h1> de planes.html
+   Marcado: sections/enc-planes.html. Hoy son dos, en este orden:
+     #october-big-day  (.planes-evento--bigday)  sáb 10 oct 2026, el próximo
+     #conexion-yoga    (.planes-evento--yoga)    sáb 26 sep 2026, ya pasó
+   Los dos son la maqueta .foto-placa--lado de base.css: foto y placa en
+   celdas propias de la rejilla, la placa NUNCA encima de la foto. Cada uno
+   lleva data-evento-hasta y js/app.js lo oculta cuando vence.
+
+   ÍNDICE
+     E1. Lo común: ritmo, ocultado por fecha, reparto de columnas, voz
+     E2. Conexión & Yoga: el recorte de yoga-3
+     E3. October Big Day: foto, cifra 117, ficha técnica y acciones
+     E4. October Big Day: movimiento (y su apagado en reduced-motion)
+   ========================================================================== */
+
 /* --------------------------------------------------------------------------
-   EVENTO PUNTUAL — Conexión & Yoga (sections/enc-planes.html, #conexion-yoga)
-   Una .placa con filete bajo el <h1>: recibe el tráfico de la pauta. Reusa
-   la micro-etiqueta de .planes-carril__ocasion y el .btn-whatsapp del
-   sistema; aquí sólo van medida, ritmo y el titular. Retirar tras el evento.
+   E1. LO COMÚN
    -------------------------------------------------------------------------- */
-/* v2 · HERO CON FOTO. La maqueta es .foto-placa--lado (base.css): foto y
-   placa en celdas propias, la placa nunca encima. Aquí sólo se ajusta el
-   reparto — yoga-3 es retrato, así que en escritorio la foto toma la
-   columna ANGOSTA y la placa la ancha — y el recorte: 1:1 en móvil y 4:5 al lado. En 3:2 (el de la tarjeta Cuidarse)
-   a ancho completo no cabía la postura entera: o manos o piernas. */
 .planes-evento {
   margin-top: var(--esp-lg);
   scroll-margin-top: calc(var(--alto-header) + var(--esp-md));
 }
 
-.planes-evento .planes-evento__foto {
-  aspect-ratio: 1 / 1;
-  height: auto;
-  object-fit: cover;
-  /* yoga-3 es 9:16: la figura va de las manos (~39% del alto) a los pies
-     (~85%). Con 45% el recorte 1:1 caía en 20–76%: mucho follaje arriba y
-     las piernas cortadas a media pantorrilla. 78% lo baja a ~34–90%. */
-  object-position: 50% 78%;
+/* OCULTO POR FECHA. .foto-placa declara `display: grid`, y una clase de
+   autor le gana al `[hidden] { display: none }` de la hoja del navegador:
+   sin esta regla, el bloque vencido seguiría a la vista aunque js/app.js le
+   pusiera `hidden`. (Si en vez de eso lo retira del DOM, esto no estorba.) */
+.planes-evento[hidden] {
+  display: none;
 }
 
 .planes-evento__placa {
@@ -432,16 +440,14 @@
   gap: var(--esp-xs);
 }
 
+/* v2 · El reparto: las dos fotos son retrato, así que en escritorio la foto
+   toma la columna ANGOSTA y la placa la ancha. minmax(0, …) para que ningún
+   contenido largo (un enlace, un botón con la raíz agrandada) empuje la
+   rejilla más allá del contenedor. */
 @media (min-width: 48em) {
   .planes-evento.foto-placa--lado {
-    grid-template-columns: 1fr 1.25fr;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1.25fr);
     gap: var(--esp-lg);
-  }
-
-  .planes-evento .planes-evento__foto {
-    aspect-ratio: 4 / 5;
-    /* 4:5 muestra ~70% del alto; 85% lo deja en ~25–95% (pose completa). */
-    object-position: 50% 85%;
   }
 
   .planes-evento__placa {
@@ -459,14 +465,14 @@
   color: var(--color-acento-texto);
 }
 
+/* El titular es un <h2>: familia, peso (según su tamaño, base.css §5b),
+   ejes y tracking los pone base.css. Aquí sólo cuerpo y aire, para que el
+   token --fuente-display (la letra del logo) llegue sin que nadie la pise. */
 .planes-evento__titulo {
   margin: 0;
-  font-family: var(--fuente-display);
   font-size: var(--paso-3);
-  font-weight: var(--peso-display);
-  font-variation-settings: var(--ejes-display);
-  letter-spacing: var(--tracking-display);
   line-height: var(--alto-linea-titulo);
+  text-wrap: balance;
 }
 
 .planes-evento__dato {
@@ -475,4 +481,418 @@
 
 .planes-evento__cta {
   margin-top: var(--esp-2xs);
+}
+
+/* --------------------------------------------------------------------------
+   E2. CONEXIÓN & YOGA — el recorte de yoga-3
+   1:1 en móvil y 4:5 al lado. En 3:2 (el de la tarjeta Cuidarse) a ancho
+   completo no cabía la postura entera: o manos o piernas.
+   -------------------------------------------------------------------------- */
+.planes-evento--yoga .planes-evento__foto {
+  aspect-ratio: 1 / 1;
+  height: auto;
+  object-fit: cover;
+  /* yoga-3 es 9:16: la figura va de las manos (~39% del alto) a los pies
+     (~85%). Con 45% el recorte 1:1 caía en 20–76%: mucho follaje arriba y
+     las piernas cortadas a media pantorrilla. 78% lo baja a ~34–90%. */
+  object-position: 50% 78%;
+}
+
+@media (min-width: 48em) {
+  .planes-evento--yoga .planes-evento__foto {
+    aspect-ratio: 4 / 5;
+    /* 4:5 muestra ~70% del alto; 85% lo deja en ~25–95% (pose completa). */
+    object-position: 50% 85%;
+  }
+}
+
+/* --------------------------------------------------------------------------
+   E3. OCTOBER BIG DAY
+   Un antetítulo con filete corona foto y placa; la placa se compone como
+   la ficha de una guía de campo: titular y fecha, una cifra grande con su
+   leyenda, y una ficha técnica de tres renglones separados por filetes
+   finos. Todo sale de tokens.css.
+   -------------------------------------------------------------------------- */
+
+/* LA FIGURA: foto + crédito. */
+.planes-evento__figura {
+  display: flex;
+  flex-direction: column;
+  gap: var(--esp-2xs);
+  min-width: 0;
+  margin: 0;
+}
+
+/* EL MARCO. <picture> en bloque es la caja que recorta el zoom de entrada.
+   OJO: NO es el caso del bug de las cajas vacías (.marco con aspect-ratio
+   propio + <img> a height:100% contra un <picture> de alto automático).
+   Aquí es al revés: la proporción la lleva el <img> (aspect-ratio +
+   width:100% + height:auto) y el <picture> sólo lo envuelve, así que mide
+   exactamente lo que la foto (verificado a 375 y 1280: mismo rect al
+   píxel). `isolation` para que Safari recorte con el radio también
+   mientras la foto escala. Contorno de hoja: la diagonal contraria a la de
+   la placa, como en .foto-placa de base.css. */
+.planes-evento__marco {
+  display: block;
+  overflow: hidden;
+  overflow: clip;
+  isolation: isolate;
+  border-radius: var(--radio-hoja) 0 var(--radio-hoja) 0;
+}
+
+/* 4:5 en todos los anchos: es el formato del feed de Instagram, y en esta
+   foto (867×1300, 2:3) muestra el 83 % del alto. El barranquero va de la
+   corona (~23 % del alto) a la punta de la cola (~91 %): con 80 % el
+   recorte cae en ~13–97 %, ave entera con aire arriba y abajo. */
+.planes-evento--bigday .planes-evento__foto {
+  display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 4 / 5;
+  object-fit: cover;
+  object-position: 50% 80%;
+}
+
+.planes-evento__credito {
+  margin: 0;
+}
+
+/* AL LADO (≥ 48em): LA FOTO ACOMPAÑA A LA PLACA HASTA ABAJO.
+   Con la foto fija en 4:5, entre 768 y ~1150 px la placa (más texto que
+   ancho) medía el doble que la foto: a 768 px, 377 px de foto centrados en
+   735 px de placa, con dos huecos de crema arriba y abajo. Ahora la fila se
+   estira y el marco crece con ella:
+     · el marco conserva 4:5 como MÍNIMO (su aspect-ratio es el tamaño base
+       del ítem flex, y el mínimo automático de un ítem con proporción es
+       esa misma proporción): nunca queda más bajo que un 4:5;
+     · si la placa es más alta, flex-grow lo alarga hasta el pie de la
+       placa y la foto se recorta en vertical-estrecho: esta es 2:3 y el ave
+       va centrada (x ≈ 32–70 %), así que pierde follaje de los lados y
+       conserva el ave entera de la corona a la cola;
+     · el <img> va en position:absolute; inset:0 dentro del marco —la
+       salida que pide el sistema para <picture> dentro de una caja con
+       alto propio—, así que no hay caja vacía posible: mide lo que el marco.
+   La placa, si es la más baja (escritorio ancho), se centra en la fila. */
+@media (min-width: 48em) {
+  .planes-evento--bigday.foto-placa--lado {
+    align-items: stretch;
+  }
+
+  .planes-evento--bigday .planes-evento__placa {
+    align-self: center;
+  }
+
+  .planes-evento--bigday .planes-evento__marco {
+    position: relative;
+    flex: 1 1 auto;
+    aspect-ratio: 4 / 5;
+  }
+
+  .planes-evento--bigday .planes-evento__foto {
+    position: absolute;
+    inset: 0;
+    height: 100%;
+    aspect-ratio: auto;
+  }
+}
+
+.planes-evento--bigday .planes-evento__placa {
+  gap: var(--esp-sm);
+}
+
+/* EL ANTETÍTULO «Próximo evento · 10 oct». Es el rótulo de la casa
+   (micro-caps en el cálido) abierto por un filete corto que se dibuja de
+   izquierda a derecha (E4), como la cartela de una vitrina. Corto y no a
+   todo el ancho, a propósito: 40 px más arriba ya corre el filete largo del
+   <h1> (home.css) y dos rayas completas seguidas se leían como un tachón.
+   Ocupa las dos columnas en escritorio. */
+.planes-evento__antetitulo {
+  display: flex;
+  align-items: center;
+  gap: var(--esp-xs);
+  grid-column: 1 / -1;
+}
+
+.planes-evento__antetitulo::before {
+  content: "";
+  flex: none;
+  inline-size: var(--esp-xl);
+  block-size: 1px;
+  background-color: currentColor;
+  transform-origin: left center;
+}
+
+/* LA CABEZA: titular + fecha, pegados (el gap de la placa los separaría
+   como dos piezas; son una). */
+.planes-evento__cabeza {
+  display: flex;
+  flex-direction: column;
+  gap: var(--esp-2xs);
+}
+
+/* El titular del evento sube a --fs-h2: es el protagonista de la página
+   mientras dure. El peso lo resuelve base.css §5b según el ancho. */
+.planes-evento--bigday .planes-evento__titulo {
+  font-size: var(--fs-h2);
+  line-height: var(--alto-linea-apretado);
+}
+
+/* La fecha, en la letra display y a --fs-h4: se lee como el subtítulo del
+   cartel, no como un dato de la ficha. Es un <p>, así que la familia se
+   pide por token (el mismo que heredan los titulares). */
+.planes-evento__fecha {
+  margin: 0;
+  font-family: var(--fuente-display);
+  font-size: var(--fs-h4);
+  font-weight: var(--peso-display-menor);
+  letter-spacing: var(--tracking-display);
+  line-height: var(--alto-linea-titulo);
+  color: var(--color-acento-texto);
+}
+
+.planes-evento__bajada {
+  margin: 0;
+  max-width: var(--medida-corta);
+  color: var(--color-texto-suave);
+}
+
+/* LA CIFRA. El 117 es el gancho del flyer («las 117 aves de nuestro
+   bosque registradas en eBird»): numeral grande en la letra del logo y en
+   el cálido de las cifras (--color-acento-texto, 5,4:1 sobre la placa), y
+   al lado su leyenda tras un filete vertical, como en una cartela de museo.
+
+   CÓMO CUENTA SIN JS NUEVO. El numeral visible es un contador CSS: el
+   entero registrado --planes-cifra pasa de 0 a 117 con una transición
+   (E4) y ::after lo pinta con counter(). Las dos salvaguardas:
+     · --planes-cifra vale 117 DECLARADO AQUÍ, no sólo como initial-value:
+       en un navegador sin @property la variable sin declarar dejaría el
+       counter-reset inválido y el ::after pintaría «0».
+     · counter-reset se escribe dos veces: si var() no se entendiera, la
+       segunda se descarta y queda la primera, con el 117 literal.
+   Sin @property no hay cuenta, pero sí el 117 (y eso basta). El número de
+   verdad está en el HTML, en .solo-lectores dentro de la frase: el lector
+   de pantalla lo oye una sola vez porque este numeral es aria-hidden.
+
+   ANCHO FIJO MIENTRAS CUENTA. ::before escribe «117» invisible en la misma
+   celda que ::after: la columna mide siempre lo que mide 117 en la letra
+   que haya (sea cual sea la que deje MARCA), así que la leyenda no baila
+   mientras los dígitos crecen. Alineado al final, como un cuentakilómetros:
+   las unidades no se mueven.
+   (El 117 aparece aquí tres veces a propósito —sizer, reposo y respaldo—;
+   si el dato cambia, se cambian las tres y el HTML.) */
+@property --planes-cifra {
+  syntax: "<integer>";
+  inherits: false;
+  initial-value: 117;
+}
+
+.planes-evento__cifra {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  align-items: center;
+  column-gap: var(--esp-sm);
+  margin: 0;
+}
+
+.planes-evento__numero {
+  --planes-cifra: 117;
+  display: grid;
+  justify-items: end;
+  counter-reset: planes-cifra 117;
+  counter-reset: planes-cifra var(--planes-cifra);
+  font-family: var(--fuente-display);
+  font-size: var(--paso-6);
+  font-weight: var(--peso-display);
+  line-height: var(--alto-linea-apretado);
+  font-variant-numeric: lining-nums tabular-nums;
+  color: var(--color-acento-texto);
+}
+
+.planes-evento__numero::before,
+.planes-evento__numero::after {
+  grid-area: 1 / 1;
+}
+
+.planes-evento__numero::before {
+  content: "117";
+  visibility: hidden;
+}
+
+.planes-evento__numero::after {
+  content: counter(planes-cifra);
+}
+
+.planes-evento__cifra-texto {
+  padding-inline-start: var(--esp-sm);
+  border-inline-start: 1px solid var(--color-borde);
+  max-width: var(--medida-corta);
+  font-size: var(--fs-pequeno);
+  line-height: var(--alto-linea-titulo);
+  text-wrap: balance;
+  color: var(--color-texto);
+}
+
+/* LA FICHA TÉCNICA. <dl> de tres renglones, rótulo y dato en dos columnas
+   que se alinean ENTRE renglones gracias a subgrid (la columna de rótulos
+   mide lo que mida el más largo, «Desayunos»). Respaldo sin subgrid: una
+   columna fija de 7 rem. Cada renglón abre con un filete que se dibuja
+   (E4); el último cierra con otro. Los filetes son pseudo-elementos de
+   1 px dentro del renglón, nunca sobre la foto. */
+.planes-evento__ficha {
+  display: grid;
+  grid-template-columns: max-content minmax(0, 1fr);
+  inline-size: 100%;
+  margin: 0;
+}
+
+.planes-evento__fila {
+  position: relative;
+  display: grid;
+  grid-column: 1 / -1;
+  grid-template-columns: calc(var(--esp-2xl) + var(--esp-xl)) minmax(0, 1fr);
+  grid-template-columns: subgrid;
+  column-gap: var(--esp-sm);
+  align-items: baseline;
+  padding-block: var(--esp-xs);
+}
+
+.planes-evento__fila::before,
+.planes-evento__fila:last-child::after {
+  content: "";
+  position: absolute;
+  inset-inline: 0;
+  block-size: 1px;
+  background-color: var(--color-borde);
+  transform-origin: left center;
+}
+
+.planes-evento__fila::before {
+  inset-block-start: 0;
+}
+
+.planes-evento__fila:last-child::after {
+  inset-block-end: 0;
+}
+
+.planes-evento__fila dt {
+  font-family: var(--fuente-titulo);
+  font-size: var(--fs-micro);
+  font-weight: var(--peso-medio);
+  text-transform: uppercase;
+  letter-spacing: var(--tracking-rotulo);
+  color: var(--color-texto-suave);
+}
+
+.planes-evento__fila dd {
+  margin: 0;
+  line-height: var(--alto-linea-titulo);
+  text-wrap: pretty;
+}
+
+/* LAS ACCIONES. El botón de WhatsApp manda; «Ver todo el evento» es el
+   enlace con flecha de la casa, de bajo peso, con el alto de dedo de 44 px
+   (--esp-lg + --esp-xs) también en escritorio. En móvil el botón toma el
+   ancho entero: es lo que el pulgar encuentra sin buscar. */
+.planes-evento__acciones {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--esp-xs) var(--esp-md);
+  inline-size: 100%;
+  margin-top: var(--esp-2xs);
+}
+
+.planes-evento--bigday .planes-evento__cta {
+  margin-top: 0;
+}
+
+.planes-evento__mas {
+  min-block-size: calc(var(--esp-lg) + var(--esp-xs));
+}
+
+.planes-evento__nota {
+  margin: 0;
+  font-size: var(--fs-pequeno);
+  color: var(--color-texto-suave);
+}
+
+@media (max-width: 47.99em) {
+  .planes-evento--bigday .planes-evento__cta {
+    flex: 1 1 100%;
+  }
+}
+
+/* --------------------------------------------------------------------------
+   E4. OCTOBER BIG DAY — MOVIMIENTO
+   Una sola coreografía, disparada por el .reveal de la casa (js/app.js pone
+   .visible; no hay JS nuevo). Todo es transform/scale/opacity o el entero
+   del contador; duraciones y curvas salen de tokens.css (derivadas con
+   calc, como hace el propio tokens.css con --dur-aleteo), así que en
+   reduced-motion ya valen 1 ms. Además TODO el estado inicial vive dentro de
+   `no-preference`: con movimiento reducido no hay ni un fotograma escondido.
+   Sin JS nada de esto aplica (.js) y todo se ve desde el primer pintado.
+
+     1. La foto se asienta: entra un 8 % más cerca y se acomoda despacio
+        (1,4 s, --ease-salida). Al pasar el ratón vuelve a acercarse un 3 %,
+        con el mismo compás lento: zoom contenido, nunca un salto.
+     2. El filete del antetítulo se dibuja de izquierda a derecha.
+     3. La cifra: su renglón es un .reveal propio (en móvil queda bajo el
+        pliegue y la cuenta tiene que ocurrir cuando se ve, no antes). Sólo
+        funde —sin desplazamiento, para no sumar 28 px a los del padre— y
+        el 117 sube desde 0.
+     4. La ficha: también .reveal propio; sus filetes se trazan uno tras
+        otro con 120 ms de desfase (desfases sí pueden ser números).
+   -------------------------------------------------------------------------- */
+@media (prefers-reduced-motion: no-preference) {
+  .js .planes-evento--bigday .planes-evento__foto {
+    scale: 1.08;
+    transition: scale calc(var(--dur-reveal) * 1.6) var(--ease-salida);
+  }
+
+  .js .planes-evento--bigday.visible .planes-evento__foto {
+    scale: 1;
+  }
+
+  .js .planes-evento--bigday .planes-evento__antetitulo::before {
+    transform: scaleX(0);
+    transition: transform var(--dur-reveal) var(--ease-salida) var(--dur-media);
+  }
+
+  .js .planes-evento--bigday.visible .planes-evento__antetitulo::before {
+    transform: none;
+  }
+
+  .js .planes-evento__cifra.reveal,
+  .js .planes-evento__ficha.reveal {
+    transform: none;
+  }
+
+  .js .planes-evento__numero {
+    transition: --planes-cifra calc(var(--dur-reveal) * 2) var(--ease-salida) var(--dur-rapida);
+  }
+
+  .js .planes-evento__cifra:not(.visible) .planes-evento__numero {
+    --planes-cifra: 0;
+  }
+
+  .js .planes-evento__ficha .planes-evento__fila::before,
+  .js .planes-evento__ficha .planes-evento__fila:last-child::after {
+    transform: scaleX(0);
+    transition: transform var(--dur-reveal) var(--ease-salida);
+  }
+
+  .js .planes-evento__ficha.visible .planes-evento__fila::before,
+  .js .planes-evento__ficha.visible .planes-evento__fila:last-child::after {
+    transform: none;
+  }
+
+  .js .planes-evento__ficha .planes-evento__fila:nth-child(2)::before { transition-delay: 120ms; }
+  .js .planes-evento__ficha .planes-evento__fila:nth-child(3)::before { transition-delay: 240ms; }
+  .js .planes-evento__ficha .planes-evento__fila:last-child::after { transition-delay: 360ms; }
+}
+
+@media (prefers-reduced-motion: no-preference) and (hover: hover) and (pointer: fine) {
+  .js .planes-evento--bigday.visible .planes-evento__marco:hover .planes-evento__foto {
+    scale: 1.03;
+  }
 }

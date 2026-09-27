@@ -80,7 +80,8 @@ for t in trozos:
 #   #sendero   -> sendero-ecovital.html
 #   #vivero    -> vivero.html
 #   #ubicacion -> contacto.html          (el ancla del escaparate es #contacto)
-ESPERADO = ["inicio", "planes", "espacios", "naturaleza", "sendero", "vivero",
+# 2026-09 · #reserva-natural (cifra 117 de eBird) entra tras la portada.
+ESPERADO = ["inicio", "reserva-natural", "planes", "espacios", "naturaleza", "sendero", "vivero",
             # #nosotros y #compromiso siguen en la portada y siguen contiguos:
             # son el bloque 7 del plan, «Nosotros + Compromiso».
             "nosotros", "compromiso", "contacto"]
@@ -147,6 +148,8 @@ HECHOS = [
  ("Quebrada Aranzoque y riachuelo La Florida", [NADIE],
   [r"aranzoque", r"riachuelo"], False),
  ("101 especies de aves", ["naturaleza"], [r"\b101\b"], False),
+ # 2026-09 · October Big Day: 117 en el hero (excepcion temporal) y reserva.
+ ("117 especies en eBird", ["inicio", "reserva-natural"], [r"\b117\b"], False),
  # v18 · pasa a NADIE: vive en naturaleza.html.
  ("Chachalaca Colombiana endemica", [NADIE],
   [r"chachalaca", r"ortalis columbiana"], False),

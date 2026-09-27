@@ -1,7 +1,10 @@
 <!-- ==========================================================================
      ENCABEZADO DE PÁGINA: Dime a quién traes y te digo dónde
      CSS: styles/sections/home.css (bloque «PÁGINAS DE PROFUNDIDAD»)
-     JS propio: NINGUNO
+          + styles/sections/planes.css (bloque «EVENTO»: los eventos puntuales
+          de debajo del <h1>, hoy October Big Day y Conexión & Yoga)
+     JS propio: NINGUNO (el ocultado por fecha, data-evento-hasta, es de
+          js/app.js)
 
      Generado por herramientas/_crear-paginas-v18.js y mantenido a mano desde
      entonces. Lo pega el ensamblador como PRIMERA sección de planes.html.
@@ -24,18 +27,140 @@
       <h1 id="portada-planes-titulo" class="pagina-encabezado__titulo">Cinco planes para el mismo bosque</h1>
     </div>
 
+    <!-- ======================================================================
+         EVENTO PUNTUAL · OCTOBER BIG DAY 2026 (sáb 10 oct, 6:30 a. m.–12:00 m.)
+         Va PRIMERO porque es el próximo evento. Mismo patrón que
+         #conexion-yoga (foto-placa foto-placa--lado planes-evento): foto y
+         placa como hermanas en la rejilla, la placa bajo la foto en móvil y
+         al lado desde 48em. Nunca encima: «la foto es la foto».
+
+         LA FOTO: el barranquero de Leyner Lozano (ave-46), no el flyer.
+           · El flyer es un cartel lleno de letra: a 343 px de ancho su texto
+             baja a ~8 px y además duplica en píxeles lo que la placa ya dice
+             en HTML accesible. Entero vive en october-big-day.html.
+           · El ave que abre el flyer (arriba a la izquierda) es justamente
+             un barranquero: quien viene del anuncio de Instagram reconoce el
+             ave, y aquí la ve DE VERDAD, fotografiada en nuestro bosque.
+           · Se recorta a 4:5, el formato del feed de Instagram por el que
+             entra el 71 % del tráfico. Cabe el ave entera, de la corona a
+             la punta de la cola (ver el object-position en planes.css).
+           · sizes: entre 48 y 62em la foto se estira hasta el alto de la
+             placa (planes.css E3) y object-fit la escala por la altura, así
+             que pinta más ancho que su columna: 60vw cubre ese ancho real.
+
+         HECHOS: sólo los del flyer del cliente. Vegas del Verde PARTICIPA
+         como punto de observación del día global de eBird: nada de alianza
+         ni de logos de Cornell/eBird. La reserva NO contradice la entrada
+         libre: asegura el cupo (lo dice la nota bajo el botón).
+
+         EXPIRA SOLO: data-evento-hasta (js/app.js lo oculta pasada la hora
+         de cierre; sin JS se sigue viendo, y está bien).
+
+         EL 117 CUENTA SIN JS PROPIO: el numeral visible es un contador CSS
+         (@property, planes.css) y el número de verdad va en .solo-lectores
+         dentro de la frase, así que el lector de pantalla oye «117 aves…»
+         una sola vez y sin CSS se lee igual. CSS: planes.css «EVENTO».
+         ====================================================================== -->
+    <article
+      id="october-big-day"
+      class="foto-placa foto-placa--lado planes-evento planes-evento--bigday reveal"
+      aria-labelledby="october-big-day-titulo"
+      data-evento-hasta="2026-10-10T12:00:00-05:00"
+    >
+      <!-- El antetítulo va FUERA de la placa y a todo el ancho: en móvil
+           anuncia el evento ANTES de la foto (sin él, la primera pantalla
+           era un pájaro sin contexto) y en escritorio corona las dos
+           columnas, abierto por un filete corto que se dibuja. -->
+      <p class="planes-evento__rotulo planes-evento__antetitulo"><span>Próximo evento · <time datetime="2026-10-10">10 oct</time></span></p>
+
+      <figure class="planes-evento__figura">
+        <picture class="planes-evento__marco">
+          <source
+            type="image/webp"
+            srcset="img/aves/ave-46-momotus-subrufescens-400.webp 400w, img/aves/ave-46-momotus-subrufescens-600.webp 600w, img/aves/ave-46-momotus-subrufescens-800.webp 800w, img/aves/ave-46-momotus-subrufescens.webp 867w"
+            sizes="(max-width: 47.99em) 92vw, (max-width: 61.99em) 60vw, (max-width: 90em) 42vw, 600px"
+          />
+          <img
+            class="planes-evento__foto"
+            src="img/aves/ave-46-momotus-subrufescens.jpg"
+            srcset="img/aves/ave-46-momotus-subrufescens-400.jpg 400w, img/aves/ave-46-momotus-subrufescens-600.jpg 600w, img/aves/ave-46-momotus-subrufescens-800.jpg 800w, img/aves/ave-46-momotus-subrufescens.jpg 867w"
+            sizes="(max-width: 47.99em) 92vw, (max-width: 61.99em) 60vw, (max-width: 90em) 42vw, 600px"
+            width="867"
+            height="1300"
+            loading="eager"
+            fetchpriority="high"
+            decoding="async"
+            alt="Barranquero (Momotus subrufescens) posado en una rama del bosque de Vegas del Verde, con un fruto en el pico y su larga cola azul colgando."
+          />
+        </picture>
+        <figcaption class="planes-evento__credito credito">
+          <i lang="la">Momotus subrufescens</i> · Foto: Leyner Lozano
+        </figcaption>
+      </figure>
+
+      <div class="placa placa--filete planes-evento__placa">
+        <div class="planes-evento__cabeza">
+          <h2 id="october-big-day-titulo" class="planes-evento__titulo">October Big Day</h2>
+          <p class="planes-evento__fecha"><time datetime="2026-10-10">Sábado 10 de octubre</time></p>
+        </div>
+        <p class="planes-evento__bajada">Un día de ciencia ciudadana en que el mundo entero sale a contar aves. Nuestro bosque es punto de observación.</p>
+
+        <p class="planes-evento__cifra reveal">
+          <span class="planes-evento__numero" aria-hidden="true"></span>
+          <span class="planes-evento__cifra-texto"><span class="solo-lectores">117 </span>aves de nuestro bosque ya están registradas en eBird. Ven a observarlas.</span>
+        </p>
+
+        <dl class="planes-evento__ficha reveal">
+          <div class="planes-evento__fila">
+            <dt>Horario</dt>
+            <dd><time datetime="2026-10-10T06:30-05:00">6:30 a.&nbsp;m.</time> a <time datetime="2026-10-10T12:00-05:00">12:00 m.</time></dd>
+          </div>
+          <div class="planes-evento__fila">
+            <dt>Entrada</dt>
+            <dd>Libre, para toda la familia.</dd>
+          </div>
+          <div class="planes-evento__fila">
+            <dt>Desayunos</dt>
+            <dd>Tamal, arepa con huevos o dedito de queso, previa reserva.</dd>
+          </div>
+        </dl>
+
+        <div class="planes-evento__acciones">
+          <a
+            class="btn btn-whatsapp planes-evento__cta"
+            href="https://wa.me/573166758362?text=Hola%2C%20quiero%20reservar%20mi%20cupo%20para%20el%20October%20Big%20Day%20del%20s%C3%A1bado%2010%20de%20octubre%20en%20Vegas%20del%20Verde."
+            target="_blank"
+            rel="noopener"
+          >
+            Reservar mi cupo<span class="solo-lectores"> para el October Big Day por WhatsApp</span>
+          </a>
+          <a class="enlace-flecha planes-evento__mas" href="october-big-day.html">Ver todo el evento</a>
+        </div>
+        <p class="planes-evento__nota">La entrada es libre: reservar te asegura el cupo.</p>
+      </div>
+    </article>
+
     <!-- EVENTO PUNTUAL · Conexión & Yoga (sáb 26 sep 2026). Recibe el tráfico
          de la pauta de Meta y del reel: va arriba, antes de los cinco planes,
          para que quien llega por el anuncio reserve sin buscar. CTA ADICIONAL:
          no sustituye el WhatsApp general ni el de la ficha 04. Sólo datos
          confirmados (fecha, hora, prácticas, aliado); precio, cupo y lugar
-         dentro del predio se resuelven por WhatsApp. Retirar después del
-         evento. CSS: styles/sections/planes.css (bloque «EVENTO»). -->
+         dentro del predio se resuelven por WhatsApp. CSS:
+         styles/sections/planes.css (bloque «EVENTO»). -->
     <!-- v2 · HERO CON FOTO (pedido del cliente). Maqueta del sistema
          .foto-placa--lado (base.css): foto y placa como HERMANAS en la
          rejilla, nunca superpuestas — "la foto es la foto". Reusa la MISMA
          yoga-3 de la tarjeta Cuidarse de la home, con su srcset y su foco. -->
-    <article id="conexion-yoga" class="foto-placa foto-placa--lado planes-evento reveal" aria-labelledby="conexion-yoga-titulo">
+    <!-- v3 · YA PASÓ (era la mañana del 26 de septiembre). Baja debajo del
+         October Big Day y se oculta sola con data-evento-hasta (js/app.js).
+         Deja de ser el LCP de la página: su foto pasa a lazy y sin
+         fetchpriority, y oculta ni se descarga. -->
+    <article
+      id="conexion-yoga"
+      class="foto-placa foto-placa--lado planes-evento planes-evento--yoga reveal"
+      aria-labelledby="conexion-yoga-titulo"
+      data-evento-hasta="2026-09-26T12:00:00-05:00"
+    >
       <picture>
         <source
           type="image/webp"
@@ -49,8 +174,7 @@
           sizes="(max-width: 47.99em) 92vw, 40vw"
           width="1500"
           height="2667"
-          loading="eager"
-          fetchpriority="high"
+          loading="lazy"
           decoding="async"
           alt="Mujer en una postura de yoga de pie, con los brazos elevados, sobre un tapete entre los árboles."
         />

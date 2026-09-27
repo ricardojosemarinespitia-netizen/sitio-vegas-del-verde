@@ -727,13 +727,26 @@
      en navegación privada o con datos bloqueados el marbete simplemente
      se muestra y se cierra sólo por esta visita.
      --------------------------------------------------------------------- */
+  /* Expiración común: TODO elemento con [data-evento-hasta] (widget, ítem
+     del menú, avisos del hero, bloques de planes…) se oculta con `hidden`
+     cuando su fecha ya pasó. shell.css garantiza `[data-evento-hasta][hidden]
+     { display: none }` aunque el componente declare su propio display. Sin
+     JS se ve, que es lo correcto antes del evento. Fecha inválida = no vence. */
+  const eventoVencido = el => {
+    const hasta = Date.parse(el.getAttribute('data-evento-hasta') || '');
+    return !Number.isNaN(hasta) && Date.now() > hasta;
+  };
+  document.querySelectorAll('[data-evento-hasta]').forEach(el => {
+    if (el.classList.contains('evento-flotante')) return; // lo maneja abajo
+    if (eventoVencido(el)) el.hidden = true;
+  });
+
   const eventoFlotante = document.querySelector('.evento-flotante');
   if (eventoFlotante) {
     const clave = 'vdv-evento-cerrado:' + (eventoFlotante.dataset.evento || '');
-    const hasta = Date.parse(eventoFlotante.dataset.eventoHasta || '');
     let cerrado = false;
     try { cerrado = localStorage.getItem(clave) === '1'; } catch (e) { /* sin storage */ }
-    const vencido = !Number.isNaN(hasta) && Date.now() > hasta;
+    const vencido = eventoVencido(eventoFlotante);
 
     if (cerrado || vencido) {
       eventoFlotante.remove();
