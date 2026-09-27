@@ -2,6 +2,111 @@
 (() => {
   'use strict';
 
+  /* ---------------------------------------------------------------------
+     Navegador embebido (Instagram/Facebook "in-app browser")
+     ---------------------------------------------------------------------
+     Clarity (últimos 90 días) mide 71% del tráfico DENTRO de este WebView
+     (55% Facebook, 16% Instagram), y "error invoking postmessage: java
+     object is gone" es el 83.6% de todos los errores JS del sitio — la
+     firma típica del WebView de Android. Patrón reutilizado tal cual del
+     sitio de Felipe Vergel (sitio-felipe-vergel/index.html), que ya lo
+     validó en producción con el mismo tipo de tráfico:
+
+     - Android: se intenta el redirect automático vía intent:// UNA sola
+       vez por sesión (sessionStorage). No es invasivo para quien sí quiere
+       quedarse navegando adentro: si el usuario vuelve a entrar a otra URL
+       del sitio en la misma sesión, no se repite. Se decidió mantenerlo
+       automático (no opcional/con botón) porque es exactamente el patrón
+       que ya está en producción en felipevergel.com sin quejas reportadas,
+       y todo el tráfico de pauta paga entra por Meta Ads → mismo WebView.
+     - iOS: Apple no expone ninguna API para forzar la salida desde JS
+       (investigado, confirmado muerto). La única salida real es el menú
+       nativo ⋮/••• de la propia app. Por eso NO se intenta ningún redirect
+       ahí: solo se muestra un aviso con botón "Copiar link" (acción que
+       SIEMPRE se completa, sin depender de que la app anfitriona coopere)
+       y el texto explica cómo abrir en el navegador desde ese menú.
+     - El aviso vive en JS (no en el HTML de cada página) a propósito: el
+       sitio tiene 14 páginas y este archivo es el único incluido en las
+       14, así que evita duplicar el mismo bloque de marcado 14 veces. */
+  function esWebViewEmbebido() {
+    return /Instagram|FBAN|FBAV|FB_IAB|FBIOS/i.test(navigator.userAgent || '');
+  }
+  window.VVWebView = { esWebViewEmbebido };
+
+  (function () {
+    if (!esWebViewEmbebido()) return;
+    const esAndroid = /Android/i.test(navigator.userAgent || '');
+
+    if (esAndroid) {
+      try {
+        if (!sessionStorage.getItem('vv_webview_redirect_tried')) {
+          sessionStorage.setItem('vv_webview_redirect_tried', '1');
+          // Sin protocolo y SIN location.hash: intent:// sólo admite un "#"
+          // en toda la URI (el que abre "#Intent;...;end"). Un segundo "#"
+          // rompe el parseo en Android y el redirect no dispara.
+          const sinProtocolo = (location.origin + location.pathname + location.search).replace(/^https?:\/\//, '');
+          location.href = 'intent://' + sinProtocolo + '#Intent;scheme=https;action=android.intent.action.VIEW;end';
+        }
+      } catch (e) { /* silencioso: si falla, el sitio sigue funcionando adentro */ }
+      return; // en Android no hace falta el aviso: o el redirect funciona, o no se nota nada raro
+    }
+
+    // iOS (y cualquier otro no-Android embebido): aviso con copiar-link.
+    try {
+      if (sessionStorage.getItem('vv_webview_hint_closed')) return;
+    } catch (e) { /* sin sessionStorage: se muestra igual, solo no se recuerda el cierre */ }
+
+    const mostrarAviso = () => {
+      const hint = document.createElement('div');
+      hint.className = 'webview-hint';
+      hint.id = 'webviewHint';
+      hint.setAttribute('role', 'region');
+      hint.setAttribute('aria-label', 'Aviso navegador');
+      hint.innerHTML =
+        '<div class="wh-text">Copia este link y pégalo en tu navegador (Safari/Chrome) para la mejor experiencia. También puedes tocar <strong>⋯</strong> arriba y elegir <strong>Abrir en el navegador</strong>.</div>' +
+        '<button class="wh-copy" id="whCopy" type="button">Copiar link</button>' +
+        '<button class="wh-close" id="whClose" aria-label="Cerrar aviso" type="button">×</button>';
+      document.body.appendChild(hint);
+
+      const urlLimpia = location.origin + location.pathname + location.search;
+      function copiarConFallback(texto, onOk) {
+        try {
+          const ta = document.createElement('textarea');
+          ta.value = texto;
+          ta.style.position = 'fixed';
+          ta.style.opacity = '0';
+          document.body.appendChild(ta);
+          ta.select();
+          document.execCommand('copy');
+          document.body.removeChild(ta);
+          onOk();
+        } catch (e) { /* sin fallback posible: el botón sigue visible para reintentar */ }
+      }
+      const whCopy = hint.querySelector('#whCopy');
+      whCopy.addEventListener('click', () => {
+        const listo = () => {
+          whCopy.textContent = '¡Copiado! Pégalo en tu navegador';
+          whCopy.classList.add('copied');
+          try { sessionStorage.setItem('vv_webview_hint_closed', '1'); } catch (e) {}
+        };
+        if (navigator.clipboard && navigator.clipboard.writeText) {
+          navigator.clipboard.writeText(urlLimpia).then(listo).catch(() => copiarConFallback(urlLimpia, listo));
+        } else {
+          copiarConFallback(urlLimpia, listo);
+        }
+      });
+      requestAnimationFrame(() => setTimeout(() => hint.classList.add('show'), 1200));
+      hint.querySelector('#whClose').addEventListener('click', () => {
+        hint.classList.remove('show');
+        try { sessionStorage.setItem('vv_webview_hint_closed', '1'); } catch (e) {}
+        setTimeout(() => hint.remove(), 500);
+      });
+    };
+
+    if (document.body) mostrarAviso();
+    else document.addEventListener('DOMContentLoaded', mostrarAviso, { once: true });
+  })();
+
   const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
   /* ---------------------------------------------------------------------

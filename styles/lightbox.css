@@ -78,5 +78,10 @@ body.lightbox-abierto { overflow: hidden; }
 
 @media (max-width: 40rem) {
   .lightbox__marco { padding: var(--esp-sm); }
-  .lightbox__nav { width: 2.25rem; height: 2.25rem; }
+  /* v2 · Era 2.25rem (36px): por debajo del mínimo táctil de 44px que pide
+     el criterio WCAG 2.5.5/2.5.8, justo en el navegador embebido de
+     Instagram/Facebook donde el dedo es la única entrada. Se mantiene el
+     ícono visual pequeño (svg sigue en 1.25rem) pero el área tocable sube
+     a 2.75rem (44px), igual que .lightbox__cerrar. */
+  .lightbox__nav { width: 2.75rem; height: 2.75rem; }
 }
