@@ -2500,11 +2500,20 @@ figcaption {
 
   /* Último recurso para titulares largos —el inglés los tiene más largos que
      el español— cuando la letra del sistema está muy agrandada: antes partir
-     la palabra con guion que salirse de la pantalla. */
+     la palabra con guion que salirse de la pantalla.
+     v36 · SE QUITA `overflow-wrap: anywhere` DE AQUÍ. Combinado con
+     `text-wrap: balance` (base de `.titulo-seccion`/`.titulo-display`),
+     hacía que el navegador calculara el ancho «equilibrado» como si
+     cualquier título pudiera partirse letra por letra: el resultado, en
+     tamaño de letra NORMAL (sin agrandar nada), era un titular corto como
+     «Estamos abiertos todos los días» partido en una columna angosta,
+     una sílaba por línea, sin guion — bug real reportado por el cliente
+     en la franja de contacto de la portada. `hyphens: auto` solo ya cubre
+     el caso real (palabra suelta más larga que la pantalla): parte con
+     guion visible, no letra por letra, y no dispara el bug de `balance`. */
   h1,
   h2,
   h3 {
     hyphens: auto;
-    overflow-wrap: anywhere;
   }
 }
