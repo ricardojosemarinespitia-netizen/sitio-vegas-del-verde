@@ -67,6 +67,63 @@
   }
 }
 
+/* v32 · LOS CINCO VERBOS EN MÓVIL PASAN A CARRUSEL CON ASOMO.
+   Medido en producción a 375 px: dos columnas dejaban la foto en 159 × 106
+   (miniatura), la frase partida en 3-4 renglones, «Ver el plan» como texto
+   de 12,8 px y Aprender huérfana a media anchura; bloque de 881 px.
+   Una columna tampoco sirve: son ~2,5 pantallas y el plan §4.2 presupuesta
+   1,5. El carrusel da foto grande sin gastar alto.
+   La placa se queda DEBAJO de la foto (regla de §LA PLACA, corrección del
+   cliente): se descartó el texto sobre la imagen con degradado.
+   Descubribilidad: cada tarjeta mide 78 % del ancho, así la siguiente asoma
+   ~22 % — el borde cortado dice «hay más» sin necesidad de flechas.
+   Sólo por debajo de 40em: tableta y escritorio no cambian. */
+@media (max-width: 39.99em) {
+  .home-rejilla--dos {
+    grid-template-columns: none;
+    grid-auto-flow: column;
+    grid-auto-columns: min(78%, 20rem);
+    gap: var(--esp-sm);
+    overflow-x: auto;
+    overscroll-behavior-x: contain;
+    scroll-snap-type: x mandatory;
+    /* Sangra a los cantos de la pantalla y recupera el margen por dentro:
+       la primera tarjeta arranca alineada con el título, la última asoma. */
+    margin-inline: calc(var(--padding-contenedor) * -1);
+    padding-inline: var(--padding-contenedor);
+    scroll-padding-inline: var(--padding-contenedor);
+    padding-block-end: var(--esp-2xs);
+    scrollbar-width: none;
+  }
+
+  .home-rejilla--dos::-webkit-scrollbar {
+    display: none;
+  }
+
+  .home-rejilla--dos > li {
+    scroll-snap-align: start;
+  }
+
+  .home-rejilla--dos .marco--3-2 {
+    aspect-ratio: 4 / 3;
+  }
+
+  .home-rejilla--dos .home-tarjeta__frase {
+    font-size: var(--fs-cuerpo);
+  }
+
+  /* «Ver el plan» se lee como botón: píldora de 44 px (WCAG 2.5.8). */
+  .home-rejilla--dos .home-tarjeta__ir {
+    align-self: flex-start;
+    display: inline-flex;
+    align-items: center;
+    min-height: 2.75rem;
+    padding-inline: var(--esp-sm);
+    border: 1px solid currentColor;
+    border-radius: var(--radio-full);
+  }
+}
+
 @media (min-width: 40em) {
   .home-rejilla {
     grid-template-columns: repeat(2, 1fr);
