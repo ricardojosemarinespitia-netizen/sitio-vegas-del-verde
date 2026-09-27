@@ -591,13 +591,21 @@
          --gap-lg          32→64  px   →   24→44 px
      --gap y --gap-sm NO se tocan: son el aire ENTRE tarjetas, y ese no era
      el problema; apretarlo haría que las rejillas se vieran amontonadas. */
-  --esp-seccion: clamp(2.75rem, 1.5rem + 4.5vw, 5rem);
-  --esp-seccion-sm: clamp(2rem, 1.25rem + 2.5vw, 3.25rem);
-  --esp-seccion-lg: clamp(3.5rem, 2rem + 6vw, 6.5rem);
+  /* v35 · SEGUNDA COMPACTACIÓN (sep. 2026). La clienta insiste: «mucho
+     espacio en blanco en toda la página». Otro ~30 % fuera, manteniendo la
+     proporción sm < común < lg para que la jerarquía de capítulos siga leyéndose:
+         --esp-seccion     44→80 px   →   32→56 px
+         --esp-seccion-sm  32→52 px   →   24→36 px
+         --esp-seccion-lg  56→104 px  →   40→72 px
+         --gap-lg          24→44 px   →   20→32 px
+         --gap             20→36 px   →   18→28 px (sólo el techo) */
+  --esp-seccion: clamp(2rem, 1.1rem + 3.2vw, 3.5rem);
+  --esp-seccion-sm: clamp(1.5rem, 1rem + 1.8vw, 2.25rem);
+  --esp-seccion-lg: clamp(2.5rem, 1.5rem + 4vw, 4.5rem);
 
-  --gap: clamp(1.25rem, 0.9rem + 1.5vw, 2.25rem);
-  --gap-sm: clamp(0.75rem, 0.6rem + 0.7vw, 1.25rem);
-  --gap-lg: clamp(1.5rem, 1rem + 2.2vw, 2.75rem);
+  --gap: clamp(1.125rem, 0.85rem + 1.2vw, 1.75rem);
+  --gap-sm: clamp(0.75rem, 0.6rem + 0.6vw, 1.125rem);
+  --gap-lg: clamp(1.25rem, 0.9rem + 1.5vw, 2rem);
 
   /* ---------------------------------------------------------------------
      5. CONTENEDORES Y LAYOUT

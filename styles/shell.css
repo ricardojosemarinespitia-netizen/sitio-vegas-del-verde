@@ -1282,7 +1282,7 @@ body.menu-abierto .nav {
    3. PÁGINAS SIN HERO (legales, aviso, etc.)
    ========================================================================== */
 .pagina-interior {
-  padding-top: calc(var(--alto-header) + var(--esp-xl));
+  padding-top: calc(var(--alto-header) + var(--esp-lg));
   /* v34 · era --esp-3xl (96 px). Un peldaño menos: el pie trae su propio
      relleno de apertura y los dos sumaban casi 200 px de papel. */
   padding-bottom: var(--esp-2xl);
@@ -1317,7 +1317,7 @@ body.menu-abierto .nav {
   /* v34 · la apertura baja de --esp-3xl (96 px) a --esp-2xl (64 px): pedido
      del cliente de compactar; el filete superior ya separa el pie por sí
      solo y no necesita además un colchón de capítulo. */
-  padding-block: var(--esp-2xl) var(--esp-lg);
+  padding-block: var(--esp-xl) var(--esp-md); /* v35 · 64→48 px */
   scroll-margin-top: calc(var(--alto-header) + var(--esp-md));
 }
 
