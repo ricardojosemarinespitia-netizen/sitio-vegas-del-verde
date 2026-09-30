@@ -155,6 +155,9 @@ const PAGINAS = [
     archivo: 'october-big-day.html',
     orden: [['big-day', 'big-day.html']],
     css: ['styles/sections/home.css', 'styles/sections/big-day.css', 'styles/sections/pie.css'],
+    // Equivalente en inglés: el selector ES/EN de la cabecera apunta aquí
+    // en vez de a en/index.html (sólo para las páginas que lo declaran).
+    en: 'en/october-big-day.html',
   },
 ];
 
@@ -216,7 +219,8 @@ for (const pagina of PAGINAS) {
   if (iCierre <= 8) morir(`${pagina.archivo}: no encontré </footer>.`);
   const cola = original.slice(iCierre);
 
-  const nuevo = cabeza + '\n' + cabecera + '\n' + main + '\n' + pie + cola;
+  const cab = pagina.en ? cabecera.split('href="en/index.html"').join(`href="${pagina.en}"`) : cabecera;
+  const nuevo = cabeza + '\n' + cab + '\n' + main + '\n' + pie + cola;
   fs.writeFileSync(IDX, nuevo, 'utf8');
   totalSecciones += pagina.orden.length;
 

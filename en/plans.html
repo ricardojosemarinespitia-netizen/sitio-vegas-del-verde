@@ -32,14 +32,14 @@
 <link rel="preload" as="font" type="font/woff2" crossorigin href="../styles/fonts/dm-sans-latin.woff2?v=89c7ce3a">
 <link rel="preload" as="font" type="font/woff2" crossorigin href="../styles/fonts/hill-house-vegas.woff2?v=a4d2ce1b">
 
-<link rel="stylesheet" href="../styles/tokens.css?v=e12e8d10">
-<link rel="stylesheet" href="../styles/base.css?v=a9f3ede7">
-<link rel="stylesheet" href="../styles/shell.css?v=ad875ced">
+<link rel="stylesheet" href="../styles/tokens.css?v=49b1408d">
+<link rel="stylesheet" href="../styles/base.css?v=9eefd0e0">
+<link rel="stylesheet" href="../styles/shell.css?v=313e1e80">
 
-<link rel="stylesheet" href="../styles/sections/home.css?v=9cd2b333">
-<link rel="stylesheet" href="../styles/sections/planes.css?v=6a5c14b9">
-<link rel="stylesheet" href="../styles/sections/pie.css?v=0a889dce">
-<link rel="stylesheet" href="../styles/lightbox.css?v=92a48a1f">
+<link rel="stylesheet" href="../styles/sections/home.css?v=080cbab0">
+<link rel="stylesheet" href="../styles/sections/planes.css?v=d23e70ab">
+<link rel="stylesheet" href="../styles/sections/pie.css?v=34467e07">
+<link rel="stylesheet" href="../styles/lightbox.css?v=a2679da6">
 
 <script type="application/ld+json">
 {
@@ -91,6 +91,7 @@ src="https://www.facebook.com/tr?id=28408308795489956&ev=PageView&noscript=1"
 
     <nav class="nav" id="nav-principal" aria-label="Main navigation">
       <ul class="nav__lista">
+        <li class="nav__item--evento" data-evento-hasta="2026-10-10T12:00:00-05:00"><a class="nav__enlace nav__enlace--evento" href="october-big-day.html"><span class="nav__evento-fecha">Sat Oct 10 · free entry</span>October Big Day</a></li>
         <li class="nav__item--secundario"><a class="nav__enlace" href="index.html#nosotros">About us</a></li>
         <li><a class="nav__enlace" href="spaces.html">Venues</a></li>
         <li><a class="nav__enlace" href="plans.html">Plans</a></li>
@@ -206,7 +207,7 @@ src="https://www.facebook.com/tr?id=28408308795489956&ev=PageView&noscript=1"
   aria-label="Upcoming event"
   hidden
 >
-  <a class="evento-flotante__enlace" href="../october-big-day.html" hreflang="es">
+  <a class="evento-flotante__enlace" href="october-big-day.html">
     <span class="evento-flotante__punto" aria-hidden="true"></span>
     <span class="evento-flotante__texto">
       <span class="evento-flotante__rotulo">Event · Sat Oct 10</span>
@@ -239,6 +240,79 @@ src="https://www.facebook.com/tr?id=28408308795489956&ev=PageView&noscript=1"
       <p class="eyebrow">Events and activities</p>
       <h1 id="portada-planes-titulo" class="pagina-encabezado__titulo">Five plans for the same forest</h1>
     </div>
+
+    <!-- UPCOMING EVENT · OCTOBER BIG DAY 2026 (Sat 10 Oct, 6:30 a.m.–12 noon).
+         English version of the card in sections/planes.html. Hides itself after
+         the event (data-evento-hasta, js/app.js). CSS: planes.css «EVENTO». -->
+    <article
+      id="october-big-day"
+      class="foto-placa foto-placa--lado planes-evento planes-evento--bigday reveal"
+      aria-labelledby="october-big-day-titulo"
+      data-evento-hasta="2026-10-10T12:00:00-05:00"
+    >
+      <p class="planes-evento__rotulo planes-evento__antetitulo"><span>Next event · <time datetime="2026-10-10">Oct 10</time></span></p>
+      <figure class="planes-evento__figura">
+        <picture class="planes-evento__marco">
+          <source
+            type="image/webp"
+            srcset="../img/aves/ave-46-momotus-subrufescens-400.webp 400w, ../img/aves/ave-46-momotus-subrufescens-600.webp 600w, ../img/aves/ave-46-momotus-subrufescens-800.webp 800w, ../img/aves/ave-46-momotus-subrufescens.webp 867w"
+            sizes="(max-width: 47.99em) 92vw, (max-width: 61.99em) 60vw, (max-width: 90em) 42vw, 600px"
+          />
+          <img
+            class="planes-evento__foto"
+            src="../img/aves/ave-46-momotus-subrufescens.jpg"
+            srcset="../img/aves/ave-46-momotus-subrufescens-400.jpg 400w, ../img/aves/ave-46-momotus-subrufescens-600.jpg 600w, ../img/aves/ave-46-momotus-subrufescens-800.jpg 800w, ../img/aves/ave-46-momotus-subrufescens.jpg 867w"
+            sizes="(max-width: 47.99em) 92vw, (max-width: 61.99em) 60vw, (max-width: 90em) 42vw, 600px"
+            width="867"
+            height="1300"
+            loading="eager"
+            fetchpriority="high"
+            decoding="async"
+            alt="Motmot (Momotus subrufescens) perched on a branch in the Vegas del Verde forest, with a fruit in its beak and its long blue tail hanging down."
+          />
+        </picture>
+        <figcaption class="planes-evento__credito credito">
+          <i lang="la">Momotus subrufescens</i> · Photo: Leyner Lozano
+        </figcaption>
+      </figure>
+      <div class="placa placa--filete planes-evento__placa">
+        <div class="planes-evento__cabeza">
+          <h2 id="october-big-day-titulo" class="planes-evento__titulo">October Big Day</h2>
+          <p class="planes-evento__fecha"><time datetime="2026-10-10">Saturday 10 October</time></p>
+        </div>
+        <p class="planes-evento__bajada">A day of citizen science when the whole world goes out to count birds. Our forest is one of the observation sites.</p>
+        <p class="planes-evento__cifra reveal">
+          <span class="planes-evento__numero" aria-hidden="true"></span>
+          <span class="planes-evento__cifra-texto"><span class="solo-lectores">117 </span>birds from our forest are already recorded on eBird. Come and see them.</span>
+        </p>
+        <dl class="planes-evento__ficha reveal">
+          <div class="planes-evento__fila">
+            <dt>Time</dt>
+            <dd><time datetime="2026-10-10T06:30-05:00">6:30&nbsp;a.m.</time> to <time datetime="2026-10-10T12:00-05:00">12 noon</time></dd>
+          </div>
+          <div class="planes-evento__fila">
+            <dt>Entry</dt>
+            <dd>Free, and the whole family is welcome.</dd>
+          </div>
+          <div class="planes-evento__fila">
+            <dt>Breakfast</dt>
+            <dd>Tamal, arepa with eggs or cheese fingers, booked ahead.</dd>
+          </div>
+        </dl>
+        <div class="planes-evento__acciones">
+          <a
+            class="btn btn-whatsapp planes-evento__cta"
+            href="https://wa.me/573166758362?text=Hi%2C%20I%27d%20like%20to%20book%20my%20spot%20for%20the%20October%20Big%20Day%20on%20Saturday%2010%20October%20at%20Vegas%20del%20Verde."
+            target="_blank"
+            rel="noopener"
+          >
+            Book my spot<span class="solo-lectores"> for the October Big Day on WhatsApp</span>
+          </a>
+          <a class="enlace-flecha planes-evento__mas" href="october-big-day.html">See the full event</a>
+        </div>
+        <p class="planes-evento__nota">Entry is free: booking just saves your spot.</p>
+      </div>
+    </article>
   </div>
 </section>
 
@@ -303,7 +377,7 @@ src="https://www.facebook.com/tr?id=28408308795489956&ev=PageView&noscript=1"
           </p>
 
           <h3 class="titulo-seccion titulo-seccion--sm">
-            The party starts when the bulbs come on
+            Evenings under the trees, softly lit
           </h3>
 
           <p class="planes-carril__copy">
@@ -767,7 +841,7 @@ src="https://www.facebook.com/tr?id=28408308795489956&ev=PageView&noscript=1"
 
   </div>
 </footer>
-<script src="../js/app.js?v=1ab9041e" defer></script>
+<script src="../js/app.js?v=761a8dd5" defer></script>
 
 </body>
 </html>

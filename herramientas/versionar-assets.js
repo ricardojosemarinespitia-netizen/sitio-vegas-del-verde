@@ -65,6 +65,11 @@ const PAGINAS = [
   // una vez, ver arriba), estas rutas llegan igualmente con su ?v=.
   'sections/momentos.html', 'sections/naturaleza.html',
   'sections/espacios.html', 'sections/nosotros.html', 'sections/hero.html',
+  // v36 · la página del evento y el sitio en inglés (en/, rutas con ../).
+  // Se habían quedado fuera: en/ seguía sirviendo hojas viejas de caché.
+  'october-big-day.html',
+  'en/index.html', 'en/plans.html', 'en/spaces.html', 'en/october-big-day.html',
+  'en/privacy-policy.html', 'en/rental-conditions.html', 'en/terms.html',
 ];
 
 const hashCache = new Map();
@@ -79,7 +84,7 @@ function hashDe(relRuta) {
 
 // src="js/..." o href="styles/..." — sólo rutas locales, nunca las de
 // fonts.googleapis.com ni ninguna otra externa.
-const RE_REF = /\b(src|href)="(js\/[^"?]+|styles\/[^"?]+)(\?v=[a-f0-9]+)?"/g;
+const RE_REF = /\b(src|href)="(\.\.\/)?(js\/[^"?]+|styles\/[^"?]+)(\?v=[a-f0-9]+)?"/g;
 
 // import('./js/...') dinámico dentro de un <script> en línea — así se monta
 // el módulo de partículas del hero (sections/hero.html → index.html). No es
@@ -87,7 +92,7 @@ const RE_REF = /\b(src|href)="(js\/[^"?]+|styles\/[^"?]+)(\?v=[a-f0-9]+)?"/g;
 // publicar un arreglo de ese módulo dejaría al navegador del cliente
 // sirviendo la copia vieja hasta 10 minutos — justo el bug que este script
 // existe para impedir. Captura la comilla y el ./ para devolverlos tal cual.
-const RE_IMPORT = /\bimport\((['"])(\.\/)?(js\/[^'"?]+)(\?v=[a-f0-9]+)?\1\)/g;
+const RE_IMPORT = /\bimport\((['"])(\.\/|\.\.\/)?(js\/[^'"?]+)(\?v=[a-f0-9]+)?\1\)/g;
 
 let totalTocados = 0, totalIntactos = 0, totalSinArchivo = 0;
 
@@ -97,10 +102,10 @@ for (const rel of PAGINAS) {
   let doc = fs.readFileSync(abs, 'utf8');
   let tocados = 0, intactos = 0, sinArchivo = 0;
 
-  doc = doc.replace(RE_REF, (todo, attr, ruta) => {
+  doc = doc.replace(RE_REF, (todo, attr, sube, ruta) => {
     const h = hashDe(ruta);
     if (!h) { sinArchivo++; console.log('  *** no existe:', ruta, '(en ' + rel + ')'); return todo; }
-    const nuevo = `${attr}="${ruta}?v=${h}"`;
+    const nuevo = `${attr}="${sube || ''}${ruta}?v=${h}"`;
     if (nuevo === todo) intactos++; else tocados++;
     return nuevo;
   });

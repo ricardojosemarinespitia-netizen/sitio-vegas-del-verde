@@ -127,6 +127,7 @@ PAGINAS = [
         "orden": [("big-day", "big-day.html")],
         "css": ["styles/sections/home.css", "styles/sections/big-day.css",
                 "styles/sections/pie.css"],
+        "en": "en/october-big-day.html",
     },
 ]
 
@@ -203,7 +204,8 @@ for pagina in PAGINAS:
     i_cierre = original.rindex("</footer>") + len("</footer>")
     cola = original[i_cierre:]
 
-    nuevo = cabeza + "\n" + cabecera + "\n" + main + "\n" + pie + cola
+    cab = cabecera.replace('href="en/index.html"', 'href="%s"' % pagina["en"]) if pagina.get("en") else cabecera
+    nuevo = cabeza + "\n" + cab + "\n" + main + "\n" + pie + cola
     escribir(IDX, nuevo)
     total_secciones += len(pagina["orden"])
 
