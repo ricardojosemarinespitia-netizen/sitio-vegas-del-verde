@@ -40,10 +40,10 @@
 <link rel="stylesheet" href="styles/shell.css?v=5870951b">
 <!-- Este bloque lo REESCRIBE herramientas/ensamblar.js a partir de PAGINAS.
      No lo edites a mano: la lista buena está allí. -->
-<link rel="stylesheet" href="styles/sections/home.css?v=080cbab0">
-<link rel="stylesheet" href="styles/sections/naturaleza.css?v=21c0fb08">
-<link rel="stylesheet" href="styles/sections/sendero.css?v=7e105ae1">
-<link rel="stylesheet" href="styles/sections/pie.css?v=0c990755">
+<link rel="stylesheet" href="styles/sections/home.css">
+<link rel="stylesheet" href="styles/sections/naturaleza.css">
+<link rel="stylesheet" href="styles/sections/sendero.css">
+<link rel="stylesheet" href="styles/sections/pie.css">
 <link rel="stylesheet" href="styles/lightbox.css?v=a2679da6">
 
 <script type="application/ld+json">
@@ -165,30 +165,33 @@ src="https://www.facebook.com/tr?id=28408308795489956&ev=PageView&noscript=1"
            Las páginas sueltas que no usan este fragmento siguen como estaban:
            no era el pedido.
 
-           v35 · LOGO DEFINITIVO (decisión del cliente, 2026-09-26). El
-           símbolo pasa a `img/logo/simbolo-definitivo.svg`: VECTORIAL, trazado
-           desde el logo definitivo con los colores exactos muestreados
-           (hojas #50C58E, puntos #E74B40 y #E3CA39), nítido a cualquier
-           densidad y sin la caja gris que el `img{background}` de base.css le
-           pintaba detrás al PNG. Mismas proporciones que el recorte anterior
-           (738×351 frente a 744×351), así que las cuentas de ancho de
-           shell.css siguen valiendo. Y el nombre al lado YA ES la letra del
-           logo: --fuente-display es Hill House, la tipografía con la que está
-           compuesto el rótulo «VEGAS DEL VERDE» — el lockup de dos partes
-           ahora reproduce el logo, no lo imita. Un SVG no necesita <picture>
-           ni respaldo webp/png. -->
-      <img
-        class="marca__simbolo"
-        src="img/logo/simbolo-definitivo.svg"
-        width="738"
-        height="351"
-        alt=""
-        decoding="async"
-      />
-      <!-- v36 · El nombre es el WORDMARK VECTORIAL real del logo del cliente
-           (no texto en una fuente: el cliente lo rechazó). alt="" porque el
-           nombre accesible del enlace ya lo fija su aria-label. -->
-      <img class="marca__nombre" src="img/logo/wordmark-definitivo.svg" width="1166" height="137" alt="" decoding="async" />
+           v37 · LOGO OFICIAL (decisión del cliente, 2026-09-26: el trazado
+           v35 seguía sin convencer — «SIGO SIN VER EL LOGO ORIGINAL»). Se
+           reemplaza por el archivo oficial descargado directamente de la
+           página de Facebook del cliente (foto de perfil en alta resolución,
+           1080×1350, arte plano sin la textura de acuarela del flyer), recortado
+           en símbolo + nombre, escalado 4x por GPU (Real-ESRGAN) y con el
+           fondo blanco vuelto transparente. Es RASTER (PNG/WebP), no vector,
+           porque la fuente es una foto de un logo ya diseñado en plano, no
+           una ilustración para retrazar: cualquier trazado nuestro iba a
+           diferir del original en algo, que es justo la queja del cliente. -->
+      <picture>
+        <source srcset="img/logo/simbolo-oficial.webp" type="image/webp" />
+        <img
+          class="marca__simbolo"
+          src="img/logo/simbolo-oficial.png"
+          width="755"
+          height="367"
+          alt=""
+          decoding="async"
+        />
+      </picture>
+      <!-- v37 · Nombre: mismo archivo oficial, recorte del texto. alt=""
+           porque el nombre accesible del enlace ya lo fija su aria-label. -->
+      <picture>
+        <source srcset="img/logo/wordmark-oficial.webp" type="image/webp" />
+        <img class="marca__nombre" src="img/logo/wordmark-oficial.png" width="756" height="92" alt="" decoding="async" />
+      </picture>
     </a>
 
     <nav class="nav" id="nav-principal" aria-label="Navegación principal">
@@ -1200,21 +1203,26 @@ src="https://www.facebook.com/tr?id=28408308795489956&ev=PageView&noscript=1"
            El alt del símbolo va VACÍO: el nombre ya está aquí al lado en
            texto real, así que la imagen es decorativa y repetirlo sería
            leer «Vegas del Verde» dos veces con lector de pantalla. -->
-      <!-- v35 · LOGO DEFINITIVO (cliente, 2026-09-26): el símbolo pasa al SVG
-           vectorial `simbolo-definitivo.svg` (mismas proporciones que el
-           recorte PNG) y el nombre, que ya iba en --fuente-display, sale ahora
-           en Hill House, la letra real del logo. -->
+      <!-- v37 · LOGO OFICIAL (cliente, 2026-09-26): reemplaza el trazado v35,
+           que el cliente seguía sin reconocer. Ver la nota completa en
+           sections/_header.html — mismo archivo oficial, mismo recorte. -->
       <div class="pie-final__marca">
-        <img
-          class="pie-final__simbolo"
-          src="img/logo/simbolo-definitivo.svg"
-          width="738"
-          height="351"
-          alt=""
-          loading="lazy"
-          decoding="async"
-        />
-        <img class="pie-final__nombre" src="img/logo/wordmark-definitivo.svg" width="1166" height="137" alt="Vegas del Verde" loading="lazy" decoding="async" />
+        <picture>
+          <source srcset="img/logo/simbolo-oficial.webp" type="image/webp" />
+          <img
+            class="pie-final__simbolo"
+            src="img/logo/simbolo-oficial.png"
+            width="755"
+            height="367"
+            alt=""
+            loading="lazy"
+            decoding="async"
+          />
+        </picture>
+        <picture>
+          <source srcset="img/logo/wordmark-oficial.webp" type="image/webp" />
+          <img class="pie-final__nombre" src="img/logo/wordmark-oficial.png" width="756" height="92" alt="Vegas del Verde" loading="lazy" decoding="async" />
+        </picture>
       </div>
 
       <div class="pie-final__acciones">

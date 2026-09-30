@@ -634,10 +634,25 @@
    pasa del alto de la ventana: ahí el aire vale menos que ver el botón, así
    que el relleno vertical baja un paso. No se toca el cuerpo del titular: la
    escala fluida ya lo bajó a 2,8 rem, y por debajo de eso el titular deja de
-   ser una portada. */
+   ser una portada.
+   v38 · LA INSIGNIA SE ALEJA DE LA CARA DEL AVE (cliente, 2026-09-26: «lo del
+   hero de amarillo, súbelo más que tapa la cara del pájaro»). El bloque
+   entero —insignia, titular, entradilla y botones— está anclado al fondo de
+   la portada (`.inicio__portada { align-items: flex-end }`), PERO en el
+   rango donde el titular es alto (móvil) el contenido ya no cabe en
+   `min-height` y la caja crece para alojarlo: con la caja más alta que la
+   ventana, `flex-end` deja de tener nada que alinear y la posición del
+   bloque pasa a depender solo del relleno de ARRIBA de este interior (medido:
+   con `--esp-xl` la insignia queda a `alto-header + 48px`, pegada al pico del
+   ave de `hero-ave-rosada.*`). Bajar ese relleno a `--esp-lg` sube el bloque
+   entero 16 px y despeja el ojo y el pico; no toca --pos-foto-y ni el
+   recorte de la foto —ese número lo comparte particulas-hero.js
+   (POSICION_FOTO) y moverlo aquí sólo para móvil los desincroniza, ver la
+   nota de --pos-foto-y arriba—, así que el titular y los botones se mueven
+   junto con la insignia sin que la composición se desarme. */
 @media (max-width: 47.99em) {
   .inicio__portada-interior {
-    padding-block: var(--esp-xl) calc(var(--esp-lg) + var(--alto-orla));
+    padding-block: var(--esp-lg) calc(var(--esp-lg) + var(--alto-orla));
   }
 }
 

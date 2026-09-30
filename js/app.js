@@ -20,14 +20,12 @@
        que ya está en producción en felipevergel.com sin quejas reportadas,
        y todo el tráfico de pauta paga entra por Meta Ads → mismo WebView.
      - iOS: Apple no expone ninguna API para forzar la salida desde JS
-       (investigado, confirmado muerto). La única salida real es el menú
-       nativo ⋮/••• de la propia app. Por eso NO se intenta ningún redirect
-       ahí: solo se muestra un aviso con botón "Copiar link" (acción que
-       SIEMPRE se completa, sin depender de que la app anfitriona coopere)
-       y el texto explica cómo abrir en el navegador desde ese menú.
-     - El aviso vive en JS (no en el HTML de cada página) a propósito: el
-       sitio tiene 14 páginas y este archivo es el único incluido en las
-       14, así que evita duplicar el mismo bloque de marcado 14 veces. */
+       (investigado, confirmado muerto). Se probó un aviso con botón
+       "Copiar link" y se RETIRÓ por decisión del cliente (2026-09-30): el
+       sitio ya quedó adaptado para funcionar bien dentro del WebView
+       (áreas táctiles de 44 px, header fixed, popups que no bloquean el
+       scroll, enlaces de WhatsApp directos), así que no hace falta pedirle
+       a nadie que salga. En iOS no se hace nada. */
   function esWebViewEmbebido() {
     return /Instagram|FBAN|FBAV|FB_IAB|FBIOS/i.test(navigator.userAgent || '');
   }
@@ -48,63 +46,7 @@
           location.href = 'intent://' + sinProtocolo + '#Intent;scheme=https;action=android.intent.action.VIEW;end';
         }
       } catch (e) { /* silencioso: si falla, el sitio sigue funcionando adentro */ }
-      return; // en Android no hace falta el aviso: o el redirect funciona, o no se nota nada raro
     }
-
-    // iOS (y cualquier otro no-Android embebido): aviso con copiar-link.
-    try {
-      if (sessionStorage.getItem('vv_webview_hint_closed')) return;
-    } catch (e) { /* sin sessionStorage: se muestra igual, solo no se recuerda el cierre */ }
-
-    const mostrarAviso = () => {
-      const hint = document.createElement('div');
-      hint.className = 'webview-hint';
-      hint.id = 'webviewHint';
-      hint.setAttribute('role', 'region');
-      hint.setAttribute('aria-label', 'Aviso navegador');
-      hint.innerHTML =
-        '<div class="wh-text">Copia este link y pégalo en tu navegador (Safari/Chrome) para la mejor experiencia. También puedes tocar <strong>⋯</strong> arriba y elegir <strong>Abrir en el navegador</strong>.</div>' +
-        '<button class="wh-copy" id="whCopy" type="button">Copiar link</button>' +
-        '<button class="wh-close" id="whClose" aria-label="Cerrar aviso" type="button">×</button>';
-      document.body.appendChild(hint);
-
-      const urlLimpia = location.origin + location.pathname + location.search;
-      function copiarConFallback(texto, onOk) {
-        try {
-          const ta = document.createElement('textarea');
-          ta.value = texto;
-          ta.style.position = 'fixed';
-          ta.style.opacity = '0';
-          document.body.appendChild(ta);
-          ta.select();
-          document.execCommand('copy');
-          document.body.removeChild(ta);
-          onOk();
-        } catch (e) { /* sin fallback posible: el botón sigue visible para reintentar */ }
-      }
-      const whCopy = hint.querySelector('#whCopy');
-      whCopy.addEventListener('click', () => {
-        const listo = () => {
-          whCopy.textContent = '¡Copiado! Pégalo en tu navegador';
-          whCopy.classList.add('copied');
-          try { sessionStorage.setItem('vv_webview_hint_closed', '1'); } catch (e) {}
-        };
-        if (navigator.clipboard && navigator.clipboard.writeText) {
-          navigator.clipboard.writeText(urlLimpia).then(listo).catch(() => copiarConFallback(urlLimpia, listo));
-        } else {
-          copiarConFallback(urlLimpia, listo);
-        }
-      });
-      requestAnimationFrame(() => setTimeout(() => hint.classList.add('show'), 1200));
-      hint.querySelector('#whClose').addEventListener('click', () => {
-        hint.classList.remove('show');
-        try { sessionStorage.setItem('vv_webview_hint_closed', '1'); } catch (e) {}
-        setTimeout(() => hint.remove(), 500);
-      });
-    };
-
-    if (document.body) mostrarAviso();
-    else document.addEventListener('DOMContentLoaded', mostrarAviso, { once: true });
   })();
 
   const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
