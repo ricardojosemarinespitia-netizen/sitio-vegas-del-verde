@@ -162,10 +162,14 @@
    sin letras, transparencia real) y el nombre lo pone el HTML.
    Se dimensiona por ALTO, no por ancho como la v28: el símbolo es apaisado
    (744×351) y por ancho crecería fuera de la fila. */
-.pie-final__simbolo {
+/* v40 · logo oficial completo (una sola imagen, ver .marca__logo en shell.css):
+   apaisado 1,6:1, por alto. */
+.pie-final__logo {
+  display: block;
   width: auto;
-  height: clamp(2.4rem, 2rem + 1.6vw, 3.2rem);
+  height: clamp(3.5rem, 3rem + 2vw, 5rem);
   flex: none;
+  background: none;
 }
 
 /* La marca firma, no compite: baja de --fs-h3 a --fs-h4 para que la escala
@@ -173,13 +177,6 @@
 /* v36 · El nombre es el wordmark VECTORIAL real (img/logo/wordmark-definitivo.svg),
    no texto en fuente: mismo criterio que .marca__nombre de la cabecera.
    Por alto, ≈ 0,42 × el símbolo (proporción del logo original). */
-.pie-final__nombre {
-  display: block;
-  width: auto;
-  height: clamp(1rem, 0.85rem + 0.6vw, 1.35rem);
-  flex: none;
-}
-
 .pie-final__acciones {
   display: flex;
   flex-wrap: wrap;

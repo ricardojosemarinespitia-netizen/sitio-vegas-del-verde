@@ -244,13 +244,24 @@ body:has(#inicio) .cabecera__volver {
    Alto fijo, ancho automático: el símbolo es apaisado (744×351) y así
    SIEMPRE cabe dentro de la barra sin estirarla, venga la cabecera del alto
    que venga. */
-.marca__simbolo {
+/* v40 · LOGO OFICIAL COMPLETO (cliente, 2026-09-30, a gritos y con captura:
+   «BUSCA ESTE LOGO Y ANÉXALO»). Se acabó el lockup de dos piezas
+   (símbolo + wordmark en fila): es UNA sola imagen, `logo-vegas-oficial-*`,
+   el logo tal cual lo publica el cliente en sus redes —hojas, puntos rojo y
+   amarillo, filete verde y «VEGAS DEL VERDE» debajo, apilado—. Se dimensiona
+   por ALTO (apaisado 1,6:1, ancho automático): 48 px en celular, sube con la
+   cabecera hasta 68 px en escritorio. alt="" porque el enlace `.marca` ya
+   lleva aria-label. */
+.marca__logo {
+  display: block;
   width: auto;
-  height: calc(var(--alto-header) - var(--esp-lg));
-  max-height: 2.75rem;
+  height: calc(var(--alto-header) - var(--esp-sm));
   flex: 0 0 auto;
   /* v3: es una imagen, y en este sistema ninguna imagen lleva radio. */
   border-radius: 0;
+  /* El PNG es transparente: sin esto el `img { background }` de base.css le
+     pinta una caja gris detrás. */
+  background: none;
 }
 
 /* El nombre firma; no grita. Mismo registro que `.pie-final__nombre` del pie
@@ -278,14 +289,6 @@ body:has(#inicio) .cabecera__volver {
    las versales, porque el viewBox está ceñido a las letras. Proporción con
    el símbolo tomada del logo apilado original: texto ≈ 0,4 × alto del
    símbolo. */
-.marca__nombre {
-  display: block;
-  width: auto;
-  height: 1.05rem;
-  flex: none;
-  border-radius: 0;
-}
-
 /* v32 · EL LOCKUP CRECE EN ESCRITORIO — pedido literal del cliente: «que el
    logo de Vegas tenga protagonismo». No es un capricho de tamaño: hasta v31 la
    marca compartía la fila con siete rótulos y por eso vivía comprimida (símbolo
@@ -313,16 +316,6 @@ body:has(#inicio) .cabecera__volver {
     gap: 0.9rem;
   }
 
-  .marca__simbolo {
-    height: calc(var(--alto-header) - var(--esp-md));
-    max-height: 3.5rem;
-  }
-
-  /* v36 · 1,5 rem = 24 px de versal junto a un símbolo de 56 px (≈ 0,43,
-     la proporción del logo original): 204 px de ancho. */
-  .marca__nombre {
-    height: 1.5rem;
-  }
 }
 
 /* ---- Navegación ---------------------------------------------------------- */
@@ -1145,13 +1138,6 @@ body.menu-abierto .nav {
      conseguía era un salto visible de 38,4 a 44 px al cruzar los 62 em.
      Quien cede ancho es el nombre —con un cuerpo menor— y, en el último
      tramo, el modo apilado de < 23 em. */
-  .marca__nombre {
-    /* v36 · wordmark SVG: escala por alto (12 px a 375, ~15 px a 768).
-       No cede ancho: es lo que identifica el sitio. */
-    height: clamp(0.75rem, 0.45rem + 1vw, 1rem);
-    flex: none;
-  }
-
   .marca {
     gap: 0.55rem;
   }
@@ -1210,16 +1196,10 @@ body.menu-abierto .nav {
     gap: min(0.5rem, 8px);
   }
 
-  /* v36 · El wordmark vectorial es de UNA línea (no se puede apilar como el
-     texto de v31), así que aquí cede el símbolo: baja a 24 px (≈ 51 px de
-     ancho) y el wordmark queda en 11 px de versal (≈ 94 px de ancho).
-     Cuenta a 320 px: 51 + 8 + 94 = 153 ≤ 157,6 disponibles. */
-  .marca__simbolo {
-    height: min(1.5rem, 24px);
-  }
-
-  .marca__nombre {
-    height: min(0.6875rem, 11px);
+  /* v40 · el logo completo mide 1,6:1: a 44 px de alto son 70 px de ancho,
+     de sobra para los 157,6 px libres a 320 px. */
+  .marca__logo {
+    height: min(2.75rem, 44px);
   }
 }
 

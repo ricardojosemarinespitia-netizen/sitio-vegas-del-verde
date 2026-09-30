@@ -1565,6 +1565,41 @@
     padding-left: 0;
     border-left: 0;
   }
+
+  /* v39 · LA INSIGNIA SE ANCLA ARRIBA DE LA PORTADA (cliente, 2026-09-30, por
+     segunda vez: «el letrero amarillo del hero en celular, súbelo más, que
+     tapa el ojo del ave»). Subir el relleno del bloque (v38) no bastó: en
+     un iPhone real el pico y el ojo del ave caen justo bajo la insignia
+     porque ésta seguía en el flujo, pegada al titular. Ahora sale del flujo
+     y se ancla al borde superior de la portada (`--esp-md` bajo la
+     cabecera), así que queda SIEMPRE por encima de la cabeza del ave sea
+     cual sea el alto de la pantalla, y el titular no se mueve. Para que el
+     `absolute` mida desde el borde de la portada, el interior pasa a ocupar
+     TODO el alto (`align-items: stretch`) y reparte su contenido pegado al
+     fondo con `justify-content: flex-end`: es lo mismo que hacía el
+     `flex-end` de la portada, así que el titular no se mueve. NO se quita
+     el `position: relative` del interior: probado, sin él la primera línea
+     del titular desaparece. */
+  .inicio__portada {
+    align-items: stretch;
+  }
+
+  .inicio__portada-interior {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    /* Hueco reservado para la insignia (alto ≈ 4,1 rem + su separación de
+       arriba y un respiro debajo): en pantallas cortas, donde el bloque ya no
+       cabe, el titular arranca debajo de ella en vez de pisarla. */
+    padding-top: calc(var(--esp-md) + 4.5rem + var(--esp-sm));
+  }
+
+  .inicio__insignia {
+    position: absolute;
+    top: var(--esp-md);
+    left: var(--esp-md);
+    margin: 0;
+  }
 }
 
 /* MOVIMIENTO: la insignia entra con un barrido de clip-path (se "despega"
