@@ -152,14 +152,6 @@ const PAGINAS = [
     css: ['styles/sections/home.css', 'styles/sections/ubicacion.css', 'styles/sections/pie.css'],
   },
   {
-    archivo: 'october-big-day.html',
-    orden: [['big-day', 'big-day.html']],
-    css: ['styles/sections/home.css', 'styles/sections/big-day.css', 'styles/sections/pie.css'],
-    // Equivalente en inglés: el selector ES/EN de la cabecera apunta aquí
-    // en vez de a en/index.html (sólo para las páginas que lo declaran).
-    en: 'en/october-big-day.html',
-  },
-  {
     // Yoga en Pareja (sáb 17 y 24 oct 2026). Destino de los anuncios de Meta.
     // Sin equivalente en inglés: el evento anterior de yoga tampoco lo tuvo.
     archivo: 'yoga-en-pareja.html',

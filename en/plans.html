@@ -91,7 +91,6 @@ src="https://www.facebook.com/tr?id=28408308795489956&ev=PageView&noscript=1"
 
     <nav class="nav" id="nav-principal" aria-label="Main navigation">
       <ul class="nav__lista">
-        <li class="nav__item--evento" data-evento-hasta="2026-10-10T12:00:00-05:00"><a class="nav__enlace nav__enlace--evento" href="october-big-day.html"><span class="nav__evento-fecha">Sat Oct 10 · free entry</span>October Big Day</a></li>
         <li class="nav__item--secundario"><a class="nav__enlace" href="index.html#nosotros">About us</a></li>
         <li><a class="nav__enlace" href="spaces.html">Venues</a></li>
         <li><a class="nav__enlace" href="plans.html">Plans</a></li>
@@ -200,29 +199,7 @@ src="https://www.facebook.com/tr?id=28408308795489956&ev=PageView&noscript=1"
      sería justo el banner que estorba. Para el próximo evento se cambian
      data-evento, data-evento-hasta, el texto y el href; la clave nueva hace
      que vuelva a verse aunque el lector haya cerrado el anterior. -->
-<aside
-  class="evento-flotante"
-  data-evento="october-big-day-2026-10-10"
-  data-evento-hasta="2026-10-10T12:00:00-05:00"
-  aria-label="Upcoming event"
-  hidden
->
-  <a class="evento-flotante__enlace" href="october-big-day.html">
-    <span class="evento-flotante__punto" aria-hidden="true"></span>
-    <span class="evento-flotante__texto">
-      <span class="evento-flotante__rotulo">Event · Sat Oct 10</span>
-      <span class="evento-flotante__titulo">October Big Day</span>
-    </span>
-    <svg class="evento-flotante__flecha" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
-      <path d="M5 12h14M13 6l6 6-6 6"/>
-    </svg>
-  </a>
-  <button class="evento-flotante__cerrar" type="button" aria-label="Close event notice">
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true" focusable="false">
-      <path d="M6 6l12 12M18 6 6 18"/>
-    </svg>
-  </button>
-</aside>
+
 
 <a class="volver-flotante" href="index.html" aria-label="Back to the Vegas del Verde home page">
   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
@@ -244,76 +221,7 @@ src="https://www.facebook.com/tr?id=28408308795489956&ev=PageView&noscript=1"
     <!-- UPCOMING EVENT · OCTOBER BIG DAY 2026 (Sat 10 Oct, 6:30 a.m.–12 noon).
          English version of the card in sections/planes.html. Hides itself after
          the event (data-evento-hasta, js/app.js). CSS: planes.css «EVENTO». -->
-    <article
-      id="october-big-day"
-      class="foto-placa foto-placa--lado planes-evento planes-evento--bigday reveal"
-      aria-labelledby="october-big-day-titulo"
-      data-evento-hasta="2026-10-10T12:00:00-05:00"
-    >
-      <p class="planes-evento__rotulo planes-evento__antetitulo"><span>Next event · <time datetime="2026-10-10">Oct 10</time></span></p>
-      <figure class="planes-evento__figura">
-        <picture class="planes-evento__marco">
-          <source
-            type="image/webp"
-            srcset="../img/aves/ave-46-momotus-subrufescens-400.webp 400w, ../img/aves/ave-46-momotus-subrufescens-600.webp 600w, ../img/aves/ave-46-momotus-subrufescens-800.webp 800w, ../img/aves/ave-46-momotus-subrufescens.webp 867w"
-            sizes="(max-width: 47.99em) 92vw, (max-width: 61.99em) 60vw, (max-width: 90em) 42vw, 600px"
-          />
-          <img
-            class="planes-evento__foto"
-            src="../img/aves/ave-46-momotus-subrufescens.jpg"
-            srcset="../img/aves/ave-46-momotus-subrufescens-400.jpg 400w, ../img/aves/ave-46-momotus-subrufescens-600.jpg 600w, ../img/aves/ave-46-momotus-subrufescens-800.jpg 800w, ../img/aves/ave-46-momotus-subrufescens.jpg 867w"
-            sizes="(max-width: 47.99em) 92vw, (max-width: 61.99em) 60vw, (max-width: 90em) 42vw, 600px"
-            width="867"
-            height="1300"
-            loading="eager"
-            fetchpriority="high"
-            decoding="async"
-            alt="Motmot (Momotus subrufescens) perched on a branch in the Vegas del Verde forest, with a fruit in its beak and its long blue tail hanging down."
-          />
-        </picture>
-        <figcaption class="planes-evento__credito credito">
-          <i lang="la">Momotus subrufescens</i> · Photo: Leyner Lozano
-        </figcaption>
-      </figure>
-      <div class="placa placa--filete planes-evento__placa">
-        <div class="planes-evento__cabeza">
-          <h2 id="october-big-day-titulo" class="planes-evento__titulo">October Big Day</h2>
-          <p class="planes-evento__fecha"><time datetime="2026-10-10">Saturday 10 October</time></p>
-        </div>
-        <p class="planes-evento__bajada">A day of citizen science when the whole world goes out to count birds. Our forest is one of the observation sites.</p>
-        <p class="planes-evento__cifra reveal">
-          <span class="planes-evento__numero" aria-hidden="true"></span>
-          <span class="planes-evento__cifra-texto"><span class="solo-lectores">117 </span>birds from our forest are already recorded on eBird. Come and see them.</span>
-        </p>
-        <dl class="planes-evento__ficha reveal">
-          <div class="planes-evento__fila">
-            <dt>Time</dt>
-            <dd><time datetime="2026-10-10T06:30-05:00">6:30&nbsp;a.m.</time> to <time datetime="2026-10-10T12:00-05:00">12 noon</time></dd>
-          </div>
-          <div class="planes-evento__fila">
-            <dt>Entry</dt>
-            <dd>Free, and the whole family is welcome.</dd>
-          </div>
-          <div class="planes-evento__fila">
-            <dt>Breakfast</dt>
-            <dd>Tamal, arepa with eggs or cheese fingers, booked ahead.</dd>
-          </div>
-        </dl>
-        <div class="planes-evento__acciones">
-          <a
-            class="btn btn-whatsapp planes-evento__cta"
-            href="https://wa.me/573166758362?text=Hi%2C%20I%27d%20like%20to%20book%20my%20spot%20for%20the%20October%20Big%20Day%20on%20Saturday%2010%20October%20at%20Vegas%20del%20Verde."
-            target="_blank"
-            rel="noopener"
-          >
-            Book my spot<span class="solo-lectores"> for the October Big Day on WhatsApp</span>
-          </a>
-          <a class="enlace-flecha planes-evento__mas" href="october-big-day.html">See the full event</a>
-        </div>
-        <p class="planes-evento__nota">Entry is free: booking just saves your spot.</p>
-      </div>
-    </article>
-  </div>
+    </div>
 </section>
 
 <section id="planes" class="seccion planes" aria-labelledby="planes-titulo">
