@@ -46,7 +46,9 @@
       a.rel = 'noopener';
       a.setAttribute('data-yp-sesion', destino.getAttribute('data-yp-sesion'));
       var texto = a.querySelector('.yp__cta-texto');
-      if (texto && dia) texto.textContent = 'Aparta el sábado ' + dia.textContent;
+      // en/couples-yoga.html declara su propio prefijo (data-yp-prefijo).
+      var prefijo = a.getAttribute('data-yp-prefijo') || 'Aparta el sábado ';
+      if (texto && dia) texto.textContent = prefijo + dia.textContent;
     });
   }
 

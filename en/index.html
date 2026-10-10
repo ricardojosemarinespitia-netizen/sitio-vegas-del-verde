@@ -135,6 +135,7 @@ src="https://www.facebook.com/tr?id=28408308795489956&ev=PageView&noscript=1"
            page and are marked lang="es"/hreflang="es" so screen readers and
            search engines know the destination language. -->
       <ul class="nav__lista">
+        <li class="nav__item--evento" data-evento-hasta="2026-10-24T10:00:00-05:00"><a class="nav__enlace nav__enlace--evento" href="couples-yoga.html"><span class="nav__evento-fecha">Sat 17 &amp; 24 Oct · 8:30 a.m.</span>Couples yoga</a></li>
         <li class="nav__item--secundario"><a class="nav__enlace" href="index.html#nosotros">About us</a></li>
         <li><a class="nav__enlace" href="spaces.html">Venues</a></li>
         <li><a class="nav__enlace" href="plans.html">Plans</a></li>
@@ -243,7 +244,29 @@ src="https://www.facebook.com/tr?id=28408308795489956&ev=PageView&noscript=1"
      sería justo el banner que estorba. Para el próximo evento se cambian
      data-evento, data-evento-hasta, el texto y el href; la clave nueva hace
      que vuelva a verse aunque el lector haya cerrado el anterior. -->
-
+<aside
+  class="evento-flotante"
+  data-evento="yoga-en-pareja-2026-10-24"
+  data-evento-hasta="2026-10-24T10:00:00-05:00"
+  aria-label="Upcoming event"
+  hidden
+>
+  <a class="evento-flotante__enlace" href="couples-yoga.html">
+    <span class="evento-flotante__punto" aria-hidden="true"></span>
+    <span class="evento-flotante__texto">
+      <span class="evento-flotante__rotulo">Event · Sat 17 &amp; 24 Oct</span>
+      <span class="evento-flotante__titulo">Couples yoga</span>
+    </span>
+    <svg class="evento-flotante__flecha" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+      <path d="M5 12h14M13 6l6 6-6 6"/>
+    </svg>
+  </a>
+  <button class="evento-flotante__cerrar" type="button" aria-label="Close event notice">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true" focusable="false">
+      <path d="M6 6l12 12M18 6 6 18"/>
+    </svg>
+  </button>
+</aside>
 
 <a class="volver-flotante" href="index.html" aria-label="Back to the Vegas del Verde home page">
   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
@@ -296,9 +319,6 @@ src="https://www.facebook.com/tr?id=28408308795489956&ev=PageView&noscript=1"
     <div class="contenedor contenedor--ancho inicio__portada-interior">
       <header class="seccion-encabezado inicio__encabezado reveal-secuencia">
 
-        <!-- October Big Day: every piece with data-evento-hasta is hidden by
-             js/app.js once the event ends; the brand hero (.inicio__solo-marca)
-             comes back on its own via inicio.css (:has). -->
 
         <h1 class="titulo-seccion inicio__titulo reveal reveal-texto reveal-texto--persiana" id="inicio-titulo">
           <span class="reveal-texto__linea inicio__solo-marca"><span class="inicio__titulo-linea">Escape<br />the city</span></span>
@@ -348,88 +368,8 @@ src="https://www.facebook.com/tr?id=28408308795489956&ev=PageView&noscript=1"
 
 </section>
 
-<!-- RESERVA NATURAL (home) · CSS: styles/sections/reserva.css. English version of
-     sections/home-reserva.html. The October Big Day card hides itself after the event. -->
-<section class="seccion reserva-natural" id="reserva-natural" aria-labelledby="reserva-natural-titulo">
-  <div class="contenedor contenedor--ancho reserva-natural__lamina">
-
-    <header class="reserva-natural__cabeza">
-      <p class="eyebrow reveal">Urban nature reserve · Floridablanca</p>
-      <h2 id="reserva-natural-titulo" class="titulo-seccion reveal reveal-texto">A bird sanctuary right in the city</h2>
-    </header>
-
-    <div class="reserva-natural__cifra reveal">
-      <p class="reserva-natural__numero"><span class="cifra" data-contador="117">117</span></p>
-      <p class="reserva-natural__rotulo">bird species from our forest recorded on eBird</p>
-      <span class="reserva-natural__trazo" aria-hidden="true"></span>
-    </div>
-
-    <ol class="reserva-natural__razones">
-      <li class="reserva-natural__razon reveal">
-        <span class="reserva-natural__num" aria-hidden="true">01</span>
-        <h3 class="reserva-natural__razon-titulo">Citizen science</h3>
-        <p>Every bird we spot goes into eBird, the global database of bird sightings.</p>
-      </li>
-      <li class="reserva-natural__razon reveal">
-        <span class="reserva-natural__num" aria-hidden="true">02</span>
-        <h3 class="reserva-natural__razon-titulo">65 species in one day</h3>
-        <p>That is what was recorded here on the Global Big Day of 9 May 2026.</p>
-      </li>
-      <li class="reserva-natural__razon reveal">
-        <span class="reserva-natural__num" aria-hidden="true">03</span>
-        <h3 class="reserva-natural__razon-titulo">On the Santander birding map</h3>
-        <p>Regional press already lists us among the birding spots of the department.</p>
-      </li>
-    </ol>
-
-    <ul class="reserva-natural__aves" aria-label="Birds photographed at Vegas del Verde">
-      <li class="reveal">
-        <figure class="reserva-natural__ave">
-          <span class="reserva-natural__marco">
-            <picture>
-              <source type="image/webp" srcset="../img/aves/ave-05-zorzal-piquinegro-400.webp 400w, ../img/aves/ave-05-zorzal-piquinegro-600.webp 600w, ../img/aves/ave-05-zorzal-piquinegro-800.webp 800w" sizes="(min-width: 64em) 30vw, 31vw">
-              <img src="../img/aves/ave-05-zorzal-piquinegro-600.jpg" srcset="../img/aves/ave-05-zorzal-piquinegro-400.jpg 400w, ../img/aves/ave-05-zorzal-piquinegro-600.jpg 600w, ../img/aves/ave-05-zorzal-piquinegro-800.jpg 800w" sizes="(min-width: 64em) 30vw, 31vw" width="600" height="480" loading="lazy" decoding="async" alt="Black-billed thrush perched on a branch in the Vegas del Verde forest">
-            </picture>
-          </span>
-          <figcaption><span class="reserva-natural__especie">Black-billed thrush</span><span class="reserva-natural__credito">Photo: Francheska Salazar</span></figcaption>
-        </figure>
-      </li>
-      <li class="reveal">
-        <figure class="reserva-natural__ave">
-          <span class="reserva-natural__marco">
-            <picture>
-              <source type="image/webp" srcset="../img/aves/ave-14-saltador-pio-400.webp 400w, ../img/aves/ave-14-saltador-pio-600.webp 600w, ../img/aves/ave-14-saltador-pio-800.webp 800w" sizes="(min-width: 64em) 30vw, 31vw">
-              <img src="../img/aves/ave-14-saltador-pio-600.jpg" srcset="../img/aves/ave-14-saltador-pio-400.jpg 400w, ../img/aves/ave-14-saltador-pio-600.jpg 600w, ../img/aves/ave-14-saltador-pio-800.jpg 800w" sizes="(min-width: 64em) 30vw, 31vw" width="600" height="450" loading="lazy" decoding="async" alt="Streaked saltator among the leaves of the Vegas del Verde forest">
-            </picture>
-          </span>
-          <figcaption><span class="reserva-natural__especie">Streaked saltator</span><span class="reserva-natural__credito">Photo: Carlos Serrano</span></figcaption>
-        </figure>
-      </li>
-      <li class="reveal">
-        <figure class="reserva-natural__ave">
-          <span class="reserva-natural__marco">
-            <picture>
-              <source type="image/webp" srcset="../img/aves/ave-09-eugenia-piquigruesa-400.webp 400w, ../img/aves/ave-09-eugenia-piquigruesa-600.webp 600w, ../img/aves/ave-09-eugenia-piquigruesa-800.webp 800w" sizes="(min-width: 64em) 30vw, 31vw">
-              <img src="../img/aves/ave-09-eugenia-piquigruesa-600.jpg" srcset="../img/aves/ave-09-eugenia-piquigruesa-400.jpg 400w, ../img/aves/ave-09-eugenia-piquigruesa-600.jpg 600w, ../img/aves/ave-09-eugenia-piquigruesa-800.jpg 800w" sizes="(min-width: 64em) 30vw, 31vw" width="600" height="696" loading="lazy" decoding="async" alt="Thick-billed euphonia perched on a branch at Vegas del Verde">
-            </picture>
-          </span>
-          <figcaption><span class="reserva-natural__especie">Thick-billed euphonia</span><span class="reserva-natural__credito">Photo: Andrea Elizabeth</span></figcaption>
-        </figure>
-      </li>
-    </ul>
-
-    <div class="reserva-natural__prensa reveal">
-      <p class="reserva-natural__prensa-rotulo">In the press</p>
-      <ul class="reserva-natural__prensa-lista">
-        <li><a href="https://www.vanguardia.com/entretenimiento/turismo/2025/05/09/bucaramanga-con-vegas-del-verde-se-suma-al-global-big-day-un-santuario-de-aves-en-el-corazon-urbano/" target="_blank" rel="noopener"><span class="reserva-natural__medio">Vanguardia · May 2025</span>“A bird sanctuary in the urban heart” (in Spanish)</a></li>
-        <li><a href="https://www.vanguardia.com/santander/2026/05/16/colombia-lidera-el-global-big-day-2025-y-santander-alza-vuelo/" target="_blank" rel="noopener"><span class="reserva-natural__medio">Vanguardia · May 2026</span>Colombia leads the Global Big Day 2026 and Santander takes flight (in Spanish)</a></li>
-      </ul>
-    </div>
-
-    <p class="reserva-natural__salida reveal"><a class="enlace-flecha" href="../naturaleza.html" hreflang="es">Meet the birds of the forest</a></p>
-
-  </div>
-</section>
+<!-- October 2026: the «urban nature reserve» block (117 species, press) was
+     removed from the home, mirroring sections/home-reserva.html leaving index.html. -->
 
 <section id="planes" class="seccion" aria-labelledby="home-planes-titulo">
   <div class="contenedor contenedor--ancho">
@@ -439,6 +379,9 @@ src="https://www.facebook.com/tr?id=28408308795489956&ev=PageView&noscript=1"
       <h2 id="home-planes-titulo" class="titulo-seccion">
         What you can do here
       </h2>
+      <!-- Couples Yoga (Sat 17 & 24 Oct 2026). Hides itself after the second
+           session (data-evento-hasta, js/app.js). -->
+      <p data-evento-hasta="2026-10-24T10:00:00-05:00"><a class="enlace-flecha" href="couples-yoga.html">Next workshop: Couples yoga · Sat 17 &amp; 24 October</a></p>
     </header>
 
     <ul class="home-rejilla home-rejilla--dos home-rejilla--tres reveal-secuencia" role="list">

@@ -69,7 +69,7 @@ const PAGINAS = [
   // Se habían quedado fuera: en/ seguía sirviendo hojas viejas de caché.
   'yoga-en-pareja.html',
   'en/index.html', 'en/plans.html', 'en/spaces.html',
-  'en/privacy-policy.html', 'en/rental-conditions.html', 'en/terms.html',
+  'en/privacy-policy.html', 'en/rental-conditions.html', 'en/terms.html', 'en/couples-yoga.html',
 ];
 
 const hashCache = new Map();

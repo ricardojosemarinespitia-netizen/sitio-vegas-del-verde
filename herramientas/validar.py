@@ -81,7 +81,7 @@ for t in trozos:
 #   #vivero    -> vivero.html
 #   #ubicacion -> contacto.html          (el ancla del escaparate es #contacto)
 # 2026-09 · #reserva-natural (cifra 117 de eBird) entra tras la portada.
-ESPERADO = ["inicio", "reserva-natural", "planes", "espacios", "naturaleza", "sendero", "vivero",
+ESPERADO = ["inicio", "planes", "espacios", "naturaleza", "sendero", "vivero",
             # #nosotros y #compromiso siguen en la portada y siguen contiguos:
             # son el bloque 7 del plan, «Nosotros + Compromiso».
             "nosotros", "compromiso", "contacto"]

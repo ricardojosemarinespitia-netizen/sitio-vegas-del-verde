@@ -80,7 +80,9 @@ const PAGINAS = [
     archivo: 'index.html',
     orden: [
       ['inicio',     'hero.html'],
-      ['reserva-natural', 'home-reserva.html'],
+      // Octubre 2026: «Reserva natural urbana» (home-reserva.html) sale de la
+      // portada a pedido del cliente: debajo del hero va directo «planes»,
+      // como antes del Big Day. El fragmento se conserva por si se repone.
       ['planes',     'home-planes.html'],
       ['espacios',   'home-espacios.html'],
       ['naturaleza', 'home-naturaleza.html'],
@@ -113,11 +115,13 @@ const PAGINAS = [
     archivo: 'espacios.html',
     orden: [['portada-espacios', 'enc-espacios.html'], ['usos', 'usos.html']],
     css: ['styles/sections/home.css', 'styles/sections/usos.css', 'styles/sections/pie.css'],
+    en: 'en/spaces.html',
   },
   {
     archivo: 'planes.html',
     orden: [['portada-planes', 'enc-planes.html'], ['planes', 'planes.html']],
     css: ['styles/sections/home.css', 'styles/sections/planes.css', 'styles/sections/pie.css'],
+    en: 'en/plans.html',
   },
   {
     archivo: 'naturaleza.html',
@@ -153,10 +157,11 @@ const PAGINAS = [
   },
   {
     // Yoga en Pareja (sáb 17 y 24 oct 2026). Destino de los anuncios de Meta.
-    // Sin equivalente en inglés: el evento anterior de yoga tampoco lo tuvo.
+    // Equivalente en inglés: en/couples-yoga.html (escrito a mano).
     archivo: 'yoga-en-pareja.html',
     orden: [['yoga-pareja', 'yoga-pareja.html']],
     css: ['styles/sections/home.css', 'styles/sections/yoga-pareja.css', 'styles/sections/pie.css'],
+    en: 'en/couples-yoga.html',
   },
 ];
 
@@ -219,7 +224,9 @@ for (const pagina of PAGINAS) {
   const cola = original.slice(iCierre);
 
   const cab = pagina.en ? cabecera.split('href="en/index.html"').join(`href="${pagina.en}"`) : cabecera;
-  const nuevo = cabeza + '\n' + cab + '\n' + main + '\n' + pie + cola;
+  // El enlace «Read this site in English» del pie también va a la página equivalente.
+  const pieP = pagina.en ? pie.split('href="en/index.html"').join(`href="${pagina.en}"`) : pie;
+  const nuevo = cabeza + '\n' + cab + '\n' + main + '\n' + pieP + cola;
   fs.writeFileSync(IDX, nuevo, 'utf8');
   totalSecciones += pagina.orden.length;
 

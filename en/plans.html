@@ -91,6 +91,7 @@ src="https://www.facebook.com/tr?id=28408308795489956&ev=PageView&noscript=1"
 
     <nav class="nav" id="nav-principal" aria-label="Main navigation">
       <ul class="nav__lista">
+        <li class="nav__item--evento" data-evento-hasta="2026-10-24T10:00:00-05:00"><a class="nav__enlace nav__enlace--evento" href="couples-yoga.html"><span class="nav__evento-fecha">Sat 17 &amp; 24 Oct · 8:30 a.m.</span>Couples yoga</a></li>
         <li class="nav__item--secundario"><a class="nav__enlace" href="index.html#nosotros">About us</a></li>
         <li><a class="nav__enlace" href="spaces.html">Venues</a></li>
         <li><a class="nav__enlace" href="plans.html">Plans</a></li>
@@ -199,7 +200,29 @@ src="https://www.facebook.com/tr?id=28408308795489956&ev=PageView&noscript=1"
      sería justo el banner que estorba. Para el próximo evento se cambian
      data-evento, data-evento-hasta, el texto y el href; la clave nueva hace
      que vuelva a verse aunque el lector haya cerrado el anterior. -->
-
+<aside
+  class="evento-flotante"
+  data-evento="yoga-en-pareja-2026-10-24"
+  data-evento-hasta="2026-10-24T10:00:00-05:00"
+  aria-label="Upcoming event"
+  hidden
+>
+  <a class="evento-flotante__enlace" href="couples-yoga.html">
+    <span class="evento-flotante__punto" aria-hidden="true"></span>
+    <span class="evento-flotante__texto">
+      <span class="evento-flotante__rotulo">Event · Sat 17 &amp; 24 Oct</span>
+      <span class="evento-flotante__titulo">Couples yoga</span>
+    </span>
+    <svg class="evento-flotante__flecha" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+      <path d="M5 12h14M13 6l6 6-6 6"/>
+    </svg>
+  </a>
+  <button class="evento-flotante__cerrar" type="button" aria-label="Close event notice">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true" focusable="false">
+      <path d="M6 6l12 12M18 6 6 18"/>
+    </svg>
+  </button>
+</aside>
 
 <a class="volver-flotante" href="index.html" aria-label="Back to the Vegas del Verde home page">
   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
@@ -218,9 +241,45 @@ src="https://www.facebook.com/tr?id=28408308795489956&ev=PageView&noscript=1"
       <h1 id="portada-planes-titulo" class="pagina-encabezado__titulo">Five plans for the same forest</h1>
     </div>
 
-    <!-- UPCOMING EVENT · OCTOBER BIG DAY 2026 (Sat 10 Oct, 6:30 a.m.–12 noon).
-         English version of the card in sections/planes.html. Hides itself after
-         the event (data-evento-hasta, js/app.js). CSS: planes.css «EVENTO». -->
+    <!-- UPCOMING EVENT · COUPLES YOGA (Sat 17 & 24 Oct 2026, 8:30–10:00 a.m.).
+         English version of the card in sections/enc-planes.html. Hides itself
+         after the second session (data-evento-hasta, js/app.js). CSS: planes.css «EVENTO». -->
+    <article
+      id="couples-yoga"
+      class="foto-placa foto-placa--lado planes-evento planes-evento--yoga reveal"
+      aria-labelledby="couples-yoga-titulo"
+      data-evento-hasta="2026-10-24T10:00:00-05:00"
+    >
+      <picture>
+        <source
+          type="image/webp"
+          srcset="../img/eventos/yoga-pareja/hero-400.webp 400w, ../img/eventos/yoga-pareja/hero-800.webp 800w, ../img/eventos/yoga-pareja/hero-1200.webp 1200w"
+          sizes="(max-width: 47.99em) 92vw, 40vw"
+        />
+        <img
+          class="planes-evento__foto"
+          src="../img/eventos/yoga-pareja/hero-800.jpg"
+          srcset="../img/eventos/yoga-pareja/hero-400.jpg 400w, ../img/eventos/yoga-pareja/hero-800.jpg 800w, ../img/eventos/yoga-pareja/hero-1200.jpg 1200w"
+          sizes="(max-width: 47.99em) 92vw, 40vw"
+          width="800"
+          height="1000"
+          loading="lazy"
+          decoding="async"
+          alt="Two people seen from behind, side by side, arms raised in a balance pose on the grass."
+        />
+      </picture>
+      <div class="placa placa--filete planes-evento__placa">
+      <p class="planes-evento__rotulo">Event · Saturdays 17 and 24 October</p>
+      <h2 id="couples-yoga-titulo" class="planes-evento__titulo">Couples yoga</h2>
+      <p class="planes-evento__dato">
+        <time datetime="2026-10-17T08:30-05:00">8:30</time>–<time datetime="2026-10-17T10:00-05:00">10:00 a.m.</time>
+        · Poses in pairs, moving and breathing to the same rhythm, outdoors.
+        Bring your partner, a friend or someone you love. No experience needed. Limited places.
+        Individual COP $30.000 · Couple COP $50.000.
+      </p>
+      <a class="btn btn-primario planes-evento__cta" href="couples-yoga.html">See dates and book a place</a>
+      </div>
+    </article>
     </div>
 </section>
 

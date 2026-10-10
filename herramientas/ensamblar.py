@@ -52,7 +52,8 @@ PAGINAS = [
         "archivo": "index.html",
         "orden": [
             ("inicio",     "hero.html"),
-            ("reserva-natural", "home-reserva.html"),
+            # Octubre 2026: «Reserva natural urbana» sale de la portada a pedido
+            # del cliente (home-reserva.html se conserva por si se repone).
             ("planes",     "home-planes.html"),
             ("espacios",   "home-espacios.html"),
             ("naturaleza", "home-naturaleza.html"),
@@ -80,12 +81,14 @@ PAGINAS = [
         "orden": [("portada-espacios", "enc-espacios.html"), ("usos", "usos.html")],
         "css": ["styles/sections/home.css", "styles/sections/usos.css",
                 "styles/sections/pie.css"],
+        "en": "en/spaces.html",
     },
     {
         "archivo": "planes.html",
         "orden": [("portada-planes", "enc-planes.html"), ("planes", "planes.html")],
         "css": ["styles/sections/home.css", "styles/sections/planes.css",
                 "styles/sections/pie.css"],
+        "en": "en/plans.html",
     },
     {
         "archivo": "naturaleza.html",
@@ -127,6 +130,7 @@ PAGINAS = [
         "orden": [("yoga-pareja", "yoga-pareja.html")],
         "css": ["styles/sections/home.css", "styles/sections/yoga-pareja.css",
                 "styles/sections/pie.css"],
+        "en": "en/couples-yoga.html",
     },
 ]
 
@@ -204,7 +208,8 @@ for pagina in PAGINAS:
     cola = original[i_cierre:]
 
     cab = cabecera.replace('href="en/index.html"', 'href="%s"' % pagina["en"]) if pagina.get("en") else cabecera
-    nuevo = cabeza + "\n" + cab + "\n" + main + "\n" + pie + cola
+    pie_p = pie.replace('href="en/index.html"', 'href="%s"' % pagina["en"]) if pagina.get("en") else pie
+    nuevo = cabeza + "\n" + cab + "\n" + main + "\n" + pie_p + cola
     escribir(IDX, nuevo)
     total_secciones += len(pagina["orden"])
 
