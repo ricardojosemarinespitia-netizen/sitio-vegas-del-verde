@@ -156,6 +156,8 @@ const PAGINAS = [
     archivo: 'contacto.html',
     orden: [['portada-contacto', 'enc-contacto.html'], ['ubicacion', 'ubicacion.html']],
     css: ['styles/sections/home.css', 'styles/sections/ubicacion.css', 'styles/sections/pie.css'],
+    // Equivalente en inglés: en/how-to-get-here.html (escrito a mano, oct-2026).
+    en: 'en/how-to-get-here.html',
   },
   {
     // Yoga en Pareja (sáb 17 y 24 oct 2026). Destino de los anuncios de Meta.
@@ -167,10 +169,12 @@ const PAGINAS = [
   },
   {
     // Salidas escolares · Alianza Educativa (oct-2026). Misma gramática visual
-    // que yoga-en-pareja.html. Sin versión en inglés (no lleva `en`).
+    // que yoga-en-pareja.html. Equivalente en inglés: en/school-trips.html
+    // (escrito a mano, oct-2026).
     archivo: 'colegios.html',
     orden: [['colegios', 'colegios.html']],
     css: ['styles/sections/home.css', 'styles/sections/colegios.css', 'styles/sections/pie.css'],
+    en: 'en/school-trips.html',
   },
 ];
 

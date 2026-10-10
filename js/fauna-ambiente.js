@@ -148,6 +148,11 @@ const ESPERA_COLIBRI = 2400;
 
 const dos = (n) => (n < 10 ? '0' + n : String(n));
 
+/* Oct-2026 · la carpeta de recortes se resuelve contra la URL de ESTE módulo
+   (js/ → ../img/plan-vecino/), no contra la página: así funciona igual desde
+   la raíz que desde /en/ (en/how-to-get-here.html). */
+const RAIZ_IMG = new URL('../img/plan-vecino/', import.meta.url).href;
+
 /** Un escalón menos de densidad, sin bajar nunca de una pieza. */
 const bajarUnEscalon = (nombre) =>
   nombre === 'abundante'
@@ -230,7 +235,7 @@ export function montarFaunaAmbiente(contenedor, opciones = {}) {
       ? crearAve()
       : (() => {
           const img = document.createElement('img');
-          img.src = 'img/plan-vecino/mariposa-' + dos(p.n) + '.png';
+          img.src = RAIZ_IMG + 'mariposa-' + dos(p.n) + '.png';
           img.decoding = 'async';
           img.loading = 'lazy';
           return img;
@@ -268,7 +273,7 @@ export function montarFaunaAmbiente(contenedor, opciones = {}) {
   if (especies.indexOf('colibri') !== -1 && !estrecho) {
     const colibri = document.createElement('img');
     colibri.className = 'fauna-ambiente__pieza fauna-ambiente__colibri';
-    colibri.src = 'img/plan-vecino/colibri.png';
+    colibri.src = RAIZ_IMG + 'colibri.png';
     colibri.alt = '';
     colibri.setAttribute('aria-hidden', 'true');
     colibri.decoding = 'async';

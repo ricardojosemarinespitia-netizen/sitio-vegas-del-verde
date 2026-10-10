@@ -44,6 +44,20 @@
     return;
   }
 
+  /* Oct-2026 · también sirve a en/how-to-get-here.html: textos por idioma y
+     la ruta del símbolo se toma del <img> de la capa HUD (relativa a la
+     página), así no se rompe desde /en/. */
+  var EN = (document.documentElement.lang || "").indexOf("en") === 0;
+  var TXT = EN
+    ? { acercar: "Zoom in", alejar: "Zoom out", alt: "Vegas del Verde location",
+        dir: "Vereda Río Frío, 500 m up the Carabineros road.<br />Floridablanca, Santander.",
+        llegar: "Get directions" }
+    : { acercar: "Acercar el mapa", alejar: "Alejar el mapa", alt: "Ubicación de Vegas del Verde",
+        dir: "Vereda Río Frío, 500 mts sobre la vía Carabineros.<br />Floridablanca, Santander.",
+        llegar: "Cómo llegar" };
+  var simboloHud = figura.querySelector(".ubi-hud__simbolo");
+  var SRC_SIMBOLO = (simboloHud && simboloHud.getAttribute("src")) || "img/logo/simbolo-vegas.png";
+
   var lienzo = figura.querySelector("[data-mapa-lienzo]");
   var credito = figura.querySelector("[data-mapa-credito]");
   var notaRespaldo = figura.querySelector("[data-mapa-respaldo-nota]");
@@ -268,8 +282,8 @@
     L.control
       .zoom({
         position: "bottomright",
-        zoomInTitle: "Acercar el mapa",
-        zoomOutTitle: "Alejar el mapa"
+        zoomInTitle: TXT.acercar,
+        zoomOutTitle: TXT.alejar
       })
       .addTo(mapa);
 
@@ -300,24 +314,23 @@
         '<span class="ubi-pin">' +
         '<span class="ubi-pin__halo"></span>' +
         '<span class="ubi-pin__disco">' +
-        '<img src="img/logo/simbolo-vegas.png" width="512" height="512" alt="" decoding="async" />' +
+        '<img src="' + SRC_SIMBOLO + '" width="512" height="512" alt="" decoding="async" />' +
         "</span></span>"
     });
 
     var marcador = L.marker(COORDENADAS, {
       icon: icono,
       title: "Vegas del Verde",
-      alt: "Ubicación de Vegas del Verde",
+      alt: TXT.alt,
       riseOnHover: true,
       keyboard: true
     }).addTo(mapa);
 
     marcador.bindPopup(
       '<span class="ubi-popup__titulo">Vegas del Verde</span>' +
-        "Vereda Río Frío, 500 mts sobre la vía Carabineros.<br />" +
-        "Floridablanca, Santander." +
+        TXT.dir +
         '<br /><a href="https://www.google.com/maps/dir/?api=1&amp;destination=7.0574425,-73.1144128"' +
-        ' target="_blank" rel="noopener">Cómo llegar</a>',
+        ' target="_blank" rel="noopener">' + TXT.llegar + '</a>',
       { className: "ubi-popup", autoPan: false }
     );
 

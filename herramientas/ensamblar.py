@@ -125,6 +125,7 @@ PAGINAS = [
                   ("ubicacion", "ubicacion.html")],
         "css": ["styles/sections/home.css", "styles/sections/ubicacion.css",
                 "styles/sections/pie.css"],
+        "en": "en/how-to-get-here.html",
     },
     {
         "archivo": "yoga-en-pareja.html",
@@ -139,6 +140,8 @@ PAGINAS = [
         "orden": [("colegios", "colegios.html")],
         "css": ["styles/sections/home.css", "styles/sections/colegios.css",
                 "styles/sections/pie.css"],
+        # Equivalente en ingles (oct-2026, escrito a mano).
+        "en": "en/school-trips.html",
     },
 ]
 

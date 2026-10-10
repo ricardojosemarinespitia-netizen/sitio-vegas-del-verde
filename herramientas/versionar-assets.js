@@ -70,6 +70,8 @@ const PAGINAS = [
   'yoga-en-pareja.html',
   'en/index.html', 'en/plans.html', 'en/spaces.html',
   'en/privacy-policy.html', 'en/rental-conditions.html', 'en/terms.html', 'en/couples-yoga.html',
+  // oct-2026 · espejos en inglés de colegios.html y contacto.html.
+  'en/school-trips.html', 'en/how-to-get-here.html',
 ];
 
 const hashCache = new Map();

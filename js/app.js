@@ -182,6 +182,14 @@
     if (typeof fbq === 'function') fbq('track', 'Contact');
   });
 
+  /* Oct-2026 · la carpeta de siluetas se resuelve contra la URL de ESTE
+     script (js/app.js → ../img/plan-vecino/), no contra la página: desde
+     /en/ la ruta relativa pedía /en/img/... y daba 404 en cada clic. */
+  const RAIZ_MARIPOSAS = (() => {
+    try { return new URL('../img/plan-vecino/', document.currentScript.src).href; }
+    catch (e) { return 'img/plan-vecino/'; }
+  })();
+
   if (!reduceMotion) {
     const SILUETAS = [1, 3, 6, 8, 10, 14, 16];
     document.addEventListener('click', evento => {
@@ -190,7 +198,7 @@
       const n = SILUETAS[Math.floor(Math.random() * SILUETAS.length)];
       const num = n < 10 ? '0' + n : String(n);
       const mariposa = document.createElement('img');
-      mariposa.src = 'img/plan-vecino/mariposa-' + num + '.png';
+      mariposa.src = RAIZ_MARIPOSAS + 'mariposa-' + num + '.png';
       mariposa.alt = '';
       mariposa.setAttribute('aria-hidden', 'true');
       mariposa.decoding = 'async';
