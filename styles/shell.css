@@ -1548,3 +1548,32 @@ body.menu-abierto .nav {
   }
 }
 
+/* Aviso de cookies (js/app.js). Franja de vidrio abajo, por encima del aviso
+   de evento y de los botones flotantes; solo transform/opacity. */
+.aviso-cookies {
+  position: fixed;
+  left: var(--esp-xs);
+  right: var(--esp-xs);
+  bottom: var(--esp-xs);
+  z-index: calc(var(--z-menu) + 5);
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--esp-xs) var(--esp-sm);
+  max-width: 42rem;
+  margin-inline: auto;
+  padding: var(--esp-sm) var(--esp-md);
+  border: 1px solid var(--color-vidrio-borde);
+  border-radius: var(--radio-lg, 1rem);
+  background-color: var(--color-superficie-solida);
+  color: var(--color-texto);
+  box-shadow: var(--sombra-vidrio), var(--sombra-md);
+  opacity: 0;
+  transform: translateY(var(--esp-sm));
+  transition: opacity 0.4s ease, transform 0.4s ease;
+}
+.aviso-cookies.esta-visible { opacity: 1; transform: none; }
+.aviso-cookies__texto { flex: 1 1 16rem; margin: 0; font-size: var(--fs-pequeno, 0.875rem); line-height: 1.45; }
+.aviso-cookies__texto a { color: inherit; text-decoration: underline; text-underline-offset: 0.2em; }
+.aviso-cookies__boton { flex: 0 0 auto; min-height: 2.75rem; }
+@media (prefers-reduced-motion: reduce) { .aviso-cookies { transition: none; } }

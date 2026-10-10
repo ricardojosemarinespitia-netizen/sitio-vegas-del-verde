@@ -1642,3 +1642,15 @@
     transform: none;
   }
 }
+
+/* oct 2026 · Los dos botones del hero van SIEMPRE uno debajo del otro (pedido
+   del cliente: «Ver los eventos» debajo de «Ver los espacios», en escritorio
+   también) y del mismo ancho: la rejilla estira ambos al más largo. */
+.inicio__acciones.grupo-botones {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  justify-items: stretch;
+  align-items: stretch;
+  width: fit-content;
+  max-width: 100%;
+}

@@ -686,8 +686,9 @@
   const eventoFlotante = document.querySelector('.evento-flotante');
   if (eventoFlotante) {
     const clave = 'vdv-evento-cerrado:' + (eventoFlotante.dataset.evento || '');
-    let cerrado = false;
-    try { cerrado = localStorage.getItem(clave) === '1'; } catch (e) { /* sin storage */ }
+    // El aviso ya no se puede cerrar (pedido del cliente, oct 2026): no hay
+    // botón y se ignora cualquier cierre guardado por visitas anteriores.
+    const cerrado = false;
     const vencido = eventoVencido(eventoFlotante);
 
     if (cerrado || vencido) {
@@ -709,4 +710,43 @@
       }
     }
   }
+})();
+
+/* ==========================================================================
+   AVISO DE COOKIES (oct 2026, pedido del cliente)
+   Informativo: el sitio mide visitas con Meta Pixel y Microsoft Clarity. Se
+   muestra una vez por navegador hasta que la persona toca «Aceptar». Idioma
+   y enlace a la política según <html lang>. Sin storage, vuelve a salir.
+   ========================================================================== */
+(() => {
+  const CLAVE = 'vdv-cookies-aviso';
+  try { if (localStorage.getItem(CLAVE) === '1') return; } catch (e) { /* sin storage */ }
+  const en = (document.documentElement.lang || 'es').toLowerCase().startsWith('en');
+  const t = en
+    ? { msg: 'We use cookies and measurement tools (Meta Pixel and Microsoft Clarity) to understand how the site is used and to improve your experience. By continuing to browse you accept their use.', mas: 'Privacy policy', href: 'privacy-policy.html', ok: 'Accept', aria: 'Cookie notice' }
+    : { msg: 'Usamos cookies y herramientas de medición (Meta Pixel y Microsoft Clarity) para entender cómo se usa el sitio y mejorar tu experiencia. Si sigues navegando, aceptas su uso.', mas: 'Política de datos', href: 'politica-de-datos.html', ok: 'Aceptar', aria: 'Aviso de cookies' };
+  const caja = document.createElement('div');
+  caja.className = 'aviso-cookies';
+  caja.setAttribute('role', 'region');
+  caja.setAttribute('aria-label', t.aria);
+  const p = document.createElement('p');
+  p.className = 'aviso-cookies__texto';
+  p.textContent = t.msg + ' ';
+  const a = document.createElement('a');
+  a.href = t.href;
+  a.textContent = t.mas;
+  p.appendChild(a);
+  const b = document.createElement('button');
+  b.type = 'button';
+  b.className = 'btn btn-primario aviso-cookies__boton';
+  b.textContent = t.ok;
+  b.addEventListener('click', () => {
+    try { localStorage.setItem(CLAVE, '1'); } catch (e) { /* sin storage */ }
+    caja.classList.remove('esta-visible');
+    setTimeout(() => caja.remove(), 400);
+  });
+  caja.appendChild(p);
+  caja.appendChild(b);
+  document.body.appendChild(caja);
+  requestAnimationFrame(() => requestAnimationFrame(() => caja.classList.add('esta-visible')));
 })();
