@@ -714,17 +714,20 @@
 
 /* ==========================================================================
    AVISO DE COOKIES (oct 2026, pedido del cliente)
-   Informativo: el sitio mide visitas con Meta Pixel y Microsoft Clarity. Se
-   muestra una vez por navegador hasta que la persona toca «Aceptar». Idioma
-   y enlace a la política según <html lang>. Sin storage, vuelve a salir.
+   Aceptar / Rechazar, como cualquier sitio. La medición (Meta Pixel y
+   Clarity, en el <head> de cada página) solo corre si se acepta: el head
+   define window.vdvMedicion y la llama al cargar únicamente cuando la clave
+   «vdv-cookies» vale «aceptar». Aquí se guarda la decisión y, si se acepta
+   ahora, se carga en el acto. Idioma según <html lang>. Sin storage, vuelve
+   a preguntar. La decisión se puede cambiar borrando los datos del sitio.
    ========================================================================== */
 (() => {
-  const CLAVE = 'vdv-cookies-aviso';
-  try { if (localStorage.getItem(CLAVE) === '1') return; } catch (e) { /* sin storage */ }
+  const CLAVE = 'vdv-cookies';
+  try { if (localStorage.getItem(CLAVE)) return; } catch (e) { /* sin storage */ }
   const en = (document.documentElement.lang || 'es').toLowerCase().startsWith('en');
   const t = en
-    ? { msg: 'We use cookies and measurement tools (Meta Pixel and Microsoft Clarity) to understand how the site is used and to improve your experience. By continuing to browse you accept their use.', mas: 'Privacy policy', href: 'privacy-policy.html', ok: 'Accept', aria: 'Cookie notice' }
-    : { msg: 'Usamos cookies y herramientas de medición (Meta Pixel y Microsoft Clarity) para entender cómo se usa el sitio y mejorar tu experiencia. Si sigues navegando, aceptas su uso.', mas: 'Política de datos', href: 'politica-de-datos.html', ok: 'Aceptar', aria: 'Aviso de cookies' };
+    ? { msg: 'We use cookies to improve your experience and to understand how the site is used.', mas: 'Learn more', href: 'privacy-policy.html', si: 'Accept', no: 'Reject', aria: 'Cookie notice' }
+    : { msg: 'Usamos cookies para mejorar tu experiencia y entender cómo se usa el sitio.', mas: 'Más información', href: 'politica-de-datos.html', si: 'Aceptar', no: 'Rechazar', aria: 'Aviso de cookies' };
   const caja = document.createElement('div');
   caja.className = 'aviso-cookies';
   caja.setAttribute('role', 'region');
@@ -736,17 +739,28 @@
   a.href = t.href;
   a.textContent = t.mas;
   p.appendChild(a);
-  const b = document.createElement('button');
-  b.type = 'button';
-  b.className = 'btn btn-primario aviso-cookies__boton';
-  b.textContent = t.ok;
-  b.addEventListener('click', () => {
-    try { localStorage.setItem(CLAVE, '1'); } catch (e) { /* sin storage */ }
+  const botones = document.createElement('div');
+  botones.className = 'aviso-cookies__botones';
+  const decidir = (valor) => {
+    try { localStorage.setItem(CLAVE, valor); } catch (e) { /* sin storage */ }
+    if (valor === 'aceptar' && typeof window.vdvMedicion === 'function') window.vdvMedicion();
     caja.classList.remove('esta-visible');
     setTimeout(() => caja.remove(), 400);
-  });
+  };
+  const no = document.createElement('button');
+  no.type = 'button';
+  no.className = 'btn btn-fantasma aviso-cookies__boton';
+  no.textContent = t.no;
+  no.addEventListener('click', () => decidir('rechazar'));
+  const si = document.createElement('button');
+  si.type = 'button';
+  si.className = 'btn btn-primario aviso-cookies__boton';
+  si.textContent = t.si;
+  si.addEventListener('click', () => decidir('aceptar'));
+  botones.appendChild(no);
+  botones.appendChild(si);
   caja.appendChild(p);
-  caja.appendChild(b);
+  caja.appendChild(botones);
   document.body.appendChild(caja);
   requestAnimationFrame(() => requestAnimationFrame(() => caja.classList.add('esta-visible')));
 })();

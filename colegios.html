@@ -48,8 +48,11 @@
     ]
   }
   </script>
-<!-- Meta Pixel Code -->
+<!-- Medición (Meta Pixel + Microsoft Clarity): se carga SOLO si la persona aceptó las cookies
+     (aviso en js/app.js, clave localStorage «vdv-cookies» = «aceptar»). Sin aceptar, no corre nada. -->
 <script>
+window.vdvMedicion = function () {
+  if (window.vdvMedicionOn) return; window.vdvMedicionOn = 1;
 !function(f,b,e,v,n,t,s)
 {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
 n.callMethod.apply(n,arguments):n.queue.push(arguments)};
@@ -60,20 +63,14 @@ s.parentNode.insertBefore(t,s)}(window, document,'script',
 'https://connect.facebook.net/en_US/fbevents.js');
 fbq('init', '28408308795489956');
 fbq('track', 'PageView');
-</script>
-<noscript><img height="1" width="1" style="display:none"
-src="https://www.facebook.com/tr?id=28408308795489956&ev=PageView&noscript=1"
-/></noscript>
-<!-- End Meta Pixel Code -->
-<!-- Microsoft Clarity -->
-<script type="text/javascript">
-    (function(c,l,a,r,i,t,y){
+(function(c,l,a,r,i,t,y){
         c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
         t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
         y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y)
     })(window, document, "clarity", "script", "yhhdzmiljc");
+};
+try { if (localStorage.getItem('vdv-cookies') === 'aceptar') window.vdvMedicion(); } catch (e) { /* sin storage: no se mide */ }
 </script>
-<!-- End Microsoft Clarity -->
 </head>
 <body>
 
@@ -597,11 +594,6 @@ src="https://www.facebook.com/tr?id=28408308795489956&ev=PageView&noscript=1"
       <path d="M5 12h14M13 6l6 6-6 6"/>
     </svg>
   </a>
-  <button class="evento-flotante__cerrar" type="button" aria-label="Cerrar aviso del evento">
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true" focusable="false">
-      <path d="M6 6l12 12M18 6 6 18"/>
-    </svg>
-  </button>
 </aside>
 
 <!-- Botón de llamada directa, mismo patrón que el de WhatsApp del header
