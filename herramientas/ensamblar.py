@@ -129,6 +129,12 @@ PAGINAS = [
                 "styles/sections/pie.css"],
         "en": "en/october-big-day.html",
     },
+    {
+        "archivo": "yoga-en-pareja.html",
+        "orden": [("yoga-pareja", "yoga-pareja.html")],
+        "css": ["styles/sections/home.css", "styles/sections/yoga-pareja.css",
+                "styles/sections/pie.css"],
+    },
 ]
 
 

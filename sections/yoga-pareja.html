@@ -1,0 +1,262 @@
+<!-- FRAGMENTO: YOGA EN PAREJA · ancla #yoga-pareja · CSS propio: styles/sections/yoga-pareja.css
+     Página del evento Yoga en Pareja (sáb 17 y sáb 24 oct 2026, 8:30–10:00 a. m.).
+     DESTINO DE LOS ANUNCIOS DE META (desde el 10 oct 2026). Móvil primero.
+
+     v2 · REDISEÑO (feedback de Ricardo: «puro texto sin diseño»). Más compacto,
+     más gráfico: chips, insignias, íconos SVG en línea, fotos con marco orgánico,
+     siluetas de pareja / hojas / aves / montañas como adornos y separadores.
+     METÁFORA «DE A DOS»: todo va en pares — dos figuras que se dan las manos
+     en arco (la firma de la página), dos fechas, dos círculos de sol (los
+     círculos amarillos del logo). Las siluetas son SVG en línea con
+     currentColor (el color lo pone el CSS con tokens: cero colores literales).
+     Decorativas: aria-hidden y focusable="false".
+
+     El texto del cliente va LITERAL, partido por oraciones completas en bloques
+     cortos (ninguna palabra cambiada). Lo que no es del cliente son rótulos.
+
+     PRECIO: pendiente de confirmar por el cliente, no mostrar.
+     INSTRUCTORA: sin nombre ni cuenta (no está confirmado que sea la del 26 sep).
+
+     JS propio: js/yoga-pareja.js — sesión finalizada por fecha, CTA a la próxima
+     sesión, evento Lead con UTM. Animación: .reveal de js/app.js + CSS
+     (sólo transform/opacity, todo dentro de prefers-reduced-motion: no-preference). -->
+<section class="yp" id="yoga-pareja" aria-labelledby="yp-titulo">
+
+  <!-- Biblioteca de siluetas: se dibujan una vez y se reutilizan con <use>. -->
+  <svg class="yp__sprite" aria-hidden="true" focusable="false">
+    <symbol id="yp-pareja" viewBox="0 0 200 160">
+      <g fill="none" stroke="currentColor" stroke-width="5" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="68" cy="34" r="10"/><circle cx="132" cy="34" r="10"/>
+        <path d="M70 46 74 98M74 98 60 148M74 98 92 132 80 148"/>
+        <path d="M130 46 126 98M126 98 140 148M126 98 108 132 120 148"/>
+        <path d="M71 58 100 14 129 58"/>
+        <path d="M72 62 56 78 70 92M128 62 144 78 130 92"/>
+      </g>
+    </symbol>
+    <symbol id="yp-hoja" viewBox="0 0 40 40">
+      <path fill="currentColor" d="M6 34C6 16 18 6 36 4c-2 18-12 30-30 30Z"/>
+      <path fill="none" stroke="var(--color-fondo, transparent)" stroke-width="1.5" stroke-linecap="round" d="M8 32 28 12"/>
+    </symbol>
+    <symbol id="yp-ave" viewBox="0 0 40 16">
+      <path fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" d="M2 12c5-7 11-8 18-2 7-6 13-5 18 2"/>
+    </symbol>
+    <symbol id="yp-wa" viewBox="0 0 24 24">
+      <path fill="currentColor" d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2zm0 18.2c-1.5 0-3-.4-4.3-1.2l-.3-.2-3 .8.8-2.9-.2-.3A8.2 8.2 0 1 1 12 20.2zm4.5-6.1c-.2-.1-1.5-.7-1.7-.8-.2-.1-.4-.1-.6.1l-.8 1c-.1.2-.3.2-.5.1a6.7 6.7 0 0 1-3.3-2.9c-.3-.4.2-.4.7-1.3.1-.2 0-.3 0-.4l-.8-1.8c-.2-.5-.4-.4-.6-.4h-.5a1 1 0 0 0-.7.3 3 3 0 0 0-.9 2.2 5.1 5.1 0 0 0 1.1 2.7 11.7 11.7 0 0 0 4.5 4c1.7.7 2.3.8 3.2.6.5-.1 1.5-.6 1.7-1.2.2-.6.2-1.1.2-1.2-.1-.1-.3-.2-.5-.3z"/>
+    </symbol>
+  </svg>
+
+  <!-- ===== 1 · HERO ===== -->
+  <div class="yp__portada">
+    <div class="contenedor contenedor--ancho yp__portada-rejilla">
+      <div class="yp__intro">
+        <ul class="yp__insignias" aria-label="Destacados">
+          <li class="yp__insignia yp__insignia--viva"><span class="yp__punto" aria-hidden="true"></span>Cupos limitados</li>
+          <li class="yp__insignia">Al aire libre</li>
+          <li class="yp__insignia">Sin experiencia previa</li>
+        </ul>
+        <h1 id="yp-titulo" class="yp__titulo"><span class="yp__titulo-a">Yoga</span> <span class="yp__titulo-b">en pareja</span></h1>
+        <p class="yp__lema">Respira, confía, conecta.</p>
+        <ul class="yp__chips" aria-label="Fechas y horario">
+          <li class="yp__chip yp__chip--fecha"><span>Sáb</span> <time datetime="2026-10-17"><b>17</b> oct</time></li>
+          <li class="yp__chip yp__chip--fecha"><span>Sáb</span> <time datetime="2026-10-24"><b>24</b> oct</time></li>
+          <li class="yp__chip yp__chip--hora"><time datetime="2026-10-17T08:30-05:00">8:30</time>–<time datetime="2026-10-17T10:00-05:00">10:00 a.&nbsp;m.</time></li>
+        </ul>
+        <!-- PRECIO: pendiente de confirmar por el cliente, no mostrar -->
+        <div class="yp__acciones" data-evento-hasta="2026-10-24T10:00:00-05:00">
+          <a class="btn btn-whatsapp btn-grande yp__cta" data-yp-fecha="auto" href="#fechas">
+            <svg class="yp__icono-btn" aria-hidden="true" focusable="false"><use href="#yp-wa"/></svg>
+            <span class="yp__cta-texto">Aparta tu cupo</span>
+          </a>
+        </div>
+        <p class="yp__lugar">Vegas del Verde · Floridablanca, Santander</p>
+      </div>
+
+      <figure class="yp__foto">
+        <span class="yp__sol yp__sol--uno" aria-hidden="true"></span>
+        <span class="yp__sol yp__sol--dos" aria-hidden="true"></span>
+        <svg class="yp__adorno-hoja yp__adorno-hoja--a" aria-hidden="true" focusable="false"><use href="#yp-hoja"/></svg>
+        <svg class="yp__adorno-hoja yp__adorno-hoja--b" aria-hidden="true" focusable="false"><use href="#yp-hoja"/></svg>
+        <span class="yp__marco">
+          <picture>
+            <source type="image/webp" srcset="img/eventos/yoga-pareja/hero-400.webp 400w, img/eventos/yoga-pareja/hero-800.webp 800w, img/eventos/yoga-pareja/hero-1200.webp 1200w" sizes="(min-width: 60em) 28rem, 86vw">
+            <img class="yp__foto-img" src="img/eventos/yoga-pareja/hero-800.jpg" srcset="img/eventos/yoga-pareja/hero-400.jpg 400w, img/eventos/yoga-pareja/hero-800.jpg 800w, img/eventos/yoga-pareja/hero-1200.jpg 1200w" sizes="(min-width: 60em) 28rem, 86vw" width="800" height="1000" fetchpriority="high" alt="Dos personas de espaldas, lado a lado, con los brazos arriba en una postura de equilibrio sobre el pasto de Vegas del Verde.">
+          </picture>
+        </span>
+        <span class="yp__sello" aria-hidden="true"><svg focusable="false"><use href="#yp-pareja"/></svg></span>
+        <figcaption class="yp__foto-pie">Clase del 26 de septiembre, en este mismo pasto.</figcaption>
+      </figure>
+    </div>
+    <svg class="yp__horizonte" viewBox="0 0 400 40" preserveAspectRatio="none" aria-hidden="true" focusable="false"><path fill="currentColor" d="M0 40V28l40-14 34 10 46-20 52 22 38-12 44 16 46-24 50 20 50-8v42Z"/></svg>
+  </div>
+
+  <!-- ===== 2 · QUÉ VAS A VIVIR · texto literal partido + 4 momentos con ícono ===== -->
+  <div class="yp__bloque yp__bloque--salvia" id="que-vas-a-vivir">
+    <div class="contenedor contenedor--ancho">
+      <div class="yp__cabeza">
+        <p class="eyebrow yp__eyebrow"><svg aria-hidden="true" focusable="false"><use href="#yp-hoja"/></svg>Qué vas a vivir</p>
+        <h2 class="yp__h2 reveal">Compartir y crecer juntos</h2>
+        <p class="yp__frase">El yoga en parejas nos permite practicar posturas junto con otra persona, coordinando el movimiento y la respiración.</p>
+      </div>
+      <ol class="yp__momentos reveal-secuencia">
+        <li class="yp__momento reveal">
+          <span class="yp__icono" aria-hidden="true"><svg viewBox="0 0 24 24" focusable="false"><circle cx="12" cy="4.5" r="2"/><path d="M12 7v6m0 0-4 7m4-7 4 7M5 9l7 1 7-1"/></svg></span>
+          <h3>Calentamiento individual</h3>
+        </li>
+        <li class="yp__momento reveal">
+          <span class="yp__icono" aria-hidden="true"><svg viewBox="0 0 24 24" focusable="false"><circle cx="7" cy="5" r="2"/><circle cx="17" cy="5" r="2"/><path d="M7.5 8v6m9-6v6M8 10l4-4 4 4M7.5 14 6 21m10.5-7 1.5 7"/></svg></span>
+          <h3>Posturas de a dos</h3>
+        </li>
+        <li class="yp__momento reveal">
+          <span class="yp__icono" aria-hidden="true"><svg viewBox="0 0 24 24" focusable="false"><path d="M3 8h10a3 3 0 1 0-3-3M3 12h15a3 3 0 1 1-3 3M3 16h7"/></svg></span>
+          <h3>Movimiento y respiración al mismo ritmo</h3>
+        </li>
+        <li class="yp__momento reveal">
+          <span class="yp__icono" aria-hidden="true"><svg viewBox="0 0 24 24" focusable="false"><path d="M12 20s-7-4.5-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 10c0 5.5-7 10-7 10Z"/></svg></span>
+          <h3>Confianza y cuidado</h3>
+        </li>
+      </ol>
+      <blockquote class="yp__literal reveal">
+        <p>Después de una sesión de calentamiento individual, viviremos la experiencia de la colaboración, el cuidado, la confianza y la buena comunicación para estirar, fortalecer y aumentar el equilibrio del cuerpo.</p>
+        <p class="yp__literal-acento">Siempre en un espacio seguro y cómodo para todos.</p>
+      </blockquote>
+    </div>
+  </div>
+
+  <!-- ===== 3 · VOZ DE LA INSTRUCTORA: banda con la silueta de la pareja ===== -->
+  <div class="yp__bloque yp__voz">
+    <div class="contenedor contenedor--medio yp__voz-rejilla">
+      <svg class="yp__voz-pareja" aria-hidden="true" focusable="false"><use href="#yp-pareja"/></svg>
+      <figure class="yp__cita reveal">
+        <blockquote><p>«Descubriremos que la complicidad, la buena comunicación y la confianza son pilares fundamentales para afianzar vínculos y mejorar nuestras relaciones».</p></blockquote>
+        <figcaption>La instructora de la clase</figcaption>
+      </figure>
+      <svg class="yp__ave yp__ave--a" aria-hidden="true" focusable="false"><use href="#yp-ave"/></svg>
+      <svg class="yp__ave yp__ave--b" aria-hidden="true" focusable="false"><use href="#yp-ave"/></svg>
+    </div>
+  </div>
+
+  <!-- ===== 4 · PARA QUIÉN · chips con ícono ===== -->
+  <div class="yp__bloque" id="para-quien">
+    <div class="contenedor contenedor--ancho">
+      <div class="yp__cabeza">
+        <p class="eyebrow yp__eyebrow"><svg aria-hidden="true" focusable="false"><use href="#yp-hoja"/></svg>Para quién</p>
+        <h2 class="yp__h2 reveal">Trae a quien quieras</h2>
+      </div>
+      <ul class="yp__quien reveal-secuencia">
+        <li class="reveal"><span class="yp__icono yp__icono--sm" aria-hidden="true"><svg viewBox="0 0 24 24" focusable="false"><path d="M12 20s-7-4.5-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 10c0 5.5-7 10-7 10Z"/></svg></span>Tu pareja</li>
+        <li class="reveal"><span class="yp__icono yp__icono--sm" aria-hidden="true"><svg viewBox="0 0 24 24" focusable="false"><circle cx="8" cy="7" r="3"/><circle cx="16" cy="7" r="3"/><path d="M2 20c0-4 3-6 6-6s6 2 6 6m-2-5.6c1-.3 2.6-.4 4-.4 3 0 6 2 6 6"/></svg></span>Tu amiga o tu amigo</li>
+        <li class="reveal"><span class="yp__icono yp__icono--sm" aria-hidden="true"><svg viewBox="0 0 24 24" focusable="false"><path d="M3 11 12 4l9 7M5 10v10h14V10M10 20v-5h4v5"/></svg></span>Un familiar o ser querido</li>
+        <li class="reveal"><span class="yp__icono yp__icono--sm" aria-hidden="true"><svg viewBox="0 0 24 24" focusable="false"><path d="M12 21v-9m0 0c0-4 3-6.5 7-6.5 0 4-3 6.5-7 6.5Zm0 2.5c0-3-2.2-5.5-6-5.5 0 3 2.2 5.5 6 5.5Z"/></svg></span>Sin experiencia previa</li>
+      </ul>
+      <p class="yp__frase yp__frase--ancha">Invita a tu pareja, tu amiga, tu amigo o cualquier ser querido y vive esta experiencia al aire libre, rodeado de naturaleza para una recarga conjunta de buena energía.</p>
+    </div>
+  </div>
+
+  <!-- ===== 5 · FECHAS · dos boletas lado a lado (también en 375 px) ===== -->
+  <div class="yp__bloque yp__bloque--verde" id="fechas">
+    <div class="contenedor contenedor--ancho">
+      <div class="yp__cabeza yp__cabeza--centro">
+        <p class="yp__insignia yp__insignia--viva yp__insignia--clara"><span class="yp__punto" aria-hidden="true"></span>Cupos limitados</p>
+        <h2 class="yp__h2 reveal">Elige tu sábado</h2>
+        <p class="yp__sub">Dos sesiones del mismo taller · <time datetime="2026-10-17T08:30-05:00">8:30</time> a <time datetime="2026-10-17T10:00-05:00">10:00 a.&nbsp;m.</time></p>
+      </div>
+      <ul class="yp__fechas reveal-secuencia">
+        <li class="yp__fecha reveal" data-yp-hasta="2026-10-17T10:00:00-05:00">
+          <p class="yp__fecha-dia"><span class="yp__fecha-sem">Sábado</span><span class="yp__fecha-num">17</span><span class="yp__fecha-mes">octubre</span></p>
+          <p class="solo-lectores"><time datetime="2026-10-17">Sábado 17 de octubre</time>, de 8:30 a 10:00 a. m.</p>
+          <!-- PRECIO: pendiente de confirmar por el cliente, no mostrar -->
+          <a class="btn btn-whatsapp yp__fecha-cta" data-yp-sesion="17oct" href="https://wa.me/573166758362?text=Hola%2C%20quiero%20reservar%20mi%20cupo%20para%20Yoga%20en%20Pareja%20del%2017%20de%20octubre." target="_blank" rel="noopener"><svg class="yp__icono-btn" aria-hidden="true" focusable="false"><use href="#yp-wa"/></svg>Aparta el 17</a>
+          <p class="yp__fecha-fin" hidden>Sesión finalizada</p>
+        </li>
+        <li class="yp__fecha reveal" data-yp-hasta="2026-10-24T10:00:00-05:00">
+          <p class="yp__fecha-dia"><span class="yp__fecha-sem">Sábado</span><span class="yp__fecha-num">24</span><span class="yp__fecha-mes">octubre</span></p>
+          <p class="solo-lectores"><time datetime="2026-10-24">Sábado 24 de octubre</time>, de 8:30 a 10:00 a. m.</p>
+          <!-- PRECIO: pendiente de confirmar por el cliente, no mostrar -->
+          <a class="btn btn-whatsapp yp__fecha-cta" data-yp-sesion="24oct" href="https://wa.me/573166758362?text=Hola%2C%20quiero%20reservar%20mi%20cupo%20para%20Yoga%20en%20Pareja%20del%2024%20de%20octubre." target="_blank" rel="noopener"><svg class="yp__icono-btn" aria-hidden="true" focusable="false"><use href="#yp-wa"/></svg>Aparta el 24</a>
+          <p class="yp__fecha-fin" hidden>Sesión finalizada</p>
+        </li>
+      </ul>
+      <p class="yp__sub yp__sub--pie">WhatsApp 316 675 8362</p>
+    </div>
+  </div>
+
+  <!-- ===== 6 · QUÉ TRAER · tres íconos en fila ===== -->
+  <div class="yp__bloque" id="que-traer">
+    <div class="contenedor contenedor--ancho">
+      <div class="yp__cabeza yp__cabeza--centro">
+        <p class="eyebrow yp__eyebrow"><svg aria-hidden="true" focusable="false"><use href="#yp-hoja"/></svg>Qué traer</p>
+      </div>
+      <ul class="yp__traer reveal-secuencia">
+        <li class="reveal"><span class="yp__icono" aria-hidden="true"><svg viewBox="0 0 24 24" focusable="false"><path d="M3 9h12v9H3z"/><circle cx="17" cy="13.5" r="4.5"/><circle cx="17" cy="13.5" r="1.5"/></svg></span>Tu tapete</li>
+        <li class="reveal"><span class="yp__icono" aria-hidden="true"><svg viewBox="0 0 24 24" focusable="false"><path d="M8.5 3 3 6l2 4 3-1.2V21h8V8.8l3 1.2 2-4-5.5-3a3.5 3.5 0 0 1-7 0Z"/></svg></span>Ropa cómoda</li>
+        <li class="reveal"><span class="yp__icono" aria-hidden="true"><svg viewBox="0 0 24 24" focusable="false"><circle cx="12" cy="12" r="4"/><path d="M12 2v2.5M12 19.5V22M2 12h2.5M19.5 12H22M4.9 4.9l1.8 1.8M17.3 17.3l1.8 1.8M4.9 19.1l1.8-1.8M17.3 6.7l1.8-1.8"/></svg></span>La mejor energía</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- ===== 7 · GALERÍA · tira deslizable en móvil, mosaico en escritorio ===== -->
+  <div class="yp__bloque yp__bloque--salvia yp__bloque--galeria">
+    <div class="contenedor contenedor--ancho">
+      <div class="yp__cabeza">
+        <p class="eyebrow yp__eyebrow"><svg aria-hidden="true" focusable="false"><use href="#yp-hoja"/></svg>Así se vivió el 26 de septiembre</p>
+      </div>
+    </div>
+    <ul class="yp__galeria" aria-label="Fotos de la clase de yoga del 26 de septiembre en Vegas del Verde" tabindex="0">
+      <li class="yp__galeria-item reveal"><picture><source type="image/webp" srcset="img/eventos/yoga-pareja/dos-400.webp 400w, img/eventos/yoga-pareja/dos-800.webp 800w" sizes="(min-width: 48em) 22vw, 62vw"><img src="img/eventos/yoga-pareja/dos-800.jpg" srcset="img/eventos/yoga-pareja/dos-400.jpg 400w, img/eventos/yoga-pareja/dos-800.jpg 800w" sizes="(min-width: 48em) 22vw, 62vw" width="800" height="1000" loading="lazy" decoding="async" alt="Dos participantes de pie, con las manos en la cintura, preparándose para la siguiente postura."></picture></li>
+      <li class="yp__galeria-item reveal"><picture><source type="image/webp" srcset="img/eventos/yoga-pareja/grupo-400.webp 400w, img/eventos/yoga-pareja/grupo-800.webp 800w" sizes="(min-width: 48em) 30vw, 80vw"><img src="img/eventos/yoga-pareja/grupo-800.jpg" srcset="img/eventos/yoga-pareja/grupo-400.jpg 400w, img/eventos/yoga-pareja/grupo-800.jpg 800w" sizes="(min-width: 48em) 30vw, 80vw" width="800" height="600" loading="lazy" decoding="async" alt="El grupo de la clase con los brazos abiertos sobre el pasto, rodeado de árboles."></picture></li>
+      <li class="yp__galeria-item reveal"><picture><source type="image/webp" srcset="img/eventos/yoga-pareja/arbol-400.webp 400w, img/eventos/yoga-pareja/arbol-800.webp 800w" sizes="(min-width: 48em) 22vw, 62vw"><img src="img/eventos/yoga-pareja/arbol-800.jpg" srcset="img/eventos/yoga-pareja/arbol-400.jpg 400w, img/eventos/yoga-pareja/arbol-800.jpg 800w" sizes="(min-width: 48em) 22vw, 62vw" width="800" height="1000" loading="lazy" decoding="async" alt="Participantes en postura de gato bajo un árbol grande del parque."></picture></li>
+      <li class="yp__galeria-item reveal"><picture><source type="image/webp" srcset="img/eventos/yoga-pareja/estiramiento-400.webp 400w, img/eventos/yoga-pareja/estiramiento-800.webp 800w" sizes="(min-width: 48em) 22vw, 62vw"><img src="img/eventos/yoga-pareja/estiramiento-800.jpg" srcset="img/eventos/yoga-pareja/estiramiento-400.jpg 400w, img/eventos/yoga-pareja/estiramiento-800.jpg 800w" sizes="(min-width: 48em) 22vw, 62vw" width="800" height="1000" loading="lazy" decoding="async" alt="La instructora sonríe de frente mientras guía la clase al aire libre."></picture></li>
+      <li class="yp__galeria-item reveal"><picture><source type="image/webp" srcset="img/eventos/yoga-pareja/posturas-400.webp 400w, img/eventos/yoga-pareja/posturas-800.webp 800w" sizes="(min-width: 48em) 22vw, 62vw"><img src="img/eventos/yoga-pareja/posturas-800.jpg" srcset="img/eventos/yoga-pareja/posturas-400.jpg 400w, img/eventos/yoga-pareja/posturas-800.jpg 800w" sizes="(min-width: 48em) 22vw, 62vw" width="800" height="1000" loading="lazy" decoding="async" alt="El grupo hace posturas sobre el pasto bajo las ramas de los árboles."></picture></li>
+      <li class="yp__galeria-item reveal"><picture><source type="image/webp" srcset="img/eventos/yoga-pareja/relajacion-400.webp 400w, img/eventos/yoga-pareja/relajacion-800.webp 800w" sizes="(min-width: 48em) 30vw, 80vw"><img src="img/eventos/yoga-pareja/relajacion-800.jpg" srcset="img/eventos/yoga-pareja/relajacion-400.jpg 400w, img/eventos/yoga-pareja/relajacion-800.jpg 800w" sizes="(min-width: 48em) 30vw, 80vw" width="800" height="600" loading="lazy" decoding="async" alt="Relajación final: los participantes acostados sobre el pasto, entre los árboles."></picture></li>
+    </ul>
+  </div>
+
+  <!-- ===== 8 · CIERRE · logo oficial + frase final literal del cliente ===== -->
+  <div class="yp__bloque yp__cierre" data-evento-hasta="2026-10-24T10:00:00-05:00">
+    <svg class="yp__horizonte yp__horizonte--cierre" viewBox="0 0 400 40" preserveAspectRatio="none" aria-hidden="true" focusable="false"><path fill="currentColor" d="M0 40V28l40-14 34 10 46-20 52 22 38-12 44 16 46-24 50 20 50-8v42Z"/></svg>
+    <div class="contenedor contenedor--medio yp__cierre-interior">
+      <picture>
+        <source type="image/webp" srcset="img/logo/logo-vegas-transparente.webp">
+        <img class="yp__logo" src="img/logo/logo-vegas-transparente.png" width="1191" height="789" alt="Vegas del Verde" loading="lazy" decoding="async">
+      </picture>
+      <p class="yp__cierre-texto reveal">Inscríbete aquí en Vegas del Verde y aparta tu cupo.</p>
+      <ul class="yp__chips yp__chips--centro" aria-label="Fechas y horario">
+        <li class="yp__chip yp__chip--fecha"><span>Sáb</span> <b>17</b> oct</li>
+        <li class="yp__chip yp__chip--fecha"><span>Sáb</span> <b>24</b> oct</li>
+        <li class="yp__chip yp__chip--hora">8:30–10:00 a.&nbsp;m.</li>
+      </ul>
+      <a class="btn btn-whatsapp btn-grande yp__cta" data-yp-fecha="auto" href="#fechas"><svg class="yp__icono-btn" aria-hidden="true" focusable="false"><use href="#yp-wa"/></svg><span class="yp__cta-texto">Aparta tu cupo</span></a>
+    </div>
+  </div>
+
+  <script type="application/ld+json">
+  [
+    {
+      "@context": "https://schema.org",
+      "@type": "Event",
+      "name": "Yoga en pareja en Vegas del Verde · 17 de octubre",
+      "description": "Clase de yoga en pareja al aire libre en Floridablanca, Santander: calentamiento individual, posturas de a dos, movimiento y respiración coordinados. No se necesita experiencia previa.",
+      "startDate": "2026-10-17T08:30:00-05:00",
+      "endDate": "2026-10-17T10:00:00-05:00",
+      "eventStatus": "https://schema.org/EventScheduled",
+      "eventAttendanceMode": "https://schema.org/OfflineEventAttendanceMode",
+      "location": { "@type": "Place", "name": "Vegas del Verde", "address": { "@type": "PostalAddress", "streetAddress": "Vereda Río Frío, 500 m sobre la vía Carabineros", "addressLocality": "Floridablanca", "addressRegion": "Santander", "addressCountry": "CO" }, "geo": { "@type": "GeoCoordinates", "latitude": 7.0574425, "longitude": -73.1144128 } },
+      "image": ["https://vegasdelverde.co/img/eventos/yoga-pareja/og-yoga-en-pareja.jpg"],
+      "organizer": { "@type": "Organization", "name": "Vegas del Verde", "url": "https://vegasdelverde.co/" }
+    },
+    {
+      "@context": "https://schema.org",
+      "@type": "Event",
+      "name": "Yoga en pareja en Vegas del Verde · 24 de octubre",
+      "description": "Clase de yoga en pareja al aire libre en Floridablanca, Santander: calentamiento individual, posturas de a dos, movimiento y respiración coordinados. No se necesita experiencia previa.",
+      "startDate": "2026-10-24T08:30:00-05:00",
+      "endDate": "2026-10-24T10:00:00-05:00",
+      "eventStatus": "https://schema.org/EventScheduled",
+      "eventAttendanceMode": "https://schema.org/OfflineEventAttendanceMode",
+      "location": { "@type": "Place", "name": "Vegas del Verde", "address": { "@type": "PostalAddress", "streetAddress": "Vereda Río Frío, 500 m sobre la vía Carabineros", "addressLocality": "Floridablanca", "addressRegion": "Santander", "addressCountry": "CO" }, "geo": { "@type": "GeoCoordinates", "latitude": 7.0574425, "longitude": -73.1144128 } },
+      "image": ["https://vegasdelverde.co/img/eventos/yoga-pareja/og-yoga-en-pareja.jpg"],
+      "organizer": { "@type": "Organization", "name": "Vegas del Verde", "url": "https://vegasdelverde.co/" }
+    }
+  ]
+  </script>
+</section>

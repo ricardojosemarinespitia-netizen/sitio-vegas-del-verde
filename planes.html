@@ -220,6 +220,8 @@ src="https://www.facebook.com/tr?id=28408308795489956&ev=PageView&noscript=1"
            evento y empujaría el hero. js/app.js lo oculta tras el evento. -->
       <ul class="nav__lista">
         <li class="nav__item--evento" data-evento-hasta="2026-10-10T12:00:00-05:00"><a class="nav__enlace nav__enlace--evento" href="october-big-day.html"><span class="nav__evento-fecha">Sáb 10 oct · entrada libre</span>October Big Day</a></li>
+        <!-- Yoga en Pareja (sáb 17 y 24 oct 2026): mismo patrón, caduca tras la segunda sesión. -->
+        <li class="nav__item--evento" data-evento-hasta="2026-10-24T10:00:00-05:00"><a class="nav__enlace nav__enlace--evento" href="yoga-en-pareja.html"><span class="nav__evento-fecha">Sáb 17 y 24 oct · 8:30 a. m.</span>Yoga en pareja</a></li>
         <li class="nav__item--secundario"><a class="nav__enlace" href="index.html#nosotros">Nosotros</a></li>
         <li><a class="nav__enlace" href="espacios.html">Espacios</a></li>
         <li><a class="nav__enlace" href="planes.html">Planes</a></li>
@@ -529,6 +531,48 @@ src="https://www.facebook.com/tr?id=28408308795489956&ev=PageView&noscript=1"
           <a class="enlace-flecha planes-evento__mas" href="october-big-day.html">Ver todo el evento</a>
         </div>
         <p class="planes-evento__nota">La entrada es libre: reservar te asegura el cupo.</p>
+      </div>
+    </article>
+
+    <!-- EVENTO PUNTUAL · YOGA EN PAREJA (sáb 17 y 24 oct 2026, 8:30–10:00 a. m.).
+         Mismo patrón que #conexion-yoga (foto-placa foto-placa--lado
+         planes-evento planes-evento--yoga). Resumen + enlace a su página
+         propia, yoga-en-pareja.html, que es el destino de los anuncios.
+         PRECIO: pendiente de confirmar por el cliente, no mostrar.
+         Expira solo tras la segunda sesión (data-evento-hasta, js/app.js). -->
+    <article
+      id="yoga-en-pareja"
+      class="foto-placa foto-placa--lado planes-evento planes-evento--yoga reveal"
+      aria-labelledby="yoga-en-pareja-titulo"
+      data-evento-hasta="2026-10-24T10:00:00-05:00"
+    >
+      <picture>
+        <source
+          type="image/webp"
+          srcset="img/eventos/yoga-pareja/hero-400.webp 400w, img/eventos/yoga-pareja/hero-800.webp 800w, img/eventos/yoga-pareja/hero-1200.webp 1200w"
+          sizes="(max-width: 47.99em) 92vw, 40vw"
+        />
+        <img
+          class="planes-evento__foto"
+          src="img/eventos/yoga-pareja/hero-800.jpg"
+          srcset="img/eventos/yoga-pareja/hero-400.jpg 400w, img/eventos/yoga-pareja/hero-800.jpg 800w, img/eventos/yoga-pareja/hero-1200.jpg 1200w"
+          sizes="(max-width: 47.99em) 92vw, 40vw"
+          width="800"
+          height="1000"
+          loading="lazy"
+          decoding="async"
+          alt="Dos personas de espaldas, lado a lado, con los brazos arriba en una postura de equilibrio sobre el pasto."
+        />
+      </picture>
+      <div class="placa placa--filete planes-evento__placa">
+      <p class="planes-evento__rotulo">Evento · sábados 17 y 24 de octubre</p>
+      <h2 id="yoga-en-pareja-titulo" class="planes-evento__titulo">Yoga en pareja</h2>
+      <p class="planes-evento__dato">
+        <time datetime="2026-10-17T08:30-05:00">8:30</time>–<time datetime="2026-10-17T10:00-05:00">10:00 a.&nbsp;m.</time>
+        · Posturas de a dos, movimiento y respiración al mismo ritmo, al aire libre.
+        Trae a tu pareja, tu amiga, tu amigo o un ser querido. Sin experiencia previa. Cupos limitados.
+      </p>
+      <a class="btn btn-primario planes-evento__cta" href="yoga-en-pareja.html">Ver fechas y apartar cupo</a>
       </div>
     </article>
 

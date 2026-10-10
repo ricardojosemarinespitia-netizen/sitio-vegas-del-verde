@@ -159,6 +159,13 @@ const PAGINAS = [
     // en vez de a en/index.html (sólo para las páginas que lo declaran).
     en: 'en/october-big-day.html',
   },
+  {
+    // Yoga en Pareja (sáb 17 y 24 oct 2026). Destino de los anuncios de Meta.
+    // Sin equivalente en inglés: el evento anterior de yoga tampoco lo tuvo.
+    archivo: 'yoga-en-pareja.html',
+    orden: [['yoga-pareja', 'yoga-pareja.html']],
+    css: ['styles/sections/home.css', 'styles/sections/yoga-pareja.css', 'styles/sections/pie.css'],
+  },
 ];
 
 const morir = m => { console.error('ERROR: ' + m); process.exit(1); };

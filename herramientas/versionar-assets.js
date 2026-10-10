@@ -67,7 +67,7 @@ const PAGINAS = [
   'sections/espacios.html', 'sections/nosotros.html', 'sections/hero.html',
   // v36 · la página del evento y el sitio en inglés (en/, rutas con ../).
   // Se habían quedado fuera: en/ seguía sirviendo hojas viejas de caché.
-  'october-big-day.html',
+  'october-big-day.html', 'yoga-en-pareja.html',
   'en/index.html', 'en/plans.html', 'en/spaces.html', 'en/october-big-day.html',
   'en/privacy-policy.html', 'en/rental-conditions.html', 'en/terms.html',
 ];
