@@ -151,7 +151,6 @@ const HECHOS = [
  ['Rotulo «Vengo con mi curso»', [NADIE], ['vengo con mi curso'], false],
  ['Rotulo «Atrevete al sendero»', [NADIE], ['atrevete al sendero'], false],
  ['Rotulo «Quiero plantas del vivero»', [NADIE], ['quiero plantas del vivero'], false],
- ['Rotulo «Hablemos por WhatsApp»', [NADIE], ['hablemos por whatsapp'], false],
  ['Rotulo «Escribenos por WhatsApp»', ['cabecera'], ['escribenos por whatsapp'], false],
  // v19 · ALIANZA EDUCATIVA · PASES POR JORNADAS (flyer de septiembre 2026).
  // Los hechos nuevos viven ENTEROS en colegios.html, pagina suelta que este

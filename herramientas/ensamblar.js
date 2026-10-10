@@ -51,9 +51,11 @@ const RAIZ = path.dirname(__dirname);
                tiene que ir después (el caso conocido es sendero.css, que
                reutiliza .nat-apertura de naturaleza.css).
 
-   colegios.html, plan-vecino.html, condiciones-de-alquiler.html,
-   politica-de-datos.html, terminos.html y 404.html NO están aquí: son
-   páginas escritas a mano de un solo bloque, sin fragmentos que ensamblar.
+   plan-vecino.html, condiciones-de-alquiler.html, politica-de-datos.html,
+   terminos.html y 404.html NO están aquí: son páginas escritas a mano de un
+   solo bloque, sin fragmentos que ensamblar. (colegios.html entró en oct-2026
+   con el rediseño de salidas escolares: ahora lleva el menú y el pie
+   compartidos, como yoga-en-pareja.html.)
    ========================================================================== */
 const PAGINAS = [
 
@@ -162,6 +164,13 @@ const PAGINAS = [
     orden: [['yoga-pareja', 'yoga-pareja.html']],
     css: ['styles/sections/home.css', 'styles/sections/yoga-pareja.css', 'styles/sections/pie.css'],
     en: 'en/couples-yoga.html',
+  },
+  {
+    // Salidas escolares · Alianza Educativa (oct-2026). Misma gramática visual
+    // que yoga-en-pareja.html. Sin versión en inglés (no lleva `en`).
+    archivo: 'colegios.html',
+    orden: [['colegios', 'colegios.html']],
+    css: ['styles/sections/home.css', 'styles/sections/colegios.css', 'styles/sections/pie.css'],
   },
 ];
 

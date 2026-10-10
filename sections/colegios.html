@@ -1,269 +1,343 @@
-<!-- ==========================================================================
-     FRAGMENTO: SALIDAS PEDAGÓGICAS  ·  id="colegios"  ·  v2 «Vende la escapada»
+<!-- FRAGMENTO: SALIDAS ESCOLARES · ALIANZA EDUCATIVA · ancla #colegios
+     CSS propio: styles/sections/colegios.css · JS propio: js/colegios.js
+     Página: colegios.html (ensamblada desde oct-2026, con el menú y el pie
+     compartidos). Móvil primero: el 90 % llega desde el celular.
 
-     ÁMBITO DE ESTA SECCIÓN — sólo lo que existe únicamente dentro de la
-     oferta escolar:
-       · el observatorio de aves como parada pedagógica
-       · el observatorio de plantas como parada pedagógica
-       · el jardín de polinizadores y el avistamiento de mariposas
-       · el formato de la jornada (llegada, grupos, docentes, cierre)
+     v9 · REDISEÑO CON LA GRAMÁTICA DE YOGA EN PAREJA (pedido de Ricardo: el
+     mismo nivel de diseño de yoga-en-pareja.html). Compacto y gráfico:
+     insignias, chips, fotos con marco orgánico, sello circular con silueta,
+     horizonte de montañas, tarjetas con íconos SVG, boletas de pase, franja
+     con siluetas de aves, tarjeta de sellos de Puntos Verdes.
+     METÁFORA «EL CUADERNO DE CAMPO»: la salida se lee como una libreta de
+     excursión — la docente y su curso caminando (la firma, en el sello y en
+     la franja de la nota), las aulas como láminas, los pases como boletas y
+     los Puntos Verdes como la tarjeta que se sella en cada visita.
+     Las siluetas son SVG en línea con currentColor (el color lo pone el CSS
+     con tokens). Decorativas: aria-hidden y focusable="false".
 
-     LO DEMÁS SE ENLAZA, NO SE DESCRIBE: los espacios del parque (#espacios),
-     el recorrido guiado (#naturaleza) y el vivero (#vivero) tienen sección
-     propia. Aquí no se repiten aforos, ni precios, ni cifras de especies.
+     HECHOS: todos los de la versión anterior (flyer «Alianza Educativa Vegas
+     del Verde · Pases por Jornadas»), sin cambiar ninguna cifra ni condición:
+     40.000 m² · 4 horas por jornada · 5 aulas · 40 estudiantes por jornada ·
+     contado · validez de un año · los tres pases y sus precios · lo que
+     incluye · valores agregados · la nota pedagógica · servicio social ·
+     Puntos Verdes · dirección · enlaces · WhatsApp 316 675 8362.
+     La silueta del curso NO lleva binoculares a propósito: el flyer dice que
+     Vegas del Verde no los ofrece. Sin fotos de niños: ninguna foto del
+     banco muestra menores reconocibles en esta página. -->
+<section class="se" id="colegios" aria-labelledby="se-titulo">
 
-     CSS: styles/sections/colegios.css
-     FOTOS (abiertas con Read y verificadas una a una; ninguna se repite en
-     otra sección de la página — parque-20 ya es el mural de #nosotros):
-       img/parque/parque-19.jpg   900x1200   mural de aves en la fachada de la caseta
-       img/parque/parque-34.jpg   675x1200   hileras de plantas bajo malla de sombra
-       img/parque/parque-52.jpg   675x1200   franja florecida al borde del prado
-       img/eventos/infantil-1.jpg 844x1500   grupo sentado en círculo sobre el prado
+  <!-- Biblioteca de siluetas: se dibujan una vez y se reutilizan con <use>. -->
+  <svg class="se__sprite" aria-hidden="true" focusable="false">
+    <symbol id="se-curso" viewBox="0 0 200 160">
+      <g fill="none" stroke="currentColor" stroke-width="5" stroke-linecap="round" stroke-linejoin="round">
+        <!-- la docente -->
+        <circle cx="58" cy="28" r="11"/>
+        <path d="M58 40 61 94M61 94 49 148M61 94 76 146"/>
+        <path d="M59 54 86 80M59 54 40 78"/>
+        <!-- estudiante con mochila, de la mano -->
+        <circle cx="100" cy="68" r="8.5"/>
+        <path d="M100 78 101 112M101 112 92 148M101 112 111 146M100 88 86 80"/>
+        <path d="M95 84h-9a3 3 0 0 0-3 3v14a3 3 0 0 0 3 3h10"/>
+        <!-- estudiante con mochila, señalando un ave -->
+        <circle cx="146" cy="72" r="8.5"/>
+        <path d="M146 82 147 114M147 114 139 148M147 114 157 146M146 92 168 70"/>
+        <path d="M141 88h-9a3 3 0 0 0-3 3v14a3 3 0 0 0 3 3h10"/>
+        <path d="M168 36c4-5 8-6 12-2 4-4 8-3 12 2"/>
+      </g>
+    </symbol>
+    <symbol id="se-hoja" viewBox="0 0 40 40">
+      <path fill="currentColor" d="M6 34C6 16 18 6 36 4c-2 18-12 30-30 30Z"/>
+      <path fill="none" stroke="var(--color-fondo, transparent)" stroke-width="1.5" stroke-linecap="round" d="M8 32 28 12"/>
+    </symbol>
+    <symbol id="se-ave" viewBox="0 0 40 16">
+      <path fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" d="M2 12c5-7 11-8 18-2 7-6 13-5 18 2"/>
+    </symbol>
+    <symbol id="se-arbol" viewBox="0 0 40 48">
+      <path fill="currentColor" d="M20 2c9 0 15 7 15 15 0 6-3 10-7 12 2 1 3 3 3 5 0 4-4 7-9 7h-1v5h-2v-5h-1c-5 0-9-3-9-7 0-2 1-4 3-5-4-2-7-6-7-12C5 9 11 2 20 2Z"/>
+    </symbol>
+    <symbol id="se-wa" viewBox="0 0 24 24">
+      <path fill="currentColor" d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2zm0 18.2c-1.5 0-3-.4-4.3-1.2l-.3-.2-3 .8.8-2.9-.2-.3A8.2 8.2 0 1 1 12 20.2zm4.5-6.1c-.2-.1-1.5-.7-1.7-.8-.2-.1-.4-.1-.6.1l-.8 1c-.1.2-.3.2-.5.1a6.7 6.7 0 0 1-3.3-2.9c-.3-.4.2-.4.7-1.3.1-.2 0-.3 0-.4l-.8-1.8c-.2-.5-.4-.4-.6-.4h-.5a1 1 0 0 0-.7.3 3 3 0 0 0-.9 2.2 5.1 5.1 0 0 0 1.1 2.7 11.7 11.7 0 0 0 4.5 4c1.7.7 2.3.8 3.2.6.5-.1 1.5-.6 1.7-1.2.2-.6.2-1.1.2-1.2-.1-.1-.3-.2-.5-.3z"/>
+    </symbol>
+  </svg>
 
-     v4 · FUERA LAS DOS FOTOS DE BORRADOR
-     Esta sección llevaba dos archivos `-TEMP`: imágenes generadas con IA a baja
-     resolución y estiradas (23 KB y 28 KB de JPEG contra los 240–425 KB de las
-     reales), que en pantalla se veían lavadas y sin grano. Las dos salen:
-
-       parque-34-TEMP  →  img/parque/parque-34.jpg
-         Es la MISMA foto que la cabecera de este fragmento ya declaraba como
-         verificada; el borrador sólo la estaba supliendo. Muestra literalmente
-         lo que dice el pie: dos camellones de plantas en bolsa con el pasillo
-         en medio. Archivo real, 243 KB.
-
-       parque-32-TEMP  →  img/eventos/infantil-1.jpg
-         La pieza dominante de la sección. Es la única fotografía del banco con
-         un grupo de niñas y niños sentados en círculo, y es además la de mayor
-         resolución que entra aquí (844×1500). El pie cambia porque la foto
-         cambia: ya no es «una charla bajo la zona techada» —eso lo mostraba el
-         borrador—, es el curso reunido sobre el prado.
-
-     NOTA DE COORDINACIÓN: `infantil-1.jpg` venía del carril de cumpleaños de
-     #planes y se libera allí. Si por lo que sea siguiera en uso en #planes,
-     el reemplazo directo y sin efectos secundarios es `img/parque/parque-26.jpg`
-     (675×1200): es el mismo momento y el mismo encuadre, un punto más cerrado.
-     Por eso no se usan las dos: puestas en la misma sección se leerían como la
-     misma foto repetida.
-
-     COMPOSICIÓN (v3.1) — LA SECCIÓN TIPOGRÁFICA DEL SITIO
-     Es la sección más corta, así que es la que puede permitirse ser la más
-     tipográfica, y la que menos necesita fotografía grande para sostenerse:
-
-       1 · .col-portada — el titular más grande de la página después del hero,
-           con la entradilla descolgada en un carril estrecho a su derecha.
-           Nada centrado.
-       2 · .col-paradas — deja de ser una rejilla de tres tarjetas iguales y
-           pasa a ser lo que el texto dice que es: un ITINERARIO. Tres filas
-           apiladas separadas por filete, con la fotografía en un carril
-           estrecho a la izquierda y el titular grande a la derecha. Se lee
-           como un índice, no como un catálogo de producto.
-       3 · .col-jornada — la charla al lado y los cuatro hitos en escalera de
-           dos por dos, no en una columna de cuatro renglones.
-       4 · .col-cierre — sin cambios.
-
-     Ni una palabra del texto cambia, y la sección sigue SIN un solo dígito
-     que no sea una hora (ARQUITECTURA-V3 §10): los rótulos de parada siguen
-     escritos con letras («Primera», «Segunda», «Tercera») y no se numeran.
-
-     COMPOSICIÓN (v3.2) — TRES PARADAS QUE DEJAN DE MEDIR LO MISMO
-     v3.1 arregló el problema de #colegios por fuera —tres FILAS y no tres
-     tarjetas— pero por dentro las tres filas seguían siendo idénticas: mismo
-     carril de 13 rem, misma foto 4/5, mismo lado. Tres rectángulos iguales
-     seguidos se leen como una rejilla aunque no lo sean. En v3.2 cada parada
-     declara su propia caja, y la elección no es caprichosa: sale de la
-     proporción real del archivo, para que ninguna foto se recorte de más.
-
-       parada A · parque-19 (900×1200, 3:4) → carril ancho, foto 3/4, izquierda
-       parada B · parque-34 (675×1200, 9:16) → carril estrecho, foto 9/16,
-                  y la única que se va a la DERECHA
-       parada C · parque-52 (675×1200)       → carril medio, foto cuadrada,
-                  izquierda
-
-     Por eso las tres pierden `marco--retrato`: la proporción ya no es una
-     clase de sistema compartida, es una variable por parada (--col-ratio en
-     colegios.css §2). Y por eso cada una entra desde un lado distinto
-     (reveal--izq / reveal--der / reveal--izq): el movimiento acompaña a la
-     composición en vez de contradecirla.
-
-     LA FORMA DE LAS FOTOS. Las cuatro llevan HOJA: dos esquinas curvas en
-     diagonal y dos vivas, que es el motivo orgánico del sistema (la viñeta de
-     .lista-hojas en base.css §2) y ya la norma del sitio entero. Ninguna foto
-     de #colegios sangra fuera de pantalla —lo que cuelga del carril es el
-     titular, que es texto—, así que a ninguna le toca la excepción de dejar a
-     cero las esquinas del canto. Cada foto va a juego con la hoja del rótulo
-     de su parada y las diagonales se alternan bajando por la sección.
-     El resto de la curva orgánica —el labio de carbón del borde superior, los
-     remates de los filetes de la jornada y el bloque de cierre— vive también
-     en el CSS. Nada de esto necesita ni una etiqueta más aquí.
-
-     COMPOSICIÓN (v4) — UNA PIEZA MANDA Y LAS DEMÁS CALLAN
-     v3.2 dejó tres paradas de tamaños distintos, y eso estaba bien resuelto.
-     Lo que no había era JERARQUÍA: las cuatro fotos jugaban en la misma liga
-     de tamaño, así que el ojo no sabía por dónde entrar. En v4:
-
-       · la foto de la jornada pasa a ser la pieza DOMINANTE de la sección
-         (columna ancha, proporción 3/4, deriva ligada al scroll);
-       · los cuatro hitos se montan sobre ella en un panel de papel opaco que
-         la solapa y arranca más abajo —el contraste vive en el panel, nunca
-         sobre la fotografía—;
-       · las tres paradas bajan de carril y se quedan en registro de índice.
-
-     LOS TRES RÓTULOS SE DIBUJAN. La viñeta de hoja que abría cada parada era
-     un cuadradito de color; ahora es una silueta de trazo que se pinta sola al
-     entrar la sección (binoculares · hoja · mariposa), una por parada y en el
-     orden en que el texto las nombra. Usan la firma exacta que reconoce
-     herramientas/hornear-trazos.js —viewBox de 24, `fill="none"`,
-     `stroke="currentColor"`— y traen el `pathLength="1"` ESCRITO A MANO en el
-     propio HTML: el estado inicial nunca lo pone JavaScript, que es de donde
-     salía el parpadeo histórico de este sitio. La hoja no se pierde: sigue
-     rematando los cuatro filetes de la jornada.
-
-     Y el ave de la portada es la única figura grande: decorativa, `aria-hidden`,
-     detrás del texto y con deriva propia por scroll. Ni informa ni recibe foco.
-
-     Cada figura arranca en un momento distinto —los retardos los reparte
-     colegios.css §7—: nada de esta sección se mueve al mismo compás.
-     ========================================================================== -->
-
-<!-- v33 · seccion--alt → seccion--trama (ver el mismo cambio en colegios.html,
-     que es el documento que se sirve; este fragmento se mantiene en paralelo). -->
-<section id="colegios" class="seccion seccion--trama col" aria-labelledby="colegios-titulo">
-  <div class="contenedor contenedor--ancho">
-
-    <!-- v5 · ESTA SECCIÓN DEJA DE SER UNA ISLA
-         (DIRECTRICES-ANIMACION.md §1). «Un día de colegio que no cabe en un
-         aula» venía leyéndose como el titular de una sección aparte, y no lo
-         es: es el TERCER movimiento del capítulo «Eventos y actividades»,
-         detrás de #planes y del respiro de #momentos.
-           · El eyebrow deja de ser «Salidas pedagógicas» y pasa al rótulo
-             compartido de los tres. La ocasión concreta —el día de colegio—
-             ya la dice el titular, que es donde el tratamiento de capítulo
-             manda que viva.
-           · Sin filete de apertura y sin número de capítulo: los dos son del
-             primero de los tres, #planes.
-           · El titular estrena .reveal-texto (base.css §v7) SIN persiana: esa
-             variante se gasta una vez por capítulo y ya la lleva #planes.
-         La portada pasa de .reveal a .reveal-secuencia —ya no revela, sólo
-         reparte tiempos— porque el titular necesita su propio .reveal para
-         poder llevar .reveal-texto y en este sitio los .reveal no se anidan.
-         Es el mismo cambio que .col-jornada hizo en v4, por el mismo motivo. -->
-    <header class="col-portada reveal-secuencia">
-
-      <!-- Dos aves lejos. Decoración pura: sin texto, sin foco, sin contraste que
-           aportar, y colocadas en el hueco que queda entre el titular y la
-           entradilla, no encima de ninguno de los dos. Se dibujan solas al
-           entrar la sección y derivan con el scroll. A partir de 62em, que es
-           donde la portada abre su segunda columna y aparece ese hueco; por
-           debajo no se montan.
-
-           POR QUÉ DOS TRAZOS ABIERTOS Y NO UNA SILUETA CERRADA. Se probaron
-           primero un ave con las alas dibujadas y después una pluma: las dos,
-           ampliadas a doce veces su caja y bajadas al 26 % de opacidad, se leían
-           como una hoja. Un ave a distancia no tiene detalle —son dos arcos— y
-           por eso se reconoce sin ninguna ayuda. Dos, de tamaños distintos y a
-           alturas distintas, son cielo; una sola sería un logotipo. -->
-      <svg class="col-portada__ave icono-traza" viewBox="0 0 24 24" fill="none"
-           stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
-           aria-hidden="true" focusable="false">
-        <path d="M1.6 11.4c3.9.2 7-1.4 9.3-4.7.5-.7.9-1.1 1.2-1.1.3 0 .7.4 1.2 1.1 2.3 3.3 5.4 4.9 9.3 4.7" pathLength="1"/>
-        <path d="M8.4 19.1c2.4.1 4.4-.9 5.8-2.9.3-.5.6-.7.8-.7.2 0 .5.2.8.7 1.4 2 3.4 3 5.8 2.9" pathLength="1"/>
-      </svg>
-
-      <div class="col-portada__titulo">
-        <p class="eyebrow reveal">Eventos y actividades</p>
-        <h2
-          id="colegios-titulo"
-          class="titulo-seccion col-titular reveal reveal-texto"
-        >
-          <span class="reveal-texto__linea">Un día de colegio</span>
-          <span class="reveal-texto__linea">que no cabe en un aula</span>
-        </h2>
+  <!-- ===== 1 · HERO ===== -->
+  <div class="se__portada">
+    <div class="contenedor contenedor--ancho se__portada-rejilla">
+      <div class="se__intro">
+        <ul class="se__insignias" aria-label="Destacados">
+          <li class="se__insignia se__insignia--viva"><svg aria-hidden="true" focusable="false"><use href="#se-hoja"/></svg>Alianza Educativa</li>
+          <li class="se__insignia">Pases por jornadas</li>
+          <li class="se__insignia">Al aire libre</li>
+        </ul>
+        <h1 id="se-titulo" class="se__titulo"><span class="se__titulo-a">Salidas escolares</span> <span class="se__titulo-b">Un día de colegio que no cabe en un aula</span></h1>
+        <p class="se__lema">Bosque vivo para aprender haciendo. El colegio compra un pase por jornadas y trae a su curso a cinco aulas que no tienen paredes.</p>
+        <ul class="se__chips se__chips--cifras" aria-label="La alianza en cifras">
+          <li class="se__chip"><b>40.000</b> <span>m² de bosque vivo</span></li>
+          <li class="se__chip"><b>4</b> <span>horas dura cada jornada</span></li>
+          <li class="se__chip"><b>5</b> <span>aulas vivas, en un solo pase</span></li>
+          <li class="se__chip se__chip--acento"><b>40</b> <span>estudiantes por jornada</span></li>
+        </ul>
+        <div class="se__acciones">
+          <a class="btn btn-whatsapp btn-grande se__cta" data-se-pase="general" href="https://wa.me/573166758362?text=Hola%2C%20vengo%20con%20mi%20curso%20a%20Vegas%20del%20Verde%20y%20quiero%20un%20pase%20por%20jornadas.%20Colegio%3A%20___%20%C2%B7%20Pase%3A%20___%20%C2%B7%20Fecha%20tentativa%3A%20___" target="_blank" rel="noopener">
+            <svg class="se__icono-btn" aria-hidden="true" focusable="false"><use href="#se-wa"/></svg>
+            Vengo con mi curso
+          </a>
+          <a class="se__enlace-pases" href="#pases">Ver pases y precios
+            <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 5v14M6 13l6 6 6-6"/></svg>
+          </a>
+        </div>
+        <p class="se__lugar">Vegas del Verde · Floridablanca, Santander</p>
       </div>
-      <!-- RECORTE (queja del cliente: «orden y poco texto»). Se va «Una
-           jornada fuera del aula», que decía otra vez lo que acaba de decir el
-           titular. NO se toca ni uno de los tres hechos: las tres paradas
-           siguen nombradas una a una, porque son de esta sección y de ninguna
-           otra. -->
-      <p class="entradilla col-portada__entradilla reveal">
-        De la llegada al regreso del bus, con tres paradas pensadas para un curso: el
-        observatorio de aves, el de plantas y el jardín de polinizadores.
-      </p>
-    </header>
 
-    <!-- v5 · SE RETIRAN LAS TRES TARJETAS DE PARADA (pedido directo del
-         cliente: «quita esto»). El bloque `.col-paradas` con las fotos de
-         aves/plantas/mariposas y sus tres fichas ("Bajar la voz y levantar
-         la mirada", "Que una mata deje de ser «una mata»", "Sentarse a
-         esperar una mariposa") desaparece del marcado; el CSS asociado
-         (colegios.css §2) queda huérfano hasta una limpieza aparte.
-         Los tres hechos (aves / plantas / polinizadores) NO se pierden: la
-         entradilla de arriba los sigue nombrando uno a uno, así que la
-         tabla de propiedad del validador no se rompe. -->
-
-    <!-- v6 · SE RETIRA `.col-jornada` ENTERO (foto + panel de hitos «Así
-         transcurre el día»). Pedido directo y repetido del cliente: fuera de
-         la ventana principal, y en su lugar sólo el párrafo de enlaces que
-         ya existía dentro del bloque (`.col-enlaces`), ahora suelto. Ningún
-         hecho de la tabla de propiedad vivía en los hitos —«observatorio» y
-         «jardín de polinizadores» siguen enteros en la entradilla de
-         arriba—, así que el retiro no rompe validar.js. El CSS asociado
-         (.col-jornada, .col-jornada__foto, .col-hitos, .col-hito, .col__aire)
-         queda huérfano en colegios.css hasta una limpieza aparte.
-         img/eventos/infantil-1.jpg sigue en uso en #usos. -->
-    <p class="nota col-enlaces reveal">
-      La jornada se alarga con
-      <a href="#usos">los espacios del parque</a>, con
-      <a href="#naturaleza">el Sendero Ecovital</a> o con una vuelta por
-      <a href="#vivero">el vivero</a>.
-    </p>
-
-    <!-- ---------- Cierre y CTA ---------- -->
-    <div class="col-cierre reveal">
-      <div class="col-cierre__bloque">
-        <h3 class="titulo-seccion titulo-seccion--sm">¿Vienes con un curso?</h3>
-        <p>
-          Cuéntanos el nombre del colegio, cuántos estudiantes vienen y la fecha
-          tentativa, y armamos la ruta del día.
-        </p>
-      </div>
-      <a
-        class="btn btn-whatsapp btn-grande"
-        href="https://wa.me/573166758362?text=Hola%2C%20vengo%20con%20mi%20curso%20a%20Vegas%20del%20Verde.%20Colegio%3A%20___%20%C2%B7%20Estudiantes%3A%20___%20%C2%B7%20Fecha%20tentativa%3A%20___"
-        target="_blank"
-        rel="noopener"
-      >
-        <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" focusable="false">
-          <path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.46 1.32 4.96L2 22l5.25-1.38a9.87 9.87 0 0 0 4.79 1.22h.01c5.46 0 9.91-4.45 9.91-9.91 0-2.65-1.03-5.14-2.9-7.01A9.82 9.82 0 0 0 12.04 2Zm0 18.02h-.01a8.2 8.2 0 0 1-4.19-1.15l-.3-.18-3.12.82.83-3.04-.2-.31a8.19 8.19 0 0 1-1.26-4.38c0-4.54 3.7-8.24 8.25-8.24 2.2 0 4.27.86 5.83 2.42a8.2 8.2 0 0 1 2.41 5.83c0 4.54-3.7 8.23-8.24 8.23Z"/>
-          <path d="M17.47 14.38c-.3-.15-1.76-.87-2.03-.97-.27-.1-.47-.15-.67.15-.2.3-.77.97-.94 1.17-.17.2-.35.22-.65.07-.3-.15-1.26-.46-2.4-1.48-.89-.79-1.49-1.77-1.66-2.07-.17-.3-.02-.46.13-.61.13-.13.3-.35.45-.52.15-.17.2-.3.3-.5.1-.2.05-.37-.02-.52-.08-.15-.67-1.61-.92-2.21-.24-.58-.49-.5-.67-.51h-.57c-.2 0-.52.07-.79.37-.27.3-1.04 1.01-1.04 2.47s1.06 2.87 1.21 3.07c.15.2 2.1 3.2 5.08 4.49.71.31 1.26.49 1.69.63.71.23 1.36.19 1.87.12.57-.09 1.76-.72 2.01-1.41.25-.69.25-1.29.17-1.41-.07-.12-.27-.2-.57-.35Z"/>
-        </svg>
-        Vengo con mi curso
-      </a>
+      <figure class="se__foto">
+        <span class="se__sol se__sol--uno" aria-hidden="true"></span>
+        <span class="se__sol se__sol--dos" aria-hidden="true"></span>
+        <svg class="se__adorno-hoja se__adorno-hoja--a" aria-hidden="true" focusable="false"><use href="#se-hoja"/></svg>
+        <svg class="se__adorno-hoja se__adorno-hoja--b" aria-hidden="true" focusable="false"><use href="#se-hoja"/></svg>
+        <svg class="se__ave se__ave--hero-a" aria-hidden="true" focusable="false"><use href="#se-ave"/></svg>
+        <svg class="se__ave se__ave--hero-b" aria-hidden="true" focusable="false"><use href="#se-ave"/></svg>
+        <span class="se__marco">
+          <picture>
+            <source type="image/webp" srcset="img/colegios/hero-400.webp 400w, img/colegios/hero-800.webp 800w, img/colegios/hero-1200.webp 1200w" sizes="(min-width: 60em) 28rem, 86vw">
+            <img class="se__foto-img" src="img/colegios/hero-800.jpg" srcset="img/colegios/hero-400.jpg 400w, img/colegios/hero-800.jpg 800w, img/colegios/hero-1200.jpg 1200w" sizes="(min-width: 60em) 28rem, 86vw" width="800" height="1000" fetchpriority="high" alt="Camino de losas de piedra entre heliconias y árboles del bosque de Vegas del Verde.">
+          </picture>
+        </span>
+        <span class="se__sello" aria-hidden="true"><svg focusable="false"><use href="#se-curso"/></svg></span>
+        <figcaption class="se__foto-pie">El camino de losas que lleva al bosque.</figcaption>
+      </figure>
     </div>
-
+    <svg class="se__horizonte" viewBox="0 0 400 40" preserveAspectRatio="none" aria-hidden="true" focusable="false"><path fill="currentColor" d="M0 40V28l40-14 34 10 46-20 52 22 38-12 44 16 46-24 50 20 50-8v42Z"/></svg>
   </div>
 
-  <!-- ====================================================================
-       EL MONTAJE DE LA FAUNA AMBIENTE
-       Densidad `minima` (2 piezas) y semilla 3: reparto acordado en la tabla
-       del §2 del documento del director de arte, no una decisión de esta
-       zona. La semilla cambia la composición respecto a la de #planes, que
-       usa la 2, para que las dos secciones del capítulo no repitan la misma
-       escena. Sin colibrí: ese gesto sale una sola vez en toda la página, en
-       #naturaleza.
-       El cerrojo de `prefers-reduced-motion` va aquí además de dentro del
-       módulo, para no descargar ni el archivo. El `.catch()` vacío deja la
-       sección exactamente como está si el módulo falta o falla.
-       ==================================================================== -->
-  <script type="module">
-    if (!matchMedia('(prefers-reduced-motion: reduce)').matches) {
-      import('./js/fauna-ambiente.js')
-        .then((m) =>
-          m.montarFaunaAmbiente(
-            document.querySelector('#colegios .col__aire'),
-            { densidad: 'abundante', especies: ['mariposa', 'ave'], semilla: 3 },
-          ),
-        )
-        .catch(() => {});
-    }
+  <!-- ===== 2 · CINCO AULAS VIVAS · tira deslizable en móvil, cinco columnas en escritorio ===== -->
+  <div class="se__bloque se__bloque--salvia" id="aulas">
+    <div class="contenedor contenedor--ancho">
+      <div class="se__cabeza">
+        <p class="eyebrow se__eyebrow"><svg aria-hidden="true" focusable="false"><use href="#se-hoja"/></svg>Cinco aulas vivas</p>
+        <h2 class="se__h2 reveal">Todas dentro del pase</h2>
+        <p class="se__frase">Cada jornada las recorre en el orden que el profesor decida.</p>
+      </div>
+    </div>
+    <ul class="se__aulas reveal-secuencia" aria-label="Las cinco aulas vivas" tabindex="0">
+      <li class="se__aula reveal">
+        <picture><source type="image/webp" srcset="img/colegios/vivero-400.webp 400w, img/colegios/vivero-800.webp 800w, img/colegios/vivero-1200.webp 1200w" sizes="(min-width: 60em) 14rem, 64vw"><img src="img/colegios/vivero-800.jpg" srcset="img/colegios/vivero-400.jpg 400w, img/colegios/vivero-800.jpg 800w, img/colegios/vivero-1200.jpg 1200w" sizes="(min-width: 60em) 14rem, 64vw" width="800" height="1000" loading="lazy" decoding="async" alt="Materas de terracota con plantas en flor contra el muro de guadua del vivero."></picture>
+        <div class="se__aula-texto">
+          <span class="se__icono" aria-hidden="true"><svg viewBox="0 0 24 24" focusable="false"><path d="M12 19.4v-7"/><path d="M12 12.4c0-3 2.2-5.4 5.2-5.4 0 3-2.2 5.4-5.2 5.4Z"/><path d="M12 14.2C12 11.7 10 9.7 7.4 9.7c0 2.5 2 4.5 4.6 4.5Z"/><path d="M6.4 19.4c1.4-1.1 3.3-1.7 5.6-1.7s4.2.6 5.6 1.7"/></svg></span>
+          <h3>Vivero</h3>
+          <p>Cultivo de plantas nativas y propagación en un vivero que funciona de verdad.</p>
+        </div>
+      </li>
+      <li class="se__aula reveal">
+        <picture><source type="image/webp" srcset="img/colegios/sendero-400.webp 400w, img/colegios/sendero-800.webp 800w, img/colegios/sendero-1200.webp 1200w" sizes="(min-width: 60em) 14rem, 64vw"><img src="img/colegios/sendero-800.jpg" srcset="img/colegios/sendero-400.jpg 400w, img/colegios/sendero-800.jpg 800w, img/colegios/sendero-1200.jpg 1200w" sizes="(min-width: 60em) 14rem, 64vw" width="800" height="1000" loading="lazy" decoding="async" alt="Crotones de hojas rojas y amarillas al borde del Sendero Ecovital, bajo los árboles."></picture>
+        <div class="se__aula-texto">
+          <span class="se__icono" aria-hidden="true"><svg viewBox="0 0 24 24" focusable="false"><path d="M3.4 20.6c5.4-3.6 3-9.4 7.6-11.6s6.8 1.4 9.6-6.2"/><path d="M16.2 5.6h4.4v3.2h-4.4"/><path d="M16.2 4v6"/></svg></span>
+          <h3>Sendero Ecovital</h3>
+          <p>Recorrido ecológico de aprendizaje ambiental por el bosque.</p>
+        </div>
+      </li>
+      <li class="se__aula reveal">
+        <picture><source type="image/webp" srcset="img/colegios/jardin-400.webp 400w, img/colegios/jardin-800.webp 800w, img/colegios/jardin-1200.webp 1200w" sizes="(min-width: 60em) 14rem, 64vw"><img src="img/colegios/jardin-800.jpg" srcset="img/colegios/jardin-400.jpg 400w, img/colegios/jardin-800.jpg 800w, img/colegios/jardin-1200.jpg 1200w" sizes="(min-width: 60em) 14rem, 64vw" width="800" height="1000" loading="lazy" decoding="async" alt="Espiga de verbena morada a contraluz en el jardín de polinizadores."></picture>
+        <div class="se__aula-texto">
+          <span class="se__icono" aria-hidden="true"><svg viewBox="0 0 24 24" focusable="false"><circle cx="12" cy="9.6" r="2.2"/><path d="M12 7.4c0-2 .9-3.4 2.6-3.4 0 1.9-.9 3.1-2.6 3.4Z"/><path d="M12 7.4c0-2-.9-3.4-2.6-3.4 0 1.9.9 3.1 2.6 3.4Z"/><path d="M14.2 9.6c1.9-.7 3.4-.2 4 1.5-1.8.7-3.2.2-4-1.5Z"/><path d="M9.8 9.6c-1.9-.7-3.4-.2-4 1.5 1.8.7 3.2.2 4-1.5Z"/><path d="M12 16.6V21"/></svg></span>
+          <h3>Jardín de Polinizadores</h3>
+          <p>Observación de aves y mariposas en su hábitat natural.</p>
+        </div>
+      </li>
+      <li class="se__aula reveal">
+        <picture><source type="image/webp" srcset="img/colegios/terraza-400.webp 400w, img/colegios/terraza-800.webp 800w, img/colegios/terraza-1200.webp 1200w" sizes="(min-width: 60em) 14rem, 64vw"><img src="img/colegios/terraza-800.jpg" srcset="img/colegios/terraza-400.jpg 400w, img/colegios/terraza-800.jpg 800w, img/colegios/terraza-1200.jpg 1200w" sizes="(min-width: 60em) 14rem, 64vw" width="800" height="1000" loading="lazy" decoding="async" alt="Un grupo en mesas de trabajo bajo la pérgola del taller, con el prado detrás."></picture>
+        <div class="se__aula-texto">
+          <span class="se__icono" aria-hidden="true"><svg viewBox="0 0 24 24" focusable="false"><rect x="3" y="4.4" width="18" height="11.6" rx="1.4"/><path d="M12 16v4.2M8.4 20.2h7.2"/><path d="M10 7.6v5.2l4.4-2.6Z"/></svg></span>
+          <h3>Terraza cubierta</h3>
+          <p>Sala equipada para talleres, charlas y proyección audiovisual.</p>
+        </div>
+      </li>
+      <li class="se__aula reveal">
+        <picture><source type="image/webp" srcset="img/colegios/cancha-400.webp 400w, img/colegios/cancha-800.webp 800w, img/colegios/cancha-1200.webp 1200w" sizes="(min-width: 60em) 14rem, 64vw"><img src="img/colegios/cancha-800.jpg" srcset="img/colegios/cancha-400.jpg 400w, img/colegios/cancha-800.jpg 800w, img/colegios/cancha-1200.jpg 1200w" sizes="(min-width: 60em) 14rem, 64vw" width="800" height="1000" loading="lazy" decoding="async" alt="La cancha de fútbol sobre el prado, con el arco blanco a la sombra de los árboles."></picture>
+        <div class="se__aula-texto">
+          <span class="se__icono" aria-hidden="true"><svg viewBox="0 0 24 24" focusable="false"><circle cx="12" cy="12" r="8.6"/><path d="M12 7.2l3.6 2.6-1.4 4.2h-4.4L8.4 9.8Z"/><path d="M12 7.2V3.6M15.6 9.8l3.4-1.2M14.2 14l2.2 3M9.8 14l-2.2 3M8.4 9.8 5 8.6"/></svg></span>
+          <h3>Cancha de fútbol</h3>
+          <p>Espacio deportivo para actividades recreativas y fútbol formativo, para principiantes.</p>
+        </div>
+      </li>
+    </ul>
+  </div>
+
+  <!-- ===== 3 · LA NOTA · franja con la silueta del curso (la firma) y aves ===== -->
+  <div class="se__bloque se__nota">
+    <div class="contenedor contenedor--medio se__nota-rejilla">
+      <svg class="se__nota-curso" aria-hidden="true" focusable="false"><use href="#se-curso"/></svg>
+      <div class="se__nota-texto reveal">
+        <p class="se__nota-fuerte">El colegio aporta el diseño pedagógico y el profesor.</p>
+        <p>Vegas del Verde no ofrece acompañamiento pedagógico ni binoculares.</p>
+      </div>
+      <svg class="se__ave se__ave--a" aria-hidden="true" focusable="false"><use href="#se-ave"/></svg>
+      <svg class="se__ave se__ave--b" aria-hidden="true" focusable="false"><use href="#se-ave"/></svg>
+      <svg class="se__ave se__ave--c" aria-hidden="true" focusable="false"><use href="#se-ave"/></svg>
+    </div>
+  </div>
+
+  <!-- ===== 4 · PASES · tres boletas ===== -->
+  <div class="se__bloque se__bloque--verde" id="pases">
+    <svg class="se__horizonte se__horizonte--arriba" viewBox="0 0 400 40" preserveAspectRatio="none" aria-hidden="true" focusable="false"><path fill="currentColor" d="M0 40V28l40-14 34 10 46-20 52 22 38-12 44 16 46-24 50 20 50-8v42Z"/></svg>
+    <div class="contenedor contenedor--ancho">
+      <div class="se__cabeza se__cabeza--centro">
+        <h2 class="se__h2 reveal">Pases por jornada</h2>
+        <ul class="se__chips se__chips--centro se__chips--claros" aria-label="Condiciones de los pases">
+          <li class="se__chip se__chip--ancho">Cada pase incluye <b>40</b> estudiantes por jornada</li>
+          <li class="se__chip">Pago de contado</li>
+          <li class="se__chip">Validez de un año</li>
+        </ul>
+      </div>
+      <ul class="se__pases reveal-secuencia">
+        <li class="se__pase reveal">
+          <span class="se__pase-icono" aria-hidden="true"><svg viewBox="0 0 24 24" focusable="false"><path d="M12 20v-7"/><path d="M12 13c0-3.4 2.4-5.8 5.8-5.8 0 3.4-2.4 5.8-5.8 5.8Z"/><path d="M12 15c0-2.6-2-4.6-4.8-4.6 0 2.6 2 4.6 4.8 4.6Z"/><path d="M6 20h12"/></svg></span>
+          <h3 class="se__pase-nombre">Pase Semilla</h3>
+          <p class="se__pase-jornadas"><b>1</b> jornada</p>
+          <p class="se__pase-precio">$400.000</p>
+          <a class="btn btn-whatsapp se__pase-cta" data-se-pase="semilla" href="https://wa.me/573166758362?text=Hola%2C%20vengo%20con%20mi%20curso%20a%20Vegas%20del%20Verde%20y%20quiero%20el%20Pase%20Semilla%20%281%20jornada%29.%20Colegio%3A%20___%20%C2%B7%20Fecha%20tentativa%3A%20___" target="_blank" rel="noopener"><svg class="se__icono-btn" aria-hidden="true" focusable="false"><use href="#se-wa"/></svg>Quiero el Semilla</a>
+        </li>
+        <li class="se__pase reveal">
+          <span class="se__pase-icono" aria-hidden="true"><svg viewBox="0 0 24 24" focusable="false"><path d="M12 21v-5"/><path d="M12 3c3.4 0 6 2.6 6 5.8 0 2.2-1.2 3.6-2.6 4.4.8.4 1.2 1 1.2 1.8 0 1.6-1.6 2.4-4.6 2.4s-4.6-.8-4.6-2.4c0-.8.4-1.4 1.2-1.8C7.2 12.4 6 11 6 8.8 6 5.6 8.6 3 12 3Z"/><path d="M8 21h8"/></svg></span>
+          <h3 class="se__pase-nombre">Pase Bosque</h3>
+          <p class="se__pase-jornadas"><b>2</b> jornadas</p>
+          <p class="se__pase-precio">$750.000</p>
+          <a class="btn btn-whatsapp se__pase-cta" data-se-pase="bosque" href="https://wa.me/573166758362?text=Hola%2C%20vengo%20con%20mi%20curso%20a%20Vegas%20del%20Verde%20y%20quiero%20el%20Pase%20Bosque%20%282%20jornadas%29.%20Colegio%3A%20___%20%C2%B7%20Fecha%20tentativa%3A%20___" target="_blank" rel="noopener"><svg class="se__icono-btn" aria-hidden="true" focusable="false"><use href="#se-wa"/></svg>Quiero el Bosque</a>
+        </li>
+        <li class="se__pase reveal">
+          <span class="se__pase-icono" aria-hidden="true"><svg viewBox="0 0 24 24" focusable="false"><path d="M3 11 12 4l9 7"/><path d="M5 10v10h14V10"/><path d="M10 20v-5h4v5"/></svg></span>
+          <h3 class="se__pase-nombre">Pase Sede</h3>
+          <p class="se__pase-jornadas"><b>4</b> jornadas</p>
+          <p class="se__pase-precio">$1.400.000</p>
+          <a class="btn btn-whatsapp se__pase-cta" data-se-pase="sede" href="https://wa.me/573166758362?text=Hola%2C%20vengo%20con%20mi%20curso%20a%20Vegas%20del%20Verde%20y%20quiero%20el%20Pase%20Sede%20%284%20jornadas%29.%20Colegio%3A%20___%20%C2%B7%20Fecha%20tentativa%3A%20___" target="_blank" rel="noopener"><svg class="se__icono-btn" aria-hidden="true" focusable="false"><use href="#se-wa"/></svg>Quiero el Sede</a>
+        </li>
+      </ul>
+      <p class="se__incluye reveal"><strong>Incluye para los 40 estudiantes:</strong> uso del vivero, el sendero, el jardín, el taller y la cancha.</p>
+    </div>
+  </div>
+
+  <!-- ===== 5 · VALORES AGREGADOS · filas con ícono ===== -->
+  <div class="se__bloque se__bloque--extras">
+    <div class="contenedor contenedor--ancho">
+      <div class="se__cabeza">
+        <p class="eyebrow se__eyebrow"><svg aria-hidden="true" focusable="false"><use href="#se-hoja"/></svg>Valores agregados</p>
+      </div>
+      <ul class="se__extras reveal-secuencia" aria-label="Valores agregados">
+        <li class="se__extra reveal"><span class="se__icono se__icono--sm" aria-hidden="true"><svg viewBox="0 0 24 24" focusable="false"><circle cx="12" cy="12" r="8.6"/><path d="M8.6 14c.8 1.2 2 1.8 3.4 1.8s2.6-.6 3.4-1.8M9.2 9.6h.1M14.8 9.6h.1"/></svg></span><span class="se__extra-nombre">Actividad lúdica</span><span class="se__extra-dato">$8.000 por estudiante</span></li>
+        <li class="se__extra reveal"><span class="se__icono se__icono--sm" aria-hidden="true"><svg viewBox="0 0 24 24" focusable="false"><path d="M5 10h12v4a6 6 0 0 1-12 0Z"/><path d="M17 11h1.5a2.5 2.5 0 0 1 0 5H16"/><path d="M8 3.5v3M11 3v3.5M14 3.5v3"/></svg></span><span class="se__extra-nombre">Refrigerio</span><span class="se__extra-dato">$12.000 a $18.000 por estudiante</span></li>
+        <li class="se__extra reveal"><span class="se__icono se__icono--sm" aria-hidden="true"><svg viewBox="0 0 24 24" focusable="false"><path d="M2.8 9.2a13 13 0 0 1 18.4 0M5.8 12.4a8.6 8.6 0 0 1 12.4 0M8.8 15.6a4.2 4.2 0 0 1 6.4 0"/><path d="M12 19h.1"/></svg></span><span class="se__extra-nombre">WiFi de alta velocidad en la zona del taller</span><span class="se__extra-dato">incluido</span></li>
+        <li class="se__extra reveal"><span class="se__icono se__icono--sm" aria-hidden="true"><svg viewBox="0 0 24 24" focusable="false"><rect x="4" y="3.5" width="16" height="17" rx="2.5"/><path d="M9.5 16.5v-9h3.2a2.8 2.8 0 0 1 0 5.6H9.5"/></svg></span><span class="se__extra-nombre">Parqueadero</span><span class="se__extra-dato">pago, disponible</span></li>
+        <li class="se__extra reveal"><span class="se__icono se__icono--sm" aria-hidden="true"><svg viewBox="0 0 24 24" focusable="false"><path d="M12 3.4 4.6 6.2v5.4c0 4.4 3 7.6 7.4 9.2 4.4-1.6 7.4-4.8 7.4-9.2V6.2Z"/><path d="M8.8 12.2l2.2 2.2 4.2-4.6"/></svg></span><span class="se__extra-nombre">Póliza de responsabilidad civil contra terceros</span><span class="se__extra-dato">vigente</span></li>
+        <li class="se__extra reveal"><span class="se__icono se__icono--sm" aria-hidden="true"><svg viewBox="0 0 24 24" focusable="false"><path d="M2.5 12s3.5-6.5 9.5-6.5 9.5 6.5 9.5 6.5-3.5 6.5-9.5 6.5S2.5 12 2.5 12Z"/><circle cx="12" cy="12" r="2.8"/></svg></span><span class="se__extra-nombre">Vigilancia</span><span class="se__extra-dato">permanente</span></li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- ===== 6 · SERVICIO SOCIAL · cuatro tarjetas con ícono ===== -->
+  <div class="se__bloque se__bloque--salvia" id="servicio-social">
+    <div class="contenedor contenedor--ancho">
+      <div class="se__cabeza">
+        <p class="eyebrow se__eyebrow"><svg aria-hidden="true" focusable="false"><use href="#se-hoja"/></svg>Servicio social</p>
+        <h2 class="se__h2 reveal">Horas de servicio en el bosque</h2>
+        <p class="se__frase">Cuatro opciones para que las horas de servicio social del colegio se hagan en el bosque.</p>
+      </div>
+      <ul class="se__servicio reveal-secuencia">
+        <li class="se__servicio-item reveal">
+          <span class="se__icono" aria-hidden="true"><svg viewBox="0 0 24 24" focusable="false"><path d="M3 15c3-5 7-6 9-3 2-3 6-2 9 3"/><circle cx="8" cy="8" r="1.4"/><path d="M14 6.5c1.5-1.5 3.5-1.5 5 0"/></svg></span>
+          <h3>Taller de avistamiento de aves</h3>
+          <p>Observación e identificación de especies locales.</p>
+        </li>
+        <li class="se__servicio-item reveal">
+          <span class="se__icono" aria-hidden="true"><svg viewBox="0 0 24 24" focusable="false"><path d="M4 10.4h9.6v7.2a2.4 2.4 0 0 1-2.4 2.4H6.4A2.4 2.4 0 0 1 4 17.6Z"/><path d="M13.6 12.4 19.4 8M8.8 10.4V8.6a2.4 2.4 0 0 0-2.4-2.4"/><path d="M19.4 8c1.4 0 2 .8 2 1.8s-.8 1.6-2 1.6-2-.6-2-1.6.6-1.8 2-1.8Z"/></svg></span>
+          <h3>Guardianes del vivero</h3>
+          <p>Cuidado y mantenimiento del vivero.</p>
+        </li>
+        <li class="se__servicio-item reveal">
+          <span class="se__icono" aria-hidden="true"><svg viewBox="0 0 24 24" focusable="false"><path d="M12 3.4 4.6 6.2v5.4c0 4.4 3 7.6 7.4 9.2 4.4-1.6 7.4-4.8 7.4-9.2V6.2Z"/><path d="M12 16.4c0-3 1.6-5 4.4-5.6-.2 3.2-1.8 5.2-4.4 5.6Z"/><path d="M12 16.4v1.8"/></svg></span>
+          <h3>Guardianes polinizadores</h3>
+          <p>Protección de polinizadores y de sus hábitats.</p>
+        </li>
+        <li class="se__servicio-item reveal">
+          <span class="se__icono" aria-hidden="true"><svg viewBox="0 0 24 24" focusable="false"><circle cx="10.4" cy="10.4" r="6.2"/><path d="M15 15l5.4 5.4"/><path d="M10.4 7.6c1.2 0 2 .8 2 2M8.4 12.8c.6-1.4 1.6-2.2 2.8-2.2"/></svg></span>
+          <h3>Científicos junior de mariposas</h3>
+          <p>Investigación y registro del ciclo de las mariposas.</p>
+        </li>
+      </ul>
+      <p class="se__servicio-pie">
+        <a class="se__enlace-wa" data-se-pase="servicio-social" href="https://wa.me/573166758362?text=Hola%2C%20quiero%20informaci%C3%B3n%20sobre%20el%20servicio%20social%20en%20Vegas%20del%20Verde.%20Colegio%3A%20___%20%C2%B7%20Opci%C3%B3n%3A%20___" target="_blank" rel="noopener"><svg class="se__icono-btn" aria-hidden="true" focusable="false"><use href="#se-wa"/></svg>Preguntar por el servicio social</a>
+      </p>
+    </div>
+  </div>
+
+  <!-- ===== 7 · PUNTOS VERDES · tarjeta de sellos ===== -->
+  <div class="se__bloque se__puntos">
+    <div class="contenedor contenedor--ancho se__puntos-rejilla">
+      <div class="se__puntos-texto">
+        <p class="eyebrow se__eyebrow"><svg aria-hidden="true" focusable="false"><use href="#se-hoja"/></svg>Para los colegios que vuelven</p>
+        <h2 class="se__h2 reveal">Puntos Verdes</h2>
+        <p class="se__frase">El plan de fidelización de la alianza. Cada recarga suma, y a los doce puntos el bosque invita.</p>
+        <ul class="se__reglas">
+          <li><span>Cada recarga</span> <b>1 punto</b></li>
+          <li><span>12 puntos</span> <b>1 Pase Semilla gratis</b></li>
+          <li><span>Vigencia de los puntos</span> <b>3 meses</b></li>
+        </ul>
+      </div>
+      <div class="se__tarjeta reveal">
+        <p class="se__tarjeta-rotulo" aria-hidden="true">Tarjeta Puntos Verdes</p>
+        <ol class="se__sellos" aria-label="Doce puntos verdes; el duodécimo se cambia por un Pase Semilla">
+          <li class="se__sello-punto">1</li><li class="se__sello-punto">2</li><li class="se__sello-punto">3</li>
+          <li class="se__sello-punto">4</li><li class="se__sello-punto">5</li><li class="se__sello-punto">6</li>
+          <li class="se__sello-punto">7</li><li class="se__sello-punto">8</li><li class="se__sello-punto">9</li>
+          <li class="se__sello-punto">10</li><li class="se__sello-punto">11</li>
+          <li class="se__sello-punto se__sello-punto--gratis"><svg aria-hidden="true" focusable="false"><use href="#se-arbol"/></svg><span class="solo-lectores">Pase Semilla gratis</span></li>
+        </ol>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== 8 · CIERRE · logo oficial + qué contarnos + dónde ===== -->
+  <div class="se__bloque se__cierre">
+    <svg class="se__horizonte se__horizonte--cierre" viewBox="0 0 400 40" preserveAspectRatio="none" aria-hidden="true" focusable="false"><path fill="currentColor" d="M0 40V28l40-14 34 10 46-20 52 22 38-12 44 16 46-24 50 20 50-8v42Z"/></svg>
+    <div class="contenedor contenedor--medio se__cierre-interior">
+      <picture class="se__logo-placa">
+        <source type="image/webp" srcset="img/logo/logo-vegas-transparente.webp">
+        <img class="se__logo" src="img/logo/logo-vegas-transparente.png" width="1191" height="789" alt="Vegas del Verde" loading="lazy" decoding="async">
+      </picture>
+      <h2 class="se__cierre-titulo reveal">¿Vienes con un curso?</h2>
+      <p class="se__cierre-texto">Cuéntanos el nombre del colegio, qué pase te interesa y la fecha tentativa de la primera jornada, y armamos la ruta del día.</p>
+      <ul class="se__chips se__chips--centro" aria-label="Qué contarnos">
+        <li class="se__chip se__chip--dato">Nombre del colegio</li>
+        <li class="se__chip se__chip--dato">Pase</li>
+        <li class="se__chip se__chip--dato">Fecha tentativa</li>
+      </ul>
+      <a class="btn btn-whatsapp btn-grande se__cta" data-se-pase="general" href="https://wa.me/573166758362?text=Hola%2C%20vengo%20con%20mi%20curso%20a%20Vegas%20del%20Verde%20y%20quiero%20un%20pase%20por%20jornadas.%20Colegio%3A%20___%20%C2%B7%20Pase%3A%20___%20%C2%B7%20Fecha%20tentativa%3A%20___" target="_blank" rel="noopener"><svg class="se__icono-btn" aria-hidden="true" focusable="false"><use href="#se-wa"/></svg>Vengo con mi curso</a>
+      <p class="se__wa-numero">WhatsApp 316 675 8362</p>
+      <p class="se__ubicacion">
+        <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 21s-6.5-6-6.5-11a6.5 6.5 0 0 1 13 0c0 5-6.5 11-6.5 11Z"/><circle cx="12" cy="10" r="2.4"/></svg>
+        <span>Vereda Río Frío, 500 m por la vía Carabineros desde Mediterráneo, frente al Anillo Vial · Floridablanca, Santander.</span>
+      </p>
+      <p class="se__enlaces">
+        La jornada se alarga con
+        <a href="espacios.html">los espacios del parque</a>, con
+        <a href="sendero-ecovital.html">el Sendero Ecovital</a> o con una vuelta por
+        <a href="vivero.html">el vivero</a>.
+      </p>
+    </div>
+  </div>
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Product",
+    "name": "Alianza Educativa · Pases por jornadas · Vegas del Verde",
+    "description": "Salidas escolares en Floridablanca, Santander: pases por jornadas de cuatro horas para colegios en las cinco aulas vivas de Vegas del Verde. Cada pase incluye 40 estudiantes por jornada; pago de contado, validez de un año.",
+    "brand": { "@type": "Brand", "name": "Vegas del Verde" },
+    "image": ["https://vegasdelverde.co/img/colegios/og-salidas-escolares.jpg"],
+    "url": "https://vegasdelverde.co/colegios.html",
+    "offers": [
+      { "@type": "Offer", "name": "Pase Semilla · 1 jornada", "price": "400000", "priceCurrency": "COP", "availability": "https://schema.org/InStock" },
+      { "@type": "Offer", "name": "Pase Bosque · 2 jornadas", "price": "750000", "priceCurrency": "COP", "availability": "https://schema.org/InStock" },
+      { "@type": "Offer", "name": "Pase Sede · 4 jornadas", "price": "1400000", "priceCurrency": "COP", "availability": "https://schema.org/InStock" }
+    ]
+  }
   </script>
 </section>

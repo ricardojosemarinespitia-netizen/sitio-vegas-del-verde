@@ -37,9 +37,10 @@ RAIZ = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 #             del <section> del fragmento tiene que coincidir con el ancla.
 #   css     : las hojas de styles/sections/ que esa pagina enlaza, EN ORDEN.
 #
-# colegios.html, plan-vecino.html, condiciones-de-alquiler.html,
-# politica-de-datos.html, terminos.html y 404.html NO estan aqui: son paginas
-# escritas a mano de un solo bloque, sin fragmentos que ensamblar.
+# plan-vecino.html, condiciones-de-alquiler.html, politica-de-datos.html,
+# terminos.html y 404.html NO estan aqui: son paginas escritas a mano de un
+# solo bloque, sin fragmentos que ensamblar. (colegios.html entro en oct-2026
+# con el rediseno de salidas escolares, como yoga-en-pareja.html.)
 # ==========================================================================
 PAGINAS = [
     # ------------------------------------------------------------------ HOME
@@ -131,6 +132,13 @@ PAGINAS = [
         "css": ["styles/sections/home.css", "styles/sections/yoga-pareja.css",
                 "styles/sections/pie.css"],
         "en": "en/couples-yoga.html",
+    },
+    {
+        # Salidas escolares · Alianza Educativa (oct-2026). Sin version en ingles.
+        "archivo": "colegios.html",
+        "orden": [("colegios", "colegios.html")],
+        "css": ["styles/sections/home.css", "styles/sections/colegios.css",
+                "styles/sections/pie.css"],
     },
 ]
 

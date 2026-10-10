@@ -1155,262 +1155,6 @@ a.ubi-canal--destacado:focus-visible {
   color: var(--color-texto-suave);
 }
 
-/* --- Formulario ----------------------------------------------------------- */
-/* EL ÚNICO RECUADRO QUE QUEDA EN LA SECCIÓN, y se queda a propósito: es lo
-   único que es de verdad un objeto —una cosa que se rellena—, así que es lo
-   único que merece un papel debajo. Al ser el único, además, se lee como el
-   final del recorrido sin necesidad de ningún adorno. */
-/* v23 · EL PAPEL DEL FORMULARIO TOMA LA SILUETA DE HOJA Y SE APOYA.
-   Seguía siendo un rectángulo de esquina viva con un filete oliva: correcto y
-   anónimo. Es el único OBJETO de la sección —lo único que se rellena— y ahora
-   lo dice con la firma de forma de la casa (--radio-hoja en diagonal, la misma
-   de .placa en base.css §4b) y con la sombra de contacto + difusión que lo
-   apoya sobre la salvia en vez de dejarlo dibujado encima.
-   NO LLEVA VIDRIO, a propósito: es una superficie grande y de lectura, y el
-   §7b de tokens.css deja el vidrio para controles y chips. El papel sigue
-   siendo --color-superficie-solida, que es contra lo que están medidos el
-   filete de los campos (5,3:1) y el bosque del foco (11,4:1): esas cuentas no
-   se tocan.
-   El aire interior sube de --esp-lg a --esp-xl y el hueco entre bloques de
-   --esp-sm a --esp-md: con doce controles dentro, un relleno apretado es lo
-   que hacía que el formulario se leyera como un widget y no como una pieza. */
-.ubi-form {
-  display: flex;
-  flex-direction: column;
-  gap: var(--esp-md);
-  padding: var(--esp-xl);
-  border: 1px solid var(--color-borde-fuerte);
-  border-radius: var(--radio-hoja) 0 var(--radio-hoja) 0;
-  background-color: var(--color-superficie-solida);
-  box-shadow: var(--sombra-md);
-}
-
-.ubi-form__intro {
-  max-width: var(--medida);
-  margin: 0;
-}
-
-.ubi-campos {
-  display: grid;
-  gap: var(--esp-md);
-  margin-top: var(--esp-2xs);
-}
-
-@media (min-width: 34em) {
-  .ubi-campos {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-  }
-
-  .ubi-campo--ancho {
-    grid-column: 1 / -1;
-  }
-}
-
-/* El campo es un <p>: hay que neutralizar las reglas de párrafo de base.css */
-/* v23 · era --esp-3xs (4 px). La etiqueta pegada a su campo se leía como parte
-   del recuadro; a --esp-2xs se ve que es un rótulo que gobierna un control.
-   El aire entre campos ya lo pone .ubi-campos con --esp-md. */
-.ubi-campo {
-  display: flex;
-  flex-direction: column;
-  gap: var(--esp-2xs);
-  max-width: none;
-  margin: 0;
-}
-
-.ubi-campo + .ubi-campo {
-  margin-top: 0;
-}
-
-/* ETIQUETA VISIBLE SIEMPRE. Nunca un placeholder haciendo de etiqueta: en
-   cuanto el usuario escribe, un placeholder-etiqueta desaparece y deja el
-   campo sin nombre. */
-.ubi-campo__etiqueta {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: baseline;
-  gap: 0.5em;
-  font-family: var(--fuente-titulo);
-  font-size: var(--fs-pequeno);
-  font-weight: var(--peso-medio);
-  letter-spacing: var(--track-titulo);
-  color: var(--color-texto);
-}
-
-.ubi-campo__marca,
-.ubi-campo__opcional {
-  font-family: var(--fuente-titulo);
-  font-size: var(--fs-micro);
-  font-weight: var(--peso-normal);
-  text-transform: uppercase;
-  letter-spacing: var(--tracking-rotulo);
-}
-
-/* El coral se queda, a propósito, con el mismo criterio que .ubi-ref con el
-   radio: la migración de v3 pasó los RÓTULOS a gris, y «obligatorio» no es un
-   rótulo decorativo sino la marca semántica de un campo requerido. El color es
-   parte de lo que informa, y va a juego con el mensaje de error del
-   formulario. .ubi-campo__opcional, que sí es un rótulo, va en gris. */
-/* v23 · «obligatorio» PASA DE PALABRA SUELTA A MARCA. Era terracota sobre el
-   papel del panel, del mismo cuerpo y el mismo peso que el rótulo «opcional»
-   que tiene enfrente: dos cosas distintas vestidas igual, que es el fallo de
-   jerarquía que el cliente lee como genérico. Ahora es una marca con cuerpo
-   —relleno de terracota velada y forma de píldora, el chip más pequeño del
-   sistema— así que se distingue de un vistazo sin subir de tamaño ni gritar.
-   Va con radio pleno y no con la hoja: es la excepción que base.css §8 ya
-   enuncia para .pildora («las esquinas vivas mandan en foto, tarjeta y botón;
-   en los chips, no»).
-   NO LLEVA VIDRIO: vive dentro del papel opaco del formulario, donde no hay
-   trama que desenfocar y el vidrio sólo lavaría el color.
-   Contraste: --color-acento-texto sobre el compuesto terracota/papel, 5,0:1. */
-.ubi-campo__marca {
-  padding: 0.25em 0.6em;
-  border-radius: var(--radio-full);
-  background-color: rgb(var(--coral-hondo-rgb) / 0.1);
-  color: var(--color-acento-texto);
-}
-
-/* «opcional» se queda plano y gris a propósito: es la ausencia de la marca de
-   arriba, y vestirlo también de chip devolvería el empate que se venía a
-   deshacer. */
-.ubi-campo__opcional {
-  color: var(--color-texto-suave);
-}
-
-.ubi-campo__control {
-  width: 100%;
-  min-height: var(--ubi-alto-control);
-  padding: 0.7em 0.85em;
-  /* CONTORNO DE CONTROL, no filete decorativo. WCAG 1.4.11 pide 3:1 para el
-     borde que identifica un campo. Sobre el papel del panel (.ubi-form, que
-     es quien pinta --color-superficie-solida) el filete decorativo
-     --color-borde daba 1,66:1 y el relleno blanco 1,04:1: el hueco donde hay
-     que escribir no se veía. --color-borde-fuerte (oliva) da 5,33:1 contra el
-     papel y 5,57:1 contra el propio relleno. */
-  border: 1px solid var(--color-borde-fuerte);
-  /* Esquina viva, igual que el .btn al que acompañan: quien delimita el campo
-     es el filete, no la forma. */
-  border-radius: 0;
-  /* Blanco puro de marca: la fundación no tiene un rol semántico para "campo
-     de formulario". Solo separa el hueco del papel; no es lo que lo delimita. */
-  background-color: var(--blanco);
-  color: var(--color-texto);
-  font-family: var(--fuente-cuerpo);
-  font-size: var(--fs-cuerpo);
-  line-height: var(--alto-linea-base);
-  transition:
-    border-color var(--transicion-rapida),
-    box-shadow var(--transicion-rapida);
-}
-
-/* El reposo ya es el filete fuerte, así que hover y foco solo pueden ir a
-   MÁS: bosque (11,4:1 contra el papel), el mismo verde con el que base.css
-   dibuja el aro de :focus-visible. El foco dobla además el filete por dentro
-   para que también se note con ratón, cuando no hay aro. */
-.ubi-campo__control:hover {
-  border-color: var(--verde-bosque);
-}
-
-.ubi-campo__control:focus {
-  border-color: var(--verde-bosque);
-  box-shadow: inset 0 0 0 1px var(--verde-bosque);
-}
-
-.ubi-campo__control--area {
-  min-height: auto;
-  resize: vertical;
-}
-
-.ubi-campo__control[aria-invalid="true"] {
-  border-color: var(--color-alerta);
-  box-shadow: inset 0 0 0 1px rgb(var(--rojo-baya-rgb) / 0.4);
-}
-
-/* v23 · La ayuda toma el registro de .credito (base.css §5): fuente de
-   etiqueta, interlineado propio de 1,45 y sin tracking. Heredaba el 1,68 del
-   cuerpo, y a 12,8 px eso abre un canalón que despega la pista de su campo —el
-   mismo diagnóstico que el cliente hizo sobre los créditos del muro de aves. */
-.ubi-campo__pista {
-  display: block;
-  font-family: var(--fuente-titulo);
-  font-size: var(--fs-micro);
-  line-height: 1.45;
-  letter-spacing: 0;
-  color: var(--color-texto-suave);
-}
-
-/* EL ERROR VA JUNTO A SU CAMPO, debajo y dentro del mismo <p>, nunca en un
-   resumen lejano: quien lo lee tiene que ver a la vez qué está mal y dónde. */
-.ubi-campo__error {
-  display: flex;
-  align-items: flex-start;
-  gap: 0.4em;
-  font-size: var(--fs-micro);
-  font-weight: var(--peso-medio);
-  /* v33 · era --color-alerta (la baya del logo): 3,1:1 sobre el papel del
-     panel, por debajo de AA en el texto más pequeño del sitio. La versión
-     legible es --color-alerta-texto (tokens.css §2): 6,3:1 aquí. */
-  color: var(--color-alerta-texto);
-}
-
-/* Mientras está vacío no ocupa sitio ni se anuncia. */
-.ubi-campo__error:empty {
-  display: none;
-}
-
-.ubi-campo__error::before {
-  content: "!";
-  display: inline-grid;
-  place-items: center;
-  width: 1.15em;
-  height: 1.15em;
-  flex: none;
-  margin-top: 0.15em;
-  border-radius: var(--radio-full);
-  /* La viñeta lleva texto (el «!» en crema): mismo token legible que el
-     mensaje, 5,3:1. Con la baya plena daba 3,07:1. */
-  background-color: var(--color-alerta-texto);
-  color: var(--color-texto-inverso);
-  font-size: var(--fs-micro);
-  line-height: 1;
-}
-
-/* --- Estado, envío y legal ------------------------------------------------ */
-.ubi-form__estado {
-  max-width: none;
-  margin: 0;
-  padding: var(--esp-2xs) var(--esp-sm);
-  border-left: 2px solid var(--color-acento);
-  border-radius: 0;
-  background-color: rgb(var(--verde-menta-rgb) / 0.14);
-  font-size: var(--fs-pequeno);
-  color: var(--color-texto);
-}
-
-.ubi-form__estado:empty {
-  display: none;
-}
-
-.ubi-form__estado--error {
-  border-left-color: var(--color-alerta);
-  background-color: rgb(var(--rojo-baya-rgb) / 0.1);
-}
-
-.ubi-form__directo[hidden] {
-  display: none;
-}
-
-.ubi-form__directo {
-  align-self: flex-start;
-}
-
-.ubi-form__legal {
-  max-width: var(--medida);
-  margin: 0;
-  font-size: var(--fs-micro);
-  color: var(--color-texto-suave);
-}
-
 /* ==========================================================================
    12. AJUSTES MÓVIL
    ========================================================================== */
@@ -1426,10 +1170,6 @@ a.ubi-canal--destacado:focus-visible {
 
   .ubi-acciones .btn {
     flex: 1 1 100%;
-  }
-
-  .ubi-form {
-    padding: var(--esp-md);
   }
 
   /* Sin relleno lateral en las filas: a 375 px cada píxel de ancho cuenta y el
@@ -1641,3 +1381,356 @@ a.ubi-canal--destacado:focus-visible {
   border-radius: 0;
   background-color: var(--color-superficie-solida);
 }
+
+/* ==========================================================================
+   §CL · v40 · «CÓMO LLEGAR» REDISEÑADO (10 oct 2026)
+   Misma gramática que yoga-pareja.css: chips, íconos en disco, marco
+   orgánico, sello con el símbolo oficial, hojas/aves, horizonte de montañas.
+   Firma: la ruta ilustrada (camino que sube hasta el pin). Sólo tokens.
+   Movimiento: sólo transform/opacity, todo dentro de
+   prefers-reduced-motion: no-preference (sin esa preferencia: quieto y
+   completo). Prefijo .cl- · las piezas .ubi- del mapa se conservan.
+   ========================================================================== */
+#ubicacion.ubi { padding-top: 0; overflow-x: clip; }
+.cl-sprite { position: absolute; width: 0; height: 0; overflow: hidden; }
+
+.cl-eyebrow { display: inline-flex; align-items: center; gap: .45em; margin: 0 0 var(--esp-2xs); }
+.cl-eyebrow svg { width: 1.1em; height: 1.1em; color: var(--verde-menta); flex: none; }
+.cl-cabeza { margin-bottom: var(--esp-md); }
+.cl-cabeza--centro { text-align: center; }
+.cl-h3 {
+  margin: 0;
+  font-family: var(--fuente-display);
+  font-size: clamp(1.6rem, 1.25rem + 1.8vw, 2.4rem);
+  line-height: 1.02;
+  text-transform: uppercase;
+  color: var(--verde-bosque);
+}
+.cl-banda { position: relative; padding-block: var(--esp-seccion); }
+.cl-banda--salvia { background: var(--salvia); }
+.cl-banda--verde {
+  margin-top: var(--esp-lg);
+  padding-top: calc(var(--esp-seccion) + var(--esp-sm));
+  background: var(--color-fondo-oscuro);
+  color: var(--color-texto-inverso);
+}
+.cl-banda--verde .cl-h3 { color: var(--color-texto-inverso); }
+
+/* Disco de ícono (= .yp__icono) */
+.cl-icono {
+  display: grid;
+  place-items: center;
+  width: 3rem;
+  height: 3rem;
+  flex: none;
+  border-radius: 50%;
+  background: var(--color-fondo);
+  color: var(--verde-bosque);
+  box-shadow: inset 0 0 0 2px var(--verde-menta);
+}
+.cl-icono svg {
+  width: 1.5rem; height: 1.5rem;
+  fill: none; stroke: currentColor; stroke-width: 1.7;
+  stroke-linecap: round; stroke-linejoin: round;
+}
+.cl-icono--sm { width: 2.5rem; height: 2.5rem; }
+.cl-icono--sm svg { width: 1.25rem; height: 1.25rem; }
+
+/* ---------- 1 · Portada ---------- */
+.cl-portada {
+  position: relative;
+  padding-top: calc(var(--esp-seccion) + var(--esp-xs));
+  padding-bottom: calc(var(--esp-xl) + var(--esp-sm));
+}
+.cl-portada__rejilla { display: grid; gap: var(--esp-md); align-items: center; }
+.cl-intro { display: flex; flex-direction: column; gap: var(--esp-xs); min-width: 0; }
+.cl-intro .cl-eyebrow { margin: 0; }
+.cl-titulo {
+  margin: 0;
+  font-family: var(--fuente-display);
+  text-transform: uppercase;
+  line-height: .92;
+  overflow-wrap: break-word;
+}
+.cl-titulo__a { display: block; font-size: clamp(2.9rem, 2rem + 4.6vw, 5rem); color: var(--verde-bosque); }
+.cl-titulo__b { display: block; font-size: clamp(1.55rem, 1.2rem + 1.9vw, 2.5rem); color: var(--color-acento-texto); }
+.cl-direccion {
+  margin: 0;
+  padding-left: var(--esp-sm);
+  border-left: 3px solid var(--verde-menta);
+  font-style: normal;
+  font-family: var(--fuente-titulo);
+  font-size: var(--fs-grande);
+  line-height: 1.35;
+  color: var(--color-texto);
+}
+.cl-chips { display: flex; flex-wrap: wrap; gap: var(--esp-2xs); margin: 0; padding: 0; list-style: none; }
+.cl-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: .45em;
+  padding: .45em .9em;
+  border-radius: var(--radio-md);
+  background: var(--color-superficie-solida);
+  box-shadow: inset 0 0 0 1.5px var(--color-borde);
+  font-size: var(--fs-pequeno);
+  font-weight: var(--peso-fuerte);
+  color: var(--color-texto);
+}
+.cl-chip--salvia { background: var(--salvia); box-shadow: none; }
+.cl-chip svg {
+  width: 1.15em; height: 1.15em; flex: none;
+  fill: none; stroke: var(--verde-bosque); stroke-width: 1.8;
+  stroke-linecap: round; stroke-linejoin: round;
+}
+
+/* Botones grandes y tocables + micro-interacción (= .yp__cta) */
+.cl-acciones { display: grid; gap: var(--esp-2xs); margin-top: var(--esp-2xs); }
+.cl-boton {
+  min-height: 52px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--esp-xs);
+  padding-inline: var(--esp-sm);
+  white-space: nowrap;
+  letter-spacing: .04em;
+  font-size: var(--fs-pequeno);
+  transition: transform var(--dur-rapida) var(--ease-salida);
+}
+#ubicacion .cl-boton { padding: .9em var(--esp-sm); font-size: var(--fs-pequeno); white-space: nowrap; }
+.cl-boton__icono { width: 1.35em; height: 1.35em; flex: none; transition: transform var(--dur-media) var(--ease-salida); }
+.cl-boton:active { transform: scale(.96); }
+@media (hover: hover) {
+  .cl-boton:hover { transform: translateY(-2px); }
+  .cl-boton:hover .cl-boton__icono { transform: rotate(-10deg) scale(1.1); }
+}
+.cl-nota { margin: 0; font-size: var(--fs-pequeno); color: var(--color-texto-suave); }
+
+/* La firma: ruta ilustrada */
+.cl-ruta {
+  position: relative;
+  width: min(100%, 26rem);
+  margin-inline: auto;
+  aspect-ratio: 360 / 260;
+}
+.cl-ruta__dibujo {
+  position: relative;
+  z-index: 1;
+  display: block;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  border-radius: 58% 42% 46% 54% / 44% 40% 60% 56%;
+  box-shadow: 0 0 0 6px var(--color-fondo), 0 0 0 8px var(--verde-menta);
+  background: var(--color-superficie-solida);
+}
+.cl-ruta__monte--lejos { fill: var(--salvia); }
+.cl-ruta__monte { fill: var(--verde-menta); opacity: .55; }
+.cl-ruta__prado { fill: var(--verde-menta); }
+.cl-ruta__camino { fill: none; stroke: var(--color-fondo); stroke-width: 16; stroke-linecap: round; }
+.cl-ruta__linea { fill: none; stroke: var(--amarillo); stroke-width: 2.4; stroke-linecap: round; stroke-dasharray: 7 9; }
+.cl-ruta__arboles { fill: var(--verde-bosque); }
+.cl-ruta__sol {
+  position: absolute;
+  z-index: 0;
+  top: -6%;
+  right: -4%;
+  width: 30%;
+  aspect-ratio: 1;
+  border-radius: 50%;
+  background: var(--amarillo);
+}
+.cl-ruta__ave { position: absolute; z-index: 2; color: var(--verde-bosque); opacity: .6; }
+.cl-ruta__ave--a { width: 2rem; height: .8rem; top: 14%; left: 22%; }
+.cl-ruta__ave--b { width: 1.3rem; height: .55rem; top: 22%; left: 36%; }
+.cl-ruta__hoja { position: absolute; z-index: 2; width: 2.6rem; height: 2.6rem; left: -3%; bottom: 6%; color: var(--verde-menta); transform: rotate(-24deg); }
+/* Pin = sello con el símbolo oficial al final del camino (~x 278, y 104). */
+.cl-ruta__pin {
+  position: absolute;
+  z-index: 3;
+  left: 77%;
+  top: 40%;
+  width: 3.4rem;
+  margin: -3.9rem 0 0 -1.7rem;
+}
+.cl-ruta__pin-disco {
+  display: grid;
+  place-items: center;
+  width: 3.4rem;
+  height: 3.4rem;
+  border-radius: 50% 50% 50% 0;
+  transform: rotate(-45deg);
+  background: var(--color-superficie-solida);
+  box-shadow: inset 0 0 0 3px var(--color-accion), var(--sombra-pin);
+}
+.cl-ruta__pin-disco img { width: 72%; height: auto; transform: rotate(45deg); }
+.cl-ruta__sombra {
+  position: absolute;
+  z-index: 2;
+  left: 77%;
+  top: 40%;
+  width: 1.6rem;
+  height: .45rem;
+  margin: -.2rem 0 0 -.8rem;
+  border-radius: 50%;
+  background: var(--verde-bosque-hondo);
+  opacity: .25;
+}
+.cl-horizonte { position: absolute; left: 0; bottom: -1px; width: 100%; height: 2.25rem; color: var(--salvia); }
+.cl-horizonte--arriba { top: -1px; bottom: auto; transform: scaleY(-1); color: var(--salvia); }
+
+@media (min-width: 40em) {
+  .cl-acciones { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .cl-boton--wa { grid-column: 1 / -1; }
+}
+@media (min-width: 60em) {
+  .cl-portada__rejilla { grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr); gap: var(--esp-3xl); }
+  .cl-acciones { grid-template-columns: repeat(3, auto); justify-content: start; }
+  .cl-boton--wa { grid-column: auto; }
+  .cl-ruta { width: 100%; }
+}
+
+/* ---------- 2 · Mapa enmarcado ---------- */
+#ubicacion .cl-mapa { position: relative; margin: 0; }
+#ubicacion .cl-mapa__marco {
+  height: clamp(20rem, 58svh, 34rem);
+  border: 0;
+  border-radius: 2.5rem .6rem 2.5rem .6rem;
+  box-shadow: 0 0 0 6px var(--color-fondo), 0 0 0 8px var(--verde-menta);
+}
+#ubicacion .cl-mapa .ubi-mapa__pie-fila { margin-top: var(--esp-sm); }
+.cl-mapa__hoja { position: absolute; z-index: 3; color: var(--verde-menta); pointer-events: none; }
+.cl-mapa__hoja--a { width: 2.8rem; height: 2.8rem; top: -1.3rem; left: -.6rem; transform: rotate(-30deg); }
+.cl-mapa__hoja--b { width: 1.9rem; height: 1.9rem; top: -1.1rem; left: 1.7rem; transform: rotate(20deg); opacity: .8; }
+@media (min-width: 60em) {
+  #ubicacion .cl-mapa__marco { height: clamp(24rem, 62svh, 36rem); border-radius: 4rem 1rem 4rem 1rem; }
+}
+
+/* ---------- 3 · Paso a paso ---------- */
+.cl-pasos { display: grid; gap: var(--esp-xs); margin: 0; padding: 0; list-style: none; counter-reset: cl-paso; }
+.cl-paso {
+  position: relative;
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  gap: var(--esp-sm);
+  align-items: start;
+  padding: var(--esp-sm);
+  border-radius: 1.25rem 1.25rem 1.25rem .35rem;
+  background: var(--color-superficie-solida);
+  counter-increment: cl-paso;
+}
+.cl-paso .cl-icono { position: relative; }
+.cl-paso .cl-icono::after {
+  content: counter(cl-paso);
+  position: absolute;
+  top: -.35rem;
+  right: -.45rem;
+  display: grid;
+  place-items: center;
+  width: 1.35rem;
+  height: 1.35rem;
+  border-radius: 50%;
+  background: var(--color-accion);
+  color: var(--color-accion-texto);
+  font-size: var(--fs-micro);
+  font-weight: var(--peso-fuerte);
+  line-height: 1;
+}
+.cl-paso h4, .cl-otros h4, .cl-saber h4, .cl-hablar h4 {
+  margin: 0;
+  font-family: var(--fuente-cuerpo);
+  font-size: var(--fs-cuerpo);
+  font-weight: var(--peso-fuerte);
+  line-height: 1.25;
+}
+.cl-paso p, .cl-otros p, .cl-saber p { margin: .3em 0 0; line-height: 1.45; color: var(--color-texto-suave); }
+.cl-paso .cl-paso__nota { font-size: var(--fs-pequeno); }
+.cl-otros {
+  display: grid;
+  gap: var(--esp-sm);
+  margin-top: var(--esp-md);
+  padding: var(--esp-sm);
+  border-radius: var(--radio-lg);
+  background: var(--salvia);
+}
+.cl-otros__iconos { display: flex; gap: var(--esp-2xs); }
+.cl-otros__boton { width: 100%; }
+@media (min-width: 48em) {
+  .cl-pasos { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .cl-otros { grid-template-columns: auto minmax(0, 1fr) auto; align-items: center; }
+  .cl-otros__boton { width: auto; }
+}
+@media (min-width: 72em) {
+  .cl-pasos { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+  .cl-paso { grid-template-columns: 1fr; }
+}
+
+/* ---------- 4 · Al llegar ---------- */
+.cl-saber {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--esp-xs);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.cl-saber__item {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--esp-2xs);
+  padding: var(--esp-sm);
+  border-radius: 1.25rem 1.25rem 1.25rem .35rem;
+  background: var(--color-fondo);
+  color: var(--color-texto);
+}
+.cl-saber__item .cl-icono { background: var(--salvia); box-shadow: none; }
+.cl-saber p { font-size: var(--fs-pequeno); }
+.cl-reglamento { margin: var(--esp-md) 0 0; text-align: center; }
+.cl-banda--verde .cl-reglamento a { color: var(--color-texto-inverso); }
+@media (min-width: 60em) {
+  .cl-saber { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+}
+@media (max-width: 22em) {
+  .cl-saber { grid-template-columns: 1fr; }
+}
+
+/* ---------- 5 · Hablar: botones directos (reemplaza el formulario) ---------- */
+.cl-hablar { display: grid; gap: var(--esp-2xs); margin-top: var(--esp-md); }
+.cl-hablar .cl-boton { width: 100%; }
+@media (min-width: 40em) {
+  .cl-hablar { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+
+/* Lo que sigue (distancias, canales) recupera aire tras la banda. */
+#ubicacion .cl-banda--verde + .contenedor { padding-top: var(--esp-seccion); }
+
+/* ---------- Movimiento ---------- */
+@media (prefers-reduced-motion: no-preference) {
+  .cl-intro > * { animation: cl-sube var(--dur-reveal) var(--ease-salida) both; }
+  .cl-intro > :nth-child(2) { animation-delay: 80ms; }
+  .cl-intro > :nth-child(3) { animation-delay: 160ms; }
+  .cl-intro > :nth-child(4) { animation-delay: 240ms; }
+  .cl-intro > :nth-child(5) { animation-delay: 320ms; }
+  .cl-intro > :nth-child(6) { animation-delay: 400ms; }
+  .cl-ruta__dibujo { animation: cl-aparece var(--dur-reveal) 150ms var(--ease-salida) both; }
+  .cl-ruta__pin { animation: cl-cae var(--dur-lenta) 700ms var(--ease-salida) both, cl-flota 3.2s 1.4s ease-in-out infinite; }
+  .cl-ruta__sombra { animation: cl-sombra 3.2s 1.4s ease-in-out infinite; }
+  .cl-ruta__sol { animation: cl-respira 7s ease-in-out infinite; }
+  .cl-ruta__ave--a { animation: cl-vuela 9s ease-in-out infinite; }
+  .cl-ruta__ave--b { animation: cl-vuela 9s 1.2s ease-in-out infinite; }
+  .cl-ruta__hoja, .cl-mapa__hoja--a { animation: cl-mece 6s ease-in-out infinite; }
+  .cl-boton--wa .cl-boton__icono { animation: cl-guino 4s 2s ease-in-out infinite; }
+  .cl-paso.visible .cl-icono, .cl-saber__item.visible .cl-icono { animation: cl-sello var(--dur-lenta) 150ms var(--ease-salida) both; }
+}
+@keyframes cl-sube { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: none; } }
+@keyframes cl-aparece { from { opacity: 0; transform: scale(.94) rotate(-2deg); } to { opacity: 1; transform: none; } }
+@keyframes cl-cae { from { opacity: 0; transform: translateY(-40px); } to { opacity: 1; transform: none; } }
+@keyframes cl-flota { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-7px); } }
+@keyframes cl-sombra { 0%, 100% { transform: scale(1); opacity: .25; } 50% { transform: scale(.75); opacity: .15; } }
+@keyframes cl-sello { from { opacity: 0; transform: scale(.6) rotate(-12deg); } to { opacity: 1; transform: none; } }
+@keyframes cl-respira { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.08); } }
+@keyframes cl-mece { 0%, 100% { transform: rotate(-24deg); } 50% { transform: rotate(-10deg) translateY(-4px); } }
+@keyframes cl-vuela { 0%, 100% { transform: translate(0, 0); } 50% { transform: translate(-10px, -6px); } }
+@keyframes cl-guino { 0%, 88%, 100% { transform: rotate(0); } 92% { transform: rotate(-14deg); } 96% { transform: rotate(10deg); } }
