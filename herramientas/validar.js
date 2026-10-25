@@ -70,7 +70,8 @@ const ESPERADO = [
   //   #ubicacion -> contacto.html          (el ancla del escaparate es #contacto)
   // 2026-09 · #reserva-natural (bloque guia de campo, cifra 117 de eBird)
   // entra entre la portada y los planes, por pedido del cliente.
-  'inicio', 'planes', 'espacios', 'naturaleza', 'sendero', 'vivero',
+  // 25-oct-2026 · #planes («Qué puedes hacer aquí») sale de la portada.
+  'inicio', 'espacios', 'naturaleza', 'sendero', 'vivero',
   // #nosotros y #compromiso siguen en la portada y siguen contiguos: son el
   // bloque 7 del plan, «Nosotros + Compromiso», fusionado por posicion y no
   // por marcado para no reabrir su composicion.

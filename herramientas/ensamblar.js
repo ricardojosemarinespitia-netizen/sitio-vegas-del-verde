@@ -85,7 +85,9 @@ const PAGINAS = [
       // Octubre 2026: «Reserva natural urbana» (home-reserva.html) sale de la
       // portada a pedido del cliente: debajo del hero va directo «planes»,
       // como antes del Big Day. El fragmento se conserva por si se repone.
-      ['planes',     'home-planes.html'],
+      // 25-oct-2026: «Eventos y actividades · Qué puedes hacer aquí»
+      // (home-planes.html) sale de la portada a pedido del cliente. El
+      // fragmento se conserva por si se repone; planes.html sigue vivo.
       ['espacios',   'home-espacios.html'],
       ['naturaleza', 'home-naturaleza.html'],
       ['sendero',    'home-sendero.html'],

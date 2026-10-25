@@ -55,7 +55,7 @@ PAGINAS = [
             ("inicio",     "hero.html"),
             # Octubre 2026: «Reserva natural urbana» sale de la portada a pedido
             # del cliente (home-reserva.html se conserva por si se repone).
-            ("planes",     "home-planes.html"),
+            # 25-oct-2026: «Qué puedes hacer aquí» (home-planes.html) sale de la portada.
             ("espacios",   "home-espacios.html"),
             ("naturaleza", "home-naturaleza.html"),
             ("sendero",    "home-sendero.html"),
