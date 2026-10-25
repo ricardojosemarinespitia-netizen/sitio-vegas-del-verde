@@ -53,7 +53,7 @@
 <link rel="stylesheet" href="../styles/tokens.css?v=49b1408d">
 <link rel="stylesheet" href="../styles/base.css?v=9eefd0e0">
 <link rel="stylesheet" href="../styles/shell.css?v=d71ee425">
-<link rel="stylesheet" href="../styles/sections/inicio.css?v=9dd52b1d">
+<link rel="stylesheet" href="../styles/sections/inicio.css?v=db57e300">
 <link rel="stylesheet" href="../styles/sections/home.css?v=080cbab0">
 <link rel="stylesheet" href="../styles/sections/reserva.css?v=e35efa82">
 <link rel="stylesheet" href="../styles/sections/nosotros.css?v=4a8568af">
@@ -273,15 +273,18 @@ try { if (localStorage.getItem('vdv-cookies') === 'aceptar') window.vdvMedicion(
 <section class="seccion inicio" id="inicio" aria-labelledby="inicio-titulo">
 
   <div class="inicio__portada">
-
     <picture>
-      <source media="(max-width: 47.99em)" srcset="../img/hero-ave-rosada.avif" type="image/avif" />
-      <source media="(max-width: 47.99em)" srcset="../img/hero-ave-rosada.webp" type="image/webp" />
       <source srcset="../img/hero-colibri.avif" type="image/avif" />
-      <source srcset="../img/hero-colibri.webp" type="image/webp" />
+      <source
+        srcset="../img/hero-colibri-400.webp 400w, ../img/hero-colibri-600.webp 600w, ../img/hero-colibri-800.webp 800w, ../img/hero-colibri-1200.webp 1200w, ../img/hero-colibri.webp 1600w"
+        sizes="100vw"
+        type="image/webp"
+      />
       <img
         class="inicio__portada-foto"
         src="../img/hero-colibri.jpg"
+        srcset="../img/hero-colibri-400.jpg 400w, ../img/hero-colibri-600.jpg 600w, ../img/hero-colibri-800.jpg 800w, ../img/hero-colibri-1200.jpg 1200w, ../img/hero-colibri.jpg 1600w"
+        sizes="100vw"
         width="1600"
         height="1092"
         alt="A hummingbird in flight drinking from a purple flower, among verbena stems and the forest foliage of Vegas del Verde."
@@ -290,77 +293,19 @@ try { if (localStorage.getItem('vdv-cookies') === 'aceptar') window.vdvMedicion(
       />
     </picture>
 
-    <div class="inicio__luz" aria-hidden="true"></div>
-
-    <div class="inicio__portada-velo" aria-hidden="true"></div>
-
-    <svg
-      class="inicio__portada-orla"
-      viewBox="0 0 1440 120"
-      preserveAspectRatio="none"
-      aria-hidden="true"
-      focusable="false"
-    >
-      <path
-        d="M0,120 V104 C 260,104 430,88 700,66 C 980,44 1180,20 1440,26 V120 Z"
-        fill="currentColor"
-      />
-    </svg>
-
-    <div class="inicio__enjambre" aria-hidden="true"></div>
-
     <div class="contenedor contenedor--ancho inicio__portada-interior">
-      <header class="seccion-encabezado inicio__encabezado reveal-secuencia">
+      <h1 class="titulo-seccion inicio__titulo" id="inicio-titulo">Escape the city</h1>
 
-
-        <h1 class="titulo-seccion inicio__titulo reveal reveal-texto reveal-texto--persiana" id="inicio-titulo">
-          <span class="reveal-texto__linea inicio__solo-marca"><span class="inicio__titulo-linea">Escape<br />the city</span></span>
-          <span class="reveal-texto__linea inicio__solo-marca"><span class="inicio__titulo-linea inicio__titulo-linea--menor">without leaving it</span></span>
-        </h1>
-
-        <p class="entradilla reveal inicio__solo-marca">
-          Four hectares of forest, 10&nbsp;minutes from the Anillo Vial. We
-          bring the trees; you bring the plan.
-        </p>
-
-        <div class="grupo-botones inicio__acciones reveal">
-          <a class="btn btn-fantasma btn-grande inicio__accion-secundaria inicio__solo-marca" href="#espacios">
-            See the venues
-          </a>
-          <a class="btn btn-fantasma btn-grande inicio__accion-secundaria inicio__solo-marca" href="plans.html">
-            See the events
-          </a>
-        </div>
-      </header>
+      <div class="grupo-botones inicio__acciones">
+        <a class="btn btn-fantasma btn-grande inicio__accion-secundaria" href="#espacios">
+          See the venues
+        </a>
+        <a class="btn btn-fantasma btn-grande inicio__accion-secundaria" href="plans.html">
+          See the events
+        </a>
+      </div>
     </div>
-
-    <div class="inicio__bajar" aria-hidden="true">
-      <span class="inicio__bajar-linea"></span>
-    </div>
-
   </div>
-
-  <script type="module">
-    const portada = document.querySelector('.inicio__portada');
-    const foto = document.querySelector('.inicio__portada-foto');
-    const reducido = window.matchMedia('(prefers-reduced-motion: reduce)');
-    if (portada && foto && !reducido.matches) {
-      /* Always decode(), never a shortcut via `complete`: with decoding="async"
-         a cached photo reaches complete=true with its bytes downloaded but NOT
-         YET DECODED, which is exactly the race this lock avoids. */
-      foto.decode().catch(() => {})
-        .then(() => new Promise((r) => setTimeout(r, 150)))
-        .then(() => Promise.all([
-          import('../js/particulas-hero.js?v=d63cd1a9')
-            .then((m) => m?.montarParticulas(portada, foto))
-            .catch(() => {}),
-          import('../js/enjambre-hero.js?v=ca06d234')
-            .then((m) => m?.montarEnjambre(document.querySelector('.inicio__enjambre')))
-            .catch(() => {}),
-        ]))
-        .catch(() => {});
-    }
-  </script>
 
 </section>
 

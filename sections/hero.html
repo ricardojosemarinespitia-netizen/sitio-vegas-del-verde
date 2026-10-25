@@ -2,135 +2,37 @@
      FRAGMENTO: INICIO  ·  ancla #inicio
      CSS propio: styles/sections/inicio.css
 
-     v6 «directa». v5 «orgánica» metió el lenguaje orgánico que pide el sitio
-     —es un bosque, no un panel de control—:
+     v40 «sólo la foto» (pedido del cliente, oct 2026): la portada es UNA
+     fotografía quieta —el colibrí, la misma en móvil, tableta y escritorio— y
+     UN titular en blanco, el único <h1> de la página, con sus dos botones
+     (Ver los espacios · Ver los eventos). Sin subtítulo, sin entradilla,
+     sin indicador de scroll, sin velo, sin orla y sin
+     ningún efecto (ni mariposas, ni partículas, ni paralaje, ni revelados).
+     El historial de lo retirado está en git.
 
-       · la portada ya no termina en una línea recta: una orla curva y
-         ASIMÉTRICA (delgada a la izquierda, gruesa a la derecha) disuelve la
-         fotografía en el papel y marca la diagonal por la que sigue el ojo.
-       · el titular deja las mayúsculas (CONTRATO-V2 §3 las prohíbe por encima
-         de 24 px salvo en el logotipo) y pasa a dos renglones de escala
-         distinta: el segundo entra más pequeño y sangrado, como un pie de
-         entrada editorial.
-       · la tira de aves deja de ser una fila de seis cuadrados iguales: seis
-         tamaños distintos, dos alturas y radios de hoja alternos.
-
-     v6 RETIRA EL PLANO-ÍNDICE (el aéreo con las cuatro anclas superpuestas).
-     La sección ya no tiene un segundo movimiento de escala distinta: la
-     portada es UN SOLO BLOQUE —fotografía a sangre, titular, entradilla,
-     botones— y de ahí el flujo del documento sigue directo a la tira de aves
-     y, por el botón «Ver los espacios», a #espacios. El aéreo
-     (img/aereo-predio.jpg) no se borra del proyecto —puede seguir vivo en otra
-     sección—; lo que sale es su uso como índice superpuesto de esta portada.
-
-     PORTADA A SANGRE — una sola fotografía ocupando la ventana entera (menos
-     la altura de la cabecera fija), con el titular encima en Fraunces fino y
-     grande. Es lo primero que se ve y no comparte fila con nada. Es hija
-     DIRECTA del <section>, no del .contenedor: así mide el 100 % del ancho
-     del <body> —que ya descuenta la barra de scroll— y se va a sangre sin
-     recurrir a 100vw, que sí desborda 15 px. El texto vuelve a la retícula
-     con su propio .contenedor.
-
-     QUÉ POSEE ESTA SECCIÓN (ARQUITECTURA-V3 §9) Y NADIE MÁS
-       · el tagline de marca, que va en el .eyebrow
-       · el tamaño del predio: única mención en toda la página
-       · la promesa de cercanía a la vía: única mención en ese registro
-       · la frase «los árboles los ponemos nosotros», de la entradilla
-       · el rótulo del botón de esta sección, que no se repite en ninguna otra
-
-     Los cuatro primeros van escritos UNA sola vez cada uno, y sólo en el
-     texto visible: por eso este comentario no los reproduce. La verificación
-     de ARQUITECTURA-V3 §11 se hace con `grep` y hay que poder pasarla.
-
-     QUÉ TIENE PROHIBIDO DECIR
-       Ninguna cifra de biodiversidad, ningún aforo, ninguna dirección, ningún
-       horario, ninguna condición de alquiler y ningún precio. Se enlaza, no se
-       resume.
-       EXCEPCIÓN TEMPORAL (v35, pedido del cliente, vence el 10 oct 2026 a
-       las 12 m.): las piezas con data-evento-hasta del October Big Day sí
-       dicen fecha, horario y la cifra de eBird. Al vencer se ocultan solas
-       y el contrato vuelve a regir tal cual.
-
-     POR QUÉ EL <h1>
-       La estructura de sección pide h2.titulo-seccion, y de ahí saca el peso,
-       el tracking y la familia. Sólo cambia la etiqueta, porque #inicio es la
-       primera sección de la página y ninguna otra lleva h1: dejarla en h2
-       dejaría el documento sin encabezado de nivel 1 (BRIEF, «Calidad
-       exigida» → SEO y accesibilidad). Si el ensamblador exige h2 literal, es
-       un carácter: cámbialo y nada más.
+     La fotografía es el LCP: fetchpriority alto, width/height para reservar la
+     caja y NADA de loading perezoso. El AVIF se precarga en el <head>. El
+     encuadre por dispositivo lo da `object-position` en inicio.css (--pos-foto):
+     el colibrí ocupa de 35 % a 65 % del ancho, así que el 50 % lo deja en cuadro
+     tanto en vertical como en horizontal. Los datos de propiedad de los hechos
+     (tagline, «cuatro hectáreas», «a 10 minutos», «ponemos los árboles») ya no
+     se escriben aquí.
      ========================================================================== -->
 <section class="seccion inicio" id="inicio" aria-labelledby="inicio-titulo">
 
-  <!-- ======================================================================
-       1. PORTADA A SANGRE
-       La fotografía NO se difiere: es el LCP de la página, así que va con
-       fetchpriority alto y sin el atributo de carga perezosa. Es un <img> y no
-       un background-image justamente por eso —un fondo de CSS no se puede
-       priorizar ni describir— y porque así lleva su propio texto alternativo.
-
-       El velo es un <div> vacío y no un ::after de la portada porque encima
-       de él va el texto: con un pseudoelemento habría que ordenar tres capas
-       con z-index sobre el mismo elemento y el orden natural del documento ya
-       resuelve dos de ellas.
-       ====================================================================== -->
-  <!-- `sobre-oscuro` NO es decoración: es el interruptor que base.css usa para
-       invertir dos cosas sobre fondo oscuro y que aquí faltaban.
-         · `:focus-visible` pasa del contorno verde bosque (2:1 contra esta
-           fotografía velada: prácticamente invisible al tabular) al amarillo
-           del logo, 7,3:1. Es el arreglo de accesibilidad más grande que tenía
-           pendiente la portada.
-         · `.btn-fantasma` pasa a crema, que es lo que permite poner un segundo
-           botón de contorno sobre la foto sin escribir ni una variante nueva.
-       Va en la PORTADA y no en la sección entera a propósito: de la mitad de
-       abajo para adelante el fondo vuelve a ser el papel crema. -->
-  <!-- v15 · SALE `sobre-oscuro`: el velo de la portada giró a claro (--luz,
-       inicio.css) por pedido del cliente («ni fotos oscuras, las originales
-       y punto»). El foco verde bosque y el botón fantasma en tinta vuelven a
-       ser los correctos sobre el velo claro. -->
   <div class="inicio__portada">
-
-    <!-- v10 · LA PORTADA CAMBIA DE AVE. El barranquero vertical (Leyner
-         Lozano) sale por uno de los pájaros de Fabio Hernandez, posado entre
-         flores de tulipán africano: la misma metáfora del predio, otra
-         fotografía. Es APAISADA (1600×1092, no 1600×2400), así que no lleva
-         capa de recorte —ver la nota más abajo— ni asume ningún retrato
-         vertical: es una sola foto a sangre.
-
-         EL <picture> Y EL ORDEN DE LOS FORMATOS. AVIF primero, WebP después,
-         JPG como respaldo del <img>: el navegador se queda con el primero que
-         entienda y no descarga los otros. El <img> conserva fetchpriority
-         alto, width/height para reservar la caja antes de que llegue un
-         byte, y NADA de loading perezoso: es el LCP.  -->
-    <!-- v33 · LA PORTADA DE ESCRITORIO CAMBIA DE AVE (otra vez) Y SÓLO LA DE
-         ESCRITORIO. El cliente mandó la captura del colibrí de la galería de
-         naturaleza —`img/aves/ave-39-colibri.jpg`, «Foto: Jesus Lopez»— y pidió
-         «para pc usa esta foto de hero pero editada que se vea más clara».
-         Literal: PARA PC. El bloque de `media: (max-width: 47.99em)` sigue
-         siendo `hero-ave-rosada` y no se toca.
-
-         POR QUÉ HAY UN ARCHIVO NUEVO Y NO SE EDITÓ EL ORIGINAL. La foto de la
-         galería vive con su crédito y se queda como está. `img/hero-colibri.*`
-         es una COPIA revelada aparte: recorte apaisado a 1600×1092 —la misma
-         caja que tenía `hero-ave-flor`, así que width/height no se mueven ni
-         hay salto de layout— y un revelado más claro (gamma sobre medios y
-         sombras, no brillo plano: el brillo plano lava el fondo y despega al
-         pájaro). Nada de esto es un filtro CSS: la foto llega ya revelada y el
-         §h del contrato —«la foto es la foto»— se cumple igual que antes.
-
-         EL RECORTE ES RECORTE DE VERDAD, NO `object-position`. El original es
-         casi cuadrado (1300×1040) y el hueco del hero es apaisado: dejarlo al
-         `cover` le cortaba al colibrí la cola o las flores del pie según el
-         ancho. Recortando la franja en el archivo, el ave queda al 46 % del
-         alto y el `--pos-foto-y: 42%` de inicio.css —que también consume
-         js/particulas-hero.js— sigue valiendo sin tocar una línea de CSS. -->
     <picture>
-      <source media="(max-width: 47.99em)" srcset="img/hero-ave-rosada.avif" type="image/avif" />
-      <source media="(max-width: 47.99em)" srcset="img/hero-ave-rosada.webp" type="image/webp" />
       <source srcset="img/hero-colibri.avif" type="image/avif" />
-      <source srcset="img/hero-colibri.webp" type="image/webp" />
+      <source
+        srcset="img/hero-colibri-400.webp 400w, img/hero-colibri-600.webp 600w, img/hero-colibri-800.webp 800w, img/hero-colibri-1200.webp 1200w, img/hero-colibri.webp 1600w"
+        sizes="100vw"
+        type="image/webp"
+      />
       <img
         class="inicio__portada-foto"
         src="img/hero-colibri.jpg"
+        srcset="img/hero-colibri-400.jpg 400w, img/hero-colibri-600.jpg 600w, img/hero-colibri-800.jpg 800w, img/hero-colibri-1200.jpg 1200w, img/hero-colibri.jpg 1600w"
+        sizes="100vw"
         width="1600"
         height="1092"
         alt="Un colibrí en vuelo bebiendo de una flor morada, entre tallos de verbena y follaje del bosque de Vegas del Verde."
@@ -139,270 +41,20 @@
       />
     </picture>
 
-    <!-- v11 · LA LUZ QUE SE CUELA ENTRE LAS HOJAS.
-         Una caja VACÍA cuyos dos pseudoelementos (inicio.css §1.b) son los
-         únicos que se mueven: dos claros de sol muy abiertos que cruzan la
-         fotografía cada tanto y se van. Va vacía y sin contenido a propósito,
-         igual que el velo y que .inicio__enjambre: no dice nada, no se lee y
-         no existe para el lector de pantalla.
-
-         POR QUÉ ES UN <div> Y NO UN ::before DE LA FOTOGRAFÍA. La foto es un
-         <img> y un elemento reemplazado no pinta pseudoelementos de forma
-         fiable en todos los navegadores. Y no puede colgar del velo porque
-         entonces se pintaría POR ENCIMA de él, que es justo lo que no puede
-         pasar: la luz tiene que quedar debajo del velo para que el contrato de
-         contraste del titular —medido y anotado en inicio.css— no cambie ni un
-         decimal.
-
-         SU SITIO EN LA PILA LO DA EL ORDEN DEL DOCUMENTO, no un z-index, y es
-         deliberado: un z-index aquí crearía un contexto de apilamiento y el
-         `mix-blend-mode: screen` de los claros dejaría de mezclarse con la
-         fotografía —que es lo que los hace luz y no pintura— para mezclarse
-         con la nada. Por eso va DESPUÉS del <picture> y ANTES del velo: entre
-         hermanos posicionados sin z-index manda quién va primero. -->
-    <div class="inicio__luz" aria-hidden="true"></div>
-
-    <div class="inicio__portada-velo" aria-hidden="true"></div>
-
-    <!-- ORLA ORGÁNICA — el borde inferior de la portada.
-         Va pintada del color del papel (`currentColor`, que inicio.css fija en
-         --color-fondo), así que no es una forma encima de la foto: es el papel
-         subiendo a comerse la foto. La curva es ASIMÉTRICA a propósito —16 de
-         120 de alto en el borde izquierdo, 94 en el derecho—: una ola simétrica
-         es el divisor de plantilla que se ve en cualquier sitio; una diagonal
-         curva lleva el ojo desde el titular (abajo a la izquierda) hacia el
-         resto de la página. Por eso el texto sólo tiene que despejar la
-         parte fina, aunque el relleno de abajo despeja la orla entera.
-         preserveAspectRatio="none" para que estire con la ventana sin dejar
-         franja: el alto lo manda --alto-orla en el CSS. -->
-    <svg
-      class="inicio__portada-orla"
-      viewBox="0 0 1440 120"
-      preserveAspectRatio="none"
-      aria-hidden="true"
-      focusable="false"
-    >
-      <path
-        d="M0,120 V104 C 260,104 430,88 700,66 C 980,44 1180,20 1440,26 V120 Z"
-        fill="currentColor"
-      />
-    </svg>
-
-    <!-- EL ENJAMBRE — la caja vacía donde js/enjambre-hero.js suelta nueve
-         mariposas. Va VACÍA en el HTML a propósito: las piezas se
-         crean después del decode() de la portada, así que no hay ni un byte
-         de PNG compitiendo con el LCP, y como no existen al primer pintado no
-         hay ningún estado inicial que pueda parpadear.
-         Vive en la mitad derecha —el tercio limpio de la fotografía, el único
-         sitio donde no está ni el pájaro ni el texto— y por debajo del
-         encabezado en la pila de capas: si un día una mariposa se cruzara con
-         el titular, pasaría por detrás. -->
-    <div class="inicio__enjambre" aria-hidden="true"></div>
-
     <div class="contenedor contenedor--ancho inicio__portada-interior">
-      <!-- ENTRADA ESCALONADA, NO UN BLOQUE QUE APARECE ENTERO.
-           Hasta aquí el encabezado era UN solo `.reveal`: los cuatro elementos
-           —rótulo, titular, entradilla y botones— aparecían de golpe, que es
-           exactamente el gesto de una plantilla. Ahora el contenedor es una
-           `.reveal-secuencia` y cada hijo entra por su cuenta con el retardo
-           que ya reparte base.css (0 · 90 · 180 · 270 ms): el ojo recorre la
-           composición en el mismo orden en que hay que leerla.
+      <h1 class="titulo-seccion inicio__titulo" id="inicio-titulo">Escápate de la ciudad</h1>
 
-           NO SE INVENTA NINGÚN MECANISMO: es el sistema de revelado del sitio,
-           con su estado inicial escrito en CSS estático (`.js .reveal`) desde
-           el primer pintado —así que no hay un solo fotograma de parpadeo— y
-           con `prefers-reduced-motion` ya resuelto en base.css, que anula el
-           desplazamiento y los retardos.
-
-           El .reveal del propio <header> SE RETIRA: dejarlo encima haría que
-           el bloque se desvaneciera dos veces, una como grupo y otra por hijo.
-           La clase `.reveal-secuencia` sola no oculta nada. -->
-      <header class="seccion-encabezado inicio__encabezado reveal-secuencia">
-        <!-- v10 · EL ANTETÍTULO SE RETIRA. «Oasis para la recreación y el
-             bienestar» era el tagline de marca y encima del titular no hacía
-             más que retrasarlo: la portada abre ahora directamente con
-             «Escápate de la ciudad», que dice lo mismo en el registro del
-             sitio y sin sonar a folleto. -->
-
-
-        <!-- DOS RENGLONES, DOS ESCALAS. El texto no cambia ni una letra: lo que
-             cambia es que la frase deja de ser un bloque de mayúsculas —cinco
-             renglones gritados en un teléfono— y se compone como una entrada
-             editorial. El segundo renglón entra más pequeño y sangrado, y lleva
-             delante una hoja diminuta (::before en el CSS) que es el mismo
-             remate de .lista-hojas de base.css: la forma de la casa.
-             Los dos van en crema; el contraste lo hacen el cuerpo y la sangría,
-             nunca el color, porque debajo hay una fotografía y el coral claro
-             sobre el cielo blanco de este archivo se quedaría en 3,6:1. -->
-        <!-- v9 · EL TITULAR SUBE EN PERSIANA, RENGLÓN A RENGLÓN.
-             La portada es el capítulo cero del sitio, y DIRECTRICES §
-             «Variante persiana» reserva ese gesto —una vez por capítulo— al
-             titular de apertura. Cero JS nuevo: .reveal ya lo ve el
-             observador de js/app.js, y el estado inicial (cada renglón
-             escondido tras su máscara) lo hornea base.css §v7 en CSS
-             estático, con el colchón de descendentes (0.18em) ya resuelto
-             allí y con prefers-reduced-motion dejándolo todo puesto y
-             legible. Cada renglón visual va envuelto en su propio
-             .reveal-texto__linea, POR FUERA del .inicio__titulo-linea, para
-             que la máscara y el retardo caigan por renglón sin tocar la
-             tipografía existente. -->
-        <!-- v35 · OCTOBER BIG DAY (sáb 10 oct 2026) — EXCEPCIÓN TEMPORAL AL
-             CONTRATO, pedida por el cliente: mientras dure el evento la portada
-             dice fecha, horario (6:30 a. m.–12 m.) y la cifra de eBird (117),
-             que el contrato normal le prohíbe. TODO lo del evento lleva
-             data-evento-hasta: js/app.js le pone `hidden` al vencer y la
-             portada vuelve SOLA a su versión de marca. Las piezas de marca
-             nunca salen del marcado: inicio.css las esconde con :has() SOLO
-             mientras hay una pieza de evento visible (clase
-             .inicio__solo-marca). Sin JS se ve el evento, que es lo correcto
-             antes del 10. El colibrí de la foto hace de anfitrión: no hace
-             falta otra imagen. -->
-        <!-- v36 · EL PUNTO DE ESPECIMEN. Un punto sólido en el coral del logo,
-             delante del nombre: el gesto de etiqueta de guía de campo (el
-             acento rojo de los puntos del símbolo) que pide la crítica de
-             diseño, aplicado sólo aquí y sin inventar ningún color nuevo
-             (usa --color-acento-texto). Decorativo puro: aria-hidden y sin
-             texto que perder si `.inicio__insignia` cambia de estado. -->
-
-        <h1 class="titulo-seccion inicio__titulo reveal reveal-texto reveal-texto--persiana" id="inicio-titulo">
-          <!-- EL QUIEBRE VA HORNEADO, Y ES UN ARREGLO MEDIDO, NO UN CAPRICHO.
-             Dejado al ancho disponible, el renglón grande partía distinto según
-             la ventana: en la franja de tableta (≈768–1023 px) quedaba
-             «Escápate de / la ciudad», y la «de» caía EXACTAMENTE sobre el ojo
-             y la cabeza del barranquero (verificado con captura a 800 px). En
-             1280 el mismo texto ya partía solo en «Escápate / de la ciudad» y
-             despejaba al ave. El <br> fija esa composición —la buena— en TODOS
-             los anchos: el texto no cambia ni una letra y el lector de
-             pantalla lo lee seguido igual. -->
-        <span class="reveal-texto__linea inicio__solo-marca"><span class="inicio__titulo-linea">Escápate<br />de la ciudad</span></span>
-          <span class="reveal-texto__linea inicio__solo-marca"><span class="inicio__titulo-linea inicio__titulo-linea--menor">sin salir de ella</span></span>
-        </h1>
-
-        <p class="entradilla reveal inicio__solo-marca">
-          Cuatro hectáreas de bosque a 10&nbsp;minutos del Anillo Vial. Nosotros
-          ponemos los árboles; el plan lo pones tú.
-        </p>
-
-        <div class="grupo-botones inicio__acciones reveal">
-          <!-- v23 · SE REVIERTE v22 — el cliente ya había pedido explícitamente
-               dejar el hero como estaba (excepción del velo, ver inicio.css) y
-               un agente de la ronda de recorte le agregó igual un botón de
-               WhatsApp nuevo aquí. Orden directa: «quita esto del hero te
-               dije». El hero vuelve a su único botón, `.inicio__accion-secundaria`
-               incluida (era la que le daba el relleno verde oliva a un botón
-               que vuelve a ser el único de la portada). -->
-          <!-- v35 · DURANTE EL EVENTO: un primario (reserva por WhatsApp, enlace
-               directo) y un secundario (la página del evento). «Ver los
-               espacios» se esconde mientras tanto: tres botones apilados en
-               375 px empujaban el CTA bajo el pliegue y chocaban con los
-               flotantes, y #espacios queda a un scroll. Al vencer el evento
-               vuelve a ser el ÚNICO botón (orden v23 del cliente). La reserva
-               no contradice la entrada libre: asegura el cupo. -->
-          <a class="btn btn-fantasma btn-grande inicio__accion-secundaria inicio__solo-marca" href="#espacios">
-            Ver los espacios
-          </a>
-          <a class="btn btn-fantasma btn-grande inicio__accion-secundaria inicio__solo-marca" href="planes.html">
-            Ver los eventos
-          </a>
-        </div>
-      </header>
+      <!-- Los dos botones de la portada se conservan tal cual (pedido del
+           cliente): «Ver los espacios» y «Ver los eventos». -->
+      <div class="grupo-botones inicio__acciones">
+        <a class="btn btn-fantasma btn-grande inicio__accion-secundaria" href="#espacios">
+          Ver los espacios
+        </a>
+        <a class="btn btn-fantasma btn-grande inicio__accion-secundaria" href="planes.html">
+          Ver los eventos
+        </a>
+      </div>
     </div>
-
-    <!-- v10 · LA CAPA DE RECORTE SE RETIRA. Medía un polígono de 35 puntos a
-         mano sobre el contorno del barranquero vertical de hero-momotus.jpg;
-         la portada pasó a una sola fotografía apaisada del ave entre flores
-         y ese recorte ya no tiene un sujeto que seguir. Se vuelve a una sola
-         capa a sangre, sin interpenetración con el titular. -->
-
-    <!-- v9 · LAS TRES SILUETAS DE TRAZO SE RETIRAN, y es una decisión de
-         sustracción, no un olvido. La columna derecha acumulaba CUATRO gestos
-         simultáneos —enjambre, partículas, siluetas y la gota de scroll— y
-         las siluetas eran el único que no aportaba ni atmósfera ni función:
-         competían con el enjambre, que según DIRECTRICES §2 es EL lenguaje
-         del hero. Con ellas fuera, el enjambre por fin se ve solo.
-         herramientas/hornear-trazos.js no depende de que existan trazos en
-         el hero (verificado con grep antes de borrar). -->
-
-    <!-- LA PISTA DE QUE LA PÁGINA SIGUE.
-         Medido en la página real: la portada mide EXACTAMENTE la ventana menos
-         la cabecera, así que en 1280 × 720 se come el pliegue completo y no
-         asoma ni un píxel de lo que viene debajo. Una primera pantalla que
-         cierra perfecta es una primera pantalla que parece el sitio entero.
-         Esto es un filete vertical de crema por el que baja una gota: el gesto
-         mínimo que dice «hay más» sin escribir «desliza».
-
-         DECORATIVO DE VERDAD, y por eso `aria-hidden` y ningún enlace: no
-         añade un destino nuevo, no añade un rótulo a la tabla de botones y no
-         mete una parada más en el recorrido de teclado hacia el CTA.
-
-         Sólo a partir de 64em (ver inicio.css): en un teléfono no hay columna
-         derecha libre y el gesto de deslizar no hay que enseñarlo. -->
-    <div class="inicio__bajar" aria-hidden="true">
-      <span class="inicio__bajar-linea"></span>
-    </div>
-
   </div>
-
-  <!-- v13 · LA TIRA DE AVES SE RETIRA. Pedido directo, con captura de
-       pantalla de las seis miniaturas en fila bajo la foto principal. Se
-       borra el <ul> entero y su CSS (.inicio__aves/.inicio__ave en
-       inicio.css §2) para no dejar reglas huérfanas. El flujo de la portada
-       pasa directo de la foto principal a «EL AIRE DEL BOSQUE». -->
-
-  <!-- ======================================================================
-       EL AIRE DEL BOSQUE — canvas de partículas sobre la portada
-       Motas de polen y alguna hoja soltándose de las copas, coordinadas a la
-       zona real de follaje de la fotografía. Módulo: js/particulas-hero.js;
-       su regla de capa (.inicio__particulas) vive en inicio.css.
-
-       POR QUÉ ASÍ Y NO CON <script src> EN EL <head>:
-       · El import es DINÁMICO y espera al decode() de la foto de portada:
-         hasta que el LCP no está decodificado no se pide un solo byte del
-         módulo. La portada carga exactamente igual que sin él.
-       · Con prefers-reduced-motion NO SE MONTA: no es que la animación vaya
-         a cero — es que el módulo ni siquiera se descarga.
-       · Si el import falla (navegador viejo, red), el catch lo deja morir en
-         silencio: la portada queda con su foto y no le falta nada.
-       · Es type="module" (diferido por definición): no bloquea el parser ni
-         necesita estado inicial en el CSS — no toca nada que ya exista en el
-         primer paint, sólo AÑADE un lienzo vacío cuando todo lo demás llegó.
-       El propio módulo se pausa fuera del viewport y con la pestaña en
-       segundo plano, y se desmonta si el visitante reduce el movimiento con
-       la página abierta.
-       ====================================================================== -->
-  <script type="module">
-    const portada = document.querySelector('.inicio__portada');
-    const foto = document.querySelector('.inicio__portada-foto');
-    const reducido = window.matchMedia('(prefers-reduced-motion: reduce)');
-    if (portada && foto && !reducido.matches) {
-      /* Siempre decode(), sin atajo por `complete`: con decoding="async" una
-         foto en caché llega a complete=true con los bytes descargados pero
-         AÚN SIN DECODIFICAR, que es justo la carrera que este cerrojo
-         evita. decode() resuelve en el acto si ya está decodificada y
-         espera también la carga si no ha terminado: cubre los dos casos. */
-      /* v11 · LA FOTO ES LA CAPA ÚNICA, así que ella misma es el LCP y se ve
-         de inmediato — no hay nada que ocultar ni revelar. Lo VIVO de la
-         escena —hojas, polen y mariposas— entra justo después de que
-         decode() resuelve, con una pausa mínima (pedido directo del
-         cliente: "que salga al instante pero que se aprecie") sólo para que
-         el navegador termine de componer el primer cuadro de la foto antes
-         de sumar capas nuevas; ya no espera a que el titular "se lea". */
-      foto.decode().catch(() => {})
-        .then(() => new Promise((r) => setTimeout(r, 150)))
-        .then(() => Promise.all([
-          import('./js/particulas-hero.js?v=d63cd1a9')
-            .then((m) => m?.montarParticulas(portada, foto))
-            .catch(() => {}),
-          /* El enjambre va DESPUÉS del mismo cerrojo y en su propia rama: si
-             uno de los dos módulos falla, el otro sigue vivo. Los PNG de las
-             mariposas no se piden hasta aquí, así que no compiten con el LCP
-             ni por red ni por decodificación. */
-          import('./js/enjambre-hero.js?v=ca06d234')
-            .then((m) => m?.montarEnjambre(document.querySelector('.inicio__enjambre')))
-            .catch(() => {}),
-        ]))
-        .catch(() => {});
-    }
-  </script>
 
 </section>
