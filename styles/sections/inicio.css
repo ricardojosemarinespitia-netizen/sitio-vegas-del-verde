@@ -104,6 +104,12 @@
     0 0.01em 0.07em rgb(var(--verde-bosque-hondo-rgb) / 0.75),
     0 0.02em 0.12em rgb(var(--verde-bosque-hondo-rgb) / 0.65),
     0 0.03em 0.17em rgb(var(--verde-bosque-hondo-rgb) / 0.52);
+  /* Letra de la réplica de revisión (pedido del cliente, 25-oct-2026): Fraunces,
+     en minúsculas con inicial, no la display en versales del resto del sitio. */
+  font-family: var(--fuente-display); /* v40 · Fraunces, token global */
+  font-weight: 400;
+  text-transform: none;
+  letter-spacing: -0.01em;
   font-size: clamp(2.3rem, 1.3rem + 4.6vw, 4.4rem);
   line-height: var(--alto-linea-apretado);
   max-width: 22ch;
@@ -116,7 +122,7 @@
    propio clamp y cruza los 40 px a ≈ 26em, no a los 56em del h2. */
 @media (min-width: 26em) {
   .inicio__titulo {
-    font-weight: var(--peso-display);
+    font-weight: 400;
   }
 }
 

@@ -758,7 +758,7 @@
 }
 
 .espacio--breve .espacio__cifra {
-  font-size: var(--paso-1);
+  font-size: var(--paso-2);          /* v40 · el aforo nunca baja de ~1,45 rem */
 }
 
 /* EL ORDINAL DEL ÍNDICE — el «01…05» que antecede a cada nombre. Fraunces
@@ -794,11 +794,11 @@
   display: block;
   max-width: 15ch;
   font-family: var(--fuente-titulo);
-  font-size: var(--fs-eyebrow);
-  font-weight: var(--peso-medio);
+  font-size: var(--paso-0);          /* v40 · aforo legible: ≥ 16 px, bosque */
+  font-weight: var(--peso-fuerte);
   line-height: var(--alto-linea-titulo);
-  text-transform: uppercase;
-  letter-spacing: var(--tracking-rotulo);
+  text-transform: none;
+  letter-spacing: 0;
   color: var(--color-texto-suave);
 }
 
@@ -1086,7 +1086,7 @@
   }
 
   .espacio--destacado .espacio__glosa {
-    font-size: var(--fs-pequeno);
+    font-size: var(--paso-1);
   }
 
   .espacio--destacado .espacio__aforo {

@@ -33,16 +33,16 @@
      a descubrir el @font-face durante el layout.
      Se regenera con herramientas/precargar-fuentes.js. -->
 <link rel="preload" as="font" type="font/woff2" crossorigin href="styles/fonts/dm-sans-latin.woff2?v=89c7ce3a">
-<link rel="preload" as="font" type="font/woff2" crossorigin href="styles/fonts/hill-house-vegas.woff2?v=a4d2ce1b">
+<link rel="preload" as="font" type="font/woff2" crossorigin href="styles/fonts/fraunces-latin.woff2?v=e75e106b">
 
-<link rel="stylesheet" href="styles/tokens.css?v=49b1408d">
-<link rel="stylesheet" href="styles/base.css?v=9eefd0e0">
-<link rel="stylesheet" href="styles/shell.css?v=d71ee425">
+<link rel="stylesheet" href="styles/tokens.css?v=b8041c7c">
+<link rel="stylesheet" href="styles/base.css?v=aa8f119e">
+<link rel="stylesheet" href="styles/shell.css?v=8bfa36d9">
 <!-- Este bloque lo REESCRIBE herramientas/ensamblar.js a partir de PAGINAS.
      No lo edites a mano: la lista buena está allí. -->
-<link rel="stylesheet" href="styles/sections/home.css?v=080cbab0">
-<link rel="stylesheet" href="styles/sections/naturaleza.css?v=21c0fb08">
-<link rel="stylesheet" href="styles/sections/pie.css?v=34467e07">
+<link rel="stylesheet" href="styles/sections/home.css?v=990d9fa8">
+<link rel="stylesheet" href="styles/sections/naturaleza.css?v=97274ba7">
+<link rel="stylesheet" href="styles/sections/pie.css?v=01c2af19">
 <link rel="stylesheet" href="styles/lightbox.css?v=a2679da6">
 
 <script type="application/ld+json">
@@ -383,26 +383,60 @@ try { if (localStorage.getItem('vdv-cookies') === 'aceptar') window.vdvMedicion(
      teléfono + WhatsApp, que no cambió. ========================================================================== -->
 <main id="contenido">
 <!-- ==========================================================================
-     ENCABEZADO DE PÁGINA: Lo que vuela, lo que crece y quién lo fotografió
-     CSS: styles/sections/home.css (bloque «PÁGINAS DE PROFUNDIDAD»)
-     JS propio: NINGUNO
-
-     Generado por herramientas/_crear-paginas-v18.js y mantenido a mano desde
-     entonces. Lo pega el ensamblador como PRIMERA sección de naturaleza.html.
+     PORTADA DE PÁGINA: pajareo y biodiversidad (hero hipercorto)
+     CSS: styles/sections/naturaleza.css (bloque «PORTADA · .nat-portada»)
+     JS propio: NINGUNO (el panel es un <details> nativo)
 
      Aquí vive el único <h1> de la página. La sección que va debajo conserva
-     su <h2> original tal como estaba en index.html: mudarse de página no es
-     rediseñarse, y así la jerarquía queda h1 -> h2 sin tocar el fragmento.
+     su <h2> original: mudarse de página no es rediseñarse.
 
-     SIN FOTOGRAFÍA DE FONDO, a propósito: ninguna imagen que el texto pueda
-     tapar. Corrección directa del cliente en esta fase.
+     LA FOTO ES LA FOTO: ningún velo, filtro ni degradado encima. En móvil la
+     foto va arriba entera y el texto sobre bosque sólido debajo; en escritorio
+     el texto a la izquierda sobre bosque sólido y la foto a la derecha.
+
+     Crédito de la foto en el pie del bloque de imagen, no sobre ella.
+     Copy: el sendero se recorre sin guías (ver ESTUDIO del cliente).
      ========================================================================== -->
-<section id="portada-naturaleza" class="pagina-encabezado" aria-labelledby="portada-naturaleza-titulo">
-  <div class="contenedor contenedor--ancho">
-    <a class="pagina-miga" href="index.html" aria-label="Volver a la página principal, Vegas del Verde">← Volver</a>
-    <div class="pagina-encabezado__interior reveal">
-      <p class="eyebrow">Pajareo y biodiversidad</p>
-      <h1 id="portada-naturaleza-titulo" class="pagina-encabezado__titulo">Lo que vuela, lo que crece y quién lo fotografió</h1>
+<section id="portada-naturaleza" class="nat-pajareo" aria-labelledby="portada-naturaleza-titulo">
+  <figure class="nat-pajareo__foto">
+    <picture>
+      <source type="image/webp"
+        srcset="img/aves/ave-03-thraupis-episcopus-400.webp 400w, img/aves/ave-03-thraupis-episcopus-600.webp 600w, img/aves/ave-03-thraupis-episcopus-800.webp 800w, img/aves/ave-03-thraupis-episcopus.webp 1040w"
+        sizes="(max-width: 56.24em) 100vw, 50vw" />
+      <img src="img/aves/ave-03-thraupis-episcopus-800.jpg"
+        srcset="img/aves/ave-03-thraupis-episcopus-400.jpg 400w, img/aves/ave-03-thraupis-episcopus-600.jpg 600w, img/aves/ave-03-thraupis-episcopus-800.jpg 800w, img/aves/ave-03-thraupis-episcopus.jpg 1040w"
+        sizes="(max-width: 56.24em) 100vw, 50vw" width="1040" height="1300" fetchpriority="high" decoding="async"
+        alt="Azulejo posado en una rama, sobre un fondo verde desenfocado" />
+    </picture>
+    <figcaption class="nat-pajareo__credito">Foto: Fernando Caceres</figcaption>
+  </figure>
+
+  <div class="nat-pajareo__texto">
+    <div class="nat-pajareo__interior">
+      <p class="nat-pajareo__rotulo">Vegas del Verde · Floridablanca</p>
+      <h1 id="portada-naturaleza-titulo" class="nat-pajareo__titulo">Aquí vuelan 101 especies registradas</h1>
+      <p class="nat-pajareo__linea">Venga a verlas en el Sendero Ecovital.</p>
+
+      <details class="nat-pajareo__detalle">
+        <summary class="btn btn-primario nat-pajareo__boton">Conocer el pajareo</summary>
+        <div class="nat-pajareo__panel">
+          <dl class="nat-pajareo__datos">
+            <div>
+              <dt>101 especies registradas</dt>
+              <dd>82 de ellas ya tienen fotografía, y cada foto lleva el nombre de quien la tomó.</dd>
+            </div>
+            <div>
+              <dt>Sendero Ecovital</dt>
+              <dd>Se recorre a su ritmo, para ver aves y plantas, sin guías: usted decide cuánto detenerse.</dd>
+            </div>
+            <div>
+              <dt>Jardín de polinizadores y vivero</dt>
+              <dd>Flores que atraen mariposas y otros polinizadores, y un vivero donde crecen las plantas del lugar.</dd>
+            </div>
+          </dl>
+          <a class="nat-pajareo__enlace" href="#galeria-aves">Ver la galería de aves</a>
+        </div>
+      </details>
     </div>
   </div>
 </section>
@@ -642,7 +676,7 @@ try { if (localStorage.getItem('vdv-cookies') === 'aceptar') window.vdvMedicion(
            siempre, movido aquí dentro: aparece con --texto, después de que
            la banda haya sido protagonista sola un tramo del recorrido.
          ================================================================== -->
-    <div class="nat-cinta">
+    <div class="nat-cinta" id="galeria-aves">
       <div class="nat-cinta__escena">
 
         <div class="nat-cinta__banda" aria-hidden="true">

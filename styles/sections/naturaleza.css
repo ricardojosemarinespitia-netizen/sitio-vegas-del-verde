@@ -2974,3 +2974,184 @@
 .nat-portada__autor {
   color: var(--color-texto-suave);
 }
+
+/* ==========================================================================
+   PORTADA DE PAJAREO · .nat-pajareo  (hero hipercorto de naturaleza.html)
+   Vive en sections/enc-naturaleza.html. Sin JS: el panel es un <details>.
+   La foto es la foto: ni velo ni degradado encima. Móvil: foto arriba,
+   texto sobre bosque sólido debajo. Escritorio: texto a la izquierda sobre
+   bosque sólido, foto a la derecha. Crédito fuera de la foto, en su pie.
+   ========================================================================== */
+.nat-pajareo {
+  display: grid;
+  background-color: var(--color-fondo-oscuro);
+  color: var(--color-texto-inverso);
+  /* el header es fijo: el bloque arranca debajo de él */
+  padding-top: var(--alto-header);
+}
+
+.nat-pajareo__foto {
+  margin: 0;
+  position: relative;
+}
+
+.nat-pajareo__foto picture,
+.nat-pajareo__foto img {
+  display: block;
+  width: 100%;
+}
+
+.nat-pajareo__foto img {
+  height: min(46svh, 26rem);
+  object-fit: cover;
+  object-position: 50% 28%;
+}
+
+.nat-pajareo__credito {
+  padding: var(--esp-xs) var(--esp-md) 0;
+  font-size: var(--fs-micro);
+  color: var(--color-texto-inverso-suave);
+}
+
+.nat-pajareo__texto {
+  padding: var(--esp-md) var(--esp-md) var(--esp-xl);
+}
+
+.nat-pajareo__interior {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--esp-xs);
+  max-width: var(--ancho-sm);
+}
+
+.nat-pajareo__rotulo {
+  margin: 0;
+  font-family: var(--fuente-titulo);
+  font-size: var(--fs-eyebrow);
+  font-weight: var(--peso-medio);
+  text-transform: uppercase;
+  letter-spacing: var(--tracking-rotulo);
+  color: var(--color-acento-inverso);
+}
+
+.nat-pajareo__titulo {
+  margin: 0;
+  font-family: var(--fuente-display);
+  font-size: var(--fs-h1);
+  font-weight: var(--peso-display);
+  font-optical-sizing: auto;
+  font-variation-settings: var(--ejes-display);
+  letter-spacing: var(--tracking-display);
+  line-height: var(--alto-linea-titulo);
+  text-wrap: balance;
+  color: var(--color-texto-inverso);
+}
+
+.nat-pajareo__linea {
+  margin: 0;
+  font-size: var(--fs-cuerpo);
+  color: var(--color-texto-inverso-suave);
+}
+
+.nat-pajareo__detalle {
+  margin-top: var(--esp-xs);
+  width: 100%;
+}
+
+.nat-pajareo__boton {
+  list-style: none;
+  cursor: pointer;
+}
+
+.nat-pajareo__boton::-webkit-details-marker {
+  display: none;
+}
+
+.nat-pajareo__boton::after {
+  content: "";
+  width: 0.5em;
+  height: 0.5em;
+  border-right: 2px solid currentColor;
+  border-bottom: 2px solid currentColor;
+  transform: translateY(-0.15em) rotate(45deg);
+  transition: transform var(--transicion-rapida);
+}
+
+.nat-pajareo__detalle[open] > .nat-pajareo__boton::after {
+  transform: translateY(0.1em) rotate(-135deg);
+}
+
+.nat-pajareo__boton:focus-visible,
+.nat-pajareo__enlace:focus-visible {
+  outline: 3px solid var(--color-texto-inverso);
+  outline-offset: 3px;
+}
+
+.nat-pajareo__panel {
+  padding-top: var(--esp-md);
+  display: grid;
+  gap: var(--esp-md);
+}
+
+.nat-pajareo__datos {
+  display: grid;
+  gap: var(--esp-md);
+  margin: 0;
+}
+
+.nat-pajareo__datos dt {
+  font-family: var(--fuente-display);
+  font-size: var(--fs-h3);
+  font-weight: var(--peso-display-menor);
+  line-height: var(--alto-linea-titulo);
+}
+
+.nat-pajareo__datos dd {
+  margin: var(--esp-xs) 0 0;
+  max-width: 44ch;
+  color: var(--color-texto-inverso-suave);
+}
+
+.nat-pajareo__enlace {
+  display: inline-flex;
+  align-items: center;
+  min-height: 2.75rem;
+  color: var(--color-acento-inverso);
+  font-weight: var(--peso-medio);
+  text-underline-offset: 0.3em;
+}
+
+@media (min-width: 56.25em) {
+  .nat-pajareo {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    min-height: 100svh;
+    padding-top: 0;
+  }
+
+  .nat-pajareo__foto {
+    grid-column: 2;
+    grid-row: 1;
+  }
+
+  .nat-pajareo__foto img {
+    height: 100%;
+    min-height: 100svh;
+  }
+
+  .nat-pajareo__credito {
+    position: absolute;
+    inset-block-start: calc(var(--alto-header) + var(--esp-sm));
+    inset-inline-end: var(--esp-md);
+    padding: 0;
+    color: var(--color-texto-inverso);
+    text-shadow: 0 1px 6px rgb(var(--sombra-rgb) / 0.7);
+  }
+
+  .nat-pajareo__texto {
+    grid-column: 1;
+    grid-row: 1;
+    align-self: end;
+    padding: calc(var(--alto-header) + var(--esp-lg)) var(--esp-xl) var(--esp-xl);
+  }
+}

@@ -121,10 +121,10 @@
   color: var(--color-texto);
   text-decoration: none;
   font-family: var(--fuente-titulo);
-  font-size: var(--fs-micro);
+  font-size: var(--fs-pequeno);
   font-weight: var(--peso-medio);
-  letter-spacing: var(--tracking-rotulo);
-  text-transform: uppercase;
+  letter-spacing: var(--tracking-boton);
+  text-transform: none;
   white-space: nowrap;
   transition: background-color var(--transicion-rapida);
   /* LA ENTRADA. Un solo motor sobre el <a>: opacidad y `translate3d`, las dos
@@ -337,12 +337,11 @@ body:has(#inicio) .cabecera__volver {
   padding-block: 0.35rem;
   font-family: var(--fuente-titulo);
   font-size: var(--fs-pequeno);
-  font-weight: var(--peso-normal);
-  text-transform: uppercase;
-  letter-spacing: var(--tracking-rotulo);
-  /* El tracking añade un hueco muerto tras la última letra de CADA enlace y
-     la barra ya iba justa por debajo de 1280 px; se recupera. */
-  margin-inline-end: calc(var(--tracking-rotulo) * -1);
+  font-weight: var(--peso-medio);
+  /* v40 · menú en caja de frase, mismo rótulo que los botones. */
+  text-transform: none;
+  letter-spacing: var(--tracking-boton);
+  margin-inline-end: 0;
   text-decoration: none;
   color: var(--color-texto);
   white-space: nowrap;
@@ -815,8 +814,8 @@ body:has(#inicio) .cabecera__volver {
   font-family: var(--fuente-display);
   font-size: var(--fs-pequeno);
   font-weight: var(--peso-medio);
-  letter-spacing: 0.04em;
-  text-transform: uppercase;
+  letter-spacing: var(--tracking-display);
+  text-transform: none;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -1057,7 +1056,7 @@ body.menu-abierto .nav {
   display: block;
   padding-block: var(--esp-sm);
   font-size: var(--fs-cuerpo);
-  letter-spacing: var(--tracking-rotulo);
+  letter-spacing: var(--tracking-boton);
   /* El margen negativo de arriba recuperaba el hueco del tracking ENTRE
      rótulos de una fila horizontal. En vertical no hay vecino a la derecha:
      lo único que hacía era acortar el objetivo táctil por el lado final. */

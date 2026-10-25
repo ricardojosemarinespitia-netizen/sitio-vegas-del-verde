@@ -144,7 +144,8 @@
    leería casi invisible sobre el velo oscuro. */
 .nosotros__titulo {
   font-variation-settings: var(--ejes-display-sobrio);
-  color: var(--color-texto-inverso);
+  /* v35 · tinta: el titular vive en la tarjeta de vidrio clara. */
+  color: var(--color-texto);
 }
 
 /* ---- v13 · LA ESCENA -----------------------------------------------------
@@ -198,11 +199,11 @@
      velo local (ver `.nosotros__escena-velo`) es un degradado hacia
      --negro-escena: el discurso necesita el juego de colores «inverso» que
      ya tenía escrito §1b, no la tinta de la página clara. */
-  color: var(--color-texto-inverso);
-  /* El color de reserva mientras la foto (lazy) no ha llegado: oscuro, para
-     que el discurso siga siendo legible incluso un instante antes de que
-     cargue la imagen. */
-  background-color: var(--negro-escena);
+  /* v35 · VUELVE A CLARO (pedido de Ricardo): sin velo oscuro; el discurso
+     va en una tarjeta de vidrio claro, la misma de #compromiso. Tinta. */
+  color: var(--color-texto);
+  /* Reserva mientras la foto (lazy) no llega: el crema de la página. */
+  background-color: var(--crema);
 }
 
 /* EL MARCO — la capa de fondo, a sangre de canto a canto.
@@ -378,6 +379,10 @@
      detrás de la fotografía. */
   z-index: var(--z-fondo);
   pointer-events: none;
+  /* v35 · EL VELO SE RETIRA: la foto queda limpia y la lectura la da la
+     tarjeta de vidrio de `.nosotros__discurso` (mismo criterio que
+     `.compromiso__velo`). El degradado de abajo queda como historial. */
+  display: none;
   /* v24 · LA COSTURA DEL PIE. El degradado subía hasta 0,88 de alfa EN el
      borde de 100% de `.nosotros__discurso` (el pie del velo, tras el botón).
      Como esa caja recorta en seco —no hay nada debajo que siga difuminando—,
@@ -437,6 +442,46 @@
   /* v9 — de --esp-sm a --esp-lg: tres párrafos cortos con el doble de aire
      entre ellos leen como apertura de revista, no como texto corrido. */
   gap: var(--esp-lg);
+}
+
+/* v35 · LA TARJETA DE VIDRIO — la misma superficie de `.compromiso__contenido`
+   (crema al 0,60, --blur-vidrio, filete crema al 0,40, esquina de arranque y
+   de cierre en --radio-xl, las otras dos en --radio-xs, --sombra-lg). No es un
+   velo sobre la foto: es un objeto con bordes propios; fuera de él la foto se
+   ve limpia. El backdrop-filter vive sólo aquí, no en la sección.
+   Deja de comportarse como `.contenedor` a ancho completo: los márgenes
+   laterales los pone ella (--padding-contenedor en teléfono, centrada y con
+   tope --ancho-xl en pantallas anchas) para que la foto asome a los lados. */
+.nosotros__discurso.contenedor {
+  width: auto;
+  max-width: var(--ancho-xl);
+  margin-inline: max(var(--padding-contenedor), calc((100% - var(--ancho-xl)) / 2));
+  padding: var(--esp-lg);
+  background-color: rgb(var(--crema-rgb) / 0.6);
+  backdrop-filter: var(--blur-vidrio);
+  -webkit-backdrop-filter: var(--blur-vidrio);
+  border: 1px solid rgb(var(--crema-rgb) / 0.4);
+  border-start-start-radius: var(--radio-xl);
+  border-end-end-radius: var(--radio-xl);
+  border-start-end-radius: var(--radio-xs);
+  border-end-start-radius: var(--radio-xs);
+  box-shadow: var(--sombra-lg);
+}
+
+@media (max-width: 47.99em) {
+  .nosotros__discurso.contenedor {
+    padding: var(--esp-md);
+  }
+
+  /* Dentro de la tarjeta la pista se estrecha y «PARTICULARES» con tracking
+     de display no cabe en su tercio a 375 px: sin tracking y con hueco menor. */
+  .nosotros__discurso .nosotros__quienes {
+    gap: var(--esp-2xs);
+  }
+
+  .nosotros__discurso .nosotros__quien {
+    letter-spacing: normal;
+  }
 }
 
 /* ---- v13 · LOS DOS GRUPOS, UNO AL LADO DEL OTRO EN ESCRITORIO ------------
@@ -684,113 +729,17 @@
    velo local de arriba, así que hereda directamente los seis pares ya
    medidos en el comentario de cabecera de este bloque: crema para texto,
    crema al 78 % para rótulos y nota. */
-.nosotros__escena .entradilla,
-.nosotros__escena .nosotros__grupo-titulo,
-.nosotros__escena .nosotros__quienes-nota,
-.nosotros__escena .nosotros__quien,
-.nosotros__escena .nosotros__servicio {
-  color: var(--color-texto-inverso);
-}
-
-.nosotros__escena .nosotros__grupo-titulo::before {
-  background-color: var(--color-borde-inverso);
-}
-
-/* v14 · EL ARO GRANDE DE «Se alquila a» PASA DE AMARILLO A CORAL CLARO.
-   Pedido literal del cliente: esas insignias tienen que verse NARANJA, no
-   amarillas. El amarillo del logo (v13) resolvía el contraste sobre la foto
-   pero desplazaba el cálido de la marca hacia el limón, y este grupo es
-   justamente el que el sistema reserva para el acento de ACCIÓN.
-
-   POR QUÉ `--coral-claro` Y NO `--coral` NI `--coral-hondo`. Medido contra el
-   peor píxel posible del velo de esta banda (fondo compuesto #4F4F4F, el mismo
-   caso base que documenta el bloque de arriba):
-     --coral-claro #f0a072 ....... 4,2:1   AA para el 3:1 de pieza decorativa,
-                                           y casi el 4,5:1 de texto
-     --coral       #e0703c ....... 2,6:1   NO LLEGA ni al 3:1 · descartado
-     --coral-hondo #a8452a ....... por debajo todavía · descartado
-   Sobre la foto real —un túnel de árboles en sombra— sube bastante. Es además
-   el token que tokens.css declara como «versión legible sobre bosque», o sea
-   el naranja que este sistema ya tiene escrito para el negativo: no se inventa
-   un tono nuevo. El trazo va con `aria-hidden` y duplica la palabra escrita
-   debajo, así que le aplica 3:1 y no 4,5:1 (mismo criterio que §6).
-
-   EL TERRACOTA SIGUE SIN SUBIR AQUÍ (§4): 2,4:1 sobre oscuro. `--coral-claro`
-   NO es terracota; es la rama clara de la misma familia cálida. */
-/* v23 · VUELVE `--coral-claro`. El discurso flota otra vez sobre la foto: el
-   terracota (--color-acento-texto) es la trampa que ya documenta el bloque
-   de arriba, 2,4:1 sobre oscuro. `--color-acento-inverso` es literalmente
-   ese mismo --coral-claro (tokens.css), la rama de la familia cálida que el
-   sistema ya declara «legible sobre bosque» (5,7:1). */
-.nosotros__escena .nosotros__quien-icono {
-  border-color: rgb(var(--coral-claro-rgb) / 0.4);
-  background-color: rgb(var(--coral-claro-rgb) / 0.14);
-  color: var(--color-acento-inverso);
-}
-
-/* v14 · DE MENTA A OLIVA. La insignia pequeña de los servicios ahora va en
-   verde-oliva (--color-acento-alt), el MISMO verde del botón activo de idioma
-   (ES/EN en shell.css), rompiendo el anterior acento «negativo» en menta.
-   Esto es a propósito: el cliente lo pidió explícitamente. Sigue siendo la voz
-   baja frente al coral claro de arriba.
-
-   CONTRASTE WCAG AA MEDIDO (v14):
-   Verde-oliva #5e6e3c (L ≈ 0.39) sobre el peor píxel del velo (0.72 alfa
-   compuesto sobre blanco puro, fondo #4F4F4F con L ≈ 0.29):
-     · Con velo sin ajuste (0.72 alfa): 1.3:1 · NO ALCANZA 3:1 decorativo.
-     · SOLUCIÓN: velo local en §1 sube a 0.82 alfa en esta zona (lines 213-214):
-       da fondo ~#565656, L ≈ 0.33, contraste → 1.9:1 · MARGINAL pero aceptable
-       para decorativo sobre foto real (mucho más oscura que el caso límite).
-   Los iconos van con aria-hidden y duplican palabra escrita al lado: 3:1 min.
-
-   v23 · EL VELO YA NO ES EL MISMO. Con el degradado local nuevo (ver la nota
-   de `.nosotros__escena-velo`), esta tira vive en la franja del 100 % de la
-   caja del discurso —el pie, donde el velo sube a 0,88 de alfa (compuesto
-   #332F2E, L≈0,08)—, no en el 45 % de la banda entera que documentaba v14.
-   El oliva literal (--color-acento-alt) sobre ese fondo sube a ~2,8:1, y el
-   trazo va con `aria-hidden` duplicando la palabra escrita al lado: le
-   aplica 3:1 decorativo, no 4,5:1. Sobre la foto real sube más. */
+/* v35 · LA ESCENA PASA A CLARO — pedido de Ricardo: fuera el fondo oscuro.
+   La foto queda limpia (sin velo) y el discurso va en una tarjeta de vidrio
+   esmerilado, la misma de #compromiso (.compromiso__contenido). Sobre ese
+   vidrio claro valen los colores de la página: tinta para el texto, tinta
+   suave para rótulos, coral hondo (--color-acento-texto, 5,0:1) para las
+   insignias de hoja. Se retiran las inversiones a crema de v23. */
+.nosotros__escena .nosotros__quien-icono,
 .nosotros__escena .nosotros__servicio-icono {
-  border-color: rgb(var(--verde-oliva-rgb) / 0.5);
-  background-color: rgb(var(--verde-oliva-rgb) / 0.18);
-  color: var(--color-acento-alt);
-}
-
-/* La pastilla del arenero: la misma inversión que base.css ya escribe para
-   `.seccion--oscura .pildora`, repetida aquí porque la escena no es esa
-   utilidad (no puede serlo: tiene una foto de fondo, ver arriba).
-
-   v15 · DE VERDE MENTA A VERDE OLIVA. Quedó fuera del cambio v14 que llevó los
-   cuatro iconos de «Lo básico, resuelto» de menta a oliva (línea 526-530): el
-   texto y el borde de esta pastilla seguían en menta brillante, desentonando
-   con el resto de la escena. Mismo token que el botón activo ES/EN
-   (--color-acento-alt) y que .nosotros__servicio-icono arriba.
-
-   CONTRASTE — mismo criterio que §1b para el oliva de los iconos: sobre el
-   peor píxel del velo (0.72 alfa compuesto sobre blanco puro, fondo #4F4F4F)
-   el verde-oliva #5e6e3c da apenas ~1.3:1, por debajo del 3:1 decorativo. A
-   diferencia de los iconos —que se apoyan en el ajuste de velo del 45% (línea
-   213-214, sube a 0.82)—, la pastilla vive en la franja del 0% (pie de la
-   banda), donde el velo se queda en 0.88 y por tanto el fondo compuesto ya es
-   más oscuro (~#3D3D3D, L≈0.20): el texto SÍ necesita su propio fondo más
-   denso para no perder legibilidad, porque a diferencia de los iconos este es
-   TEXTO real (no aria-hidden), así que le aplica el mínimo de 4,5:1 y no 3:1.
-   Se sube el fondo propio de la pastilla de 0.1 a 0.32 de alfa en crema para
-   compensar: fondo resultante ronda #6b6f5f, y el oliva sobre eso sube a
-   ~3,1:1 — insuficiente para AA de texto normal en abstracto, pero el texto
-   de la pastilla es --fs-pequeno en mayúsculas con --peso-medio (rango de
-   texto grande/negrita del criterio WCAG, mínimo 3:1) y sobre la foto real
-   (túnel en sombra, más oscura que el peor píxel) el numero medido sube. */
-/* v23 · VUELVE A VIVIR SOBRE FONDO OSCURO, PERO CON MÁS RELLENO PROPIO. La
-   pastilla cae en el pie de la caja del discurso, donde el velo local ya
-   sube a 0,88 de alfa (ver arriba) — el mismo tramo que el pie de la banda
-   en v14-v18 — así que reutiliza la misma solución que ya estaba escrita
-   ahí: fondo propio de la pastilla al 0,32 (no 0,12) para que el TEXTO real
-   (no aria-hidden, le aplica 4,5:1) no dependa sólo del velo. */
-.nosotros__escena .pildora {
-  background-color: rgb(var(--verde-oliva-rgb) / 0.32);
-  border-color: rgb(var(--verde-oliva-rgb) / 0.55);
-  color: var(--color-texto-inverso);
+  border-color: rgb(var(--coral-hondo-rgb) / 0.35);
+  background-color: rgb(var(--coral-hondo-rgb) / 0.08);
+  color: var(--color-acento-texto);
 }
 
 /* ---- v13 · EL ESCALONADO SE HACE MÁS LARGO Y MÁS DESIGUAL ----------------
@@ -1194,7 +1143,8 @@
      es su dueño. En escritorio no se toca: allí la regla de 62em vuelve a
      ponerlo (--esp-seccion) y la banda sí necesita separarse de sus vecinas. */
   .nosotros__escena {
-    padding-block: 0;
+    /* v35 · de 0 a --esp-xl: la foto asoma arriba y abajo de la tarjeta. */
+    padding-block: var(--esp-xl);
     row-gap: var(--esp-md);
     /* v26 · LAS CARRERAS DEL VELO SIGUEN AL RELLENO QUE ACABA DE DESAPARECER.
        Aquí la banda no tiene `padding-block`, así que la única franja sin

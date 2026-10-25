@@ -479,9 +479,10 @@
   align-items: baseline;
   gap: var(--esp-3xs);
   font-family: var(--fuente-titulo);
-  font-size: var(--fs-micro);
-  text-transform: uppercase;
-  letter-spacing: var(--tracking-rotulo);
+  font-size: var(--paso-1);
+  font-weight: var(--peso-fuerte);
+  text-transform: none;
+  letter-spacing: 0;
   color: var(--color-texto-suave);
 }
 
@@ -493,7 +494,7 @@
 .home-tarjeta__dato-cifra {
   font-family: var(--fuente-display);
   font-size: var(--fs-h3);
-  font-weight: var(--peso-normal);
+  font-weight: var(--peso-fuerte);
   letter-spacing: var(--tracking-display);
   color: var(--color-acento-texto);
 }
@@ -501,10 +502,11 @@
 .home-tarjeta__ir {
   margin-top: var(--esp-2xs);
   font-family: var(--fuente-titulo);
-  font-size: var(--fs-micro);
+  /* v40 · enlace de texto simple de pie de tarjeta (como .enlace-flecha). */
+  font-size: var(--fs-cuerpo);
   font-weight: var(--peso-medio);
-  text-transform: uppercase;
-  letter-spacing: var(--tracking-rotulo);
+  text-transform: none;
+  letter-spacing: var(--tracking-boton);
   color: var(--color-acento-texto);
 }
 

@@ -425,7 +425,11 @@
 
      Respaldo: sans geométricas de sistema; Josefin ya NO va en la pila para
      que el navegador no la descargue mientras llega Hill House. */
-  --fuente-display: "Hill House Vegas", "Century Gothic", "Avenir Next", Futura,
+  /* v40 · titulares en FRAUNCES en caja de frase (pedido de la dueña: «más
+     serio y legible»), igual que la propuesta de redacción. Hill House queda
+     como --fuente-marca: marca de cabecera/pie y numeración 01–05. */
+  --fuente-display: "Fraunces", Georgia, "Times New Roman", serif;
+  --fuente-marca: "Hill House Vegas", "Century Gothic", "Avenir Next", Futura,
     "Trebuchet MS", sans-serif;
   --fuente-titulo: "DM Sans", "Jost", -apple-system, BlinkMacSystemFont,
     "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
@@ -438,8 +442,8 @@
      coste. Se dejan declarados porque base.css los invoca en varios sitios y
      borrarlos obligaría a tocar hojas que no son de este cambio; si algún día
      vuelve una display con ejes ópticos, ya están puestos. */
-  --ejes-display: "SOFT" 22, "WONK" 1;
-  --ejes-display-sobrio: "SOFT" 14, "WONK" 0;
+  --ejes-display: "SOFT" 0, "WONK" 0;     /* v40 · Fraunces clásica, sin guiños */
+  --ejes-display-sobrio: "SOFT" 0, "WONK" 0;
 
   /* Escala fluida 375px → 1440px.
      Los dos pasos altos BAJARON respecto a v1: Poiret One era filiforme y
@@ -513,7 +517,7 @@
      titular empezaba a desaparecer; 300 es el valor real más bajo del eje que
      sigue teniendo cuerpo, y es justo el grosor relativo que tiene el
      lettering del logo. */
-  --peso-display: 300;   /* era 320 (Fraunces/Bodoni) · titulares en Josefin */
+  --peso-display: 460;   /* v40 · Fraunces caja de frase: firme sin pesar */   /* era 320 (Fraunces/Bodoni) · titulares en Josefin */
   /* v14 · EL SEGUNDO PESO DEL DISPLAY (plan v4, 4.4). Josefin Sans es
      MONOLINEAL: el peso es el grosor único del trazo, sin gruesos ni finos
      que se turnen. A 300 y por encima de ~40 px el asta tiene cuerpo de
@@ -525,7 +529,7 @@
      los pasos de la escala son clamp() de viewport, así que el punto en el
      que cada titular cruza los 40 px es un ancho de ventana calculable —
      32em para el h1 y 56em para el h2 (la cuenta, en base.css).           */
-  --peso-display-menor: 400;
+  --peso-display-menor: 540; /* v40 · h3/h4 y títulos de tarjeta */
   /* --peso-fuerte SE QUEDA EN 600 y conviene dejar escrito por qué se miró:
      es el peso de las CIFRAS (que ahora son Josefin) pero también el de los
      `strong` del cuerpo (que siguen en DM Sans, p. ej. en plan-vecino.css).
@@ -535,8 +539,8 @@
      espacios—, así que no hacía falta tocarlo.                             */
   --peso-fuerte: 600;    /* sólo para cifras y remates                      */
 
-  --alto-linea-apretado: 1.02;   /* era 1.06 */
-  --alto-linea-titulo: 1.14;     /* era 1.16 */
+  --alto-linea-apretado: 1.08;  /* v40 · minúsculas con ascendentes/tildes */
+  --alto-linea-titulo: 1.18;     /* era 1.16 */
   --alto-linea-base: 1.68;
   --alto-linea-suelto: 1.8;
 
@@ -556,7 +560,9 @@
      nav, píldora); --tracking-display abre los titulares serif finos, que a
      peso 320 y cuerpo grande piden aire en vez del cierre negativo de v2.  */
   --tracking-rotulo: 0.16em;
-  --tracking-display: 0.04em;
+  --tracking-display: -0.01em;  /* v40 · serif en caja de frase: cierre leve */
+  /* v40 · botones y enlaces de acción: caja de frase, tracking suave */
+  --tracking-boton: 0.01em;
 
   --medida: 68ch;            /* longitud de línea máxima cómoda */
   --medida-corta: 46ch;

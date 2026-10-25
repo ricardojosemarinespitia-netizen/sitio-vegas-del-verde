@@ -631,7 +631,7 @@
   font-family: var(--fuente-display);
   font-size: var(--fs-h4);
   line-height: 1;
-  letter-spacing: 0.12em;
+  letter-spacing: var(--tracking-display);
   color: var(--color-acento-texto);
   margin-bottom: var(--esp-xs);
 }
@@ -684,9 +684,10 @@
   border: 1px solid var(--color-accion-borde);
   border-radius: var(--radio-full);
   font-family: var(--fuente-titulo);
-  font-size: var(--fs-micro);
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
+  font-size: var(--fs-pequeno);
+  font-weight: var(--peso-medio);
+  letter-spacing: var(--tracking-boton);
+  text-transform: none;
   color: var(--color-acento-texto);
 }
 
@@ -745,7 +746,8 @@
 
 .usos-tarjeta__aforo-cifra {
   font-family: var(--fuente-display);
-  font-weight: var(--peso-display);
+  /* v40 · AFORO: dato de decisión, no adorno: peso fuerte. */
+  font-weight: var(--peso-fuerte);
   font-size: var(--fs-cifra);
   line-height: 1;
   white-space: nowrap;
@@ -754,10 +756,11 @@
 
 .usos-tarjeta__aforo-texto {
   font-family: var(--fuente-titulo);
-  font-size: var(--fs-micro);
-  line-height: 1.15;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
+  font-size: var(--paso-1);          /* v40 · ≥ 1,2 rem: se lee sin buscarlo */
+  font-weight: var(--peso-fuerte);
+  line-height: 1.2;
+  letter-spacing: 0;
+  text-transform: none;
   color: var(--color-texto-suave);
   /* Dos renglones cortos junto a la cifra grande leen mejor que una línea
      larga que empuje el bloque a lo ancho de la placa. 22ch y no menos: con
